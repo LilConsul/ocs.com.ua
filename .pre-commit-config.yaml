@@ -32,6 +32,18 @@ repos:
           - mdformat-gfm     # GitHub Flavored Markdown
           - mdformat-tables  # Better table formatting
 
+  # Ruff for Python backend code
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.9.1
+    hooks:
+      - id: ruff
+        name: Ruff Check (Backend)
+        args: [--fix]
+        files: ^application/backend/
+      - id: ruff-format
+        name: Ruff Format (Backend)
+        files: ^application/backend/
+
   # Biome for frontend code
   - repo: local
     hooks:

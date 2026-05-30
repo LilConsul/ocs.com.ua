@@ -3,5 +3,8 @@
   <component name="AhkProjectSettings">
     <option name="defaultAhkSdk" value="AutoHotkey v2.0.19" />
   </component>
+  <component name="Black">
+    <option name="sdkName" value="uv (ocs.com.ua)" />
+  </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.14 (ocs.com.ua)" project-jdk-type="Python SDK" />
 </project>
