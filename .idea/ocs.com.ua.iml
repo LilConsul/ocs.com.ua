@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/application/backend" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/application/backend/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/application/frontend/node_modules" />
+      <excludeFolder url="file://$MODULE_DIR$/application/frontend/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/application/frontend/.astro" />
+      <excludeFolder url="file://$MODULE_DIR$/.bob" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+  <component name="PyDocumentationSettings">
+    <option name="format" value="PLAIN" />
+    <option name="myDocStringFormat" value="Plain" />
   </component>
 </module>
