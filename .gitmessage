@@ -1,0 +1,22 @@
+# type(scope): subject
+#
+# [optional body]
+#
+# [optional footer]
+
+# TYPES: feat, fix, docs, style, refactor, test, chore, ci, perf
+
+# SCOPES:
+# Project: frontend, backend, root, docs, ci
+# Nested: frontend/ui, backend/api, etc.
+
+# RULES:
+# - Imperative mood ("add" not "added")
+# - No capital first letter
+# - No period at end
+# - Max 72 characters
+
+# EXAMPLES:
+# feat(frontend/ui): add dark mode toggle
+# fix(backend/api): resolve auth timeout
+# docs(root): update setup instructions
