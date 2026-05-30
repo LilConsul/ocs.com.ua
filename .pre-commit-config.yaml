@@ -1,0 +1,65 @@
+# Pre-commit hooks configuration
+# Install: pip install pre-commit
+# Setup: pre-commit install
+# Run manually: pre-commit run --all-files
+
+repos:
+  # Standard pre-commit hooks for file quality
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+        name: Trim trailing whitespace
+      - id: end-of-file-fixer
+        name: Fix end of files (ensure newline)
+      - id: check-yaml
+        name: Check YAML syntax
+      - id: check-json
+        name: Check JSON syntax
+      - id: check-merge-conflict
+        name: Check for merge conflicts
+      - id: mixed-line-ending
+        name: Fix mixed line endings
+        args: ['--fix=lf']
+
+  # Markdown formatting
+  - repo: https://github.com/executablebooks/mdformat
+    rev: 0.7.17
+    hooks:
+      - id: mdformat
+        name: Format Markdown files
+        additional_dependencies:
+          - mdformat-gfm     # GitHub Flavored Markdown
+          - mdformat-tables  # Better table formatting
+
+  # Ruff for Python backend code
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.9.1
+    hooks:
+      - id: ruff
+        name: Ruff Check (Backend)
+        args: [--fix]
+        files: ^application/backend/
+      - id: ruff-format
+        name: Ruff Format (Backend)
+        files: ^application/backend/
+
+  # Biome for frontend code
+  - repo: local
+    hooks:
+      - id: biome-check-frontend
+        name: Biome Check (Frontend)
+        entry: bash -c 'cd application/frontend && npm run check:fix'
+        language: system
+        types: [javascript, jsx, ts, tsx, json, css]
+        pass_filenames: false
+        files: ^application/frontend/
+
+      - id: biome-ci-frontend
+        name: Biome CI (Frontend - strict)
+        entry: bash -c 'cd application/frontend && npm run ci'
+        language: system
+        types: [javascript, jsx, ts, tsx, json, css]
+        pass_filenames: false
+        files: ^application/frontend/
+        stages: [pre-push]
