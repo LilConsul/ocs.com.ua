@@ -128,6 +128,11 @@
 		},
 		"linter": {
 			"enabled": true
+		},
+		"parser": {
+			"cssModules": false,
+			"allowWrongLineComments": false,
+			"tailwindDirectives": true
 		}
 	},
 	"overrides": [
