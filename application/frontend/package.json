@@ -16,6 +16,7 @@
 		"format:fix": "biome format --write .",
 		"check": "biome check .",
 		"check:fix": "biome check --write .",
+		"ci:fix": "biome check --write . && biome format --write . && biome lint --write .",
 		"ci": "biome ci ."
 	},
 	"dependencies": {
