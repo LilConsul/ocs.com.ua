@@ -4,6 +4,16 @@
 # Run manually: pre-commit run --all-files
 
 repos:
+  # In-place formatter for JSON/YAML files using Prettier
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.0.0
+    hooks:
+      - id: prettier
+        name: Prettier (format JSON/YAML) — frontend only
+        files: ^application/frontend/.*\.(json|ya?ml)$
+        exclude: ^application/frontend/package-lock\.json$
+        args: ['--write']
+
   # Standard pre-commit hooks for file quality
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
