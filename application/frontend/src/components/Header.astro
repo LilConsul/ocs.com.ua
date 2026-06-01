@@ -106,20 +106,21 @@ const { navigation, currentPath, siteConfig } = Astro.props;
 		<!-- Desktop nav -->
 		<div class="hidden w-full py-6 md:flex md:justify-center">
 			<nav aria-label="Primary navigation">
-				<ButtonGroup className="w-full justify-center">
+				<ButtonGroup className="w-full justify-center shadow-sm">
 					{navigation.menu.map((item) => {
 						const isActive = currentPath === item.url;
 						return (
-							<ButtonGroup key={item.url}>
-								<Button
-									asChild
-									variant={isActive ? "outline" : "destructive"}
-								>
-									<a href={item.url} aria-current={isActive ? "page" : undefined}>
-										{item.label}
-									</a>
-								</Button>
-							</ButtonGroup>
+							<a
+								href={item.url}
+								aria-current={isActive ? "page" : undefined}
+								key={item.url}
+								class={cn(
+									buttonVariants({ variant: isActive ? "secondary" : "default" }),
+									"nav-btn"
+								)}
+							>
+								{item.label}
+							</a>
 						);
 					})}
 				</ButtonGroup>
@@ -147,6 +148,30 @@ const { navigation, currentPath, siteConfig } = Astro.props;
 </header>
 
 <style>
+	.nav-btn {
+		padding-inline: 2rem;
+		min-height: 4.5rem;
+		font-size: 1rem;
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		text-align: center;
+		white-space: normal;
+	}
+
+	.mobile-nav-btn {
+		width: 100%;
+		min-height: 3.5rem;
+		justify-content: flex-start;
+		padding-inline: 1rem;
+		font-size: 0.95rem;
+		font-weight: 700;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+		white-space: normal;
+	}
+
+	/* ── Hamburger icon swap ─────────────────────────────── */
 	#mobile-menu-toggle:checked ~ * .icon-open  { display: none; }
 	#mobile-menu-toggle:checked ~ * .icon-close { display: block; }
 </style>
