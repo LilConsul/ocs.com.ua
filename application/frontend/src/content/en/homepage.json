@@ -40,7 +40,7 @@
 				"description": "Quality control and packaging solutions",
 				"icon": "utensils",
 				"link": "/en/industries/food",
-				"image": "/images/industries/food-thumb.jpg"
+				"image": "/images/industries/food.webp"
 			},
 			{
 				"id": "pharma",
@@ -48,7 +48,7 @@
 				"description": "Compliant weighing and inspection",
 				"icon": "pill",
 				"link": "/en/industries/pharma",
-				"image": "/images/industries/pharma-thumb.jpg"
+				"image": "/images/industries/pharma.webp"
 			},
 			{
 				"id": "logistics",
@@ -56,7 +56,7 @@
 				"description": "Automated sorting and distribution",
 				"icon": "truck",
 				"link": "/en/industries/logistics",
-				"image": "/images/industries/logistics-thumb.jpg"
+				"image": "/images/industries/logistics.webp"
 			}
 		]
 	},

@@ -8,12 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 interface ContactFormContent {
 	title: string;
 	description: string;
-	fields: {
-		name: string;
-		email: string;
-		phone: string;
-		message: string;
-	};
+	fields: Record<"name" | "email" | "phone" | "message", string>;
 	submitButton: string;
 	successMessage: string;
 	errorMessage: string;

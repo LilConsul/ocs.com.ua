@@ -11,7 +11,7 @@
 @tailwind utilities;
 /* biome-ignore-end lint/suspicious/noUnknownAtRules: Tailwind */
 
-/* OCS Custom Styles */
+/* OCS Custom Styles
 @layer base {
 	body {
 		@apply font-sans bg-background text-foreground;
@@ -23,11 +23,11 @@
 	h4,
 	h5,
 	h6 {
-		@apply text-ocs-primary font-bold;
+		@apply text-primary font-bold;
 	}
 
 	a {
-		@apply text-ocs-primary hover:text-ocs-accent transition-colors;
+		@apply text-primary hover:text-primary/80 transition-colors;
 	}
 	* {
 		@apply border-border outline-ring/50;
@@ -35,7 +35,7 @@
 	html {
 		@apply font-sans;
 	}
-}
+} */
 
 :root {
 	--background: oklch(1 0 0);
