@@ -9,5 +9,7 @@
 
 # Bob AI Assistant
 .bob
+.agents
+skills-lock.json
 docs/superpowers
 docs/web

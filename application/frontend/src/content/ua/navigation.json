@@ -1,0 +1,51 @@
+{
+	"header": {
+		"logo": {
+			"src": "/images/ocs-logo.svg",
+			"alt": "OCS — рішення для промислового обладнання"
+		},
+		"menu": [
+			{
+				"id": "equipment",
+				"label": "Обладнання",
+				"url": "/ua/equipment"
+			},
+			{
+				"id": "industries",
+				"label": "Галузі",
+				"url": "/ua/industries"
+			},
+			{
+				"id": "news",
+				"label": "Новини",
+				"url": "/ua/news"
+			},
+			{
+				"id": "service",
+				"label": "Сервіс",
+				"url": "/ua/service"
+			},
+			{
+				"id": "contact",
+				"label": "Контакти",
+				"url": "/ua/contact"
+			}
+		]
+	},
+	"footer": {
+		"quickLinks": [
+			{
+				"label": "Обладнання",
+				"url": "/ua/equipment"
+			},
+			{
+				"label": "Галузі",
+				"url": "/ua/industries"
+			},
+			{
+				"label": "Контакти",
+				"url": "/ua/contact"
+			}
+		]
+	}
+}

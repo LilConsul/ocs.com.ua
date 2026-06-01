@@ -1,0 +1,36 @@
+---
+import ContactForm from "@/components/ContactForm";
+import FeaturedEquipment from "@/components/FeaturedEquipment.astro";
+import Footer from "@/components/Footer.astro";
+import Header from "@/components/Header.astro";
+import HeroCarousel from "@/components/HeroCarousel";
+import IndustriesSection from "@/components/IndustriesSection.astro";
+import WhyChooseUs from "@/components/WhyChooseUs.astro";
+import Layout from "@/layouts/Layout.astro";
+import {
+	loadHomepage,
+	loadNavigation,
+	loadSiteConfig,
+} from "@/lib/content";
+
+const locale = "en";
+const pathname = "/en/";
+
+const [homepage, navigation, siteConfig] = await Promise.all([
+	loadHomepage(locale),
+	loadNavigation(locale),
+	loadSiteConfig(locale),
+]);
+---
+
+<Layout lang={locale} siteConfig={siteConfig} pathname={pathname}>
+	<Header navigation={navigation.header} currentPath={pathname} />
+	<main id="main-content">
+		<HeroCarousel client:load slides={homepage.hero.slides} />
+		<IndustriesSection content={homepage.industries} />
+		<FeaturedEquipment content={homepage.featuredEquipment} />
+		<WhyChooseUs content={homepage.whyChooseUs} />
+		<ContactForm client:load content={homepage.contactForm} />
+	</main>
+	<Footer navigation={navigation.footer} siteConfig={siteConfig} />
+</Layout>

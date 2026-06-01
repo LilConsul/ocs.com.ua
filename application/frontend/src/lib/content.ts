@@ -37,5 +37,3 @@ export async function loadNavigation(
 export async function loadSiteConfig(locale: string): Promise<SiteConfig> {
 	return loadContent<SiteConfig>(locale, "site-config");
 }
-
-// Made with Bob
