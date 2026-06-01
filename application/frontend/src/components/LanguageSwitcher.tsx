@@ -39,7 +39,7 @@ export function LanguageSwitcher({ className }: LanguageSwitcherProps) {
 		<Button
 			type="button"
 			variant="outline"
-			size="sm"
+			size="default"
 			onClick={toggleLanguage}
 			className={className}
 			aria-label={
@@ -51,5 +51,3 @@ export function LanguageSwitcher({ className }: LanguageSwitcherProps) {
 		</Button>
 	);
 }
-
-// Made with Bob

@@ -24,21 +24,20 @@ const { navigation, currentPath, siteConfig } = Astro.props;
 	Skip to main content
 </a>
 
-<header class="relative z-40 w-full border-b border-border bg-background">
+<header class="relative z-40 w-full bg-background">
 	<input id="mobile-menu-toggle" type="checkbox" class="peer hidden" />
 
 	<!-- ─── Identity + contact row ─────────────────────────── -->
-	<div class="border-b border-border/60 bg-background relative z-30">
 		<div class="mx-auto flex max-w-7xl items-start justify-between gap-6 px-4 py-4 md:py-5">
 
 			<!-- Brand name -->
 			<a href="/" class="group flex min-w-0 items-center gap-3">
 				<div class="min-w-0">
 					<div class="font-heading text-lg font-semibold tracking-[0.18em] text-foreground uppercase transition-colors group-hover:text-primary md:text-xl">
-						OC-Technology Ukraine
+						{siteConfig.company.name}
 					</div>
 					<div class="text-xs text-muted-foreground md:text-sm">
-						Industrial equipment solutions
+						{siteConfig.company.fullName}
 					</div>
 				</div>
 			</a>
@@ -54,11 +53,11 @@ const { navigation, currentPath, siteConfig } = Astro.props;
 						<span>{siteConfig.contact.phone}</span>
 					</a>
 					<a
-						href="mailto:info@ocs.com.ua"
+						href={`mailto:${siteConfig.contact.email}`}
 						class="inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground"
 					>
 						<Mail className="size-4 text-primary" />
-						<span>info@ocs.com.ua</span>
+						<span>{siteConfig.contact.email}</span>
 					</a>
 					<LanguageSwitcher client:load />
 				</div>
@@ -77,7 +76,7 @@ const { navigation, currentPath, siteConfig } = Astro.props;
 					aria-label="Toggle navigation"
 				>
 					<Menu className="size-5 icon-open" />
-					<X    className="size-5 icon-close hidden" />
+					<X className="size-5 icon-close hidden" />
 				</label>
 			</div>
 		</div>
@@ -90,10 +89,10 @@ const { navigation, currentPath, siteConfig } = Astro.props;
 					<Phone className="size-4 text-primary" />
 					<span>{siteConfig.contact.phone}</span>
 				</a>
-				<a href="mailto:info@ocs.com.ua"
+				<a href={`mailto:${siteConfig.contact.email}`}
 				   class="inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground">
 					<Mail className="size-4 text-primary" />
-					<span>info@ocs.com.ua</span>
+					<span>{siteConfig.contact.email}</span>
 				</a>
 			</div>
 			<div class="flex items-center gap-4">
@@ -101,7 +100,6 @@ const { navigation, currentPath, siteConfig } = Astro.props;
 				<img src={mesutronicLogo.src} alt="Mesutronic" class="h-8 w-auto opacity-85" />
 			</div>
 		</div>
-	</div>
 
 		<!-- Desktop nav -->
 		<div class="hidden w-full py-6 md:flex md:justify-center">
@@ -110,17 +108,14 @@ const { navigation, currentPath, siteConfig } = Astro.props;
 					{navigation.menu.map((item) => {
 						const isActive = currentPath === item.url;
 						return (
-							<a
-								href={item.url}
-								aria-current={isActive ? "page" : undefined}
-								key={item.url}
-								class={cn(
-									buttonVariants({ variant: isActive ? "secondary" : "default" }),
-									"nav-btn"
-								)}
+							<Button
+								variant={isActive ? "secondary" : "default"}
+								size="xl"
 							>
-								{item.label}
-							</a>
+								<a href={item.url} aria-current={isActive ? "page" : undefined}>
+									{item.label}
+								</a>
+							</Button>
 						);
 					})}
 				</ButtonGroup>
@@ -148,17 +143,6 @@ const { navigation, currentPath, siteConfig } = Astro.props;
 </header>
 
 <style>
-	.nav-btn {
-		padding-inline: 2rem;
-		min-height: 4.5rem;
-		font-size: 1rem;
-		font-weight: 700;
-		letter-spacing: 0.06em;
-		text-transform: uppercase;
-		text-align: center;
-		white-space: normal;
-	}
-
 	.mobile-nav-btn {
 		width: 100%;
 		min-height: 3.5rem;
