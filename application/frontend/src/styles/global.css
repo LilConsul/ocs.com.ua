@@ -5,37 +5,6 @@
 @import "@fontsource-variable/ibm-plex-sans";
 
 @custom-variant dark (&:is(.dark *));
-/* biome-ignore-start lint/suspicious/noUnknownAtRules: Tailwind */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-/* biome-ignore-end lint/suspicious/noUnknownAtRules: Tailwind */
-
-/* OCS Custom Styles
-@layer base {
-	body {
-		@apply font-sans bg-background text-foreground;
-	}
-
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6 {
-		@apply text-primary font-bold;
-	}
-
-	a {
-		@apply text-primary hover:text-primary/80 transition-colors;
-	}
-	* {
-		@apply border-border outline-ring/50;
-	}
-	html {
-		@apply font-sans;
-	}
-} */
 
 :root {
 	--background: oklch(1 0 0);
@@ -147,4 +116,16 @@
 	--radius-2xl: calc(var(--radius) * 1.8);
 	--radius-3xl: calc(var(--radius) * 2.2);
 	--radius-4xl: calc(var(--radius) * 2.6);
+}
+
+@layer base {
+	* {
+		@apply border-border outline-ring/50;
+	}
+	body {
+		@apply bg-background text-foreground;
+	}
+	html {
+		@apply font-sans;
+	}
 }

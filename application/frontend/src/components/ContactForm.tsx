@@ -89,15 +89,14 @@ export function ContactForm({ content }: ContactFormProps) {
 		<section className="bg-muted/30 py-16 md:py-24">
 			<div className="mx-auto max-w-3xl px-4">
 				<div className="mb-10 space-y-4 text-center">
-					<h2 className="font-heading text-3xl font-semibold md:text-4xl">
-						{content.title}
-					</h2>
-					<p className="mx-auto max-w-2xl text-base text-muted-foreground">
-						{content.description}
-					</p>
+					<h2 className="font-heading text-3xl font-semibold md:text-4xl">{content.title}</h2>
+					<p className="mx-auto max-w-2xl text-base text-muted-foreground">{content.description}</p>
 				</div>
 
-				<form onSubmit={handleSubmit} className="space-y-6 bg-background p-6 ring-1 ring-border md:p-8">
+				<form
+					onSubmit={handleSubmit}
+					className="space-y-6 bg-background p-6 ring-1 ring-border md:p-8"
+				>
 					<div className="grid gap-6 md:grid-cols-2">
 						<div className="space-y-2">
 							<label htmlFor="contact-name" className="text-sm font-medium">
@@ -122,9 +121,7 @@ export function ContactForm({ content }: ContactFormProps) {
 								value={formData.email}
 								onChange={handleFieldChange("email")}
 								required
-								aria-invalid={
-									formData.email.length > 0 && !isValidEmail(formData.email.trim())
-								}
+								aria-invalid={formData.email.length > 0 && !isValidEmail(formData.email.trim())}
 							/>
 						</div>
 					</div>
@@ -151,9 +148,7 @@ export function ContactForm({ content }: ContactFormProps) {
 							onChange={handleFieldChange("message")}
 							rows={6}
 							required
-							aria-invalid={
-								formData.message.length > 0 && formData.message.trim().length <= 5
-							}
+							aria-invalid={formData.message.length > 0 && formData.message.trim().length <= 5}
 						/>
 					</div>
 

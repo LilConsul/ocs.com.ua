@@ -1,9 +1,5 @@
 {
 	"header": {
-		"logo": {
-			"src": "/images/ocs-logo.svg",
-			"alt": "OCS — рішення для промислового обладнання"
-		},
 		"menu": [
 			{
 				"id": "equipment",

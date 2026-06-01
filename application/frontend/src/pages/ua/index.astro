@@ -7,11 +7,7 @@ import { HeroCarousel } from "@/components/HeroCarousel";
 import IndustriesSection from "@/components/IndustriesSection.astro";
 import WhyChooseUs from "@/components/WhyChooseUs.astro";
 import Layout from "@/layouts/Layout.astro";
-import {
-	loadHomepage,
-	loadNavigation,
-	loadSiteConfig,
-} from "@/lib/content";
+import { loadHomepage, loadNavigation, loadSiteConfig } from "@/lib/content";
 
 const locale = "ua";
 const pathname = "/ua/";
@@ -24,7 +20,7 @@ const [homepage, navigation, siteConfig] = await Promise.all([
 ---
 
 <Layout lang={locale} siteConfig={siteConfig} pathname={pathname}>
-	<Header navigation={navigation.header} currentPath={pathname} />
+	<Header navigation={navigation.header} currentPath={pathname} siteConfig={siteConfig} />
 	<main id="main-content">
 		<HeroCarousel client:load slides={homepage.hero.slides} />
 		<IndustriesSection content={homepage.industries} />

@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import { Globe } from "lucide-react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 
@@ -15,19 +15,13 @@ function getLocaleFromPath(pathname: string): Locale {
 
 function getAlternatePath(pathname: string, currentLocale: Locale): string {
 	if (currentLocale === "ua") {
-		return pathname.startsWith("/ua")
-			? pathname.replace(/^\/ua/, "/en")
-			: `/en${pathname}`;
+		return pathname.startsWith("/ua") ? pathname.replace(/^\/ua/, "/en") : `/en${pathname}`;
 	}
 
-	return pathname.startsWith("/en")
-		? pathname.replace(/^\/en/, "/ua")
-		: `/ua${pathname}`;
+	return pathname.startsWith("/en") ? pathname.replace(/^\/en/, "/ua") : `/ua${pathname}`;
 }
 
-export function LanguageSwitcher({
-	className,
-}: LanguageSwitcherProps) {
+export function LanguageSwitcher({ className }: LanguageSwitcherProps) {
 	const [currentLocale, setCurrentLocale] = useState<Locale>("ua");
 
 	useEffect(() => {
@@ -49,9 +43,7 @@ export function LanguageSwitcher({
 			onClick={toggleLanguage}
 			className={className}
 			aria-label={
-				currentLocale === "ua"
-					? "Switch language to English"
-					: "Перемкнути мову на українську"
+				currentLocale === "ua" ? "Switch language to English" : "Перемкнути мову на українську"
 			}
 		>
 			<Globe data-icon="inline-start" className="size-4" />

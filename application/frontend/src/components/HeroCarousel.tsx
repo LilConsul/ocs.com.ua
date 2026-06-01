@@ -47,18 +47,14 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
 	}
 
 	const currentSlide = safeSlides[currentIndex];
-	const overlayClass =
-		accentClassMap[currentSlide.accentColor] ?? accentClassMap.blue;
+	const overlayClass = accentClassMap[currentSlide.accentColor] ?? accentClassMap.blue;
 
 	const goToSlide = (index: number) => {
 		setCurrentIndex(index);
 	};
 
 	const goToPrevious = () => {
-		setCurrentIndex(
-			(previousIndex) =>
-				(previousIndex - 1 + safeSlides.length) % safeSlides.length,
-		);
+		setCurrentIndex((previousIndex) => (previousIndex - 1 + safeSlides.length) % safeSlides.length);
 	};
 
 	const goToNext = () => {
@@ -67,7 +63,7 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
 
 	return (
 		<section
-			className="relative isolate h-[420px] overflow-hidden md:h-[600px]"
+			className="relative isolate h-105 overflow-hidden md:h-150"
 			onMouseEnter={() => setIsPaused(true)}
 			onMouseLeave={() => setIsPaused(false)}
 			aria-label="Homepage hero carousel"
@@ -88,8 +84,8 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
 					/>
 					<div
 						className={cn(
-							"absolute inset-0 bg-gradient-to-r from-black/75 via-black/55 to-black/80",
-							overlayClass,
+							"absolute inset-0 bg-linear-to-r from-black/75 via-black/55 to-black/80",
+							overlayClass
 						)}
 						aria-hidden="true"
 					/>
@@ -145,7 +141,7 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
 						onClick={() => goToSlide(index)}
 						className={cn(
 							"h-2.5 w-10 rounded-full border border-white/30 transition-all",
-							index === currentIndex ? "bg-white" : "bg-white/30 hover:bg-white/60",
+							index === currentIndex ? "bg-white" : "bg-white/30 hover:bg-white/60"
 						)}
 						aria-label={`Go to slide ${index + 1}`}
 						aria-pressed={index === currentIndex}

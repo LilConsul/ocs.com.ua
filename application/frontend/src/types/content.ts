@@ -102,5 +102,3 @@ export interface SiteConfig {
 	};
 	copyright: string;
 }
-
-// Made with Bob
