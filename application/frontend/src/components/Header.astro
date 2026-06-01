@@ -1,5 +1,5 @@
 ---
-import { Mail, Menu, Phone, X } from "lucide-react";
+import { Mail, MapPin, Menu, Phone, X } from "lucide-react";
 import mesutronicLogo from "@/assets/mesutronic-logo.svg";
 import wipotecLogo from "@/assets/wipotec-logo.svg";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
@@ -8,154 +8,171 @@ import { ButtonGroup } from "@/components/ui/button-group";
 import { cn } from "@/lib/utils";
 import type { NavigationContent, SiteConfig } from "@/types/content";
 
-interface Props {
-	navigation: NavigationContent["header"];
-	siteConfig: SiteConfig;
-	currentPath: string;
-}
-
 const { navigation, currentPath, siteConfig } = Astro.props;
 ---
 
-<a
-	href="#main-content"
-	class="sr-only absolute left-4 top-4 z-[60] bg-background px-4 py-2 text-sm font-medium text-foreground focus:not-sr-only"
->
-	Skip to main content
-</a>
+<!-- ================= HEADER ================= -->
+<header class="w-full bg-background">
 
-<header class="relative z-40 w-full bg-background">
-	<input id="mobile-menu-toggle" type="checkbox" class="peer hidden" />
+	<!-- TOP HEADER -->
+	<div class="border-b border-border">
+		<div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-7">
 
-	<!-- ─── Identity + contact row ─────────────────────────── -->
-		<div class="mx-auto flex max-w-7xl items-start justify-between gap-6 px-4 py-4 md:py-5">
+			<!-- BRAND + PARTNERS -->
+			<a href="/" class="flex items-start gap-16">
 
-			<!-- Brand name -->
-			<a href="/" class="group flex min-w-0 items-center gap-3">
-				<div class="min-w-0">
-					<div class="font-heading text-lg font-semibold tracking-[0.18em] text-foreground uppercase transition-colors group-hover:text-primary md:text-xl">
+				<!-- BRAND -->
+				<div class="flex flex-col gap-1">
+					<div class="font-heading text-lg font-semibold tracking-[0.2em] uppercase text-foreground">
 						{siteConfig.company.name}
 					</div>
-					<div class="text-xs text-muted-foreground md:text-sm">
+
+					<div class="text-xs text-muted-foreground tracking-wide leading-tight">
 						{siteConfig.company.fullName}
+					</div>
+				</div>
+
+				<!-- PARTNERS -->
+				<div class="flex flex-col gap-2">
+					<div class="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+						Partners
+					</div>
+
+					<div class="flex items-center gap-7">
+						<img src={wipotecLogo.src} alt="Wipotec" class="h-6 w-auto" />
+						<img src={mesutronicLogo.src} alt="Mesutronic" class="h-7 w-auto" />
 					</div>
 				</div>
 			</a>
 
-			<!-- Desktop: contacts + logos -->
-			<div class="hidden flex-col items-end gap-3 md:flex">
-				<div class="flex flex-wrap items-center justify-end gap-x-5 gap-y-2 text-sm">
-					<a
-						href={`tel:${siteConfig.contact.phone}`}
-						class="inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground"
-					>
-						<Phone className="size-4 text-primary" />
-						<span>{siteConfig.contact.phone}</span>
+
+			<!-- RIGHT SIDE -->
+			<div class="flex items-start gap-10">
+
+				<!-- CONTACT STACK -->
+				<div class="hidden md:flex flex-col text-sm leading-tight gap-2">
+
+					<a href={`tel:${siteConfig.contact.phone}`}
+					   class="flex items-center gap-2 text-muted-foreground hover:text-foreground">
+						<Phone className="size-4" />
+						{siteConfig.contact.phone}
 					</a>
-					<a
-						href={`mailto:${siteConfig.contact.email}`}
-						class="inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground"
-					>
-						<Mail className="size-4 text-primary" />
-						<span>{siteConfig.contact.email}</span>
+
+					<a href={`mailto:${siteConfig.contact.email}`}
+					   class="flex items-center gap-2 text-muted-foreground hover:text-foreground">
+						<Mail className="size-4" />
+						{siteConfig.contact.email}
 					</a>
+
+					<a href={`https://maps.google.com/?q=${encodeURIComponent(
+						siteConfig.contact.address.street + ' ' +
+						siteConfig.contact.address.city + ' ' +
+						siteConfig.contact.address.country
+					)}`}
+					   target="_blank"
+					   class="flex items-center gap-2 text-muted-foreground hover:text-foreground">
+						<MapPin className="size-4" />
+						{siteConfig.contact.address.city}, {siteConfig.contact.address.country}
+					</a>
+
+				</div>
+
+				<!-- LANGUAGE -->
+				<div class="hidden md:flex items-center">
 					<LanguageSwitcher client:load />
 				</div>
-				<div class="flex items-center gap-4">
-					<img src={wipotecLogo.src}    alt="Wipotec"    class="h-7 w-auto opacity-90" />
-					<img src={mesutronicLogo.src} alt="Mesutronic" class="h-9 w-auto opacity-85" />
-				</div>
-			</div>
-
-			<!-- Mobile: lang + hamburger -->
-			<div class="flex items-center gap-2 md:hidden">
-				<LanguageSwitcher client:load />
-				<label
-					for="mobile-menu-toggle"
-					class="inline-flex cursor-pointer rounded-md border border-border bg-card p-2 shadow-sm transition-colors hover:bg-muted"
-					aria-label="Toggle navigation"
-				>
-					<Menu className="size-5 icon-open" />
-					<X className="size-5 icon-close hidden" />
-				</label>
 			</div>
 		</div>
+	</div>
+</header>
 
-		<!-- Mobile: contacts + logos -->
-		<div class="mx-auto flex max-w-7xl flex-col gap-3 px-4 pb-4 md:hidden">
-			<div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
-				<a href={`tel:${siteConfig.contact.phone}`}
-				   class="inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground">
-					<Phone className="size-4 text-primary" />
-					<span>{siteConfig.contact.phone}</span>
-				</a>
-				<a href={`mailto:${siteConfig.contact.email}`}
-				   class="inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground">
-					<Mail className="size-4 text-primary" />
-					<span>{siteConfig.contact.email}</span>
-				</a>
-			</div>
-			<div class="flex items-center gap-4">
-				<img src={wipotecLogo.src}    alt="Wipotec"    class="h-6 w-auto opacity-90" />
-				<img src={mesutronicLogo.src} alt="Mesutronic" class="h-8 w-auto opacity-85" />
-			</div>
-		</div>
+<div id="nav-sentinel"></div>
+<div id="sticky-nav"
+	class="sticky top-0 z-100 bg-background transition-all duration-200">
 
-		<!-- Desktop nav -->
-		<div class="hidden w-full py-6 md:flex md:justify-center">
-			<nav aria-label="Primary navigation">
-				<ButtonGroup className="w-full justify-center shadow-sm">
-					{navigation.menu.map((item) => {
-						const isActive = currentPath === item.url;
-						return (
-							<Button
-								variant={isActive ? "secondary" : "default"}
-								size="xl"
-							>
-								<a href={item.url} aria-current={isActive ? "page" : undefined}>
-									{item.label}
-								</a>
-							</Button>
-						);
-					})}
-				</ButtonGroup>
-			</nav>
-		</div>
+	<nav class="mx-auto max-w-7xl px-4 py-3 transition-all duration-200" aria-label="Primary navigation">
 
-		<!-- Mobile nav (checkbox-driven) -->
-		<nav class="mx-auto hidden w-full flex-col gap-1 px-3 py-3 peer-checked:flex md:hidden"
-		     aria-label="Mobile navigation">
+		<ButtonGroup className="w-full justify-center transition-all duration-200">
+
 			{navigation.menu.map((item) => {
 				const isActive = currentPath === item.url;
-				const mobileNavButtonClass = cn(
-					buttonVariants({ variant: isActive ? "secondary" : "default", size: "lg" }),
-					"mobile-nav-btn"
-				);
+
 				return (
-					<Button asChild className={mobileNavButtonClass} key={"mobile-" + item.url}>
+					<Button
+						variant={isActive ? "secondary" : "default"}
+						size="lg"
+						className="flex-1 px-3 py-1.5 text-xs tracking-[0.06em] uppercase transition-all duration-200"
+					>
 						<a href={item.url} aria-current={isActive ? "page" : undefined}>
 							{item.label}
 						</a>
 					</Button>
 				);
 			})}
-		</nav>
-</header>
+
+		</ButtonGroup>
+
+	</nav>
+</div>
+
+<script is:inline>
+document.addEventListener("DOMContentLoaded", () => {
+	const nav = document.getElementById("sticky-nav");
+	const sentinel = document.getElementById("nav-sentinel");
+
+	if (!nav || !sentinel) return;
+
+	const observer = new IntersectionObserver(([entry]) => {
+		if (!entry.isIntersecting) {
+			nav.classList.add("is-sticky");
+		} else {
+			nav.classList.remove("is-sticky");
+		}
+	});
+
+	observer.observe(sentinel);
+});
+</script>
 
 <style>
-	.mobile-nav-btn {
-		width: 100%;
-		min-height: 3.5rem;
-		justify-content: flex-start;
-		padding-inline: 1rem;
-		font-size: 0.95rem;
-		font-weight: 700;
-		letter-spacing: 0.05em;
-		text-transform: uppercase;
-		white-space: normal;
-	}
 
-	/* ── Hamburger icon swap ─────────────────────────────── */
-	#mobile-menu-toggle:checked ~ * .icon-open  { display: none; }
-	#mobile-menu-toggle:checked ~ * .icon-close { display: block; }
+#sticky-nav {
+	transition: all 200ms ease;
+}
+
+#sticky-nav nav {
+	transition: padding 200ms ease;
+	padding-top: 0.75rem;
+	padding-bottom: 0.75rem;
+}
+
+#sticky-nav .button-group {
+	display: flex !important;
+}
+
+#sticky-nav button {
+	padding: 0.65rem 1.1rem;
+	transition: padding 200ms ease;
+}
+
+#sticky-nav button {
+	border-right: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+#sticky-nav button:last-child {
+	border-right: none;
+}
+
+#sticky-nav.is-sticky nav {
+	padding-top: 0.25rem;
+	padding-bottom: 0.25rem;
+}
+
+#sticky-nav.is-sticky button {
+	padding: 0.3rem 0.7rem;
+}
+
+#sticky-nav.is-sticky {
+	box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+}
 </style>

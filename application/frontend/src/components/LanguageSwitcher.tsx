@@ -38,7 +38,7 @@ export function LanguageSwitcher({ className }: LanguageSwitcherProps) {
 	return (
 		<Button
 			type="button"
-			variant="outline"
+			variant="ghost"
 			size="default"
 			onClick={toggleLanguage}
 			className={className}
