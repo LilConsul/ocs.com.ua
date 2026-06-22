@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import { tinaField } from "tinacms/dist/react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -8,6 +9,7 @@ import type { HeroSlide } from "@/types/content";
 
 interface HeroCarouselProps {
 	slides: HeroSlide[];
+	heroData?: any; // The full hero object from TinaCMS for tinaField
 }
 
 const AUTO_ROTATE_INTERVAL_MS = 5000;
@@ -18,7 +20,7 @@ const accentClassMap: Record<string, string> = {
 	purple: "from-violet-500/30 via-violet-900/40 to-slate-950/90",
 };
 
-export function HeroCarousel({ slides }: HeroCarouselProps) {
+export function HeroCarousel({ slides, heroData }: HeroCarouselProps) {
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [isPaused, setIsPaused] = useState(false);
 
@@ -67,6 +69,7 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
 			onMouseEnter={() => setIsPaused(true)}
 			onMouseLeave={() => setIsPaused(false)}
 			aria-label="Homepage hero carousel"
+			data-tina-field={heroData ? tinaField(heroData, "hero") : undefined}
 		>
 			<AnimatePresence mode="wait">
 				<motion.div
@@ -91,18 +94,32 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
 					/>
 					<div className="relative z-10 flex h-full items-center">
 						<div className="mx-auto flex w-full max-w-7xl px-4">
-							<div className="max-w-2xl space-y-6 text-white">
+							<div
+								className="max-w-2xl space-y-6 text-white"
+								data-tina-field={heroData ? tinaField(heroData.hero, "slides", currentIndex) : undefined}
+							>
 								<p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/70">
 									OCS Industrial Solutions
 								</p>
-								<h1 className="font-heading text-4xl font-semibold text-balance md:text-6xl">
+								<h1
+									className="font-heading text-4xl font-semibold text-balance md:text-6xl"
+									data-tina-field={tinaField(currentSlide as any, "title")}
+								>
 									{currentSlide.title}
 								</h1>
-								<p className="max-w-xl text-base leading-7 text-white/80 md:text-lg">
+								<p
+									className="max-w-xl text-base leading-7 text-white/80 md:text-lg"
+									data-tina-field={tinaField(currentSlide as any, "description")}
+								>
 									{currentSlide.description}
 								</p>
 								<Button asChild size="lg" className="min-w-48">
-									<a href={currentSlide.ctaLink}>{currentSlide.ctaText}</a>
+									<a
+										href={currentSlide.ctaLink}
+										data-tina-field={tinaField(currentSlide as any, "ctaText")}
+									>
+										{currentSlide.ctaText}
+									</a>
 								</Button>
 							</div>
 						</div>

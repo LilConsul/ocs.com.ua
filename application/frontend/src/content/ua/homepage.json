@@ -8,7 +8,7 @@
 				"ctaText": "Переглянути рішення для харчової галузі",
 				"ctaLink": "/ua/industries/food",
 				"backgroundImage": "/images/hero/food-industry.jpg",
-				"accentColor": "blue"
+				"accentColor": "yellow"
 			},
 			{
 				"id": "pharma-industry",

@@ -1,0 +1,26 @@
+---
+// @ts-nocheck (generated types/client appear after your first tinacms dev run)
+import { tinaField } from '@tinacms/astro/tina-field';
+import type { HomepageQuery } from '../../../tina/__generated__/types';
+import { ContactForm } from "@/components/ContactForm";
+import FeaturedEquipment from "@/components/FeaturedEquipment.astro";
+import { HeroCarousel } from "@/components/HeroCarousel";
+import IndustriesSection from "@/components/IndustriesSection.astro";
+import WhyChooseUs from "@/components/WhyChooseUs.astro";
+
+interface Props {
+  data?: HomepageQuery['homepage'] | null;
+}
+const { data } = Astro.props;
+---
+{
+  data && (
+    <>
+      <HeroCarousel client:load slides={data.hero.slides} tinaField={tinaField} />
+      <IndustriesSection content={data.industries} tinaField={tinaField} />
+      <FeaturedEquipment content={data.featuredEquipment} tinaField={tinaField} />
+      <WhyChooseUs content={data.whyChooseUs} tinaField={tinaField} />
+      <ContactForm client:load content={data.contactForm} tinaField={tinaField} />
+    </>
+  )
+}

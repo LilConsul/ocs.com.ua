@@ -6,9 +6,10 @@ import type { HomepageContent } from "@/types/content";
 
 interface Props {
 	content: HomepageContent["industries"];
+	tinaField?: (obj: any, ...path: (string | number)[]) => string | undefined;
 }
 
-const { content } = Astro.props;
+const { content, tinaField } = Astro.props;
 
 const iconMap = {
 	utensils: Utensils,
@@ -17,33 +18,34 @@ const iconMap = {
 } as const;
 ---
 
-<section class="py-16 md:py-24">
+<section class="py-16 md:py-24" {...(tinaField ? { 'data-tina-field': tinaField(content, 'industries') } : {})}>
 	<div class="mx-auto max-w-7xl px-4">
 		<div class="mx-auto mb-12 max-w-3xl space-y-4 text-center">
 			<p class="text-sm font-semibold uppercase tracking-[0.3em] text-primary">
 				Industries
 			</p>
-			<h2 class="font-heading text-3xl font-semibold md:text-4xl">
+			<h2 class="font-heading text-3xl font-semibold md:text-4xl" {...(tinaField ? { 'data-tina-field': tinaField(content, 'title') } : {})}>
 				{content.title}
 			</h2>
-			<p class="text-base text-muted-foreground md:text-lg">
+			<p class="text-base text-muted-foreground md:text-lg" {...(tinaField ? { 'data-tina-field': tinaField(content, 'description') } : {})}>
 				{content.description}
 			</p>
 		</div>
 
-		<div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+		<div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3" {...(tinaField ? { 'data-tina-field': tinaField(content, 'cards') } : {})}>
 			{
-				content.cards.map((card) => {
+				content.cards.map((card, index) => {
 					const Icon = iconMap[card.icon as keyof typeof iconMap] ?? Utensils;
 
 					return (
-						<Card className="h-full border border-border/70 bg-background transition-transform duration-200 hover:-translate-y-1 hover:ring-foreground/20">
+						<Card className="h-full border border-border/70 bg-background transition-transform duration-200 hover:-translate-y-1 hover:ring-foreground/20" {...(tinaField ? { 'data-tina-field': tinaField(card, index) } : {})}>
 							<div class="aspect-[16/10] overflow-hidden border-b border-border/70 bg-muted">
 								<img
 									src={card.image}
 									alt={card.name}
 									class="h-full w-full object-cover"
 									loading="lazy"
+									{...(tinaField ? { 'data-tina-field': tinaField(card, 'image') } : {})}
 								/>
 							</div>
 							<CardHeader className="space-y-3">
@@ -51,9 +53,9 @@ const iconMap = {
 									<div class="flex size-12 items-center justify-center border border-border/70 bg-muted text-primary">
 										<Icon className="size-6" />
 									</div>
-									<CardTitle>{card.name}</CardTitle>
+									<CardTitle {...(tinaField ? { 'data-tina-field': tinaField(card, 'name') } : {})}>{card.name}</CardTitle>
 								</div>
-								<CardDescription>{card.description}</CardDescription>
+								<CardDescription {...(tinaField ? { 'data-tina-field': tinaField(card, 'description') } : {})}>{card.description}</CardDescription>
 							</CardHeader>
 							<CardContent className="mt-auto">
 								<a

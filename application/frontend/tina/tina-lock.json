@@ -4,8 +4,558 @@
 		"meta": { "flags": ["experimentalData"] },
 		"collections": [
 			{
+				"name": "homepage",
+				"label": "Homepage",
+				"path": "src/content",
+				"format": "json",
+				"match": { "include": "{en,ua}/homepage" },
+				"fields": [
+					{
+						"type": "object",
+						"name": "hero",
+						"label": "Hero Section",
+						"fields": [
+							{
+								"type": "object",
+								"list": true,
+								"name": "slides",
+								"label": "Hero Slides",
+								"fields": [
+									{
+										"type": "string",
+										"name": "id",
+										"label": "ID",
+										"required": true,
+										"namespace": ["homepage", "hero", "slides", "id"],
+										"searchable": true,
+										"uid": false
+									},
+									{
+										"type": "string",
+										"name": "title",
+										"label": "Title",
+										"required": true,
+										"namespace": ["homepage", "hero", "slides", "title"],
+										"searchable": true,
+										"uid": false
+									},
+									{
+										"type": "string",
+										"name": "description",
+										"label": "Description",
+										"namespace": ["homepage", "hero", "slides", "description"],
+										"searchable": true,
+										"uid": false
+									},
+									{
+										"type": "string",
+										"name": "ctaText",
+										"label": "CTA Text",
+										"namespace": ["homepage", "hero", "slides", "ctaText"],
+										"searchable": true,
+										"uid": false
+									},
+									{
+										"type": "string",
+										"name": "ctaLink",
+										"label": "CTA Link",
+										"namespace": ["homepage", "hero", "slides", "ctaLink"],
+										"searchable": true,
+										"uid": false
+									},
+									{
+										"type": "image",
+										"name": "backgroundImage",
+										"label": "Background Image",
+										"namespace": ["homepage", "hero", "slides", "backgroundImage"],
+										"searchable": false,
+										"uid": false
+									},
+									{
+										"type": "string",
+										"name": "accentColor",
+										"label": "Accent Color",
+										"namespace": ["homepage", "hero", "slides", "accentColor"],
+										"searchable": true,
+										"uid": false
+									}
+								],
+								"namespace": ["homepage", "hero", "slides"],
+								"searchable": true,
+								"uid": false
+							}
+						],
+						"namespace": ["homepage", "hero"],
+						"searchable": true,
+						"uid": false
+					},
+					{
+						"type": "object",
+						"name": "industries",
+						"label": "Industries Section",
+						"fields": [
+							{
+								"type": "string",
+								"name": "title",
+								"label": "Section Title",
+								"namespace": ["homepage", "industries", "title"],
+								"searchable": true,
+								"uid": false
+							},
+							{
+								"type": "string",
+								"name": "description",
+								"label": "Section Description",
+								"namespace": ["homepage", "industries", "description"],
+								"searchable": true,
+								"uid": false
+							},
+							{
+								"type": "object",
+								"list": true,
+								"name": "cards",
+								"label": "Industry Cards",
+								"fields": [
+									{
+										"type": "string",
+										"name": "id",
+										"label": "ID",
+										"namespace": ["homepage", "industries", "cards", "id"],
+										"searchable": true,
+										"uid": false
+									},
+									{
+										"type": "string",
+										"name": "name",
+										"label": "Industry Name",
+										"namespace": ["homepage", "industries", "cards", "name"],
+										"searchable": true,
+										"uid": false
+									},
+									{
+										"type": "string",
+										"name": "description",
+										"label": "Description",
+										"namespace": ["homepage", "industries", "cards", "description"],
+										"searchable": true,
+										"uid": false
+									},
+									{
+										"type": "string",
+										"name": "icon",
+										"label": "Icon Name",
+										"namespace": ["homepage", "industries", "cards", "icon"],
+										"searchable": true,
+										"uid": false
+									},
+									{
+										"type": "string",
+										"name": "link",
+										"label": "Link",
+										"namespace": ["homepage", "industries", "cards", "link"],
+										"searchable": true,
+										"uid": false
+									},
+									{
+										"type": "image",
+										"name": "image",
+										"label": "Image",
+										"namespace": ["homepage", "industries", "cards", "image"],
+										"searchable": false,
+										"uid": false
+									}
+								],
+								"namespace": ["homepage", "industries", "cards"],
+								"searchable": true,
+								"uid": false
+							}
+						],
+						"namespace": ["homepage", "industries"],
+						"searchable": true,
+						"uid": false
+					},
+					{
+						"type": "object",
+						"name": "featuredEquipment",
+						"label": "Featured Equipment Section",
+						"fields": [
+							{
+								"type": "string",
+								"name": "title",
+								"label": "Section Title",
+								"namespace": ["homepage", "featuredEquipment", "title"],
+								"searchable": true,
+								"uid": false
+							},
+							{
+								"type": "string",
+								"name": "description",
+								"label": "Section Description",
+								"namespace": ["homepage", "featuredEquipment", "description"],
+								"searchable": true,
+								"uid": false
+							},
+							{
+								"type": "string",
+								"list": true,
+								"name": "equipmentIds",
+								"label": "Equipment IDs",
+								"namespace": ["homepage", "featuredEquipment", "equipmentIds"],
+								"searchable": true,
+								"uid": false
+							}
+						],
+						"namespace": ["homepage", "featuredEquipment"],
+						"searchable": true,
+						"uid": false
+					},
+					{
+						"type": "object",
+						"name": "whyChooseUs",
+						"label": "Why Choose Us Section",
+						"fields": [
+							{
+								"type": "string",
+								"name": "title",
+								"label": "Section Title",
+								"namespace": ["homepage", "whyChooseUs", "title"],
+								"searchable": true,
+								"uid": false
+							},
+							{
+								"type": "object",
+								"list": true,
+								"name": "benefits",
+								"label": "Benefits",
+								"fields": [
+									{
+										"type": "string",
+										"name": "icon",
+										"label": "Icon Name",
+										"namespace": ["homepage", "whyChooseUs", "benefits", "icon"],
+										"searchable": true,
+										"uid": false
+									},
+									{
+										"type": "string",
+										"name": "title",
+										"label": "Benefit Title",
+										"namespace": ["homepage", "whyChooseUs", "benefits", "title"],
+										"searchable": true,
+										"uid": false
+									},
+									{
+										"type": "string",
+										"name": "description",
+										"label": "Description",
+										"namespace": ["homepage", "whyChooseUs", "benefits", "description"],
+										"searchable": true,
+										"uid": false
+									}
+								],
+								"namespace": ["homepage", "whyChooseUs", "benefits"],
+								"searchable": true,
+								"uid": false
+							}
+						],
+						"namespace": ["homepage", "whyChooseUs"],
+						"searchable": true,
+						"uid": false
+					},
+					{
+						"type": "object",
+						"name": "contactForm",
+						"label": "Contact Form Section",
+						"fields": [
+							{
+								"type": "string",
+								"name": "title",
+								"label": "Form Title",
+								"namespace": ["homepage", "contactForm", "title"],
+								"searchable": true,
+								"uid": false
+							},
+							{
+								"type": "string",
+								"name": "description",
+								"label": "Form Description",
+								"namespace": ["homepage", "contactForm", "description"],
+								"searchable": true,
+								"uid": false
+							},
+							{
+								"type": "object",
+								"name": "fields",
+								"label": "Field Labels",
+								"fields": [
+									{
+										"type": "string",
+										"name": "name",
+										"label": "Name Field Label",
+										"namespace": ["homepage", "contactForm", "fields", "name"],
+										"searchable": true,
+										"uid": false
+									},
+									{
+										"type": "string",
+										"name": "email",
+										"label": "Email Field Label",
+										"namespace": ["homepage", "contactForm", "fields", "email"],
+										"searchable": true,
+										"uid": false
+									},
+									{
+										"type": "string",
+										"name": "phone",
+										"label": "Phone Field Label",
+										"namespace": ["homepage", "contactForm", "fields", "phone"],
+										"searchable": true,
+										"uid": false
+									},
+									{
+										"type": "string",
+										"name": "message",
+										"label": "Message Field Label",
+										"namespace": ["homepage", "contactForm", "fields", "message"],
+										"searchable": true,
+										"uid": false
+									}
+								],
+								"namespace": ["homepage", "contactForm", "fields"],
+								"searchable": true,
+								"uid": false
+							},
+							{
+								"type": "string",
+								"name": "submitButton",
+								"label": "Submit Button Text",
+								"namespace": ["homepage", "contactForm", "submitButton"],
+								"searchable": true,
+								"uid": false
+							},
+							{
+								"type": "string",
+								"name": "successMessage",
+								"label": "Success Message",
+								"namespace": ["homepage", "contactForm", "successMessage"],
+								"searchable": true,
+								"uid": false
+							},
+							{
+								"type": "string",
+								"name": "errorMessage",
+								"label": "Error Message",
+								"namespace": ["homepage", "contactForm", "errorMessage"],
+								"searchable": true,
+								"uid": false
+							}
+						],
+						"namespace": ["homepage", "contactForm"],
+						"searchable": true,
+						"uid": false
+					}
+				],
+				"ui": {},
+				"namespace": ["homepage"]
+			},
+			{
+				"name": "navigation",
+				"label": "Navigation",
+				"path": "src/content",
+				"format": "json",
+				"match": { "include": "{en,ua}/navigation" },
+				"fields": [
+					{
+						"type": "object",
+						"list": true,
+						"name": "mainMenu",
+						"label": "Main Menu Items",
+						"fields": [
+							{
+								"type": "string",
+								"name": "label",
+								"label": "Label",
+								"required": true,
+								"namespace": ["navigation", "mainMenu", "label"],
+								"searchable": true,
+								"uid": false
+							},
+							{
+								"type": "string",
+								"name": "href",
+								"label": "Link",
+								"namespace": ["navigation", "mainMenu", "href"],
+								"searchable": true,
+								"uid": false
+							},
+							{
+								"type": "object",
+								"list": true,
+								"name": "submenu",
+								"label": "Submenu Items",
+								"fields": [
+									{
+										"type": "string",
+										"name": "label",
+										"label": "Label",
+										"namespace": ["navigation", "mainMenu", "submenu", "label"],
+										"searchable": true,
+										"uid": false
+									},
+									{
+										"type": "string",
+										"name": "href",
+										"label": "Link",
+										"namespace": ["navigation", "mainMenu", "submenu", "href"],
+										"searchable": true,
+										"uid": false
+									}
+								],
+								"namespace": ["navigation", "mainMenu", "submenu"],
+								"searchable": true,
+								"uid": false
+							}
+						],
+						"namespace": ["navigation", "mainMenu"],
+						"searchable": true,
+						"uid": false
+					},
+					{
+						"type": "object",
+						"list": true,
+						"name": "footerLinks",
+						"label": "Footer Links",
+						"fields": [
+							{
+								"type": "string",
+								"name": "label",
+								"label": "Label",
+								"namespace": ["navigation", "footerLinks", "label"],
+								"searchable": true,
+								"uid": false
+							},
+							{
+								"type": "string",
+								"name": "href",
+								"label": "Link",
+								"namespace": ["navigation", "footerLinks", "href"],
+								"searchable": true,
+								"uid": false
+							}
+						],
+						"namespace": ["navigation", "footerLinks"],
+						"searchable": true,
+						"uid": false
+					}
+				],
+				"namespace": ["navigation"]
+			},
+			{
+				"name": "siteConfig",
+				"label": "Site Configuration",
+				"path": "src/content",
+				"format": "json",
+				"match": { "include": "{en,ua}/site-config" },
+				"fields": [
+					{
+						"type": "string",
+						"name": "siteName",
+						"label": "Site Name",
+						"required": true,
+						"namespace": ["siteConfig", "siteName"],
+						"searchable": true,
+						"uid": false
+					},
+					{
+						"type": "string",
+						"name": "siteUrl",
+						"label": "Site URL",
+						"namespace": ["siteConfig", "siteUrl"],
+						"searchable": true,
+						"uid": false
+					},
+					{
+						"type": "string",
+						"name": "description",
+						"label": "Site Description",
+						"namespace": ["siteConfig", "description"],
+						"searchable": true,
+						"uid": false
+					},
+					{
+						"type": "object",
+						"name": "contact",
+						"label": "Contact Information",
+						"fields": [
+							{
+								"type": "string",
+								"name": "email",
+								"label": "Email",
+								"namespace": ["siteConfig", "contact", "email"],
+								"searchable": true,
+								"uid": false
+							},
+							{
+								"type": "string",
+								"name": "phone",
+								"label": "Phone",
+								"namespace": ["siteConfig", "contact", "phone"],
+								"searchable": true,
+								"uid": false
+							},
+							{
+								"type": "string",
+								"name": "address",
+								"label": "Address",
+								"namespace": ["siteConfig", "contact", "address"],
+								"searchable": true,
+								"uid": false
+							}
+						],
+						"namespace": ["siteConfig", "contact"],
+						"searchable": true,
+						"uid": false
+					},
+					{
+						"type": "object",
+						"name": "social",
+						"label": "Social Media Links",
+						"fields": [
+							{
+								"type": "string",
+								"name": "facebook",
+								"label": "Facebook",
+								"namespace": ["siteConfig", "social", "facebook"],
+								"searchable": true,
+								"uid": false
+							},
+							{
+								"type": "string",
+								"name": "linkedin",
+								"label": "LinkedIn",
+								"namespace": ["siteConfig", "social", "linkedin"],
+								"searchable": true,
+								"uid": false
+							},
+							{
+								"type": "string",
+								"name": "twitter",
+								"label": "Twitter",
+								"namespace": ["siteConfig", "social", "twitter"],
+								"searchable": true,
+								"uid": false
+							}
+						],
+						"namespace": ["siteConfig", "social"],
+						"searchable": true,
+						"uid": false
+					}
+				],
+				"namespace": ["siteConfig"]
+			},
+			{
 				"name": "post",
-				"label": "Posts",
+				"label": "Posts (Demo)",
 				"path": "content/posts",
 				"fields": [
 					{
@@ -99,7 +649,7 @@
 		"DocumentConnection": {
 			"type": "DocumentConnection",
 			"resolveType": "multiCollectionDocumentList",
-			"collections": ["post"]
+			"collections": ["homepage", "navigation", "siteConfig", "post"]
 		},
 		"Node": { "type": "Node", "resolveType": "nodeDocument" },
 		"DocumentNode": {
@@ -107,6 +657,42 @@
 			"resolveType": "multiCollectionDocument",
 			"createDocument": "create",
 			"updateDocument": "update"
+		},
+		"Homepage": {
+			"type": "Homepage",
+			"resolveType": "collectionDocument",
+			"collection": "homepage",
+			"createHomepage": "create",
+			"updateHomepage": "update"
+		},
+		"HomepageConnection": {
+			"type": "HomepageConnection",
+			"resolveType": "collectionDocumentList",
+			"collection": "homepage"
+		},
+		"Navigation": {
+			"type": "Navigation",
+			"resolveType": "collectionDocument",
+			"collection": "navigation",
+			"createNavigation": "create",
+			"updateNavigation": "update"
+		},
+		"NavigationConnection": {
+			"type": "NavigationConnection",
+			"resolveType": "collectionDocumentList",
+			"collection": "navigation"
+		},
+		"SiteConfig": {
+			"type": "SiteConfig",
+			"resolveType": "collectionDocument",
+			"collection": "siteConfig",
+			"createSiteConfig": "create",
+			"updateSiteConfig": "update"
+		},
+		"SiteConfigConnection": {
+			"type": "SiteConfigConnection",
+			"resolveType": "collectionDocumentList",
+			"collection": "siteConfig"
 		},
 		"Post": {
 			"type": "Post",
@@ -482,6 +1068,189 @@
 					},
 					{
 						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "homepage" },
+						"arguments": [
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "relativePath" },
+								"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+							}
+						],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "Homepage" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "homepageConnection" },
+						"arguments": [
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "before" },
+								"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+							},
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "after" },
+								"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+							},
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "first" },
+								"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "Float" } }
+							},
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "last" },
+								"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "Float" } }
+							},
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "sort" },
+								"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+							},
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "filter" },
+								"type": {
+									"kind": "NamedType",
+									"name": { "kind": "Name", "value": "HomepageFilter" }
+								}
+							}
+						],
+						"type": {
+							"kind": "NonNullType",
+							"type": {
+								"kind": "NamedType",
+								"name": { "kind": "Name", "value": "HomepageConnection" }
+							}
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "navigation" },
+						"arguments": [
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "relativePath" },
+								"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+							}
+						],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "Navigation" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "navigationConnection" },
+						"arguments": [
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "before" },
+								"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+							},
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "after" },
+								"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+							},
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "first" },
+								"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "Float" } }
+							},
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "last" },
+								"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "Float" } }
+							},
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "sort" },
+								"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+							},
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "filter" },
+								"type": {
+									"kind": "NamedType",
+									"name": { "kind": "Name", "value": "NavigationFilter" }
+								}
+							}
+						],
+						"type": {
+							"kind": "NonNullType",
+							"type": {
+								"kind": "NamedType",
+								"name": { "kind": "Name", "value": "NavigationConnection" }
+							}
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "siteConfig" },
+						"arguments": [
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "relativePath" },
+								"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+							}
+						],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "SiteConfig" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "siteConfigConnection" },
+						"arguments": [
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "before" },
+								"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+							},
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "after" },
+								"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+							},
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "first" },
+								"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "Float" } }
+							},
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "last" },
+								"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "Float" } }
+							},
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "sort" },
+								"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+							},
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "filter" },
+								"type": {
+									"kind": "NamedType",
+									"name": { "kind": "Name", "value": "SiteConfigFilter" }
+								}
+							}
+						],
+						"type": {
+							"kind": "NonNullType",
+							"type": {
+								"kind": "NamedType",
+								"name": { "kind": "Name", "value": "SiteConfigConnection" }
+							}
+						}
+					},
+					{
+						"kind": "FieldDefinition",
 						"name": { "kind": "Name", "value": "post" },
 						"arguments": [
 							{
@@ -541,6 +1310,21 @@
 				"kind": "InputObjectTypeDefinition",
 				"name": { "kind": "Name", "value": "DocumentFilter" },
 				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "homepage" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "HomepageFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "navigation" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "NavigationFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "siteConfig" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "SiteConfigFilter" } }
+					},
 					{
 						"kind": "InputValueDefinition",
 						"name": { "kind": "Name", "value": "post" },
@@ -736,8 +1520,1351 @@
 				"name": { "kind": "Name", "value": "DocumentNode" },
 				"directives": [],
 				"types": [
+					{ "kind": "NamedType", "name": { "kind": "Name", "value": "Homepage" } },
+					{ "kind": "NamedType", "name": { "kind": "Name", "value": "Navigation" } },
+					{ "kind": "NamedType", "name": { "kind": "Name", "value": "SiteConfig" } },
 					{ "kind": "NamedType", "name": { "kind": "Name", "value": "Post" } },
 					{ "kind": "NamedType", "name": { "kind": "Name", "value": "Folder" } }
+				]
+			},
+			{
+				"kind": "ObjectTypeDefinition",
+				"interfaces": [],
+				"directives": [],
+				"name": { "kind": "Name", "value": "HomepageHeroSlides" },
+				"fields": [
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "id" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "title" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "description" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "ctaText" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "ctaLink" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "backgroundImage" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "accentColor" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					}
+				]
+			},
+			{
+				"kind": "ObjectTypeDefinition",
+				"interfaces": [],
+				"directives": [],
+				"name": { "kind": "Name", "value": "HomepageHero" },
+				"fields": [
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "slides" },
+						"arguments": [],
+						"type": {
+							"kind": "ListType",
+							"type": {
+								"kind": "NamedType",
+								"name": { "kind": "Name", "value": "HomepageHeroSlides" }
+							}
+						}
+					}
+				]
+			},
+			{
+				"kind": "ObjectTypeDefinition",
+				"interfaces": [],
+				"directives": [],
+				"name": { "kind": "Name", "value": "HomepageIndustriesCards" },
+				"fields": [
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "id" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "name" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "description" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "icon" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "link" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "image" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					}
+				]
+			},
+			{
+				"kind": "ObjectTypeDefinition",
+				"interfaces": [],
+				"directives": [],
+				"name": { "kind": "Name", "value": "HomepageIndustries" },
+				"fields": [
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "title" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "description" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "cards" },
+						"arguments": [],
+						"type": {
+							"kind": "ListType",
+							"type": {
+								"kind": "NamedType",
+								"name": { "kind": "Name", "value": "HomepageIndustriesCards" }
+							}
+						}
+					}
+				]
+			},
+			{
+				"kind": "ObjectTypeDefinition",
+				"interfaces": [],
+				"directives": [],
+				"name": { "kind": "Name", "value": "HomepageFeaturedEquipment" },
+				"fields": [
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "title" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "description" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "equipmentIds" },
+						"arguments": [],
+						"type": {
+							"kind": "ListType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+						}
+					}
+				]
+			},
+			{
+				"kind": "ObjectTypeDefinition",
+				"interfaces": [],
+				"directives": [],
+				"name": { "kind": "Name", "value": "HomepageWhyChooseUsBenefits" },
+				"fields": [
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "icon" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "title" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "description" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					}
+				]
+			},
+			{
+				"kind": "ObjectTypeDefinition",
+				"interfaces": [],
+				"directives": [],
+				"name": { "kind": "Name", "value": "HomepageWhyChooseUs" },
+				"fields": [
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "title" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "benefits" },
+						"arguments": [],
+						"type": {
+							"kind": "ListType",
+							"type": {
+								"kind": "NamedType",
+								"name": { "kind": "Name", "value": "HomepageWhyChooseUsBenefits" }
+							}
+						}
+					}
+				]
+			},
+			{
+				"kind": "ObjectTypeDefinition",
+				"interfaces": [],
+				"directives": [],
+				"name": { "kind": "Name", "value": "HomepageContactFormFields" },
+				"fields": [
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "name" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "email" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "phone" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "message" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					}
+				]
+			},
+			{
+				"kind": "ObjectTypeDefinition",
+				"interfaces": [],
+				"directives": [],
+				"name": { "kind": "Name", "value": "HomepageContactForm" },
+				"fields": [
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "title" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "description" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "fields" },
+						"arguments": [],
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "HomepageContactFormFields" }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "submitButton" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "successMessage" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "errorMessage" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					}
+				]
+			},
+			{
+				"kind": "ObjectTypeDefinition",
+				"interfaces": [
+					{ "kind": "NamedType", "name": { "kind": "Name", "value": "Node" } },
+					{ "kind": "NamedType", "name": { "kind": "Name", "value": "Document" } }
+				],
+				"directives": [],
+				"name": { "kind": "Name", "value": "Homepage" },
+				"fields": [
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "hero" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "HomepageHero" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "industries" },
+						"arguments": [],
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "HomepageIndustries" }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "featuredEquipment" },
+						"arguments": [],
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "HomepageFeaturedEquipment" }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "whyChooseUs" },
+						"arguments": [],
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "HomepageWhyChooseUs" }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "contactForm" },
+						"arguments": [],
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "HomepageContactForm" }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "id" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "ID" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "_sys" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "SystemInfo" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "_values" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "JSON" } }
+						}
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "StringFilter" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "startsWith" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "eq" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "exists" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "Boolean" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "in" },
+						"type": {
+							"kind": "ListType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+						}
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "ImageFilter" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "startsWith" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "eq" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "exists" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "Boolean" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "in" },
+						"type": {
+							"kind": "ListType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+						}
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "HomepageHeroSlidesFilter" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "id" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "title" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "description" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "ctaText" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "ctaLink" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "backgroundImage" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "ImageFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "accentColor" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "HomepageHeroFilter" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "slides" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "HomepageHeroSlidesFilter" }
+						}
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "HomepageIndustriesCardsFilter" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "id" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "name" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "description" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "icon" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "link" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "image" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "ImageFilter" } }
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "HomepageIndustriesFilter" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "title" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "description" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "cards" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "HomepageIndustriesCardsFilter" }
+						}
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "HomepageFeaturedEquipmentFilter" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "title" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "description" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "equipmentIds" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "HomepageWhyChooseUsBenefitsFilter" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "icon" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "title" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "description" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "HomepageWhyChooseUsFilter" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "title" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "benefits" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "HomepageWhyChooseUsBenefitsFilter" }
+						}
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "HomepageContactFormFieldsFilter" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "name" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "email" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "phone" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "message" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "HomepageContactFormFilter" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "title" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "description" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "fields" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "HomepageContactFormFieldsFilter" }
+						}
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "submitButton" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "successMessage" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "errorMessage" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "HomepageFilter" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "hero" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "HomepageHeroFilter" }
+						}
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "industries" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "HomepageIndustriesFilter" }
+						}
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "featuredEquipment" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "HomepageFeaturedEquipmentFilter" }
+						}
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "whyChooseUs" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "HomepageWhyChooseUsFilter" }
+						}
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "contactForm" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "HomepageContactFormFilter" }
+						}
+					}
+				]
+			},
+			{
+				"kind": "ObjectTypeDefinition",
+				"interfaces": [],
+				"directives": [],
+				"name": { "kind": "Name", "value": "HomepageConnectionEdges" },
+				"fields": [
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "cursor" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "node" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "Homepage" } }
+					}
+				]
+			},
+			{
+				"kind": "ObjectTypeDefinition",
+				"interfaces": [{ "kind": "NamedType", "name": { "kind": "Name", "value": "Connection" } }],
+				"directives": [],
+				"name": { "kind": "Name", "value": "HomepageConnection" },
+				"fields": [
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "pageInfo" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "PageInfo" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "totalCount" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "Float" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "edges" },
+						"arguments": [],
+						"type": {
+							"kind": "ListType",
+							"type": {
+								"kind": "NamedType",
+								"name": { "kind": "Name", "value": "HomepageConnectionEdges" }
+							}
+						}
+					}
+				]
+			},
+			{
+				"kind": "ObjectTypeDefinition",
+				"interfaces": [],
+				"directives": [],
+				"name": { "kind": "Name", "value": "NavigationMainMenuSubmenu" },
+				"fields": [
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "label" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "href" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					}
+				]
+			},
+			{
+				"kind": "ObjectTypeDefinition",
+				"interfaces": [],
+				"directives": [],
+				"name": { "kind": "Name", "value": "NavigationMainMenu" },
+				"fields": [
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "label" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "href" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "submenu" },
+						"arguments": [],
+						"type": {
+							"kind": "ListType",
+							"type": {
+								"kind": "NamedType",
+								"name": { "kind": "Name", "value": "NavigationMainMenuSubmenu" }
+							}
+						}
+					}
+				]
+			},
+			{
+				"kind": "ObjectTypeDefinition",
+				"interfaces": [],
+				"directives": [],
+				"name": { "kind": "Name", "value": "NavigationFooterLinks" },
+				"fields": [
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "label" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "href" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					}
+				]
+			},
+			{
+				"kind": "ObjectTypeDefinition",
+				"interfaces": [
+					{ "kind": "NamedType", "name": { "kind": "Name", "value": "Node" } },
+					{ "kind": "NamedType", "name": { "kind": "Name", "value": "Document" } }
+				],
+				"directives": [],
+				"name": { "kind": "Name", "value": "Navigation" },
+				"fields": [
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "mainMenu" },
+						"arguments": [],
+						"type": {
+							"kind": "ListType",
+							"type": {
+								"kind": "NamedType",
+								"name": { "kind": "Name", "value": "NavigationMainMenu" }
+							}
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "footerLinks" },
+						"arguments": [],
+						"type": {
+							"kind": "ListType",
+							"type": {
+								"kind": "NamedType",
+								"name": { "kind": "Name", "value": "NavigationFooterLinks" }
+							}
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "id" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "ID" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "_sys" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "SystemInfo" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "_values" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "JSON" } }
+						}
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "NavigationMainMenuSubmenuFilter" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "label" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "href" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "NavigationMainMenuFilter" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "label" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "href" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "submenu" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "NavigationMainMenuSubmenuFilter" }
+						}
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "NavigationFooterLinksFilter" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "label" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "href" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "NavigationFilter" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "mainMenu" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "NavigationMainMenuFilter" }
+						}
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "footerLinks" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "NavigationFooterLinksFilter" }
+						}
+					}
+				]
+			},
+			{
+				"kind": "ObjectTypeDefinition",
+				"interfaces": [],
+				"directives": [],
+				"name": { "kind": "Name", "value": "NavigationConnectionEdges" },
+				"fields": [
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "cursor" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "node" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "Navigation" } }
+					}
+				]
+			},
+			{
+				"kind": "ObjectTypeDefinition",
+				"interfaces": [{ "kind": "NamedType", "name": { "kind": "Name", "value": "Connection" } }],
+				"directives": [],
+				"name": { "kind": "Name", "value": "NavigationConnection" },
+				"fields": [
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "pageInfo" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "PageInfo" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "totalCount" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "Float" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "edges" },
+						"arguments": [],
+						"type": {
+							"kind": "ListType",
+							"type": {
+								"kind": "NamedType",
+								"name": { "kind": "Name", "value": "NavigationConnectionEdges" }
+							}
+						}
+					}
+				]
+			},
+			{
+				"kind": "ObjectTypeDefinition",
+				"interfaces": [],
+				"directives": [],
+				"name": { "kind": "Name", "value": "SiteConfigContact" },
+				"fields": [
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "email" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "phone" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "address" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					}
+				]
+			},
+			{
+				"kind": "ObjectTypeDefinition",
+				"interfaces": [],
+				"directives": [],
+				"name": { "kind": "Name", "value": "SiteConfigSocial" },
+				"fields": [
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "facebook" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "linkedin" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "twitter" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					}
+				]
+			},
+			{
+				"kind": "ObjectTypeDefinition",
+				"interfaces": [
+					{ "kind": "NamedType", "name": { "kind": "Name", "value": "Node" } },
+					{ "kind": "NamedType", "name": { "kind": "Name", "value": "Document" } }
+				],
+				"directives": [],
+				"name": { "kind": "Name", "value": "SiteConfig" },
+				"fields": [
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "siteName" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "siteUrl" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "description" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "contact" },
+						"arguments": [],
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "SiteConfigContact" }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "social" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "SiteConfigSocial" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "id" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "ID" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "_sys" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "SystemInfo" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "_values" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "JSON" } }
+						}
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "SiteConfigContactFilter" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "email" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "phone" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "address" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "SiteConfigSocialFilter" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "facebook" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "linkedin" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "twitter" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "SiteConfigFilter" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "siteName" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "siteUrl" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "description" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "contact" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "SiteConfigContactFilter" }
+						}
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "social" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "SiteConfigSocialFilter" }
+						}
+					}
+				]
+			},
+			{
+				"kind": "ObjectTypeDefinition",
+				"interfaces": [],
+				"directives": [],
+				"name": { "kind": "Name", "value": "SiteConfigConnectionEdges" },
+				"fields": [
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "cursor" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "node" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "SiteConfig" } }
+					}
+				]
+			},
+			{
+				"kind": "ObjectTypeDefinition",
+				"interfaces": [{ "kind": "NamedType", "name": { "kind": "Name", "value": "Connection" } }],
+				"directives": [],
+				"name": { "kind": "Name", "value": "SiteConfigConnection" },
+				"fields": [
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "pageInfo" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "PageInfo" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "totalCount" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "Float" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "edges" },
+						"arguments": [],
+						"type": {
+							"kind": "ListType",
+							"type": {
+								"kind": "NamedType",
+								"name": { "kind": "Name", "value": "SiteConfigConnectionEdges" }
+							}
+						}
+					}
 				]
 			},
 			{
@@ -847,35 +2974,6 @@
 						"type": {
 							"kind": "NonNullType",
 							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "JSON" } }
-						}
-					}
-				]
-			},
-			{
-				"kind": "InputObjectTypeDefinition",
-				"name": { "kind": "Name", "value": "StringFilter" },
-				"fields": [
-					{
-						"kind": "InputValueDefinition",
-						"name": { "kind": "Name", "value": "startsWith" },
-						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
-					},
-					{
-						"kind": "InputValueDefinition",
-						"name": { "kind": "Name", "value": "eq" },
-						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
-					},
-					{
-						"kind": "InputValueDefinition",
-						"name": { "kind": "Name", "value": "exists" },
-						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "Boolean" } }
-					},
-					{
-						"kind": "InputValueDefinition",
-						"name": { "kind": "Name", "value": "in" },
-						"type": {
-							"kind": "ListType",
-							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
 						}
 					}
 				]
@@ -1184,6 +3282,180 @@
 					},
 					{
 						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "updateHomepage" },
+						"arguments": [
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "relativePath" },
+								"type": {
+									"kind": "NonNullType",
+									"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+								}
+							},
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "params" },
+								"type": {
+									"kind": "NonNullType",
+									"type": {
+										"kind": "NamedType",
+										"name": { "kind": "Name", "value": "HomepageMutation" }
+									}
+								}
+							}
+						],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "Homepage" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "createHomepage" },
+						"arguments": [
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "relativePath" },
+								"type": {
+									"kind": "NonNullType",
+									"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+								}
+							},
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "params" },
+								"type": {
+									"kind": "NonNullType",
+									"type": {
+										"kind": "NamedType",
+										"name": { "kind": "Name", "value": "HomepageMutation" }
+									}
+								}
+							}
+						],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "Homepage" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "updateNavigation" },
+						"arguments": [
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "relativePath" },
+								"type": {
+									"kind": "NonNullType",
+									"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+								}
+							},
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "params" },
+								"type": {
+									"kind": "NonNullType",
+									"type": {
+										"kind": "NamedType",
+										"name": { "kind": "Name", "value": "NavigationMutation" }
+									}
+								}
+							}
+						],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "Navigation" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "createNavigation" },
+						"arguments": [
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "relativePath" },
+								"type": {
+									"kind": "NonNullType",
+									"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+								}
+							},
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "params" },
+								"type": {
+									"kind": "NonNullType",
+									"type": {
+										"kind": "NamedType",
+										"name": { "kind": "Name", "value": "NavigationMutation" }
+									}
+								}
+							}
+						],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "Navigation" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "updateSiteConfig" },
+						"arguments": [
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "relativePath" },
+								"type": {
+									"kind": "NonNullType",
+									"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+								}
+							},
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "params" },
+								"type": {
+									"kind": "NonNullType",
+									"type": {
+										"kind": "NamedType",
+										"name": { "kind": "Name", "value": "SiteConfigMutation" }
+									}
+								}
+							}
+						],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "SiteConfig" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "createSiteConfig" },
+						"arguments": [
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "relativePath" },
+								"type": {
+									"kind": "NonNullType",
+									"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+								}
+							},
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "params" },
+								"type": {
+									"kind": "NonNullType",
+									"type": {
+										"kind": "NamedType",
+										"name": { "kind": "Name", "value": "SiteConfigMutation" }
+									}
+								}
+							}
+						],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "SiteConfig" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
 						"name": { "kind": "Name", "value": "updatePost" },
 						"arguments": [
 							{
@@ -1248,6 +3520,27 @@
 				"fields": [
 					{
 						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "homepage" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "HomepageMutation" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "navigation" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "NavigationMutation" }
+						}
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "siteConfig" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "SiteConfigMutation" }
+						}
+					},
+					{
+						"kind": "InputValueDefinition",
 						"name": { "kind": "Name", "value": "post" },
 						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "PostMutation" } }
 					},
@@ -1264,8 +3557,494 @@
 				"fields": [
 					{
 						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "homepage" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "HomepageMutation" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "navigation" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "NavigationMutation" }
+						}
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "siteConfig" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "SiteConfigMutation" }
+						}
+					},
+					{
+						"kind": "InputValueDefinition",
 						"name": { "kind": "Name", "value": "post" },
 						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "PostMutation" } }
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "HomepageHeroSlidesMutation" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "id" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "title" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "description" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "ctaText" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "ctaLink" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "backgroundImage" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "accentColor" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "HomepageHeroMutation" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "slides" },
+						"type": {
+							"kind": "ListType",
+							"type": {
+								"kind": "NamedType",
+								"name": { "kind": "Name", "value": "HomepageHeroSlidesMutation" }
+							}
+						}
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "HomepageIndustriesCardsMutation" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "id" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "name" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "description" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "icon" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "link" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "image" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "HomepageIndustriesMutation" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "title" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "description" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "cards" },
+						"type": {
+							"kind": "ListType",
+							"type": {
+								"kind": "NamedType",
+								"name": { "kind": "Name", "value": "HomepageIndustriesCardsMutation" }
+							}
+						}
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "HomepageFeaturedEquipmentMutation" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "title" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "description" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "equipmentIds" },
+						"type": {
+							"kind": "ListType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+						}
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "HomepageWhyChooseUsBenefitsMutation" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "icon" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "title" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "description" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "HomepageWhyChooseUsMutation" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "title" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "benefits" },
+						"type": {
+							"kind": "ListType",
+							"type": {
+								"kind": "NamedType",
+								"name": { "kind": "Name", "value": "HomepageWhyChooseUsBenefitsMutation" }
+							}
+						}
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "HomepageContactFormFieldsMutation" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "name" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "email" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "phone" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "message" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "HomepageContactFormMutation" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "title" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "description" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "fields" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "HomepageContactFormFieldsMutation" }
+						}
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "submitButton" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "successMessage" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "errorMessage" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "HomepageMutation" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "hero" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "HomepageHeroMutation" }
+						}
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "industries" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "HomepageIndustriesMutation" }
+						}
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "featuredEquipment" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "HomepageFeaturedEquipmentMutation" }
+						}
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "whyChooseUs" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "HomepageWhyChooseUsMutation" }
+						}
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "contactForm" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "HomepageContactFormMutation" }
+						}
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "NavigationMainMenuSubmenuMutation" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "label" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "href" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "NavigationMainMenuMutation" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "label" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "href" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "submenu" },
+						"type": {
+							"kind": "ListType",
+							"type": {
+								"kind": "NamedType",
+								"name": { "kind": "Name", "value": "NavigationMainMenuSubmenuMutation" }
+							}
+						}
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "NavigationFooterLinksMutation" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "label" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "href" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "NavigationMutation" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "mainMenu" },
+						"type": {
+							"kind": "ListType",
+							"type": {
+								"kind": "NamedType",
+								"name": { "kind": "Name", "value": "NavigationMainMenuMutation" }
+							}
+						}
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "footerLinks" },
+						"type": {
+							"kind": "ListType",
+							"type": {
+								"kind": "NamedType",
+								"name": { "kind": "Name", "value": "NavigationFooterLinksMutation" }
+							}
+						}
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "SiteConfigContactMutation" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "email" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "phone" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "address" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "SiteConfigSocialMutation" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "facebook" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "linkedin" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "twitter" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "SiteConfigMutation" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "siteName" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "siteUrl" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "description" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "contact" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "SiteConfigContactMutation" }
+						}
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "social" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "SiteConfigSocialMutation" }
+						}
 					}
 				]
 			},
