@@ -1,0 +1,129 @@
+---
+import { BadgeInfo, Building2, Mail, MapPin, Phone, Play } from "lucide-react";
+
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { Separator } from "@/components/ui/separator";
+import type { NavigationContent, SiteConfig } from "@/types/content";
+
+interface Props {
+	navigation: NavigationContent["footer"];
+	siteConfig: SiteConfig;
+}
+
+const { navigation, siteConfig } = Astro.props;
+
+const socialLinks = [
+	{
+		href: siteConfig.social.facebook,
+		label: "Facebook",
+		icon: BadgeInfo,
+	},
+	{
+		href: siteConfig.social.linkedin,
+		label: "LinkedIn",
+		icon: Building2,
+	},
+	{
+		href: siteConfig.social.instagram,
+		label: "Instagram",
+		icon: BadgeInfo,
+	},
+	{
+		href: siteConfig.social.youtube,
+		label: "YouTube",
+		icon: Play,
+	},
+].filter((item) => Boolean(item.href));
+---
+
+<footer class="bg-slate-950 text-slate-100">
+	<div class="mx-auto max-w-7xl px-4 py-16">
+		<div class="grid gap-10 md:grid-cols-2 xl:grid-cols-4">
+			<div class="space-y-4">
+				<img
+					src="/images/ocs-logo.svg"
+					alt={siteConfig.company.fullName}
+					class="h-14 w-auto"
+				/>
+				<h2 class="font-heading text-xl font-semibold">
+					{siteConfig.company.tagline}
+				</h2>
+				<p class="text-sm leading-7 text-slate-300">
+					{siteConfig.company.description}
+				</p>
+			</div>
+
+			<div class="space-y-4">
+				<h2 class="font-heading text-lg font-semibold">Quick Links</h2>
+				<nav class="flex flex-col gap-3" aria-label="Footer navigation">
+					{
+						navigation.quickLinks.map((link) => (
+							<a
+								href={link.url}
+								class="text-sm text-slate-300 transition-colors hover:text-white"
+							>
+								{link.label}
+							</a>
+						))
+					}
+				</nav>
+			</div>
+
+			<div class="space-y-4">
+				<h2 class="font-heading text-lg font-semibold">Contact</h2>
+				<ul class="space-y-3 text-sm text-slate-300">
+					<li class="flex items-start gap-3">
+						<Phone className="mt-0.5 size-4 shrink-0 text-primary" />
+						<a href={`tel:${siteConfig.contact.phone}`} class="hover:text-white">
+							{siteConfig.contact.phone}
+						</a>
+					</li>
+					<li class="flex items-start gap-3">
+						<Mail className="mt-0.5 size-4 shrink-0 text-primary" />
+						<a href={`mailto:${siteConfig.contact.email}`} class="hover:text-white">
+							{siteConfig.contact.email}
+						</a>
+					</li>
+					<li class="flex items-start gap-3">
+						<MapPin className="mt-0.5 size-4 shrink-0 text-primary" />
+						<span>
+							{siteConfig.contact.address.street}, {siteConfig.contact.address.city},{" "}
+							{siteConfig.contact.address.country} {siteConfig.contact.address.postalCode}
+						</span>
+					</li>
+				</ul>
+			</div>
+
+			<div class="space-y-4">
+				<h2 class="font-heading text-lg font-semibold">Connect</h2>
+				<div class="flex flex-wrap gap-3">
+					{
+						socialLinks.map((link) => {
+							const Icon = link.icon;
+
+							return (
+								<a
+									href={link.href}
+									target="_blank"
+									rel="noreferrer"
+									aria-label={link.label}
+									class="inline-flex size-10 items-center justify-center border border-slate-700 text-slate-200 transition-colors hover:border-slate-500 hover:text-white"
+								>
+									<Icon className="size-4" />
+								</a>
+							);
+						})
+					}
+				</div>
+				<LanguageSwitcher client:load />
+			</div>
+		</div>
+
+		<Separator className="my-8 bg-slate-800" />
+
+		<div class="flex flex-col gap-3 text-sm text-slate-400 md:flex-row md:items-center md:justify-between">
+			<p>{siteConfig.copyright}</p>
+			<p>{siteConfig.company.fullName}</p>
+		</div>
+	</div>
+</footer>

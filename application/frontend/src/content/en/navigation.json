@@ -1,0 +1,51 @@
+{
+	"header": {
+		"logo": {
+			"src": "/images/ocs-logo.svg",
+			"alt": "OCS - Industrial Equipment Solutions"
+		},
+		"menu": [
+			{
+				"id": "equipment",
+				"label": "Equipment",
+				"url": "/en/equipment"
+			},
+			{
+				"id": "industries",
+				"label": "Industries",
+				"url": "/en/industries"
+			},
+			{
+				"id": "news",
+				"label": "News",
+				"url": "/en/news"
+			},
+			{
+				"id": "service",
+				"label": "Service",
+				"url": "/en/service"
+			},
+			{
+				"id": "contact",
+				"label": "Contact",
+				"url": "/en/contact"
+			}
+		]
+	},
+	"footer": {
+		"quickLinks": [
+			{
+				"label": "Equipment",
+				"url": "/en/equipment"
+			},
+			{
+				"label": "Industries",
+				"url": "/en/industries"
+			},
+			{
+				"label": "Contact",
+				"url": "/en/contact"
+			}
+		]
+	}
+}

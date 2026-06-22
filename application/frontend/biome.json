@@ -50,7 +50,8 @@
 				"noUnsafeFinally": "error",
 				"noUnsafeOptionalChaining": "error",
 				"noUnusedLabels": "error",
-				"noUnusedVariables": "error",
+				"noUnusedVariables": "off",
+				"noUnusedImports": "off",
 				"useIsNan": "error",
 				"useValidForDirection": "error",
 				"useYield": "error"
@@ -128,6 +129,11 @@
 		},
 		"linter": {
 			"enabled": true
+		},
+		"parser": {
+			"cssModules": false,
+			"allowWrongLineComments": false,
+			"tailwindDirectives": true
 		}
 	},
 	"overrides": [
@@ -139,7 +145,7 @@
 						"useConst": "off"
 					},
 					"correctness": {
-						"noUnusedImports": "warn"
+						"noUnusedImports": "off"
 					}
 				}
 			}

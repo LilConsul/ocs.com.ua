@@ -1,0 +1,106 @@
+{
+	"hero": {
+		"slides": [
+			{
+				"id": "food-industry",
+				"title": "Рішення для харчової промисловості",
+				"description": "Високоточне обладнання для харчового виробництва та пакування",
+				"ctaText": "Переглянути рішення для харчової галузі",
+				"ctaLink": "/ua/industries/food",
+				"backgroundImage": "/images/hero/food-industry.jpg",
+				"accentColor": "blue"
+			},
+			{
+				"id": "pharma-industry",
+				"title": "Фармацевтична досконалість",
+				"description": "Системи зважування та інспекції, що відповідають вимогам галузі",
+				"ctaText": "Переглянути обладнання для фарми",
+				"ctaLink": "/ua/industries/pharma",
+				"backgroundImage": "/images/hero/pharma-industry.jpg",
+				"accentColor": "green"
+			},
+			{
+				"id": "logistics-industry",
+				"title": "Логістика та дистрибуція",
+				"description": "Автоматизоване сортування та контроль якості",
+				"ctaText": "Дізнатися про логістичні рішення",
+				"ctaLink": "/ua/industries/logistics",
+				"backgroundImage": "/images/hero/logistics-industry.jpg",
+				"accentColor": "purple"
+			}
+		]
+	},
+	"industries": {
+		"title": "Галузі, з якими ми працюємо",
+		"description": "Спеціалізовані рішення для різних секторів промисловості",
+		"cards": [
+			{
+				"id": "food",
+				"name": "Харчова промисловість",
+				"description": "Рішення для контролю якості та пакування",
+				"icon": "utensils",
+				"link": "/ua/industries/food",
+				"image": "/images/industries/food.webp"
+			},
+			{
+				"id": "pharma",
+				"name": "Фармацевтика",
+				"description": "Зважування та інспекція відповідно до стандартів",
+				"icon": "pill",
+				"link": "/ua/industries/pharma",
+				"image": "/images/industries/pharma.webp"
+			},
+			{
+				"id": "logistics",
+				"name": "Логістика",
+				"description": "Автоматизоване сортування та дистрибуція",
+				"icon": "truck",
+				"link": "/ua/industries/logistics",
+				"image": "/images/industries/logistics.webp"
+			}
+		]
+	},
+	"featuredEquipment": {
+		"title": "Рекомендоване обладнання",
+		"description": "Наші найпопулярніші рішення",
+		"equipmentIds": ["checkweigher-ema-300", "metal-detector-md-500", "xray-inspector-xi-700"]
+	},
+	"whyChooseUs": {
+		"title": "Чому обирають OCS",
+		"benefits": [
+			{
+				"icon": "award",
+				"title": "Лідер галузі",
+				"description": "Понад 30 років досвіду у сфері промислового обладнання"
+			},
+			{
+				"icon": "shield-check",
+				"title": "Гарантія якості",
+				"description": "Сертифікація ISO та суворі стандарти тестування"
+			},
+			{
+				"icon": "headphones",
+				"title": "Експертна підтримка",
+				"description": "Технічна підтримка та сервісне обслуговування 24/7"
+			},
+			{
+				"icon": "globe",
+				"title": "Міжнародна присутність",
+				"description": "Працюємо з клієнтами по всій Європі та за її межами"
+			}
+		]
+	},
+	"contactForm": {
+		"title": "Зв’яжіться з нами",
+		"description": "Маєте запитання? Ми готові допомогти.",
+		"fields": {
+			"name": "Повне ім’я",
+			"email": "Електронна пошта",
+			"phone": "Номер телефону",
+			"message": "Ваше повідомлення"
+		},
+		"submitButton": "Надіслати повідомлення",
+		"successMessage": "Дякуємо! Ми зв’яжемося з вами найближчим часом.",
+		"errorMessage": "Щось пішло не так. Спробуйте ще раз."
+	}
+}
