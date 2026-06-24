@@ -26,7 +26,6 @@ const [homepage, navigation, siteConfig] = await Promise.all([
 		<IndustriesSection content={homepage.industries} />
 		<FeaturedEquipment content={homepage.featuredEquipment} />
 		<WhyChooseUs content={homepage.whyChooseUs} />
-		<ContactForm client:load content={homepage.contactForm} />
 	</main>
 	<Footer navigation={navigation.footer} siteConfig={siteConfig} />
 </Layout>
