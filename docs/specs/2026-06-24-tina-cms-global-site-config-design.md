@@ -78,6 +78,8 @@ src/content/
 
 **Implementation:**
 
+> **Note:** TinaCMS v3.x uses collections with `ui: { global: true }` to create global forms, not a separate `globals` array. This is different from TinaCMS v1.x documentation.
+
 ```typescript
 export default defineConfig({
   branch,
@@ -96,13 +98,20 @@ export default defineConfig({
   schema: {
     collections: [
       // Homepage, Navigation, Posts collections remain unchanged
-    ],
-    globals: [
+
+      // Site Configuration (English) - Global Form
       {
         name: "siteConfigEn",
         label: "Site Configuration (English)",
         path: "src/content/en",
         format: "json",
+        ui: {
+          global: true,  // Makes this a global form
+          allowedActions: {
+            create: false,
+            delete: false,
+          },
+        },
         match: {
           include: "site-config",
         },
@@ -254,11 +263,20 @@ export default defineConfig({
           },
         ],
       },
+
+      // Site Configuration (Ukrainian) - Global Form
       {
         name: "siteConfigUa",
         label: "Site Configuration (Ukrainian)",
         path: "src/content/ua",
         format: "json",
+        ui: {
+          global: true,  // Makes this a global form
+          allowedActions: {
+            create: false,
+            delete: false,
+          },
+        },
         match: {
           include: "site-config",
         },
