@@ -196,41 +196,6 @@ export default defineConfig({
           },
         ],
       },
-      // Site Config Collection - Multilingual
-      {
-        name: "siteConfig",
-        label: "Site Configuration",
-        path: "src/content",
-        format: "json",
-        match: {
-          include: "{en,ua}/site-config",
-        },
-        fields: [
-          { type: "string", name: "siteName", label: "Site Name", required: true },
-          { type: "string", name: "siteUrl", label: "Site URL" },
-          { type: "string", name: "description", label: "Site Description" },
-          {
-            type: "object",
-            name: "contact",
-            label: "Contact Information",
-            fields: [
-              { type: "string", name: "email", label: "Email" },
-              { type: "string", name: "phone", label: "Phone" },
-              { type: "string", name: "address", label: "Address" },
-            ],
-          },
-          {
-            type: "object",
-            name: "social",
-            label: "Social Media Links",
-            fields: [
-              { type: "string", name: "facebook", label: "Facebook" },
-              { type: "string", name: "linkedin", label: "LinkedIn" },
-              { type: "string", name: "twitter", label: "Twitter" },
-            ],
-          },
-        ],
-      },
       // Demo Post Collection (keep for testing)
       {
         name: "post",
@@ -277,6 +242,160 @@ export default defineConfig({
         ui: {
           router: () => "/tinacms-demo",
         },
+      },
+      // Site Configuration (English) - Global
+      {
+        label: "Site Configuration (English)",
+        name: "siteConfigEn",
+        path: "src/content/en",
+        format: "json",
+        ui: {
+          global: true,
+          allowedActions: {
+            create: false,
+            delete: false,
+          },
+        },
+        match: {
+          include: "site-config",
+        },
+        fields: [
+          {
+            type: "object",
+            label: "Company Information",
+            name: "company",
+            fields: [
+              { type: "string", label: "Company Name", name: "name", required: true },
+              { type: "string", label: "Full Company Name", name: "fullName", required: true },
+              { type: "string", label: "Tagline", name: "tagline" },
+              { type: "string", label: "Description", name: "description", ui: { component: "textarea" } },
+            ],
+          },
+          {
+            type: "object",
+            label: "Contact Information",
+            name: "contact",
+            fields: [
+              { type: "string", label: "Phone", name: "phone", required: true },
+              { type: "string", label: "Email", name: "email", required: true },
+              {
+                type: "object",
+                label: "Address",
+                name: "address",
+                fields: [
+                  { type: "string", label: "Street", name: "street" },
+                  { type: "string", label: "City", name: "city" },
+                  { type: "string", label: "Country", name: "country" },
+                  { type: "string", label: "Postal Code", name: "postalCode" },
+                ],
+              },
+            ],
+          },
+          {
+            type: "object",
+            label: "Social Media",
+            name: "social",
+            fields: [
+              { type: "string", label: "Facebook", name: "facebook" },
+              { type: "string", label: "LinkedIn", name: "linkedin" },
+              { type: "string", label: "Instagram", name: "instagram" },
+              { type: "string", label: "YouTube", name: "youtube" },
+            ],
+          },
+          {
+            type: "object",
+            label: "SEO Settings",
+            name: "seo",
+            fields: [
+              { type: "string", label: "Default Title", name: "title" },
+              { type: "string", label: "Default Description", name: "description", ui: { component: "textarea" } },
+              { type: "string", label: "Keywords", name: "keywords", list: true },
+              { type: "string", label: "OG Image", name: "ogImage" },
+            ],
+          },
+          {
+            type: "string",
+            label: "Copyright Text",
+            name: "copyright",
+          },
+        ],
+      },
+      // Site Configuration (Ukrainian) - Global Form
+      {
+        label: "Site Configuration (Ukrainian)",
+        name: "siteConfigUa",
+        path: "src/content/ua",
+        format: "json",
+        ui: {
+          global: true,
+          allowedActions: {
+            create: false,
+            delete: false,
+          },
+        },
+        match: {
+          include: "site-config",
+        },
+        fields: [
+          {
+            type: "object",
+            label: "Company Information",
+            name: "company",
+            fields: [
+              { type: "string", label: "Company Name", name: "name", required: true },
+              { type: "string", label: "Full Company Name", name: "fullName", required: true },
+              { type: "string", label: "Tagline", name: "tagline" },
+              { type: "string", label: "Description", name: "description", ui: { component: "textarea" } },
+            ],
+          },
+          {
+            type: "object",
+            label: "Contact Information",
+            name: "contact",
+            fields: [
+              { type: "string", label: "Phone", name: "phone", required: true },
+              { type: "string", label: "Email", name: "email", required: true },
+              {
+                type: "object",
+                label: "Address",
+                name: "address",
+                fields: [
+                  { type: "string", label: "Street", name: "street" },
+                  { type: "string", label: "City", name: "city" },
+                  { type: "string", label: "Country", name: "country" },
+                  { type: "string", label: "Postal Code", name: "postalCode" },
+                ],
+              },
+            ],
+          },
+          {
+            type: "object",
+            label: "Social Media",
+            name: "social",
+            fields: [
+              { type: "string", label: "Facebook", name: "facebook" },
+              { type: "string", label: "LinkedIn", name: "linkedin" },
+              { type: "string", label: "Instagram", name: "instagram" },
+              { type: "string", label: "YouTube", name: "youtube" },
+            ],
+          },
+          {
+            type: "object",
+            label: "SEO Settings",
+            name: "seo",
+            fields: [
+              { type: "string", label: "Default Title", name: "title" },
+              { type: "string", label: "Default Description", name: "description", ui: { component: "textarea" } },
+              { type: "string", label: "Keywords", name: "keywords", list: true },
+              { type: "string", label: "OG Image", name: "ogImage" },
+            ],
+          },
+          {
+            type: "string",
+            label: "Copyright Text",
+            name: "copyright",
+          },
+        ],
       },
     ],
   },

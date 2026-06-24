@@ -34,6 +34,8 @@ const socialLinks = [
 		icon: Play,
 	},
 ].filter((item) => Boolean(item.href));
+
+const currentYear = new Date().getFullYear();
 ---
 
 <footer class="bg-slate-950 text-slate-100">
@@ -122,7 +124,7 @@ const socialLinks = [
 		<Separator className="my-8 bg-slate-800" />
 
 		<div class="flex flex-col gap-3 text-sm text-slate-400 md:flex-row md:items-center md:justify-between">
-			<p>{siteConfig.copyright}</p>
+			<p>@ {currentYear} {siteConfig.copyright}</p>
 			<p>{siteConfig.company.fullName}</p>
 		</div>
 	</div>
