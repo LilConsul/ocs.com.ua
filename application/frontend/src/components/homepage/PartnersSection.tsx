@@ -36,7 +36,7 @@ interface Props {
 	lang: "en" | "ua";
 }
 
-const SECONDS_PER_LOGO = 15; // higher = slower; tune this one number to taste
+const SCROLL_SPEED = 50; // pixels per second; lower = slower, higher = faster
 
 function PartnerScroller({
 	partners,
@@ -52,9 +52,12 @@ function PartnerScroller({
 	// is no seam to see and nothing ever needs to be re-measured or reset.
 	const items = [...partners, ...partners];
 
-	// Fixed, derived once from props — never changes after mount, so the
-	// animation is never restarted mid-flight.
-	const duration = partners.length * SECONDS_PER_LOGO;
+	// Calculate duration based on a constant scroll speed for smooth animation
+	// Approximate width per logo: 150px (logo + padding + gap)
+	// Animation moves 50% of total width (because we duplicate the array)
+	const approximateLogoWidth = 150;
+	const totalWidth = partners.length * approximateLogoWidth;
+	const duration = totalWidth / SCROLL_SPEED;
 
 	return (
 		<div
