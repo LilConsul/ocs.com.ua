@@ -1,10 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 
 interface Partner {
-	name: {
-		en: string;
-		ua: string;
-	};
+	name: { en: string; ua: string };
 	website: string;
 	logo: string;
 }
@@ -39,6 +36,8 @@ interface Props {
 	lang: "en" | "ua";
 }
 
+const SECONDS_PER_LOGO = 15; // higher = slower; tune this one number to taste
+
 function PartnerScroller({
 	partners,
 	lang,
@@ -48,26 +47,34 @@ function PartnerScroller({
 	lang: "en" | "ua";
 	reverse?: boolean;
 }) {
-	// Duplicate partners array for seamless infinite scroll
-	const duplicatedPartners = [...partners, ...partners];
+	// Exactly 2 copies + a -50% keyframe is mathematically exact: the point
+	// where copy 1 ends is pixel-identical to where copy 2 begins, so there
+	// is no seam to see and nothing ever needs to be re-measured or reset.
+	const items = [...partners, ...partners];
 
-	// Calculate duration based on number of items to maintain consistent speed
-	// ~150px per logo + gap, target 50px/second = 6s per logo
-	const duration = partners.length * 6;
+	// Fixed, derived once from props — never changes after mount, so the
+	// animation is never restarted mid-flight.
+	const duration = partners.length * SECONDS_PER_LOGO;
 
 	return (
-		<div className="border-border/50 relative w-full overflow-hidden border-y py-8">
+		<div
+			className="border-border/50 relative w-full overflow-hidden border-y py-8"
+			style={{
+				WebkitMaskImage: "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+				maskImage: "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+			}}
+		>
 			<div
 				className={`logo-scroller flex w-fit gap-12 ${reverse ? "logo-scroller-reverse" : ""}`}
 				style={{ animationDuration: `${duration}s` }}
 			>
-				{duplicatedPartners.map((partner, index) => (
+				{items.map((partner, index) => (
 					<a
 						key={`${partner.name[lang]}-${index}`}
 						href={partner.website}
 						target="_blank"
 						rel="noopener noreferrer"
-						className="flex h-12 shrink-0 items-center px-6 opacity-70 grayscale transition-all duration-500 hover:opacity-100 hover:grayscale-0"
+						className="group flex h-12 shrink-0 items-center px-6 opacity-70 grayscale transition-all duration-300 ease-out hover:-translate-y-0.5 hover:opacity-100 hover:drop-shadow-md hover:grayscale-0"
 					>
 						<img
 							src={partner.logo}
@@ -87,35 +94,33 @@ export function PartnersSection({ partnersByCategory, translations, lang }: Prop
 		<section className="bg-muted/50 relative overflow-hidden py-24 md:py-32">
 			<div className="relative z-10 mx-auto max-w-7xl px-8">
 				<div className="mb-16 text-center">
-					<div className="text-primary mb-4 font-mono text-[12px] leading-[16px] font-medium tracking-[0.05em] uppercase">
+					<div className="text-primary mb-4 font-mono text-[12px] leading-4 font-medium tracking-wider uppercase">
 						{translations.label}
 					</div>
-					<h2 className="font-heading text-foreground mb-6 text-[40px] leading-[48px] font-semibold tracking-tight md:text-[64px] md:leading-[72px] md:tracking-[-0.02em]">
+					<h2 className="font-heading text-foreground mb-6 text-[40px] leading-12 font-semibold tracking-tight md:text-[64px] md:leading-18 md:tracking-[-0.02em]">
 						{translations.title}
 					</h2>
-					<p className="text-muted-foreground mx-auto max-w-2xl text-[18px] leading-[28px]">
+					<p className="text-muted-foreground mx-auto max-w-2xl text-[18px] leading-7">
 						{translations.description}
 					</p>
 				</div>
 
-				{/* Multiple Logo Scrollers by Category */}
 				<div className="mb-16 space-y-0">
 					<PartnerScroller partners={partnersByCategory.food} lang={lang} />
 					<PartnerScroller partners={partnersByCategory.household} lang={lang} reverse={true} />
 					<PartnerScroller partners={partnersByCategory.pharma} lang={lang} />
 				</div>
 
-				{/* Stats Cards */}
 				<div className="grid grid-cols-1 gap-6 md:grid-cols-3">
 					<Card className="border-border/50 bg-card rounded-xl border p-8 shadow-sm">
 						<CardContent className="p-0">
-							<div className="font-heading text-primary mb-2 text-[64px] leading-[72px] font-semibold tracking-[-0.02em]">
+							<div className="font-heading text-primary mb-2 text-[64px] leading-18 font-semibold tracking-[-0.02em]">
 								{translations.installationsValue}
 							</div>
-							<div className="text-muted-foreground mb-4 font-mono text-[12px] leading-[16px] font-medium tracking-[0.05em] uppercase">
+							<div className="text-muted-foreground mb-4 font-mono text-[12px] leading-4 font-medium tracking-wider uppercase">
 								{translations.installations}
 							</div>
-							<p className="text-muted-foreground text-[16px] leading-[24px]">
+							<p className="text-muted-foreground text-[16px] leading-6">
 								{translations.installationsDescription}
 							</p>
 						</CardContent>
@@ -123,13 +128,13 @@ export function PartnersSection({ partnersByCategory, translations, lang }: Prop
 
 					<Card className="border-border/50 bg-card rounded-xl border p-8 shadow-sm">
 						<CardContent className="p-0">
-							<div className="font-heading text-primary mb-2 text-[64px] leading-[72px] font-semibold tracking-[-0.02em]">
+							<div className="font-heading text-primary mb-2 text-[64px] leading-18 font-semibold tracking-[-0.02em]">
 								{translations.experienceValue}
 							</div>
-							<div className="text-muted-foreground mb-4 font-mono text-[12px] leading-[16px] font-medium tracking-[0.05em] uppercase">
+							<div className="text-muted-foreground mb-4 font-mono text-[12px] leading-4 font-medium tracking-wider uppercase">
 								{translations.experience}
 							</div>
-							<p className="text-muted-foreground text-[16px] leading-[24px]">
+							<p className="text-muted-foreground text-[16px] leading-6">
 								{translations.experienceDescription}
 							</p>
 						</CardContent>
@@ -137,13 +142,13 @@ export function PartnersSection({ partnersByCategory, translations, lang }: Prop
 
 					<Card className="border-border/50 bg-card rounded-xl border p-8 shadow-sm">
 						<CardContent className="p-0">
-							<div className="font-heading text-primary mb-2 text-[64px] leading-[72px] font-semibold tracking-[-0.02em]">
+							<div className="font-heading text-primary mb-2 text-[64px] leading-18 font-semibold tracking-[-0.02em]">
 								{translations.retentionValue}
 							</div>
-							<div className="text-muted-foreground mb-4 font-mono text-[12px] leading-[16px] font-medium tracking-[0.05em] uppercase">
+							<div className="text-muted-foreground mb-4 font-mono text-[12px] leading-4 font-medium tracking-wider uppercase">
 								{translations.retention}
 							</div>
-							<p className="text-muted-foreground text-[16px] leading-[24px]">
+							<p className="text-muted-foreground text-[16px] leading-6">
 								{translations.retentionDescription}
 							</p>
 						</CardContent>
@@ -153,30 +158,36 @@ export function PartnersSection({ partnersByCategory, translations, lang }: Prop
 
 			<style>{`
 				@keyframes scroll {
-					0% {
-						transform: translateX(0);
-					}
-					100% {
-						transform: translateX(-50%);
-					}
+					0% { transform: translate3d(0, 0, 0); }
+					100% { transform: translate3d(-50%, 0, 0); }
 				}
 				@keyframes scrollReverse {
-					0% {
-						transform: translateX(-50%);
-					}
-					100% {
-						transform: translateX(0);
-					}
+					0% { transform: translate3d(-50%, 0, 0); }
+					100% { transform: translate3d(0, 0, 0); }
 				}
 				.logo-scroller {
-					animation: scroll linear infinite;
+					animation-name: scroll;
+					animation-timing-function: linear;
+					animation-iteration-count: infinite;
+					will-change: transform;
 				}
 				.logo-scroller-reverse {
-					animation: scrollReverse linear infinite;
+					animation-name: scrollReverse;
+					animation-timing-function: linear;
+					animation-iteration-count: infinite;
+					will-change: transform;
 				}
 				.logo-scroller:hover,
 				.logo-scroller-reverse:hover {
 					animation-play-state: paused;
+				}
+				@media (prefers-reduced-motion: reduce) {
+					.logo-scroller,
+					.logo-scroller-reverse {
+						animation: none !important;
+						flex-wrap: wrap;
+						justify-content: center;
+					}
 				}
 			`}</style>
 		</section>
