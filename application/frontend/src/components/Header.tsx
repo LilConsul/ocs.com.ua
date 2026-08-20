@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { ChevronDown, Globe, Menu, X } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
@@ -6,7 +7,6 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Menu, X, Globe, ChevronDown } from "lucide-react";
 import { languages } from "@/i18n";
 
 interface HeaderProps {
@@ -89,7 +89,10 @@ export function Header({ currentLang, translations }: HeaderProps) {
 							strokeLinecap="round"
 							strokeLinejoin="round"
 							className="text-primary-foreground"
+							role="img"
+							aria-label="OS-Technology Logo"
 						>
+							<title>OS-Technology Logo</title>
 							<path d="M8 6v4" />
 							<path d="M12 6v4" />
 							<path d="M16 6v4" />
@@ -98,9 +101,7 @@ export function Header({ currentLang, translations }: HeaderProps) {
 							<rect width="20" height="20" x="2" y="2" rx="2" />
 						</svg>
 					</div>
-					<span className="font-heading font-bold text-xl tracking-tight">
-						OS-TECHNOLOGY
-					</span>
+					<span className="font-heading font-bold text-xl tracking-tight">OS-TECHNOLOGY</span>
 				</a>
 
 				{/* Desktop Navigation */}
@@ -128,9 +129,7 @@ export function Header({ currentLang, translations }: HeaderProps) {
 							>
 								<Globe className="w-4 h-4" />
 								<span>{currentLanguage?.flag}</span>
-								<span className="font-mono uppercase text-xs">
-									{currentLang}
-								</span>
+								<span className="font-mono uppercase text-xs">{currentLang}</span>
 								<ChevronDown className="w-4 h-4 opacity-50" />
 							</Button>
 						</DropdownMenuTrigger>
@@ -167,11 +166,7 @@ export function Header({ currentLang, translations }: HeaderProps) {
 						className="md:hidden"
 						onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
 					>
-						{mobileMenuOpen ? (
-							<X className="w-5 h-5" />
-						) : (
-							<Menu className="w-5 h-5" />
-						)}
+						{mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
 					</Button>
 				</div>
 			</nav>
