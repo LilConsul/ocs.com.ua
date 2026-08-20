@@ -1,8 +1,8 @@
 ---
 import { getTranslations } from "@/i18n";
 import IndustryCard from "./atoms/IndustryCard.astro";
-import IndustryCardSmall from "./atoms/IndustryCardSmall.astro";
 import IndustryCardCTA from "./atoms/IndustryCardCTA.astro";
+import IndustryCardSmall from "./atoms/IndustryCardSmall.astro";
 
 interface Props {
 	lang: "en" | "ua";
@@ -23,11 +23,11 @@ const t = getTranslations(lang);
 		<div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
 			<div class="max-w-2xl">
 				<h2
-					class="font-heading text-foreground mb-4 text-[40px] leading-[48px] font-semibold tracking-tight md:text-[64px] md:leading-[72px] md:tracking-[-0.02em]"
+					class="font-heading text-foreground mb-4 text-[32px] leading-[40px] font-semibold tracking-tight md:text-[48px] md:leading-[56px] md:tracking-[-0.02em]"
 				>
 					{t("industries.title")}
 				</h2>
-				<p class="text-muted-foreground text-[18px] leading-[28px]">
+				<p class="text-muted-foreground text-[14px] leading-[22px]">
 					{t("industries.description")}
 				</p>
 			</div>

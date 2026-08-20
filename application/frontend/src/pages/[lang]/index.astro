@@ -1,12 +1,12 @@
 ---
+import HeroSection from "@/components/homepage/HeroSection.astro";
+import IndustriesSection from "@/components/homepage/IndustriesSection.astro";
+import { PartnersSection } from "@/components/homepage/PartnersSection";
+import StatsSection from "@/components/homepage/StatsSection.astro";
+import partnersData from "@/data/partners.json";
 import { getTranslations } from "@/i18n";
 import { languages } from "@/i18n/ui";
 import Layout from "@/layouts/Layout.astro";
-import HeroSection from "@/components/homepage/HeroSection.astro";
-import StatsSection from "@/components/homepage/StatsSection.astro";
-import IndustriesSection from "@/components/homepage/IndustriesSection.astro";
-import { PartnersSection } from "@/components/homepage/PartnersSection";
-import partnersData from "@/data/partners.json";
 
 export function getStaticPaths() {
 	return Object.keys(languages).map((lang) => ({

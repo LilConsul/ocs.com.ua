@@ -6,7 +6,7 @@ export function loadIcons() {
 	document.querySelectorAll("[data-icon]").forEach((element) => {
 		const iconName = element.getAttribute("data-icon");
 		if (iconName && iconName in LucideIcons) {
-			const Icon = (LucideIcons as any)[iconName];
+			const Icon = LucideIcons[iconName as keyof typeof LucideIcons];
 			const root = createRoot(element);
 			root.render(
 				createElement(Icon, {

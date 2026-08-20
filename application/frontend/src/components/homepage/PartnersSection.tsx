@@ -68,9 +68,9 @@ function PartnerScroller({
 				className={`logo-scroller flex w-fit gap-12 ${reverse ? "logo-scroller-reverse" : ""}`}
 				style={{ animationDuration: `${duration}s` }}
 			>
-				{items.map((partner, index) => (
+				{items.map((partner) => (
 					<a
-						key={`${partner.name[lang]}-${index}`}
+						key={partner.name[lang]}
 						href={partner.website}
 						target="_blank"
 						rel="noopener noreferrer"
@@ -97,10 +97,10 @@ export function PartnersSection({ partnersByCategory, translations, lang }: Prop
 					<div className="text-primary mb-4 font-mono text-[12px] leading-4 font-medium tracking-wider uppercase">
 						{translations.label}
 					</div>
-					<h2 className="font-heading text-foreground mb-6 text-[40px] leading-12 font-semibold tracking-tight md:text-[64px] md:leading-18 md:tracking-[-0.02em]">
+					<h2 className="font-heading text-foreground mb-6 text-[32px] leading-10 font-semibold tracking-tight md:text-[48px] md:leading-14 md:tracking-[-0.02em]">
 						{translations.title}
 					</h2>
-					<p className="text-muted-foreground mx-auto max-w-2xl text-[18px] leading-7">
+					<p className="text-muted-foreground mx-auto max-w-2xl text-[14px] leading-6">
 						{translations.description}
 					</p>
 				</div>
@@ -114,13 +114,13 @@ export function PartnersSection({ partnersByCategory, translations, lang }: Prop
 				<div className="grid grid-cols-1 gap-6 md:grid-cols-3">
 					<Card className="border-border/50 bg-card rounded-xl border p-8 shadow-sm">
 						<CardContent className="p-0">
-							<div className="font-heading text-primary mb-2 text-[64px] leading-18 font-semibold tracking-[-0.02em]">
+							<div className="font-heading text-primary mb-2 text-[48px] leading-14 font-semibold tracking-[-0.02em]">
 								{translations.installationsValue}
 							</div>
 							<div className="text-muted-foreground mb-4 font-mono text-[12px] leading-4 font-medium tracking-wider uppercase">
 								{translations.installations}
 							</div>
-							<p className="text-muted-foreground text-[16px] leading-6">
+							<p className="text-muted-foreground text-[14px] leading-5">
 								{translations.installationsDescription}
 							</p>
 						</CardContent>
@@ -128,13 +128,13 @@ export function PartnersSection({ partnersByCategory, translations, lang }: Prop
 
 					<Card className="border-border/50 bg-card rounded-xl border p-8 shadow-sm">
 						<CardContent className="p-0">
-							<div className="font-heading text-primary mb-2 text-[64px] leading-18 font-semibold tracking-[-0.02em]">
+							<div className="font-heading text-primary mb-2 text-[48px] leading-14 font-semibold tracking-[-0.02em]">
 								{translations.experienceValue}
 							</div>
 							<div className="text-muted-foreground mb-4 font-mono text-[12px] leading-4 font-medium tracking-wider uppercase">
 								{translations.experience}
 							</div>
-							<p className="text-muted-foreground text-[16px] leading-6">
+							<p className="text-muted-foreground text-[14px] leading-5">
 								{translations.experienceDescription}
 							</p>
 						</CardContent>
@@ -142,13 +142,13 @@ export function PartnersSection({ partnersByCategory, translations, lang }: Prop
 
 					<Card className="border-border/50 bg-card rounded-xl border p-8 shadow-sm">
 						<CardContent className="p-0">
-							<div className="font-heading text-primary mb-2 text-[64px] leading-18 font-semibold tracking-[-0.02em]">
+							<div className="font-heading text-primary mb-2 text-[48px] leading-14 font-semibold tracking-[-0.02em]">
 								{translations.retentionValue}
 							</div>
 							<div className="text-muted-foreground mb-4 font-mono text-[12px] leading-4 font-medium tracking-wider uppercase">
 								{translations.retention}
 							</div>
-							<p className="text-muted-foreground text-[16px] leading-6">
+							<p className="text-muted-foreground text-[14px] leading-5">
 								{translations.retentionDescription}
 							</p>
 						</CardContent>
