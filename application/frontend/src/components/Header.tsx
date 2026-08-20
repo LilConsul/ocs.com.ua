@@ -55,27 +55,27 @@ export function Header({ currentLang, translations }: HeaderProps) {
 
 	return (
 		<header
-			className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+			className={`fixed top-0 right-0 left-0 z-50 transition-all duration-300 ${
 				scrolled
-					? "bg-background/80 backdrop-blur-xl border-b border-border shadow-sm"
+					? "bg-background/80 border-border border-b shadow-sm backdrop-blur-xl"
 					: "bg-background/70 backdrop-blur-md"
 			}`}
 		>
-			<nav className="max-w-[1280px] mx-auto px-8 h-20 flex items-center justify-between">
+			<nav className="mx-auto flex h-20 max-w-[1280px] items-center justify-between px-8">
 				{/* Company Name */}
-				<a href={`/${currentLang}`} className="text-foreground hover:opacity-80 transition-opacity">
-					<span className="font-heading font-bold text-xl tracking-tight">
+				<a href={`/${currentLang}`} className="text-foreground transition-opacity hover:opacity-80">
+					<span className="font-heading text-xl font-bold tracking-tight">
 						{currentLang === "en" ? "OS-Technology Ukraine" : "ОС-Технолоджи Україна"}
 					</span>
 				</a>
 
 				{/* Desktop Navigation */}
-				<div className="hidden md:flex items-center gap-8">
+				<div className="hidden items-center gap-8 md:flex">
 					{navLinks.map((link) => (
 						<a
 							key={link.href}
 							href={link.href}
-							className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+							className="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
 						>
 							{link.label}
 						</a>
@@ -85,24 +85,20 @@ export function Header({ currentLang, translations }: HeaderProps) {
 				{/* Right Side Actions */}
 				<div className="flex items-center gap-4">
 					{/* Language Switcher - Desktop */}
-					<div className="hidden md:flex items-center gap-1 p-1 bg-muted/50 rounded-lg border border-border/50">
+					<div className="bg-muted/50 border-border/50 hidden items-center gap-1 rounded-lg border p-1 md:flex">
 						{languageOptions.map((lang) => (
 							<button
 								key={lang.code}
 								type="button"
 								onClick={() => switchLanguage(lang.code)}
-								className={`
-									px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200
-									flex items-center gap-1.5
-									${
-										currentLang === lang.code
-											? "bg-primary text-primary-foreground shadow-sm"
-											: "text-muted-foreground hover:text-foreground hover:bg-background/50"
-									}
-								`}
+								className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-all duration-200 ${
+									currentLang === lang.code
+										? "bg-primary text-primary-foreground shadow-sm"
+										: "text-muted-foreground hover:text-foreground hover:bg-background/50"
+								} `}
 							>
 								<span className="text-base leading-none">{lang.flag}</span>
-								<span className="font-mono text-xs uppercase tracking-wider">{lang.code}</span>
+								<span className="font-mono text-xs tracking-wider uppercase">{lang.code}</span>
 							</button>
 						))}
 					</div>
@@ -114,28 +110,28 @@ export function Header({ currentLang, translations }: HeaderProps) {
 						className="md:hidden"
 						onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
 					>
-						{mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+						{mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
 					</Button>
 				</div>
 			</nav>
 
 			{/* Mobile Menu */}
 			{mobileMenuOpen && (
-				<div className="md:hidden border-t border-border bg-background/95 backdrop-blur-xl">
-					<div className="px-8 py-6 space-y-4">
+				<div className="border-border bg-background/95 border-t backdrop-blur-xl md:hidden">
+					<div className="space-y-4 px-8 py-6">
 						{navLinks.map((link) => (
 							<a
 								key={link.href}
 								href={link.href}
-								className="block py-2 text-base font-medium text-muted-foreground hover:text-foreground transition-colors"
+								className="text-muted-foreground hover:text-foreground block py-2 text-base font-medium transition-colors"
 								onClick={() => setMobileMenuOpen(false)}
 							>
 								{link.label}
 							</a>
 						))}
 
-						<div className="pt-4 border-t border-border space-y-2">
-							<div className="text-xs font-mono uppercase text-muted-foreground mb-3">
+						<div className="border-border space-y-2 border-t pt-4">
+							<div className="text-muted-foreground mb-3 font-mono text-xs uppercase">
 								{translations.language}
 							</div>
 							{languageOptions.map((lang) => (
@@ -146,7 +142,7 @@ export function Header({ currentLang, translations }: HeaderProps) {
 										switchLanguage(lang.code);
 										setMobileMenuOpen(false);
 									}}
-									className={`flex items-center gap-3 w-full py-2 px-3 rounded-lg transition-colors ${
+									className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 transition-colors ${
 										currentLang === lang.code
 											? "bg-accent text-accent-foreground"
 											: "hover:bg-accent/50"

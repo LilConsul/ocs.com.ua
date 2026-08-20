@@ -14,10 +14,12 @@
 		"lint:fix": "biome lint --write .",
 		"format": "biome format .",
 		"format:fix": "biome format --write .",
+		"format:tailwind": "prettier --write \"**/*.{astro,tsx,jsx}\"",
 		"check": "biome check .",
 		"check:fix": "biome check --write .",
-		"ci:fix": "biome check --write . && biome format --write . && biome lint --write .",
-		"ci": "biome ci ."
+		"ci:fix": "biome check --write . && biome format --write . && biome lint --write . && npm run format:tailwind",
+		"ci": "biome ci .",
+		"prepare": "husky || true"
 	},
 	"dependencies": {
 		"@astrojs/react": "^5.0.6",
@@ -43,6 +45,17 @@
 	"devDependencies": {
 		"@astrojs/check": "^0.9.9",
 		"@biomejs/biome": "^2.4.16",
+		"husky": "^9.1.7",
+		"lint-staged": "^17.3.0",
+		"prettier": "^3.9.6",
+		"prettier-plugin-astro": "^0.14.1",
+		"prettier-plugin-tailwindcss": "^0.8.1",
 		"typescript": "^6.0.3"
+	},
+	"lint-staged": {
+		"*.{astro,tsx,jsx,ts,js}": [
+			"biome check --write --no-errors-on-unmatched",
+			"prettier --write --ignore-unknown"
+		]
 	}
 }
