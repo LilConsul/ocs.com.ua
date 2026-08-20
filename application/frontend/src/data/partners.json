@@ -132,6 +132,14 @@
 	"household": [
 		{
 			"name": {
+				"en": "Cement UA",
+				"ua": "Cement UA"
+			},
+			"website": "https://cement.ua",
+			"logo": "TODO:"
+		},
+		{
+			"name": {
 				"en": "Rozetka",
 				"ua": "Розетка"
 			},
@@ -172,6 +180,14 @@
 		}
 	],
 	"pharma": [
+		{
+			"name": {
+				"en": "BaDM",
+				"ua": "БаДМ"
+			},
+			"website": "https://www.badm.ua",
+			"logo": "TODO:"
+		},
 		{
 			"name": {
 				"en": "Yuria-Pharm",

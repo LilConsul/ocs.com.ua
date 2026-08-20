@@ -10,7 +10,7 @@ export const ui = {
 		// === Site Metadata ===
 		"site.title": "OS-Technology Ukraine | Industrial Weighing & Inspection Systems",
 		"site.description":
-			"Dynamic checkweighers, metal detectors, and X-ray inspection systems for food, pharmaceutical, and logistics industries in Ukraine",
+			"Dynamic checkweighers, serialization and aggregation systems for food, pharmaceutical, and logistics industries in Ukraine",
 
 		// === Navigation ===
 		"nav.catalogue": "Products",
@@ -25,7 +25,7 @@ export const ui = {
 		"hero.title": "High-Speed Dynamic Weighing Systems",
 		"hero.titleHighlight": "German Quality in Ukraine",
 		"hero.description":
-			"Fast and precise checkweighers, metal detectors, and X-ray scanners for food, pharma, and logistics. Over 500 installations across Ukraine since 2015.",
+			"Precision dynamic checkweighers, serialization and aggregation systems for food, pharma, and logistics. Over 300 installations across Ukraine since 2013.",
 		"hero.exploreCta": "View Products",
 		"hero.contactSales": "Contact Us",
 		"hero.imageAlt": "Industrial checkweigher equipment",
@@ -40,9 +40,9 @@ export const ui = {
 		"features.checkweighers.title": "Dynamic Checkweighers",
 		"features.checkweighers.description":
 			"High-speed dynamic weighing for quality control and product sorting on production lines.",
-		"features.xray.title": "X-Ray Inspection Systems",
+		"features.xray.title": "Serialization & Aggregation",
 		"features.xray.description":
-			"Detect metal, glass, stone, and dense plastic contaminants in packaged products.",
+			"Track & Trace systems for pharmaceutical compliance and supply chain transparency.",
 		"features.metalDetectors.title": "Metal Detectors",
 		"features.metalDetectors.description":
 			"Multi-frequency metal detection for food safety and product purity standards.",
@@ -77,17 +77,17 @@ export const ui = {
 		"partners.label": "Our Clients",
 		"partners.title": "Trusted by Leading Ukrainian Manufacturers",
 		"partners.description":
-			"We supply and service weighing systems for major food, pharmaceutical, and chemical companies across Ukraine since 2015.",
+			"We supply and service weighing systems for major food, pharmaceutical, and chemical companies across Ukraine since 2013.",
 		"partners.categoryFood": "Food Industry",
 		"partners.categoryHousehold": "Household Products",
 		"partners.categoryPharma": "Pharmaceutical",
 		"partners.installations": "Installations",
-		"partners.installationsValue": "500+",
+		"partners.installationsValue": "300+",
 		"partners.installationsDescription":
 			"Systems installed at manufacturing facilities across Ukraine.",
 		"partners.experience": "Years Experience",
-		"partners.experienceValue": "9+",
-		"partners.experienceDescription": "Technical expertise and service support since 2015.",
+		"partners.experienceValue": "10+",
+		"partners.experienceDescription": "Technical expertise and service support since 2013.",
 		"partners.retention": "Client Retention",
 		"partners.retentionValue": "98%",
 		"partners.retentionDescription": "Long-term partnerships through reliable support and service.",
@@ -96,7 +96,7 @@ export const ui = {
 		// === Метадані сайту ===
 		"site.title": "ОС-Технолоджи Україна | Системи Зважування та Контролю",
 		"site.description":
-			"Динамічні чекові ваги, металодетектори та рентген-сканери для харчової, фармацевтичної та логістичної промисловості",
+			"Динамічні чекові ваги та системи серіалізації і агрегації для харчової, фармацевтичної та логістичної промисловості",
 
 		// === Навігація ===
 		"nav.catalogue": "Продукція",
@@ -111,7 +111,7 @@ export const ui = {
 		"hero.title": "Швидкі системи динамічного зважування",
 		"hero.titleHighlight": "Німецька якість в Україні",
 		"hero.description":
-			"Точні чекові ваги, металодетектори та рентген-сканери для харчової, фармацевтичної та логістичної галузей. Понад 500 встановлених рішень в Україні з 2015 року.",
+			"Точні контрольні динамічні ваги та системи серіалізації і агрегації для харчової, фармацевтичної та логістичної галузей. Понад 300 встановлених рішень в Україні з 2013 року.",
 		"hero.exploreCta": "Дивитись продукцію",
 		"hero.contactSales": "Зв'язатися з нами",
 		"hero.imageAlt": "Промислові чекові ваги",
@@ -126,9 +126,9 @@ export const ui = {
 		"features.checkweighers.title": "Динамічні чекові ваги",
 		"features.checkweighers.description":
 			"Високошвидкісне зважування для контролю якості та сортування на виробничих лініях.",
-		"features.xray.title": "Рентген-сканери",
+		"features.xray.title": "Системи серіалізації та агрегації",
 		"features.xray.description":
-			"Виявлення сторонніх включень: металу, скла, каменю та щільного пластику в упакованій продукції.",
+			"Track & Trace системи для фармацевтичної відповідності та прозорості ланцюга постачання.",
 		"features.metalDetectors.title": "Металодетектори",
 		"features.metalDetectors.description":
 			"Багаточастотне виявлення металу для харчової безпеки та захисту продукції.",
@@ -163,16 +163,16 @@ export const ui = {
 		"partners.label": "Наші клієнти",
 		"partners.title": "Нам довіряють провідні українські виробники",
 		"partners.description":
-			"Постачаємо та обслуговуємо системи зважування для великих харчових, фармацевтичних та хімічних компаній України з 2015 року.",
+			"Постачаємо та обслуговуємо системи зважування для великих харчових, фармацевтичних та хімічних компаній України з 2013 року.",
 		"partners.categoryFood": "Харчова промисловість",
 		"partners.categoryHousehold": "Побутова хімія",
 		"partners.categoryPharma": "Фармацевтика",
 		"partners.installations": "Встановлень",
-		"partners.installationsValue": "500+",
+		"partners.installationsValue": "300+",
 		"partners.installationsDescription": "Систем встановлено на виробництвах по всій Україні.",
 		"partners.experience": "Років досвіду",
-		"partners.experienceValue": "9+",
-		"partners.experienceDescription": "Технічна експертиза та сервісна підтримка з 2015 року.",
+		"partners.experienceValue": "10+",
+		"partners.experienceDescription": "Технічна експертиза та сервісна підтримка з 2013 року.",
 		"partners.retention": "Повторні звернення",
 		"partners.retentionValue": "98%",
 		"partners.retentionDescription": "Довгострокові партнерства завдяки надійному сервісу.",
