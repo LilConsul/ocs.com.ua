@@ -1,6 +1,5 @@
 ---
 import { getTranslations } from "@/i18n";
-import StatCard from "./atoms/StatCard.astro";
 
 interface Props {
 	lang: "en" | "ua";
@@ -15,9 +14,33 @@ const t = getTranslations(lang);
 		<div
 			class="divide-border grid grid-cols-1 gap-12 divide-y md:grid-cols-3 md:divide-x md:divide-y-0"
 		>
-			<StatCard value="50+" label={t("stats.clients")} />
-			<StatCard value="10+" label={t("stats.experience")} />
-			<StatCard value="500+" label={t("stats.installations")} />
+			<div class="flex flex-col items-center pt-8 text-center first:pt-0 md:pt-0">
+				<span class="font-heading text-primary mb-2 text-[36px] leading-[44px] font-bold"
+					>50+</span
+				>
+				<span
+					class="text-industrial-gray font-mono text-[12px] leading-[16px] font-medium tracking-widest uppercase"
+					>{t("stats.clients")}</span
+				>
+			</div>
+			<div class="flex flex-col items-center pt-8 text-center md:pt-0">
+				<span class="font-heading text-primary mb-2 text-[36px] leading-[44px] font-bold"
+					>10+</span
+				>
+				<span
+					class="text-industrial-gray font-mono text-[12px] leading-[16px] font-medium tracking-widest uppercase"
+					>{t("stats.experience")}</span
+				>
+			</div>
+			<div class="flex flex-col items-center pt-8 text-center md:pt-0">
+				<span class="font-heading text-primary mb-2 text-[36px] leading-[44px] font-bold"
+					>500+</span
+				>
+				<span
+					class="text-industrial-gray font-mono text-[12px] leading-[16px] font-medium tracking-widest uppercase"
+					>{t("stats.installations")}</span
+				>
+			</div>
 		</div>
 	</div>
 </section>
