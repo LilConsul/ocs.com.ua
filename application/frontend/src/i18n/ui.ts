@@ -15,16 +15,17 @@ export const ui = {
 		"nav.solutions": "Solutions",
 		"nav.industries": "Industries",
 		"nav.about": "About Us",
-		"nav.contactSales": "Contact Sales",
 		"nav.language": "Language",
 
 		// Hero
 		"hero.badge": "Authorized Wipotec Partner",
+		"hero.badgeMesutronic": "Authorized Mesutronic Partner",
 		"hero.title": "Precision in Every Gram.",
 		"hero.titleHighlight": "Absolute Control.",
 		"hero.description":
 			"Advanced weighing and inspection systems engineered for flawless production lines. Ensuring compliance, quality, and supreme efficiency for global manufacturers.",
 		"hero.exploreCta": "Explore Equipment",
+		"hero.contactSales": "Contact Sales",
 
 		// Misc
 		"home.title": "Hello World!",
@@ -40,16 +41,17 @@ export const ui = {
 		"nav.solutions": "Рішення",
 		"nav.industries": "Галузі",
 		"nav.about": "Про нас",
-		"nav.contactSales": "Зв'язатися з відділом продажу",
 		"nav.language": "Мова",
 
 		// Hero
 		"hero.badge": "Авторизований партнер Wipotec",
+		"hero.badgeMesutronic": "Авторизований партнер Mesutronic",
 		"hero.title": "Точність у кожному грамі.",
 		"hero.titleHighlight": "Абсолютний контроль.",
 		"hero.description":
 			"Передові системи зважування та інспекції, створені для бездоганних виробничих ліній. Забезпечення відповідності, якості та максимальної ефективності для світових виробників.",
 		"hero.exploreCta": "Переглянути обладнання",
+		"hero.contactSales": "Зв'язатися з відділом продажу",
 
 		// Misc
 		"home.title": "Привіт Світ!",

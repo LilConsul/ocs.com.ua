@@ -9,7 +9,6 @@ interface HeaderProps {
 		solutions: string;
 		industries: string;
 		about: string;
-		contactSales: string;
 		language: string;
 	};
 }
@@ -63,36 +62,11 @@ export function Header({ currentLang, translations }: HeaderProps) {
 			}`}
 		>
 			<nav className="max-w-[1280px] mx-auto px-8 h-20 flex items-center justify-between">
-				{/* Logo */}
-				<a
-					href={`/${currentLang}`}
-					className="flex items-center gap-2 text-foreground hover:opacity-80 transition-opacity"
-				>
-					<div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="16"
-							height="16"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							strokeWidth="2"
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							className="text-primary-foreground"
-							role="img"
-							aria-label="OS-Technology Logo"
-						>
-							<title>OS-Technology Logo</title>
-							<path d="M8 6v4" />
-							<path d="M12 6v4" />
-							<path d="M16 6v4" />
-							<path d="M4 14h16" />
-							<path d="M8 18h8" />
-							<rect width="20" height="20" x="2" y="2" rx="2" />
-						</svg>
-					</div>
-					<span className="font-heading font-bold text-xl tracking-tight">OS-TECHNOLOGY</span>
+				{/* Company Name */}
+				<a href={`/${currentLang}`} className="text-foreground hover:opacity-80 transition-opacity">
+					<span className="font-heading font-bold text-xl tracking-tight">
+						{currentLang === "en" ? "OS-Technology Ukraine" : "ОС-Технолоджи Україна"}
+					</span>
 				</a>
 
 				{/* Desktop Navigation */}
@@ -132,11 +106,6 @@ export function Header({ currentLang, translations }: HeaderProps) {
 							</button>
 						))}
 					</div>
-
-					{/* Contact Sales Button */}
-					<Button asChild size="sm" className="font-medium">
-						<a href={`/${currentLang}#contact`}>{translations.contactSales}</a>
-					</Button>
 
 					{/* Mobile Menu Toggle */}
 					<Button

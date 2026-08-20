@@ -15,28 +15,52 @@ const t = getTranslations(lang as "en" | "ua");
 
 <Layout title={t("site.title")} description={t("site.description")}>
 	<!-- Hero Section -->
-	<section
-		class="relative min-h-[720px] flex items-center overflow-hidden bg-gradient-to-br from-background via-background to-muted"
-	>
-		<div class="max-w-[1280px] mx-auto px-8 w-full grid grid-cols-12 gap-6">
-			<div
-				class="col-span-12 md:col-span-8 lg:col-span-7 flex flex-col gap-8 py-20"
-			>
-				<!-- Badge -->
-				<div
-					class="inline-flex items-center gap-2 bg-muted border border-border px-4 py-1.5 rounded-full w-fit"
-				>
-					<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-					<span
-						class="font-mono text-xs text-muted-foreground uppercase tracking-wider"
+	<section class="relative min-h-180 flex items-center overflow-hidden">
+		<!-- Background Image -->
+		<div class="absolute inset-0 z-0">
+			<img
+				src="/images/main_page.webp"
+				alt={lang === "ua" ? "Промислове обладнання для контролю якості" : "Industrial quality inspection equipment"}
+				class="ml-4 w-full h-full object-cover"
+				loading="eager"
+			/>
+		</div>
+
+		<!-- Gradient Overlay - More white on left, less on right -->
+		<div
+			class="absolute inset-0 z-10 bg-gradient-to-r from-background via-background to-transparent"
+		></div>
+
+		<!-- Content -->
+		<div class="relative z-20 max-w-[1280px] mx-auto px-8 w-full py-20">
+			<div class="max-w-2xl">
+				<!-- Badges -->
+				<div class="flex flex-wrap items-center gap-3 mb-8">
+					<div
+						class="inline-flex items-center gap-2 bg-background/90 backdrop-blur-sm border border-border px-4 py-1 rounded-full"
 					>
-						{t("hero.badge")}
-					</span>
+						<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+						<span
+							class="font-mono text-[12px] leading-[16px] tracking-[0.05em] font-medium text-muted-foreground uppercase"
+						>
+							{t("hero.badge")}
+						</span>
+					</div>
+					<div
+						class="inline-flex items-center gap-2 bg-background/90 backdrop-blur-sm border border-border px-4 py-1 rounded-full"
+					>
+						<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+						<span
+							class="font-mono text-[12px] leading-4 tracking-wider font-medium text-muted-foreground uppercase"
+						>
+							{t("hero.badgeMesutronic")}
+						</span>
+					</div>
 				</div>
 
 				<!-- Title -->
 				<h1
-					class="font-heading font-bold text-5xl md:text-6xl lg:text-7xl tracking-tight leading-tight"
+					class="font-heading text-[40px] md:text-[64px] leading-12 md:leading-18 tracking-[-0.02em] font-semibold mb-8"
 				>
 					{t("hero.title")}
 					<br />
@@ -44,19 +68,17 @@ const t = getTranslations(lang as "en" | "ua");
 				</h1>
 
 				<!-- Description -->
-				<p
-					class="text-lg md:text-xl text-muted-foreground max-w-xl leading-relaxed"
-				>
+				<p class="text-[18px] leading-7 text-muted-foreground mb-12">
 					{t("hero.description")}
 				</p>
 
-				<!-- CTAs -->
-				<div class="flex flex-col sm:flex-row gap-4 pt-4">
+				<!-- CTA -->
+				<div class="flex flex-col sm:flex-row gap-4">
 					<a
-						href={`/${lang}#contact`}
+						href={`/${lang}#catalogue`}
 						class="inline-flex items-center justify-center px-8 py-4 bg-primary text-primary-foreground rounded-lg font-medium hover:opacity-90 transition-opacity"
 					>
-						{t("nav.contactSales")}
+						{t("hero.exploreCta")}
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							width="20"
@@ -73,22 +95,7 @@ const t = getTranslations(lang as "en" | "ua");
 							<path d="m12 5 7 7-7 7" />
 						</svg>
 					</a>
-					<a
-						href={`/${lang}#catalogue`}
-						class="inline-flex items-center justify-center px-8 py-4 border-2 border-primary text-primary rounded-lg font-medium hover:bg-primary/5 transition-colors"
-					>
-						{t("hero.exploreCta")}
-					</a>
 				</div>
-			</div>
-		</div>
-
-		<!-- Decorative Grid -->
-		<div class="absolute inset-0 -z-10 opacity-10">
-			<div
-				class="absolute inset-0"
-				style="background-image: radial-gradient(circle, currentColor 1px, transparent 1px); background-size: 40px 40px;"
-			>
 			</div>
 		</div>
 	</section>
@@ -102,29 +109,29 @@ const t = getTranslations(lang as "en" | "ua");
 				<div
 					class="flex flex-col items-center text-center pt-8 md:pt-0 first:pt-0"
 				>
-					<span class="font-heading font-bold text-5xl text-foreground mb-2"
+					<span class="font-heading font-bold text-[36px] leading-[44px] text-foreground mb-2"
 						>50+</span
 					>
 					<span
-						class="font-mono text-xs text-muted-foreground uppercase tracking-widest"
+						class="font-mono text-[12px] leading-[16px] tracking-[0.05em] font-medium text-muted-foreground uppercase"
 						>{lang === "ua" ? "Обслужених клієнтів" : "Clients Served"}</span
 					>
 				</div>
 				<div class="flex flex-col items-center text-center pt-8 md:pt-0">
-					<span class="font-heading font-bold text-5xl text-foreground mb-2"
+					<span class="font-heading font-bold text-[36px] leading-[44px] text-foreground mb-2"
 						>10+</span
 					>
 					<span
-						class="font-mono text-xs text-muted-foreground uppercase tracking-widest"
+						class="font-mono text-[12px] leading-[16px] tracking-[0.05em] font-medium text-muted-foreground uppercase"
 						>{lang === "ua" ? "Років досвіду" : "Years Experience"}</span
 					>
 				</div>
 				<div class="flex flex-col items-center text-center pt-8 md:pt-0">
-					<span class="font-heading font-bold text-5xl text-foreground mb-2"
+					<span class="font-heading font-bold text-[36px] leading-[44px] text-foreground mb-2"
 						>500+</span
 					>
 					<span
-						class="font-mono text-xs text-muted-foreground uppercase tracking-widest"
+						class="font-mono text-[12px] leading-[16px] tracking-[0.05em] font-medium text-muted-foreground uppercase"
 						>{lang === "ua" ? "Встановлень" : "Installations"}</span
 					>
 				</div>
@@ -136,7 +143,7 @@ const t = getTranslations(lang as "en" | "ua");
 	<section id="catalogue" class="py-24 max-w-[1280px] mx-auto px-8">
 		<div class="text-center mb-16">
 			<h2
-				class="font-heading font-bold text-4xl md:text-5xl text-foreground mb-4 tracking-tight"
+				class="font-heading font-medium text-[36px] leading-[44px] text-foreground mb-4 tracking-tight"
 			>
 				{
 					lang === "ua"
@@ -174,10 +181,10 @@ const t = getTranslations(lang as "en" | "ua");
 					</svg>
 				</div>
 				<div class="p-8">
-					<h3 class="font-heading font-bold text-2xl text-foreground mb-3">
+					<h3 class="font-heading font-medium text-[28px] leading-[36px] text-foreground mb-3">
 						{lang === "ua" ? "Чекові ваги" : "Checkweighers"}
 					</h3>
-					<p class="text-muted-foreground mb-6">
+					<p class="text-[16px] leading-[24px] text-muted-foreground mb-6">
 						{
 							lang === "ua"
 								? "Високошвидкісне, надточне динамічне зважування для суворого контролю якості та сортування."
@@ -186,7 +193,7 @@ const t = getTranslations(lang as "en" | "ua");
 					</p>
 					<a
 						href="#"
-						class="font-mono text-xs text-primary uppercase tracking-widest font-bold inline-flex items-center gap-2 hover:gap-3 transition-all"
+						class="font-mono text-[12px] leading-[16px] tracking-[0.05em] font-medium text-primary uppercase inline-flex items-center gap-2 hover:gap-3 transition-all"
 					>
 						{lang === "ua" ? "Технічні деталі" : "Technical Details"}
 						<svg
@@ -231,10 +238,10 @@ const t = getTranslations(lang as "en" | "ua");
 					</svg>
 				</div>
 				<div class="p-8">
-					<h3 class="font-heading font-bold text-2xl text-foreground mb-3">
+					<h3 class="font-heading font-medium text-[28px] leading-[36px] text-foreground mb-3">
 						{lang === "ua" ? "Рентгенівська інспекція" : "X-Ray Inspection"}
 					</h3>
-					<p class="text-muted-foreground mb-6">
+					<p class="text-[16px] leading-[24px] text-muted-foreground mb-6">
 						{
 							lang === "ua"
 								? "Передове виявлення забруднень, здатне ідентифікувати метал, скло, камінь та щільний пластик."
@@ -243,7 +250,7 @@ const t = getTranslations(lang as "en" | "ua");
 					</p>
 					<a
 						href="#"
-						class="font-mono text-xs text-primary uppercase tracking-widest font-bold inline-flex items-center gap-2 hover:gap-3 transition-all"
+						class="font-mono text-[12px] leading-[16px] tracking-[0.05em] font-medium text-primary uppercase inline-flex items-center gap-2 hover:gap-3 transition-all"
 					>
 						{lang === "ua" ? "Технічні деталі" : "Technical Details"}
 						<svg
@@ -290,10 +297,10 @@ const t = getTranslations(lang as "en" | "ua");
 					</svg>
 				</div>
 				<div class="p-8">
-					<h3 class="font-heading font-bold text-2xl text-foreground mb-3">
+					<h3 class="font-heading font-medium text-[28px] leading-9 text-foreground mb-3">
 						{lang === "ua" ? "Металодетектори" : "Metal Detectors"}
 					</h3>
-					<p class="text-muted-foreground mb-6">
+					<p class="text-[16px] leading-[24px] text-muted-foreground mb-6">
 						{
 							lang === "ua"
 								? "Надійне багаточастотне сканування для забезпечення абсолютної чистоти продукції та захисту бренду."
@@ -302,7 +309,7 @@ const t = getTranslations(lang as "en" | "ua");
 					</p>
 					<a
 						href="#"
-						class="font-mono text-xs text-primary uppercase tracking-widest font-bold inline-flex items-center gap-2 hover:gap-3 transition-all"
+						class="font-mono text-[12px] leading-[16px] tracking-[0.05em] font-medium text-primary uppercase inline-flex items-center gap-2 hover:gap-3 transition-all"
 					>
 						{lang === "ua" ? "Технічні деталі" : "Technical Details"}
 						<svg
@@ -328,14 +335,14 @@ const t = getTranslations(lang as "en" | "ua");
 	<!-- Contact Section -->
 	<section id="contact" class="py-24 bg-primary text-primary-foreground">
 		<div class="max-w-[1280px] mx-auto px-8 text-center">
-			<h2 class="font-heading font-bold text-4xl md:text-5xl mb-6">
+			<h2 class="font-heading font-semibold text-[40px] md:text-[64px] leading-[48px] md:leading-[72px] tracking-[-0.02em] mb-6">
 				{
 					lang === "ua"
 						? "Готові підвищити рівень вашої виробничої лінії?"
 						: "Ready to Elevate Your Production Line?"
 				}
 			</h2>
-			<p class="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
+			<p class="text-[18px] leading-[28px] opacity-90 mb-8 max-w-2xl mx-auto">
 				{
 					lang === "ua"
 						? "Зв'яжіться з нашою командою продажів, щоб обговорити ваші потреби у точному контролі та отримати індивідуальне рішення."
@@ -344,7 +351,7 @@ const t = getTranslations(lang as "en" | "ua");
 			</p>
 			<a
 				href="#"
-				class="inline-flex items-center justify-center px-8 py-4 bg-background text-foreground rounded-lg font-medium hover:opacity-90 transition-opacity"
+				class="inline-flex items-center justify-center px-8 py-4 bg-background text-foreground rounded-lg text-[16px] leading-[24px] font-medium hover:opacity-90 transition-opacity"
 			>
 				{lang === "ua" ? "Запланувати консультацію" : "Schedule Consultation"}
 			</a>
