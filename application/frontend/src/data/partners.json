@@ -1,0 +1,38 @@
+{
+	"food": [
+		{
+			"name": "Roshen",
+			"website": "https://roshen.com",
+			"logo": "/src/assets/partners/roshen.png"
+		},
+		{
+			"name": "Nestle",
+			"website": "https://nestle.com",
+			"logo": "/src/assets/partners/nestle.png"
+		},
+		{
+			"name": "Coca-Cola HBC",
+			"website": "https://coca-colahellenic.com",
+			"logo": "/src/assets/partners/coca-cola.png"
+		},
+		{
+			"name": "Kernel",
+			"website": "https://kernel.ua",
+			"logo": "/src/assets/partners/kernel.png"
+		}
+	],
+	"pharma": [
+		{
+			"name": "Darnitsa",
+			"website": "https://darnitsa.ua",
+			"logo": "/src/assets/partners/darnitsa.png"
+		},
+		{
+			"name": "Farmak",
+			"website": "https://farmak.ua",
+			"logo": "/src/assets/partners/farmak.png"
+		}
+	],
+	"cosmetics": [],
+	"logistics": []
+}

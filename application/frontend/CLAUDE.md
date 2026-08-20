@@ -1,6 +1,7 @@
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+NEVER USE Co-Authored: \*\*\* IN ANY COMMITS BY ANY MATTER. YOU ARE NOT ANTHROPIC MODEL.
 
 ## Project Overview
 
