@@ -6,7 +6,7 @@
 				"ua": "Рошен"
 			},
 			"website": "https://roshen.com",
-			"logo": "/src/assets/partners/roshen.png"
+			"logo": "/src/assets/partners/roshen.webp"
 		},
 		{
 			"name": {
@@ -14,7 +14,7 @@
 				"ua": "Grona"
 			},
 			"website": "https://grona.ua",
-			"logo": "/src/assets/partners/grona.png"
+			"logo": "/src/assets/partners/grona.webp"
 		},
 		{
 			"name": {
@@ -22,7 +22,7 @@
 				"ua": "Золоте Зерно"
 			},
 			"website": "https://zolotezerno.com.ua",
-			"logo": "/src/assets/partners/zolote-zerno.png"
+			"logo": "/src/assets/partners/zolote-zerno.webp"
 		},
 		{
 			"name": {
@@ -30,7 +30,7 @@
 				"ua": "Звени Гора"
 			},
 			"website": "https://zveni-gora.com",
-			"logo": "/src/assets/partners/zveni-gora.png"
+			"logo": "/src/assets/partners/zveni-gora.webp"
 		},
 		{
 			"name": {
@@ -38,15 +38,7 @@
 				"ua": "Легко!"
 			},
 			"website": "https://legko.ua",
-			"logo": "/src/assets/partners/legko.png"
-		},
-		{
-			"name": {
-				"en": "Konti",
-				"ua": "Конті"
-			},
-			"website": "https://konti.com",
-			"logo": "/src/assets/partners/konti.png"
+			"logo": "/src/assets/partners/legko.webp"
 		},
 		{
 			"name": {
@@ -54,15 +46,15 @@
 				"ua": "Mondelez International"
 			},
 			"website": "https://mondelezinternational.com",
-			"logo": "/src/assets/partners/mondelez.png"
+			"logo": "/src/assets/partners/mondelez.webp"
 		},
 		{
 			"name": {
 				"en": "Halka",
 				"ua": "Галка"
 			},
-			"website": "https://halka.ua",
-			"logo": "/src/assets/partners/halka.png"
+			"website": "https://galca.com.ua/",
+			"logo": "/src/assets/partners/halka.webp"
 		},
 		{
 			"name": {
@@ -70,7 +62,7 @@
 				"ua": "Jacobs"
 			},
 			"website": "https://jacobs.ua",
-			"logo": "/src/assets/partners/jacobs.png"
+			"logo": "/src/assets/partners/jacobs.webp"
 		},
 		{
 			"name": {
@@ -78,15 +70,15 @@
 				"ua": "МХП"
 			},
 			"website": "https://mhp.com.ua",
-			"logo": "/src/assets/partners/mxp.png"
+			"logo": "/src/assets/partners/mxp.webp"
 		},
 		{
 			"name": {
 				"en": "Euro Food Service",
-				"ua": "Euro Food Service"
+				"ua": "Євро Фуд Сервіс (EFS)"
 			},
-			"website": "https://eurofoodservice.com.ua",
-			"logo": "/src/assets/partners/euro-food-service.png"
+			"website": "https://www.eufservice.com/",
+			"logo": "/src/assets/partners/euro-food-service.webp"
 		},
 		{
 			"name": {
@@ -94,7 +86,7 @@
 				"ua": "MacCoffee"
 			},
 			"website": "https://maccoffee.ua",
-			"logo": "/src/assets/partners/maccoffee.png"
+			"logo": "/src/assets/partners/maccoffee.webp"
 		},
 		{
 			"name": {
@@ -102,23 +94,23 @@
 				"ua": "Lantmännen"
 			},
 			"website": "https://lantmannen.ua",
-			"logo": "/src/assets/partners/lantmannen.png"
+			"logo": "/src/assets/partners/lantmannen.webp"
 		},
 		{
 			"name": {
 				"en": "Borysfen Trade",
 				"ua": "Борисфен Трейд"
 			},
-			"website": "https://borysfen.com",
-			"logo": "/src/assets/partners/borysfen.png"
+			"website": "https://www.borysfentrade.com.ua/",
+			"logo": "/src/assets/partners/borysfen.webp"
 		},
 		{
 			"name": {
 				"en": "Suziria",
-				"ua": "Suziria"
+				"ua": "Сузірʼя"
 			},
-			"website": "https://suziria.com",
-			"logo": "/src/assets/partners/suziria.png"
+			"website": "https://suziria.ua/",
+			"logo": "/src/assets/partners/suziria.webp"
 		},
 		{
 			"name": {
@@ -126,15 +118,15 @@
 				"ua": "Кормотех"
 			},
 			"website": "https://kormotech.com",
-			"logo": "/src/assets/partners/kormotech.png"
+			"logo": "/src/assets/partners/kormotech.webp"
 		},
 		{
 			"name": {
-				"en": "Kharkiv Food Technologies",
-				"ua": "Харківські Технології Закарпаття"
+				"en": "Carpathian Pet Food",
+				"ua": "Харчові Технології Закарпаття"
 			},
-			"website": "https://hft.ua",
-			"logo": "/src/assets/partners/hft.png"
+			"website": "http://carpathianpetfood.com/",
+			"logo": "/src/assets/partners/hft.webp"
 		}
 	],
 	"household": [

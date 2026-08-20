@@ -19,7 +19,10 @@
 		"check:fix": "biome check --write .",
 		"ci:fix": "biome check --write . && biome format --write . && biome lint --write . && npm run format:tailwind",
 		"ci": "biome ci .",
-		"prepare": "husky || true"
+		"prepare": "husky || true",
+		"logos:find": "node scripts/find-logos.js",
+		"logos:download": "node scripts/auto-download-logos.js",
+		"logos:update": "node scripts/update-partners-json.js"
 	},
 	"dependencies": {
 		"@astrojs/react": "^5.0.6",

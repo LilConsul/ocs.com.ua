@@ -74,13 +74,13 @@ function PartnerScroller({
 						href={partner.website}
 						target="_blank"
 						rel="noopener noreferrer"
-						className="group flex h-12 shrink-0 items-center px-6 opacity-70 grayscale transition-all duration-300 ease-out hover:-translate-y-0.5 hover:opacity-100 hover:drop-shadow-md hover:grayscale-0"
+						className="group flex h-12 shrink-0 items-center px-6 opacity-70 grayscale transition-[opacity,filter,transform] duration-300 ease-out hover:-translate-y-0.5 hover:opacity-100 hover:drop-shadow-md hover:grayscale-0"
 					>
 						<img
 							src={partner.logo}
 							alt={partner.name[lang]}
 							className="h-12 w-auto"
-							loading="lazy"
+							loading="eager"
 						/>
 					</a>
 				))}
@@ -158,12 +158,12 @@ export function PartnersSection({ partnersByCategory, translations, lang }: Prop
 
 			<style>{`
 				@keyframes scroll {
-					0% { transform: translate3d(0, 0, 0); }
-					100% { transform: translate3d(-50%, 0, 0); }
+					from { transform: translate3d(0, 0, 0); }
+					to { transform: translate3d(-50%, 0, 0); }
 				}
 				@keyframes scrollReverse {
-					0% { transform: translate3d(-50%, 0, 0); }
-					100% { transform: translate3d(0, 0, 0); }
+					from { transform: translate3d(-50%, 0, 0); }
+					to { transform: translate3d(0, 0, 0); }
 				}
 				.logo-scroller {
 					animation-name: scroll;
