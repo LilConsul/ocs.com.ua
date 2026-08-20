@@ -20,9 +20,7 @@ const t = getTranslations(lang as "en" | "ua");
 		<div class="absolute inset-0 z-0">
 			<img
 				src="/images/main_page.webp"
-				alt={lang === "ua"
-					? "Промислове обладнання для контролю якості"
-					: "Industrial quality inspection equipment"}
+				alt={t("hero.imageAlt")}
 				class="ml-4 h-full w-full object-cover"
 				loading="eager"
 			/>
@@ -112,7 +110,7 @@ const t = getTranslations(lang as "en" | "ua");
 					>
 					<span
 						class="text-muted-foreground font-mono text-[12px] leading-4 font-medium tracking-wider uppercase"
-						>{lang === "ua" ? "Обслужених клієнтів" : "Clients Served"}</span
+						>{t("stats.clients")}</span
 					>
 				</div>
 				<div class="flex flex-col items-center pt-8 text-center md:pt-0">
@@ -120,7 +118,7 @@ const t = getTranslations(lang as "en" | "ua");
 					>
 					<span
 						class="text-muted-foreground font-mono text-[12px] leading-[16px] font-medium tracking-[0.05em] uppercase"
-						>{lang === "ua" ? "Років досвіду" : "Years Experience"}</span
+						>{t("stats.experience")}</span
 					>
 				</div>
 				<div class="flex flex-col items-center pt-8 text-center md:pt-0">
@@ -129,7 +127,7 @@ const t = getTranslations(lang as "en" | "ua");
 					>
 					<span
 						class="text-muted-foreground font-mono text-[12px] leading-[16px] font-medium tracking-[0.05em] uppercase"
-						>{lang === "ua" ? "Встановлень" : "Installations"}</span
+						>{t("stats.installations")}</span
 					>
 				</div>
 			</div>
@@ -142,7 +140,7 @@ const t = getTranslations(lang as "en" | "ua");
 			<h2
 				class="font-heading text-foreground mb-4 text-[36px] leading-[44px] font-medium tracking-tight"
 			>
-				{lang === "ua" ? "Основні технології контролю" : "Core Inspection Technologies"}
+				{t("features.title")}
 			</h2>
 			<div class="bg-primary mx-auto h-1 w-24 rounded-full"></div>
 		</div>
@@ -173,20 +171,16 @@ const t = getTranslations(lang as "en" | "ua");
 				</div>
 				<div class="p-8">
 					<h3 class="font-heading text-foreground mb-3 text-[28px] leading-[36px] font-medium">
-						{lang === "ua" ? "Чекові ваги" : "Checkweighers"}
+						{t("features.checkweighers.title")}
 					</h3>
 					<p class="text-muted-foreground mb-6 text-[16px] leading-[24px]">
-						{
-							lang === "ua"
-								? "Високошвидкісне, надточне динамічне зважування для суворого контролю якості та сортування."
-								: "High-speed, ultra-precise dynamic weighing for rigorous quality control and sorting operations."
-						}
+						{t("features.checkweighers.description")}
 					</p>
 					<a
 						href="#"
 						class="text-primary inline-flex items-center gap-2 font-mono text-[12px] leading-[16px] font-medium tracking-[0.05em] uppercase transition-all hover:gap-3"
 					>
-						{lang === "ua" ? "Технічні деталі" : "Technical Details"}
+						{t("features.technicalDetails")}
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							width="16"
@@ -228,20 +222,16 @@ const t = getTranslations(lang as "en" | "ua");
 				</div>
 				<div class="p-8">
 					<h3 class="font-heading text-foreground mb-3 text-[28px] leading-[36px] font-medium">
-						{lang === "ua" ? "Рентгенівська інспекція" : "X-Ray Inspection"}
+						{t("features.xray.title")}
 					</h3>
 					<p class="text-muted-foreground mb-6 text-[16px] leading-[24px]">
-						{
-							lang === "ua"
-								? "Передове виявлення забруднень, здатне ідентифікувати метал, скло, камінь та щільний пластик."
-								: "Advanced contaminant detection capable of identifying metal, glass, stone, and dense plastics."
-						}
+						{t("features.xray.description")}
 					</p>
 					<a
 						href="#"
 						class="text-primary inline-flex items-center gap-2 font-mono text-[12px] leading-[16px] font-medium tracking-[0.05em] uppercase transition-all hover:gap-3"
 					>
-						{lang === "ua" ? "Технічні деталі" : "Technical Details"}
+						{t("features.technicalDetails")}
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							width="16"
@@ -285,20 +275,16 @@ const t = getTranslations(lang as "en" | "ua");
 				</div>
 				<div class="p-8">
 					<h3 class="font-heading text-foreground mb-3 text-[28px] leading-9 font-medium">
-						{lang === "ua" ? "Металодетектори" : "Metal Detectors"}
+						{t("features.metalDetectors.title")}
 					</h3>
 					<p class="text-muted-foreground mb-6 text-[16px] leading-[24px]">
-						{
-							lang === "ua"
-								? "Надійне багаточастотне сканування для забезпечення абсолютної чистоти продукції та захисту бренду."
-								: "Robust multi-frequency scanning to ensure absolute product purity and brand protection."
-						}
+						{t("features.metalDetectors.description")}
 					</p>
 					<a
 						href="#"
 						class="text-primary inline-flex items-center gap-2 font-mono text-[12px] leading-[16px] font-medium tracking-[0.05em] uppercase transition-all hover:gap-3"
 					>
-						{lang === "ua" ? "Технічні деталі" : "Technical Details"}
+						{t("features.technicalDetails")}
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							width="16"
@@ -325,24 +311,16 @@ const t = getTranslations(lang as "en" | "ua");
 			<h2
 				class="font-heading mb-6 text-[40px] leading-[48px] font-semibold tracking-[-0.02em] md:text-[64px] md:leading-[72px]"
 			>
-				{
-					lang === "ua"
-						? "Готові підвищити рівень вашої виробничої лінії?"
-						: "Ready to Elevate Your Production Line?"
-				}
+				{t("contact.title")}
 			</h2>
 			<p class="mx-auto mb-8 max-w-2xl text-[18px] leading-[28px] opacity-90">
-				{
-					lang === "ua"
-						? "Зв'яжіться з нашою командою продажів, щоб обговорити ваші потреби у точному контролі та отримати індивідуальне рішення."
-						: "Contact our sales team to discuss your precision inspection needs and get a customized solution."
-				}
+				{t("contact.description")}
 			</p>
 			<a
 				href="#"
 				class="bg-background text-foreground inline-flex items-center justify-center rounded-lg px-8 py-4 text-[16px] leading-[24px] font-medium transition-opacity hover:opacity-90"
 			>
-				{lang === "ua" ? "Запланувати консультацію" : "Schedule Consultation"}
+				{t("contact.cta")}
 			</a>
 		</div>
 	</section>

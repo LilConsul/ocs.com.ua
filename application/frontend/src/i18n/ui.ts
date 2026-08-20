@@ -26,6 +26,31 @@ export const ui = {
 			"Advanced weighing and inspection systems engineered for flawless production lines. Ensuring compliance, quality, and supreme efficiency for global manufacturers.",
 		"hero.exploreCta": "Explore Equipment",
 		"hero.contactSales": "Contact Sales",
+		"hero.imageAlt": "Industrial quality inspection equipment",
+
+		// Stats
+		"stats.clients": "Clients Served",
+		"stats.experience": "Years Experience",
+		"stats.installations": "Installations",
+
+		// Features Section
+		"features.title": "Core Inspection Technologies",
+		"features.checkweighers.title": "Checkweighers",
+		"features.checkweighers.description":
+			"High-speed, ultra-precise dynamic weighing for rigorous quality control and sorting operations.",
+		"features.xray.title": "X-Ray Inspection",
+		"features.xray.description":
+			"Advanced contaminant detection capable of identifying metal, glass, stone, and dense plastics.",
+		"features.metalDetectors.title": "Metal Detectors",
+		"features.metalDetectors.description":
+			"Robust multi-frequency scanning to ensure absolute product purity and brand protection.",
+		"features.technicalDetails": "Technical Details",
+
+		// Contact Section
+		"contact.title": "Ready to Elevate Your Production Line?",
+		"contact.description":
+			"Contact our sales team to discuss your precision inspection needs and get a customized solution.",
+		"contact.cta": "Schedule Consultation",
 
 		// Misc
 		"home.title": "Hello World!",
@@ -52,6 +77,31 @@ export const ui = {
 			"Передові системи зважування та інспекції, створені для бездоганних виробничих ліній. Забезпечення відповідності, якості та максимальної ефективності для світових виробників.",
 		"hero.exploreCta": "Переглянути обладнання",
 		"hero.contactSales": "Зв'язатися з відділом продажу",
+		"hero.imageAlt": "Промислове обладнання для контролю якості",
+
+		// Stats
+		"stats.clients": "Обслужених клієнтів",
+		"stats.experience": "Років досвіду",
+		"stats.installations": "Встановлень",
+
+		// Features Section
+		"features.title": "Основні технології контролю",
+		"features.checkweighers.title": "Чекові ваги",
+		"features.checkweighers.description":
+			"Високошвидкісне, надточне динамічне зважування для суворого контролю якості та сортування.",
+		"features.xray.title": "Рентгенівська інспекція",
+		"features.xray.description":
+			"Передове виявлення забруднень, здатне ідентифікувати метал, скло, камінь та щільний пластик.",
+		"features.metalDetectors.title": "Металодетектори",
+		"features.metalDetectors.description":
+			"Надійне багаточастотне сканування для забезпечення абсолютної чистоти продукції та захисту бренду.",
+		"features.technicalDetails": "Технічні деталі",
+
+		// Contact Section
+		"contact.title": "Готові підвищити рівень вашої виробничої лінії?",
+		"contact.description":
+			"Зв'яжіться з нашою командою продажів, щоб обговорити ваші потреби у точному контролі та отримати індивідуальне рішення.",
+		"contact.cta": "Запланувати консультацію",
 
 		// Misc
 		"home.title": "Привіт Світ!",
