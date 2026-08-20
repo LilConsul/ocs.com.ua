@@ -1,23 +1,46 @@
 ---
 import "../styles/global.css";
+import { Header } from "@/components/Header";
+import { getLangFromUrl, useTranslations } from "@/i18n";
 
 interface Props {
 	title: string;
+	description?: string;
+	showHeader?: boolean;
 }
 
-const { title } = Astro.props;
+const { title, description, showHeader = true } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <!doctype html>
-<html lang="uk">
+<html lang={lang}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+		{description && <meta name="description" content={description} />}
 	</head>
 	<body class="min-h-screen bg-background text-foreground antialiased">
-		<slot />
+		{showHeader && (
+			<Header
+				client:load
+				currentLang={lang}
+				translations={{
+					catalogue: t('nav.catalogue'),
+					solutions: t('nav.solutions'),
+					industries: t('nav.industries'),
+					about: t('nav.about'),
+					contactSales: t('nav.contactSales'),
+					language: t('nav.language'),
+				}}
+			/>
+		)}
+		<main class="pt-20">
+			<slot />
+		</main>
 	</body>
 </html>

@@ -1,0 +1,222 @@
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Menu, X, Globe, ChevronDown } from "lucide-react";
+import { languages } from "@/i18n";
+
+interface HeaderProps {
+	currentLang: "en" | "ua";
+	translations: {
+		catalogue: string;
+		solutions: string;
+		industries: string;
+		about: string;
+		contactSales: string;
+		language: string;
+	};
+}
+
+export function Header({ currentLang, translations }: HeaderProps) {
+	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+	const [scrolled, setScrolled] = useState(false);
+
+	useEffect(() => {
+		const handleScroll = () => {
+			setScrolled(window.scrollY > 10);
+		};
+		window.addEventListener("scroll", handleScroll);
+		return () => window.removeEventListener("scroll", handleScroll);
+	}, []);
+
+	const navLinks = [
+		{ href: `/${currentLang}#catalogue`, label: translations.catalogue },
+		{ href: `/${currentLang}#solutions`, label: translations.solutions },
+		{ href: `/${currentLang}#industries`, label: translations.industries },
+		{ href: `/${currentLang}#about`, label: translations.about },
+	];
+
+	const languageOptions = [
+		{
+			code: "en",
+			name: "English",
+			flag: "🇬🇧",
+		},
+		{
+			code: "ua",
+			name: "Українська",
+			flag: "🇺🇦",
+		},
+	];
+
+	const currentLanguage = languageOptions.find((lang) => lang.code === currentLang);
+
+	const switchLanguage = (newLang: string) => {
+		// Get current path without language prefix
+		const currentPath = window.location.pathname;
+		const pathWithoutLang = currentPath.replace(/^\/(en|ua)/, "");
+		// Navigate to new language
+		window.location.href = `/${newLang}${pathWithoutLang}`;
+	};
+
+	return (
+		<header
+			className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+				scrolled
+					? "bg-background/80 backdrop-blur-xl border-b border-border shadow-sm"
+					: "bg-background/70 backdrop-blur-md"
+			}`}
+		>
+			<nav className="max-w-[1280px] mx-auto px-8 h-20 flex items-center justify-between">
+				{/* Logo */}
+				<a
+					href={`/${currentLang}`}
+					className="flex items-center gap-2 text-foreground hover:opacity-80 transition-opacity"
+				>
+					<div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="16"
+							height="16"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							strokeWidth="2"
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							className="text-primary-foreground"
+						>
+							<path d="M8 6v4" />
+							<path d="M12 6v4" />
+							<path d="M16 6v4" />
+							<path d="M4 14h16" />
+							<path d="M8 18h8" />
+							<rect width="20" height="20" x="2" y="2" rx="2" />
+						</svg>
+					</div>
+					<span className="font-heading font-bold text-xl tracking-tight">
+						OS-TECHNOLOGY
+					</span>
+				</a>
+
+				{/* Desktop Navigation */}
+				<div className="hidden md:flex items-center gap-8">
+					{navLinks.map((link) => (
+						<a
+							key={link.href}
+							href={link.href}
+							className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+						>
+							{link.label}
+						</a>
+					))}
+				</div>
+
+				{/* Right Side Actions */}
+				<div className="flex items-center gap-4">
+					{/* Language Switcher */}
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button
+								variant="ghost"
+								size="sm"
+								className="hidden md:flex items-center gap-2 text-sm"
+							>
+								<Globe className="w-4 h-4" />
+								<span>{currentLanguage?.flag}</span>
+								<span className="font-mono uppercase text-xs">
+									{currentLang}
+								</span>
+								<ChevronDown className="w-4 h-4 opacity-50" />
+							</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align="end" className="w-48">
+							{languageOptions.map((lang) => (
+								<DropdownMenuItem
+									key={lang.code}
+									onClick={() => switchLanguage(lang.code)}
+									className={`flex items-center gap-3 cursor-pointer ${
+										currentLang === lang.code ? "bg-accent" : ""
+									}`}
+								>
+									<span className="text-xl">{lang.flag}</span>
+									<div className="flex flex-col">
+										<span className="font-medium">{lang.name}</span>
+										<span className="text-xs text-muted-foreground font-mono uppercase">
+											{lang.code}
+										</span>
+									</div>
+								</DropdownMenuItem>
+							))}
+						</DropdownMenuContent>
+					</DropdownMenu>
+
+					{/* Contact Sales Button */}
+					<Button asChild size="sm" className="font-medium">
+						<a href={`/${currentLang}#contact`}>{translations.contactSales}</a>
+					</Button>
+
+					{/* Mobile Menu Toggle */}
+					<Button
+						variant="ghost"
+						size="icon"
+						className="md:hidden"
+						onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+					>
+						{mobileMenuOpen ? (
+							<X className="w-5 h-5" />
+						) : (
+							<Menu className="w-5 h-5" />
+						)}
+					</Button>
+				</div>
+			</nav>
+
+			{/* Mobile Menu */}
+			{mobileMenuOpen && (
+				<div className="md:hidden border-t border-border bg-background/95 backdrop-blur-xl">
+					<div className="px-8 py-6 space-y-4">
+						{navLinks.map((link) => (
+							<a
+								key={link.href}
+								href={link.href}
+								className="block py-2 text-base font-medium text-muted-foreground hover:text-foreground transition-colors"
+								onClick={() => setMobileMenuOpen(false)}
+							>
+								{link.label}
+							</a>
+						))}
+
+						<div className="pt-4 border-t border-border space-y-2">
+							<div className="text-xs font-mono uppercase text-muted-foreground mb-3">
+								{translations.language}
+							</div>
+							{languageOptions.map((lang) => (
+								<button
+									key={lang.code}
+									type="button"
+									onClick={() => {
+										switchLanguage(lang.code);
+										setMobileMenuOpen(false);
+									}}
+									className={`flex items-center gap-3 w-full py-2 px-3 rounded-lg transition-colors ${
+										currentLang === lang.code
+											? "bg-accent text-accent-foreground"
+											: "hover:bg-accent/50"
+									}`}
+								>
+									<span className="text-xl">{lang.flag}</span>
+									<span className="font-medium">{lang.name}</span>
+								</button>
+							))}
+						</div>
+					</div>
+				</div>
+			)}
+		</header>
+	);
+}
