@@ -1,6 +1,5 @@
 ---
 import { getTranslations } from "@/i18n";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 interface Props {
@@ -60,40 +59,33 @@ const t = getTranslations(lang);
 
 			<!-- CTA Buttons -->
 			<div class="flex flex-col gap-4 pt-4 sm:flex-row">
-				<Button
-					asChild
-					size="lg"
-					className="gap-2 rounded-lg px-8 py-4 text-[16px] leading-[24px] font-medium"
+				<a
+					href={`/${lang}#contact`}
+					class="bg-primary text-primary-foreground inline-flex items-center justify-center gap-2 rounded-lg px-8 py-4 text-[16px] leading-[24px] font-medium transition-opacity hover:opacity-90"
 				>
-					<a href={`/${lang}#contact`}>
-						{t("hero.contactSales")}
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="20"
-							height="20"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							class="lucide lucide-arrow-right"
-						>
-							<path d="M5 12h14"></path>
-							<path d="m12 5 7 7-7 7"></path>
-						</svg>
-					</a>
-				</Button>
-				<Button
-					asChild
-					variant="outline"
-					size="lg"
-					className="border-primary text-primary hover:bg-primary/5 gap-2 rounded-lg border-2 px-8 py-4 text-[16px] leading-[24px] font-medium"
+					{t("hero.contactSales")}
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="20"
+						height="20"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class="lucide lucide-arrow-right"
+					>
+						<path d="M5 12h14"></path>
+						<path d="m12 5 7 7-7 7"></path>
+					</svg>
+				</a>
+				<a
+					href={`/${lang}#catalogue`}
+					class="border-secondary text-secondary hover:bg-secondary/5 inline-flex items-center justify-center gap-2 rounded-lg border-2 px-8 py-4 text-[16px] leading-[24px] font-medium transition-colors"
 				>
-					<a href={`/${lang}#catalogue`}>
-						{t("hero.exploreCta")}
-					</a>
-				</Button>
+					{t("hero.exploreCta")}
+				</a>
 			</div>
 		</div>
 	</div>
