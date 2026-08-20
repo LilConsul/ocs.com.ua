@@ -52,6 +52,43 @@ export const ui = {
 			"Contact our sales team to discuss your precision inspection needs and get a customized solution.",
 		"contact.cta": "Schedule Consultation",
 
+		// Industries Section
+		"industries.label": "Market Expertise",
+		"industries.title": "Engineered for Every Industry",
+		"industries.description":
+			"Tailored inspection technology adhering to the strictest international standards across diverse manufacturing sectors.",
+		"industries.food.title": "Food",
+		"industries.food.description":
+			"Hygienic design checkweighers and inspection systems ensuring FDA, IFS, and BRC compliance for global food safety.",
+		"industries.pharma.title": "Pharmaceuticals",
+		"industries.pharma.description":
+			"High-precision serialization, aggregation, and weighing systems for strict global traceability and patient safety mandates.",
+		"industries.cosmetics.title": "Cosmetics",
+		"industries.cosmetics.description": "Precision filling control and aesthetic inspection.",
+		"industries.logistics.title": "Logistics",
+		"industries.logistics.description": "Dynamic weighing for high-throughput distribution.",
+		"industries.viewAll": "View All Sectors",
+		"industries.viewAllSubtitle": "Discover specialized solutions",
+		"industries.exploreCta": "Explore Solutions",
+
+		// Partners Section
+		"partners.label": "Our Partners",
+		"partners.title": "Trusted by Industry Leaders",
+		"partners.description":
+			"Powering precision for Ukraine's most demanding manufacturing sectors through long-term strategic partnerships since 2015.",
+		"partners.installations": "Installations",
+		"partners.installationsValue": "500+",
+		"partners.installationsDescription":
+			"Precision systems deployed across Ukraine's leading manufacturing facilities.",
+		"partners.experience": "Years Experience",
+		"partners.experienceValue": "9+",
+		"partners.experienceDescription":
+			"Engineering excellence and technical partnership in the region since 2015.",
+		"partners.retention": "Client Retention",
+		"partners.retentionValue": "98%",
+		"partners.retentionDescription":
+			"Our commitment to support ensures long-term operational success for our partners.",
+
 		// Misc
 		"home.title": "Hello World!",
 		"home.description": "This is the English version of the page",
@@ -102,6 +139,43 @@ export const ui = {
 		"contact.description":
 			"Зв'яжіться з нашою командою продажів, щоб обговорити ваші потреби у точному контролі та отримати індивідуальне рішення.",
 		"contact.cta": "Запланувати консультацію",
+
+		// Industries Section
+		"industries.label": "Експертиза ринку",
+		"industries.title": "Створено для кожної галузі",
+		"industries.description":
+			"Індивідуальні технології контролю, що відповідають найсуворішим міжнародним стандартам у різних виробничих секторах.",
+		"industries.food.title": "Харчова промисловість",
+		"industries.food.description":
+			"Гігієнічні чекові ваги та системи контролю, що забезпечують відповідність FDA, IFS та BRC для глобальної безпеки харчових продуктів.",
+		"industries.pharma.title": "Фармацевтика",
+		"industries.pharma.description":
+			"Високоточні системи серіалізації, агрегації та зважування для суворої глобальної відстежуваності та безпеки пацієнтів.",
+		"industries.cosmetics.title": "Косметика",
+		"industries.cosmetics.description": "Точний контроль наповнення та естетична інспекція.",
+		"industries.logistics.title": "Логістика",
+		"industries.logistics.description": "Динамічне зважування для високопродуктивного розподілу.",
+		"industries.viewAll": "Переглянути всі сектори",
+		"industries.viewAllSubtitle": "Відкрийте спеціалізовані рішення",
+		"industries.exploreCta": "Дослідити рішення",
+
+		// Partners Section
+		"partners.label": "Наші партнери",
+		"partners.title": "Довіра лідерів галузі",
+		"partners.description":
+			"Забезпечуємо точність для найвимогливіших виробничих секторів України через довгострокові стратегічні партнерства з 2015 року.",
+		"partners.installations": "Встановлень",
+		"partners.installationsValue": "500+",
+		"partners.installationsDescription":
+			"Прецизійні системи, розгорнуті на провідних виробничих підприємствах України.",
+		"partners.experience": "Років досвіду",
+		"partners.experienceValue": "9+",
+		"partners.experienceDescription":
+			"Інженерна досконалість та технічне партнерство в регіоні з 2015 року.",
+		"partners.retention": "Утримання клієнтів",
+		"partners.retentionValue": "98%",
+		"partners.retentionDescription":
+			"Наша відданість підтримці забезпечує довгостроковий операційний успіх наших партнерів.",
 
 		// Misc
 		"home.title": "Привіт Світ!",
