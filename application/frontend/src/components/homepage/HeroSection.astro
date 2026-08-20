@@ -1,0 +1,100 @@
+---
+import { getTranslations } from "@/i18n";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+
+interface Props {
+	lang: "en" | "ua";
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+---
+
+<section class="relative flex min-h-[720px] items-center overflow-hidden pt-20">
+	<!-- Background Image -->
+	<div class="absolute inset-0 z-0">
+		<div
+			class="from-background via-background/90 absolute inset-0 z-10 bg-gradient-to-r to-transparent"
+		>
+		</div>
+		<img
+			src="/images/main_page.webp"
+			alt={t("hero.imageAlt")}
+			class="h-full w-full object-cover object-right"
+			loading="eager"
+		/>
+	</div>
+
+	<!-- Content -->
+	<div class="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-12 gap-6 px-8">
+		<div class="col-span-12 flex flex-col gap-8 md:col-span-8 lg:col-span-7">
+			<!-- Badges -->
+			<div class="inline-flex w-fit items-center gap-2">
+				<Badge
+					variant="outline"
+					className="border-border bg-background/90 inline-flex items-center gap-2 rounded-full border px-4 py-1 backdrop-blur-sm"
+				>
+					<span class="bg-primary h-2 w-2 animate-pulse rounded-full"></span>
+					<span
+						class="text-muted-foreground font-mono text-[12px] leading-[16px] font-medium tracking-[0.05em] uppercase"
+					>
+						{t("hero.badge")}
+					</span>
+				</Badge>
+			</div>
+
+			<!-- Title -->
+			<h1
+				class="font-heading text-foreground text-[40px] leading-[48px] font-semibold tracking-[-0.02em] md:text-[64px] md:leading-[72px]"
+			>
+				{t("hero.title")}
+				<br />
+				<span class="text-muted-foreground">{t("hero.titleHighlight")}</span>
+			</h1>
+
+			<!-- Description -->
+			<p class="text-muted-foreground max-w-xl text-[18px] leading-[28px]">
+				{t("hero.description")}
+			</p>
+
+			<!-- CTA Buttons -->
+			<div class="flex flex-col gap-4 pt-4 sm:flex-row">
+				<Button
+					asChild
+					size="lg"
+					className="gap-2 rounded-lg px-8 py-4 text-[16px] leading-[24px] font-medium"
+				>
+					<a href={`/${lang}#contact`}>
+						{t("hero.contactSales")}
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="20"
+							height="20"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							class="lucide lucide-arrow-right"
+						>
+							<path d="M5 12h14"></path>
+							<path d="m12 5 7 7-7 7"></path>
+						</svg>
+					</a>
+				</Button>
+				<Button
+					asChild
+					variant="outline"
+					size="lg"
+					className="border-primary text-primary hover:bg-primary/5 gap-2 rounded-lg border-2 px-8 py-4 text-[16px] leading-[24px] font-medium"
+				>
+					<a href={`/${lang}#catalogue`}>
+						{t("hero.exploreCta")}
+					</a>
+				</Button>
+			</div>
+		</div>
+	</div>
+</section>
