@@ -1,13 +1,6 @@
-import { ChevronDown, Globe, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { languages } from "@/i18n";
 
 interface HeaderProps {
 	currentLang: "en" | "ua";
@@ -52,8 +45,6 @@ export function Header({ currentLang, translations }: HeaderProps) {
 			flag: "🇺🇦",
 		},
 	];
-
-	const currentLanguage = languageOptions.find((lang) => lang.code === currentLang);
 
 	const switchLanguage = (newLang: string) => {
 		// Get current path without language prefix
@@ -119,40 +110,28 @@ export function Header({ currentLang, translations }: HeaderProps) {
 
 				{/* Right Side Actions */}
 				<div className="flex items-center gap-4">
-					{/* Language Switcher */}
-					<DropdownMenu>
-						<DropdownMenuTrigger asChild>
-							<Button
-								variant="ghost"
-								size="sm"
-								className="hidden md:flex items-center gap-2 text-sm"
+					{/* Language Switcher - Desktop */}
+					<div className="hidden md:flex items-center gap-1 p-1 bg-muted/50 rounded-lg border border-border/50">
+						{languageOptions.map((lang) => (
+							<button
+								key={lang.code}
+								type="button"
+								onClick={() => switchLanguage(lang.code)}
+								className={`
+									px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200
+									flex items-center gap-1.5
+									${
+										currentLang === lang.code
+											? "bg-primary text-primary-foreground shadow-sm"
+											: "text-muted-foreground hover:text-foreground hover:bg-background/50"
+									}
+								`}
 							>
-								<Globe className="w-4 h-4" />
-								<span>{currentLanguage?.flag}</span>
-								<span className="font-mono uppercase text-xs">{currentLang}</span>
-								<ChevronDown className="w-4 h-4 opacity-50" />
-							</Button>
-						</DropdownMenuTrigger>
-						<DropdownMenuContent align="end" className="w-48">
-							{languageOptions.map((lang) => (
-								<DropdownMenuItem
-									key={lang.code}
-									onClick={() => switchLanguage(lang.code)}
-									className={`flex items-center gap-3 cursor-pointer ${
-										currentLang === lang.code ? "bg-accent" : ""
-									}`}
-								>
-									<span className="text-xl">{lang.flag}</span>
-									<div className="flex flex-col">
-										<span className="font-medium">{lang.name}</span>
-										<span className="text-xs text-muted-foreground font-mono uppercase">
-											{lang.code}
-										</span>
-									</div>
-								</DropdownMenuItem>
-							))}
-						</DropdownMenuContent>
-					</DropdownMenu>
+								<span className="text-base leading-none">{lang.flag}</span>
+								<span className="font-mono text-xs uppercase tracking-wider">{lang.code}</span>
+							</button>
+						))}
+					</div>
 
 					{/* Contact Sales Button */}
 					<Button asChild size="sm" className="font-medium">

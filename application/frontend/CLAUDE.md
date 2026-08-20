@@ -38,30 +38,46 @@ npm run format:fix       # Fix formatting issues only
 
 ### i18n Structure (Critical)
 
-The site uses a **prefix-based routing** system where language is part of the URL path:
+The site uses a **single dynamic page** with `getStaticPaths()` to generate both language versions at build time:
 
 ```
 /en/           → English homepage
 /ua/           → Ukrainian homepage (default locale)
-/en/about      → English about page
-/ua/about      → Ukrainian about page
 ```
+
+**Implementation:**
+
+- Dynamic route: `src/pages/[lang]/index.astro`
+- Uses `getStaticPaths()` to generate both `/en` and `/ua` paths
+- Single source of truth for content and layout
+- Language-specific content handled inline with conditionals or via `getTranslations()`
 
 **Core i18n files:**
 
 - `src/i18n/ui.ts` - All translation strings as const objects
 - `src/i18n/utils.ts` - Helper functions: `getLangFromUrl()`, `getTranslations()`
 - `astro.config.mjs` - Language routing config (prefixDefaultLocale: true)
+- `src/pages/[lang]/index.astro` - Dynamic page template for all languages
 
 **Usage pattern:**
 
 ```astro
 ---
-import { getLangFromUrl, getTranslations } from '@/i18n';
-const lang = getLangFromUrl(Astro.url);
-const t = getTranslations(lang);
+import { getTranslations } from '@/i18n';
+import { languages } from '@/i18n/ui';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params;
+const t = getTranslations(lang as "en" | "ua");
 ---
 <h1>{t('site.title')}</h1>
+<!-- Or inline conditionals for non-i18n content -->
+<p>{lang === "ua" ? "Текст українською" : "English text"}</p>
 ```
 
 ### Component Strategy
@@ -185,10 +201,18 @@ This runs format + lint + organize imports in one command.
 
 ### Creating a New Bilingual Page
 
-1. Create `src/pages/en/page-name.astro`
-1. Create `src/pages/ua/page-name.astro`
-1. Both should use `Layout.astro` wrapper
-1. Extract `lang` from URL: `getLangFromUrl(Astro.url)`
+1. Create `src/pages/[lang]/page-name.astro`
+1. Add `getStaticPaths()` function to generate all language versions:
+   ```astro
+   export function getStaticPaths() {
+     return Object.keys(languages).map((lang) => ({
+       params: { lang },
+     }));
+   }
+   ```
+1. Use `Layout.astro` wrapper
+1. Access language from params: `const { lang } = Astro.params`
+1. Use `getTranslations(lang as "en" | "ua")` or inline conditionals for content
 
 ### Adding a shadcn Component
 
