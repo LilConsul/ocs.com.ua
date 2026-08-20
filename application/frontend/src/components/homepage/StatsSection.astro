@@ -9,7 +9,7 @@ const { lang } = Astro.props;
 const t = getTranslations(lang);
 ---
 
-<section class="border-border bg-surface-lowest border-y py-24">
+<section class="border-border bg-muted/30 border-y py-24">
 	<div class="mx-auto max-w-7xl px-8">
 		<div
 			class="divide-border grid grid-cols-1 gap-12 divide-y md:grid-cols-3 md:divide-x md:divide-y-0"
@@ -19,7 +19,7 @@ const t = getTranslations(lang);
 					>50+</span
 				>
 				<span
-					class="text-industrial-gray font-mono text-[12px] leading-[16px] font-medium tracking-widest uppercase"
+					class="text-muted-foreground font-mono text-[12px] leading-[16px] font-medium tracking-widest uppercase"
 					>{t("stats.clients")}</span
 				>
 			</div>
@@ -28,7 +28,7 @@ const t = getTranslations(lang);
 					>10+</span
 				>
 				<span
-					class="text-industrial-gray font-mono text-[12px] leading-[16px] font-medium tracking-widest uppercase"
+					class="text-muted-foreground font-mono text-[12px] leading-[16px] font-medium tracking-widest uppercase"
 					>{t("stats.experience")}</span
 				>
 			</div>
@@ -37,7 +37,7 @@ const t = getTranslations(lang);
 					>500+</span
 				>
 				<span
-					class="text-industrial-gray font-mono text-[12px] leading-[16px] font-medium tracking-widest uppercase"
+					class="text-muted-foreground font-mono text-[12px] leading-[16px] font-medium tracking-widest uppercase"
 					>{t("stats.installations")}</span
 				>
 			</div>
