@@ -76,6 +76,9 @@ export const ui = {
 		"partners.title": "Trusted by Industry Leaders",
 		"partners.description":
 			"Powering precision for Ukraine's most demanding manufacturing sectors through long-term strategic partnerships since 2015.",
+		"partners.categoryFood": "Food Industry",
+		"partners.categoryHousehold": "Household & Chemistry",
+		"partners.categoryPharma": "Pharmaceutical Industry",
 		"partners.installations": "Installations",
 		"partners.installationsValue": "500+",
 		"partners.installationsDescription":
@@ -164,6 +167,9 @@ export const ui = {
 		"partners.title": "Довіра лідерів галузі",
 		"partners.description":
 			"Забезпечуємо точність для найвимогливіших виробничих секторів України через довгострокові стратегічні партнерства з 2015 року.",
+		"partners.categoryFood": "Харчова промисловість",
+		"partners.categoryHousehold": "Побутова хімія та ін.",
+		"partners.categoryPharma": "Фармацевтична промисловість",
 		"partners.installations": "Встановлень",
 		"partners.installationsValue": "500+",
 		"partners.installationsDescription":

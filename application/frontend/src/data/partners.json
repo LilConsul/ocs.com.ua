@@ -1,38 +1,232 @@
 {
 	"food": [
 		{
-			"name": "Roshen",
+			"name": {
+				"en": "Roshen",
+				"ua": "Рошен"
+			},
 			"website": "https://roshen.com",
 			"logo": "/src/assets/partners/roshen.png"
 		},
 		{
-			"name": "Nestle",
-			"website": "https://nestle.com",
-			"logo": "/src/assets/partners/nestle.png"
+			"name": {
+				"en": "Grona",
+				"ua": "Grona"
+			},
+			"website": "https://grona.ua",
+			"logo": "/src/assets/partners/grona.png"
 		},
 		{
-			"name": "Coca-Cola HBC",
-			"website": "https://coca-colahellenic.com",
-			"logo": "/src/assets/partners/coca-cola.png"
+			"name": {
+				"en": "Zolote Zerno",
+				"ua": "Золоте Зерно"
+			},
+			"website": "https://zolotezerno.com.ua",
+			"logo": "/src/assets/partners/zolote-zerno.png"
 		},
 		{
-			"name": "Kernel",
-			"website": "https://kernel.ua",
-			"logo": "/src/assets/partners/kernel.png"
+			"name": {
+				"en": "Zveni Gora",
+				"ua": "Звени Гора"
+			},
+			"website": "https://zveni-gora.com",
+			"logo": "/src/assets/partners/zveni-gora.png"
+		},
+		{
+			"name": {
+				"en": "Legko",
+				"ua": "Легко!"
+			},
+			"website": "https://legko.ua",
+			"logo": "/src/assets/partners/legko.png"
+		},
+		{
+			"name": {
+				"en": "Konti",
+				"ua": "Конті"
+			},
+			"website": "https://konti.com",
+			"logo": "/src/assets/partners/konti.png"
+		},
+		{
+			"name": {
+				"en": "Mondelez International",
+				"ua": "Mondelez International"
+			},
+			"website": "https://mondelezinternational.com",
+			"logo": "/src/assets/partners/mondelez.png"
+		},
+		{
+			"name": {
+				"en": "Halka",
+				"ua": "Галка"
+			},
+			"website": "https://halka.ua",
+			"logo": "/src/assets/partners/halka.png"
+		},
+		{
+			"name": {
+				"en": "Jacobs",
+				"ua": "Jacobs"
+			},
+			"website": "https://jacobs.ua",
+			"logo": "/src/assets/partners/jacobs.png"
+		},
+		{
+			"name": {
+				"en": "MHP",
+				"ua": "МХП"
+			},
+			"website": "https://mhp.com.ua",
+			"logo": "/src/assets/partners/mxp.png"
+		},
+		{
+			"name": {
+				"en": "Euro Food Service",
+				"ua": "Euro Food Service"
+			},
+			"website": "https://eurofoodservice.com.ua",
+			"logo": "/src/assets/partners/euro-food-service.png"
+		},
+		{
+			"name": {
+				"en": "MacCoffee",
+				"ua": "MacCoffee"
+			},
+			"website": "https://maccoffee.ua",
+			"logo": "/src/assets/partners/maccoffee.png"
+		},
+		{
+			"name": {
+				"en": "Lantmännen",
+				"ua": "Lantmännen"
+			},
+			"website": "https://lantmannen.ua",
+			"logo": "/src/assets/partners/lantmannen.png"
+		},
+		{
+			"name": {
+				"en": "Borysfen Trade",
+				"ua": "Борисфен Трейд"
+			},
+			"website": "https://borysfen.com",
+			"logo": "/src/assets/partners/borysfen.png"
+		},
+		{
+			"name": {
+				"en": "Suziria",
+				"ua": "Suziria"
+			},
+			"website": "https://suziria.com",
+			"logo": "/src/assets/partners/suziria.png"
+		},
+		{
+			"name": {
+				"en": "Kormotech",
+				"ua": "Кормотех"
+			},
+			"website": "https://kormotech.com",
+			"logo": "/src/assets/partners/kormotech.png"
+		},
+		{
+			"name": {
+				"en": "Kharkiv Food Technologies",
+				"ua": "Харківські Технології Закарпаття"
+			},
+			"website": "https://hft.ua",
+			"logo": "/src/assets/partners/hft.png"
+		}
+	],
+	"household": [
+		{
+			"name": {
+				"en": "Rozetka",
+				"ua": "Розетка"
+			},
+			"website": "https://rozetka.com.ua",
+			"logo": "/src/assets/partners/rozetka.png"
+		},
+		{
+			"name": {
+				"en": "Biosphere Corporation",
+				"ua": "Biosphere Corporation"
+			},
+			"website": "https://biosphere.ua",
+			"logo": "/src/assets/partners/biosphere.png"
+		},
+		{
+			"name": {
+				"en": "Eva",
+				"ua": "Eva"
+			},
+			"website": "https://eva.ua",
+			"logo": "/src/assets/partners/eva.png"
+		},
+		{
+			"name": {
+				"en": "P&G",
+				"ua": "P&G"
+			},
+			"website": "https://pg.com.ua",
+			"logo": "/src/assets/partners/pg.png"
+		},
+		{
+			"name": {
+				"en": "Verallia",
+				"ua": "Verallia"
+			},
+			"website": "https://verallia.com",
+			"logo": "/src/assets/partners/verallia.png"
 		}
 	],
 	"pharma": [
 		{
-			"name": "Darnitsa",
+			"name": {
+				"en": "Yuria-Pharm",
+				"ua": "Юрія-Фарм"
+			},
+			"website": "https://yuria-pharm.com",
+			"logo": "/src/assets/partners/yuria-pharm.png"
+		},
+		{
+			"name": {
+				"en": "Farmak",
+				"ua": "Фармак"
+			},
+			"website": "https://farmak.ua",
+			"logo": "/src/assets/partners/farmak.png"
+		},
+		{
+			"name": {
+				"en": "Darnitsa",
+				"ua": "Дарниця"
+			},
 			"website": "https://darnitsa.ua",
 			"logo": "/src/assets/partners/darnitsa.png"
 		},
 		{
-			"name": "Farmak",
-			"website": "https://farmak.ua",
-			"logo": "/src/assets/partners/farmak.png"
+			"name": {
+				"en": "Arterium",
+				"ua": "Arterium"
+			},
+			"website": "https://arterium.ua",
+			"logo": "/src/assets/partners/arterium.png"
+		},
+		{
+			"name": {
+				"en": "Acino",
+				"ua": "Acino"
+			},
+			"website": "https://acino.ua",
+			"logo": "/src/assets/partners/acino.png"
+		},
+		{
+			"name": {
+				"en": "Optima Pharm",
+				"ua": "Оптима Фарм"
+			},
+			"website": "https://optima-pharm.ua",
+			"logo": "/src/assets/partners/optima-pharm.png"
 		}
-	],
-	"cosmetics": [],
-	"logistics": []
+	]
 }

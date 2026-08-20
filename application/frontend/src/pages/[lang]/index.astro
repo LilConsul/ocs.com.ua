@@ -17,14 +17,14 @@ export function getStaticPaths() {
 const { lang } = Astro.params;
 const t = getTranslations(lang as "en" | "ua");
 
-// Flatten all partners from categories into single array
-const allPartners = Object.values(partnersData).flat();
-
 // Prepare translations for PartnersSection
 const partnerTranslations = {
 	label: t("partners.label"),
 	title: t("partners.title"),
 	description: t("partners.description"),
+	categoryFood: t("partners.categoryFood"),
+	categoryHousehold: t("partners.categoryHousehold"),
+	categoryPharma: t("partners.categoryPharma"),
 	installations: t("partners.installations"),
 	installationsValue: t("partners.installationsValue"),
 	installationsDescription: t("partners.installationsDescription"),
@@ -41,5 +41,10 @@ const partnerTranslations = {
 	<HeroSection lang={lang as "en" | "ua"} />
 	<StatsSection lang={lang as "en" | "ua"} />
 	<IndustriesSection lang={lang as "en" | "ua"} />
-	<PartnersSection client:load partners={allPartners} translations={partnerTranslations} />
+	<PartnersSection
+		client:load
+		partnersByCategory={partnersData}
+		translations={partnerTranslations}
+		lang={lang as "en" | "ua"}
+	/>
 </Layout>

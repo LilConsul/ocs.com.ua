@@ -1,9 +1,18 @@
 import { Card, CardContent } from "@/components/ui/card";
 
 interface Partner {
-	name: string;
+	name: {
+		en: string;
+		ua: string;
+	};
 	website: string;
 	logo: string;
+}
+
+interface PartnersByCategory {
+	food: Partner[];
+	household: Partner[];
+	pharma: Partner[];
 }
 
 interface Translations {
@@ -19,17 +28,61 @@ interface Translations {
 	retention: string;
 	retentionValue: string;
 	retentionDescription: string;
+	categoryFood: string;
+	categoryHousehold: string;
+	categoryPharma: string;
 }
 
 interface Props {
-	partners: Partner[];
+	partnersByCategory: PartnersByCategory;
 	translations: Translations;
+	lang: "en" | "ua";
 }
 
-export function PartnersSection({ partners, translations }: Props) {
+function PartnerScroller({
+	partners,
+	lang,
+	reverse = false,
+}: {
+	partners: Partner[];
+	lang: "en" | "ua";
+	reverse?: boolean;
+}) {
 	// Duplicate partners array for seamless infinite scroll
 	const duplicatedPartners = [...partners, ...partners];
 
+	// Calculate duration based on number of items to maintain consistent speed
+	// ~150px per logo + gap, target 50px/second = 6s per logo
+	const duration = partners.length * 6;
+
+	return (
+		<div className="border-border/50 relative w-full overflow-hidden border-y py-8">
+			<div
+				className={`logo-scroller flex w-fit gap-12 ${reverse ? "logo-scroller-reverse" : ""}`}
+				style={{ animationDuration: `${duration}s` }}
+			>
+				{duplicatedPartners.map((partner, index) => (
+					<a
+						key={`${partner.name[lang]}-${index}`}
+						href={partner.website}
+						target="_blank"
+						rel="noopener noreferrer"
+						className="flex h-12 shrink-0 items-center px-6 opacity-70 grayscale transition-all duration-500 hover:opacity-100 hover:grayscale-0"
+					>
+						<img
+							src={partner.logo}
+							alt={partner.name[lang]}
+							className="h-12 w-auto"
+							loading="lazy"
+						/>
+					</a>
+				))}
+			</div>
+		</div>
+	);
+}
+
+export function PartnersSection({ partnersByCategory, translations, lang }: Props) {
 	return (
 		<section className="bg-muted/50 relative overflow-hidden py-24 md:py-32">
 			<div className="relative z-10 mx-auto max-w-7xl px-8">
@@ -45,21 +98,11 @@ export function PartnersSection({ partners, translations }: Props) {
 					</p>
 				</div>
 
-				{/* Logo Scroller */}
-				<div className="border-border/50 relative mb-24 w-full overflow-hidden border-y py-12">
-					<div className="logo-scroller flex w-fit gap-12">
-						{duplicatedPartners.map((partner, index) => (
-							<a
-								key={`${partner.name}-${index}`}
-								href={partner.website}
-								target="_blank"
-								rel="noopener noreferrer"
-								className="flex h-12 shrink-0 items-center px-6 opacity-70 grayscale transition-all duration-500 hover:opacity-100 hover:grayscale-0"
-							>
-								<img src={partner.logo} alt={partner.name} className="h-12 w-auto" loading="lazy" />
-							</a>
-						))}
-					</div>
+				{/* Multiple Logo Scrollers by Category */}
+				<div className="mb-16 space-y-0">
+					<PartnerScroller partners={partnersByCategory.food} lang={lang} />
+					<PartnerScroller partners={partnersByCategory.household} lang={lang} reverse={true} />
+					<PartnerScroller partners={partnersByCategory.pharma} lang={lang} />
 				</div>
 
 				{/* Stats Cards */}
@@ -117,10 +160,22 @@ export function PartnersSection({ partners, translations }: Props) {
 						transform: translateX(-50%);
 					}
 				}
-				.logo-scroller {
-					animation: scroll 30s linear infinite;
+				@keyframes scrollReverse {
+					0% {
+						transform: translateX(-50%);
+					}
+					100% {
+						transform: translateX(0);
+					}
 				}
-				.logo-scroller:hover {
+				.logo-scroller {
+					animation: scroll linear infinite;
+				}
+				.logo-scroller-reverse {
+					animation: scrollReverse linear infinite;
+				}
+				.logo-scroller:hover,
+				.logo-scroller-reverse:hover {
 					animation-play-state: paused;
 				}
 			`}</style>
