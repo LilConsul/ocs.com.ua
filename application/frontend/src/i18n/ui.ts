@@ -7,185 +7,174 @@ export const defaultLang = "ua";
 
 export const ui = {
 	en: {
-		"site.title": "OS-Technology Ukraine | Precision Inspection Systems",
-		"site.description": "Advanced weighing and inspection systems for industrial manufacturing",
+		// === Site Metadata ===
+		"site.title": "OS-Technology Ukraine | Industrial Weighing & Inspection Systems",
+		"site.description":
+			"Dynamic checkweighers, metal detectors, and X-ray inspection systems for food, pharmaceutical, and logistics industries in Ukraine",
 
-		// Navigation
-		"nav.catalogue": "Catalogue",
+		// === Navigation ===
+		"nav.catalogue": "Products",
 		"nav.solutions": "Solutions",
 		"nav.industries": "Industries",
-		"nav.about": "About Us",
+		"nav.about": "About",
 		"nav.language": "Language",
 
-		// Hero
-		"hero.badge": "Authorized Wipotec Partner",
-		"hero.badgeMesutronic": "Authorized Mesutronic Partner",
-		"hero.title": "Precision in Every Gram.",
-		"hero.titleHighlight": "Absolute Control.",
+		// === Hero Section ===
+		"hero.badge": "Official Wipotec Partner",
+		"hero.badgeMesutronic": "Official Mesutronic Partner",
+		"hero.title": "High-Speed Dynamic Weighing Systems",
+		"hero.titleHighlight": "German Quality in Ukraine",
 		"hero.description":
-			"Advanced weighing and inspection systems engineered for flawless production lines. Ensuring compliance, quality, and supreme efficiency for global manufacturers.",
-		"hero.exploreCta": "Explore Equipment",
-		"hero.contactSales": "Contact Sales",
-		"hero.imageAlt": "Industrial quality inspection equipment",
+			"Fast and precise checkweighers, metal detectors, and X-ray scanners for food, pharma, and logistics. Over 500 installations across Ukraine since 2015.",
+		"hero.exploreCta": "View Products",
+		"hero.contactSales": "Contact Us",
+		"hero.imageAlt": "Industrial checkweigher equipment",
 
-		// Stats
-		"stats.clients": "Clients Served",
-		"stats.experience": "Years Experience",
-		"stats.installations": "Installations",
+		// === Statistics ===
+		"stats.clients": "Clients",
+		"stats.experience": "Years in Ukraine",
+		"stats.installations": "Systems Installed",
 
-		// Features Section
-		"features.title": "Core Inspection Technologies",
-		"features.checkweighers.title": "Checkweighers",
+		// === Product Features ===
+		"features.title": "Product Categories",
+		"features.checkweighers.title": "Dynamic Checkweighers",
 		"features.checkweighers.description":
-			"High-speed, ultra-precise dynamic weighing for rigorous quality control and sorting operations.",
-		"features.xray.title": "X-Ray Inspection",
+			"High-speed dynamic weighing for quality control and product sorting on production lines.",
+		"features.xray.title": "X-Ray Inspection Systems",
 		"features.xray.description":
-			"Advanced contaminant detection capable of identifying metal, glass, stone, and dense plastics.",
+			"Detect metal, glass, stone, and dense plastic contaminants in packaged products.",
 		"features.metalDetectors.title": "Metal Detectors",
 		"features.metalDetectors.description":
-			"Robust multi-frequency scanning to ensure absolute product purity and brand protection.",
-		"features.technicalDetails": "Technical Details",
+			"Multi-frequency metal detection for food safety and product purity standards.",
+		"features.technicalDetails": "Specifications",
 
-		// Contact Section
-		"contact.title": "Ready to Elevate Your Production Line?",
+		// === Contact CTA ===
+		"contact.title": "Need a Solution for Your Production Line?",
 		"contact.description":
-			"Contact our sales team to discuss your precision inspection needs and get a customized solution.",
-		"contact.cta": "Schedule Consultation",
+			"Contact our team to discuss equipment selection, installation, and support options.",
+		"contact.cta": "Request Consultation",
 
-		// Industries Section
-		"industries.label": "Market Expertise",
-		"industries.title": "Engineered for Every Industry",
+		// === Industries ===
+		"industries.label": "Industries We Serve",
+		"industries.title": "Equipment for Every Industry",
 		"industries.description":
-			"Tailored inspection technology adhering to the strictest international standards across diverse manufacturing sectors.",
-		"industries.food.title": "Food",
+			"Weighing and inspection systems that meet FDA, IFS, BRC, and GMP standards for Ukrainian manufacturers.",
+		"industries.food.title": "Food Production",
 		"industries.food.description":
-			"Hygienic design checkweighers and inspection systems ensuring FDA, IFS, and BRC compliance for global food safety.",
-		"industries.pharma.title": "Pharmaceuticals",
+			"Hygienic checkweighers and inspection systems for food safety compliance (FDA, IFS, BRC).",
+		"industries.pharma.title": "Pharmaceutical",
 		"industries.pharma.description":
-			"High-precision serialization, aggregation, and weighing systems for strict global traceability and patient safety mandates.",
+			"Precision weighing and Track & Trace serialization systems for pharma industry compliance.",
 		"industries.cosmetics.title": "Cosmetics",
-		"industries.cosmetics.description": "Precision filling control and aesthetic inspection.",
+		"industries.cosmetics.description": "Filling control and quality inspection systems.",
 		"industries.logistics.title": "Logistics",
-		"industries.logistics.description": "Dynamic weighing for high-throughput distribution.",
-		"industries.viewAll": "View All Sectors",
-		"industries.viewAllSubtitle": "Discover specialized solutions",
-		"industries.exploreCta": "Explore Solutions",
+		"industries.logistics.description": "High-speed weighing for distribution centers.",
+		"industries.viewAll": "All Industries",
+		"industries.viewAllSubtitle": "View specialized solutions",
+		"industries.exploreCta": "Learn More",
 
-		// Partners Section
-		"partners.label": "Our Partners",
-		"partners.title": "Trusted by Industry Leaders",
+		// === Partners Section ===
+		"partners.label": "Our Clients",
+		"partners.title": "Trusted by Leading Ukrainian Manufacturers",
 		"partners.description":
-			"Powering precision for Ukraine's most demanding manufacturing sectors through long-term strategic partnerships since 2015.",
+			"We supply and service weighing systems for major food, pharmaceutical, and chemical companies across Ukraine since 2015.",
 		"partners.categoryFood": "Food Industry",
-		"partners.categoryHousehold": "Household & Chemistry",
-		"partners.categoryPharma": "Pharmaceutical Industry",
+		"partners.categoryHousehold": "Household Products",
+		"partners.categoryPharma": "Pharmaceutical",
 		"partners.installations": "Installations",
 		"partners.installationsValue": "500+",
 		"partners.installationsDescription":
-			"Precision systems deployed across Ukraine's leading manufacturing facilities.",
+			"Systems installed at manufacturing facilities across Ukraine.",
 		"partners.experience": "Years Experience",
 		"partners.experienceValue": "9+",
-		"partners.experienceDescription":
-			"Engineering excellence and technical partnership in the region since 2015.",
+		"partners.experienceDescription": "Technical expertise and service support since 2015.",
 		"partners.retention": "Client Retention",
 		"partners.retentionValue": "98%",
-		"partners.retentionDescription":
-			"Our commitment to support ensures long-term operational success for our partners.",
-
-		// Misc
-		"home.title": "Hello World!",
-		"home.description": "This is the English version of the page",
-		"home.switchLanguage": "Перейти на Українську",
+		"partners.retentionDescription": "Long-term partnerships through reliable support and service.",
 	},
 	ua: {
-		"site.title": "OS-Technology Україна | Прецизійні Системи Контролю",
-		"site.description": "Передові системи зважування та інспекції для промислового виробництва",
+		// === Метадані сайту ===
+		"site.title": "ОС-Технолоджи Україна | Системи Зважування та Контролю",
+		"site.description":
+			"Динамічні чекові ваги, металодетектори та рентген-сканери для харчової, фармацевтичної та логістичної промисловості",
 
-		// Navigation
-		"nav.catalogue": "Каталог",
+		// === Навігація ===
+		"nav.catalogue": "Продукція",
 		"nav.solutions": "Рішення",
 		"nav.industries": "Галузі",
 		"nav.about": "Про нас",
 		"nav.language": "Мова",
 
-		// Hero
-		"hero.badge": "Авторизований партнер Wipotec",
-		"hero.badgeMesutronic": "Авторизований партнер Mesutronic",
-		"hero.title": "Точність у кожному грамі.",
-		"hero.titleHighlight": "Абсолютний контроль.",
+		// === Головна секція ===
+		"hero.badge": "Офіційний партнер Wipotec",
+		"hero.badgeMesutronic": "Офіційний партнер Mesutronic",
+		"hero.title": "Швидкі системи динамічного зважування",
+		"hero.titleHighlight": "Німецька якість в Україні",
 		"hero.description":
-			"Передові системи зважування та інспекції, створені для бездоганних виробничих ліній. Забезпечення відповідності, якості та максимальної ефективності для світових виробників.",
-		"hero.exploreCta": "Переглянути обладнання",
-		"hero.contactSales": "Зв'язатися з відділом продажу",
-		"hero.imageAlt": "Промислове обладнання для контролю якості",
+			"Точні чекові ваги, металодетектори та рентген-сканери для харчової, фармацевтичної та логістичної галузей. Понад 500 встановлень в Україні з 2015 року.",
+		"hero.exploreCta": "Дивитись продукцію",
+		"hero.contactSales": "Зв'язатися з нами",
+		"hero.imageAlt": "Промислові чекові ваги",
 
-		// Stats
-		"stats.clients": "Обслужених клієнтів",
-		"stats.experience": "Років досвіду",
-		"stats.installations": "Встановлень",
+		// === Статистика ===
+		"stats.clients": "Клієнтів",
+		"stats.experience": "Років в Україні",
+		"stats.installations": "Встановлених систем",
 
-		// Features Section
-		"features.title": "Основні технології контролю",
-		"features.checkweighers.title": "Чекові ваги",
+		// === Категорії продукції ===
+		"features.title": "Категорії обладнання",
+		"features.checkweighers.title": "Динамічні чекові ваги",
 		"features.checkweighers.description":
-			"Високошвидкісне, надточне динамічне зважування для суворого контролю якості та сортування.",
-		"features.xray.title": "Рентгенівська інспекція",
+			"Високошвидкісне зважування для контролю якості та сортування на виробничих лініях.",
+		"features.xray.title": "Рентген-сканери",
 		"features.xray.description":
-			"Передове виявлення забруднень, здатне ідентифікувати метал, скло, камінь та щільний пластик.",
+			"Виявлення сторонніх включень: металу, скла, каменю та щільного пластику в упакованій продукції.",
 		"features.metalDetectors.title": "Металодетектори",
 		"features.metalDetectors.description":
-			"Надійне багаточастотне сканування для забезпечення абсолютної чистоти продукції та захисту бренду.",
-		"features.technicalDetails": "Технічні деталі",
+			"Багаточастотне виявлення металу для харчової безпеки та захисту продукції.",
+		"features.technicalDetails": "Характеристики",
 
-		// Contact Section
-		"contact.title": "Готові підвищити рівень вашої виробничої лінії?",
+		// === Контактна секція ===
+		"contact.title": "Потрібне обладнання для вашого виробництва?",
 		"contact.description":
-			"Зв'яжіться з нашою командою продажів, щоб обговорити ваші потреби у точному контролі та отримати індивідуальне рішення.",
-		"contact.cta": "Запланувати консультацію",
+			"Зв'яжіться з нашою командою для підбору обладнання, монтажу та сервісного обслуговування.",
+		"contact.cta": "Замовити консультацію",
 
-		// Industries Section
-		"industries.label": "Експертиза ринку",
-		"industries.title": "Створено для кожної галузі",
+		// === Галузі ===
+		"industries.label": "Галузі застосування",
+		"industries.title": "Обладнання для різних галузей",
 		"industries.description":
-			"Індивідуальні технології контролю, що відповідають найсуворішим міжнародним стандартам у різних виробничих секторах.",
+			"Системи зважування та контролю, що відповідають стандартам FDA, IFS, BRC та GMP для українських виробників.",
 		"industries.food.title": "Харчова промисловість",
 		"industries.food.description":
-			"Гігієнічні чекові ваги та системи контролю, що забезпечують відповідність FDA, IFS та BRC для глобальної безпеки харчових продуктів.",
+			"Гігієнічні чекові ваги та системи контролю для дотримання стандартів харчової безпеки (FDA, IFS, BRC).",
 		"industries.pharma.title": "Фармацевтика",
 		"industries.pharma.description":
-			"Високоточні системи серіалізації, агрегації та зважування для суворої глобальної відстежуваності та безпеки пацієнтів.",
+			"Високоточне зважування та системи серіалізації Track & Trace для фармацевтичної галузі.",
 		"industries.cosmetics.title": "Косметика",
-		"industries.cosmetics.description": "Точний контроль наповнення та естетична інспекція.",
+		"industries.cosmetics.description": "Контроль наповнення та якості продукції.",
 		"industries.logistics.title": "Логістика",
-		"industries.logistics.description": "Динамічне зважування для високопродуктивного розподілу.",
-		"industries.viewAll": "Переглянути всі сектори",
-		"industries.viewAllSubtitle": "Відкрийте спеціалізовані рішення",
-		"industries.exploreCta": "Дослідити рішення",
+		"industries.logistics.description": "Швидкісне зважування для розподільчих центрів.",
+		"industries.viewAll": "Всі галузі",
+		"industries.viewAllSubtitle": "Дивитись спеціалізовані рішення",
+		"industries.exploreCta": "Детальніше",
 
-		// Partners Section
-		"partners.label": "Наші партнери",
-		"partners.title": "Довіра лідерів галузі",
+		// === Секція партнерів ===
+		"partners.label": "Наші клієнти",
+		"partners.title": "Нам довіряють провідні українські виробники",
 		"partners.description":
-			"Забезпечуємо точність для найвимогливіших виробничих секторів України через довгострокові стратегічні партнерства з 2015 року.",
+			"Постачаємо та обслуговуємо системи зважування для великих харчових, фармацевтичних та хімічних компаній України з 2015 року.",
 		"partners.categoryFood": "Харчова промисловість",
-		"partners.categoryHousehold": "Побутова хімія та ін.",
-		"partners.categoryPharma": "Фармацевтична промисловість",
+		"partners.categoryHousehold": "Побутова хімія",
+		"partners.categoryPharma": "Фармацевтика",
 		"partners.installations": "Встановлень",
 		"partners.installationsValue": "500+",
-		"partners.installationsDescription":
-			"Прецизійні системи, розгорнуті на провідних виробничих підприємствах України.",
+		"partners.installationsDescription": "Систем встановлено на виробництвах по всій Україні.",
 		"partners.experience": "Років досвіду",
 		"partners.experienceValue": "9+",
-		"partners.experienceDescription":
-			"Інженерна досконалість та технічне партнерство в регіоні з 2015 року.",
-		"partners.retention": "Утримання клієнтів",
+		"partners.experienceDescription": "Технічна експертиза та сервісна підтримка з 2015 року.",
+		"partners.retention": "Повторні звернення",
 		"partners.retentionValue": "98%",
-		"partners.retentionDescription":
-			"Наша відданість підтримці забезпечує довгостроковий операційний успіх наших партнерів.",
-
-		// Misc
-		"home.title": "Привіт Світ!",
-		"home.description": "Це українська версія сторінки",
-		"home.switchLanguage": "Switch to English",
+		"partners.retentionDescription": "Довгострокові партнерства завдяки надійному сервісу.",
 	},
 } as const;
