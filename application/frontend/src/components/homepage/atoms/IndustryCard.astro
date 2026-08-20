@@ -53,17 +53,6 @@ const iconName = iconMap[icon.toLowerCase()] || "Circle";
 </Card>
 
 <script>
-	// Dynamically load and render Lucide icons
-	import * as LucideIcons from "lucide-react";
-	import { createElement } from "react";
-	import { createRoot } from "react-dom/client";
-
-	document.querySelectorAll("[data-icon]").forEach((element) => {
-		const iconName = element.getAttribute("data-icon");
-		if (iconName && iconName in LucideIcons) {
-			const Icon = (LucideIcons as any)[iconName];
-			const root = createRoot(element);
-			root.render(createElement(Icon, { className: "w-10 h-10" }));
-		}
-	});
+	import { loadIcons } from "@/lib/icon-loader";
+	loadIcons();
 </script>

@@ -1,0 +1,84 @@
+---
+import { getTranslations } from "@/i18n";
+import IndustryCard from "./atoms/IndustryCard.astro";
+import IndustryCardSmall from "./atoms/IndustryCardSmall.astro";
+import IndustryCardCTA from "./atoms/IndustryCardCTA.astro";
+
+interface Props {
+	lang: "en" | "ua";
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+---
+
+<section class="relative mx-auto max-w-7xl overflow-hidden px-8 py-24 md:py-32">
+	<div class="relative z-10 mb-16">
+		<div
+			class="text-primary font-mono mb-4 flex items-center gap-2 text-[12px] leading-[16px] font-medium tracking-[0.05em] uppercase"
+		>
+			<span class="bg-primary h-[1px] w-8"></span>
+			{t("industries.label")}
+		</div>
+		<div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+			<div class="max-w-2xl">
+				<h2
+					class="font-heading text-foreground mb-4 text-[40px] leading-[48px] font-semibold tracking-tight md:text-[64px] md:leading-[72px] md:tracking-[-0.02em]"
+				>
+					{t("industries.title")}
+				</h2>
+				<p class="text-muted-foreground text-[18px] leading-[28px]">
+					{t("industries.description")}
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="bento-grid grid grid-cols-1 gap-6 md:grid-cols-12">
+		<!-- Food - Large Card (6 cols) -->
+		<div class="md:col-span-6">
+			<IndustryCard
+				title={t("industries.food.title")}
+				description={t("industries.food.description")}
+				icon="utensils"
+				ctaText={t("industries.exploreCta")}
+			/>
+		</div>
+
+		<!-- Pharma - Large Card (6 cols) -->
+		<div class="md:col-span-6">
+			<IndustryCard
+				title={t("industries.pharma.title")}
+				description={t("industries.pharma.description")}
+				icon="pill"
+				ctaText={t("industries.exploreCta")}
+			/>
+		</div>
+
+		<!-- Cosmetics - Small Card (4 cols) -->
+		<div class="md:col-span-4">
+			<IndustryCardSmall
+				title={t("industries.cosmetics.title")}
+				description={t("industries.cosmetics.description")}
+				icon="sparkles"
+			/>
+		</div>
+
+		<!-- Logistics - Small Card (4 cols) -->
+		<div class="md:col-span-4">
+			<IndustryCardSmall
+				title={t("industries.logistics.title")}
+				description={t("industries.logistics.description")}
+				icon="warehouse"
+			/>
+		</div>
+
+		<!-- View All CTA - Small Card (4 cols) -->
+		<div class="md:col-span-4">
+			<IndustryCardCTA
+				title={t("industries.viewAll")}
+				subtitle={t("industries.viewAllSubtitle")}
+			/>
+		</div>
+	</div>
+</section>

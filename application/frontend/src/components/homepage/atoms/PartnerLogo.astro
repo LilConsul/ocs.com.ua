@@ -1,0 +1,18 @@
+---
+interface Props {
+	name: string;
+	logo: string;
+	website: string;
+}
+
+const { name, logo, website } = Astro.props;
+---
+
+<a
+	href={website}
+	target="_blank"
+	rel="noopener noreferrer"
+	class="hover:grayscale-0 flex h-12 shrink-0 items-center px-6 opacity-70 grayscale transition-all duration-500 hover:opacity-100"
+>
+	<img src={logo} alt={name} class="h-12 w-auto" loading="lazy" />
+</a>

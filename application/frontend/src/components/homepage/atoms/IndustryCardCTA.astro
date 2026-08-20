@@ -1,0 +1,41 @@
+---
+import { Card, CardContent } from "@/components/ui/card";
+
+interface Props {
+	title: string;
+	subtitle: string;
+}
+
+const { title, subtitle } = Astro.props;
+---
+
+<Card
+	className="bg-primary border-primary hover:bg-accent hover:border-accent group min-h-[240px] cursor-pointer flex-col items-center justify-center rounded-xl border p-8 text-center shadow-lg transition-all duration-500"
+>
+	<CardContent className="flex flex-col items-center justify-center p-0">
+		<div
+			class="border-primary-foreground/30 group-hover:scale-110 mb-4 flex h-12 w-12 items-center justify-center rounded-full border transition-transform"
+			data-icon="Grid3x3"
+		>
+		</div>
+		<h3 class="text-primary-foreground mb-2 text-[18px] leading-[28px] font-bold">
+			{title}
+		</h3>
+		<p
+			class="text-primary-foreground/70 font-mono text-[12px] leading-[16px] font-medium tracking-[0.05em] uppercase"
+		>
+			{subtitle}
+		</p>
+	</CardContent>
+</Card>
+
+<script>
+	import { Grid3x3 } from "lucide-react";
+	import { createElement } from "react";
+	import { createRoot } from "react-dom/client";
+
+	document.querySelectorAll("[data-icon='Grid3x3']").forEach((element) => {
+		const root = createRoot(element);
+		root.render(createElement(Grid3x3, { className: "w-6 h-6 text-white" }));
+	});
+</script>
