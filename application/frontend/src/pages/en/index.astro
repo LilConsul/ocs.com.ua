@@ -1,15 +1,17 @@
 ---
 import Layout from '@/layouts/Layout.astro';
+import { getLangFromUrl, useTranslations } from '@/i18n/utils';
 
-const locale = 'en';
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
-<Layout title="Hello World">
+<Layout title={t('site.title')}>
 	<main class="min-h-screen flex flex-col items-center justify-center p-8">
-		<h1 class="text-4xl font-bold mb-4">Hello World!</h1>
-		<p class="text-xl mb-8">This is the English version of the page</p>
+		<h1 class="text-4xl font-bold mb-4">{t('home.title')}</h1>
+		<p class="text-xl mb-8">{t('home.description')}</p>
 		<a href="/ua" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-			Перейти на Українську
+			{t('home.switchLanguage')}
 		</a>
 	</main>
 </Layout>
