@@ -1,7 +1,7 @@
 ---
 import "../styles/global.css";
 import { Header } from "@/components/Header";
-import { getLangFromUrl, useTranslations } from "@/i18n";
+import { getLangFromUrl, getTranslations } from "@/i18n";
 
 interface Props {
 	title: string;
@@ -11,7 +11,7 @@ interface Props {
 
 const { title, description, showHeader = true } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
+const t = getTranslations(lang);
 ---
 
 <!doctype html>

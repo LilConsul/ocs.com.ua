@@ -50,16 +50,16 @@ The site uses a **prefix-based routing** system where language is part of the UR
 **Core i18n files:**
 
 - `src/i18n/ui.ts` - All translation strings as const objects
-- `src/i18n/utils.ts` - Helper functions: `getLangFromUrl()`, `useTranslations()`
+- `src/i18n/utils.ts` - Helper functions: `getLangFromUrl()`, `getTranslations()`
 - `astro.config.mjs` - Language routing config (prefixDefaultLocale: true)
 
 **Usage pattern:**
 
 ```astro
 ---
-import { getLangFromUrl, useTranslations } from '@/i18n';
+import { getLangFromUrl, getTranslations } from '@/i18n';
 const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
+const t = getTranslations(lang);
 ---
 <h1>{t('site.title')}</h1>
 ```
@@ -179,7 +179,7 @@ This runs format + lint + organize imports in one command.
 1. Use in component:
 
    ```astro
-   const t = useTranslations(lang);
+   const t = getTranslations(lang);
    <p>{t('new.key')}</p>
    ```
 
