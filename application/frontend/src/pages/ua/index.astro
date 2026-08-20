@@ -1,32 +1,15 @@
 ---
-import { ContactForm } from "@/components/ContactForm";
-import FeaturedEquipment from "@/components/FeaturedEquipment.astro";
-import Footer from "@/components/Footer.astro";
-import Header from "@/components/Header.astro";
-import { HeroCarousel } from "@/components/HeroCarousel";
-import IndustriesSection from "@/components/IndustriesSection.astro";
-import WhyChooseUs from "@/components/WhyChooseUs.astro";
-import Layout from "@/layouts/Layout.astro";
-import { loadHomepage, loadNavigation, loadSiteConfig } from "@/lib/content";
+import Layout from '@/layouts/Layout.astro';
 
-const locale = "ua";
-const pathname = "/ua/";
-
-const [homepage, navigation, siteConfig] = await Promise.all([
-	loadHomepage(locale),
-	loadNavigation(locale),
-	loadSiteConfig(locale),
-]);
+const locale = 'ua';
 ---
 
-<Layout lang={locale} siteConfig={siteConfig} pathname={pathname}>
-	<Header navigation={navigation.header} currentPath={pathname} siteConfig={siteConfig} />
-	<main id="main-content">
-		<HeroCarousel client:load slides={homepage.hero.slides} />
-		<IndustriesSection content={homepage.industries} />
-		<FeaturedEquipment content={homepage.featuredEquipment} />
-		<WhyChooseUs content={homepage.whyChooseUs} />
-		<ContactForm client:load content={homepage.contactForm} />
+<Layout title="ÐÑÐ¸Ð²ÑÑ Ð¡Ð²ÑÑ">
+	<main class="min-h-screen flex flex-col items-center justify-center p-8">
+		<h1 class="text-4xl font-bold mb-4">ÐÑÐ¸Ð²ÑÑ Ð¡Ð²ÑÑ!</h1>
+		<p class="text-xl mb-8">Ð¦Ðµ ÑÐºÑÐ°ÑÐ½ÑÑÐºÐ° Ð²ÐµÑÑÑÑ ÑÑÐ¾ÑÑÐ½ÐºÐ¸</p>
+		<a href="/en" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+			Switch to English
+		</a>
 	</main>
-	<Footer navigation={navigation.footer} siteConfig={siteConfig} />
 </Layout>

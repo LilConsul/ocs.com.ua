@@ -1,73 +1,21 @@
 ---
 import "../styles/global.css";
 
-import type { SiteConfig } from "@/types/content";
-
 interface Props {
-	lang: "ua" | "en";
-	siteConfig: SiteConfig;
-	pathname: string;
+	title: string;
 }
 
-const { lang, siteConfig, pathname } = Astro.props;
-
-const siteUrl = "https://ocs.com.ua";
-const canonicalPath = pathname === "/" ? "/ua/" : pathname;
-const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
-const alternateUaUrl = new URL("/ua/", siteUrl).toString();
-const alternateEnUrl = new URL("/en/", siteUrl).toString();
-
-const organizationSchema = {
-	"@context": "https://schema.org",
-	"@type": "Organization",
-	name: siteConfig.company.fullName,
-	url: siteUrl,
-	logo: `${siteUrl}/images/ocs-logo.svg`,
-	contactPoint: {
-		"@type": "ContactPoint",
-		telephone: siteConfig.contact.phone,
-		contactType: "Customer Service",
-		availableLanguage: ["Ukrainian", "English"],
-	},
-	sameAs: Object.values(siteConfig.social).filter(Boolean),
-};
+const { title } = Astro.props;
 ---
 
 <!doctype html>
-<html lang={lang === "ua" ? "uk" : "en"}>
+<html lang="uk">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-
-		<title>{siteConfig.seo.title}</title>
-		<meta name="description" content={siteConfig.seo.description} />
-		<meta name="keywords" content={siteConfig.seo.keywords.join(", ")} />
-		<link rel="canonical" href={canonicalUrl} />
-
-		<meta property="og:title" content={siteConfig.seo.title} />
-		<meta property="og:description" content={siteConfig.seo.description} />
-		<meta property="og:image" content={siteConfig.seo.ogImage} />
-		<meta property="og:type" content="website" />
-		<meta property="og:url" content={canonicalUrl} />
-		<meta property="og:locale" content={lang === "ua" ? "uk_UA" : "en_US"} />
-
-		<meta name="twitter:card" content="summary_large_image" />
-		<meta name="twitter:title" content={siteConfig.seo.title} />
-		<meta name="twitter:description" content={siteConfig.seo.description} />
-		<meta name="twitter:image" content={siteConfig.seo.ogImage} />
-
-		<link rel="alternate" hreflang="uk" href={alternateUaUrl} />
-		<link rel="alternate" hreflang="en" href={alternateEnUrl} />
-		<link rel="alternate" hreflang="x-default" href={alternateUaUrl} />
-
-		<script
-			is:inline
-			type="application/ld+json"
-			set:html={JSON.stringify(organizationSchema)}
-		/>
+		<title>{title}</title>
 	</head>
 	<body class="min-h-screen bg-background text-foreground antialiased">
 		<slot />

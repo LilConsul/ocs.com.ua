@@ -1,32 +1,15 @@
 ---
-import { ContactForm } from "@/components/ContactForm";
-import FeaturedEquipment from "@/components/FeaturedEquipment.astro";
-import Footer from "@/components/Footer.astro";
-import Header from "@/components/Header.astro";
-import { HeroCarousel } from "@/components/HeroCarousel";
-import IndustriesSection from "@/components/IndustriesSection.astro";
-import WhyChooseUs from "@/components/WhyChooseUs.astro";
-import Layout from "@/layouts/Layout.astro";
-import { loadHomepage, loadNavigation, loadSiteConfig } from "@/lib/content";
+import Layout from '@/layouts/Layout.astro';
 
-const locale = "en";
-const pathname = "/en/";
-
-const [homepage, navigation, siteConfig] = await Promise.all([
-	loadHomepage(locale),
-	loadNavigation(locale),
-	loadSiteConfig(locale),
-]);
+const locale = 'en';
 ---
 
-<Layout lang={locale} siteConfig={siteConfig} pathname={pathname}>
-	<Header navigation={navigation.header} currentPath={pathname} siteConfig={siteConfig} />
-	<main id="main-content">
-		<HeroCarousel client:load slides={homepage.hero.slides} />
-		<IndustriesSection content={homepage.industries} />
-		<FeaturedEquipment content={homepage.featuredEquipment} />
-		<WhyChooseUs content={homepage.whyChooseUs} />
-		<ContactForm client:load content={homepage.contactForm} />
+<Layout title="Hello World">
+	<main class="min-h-screen flex flex-col items-center justify-center p-8">
+		<h1 class="text-4xl font-bold mb-4">Hello World!</h1>
+		<p class="text-xl mb-8">This is the English version of the page</p>
+		<a href="/ua" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+			ÃÃÂµÃÃÂµÃÂ¹ÃÃÂ¸ ÃÂ½ÃÂ° ÃÂ£ÃÂºÃÃÂ°ÃÃÂ½ÃÃÃÂºÃ
+		</a>
 	</main>
-	<Footer navigation={navigation.footer} siteConfig={siteConfig} />
 </Layout>
