@@ -1,0 +1,23 @@
+---
+import { Card, CardContent } from "@/components/ui/card";
+
+interface Props {
+	value: string;
+	label: string;
+}
+
+const { value, label } = Astro.props;
+---
+
+<Card className="text-center border-0 shadow-none bg-transparent">
+	<CardContent className="pt-8 md:pt-0">
+		<span class="font-heading text-primary mb-2 block text-[36px] leading-[44px] font-bold">
+			{value}
+		</span>
+		<span
+			class="text-muted-foreground font-mono text-[12px] leading-[16px] font-medium tracking-[0.05em] uppercase"
+		>
+			{label}
+		</span>
+	</CardContent>
+</Card>

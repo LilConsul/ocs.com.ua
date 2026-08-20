@@ -1,0 +1,46 @@
+---
+import { getTranslations } from "@/i18n";
+
+interface Props {
+	lang: "en" | "ua";
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+---
+
+<section class="border-border bg-muted/30 border-y py-24">
+	<div class="mx-auto max-w-7xl px-8">
+		<div
+			class="divide-border grid grid-cols-1 gap-12 divide-y md:grid-cols-3 md:divide-x md:divide-y-0"
+		>
+			<div class="flex flex-col items-center pt-8 text-center first:pt-0 md:pt-0">
+				<span class="font-heading text-primary mb-2 text-[36px] leading-[44px] font-bold"
+					>50+</span
+				>
+				<span
+					class="text-muted-foreground font-mono text-[12px] leading-[16px] font-medium tracking-widest uppercase"
+					>{t("stats.clients")}</span
+				>
+			</div>
+			<div class="flex flex-col items-center pt-8 text-center md:pt-0">
+				<span class="font-heading text-primary mb-2 text-[36px] leading-[44px] font-bold"
+					>10+</span
+				>
+				<span
+					class="text-muted-foreground font-mono text-[12px] leading-[16px] font-medium tracking-widest uppercase"
+					>{t("stats.experience")}</span
+				>
+			</div>
+			<div class="flex flex-col items-center pt-8 text-center md:pt-0">
+				<span class="font-heading text-primary mb-2 text-[36px] leading-[44px] font-bold"
+					>300+</span
+				>
+				<span
+					class="text-muted-foreground font-mono text-[12px] leading-[16px] font-medium tracking-widest uppercase"
+					>{t("stats.installations")}</span
+				>
+			</div>
+		</div>
+	</div>
+</section>
