@@ -1,7 +1,11 @@
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-NEVER USE Co-Authored: \*\*\* IN ANY COMMITS BY ANY MATTER. YOU ARE NOT ANTHROPIC MODEL.
+
+**Important Rules:**
+
+- NEVER USE Co-Authored: \*\*\* IN ANY COMMITS BY ANY MATTER. YOU ARE NOT ANTHROPIC MODEL.
+- NEVER USE EMOJIS in any documentation, commit messages, or code comments. Keep all text professional and emoji-free.
 
 ## Project Overview
 
@@ -35,8 +39,9 @@ npm run lint:fix         # Fix linting issues only
 npm run format:fix       # Fix formatting issues only
 
 # i18n Translation Extraction
-npm run i18n:extract     # Extract _() calls and prompt for translations
-npm run i18n:extract:dry # Preview what would be extracted (no changes)
+npm run i18n:extract     # Extract _() calls to .po files (Babel-style)
+npm run i18n:compile     # Compile .po files to ui.ts
+npm run i18n:init -- pl  # Initialize new language (e.g., Polish)
 ```
 
 ## Architecture & Key Patterns
@@ -70,10 +75,12 @@ const _ = getInlineTranslations(lang as "en" | "ua");
 <p>{_("Precision equipment for industrial applications")}</p>
 ```
 
-After adding `_()` calls, run extraction:
+After adding `_()` calls, run extraction and compilation:
 
 ```bash
-npm run i18n:extract  # Scans code, prompts for Ukrainian translations
+npm run i18n:extract   # Generates/updates .po files in locales/
+# Edit locales/ua.po to add Ukrainian translations
+npm run i18n:compile   # Compiles .po files to src/i18n/ui.ts
 ```
 
 **Manual Key Pattern (existing code):**
@@ -98,10 +105,13 @@ Both patterns coexist. Prefer `_()` for new code. See `docs/i18n-inline-translat
 
 **Core i18n files:**
 
-- `src/i18n/ui.ts` - All translation strings (auto-updated by extraction)
+- `locales/messages.pot` - Translation template (auto-generated)
+- `locales/*.po` - Translation files in Babel/gettext format (edit these)
+- `src/i18n/ui.ts` - Compiled translations (auto-generated from .po files)
 - `src/i18n/utils.ts` - Manual key helpers: `getLangFromUrl()`, `getTranslations()`
 - `src/i18n/inline.ts` - Inline translation helper: `getInlineTranslations()`
-- `scripts/i18n-extract.js` - Extraction tool for `_()` calls
+- `scripts/i18n-extract-po.js` - Extraction tool for `_()` calls → .po files
+- `scripts/i18n-compile.js` - Compile .po files → ui.ts
 - `astro.config.mjs` - Language routing config (prefixDefaultLocale: true)
 - `src/pages/[lang]/index.astro` - Dynamic page template for all languages
 

@@ -1,5 +1,5 @@
 ---
-import { getTranslations } from "@/i18n";
+import { getInlineTranslations } from "@/i18n";
 import IndustryCard from "./atoms/IndustryCard.astro";
 import IndustryCardCTA from "./atoms/IndustryCardCTA.astro";
 import IndustryCardSmall from "./atoms/IndustryCardSmall.astro";
@@ -9,7 +9,7 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const t = getTranslations(lang);
+const _ = getInlineTranslations(lang);
 ---
 
 <section class="relative mx-auto max-w-7xl overflow-hidden px-8 py-24 md:py-32">
@@ -18,17 +18,17 @@ const t = getTranslations(lang);
 			class="text-primary font-mono mb-4 flex items-center gap-2 text-[12px] leading-[16px] font-medium tracking-[0.05em] uppercase"
 		>
 			<span class="bg-primary h-[1px] w-8"></span>
-			{t("industries.label")}
+			{_("Industries We Serve")}
 		</div>
 		<div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
 			<div class="max-w-2xl">
 				<h2
 					class="font-heading text-foreground mb-4 text-[32px] leading-[40px] font-semibold tracking-tight md:text-[48px] md:leading-[56px] md:tracking-[-0.02em]"
 				>
-					{t("industries.title")}
+					{_("Equipment for Every Industry")}
 				</h2>
 				<p class="text-muted-foreground text-[14px] leading-[22px]">
-					{t("industries.description")}
+					{_("Weighing and inspection systems that meet FDA, IFS, BRC, and GMP standards for Ukrainian manufacturers.")}
 				</p>
 			</div>
 		</div>
@@ -38,28 +38,28 @@ const t = getTranslations(lang);
 		<!-- Food - Large Card (6 cols) -->
 		<div class="md:col-span-6">
 			<IndustryCard
-				title={t("industries.food.title")}
-				description={t("industries.food.description")}
+				title={_("Food Production")}
+				description={_("Hygienic checkweighers and inspection systems for food safety compliance (FDA, IFS, BRC).")}
 				icon="utensils"
-				ctaText={t("industries.exploreCta")}
+				ctaText={_("Learn More")}
 			/>
 		</div>
 
 		<!-- Pharma - Large Card (6 cols) -->
 		<div class="md:col-span-6">
 			<IndustryCard
-				title={t("industries.pharma.title")}
-				description={t("industries.pharma.description")}
+				title={_("Pharmaceutical")}
+				description={_("Precision weighing and Track & Trace serialization systems for pharma industry compliance.")}
 				icon="pill"
-				ctaText={t("industries.exploreCta")}
+				ctaText={_("Learn More")}
 			/>
 		</div>
 
 		<!-- Cosmetics - Small Card (4 cols) -->
 		<div class="md:col-span-4">
 			<IndustryCardSmall
-				title={t("industries.cosmetics.title")}
-				description={t("industries.cosmetics.description")}
+				title={_("Cosmetics")}
+				description={_("Filling control and quality inspection systems.")}
 				icon="sparkles"
 			/>
 		</div>
@@ -67,8 +67,8 @@ const t = getTranslations(lang);
 		<!-- Logistics - Small Card (4 cols) -->
 		<div class="md:col-span-4">
 			<IndustryCardSmall
-				title={t("industries.logistics.title")}
-				description={t("industries.logistics.description")}
+				title={_("Logistics")}
+				description={_("High-speed weighing for distribution centers.")}
 				icon="warehouse"
 			/>
 		</div>
@@ -76,8 +76,8 @@ const t = getTranslations(lang);
 		<!-- View All CTA - Small Card (4 cols) -->
 		<div class="md:col-span-4">
 			<IndustryCardCTA
-				title={t("industries.viewAll")}
-				subtitle={t("industries.viewAllSubtitle")}
+				title={_("All Industries")}
+				subtitle={_("View specialized solutions")}
 			/>
 		</div>
 	</div>

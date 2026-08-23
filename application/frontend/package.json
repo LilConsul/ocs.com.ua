@@ -23,8 +23,9 @@
 		"logos:find": "node scripts/find-logos.js",
 		"logos:download": "node scripts/auto-download-logos.js",
 		"logos:update": "node scripts/update-partners-json.js",
-		"i18n:extract": "node scripts/i18n-extract.js",
-		"i18n:extract:dry": "node scripts/i18n-extract.js --dry-run"
+		"i18n:extract": "node scripts/i18n-extract-po.js",
+		"i18n:init": "node scripts/i18n-extract-po.js --init",
+		"i18n:compile": "node scripts/i18n-compile.js"
 	},
 	"dependencies": {
 		"@astrojs/react": "^5.0.6",

@@ -4,7 +4,7 @@ import IndustriesSection from "@/components/homepage/IndustriesSection.astro";
 import { PartnersSection } from "@/components/homepage/PartnersSection";
 import StatsSection from "@/components/homepage/StatsSection.astro";
 import partnersData from "@/data/partners.json";
-import { getTranslations } from "@/i18n";
+import { getInlineTranslations } from "@/i18n";
 import { languages } from "@/i18n/ui";
 import Layout from "@/layouts/Layout.astro";
 
@@ -15,29 +15,29 @@ export function getStaticPaths() {
 }
 
 const { lang } = Astro.params;
-const t = getTranslations(lang as "en" | "ua");
+const _ = getInlineTranslations(lang as "en" | "ua");
 
 // Prepare translations for PartnersSection
 const partnerTranslations = {
-	label: t("partners.label"),
-	title: t("partners.title"),
-	description: t("partners.description"),
-	categoryFood: t("partners.categoryFood"),
-	categoryHousehold: t("partners.categoryHousehold"),
-	categoryPharma: t("partners.categoryPharma"),
-	installations: t("partners.installations"),
-	installationsValue: t("partners.installationsValue"),
-	installationsDescription: t("partners.installationsDescription"),
-	experience: t("partners.experience"),
-	experienceValue: t("partners.experienceValue"),
-	experienceDescription: t("partners.experienceDescription"),
-	retention: t("partners.retention"),
-	retentionValue: t("partners.retentionValue"),
-	retentionDescription: t("partners.retentionDescription"),
+	label: _("Our Clients"),
+	title: _("Trusted by Leading Ukrainian Manufacturers"),
+	description: _("We supply and service weighing systems for major food, pharmaceutical, and chemical companies across Ukraine since 2013."),
+	categoryFood: _("Food Industry"),
+	categoryHousehold: _("Household Products"),
+	categoryPharma: _("Pharmaceutical"),
+	installations: _("Installations"),
+	installationsValue: "300+",
+	installationsDescription: _("Systems installed at manufacturing facilities across Ukraine."),
+	experience: _("Years Experience"),
+	experienceValue: "10+",
+	experienceDescription: _("Technical expertise and service support since 2013."),
+	retention: _("Client Retention"),
+	retentionValue: "98%",
+	retentionDescription: _("Long-term partnerships through reliable support and service."),
 };
 ---
 
-<Layout title={t("site.title")} description={t("site.description")}>
+<Layout title={_("OS-Technology Ukraine | Industrial Weighing & Inspection Systems")} description={_("Dynamic checkweighers, serialization and aggregation systems for food, pharmaceutical, and logistics industries in Ukraine")}>
 	<HeroSection lang={lang as "en" | "ua"} />
 	<StatsSection lang={lang as "en" | "ua"} />
 	<IndustriesSection lang={lang as "en" | "ua"} />

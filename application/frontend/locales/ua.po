@@ -1,0 +1,196 @@
+# UA translations for OS-Technology Frontend.
+# Copyright (C) 2026 OS-Technology Ukraine
+# This file is distributed under the same license as the OS-Technology project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OS-Technology Frontend 1.0\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-08-23 12:42:03+0000\n"
+"PO-Revision-Date: 2026-08-23 12:42:03+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ua\n"
+"Language-Team: ua <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: i18n-extract\n"
+
+#: src\layouts\Layout.astro:37
+msgid "About"
+msgstr ""
+
+#: src\components\homepage\IndustriesSection.astro:79
+msgid "All Industries"
+msgstr ""
+
+#: src\pages\[lang]\index.astro:34
+msgid "Client Retention"
+msgstr ""
+
+#: src\components\homepage\StatsSection.astro:23
+msgid "Clients"
+msgstr ""
+
+#: src\components\homepage\HeroSection.astro:80
+msgid "Contact Us"
+msgstr ""
+
+#: src\components\homepage\IndustriesSection.astro:61
+msgid "Cosmetics"
+msgstr ""
+
+#: src\pages\[lang]\index.astro:40
+msgid "Dynamic checkweighers, serialization and aggregation systems for food, pharmaceutical, and logistics industries in Ukraine"
+msgstr ""
+
+#: src\components\homepage\IndustriesSection.astro:28
+msgid "Equipment for Every Industry"
+msgstr ""
+
+#: src\components\homepage\IndustriesSection.astro:62
+msgid "Filling control and quality inspection systems."
+msgstr ""
+
+#: src\pages\[lang]\index.astro:25
+msgid "Food Industry"
+msgstr ""
+
+#: src\components\homepage\IndustriesSection.astro:41
+msgid "Food Production"
+msgstr ""
+
+#: src\components\homepage\HeroSection.astro:66
+msgid "German Quality in Ukraine"
+msgstr ""
+
+#: src\i18n\inline.ts:5
+msgid "Hello, world"
+msgstr ""
+
+#: src\components\homepage\HeroSection.astro:64
+msgid "High-Speed Dynamic Weighing Systems"
+msgstr ""
+
+#: src\components\homepage\IndustriesSection.astro:71
+msgid "High-speed weighing for distribution centers."
+msgstr ""
+
+#: src\pages\[lang]\index.astro:26
+msgid "Household Products"
+msgstr ""
+
+#: src\components\homepage\IndustriesSection.astro:42
+msgid "Hygienic checkweighers and inspection systems for food safety compliance (FDA, IFS, BRC)."
+msgstr ""
+
+#: src\components\homepage\HeroSection.astro:23
+msgid "Industrial checkweigher equipment"
+msgstr ""
+
+#: src\layouts\Layout.astro:36
+msgid "Industries"
+msgstr ""
+
+#: src\components\homepage\IndustriesSection.astro:21
+msgid "Industries We Serve"
+msgstr ""
+
+#: src\pages\[lang]\index.astro:28
+msgid "Installations"
+msgstr ""
+
+#: src\layouts\Layout.astro:38
+msgid "Language"
+msgstr ""
+
+#: src\components\homepage\IndustriesSection.astro:44
+#: src\components\homepage\IndustriesSection.astro:54
+msgid "Learn More"
+msgstr ""
+
+#: src\components\homepage\IndustriesSection.astro:70
+msgid "Logistics"
+msgstr ""
+
+#: src\pages\[lang]\index.astro:36
+msgid "Long-term partnerships through reliable support and service."
+msgstr ""
+
+#: src\pages\[lang]\index.astro:40
+msgid "OS-Technology Ukraine | Industrial Weighing & Inspection Systems"
+msgstr ""
+
+#: src\components\homepage\HeroSection.astro:55
+msgid "Official Mesutronic Partner"
+msgstr ""
+
+#: src\components\homepage\HeroSection.astro:44
+msgid "Official Wipotec Partner"
+msgstr ""
+
+#: src\pages\[lang]\index.astro:22
+msgid "Our Clients"
+msgstr ""
+
+#: src\pages\[lang]\index.astro:27
+#: src\components\homepage\IndustriesSection.astro:51
+msgid "Pharmaceutical"
+msgstr ""
+
+#: src\components\homepage\HeroSection.astro:71
+msgid "Precision dynamic checkweighers, serialization and aggregation systems for food, pharma, and logistics. Over 300 installations across Ukraine since 2013."
+msgstr ""
+
+#: src\components\homepage\IndustriesSection.astro:52
+msgid "Precision weighing and Track & Trace serialization systems for pharma industry compliance."
+msgstr ""
+
+#: src\layouts\Layout.astro:34
+msgid "Products"
+msgstr ""
+
+#: src\layouts\Layout.astro:35
+msgid "Solutions"
+msgstr ""
+
+#: src\components\homepage\StatsSection.astro:41
+msgid "Systems Installed"
+msgstr ""
+
+#: src\pages\[lang]\index.astro:30
+msgid "Systems installed at manufacturing facilities across Ukraine."
+msgstr ""
+
+#: src\pages\[lang]\index.astro:33
+msgid "Technical expertise and service support since 2013."
+msgstr ""
+
+#: src\pages\[lang]\index.astro:23
+msgid "Trusted by Leading Ukrainian Manufacturers"
+msgstr ""
+
+#: src\components\homepage\HeroSection.astro:101
+msgid "View Products"
+msgstr ""
+
+#: src\components\homepage\IndustriesSection.astro:80
+msgid "View specialized solutions"
+msgstr ""
+
+#: src\pages\[lang]\index.astro:24
+msgid "We supply and service weighing systems for major food, pharmaceutical, and chemical companies across Ukraine since 2013."
+msgstr ""
+
+#: src\components\homepage\IndustriesSection.astro:31
+msgid "Weighing and inspection systems that meet FDA, IFS, BRC, and GMP standards for Ukrainian manufacturers."
+msgstr ""
+
+#: src\pages\[lang]\index.astro:31
+msgid "Years Experience"
+msgstr ""
+
+#: src\components\homepage\StatsSection.astro:32
+msgid "Years in Ukraine"
+msgstr ""
