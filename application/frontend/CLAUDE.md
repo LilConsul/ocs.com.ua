@@ -33,6 +33,10 @@ npm run ci               # CI check - validates without fixing
 # Individual operations
 npm run lint:fix         # Fix linting issues only
 npm run format:fix       # Fix formatting issues only
+
+# i18n Translation Extraction
+npm run i18n:extract     # Extract _() calls and prompt for translations
+npm run i18n:extract:dry # Preview what would be extracted (no changes)
 ```
 
 ## Architecture & Key Patterns
@@ -46,40 +50,60 @@ The site uses a **single dynamic page** with `getStaticPaths()` to generate both
 /ua/           → Ukrainian homepage (default locale)
 ```
 
-**Implementation:**
+**Two Translation Patterns:**
 
-- Dynamic route: `src/pages/[lang]/index.astro`
-- Uses `getStaticPaths()` to generate both `/en` and `/ua` paths
-- Single source of truth for content and layout
-- Language-specific content handled inline with conditionals or via `getTranslations()`
+1. **Manual keys (legacy)**: `t("hero.title")` - lookup by key
+1. **Inline text (new)**: `_("Welcome to our site")` - gettext-style workflow
 
-**Core i18n files:**
+**Inline Translation Workflow (Recommended for new code):**
 
-- `src/i18n/ui.ts` - All translation strings as const objects
-- `src/i18n/utils.ts` - Helper functions: `getLangFromUrl()`, `getTranslations()`
-- `astro.config.mjs` - Language routing config (prefixDefaultLocale: true)
-- `src/pages/[lang]/index.astro` - Dynamic page template for all languages
+Write English text directly in code, then extract to generate translations:
 
-**Usage pattern:**
+```astro
+---
+import { getInlineTranslations } from '@/i18n';
+
+const { lang } = Astro.params;
+const _ = getInlineTranslations(lang as "en" | "ua");
+---
+<h1>{_("High-Speed Dynamic Weighing Systems")}</h1>
+<p>{_("Precision equipment for industrial applications")}</p>
+```
+
+After adding `_()` calls, run extraction:
+
+```bash
+npm run i18n:extract  # Scans code, prompts for Ukrainian translations
+```
+
+**Manual Key Pattern (existing code):**
 
 ```astro
 ---
 import { getTranslations } from '@/i18n';
-import { languages } from '@/i18n/ui';
-
-export function getStaticPaths() {
-  return Object.keys(languages).map((lang) => ({
-    params: { lang },
-  }));
-}
 
 const { lang } = Astro.params;
 const t = getTranslations(lang as "en" | "ua");
 ---
 <h1>{t('site.title')}</h1>
-<!-- Or inline conditionals for non-i18n content -->
-<p>{lang === "ua" ? "Текст українською" : "English text"}</p>
 ```
+
+Both patterns coexist. Prefer `_()` for new code. See `docs/i18n-inline-translation.md` for complete guide.
+
+**Implementation:**
+
+- Dynamic route: `src/pages/[lang]/index.astro`
+- Uses `getStaticPaths()` to generate both `/en` and `/ua` paths
+- Single source of truth for content and layout
+
+**Core i18n files:**
+
+- `src/i18n/ui.ts` - All translation strings (auto-updated by extraction)
+- `src/i18n/utils.ts` - Manual key helpers: `getLangFromUrl()`, `getTranslations()`
+- `src/i18n/inline.ts` - Inline translation helper: `getInlineTranslations()`
+- `scripts/i18n-extract.js` - Extraction tool for `_()` calls
+- `astro.config.mjs` - Language routing config (prefixDefaultLocale: true)
+- `src/pages/[lang]/index.astro` - Dynamic page template for all languages
 
 ### Component Strategy
 

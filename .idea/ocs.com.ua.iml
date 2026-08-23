@@ -7,7 +7,7 @@
       <excludeFolder url="file://$MODULE_DIR$/application/frontend/.astro" />
       <excludeFolder url="file://$MODULE_DIR$/.bob" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.14" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="uv (ocs.com.ua)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PyDocumentationSettings">

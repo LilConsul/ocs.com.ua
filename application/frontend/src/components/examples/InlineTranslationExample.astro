@@ -1,0 +1,63 @@
+---
+/**
+ * Example component demonstrating inline translation usage with _()
+ *
+ * This shows how to use the new gettext-style workflow where you write
+ * English text directly in code and extract it to translation files.
+ */
+import { getInlineTranslations } from "@/i18n";
+
+interface Props {
+	lang: "en" | "ua";
+}
+
+const { lang } = Astro.props;
+const _ = getInlineTranslations(lang);
+---
+
+<section class="bg-muted/50 py-16">
+	<div class="container mx-auto px-4">
+		<!-- Example using inline translations -->
+		<div class="max-w-2xl mx-auto text-center">
+			<h2 class="text-3xl font-bold mb-4">
+				{_("Example Component with Inline Translations")}
+			</h2>
+
+			<p class="text-muted-foreground mb-6">
+				{_("This component demonstrates the new gettext-style i18n workflow. Write English text directly in your code, then extract and translate.")}
+			</p>
+
+			<div class="grid gap-4 md:grid-cols-2 text-left">
+				<div class="bg-card p-4 rounded-lg border">
+					<h3 class="font-semibold mb-2">
+						{_("How to use")}
+					</h3>
+					<ol class="text-sm text-muted-foreground space-y-2">
+						<li>1. {_("Import getInlineTranslations from @/i18n")}</li>
+						<li>2. {_("Call it with the current language")}</li>
+						<li>3. {_("Use _() with English text")}</li>
+						<li>4. {_("Run npm run i18n:extract")}</li>
+					</ol>
+				</div>
+
+				<div class="bg-card p-4 rounded-lg border">
+					<h3 class="font-semibold mb-2">
+						{_("Benefits")}
+					</h3>
+					<ul class="text-sm text-muted-foreground space-y-2">
+						<li>✓ {_("No manual key naming")}</li>
+						<li>✓ {_("Readable source code")}</li>
+						<li>✓ {_("Type-safe translations")}</li>
+						<li>✓ {_("Automatic extraction")}</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="mt-8">
+				<button class="bg-primary text-primary-foreground px-6 py-2 rounded-md hover:bg-primary/90">
+					{_("Learn More")}
+				</button>
+			</div>
+		</div>
+	</div>
+</section>
