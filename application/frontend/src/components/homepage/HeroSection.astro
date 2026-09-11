@@ -1,26 +1,24 @@
 ---
 import { Image } from "astro:assets";
 import { Badge } from "@/components/ui/badge";
-import { getTranslations } from "@/i18n";
+import { getInlineTranslations, type Lang } from "@/i18n";
 
 interface Props {
-	lang: "en" | "ua";
+	lang: Lang;
 }
 
 const { lang } = Astro.props;
-const t = getTranslations(lang);
+const _ = getInlineTranslations(lang);
 ---
 
 <section class="relative flex min-h-180 items-center overflow-hidden pt-20">
 	<!-- Background Image -->
 	<div class="absolute inset-0 z-0">
-		<div
-			class="from-background via-background absolute inset-0 z-10 bg-linear-to-r to-transparent"
-		>
+		<div class="from-background via-background absolute inset-0 z-10 bg-linear-to-r to-transparent">
 		</div>
 		<Image
 			src="/images/main_page.webp"
-			alt={t("hero.imageAlt")}
+			alt={_("Industrial Checkweigher Systems")}
 			class="ml-8 h-full w-full object-cover object-right"
 			loading="eager"
 			width={1920}
@@ -41,7 +39,7 @@ const t = getTranslations(lang);
 					<span
 						class="text-muted-foreground font-mono text-[12px] leading-[16px] font-medium tracking-[0.05em] uppercase"
 					>
-						{t("hero.badge")}
+						{_("Official Wipotec Partner")}
 					</span>
 				</Badge>
 				<Badge
@@ -52,7 +50,7 @@ const t = getTranslations(lang);
 					<span
 						class="text-muted-foreground font-mono text-[12px] leading-[16px] font-medium tracking-[0.05em] uppercase"
 					>
-						{t("hero.badgeMesutronic")}
+						{_("Official Mesutronic Partner")}
 					</span>
 				</Badge>
 			</div>
@@ -61,14 +59,18 @@ const t = getTranslations(lang);
 			<h1
 				class="font-heading text-foreground text-[36px] leading-[44px] font-semibold tracking-[-0.02em] md:text-[56px] md:leading-[64px]"
 			>
-				{t("hero.title")}
+				{_("Dynamic Checkweighers & Weighing Systems")}
 				<br />
-				<span class="text-muted-foreground">{t("hero.titleHighlight")}</span>
+				<span class="text-muted-foreground">{_("German Precision. Ukrainian Support.")}</span>
 			</h1>
 
 			<!-- Description -->
 			<p class="text-muted-foreground max-w-xl text-[15px] leading-[22px]">
-				{t("hero.description")}
+				{
+					_(
+						"Advanced checkweighers and Track & Trace systems for food, pharma, and logistics. Trusted by 300+ Ukrainian manufacturers since 2013."
+					)
+				}
 			</p>
 
 			<!-- CTA Buttons -->
@@ -77,7 +79,7 @@ const t = getTranslations(lang);
 					href={`/${lang}#contact`}
 					class="bg-primary text-primary-foreground inline-flex items-center justify-center gap-2 rounded-lg px-7 py-3.5 text-[15px] leading-[22px] font-medium transition-opacity hover:opacity-90"
 				>
-					{t("hero.contactSales")}
+					{_("Contact Us")}
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="18"
@@ -98,7 +100,7 @@ const t = getTranslations(lang);
 					href={`/${lang}#catalogue`}
 					class="border-secondary text-secondary hover:bg-secondary/5 inline-flex items-center justify-center gap-2 rounded-lg border-2 px-7 py-3.5 text-[15px] leading-[22px] font-medium transition-colors"
 				>
-					{t("hero.exploreCta")}
+					{_("View Products")}
 				</a>
 			</div>
 		</div>

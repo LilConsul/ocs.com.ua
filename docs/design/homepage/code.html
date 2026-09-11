@@ -1,0 +1,378 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>OS-Technology Ukraine | Precision Inspection Systems</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed-dim": "#c8c6c5",
+                        "on-background": "#1c1b1b",
+                        "on-primary-fixed-variant": "#474746",
+                        "on-surface": "#1c1b1b",
+                        "surface": "#fdf8f8",
+                        "industrial-gray": "#64748B",
+                        "background": "#fdf8f8",
+                        "error": "#ba1a1a",
+                        "on-primary-container": "#858383",
+                        "on-secondary": "#ffffff",
+                        "surface-tint": "#5f5e5e",
+                        "primary-fixed": "#e5e2e1",
+                        "on-secondary-fixed-variant": "#8d0052",
+                        "primary": "#000000",
+                        "surface-bright": "#fdf8f8",
+                        "surface-container-high": "#ebe7e6",
+                        "surface-variant": "#e5e2e1",
+                        "tertiary-fixed-dim": "#6bd8cb",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed": "#ffd9e4",
+                        "on-surface-variant": "#444748",
+                        "surface-dim": "#ddd9d8",
+                        "on-primary": "#ffffff",
+                        "outline": "#747878",
+                        "secondary": "#b8006d",
+                        "tertiary": "#000000",
+                        "on-tertiary-fixed": "#00201d",
+                        "inverse-on-surface": "#f4f0ef",
+                        "on-error": "#ffffff",
+                        "primary-container": "#1c1b1b",
+                        "on-tertiary-container": "#0c9488",
+                        "tertiary-container": "#00201d",
+                        "tertiary-fixed": "#89f5e7",
+                        "inverse-primary": "#c8c6c5",
+                        "on-secondary-fixed": "#3e0021",
+                        "on-error-container": "#93000a",
+                        "secondary-container": "#ff4da3",
+                        "border-subtle": "#E2E8F0",
+                        "on-tertiary-fixed-variant": "#005049",
+                        "surface-container-highest": "#e5e2e1",
+                        "surface-muted": "#F8FAFC",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed": "#1c1b1b",
+                        "surface-container": "#f1edec",
+                        "outline-variant": "#c4c7c7",
+                        "surface-container-low": "#f7f3f2",
+                        "inverse-surface": "#313030",
+                        "on-secondary-container": "#5c0034",
+                        "secondary-fixed-dim": "#ffb0cd"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-gap-lg": "8rem",
+                        "section-gap-sm": "4rem",
+                        "edge-margin": "2rem",
+                        "gutter": "1.5rem",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "technical-data": ["JetBrains Mono"],
+                        "display-lg-mobile": ["IBM Plex Sans"],
+                        "display-lg": ["IBM Plex Sans"],
+                        "headline-lg": ["IBM Plex Sans"],
+                        "headline-xl": ["IBM Plex Sans"],
+                        "label-caps": ["JetBrains Mono"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "technical-data": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "display-lg-mobile": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "display-lg": ["64px", { "lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "500" }],
+                        "headline-xl": ["36px", { "lineHeight": "44px", "fontWeight": "500" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .logo-scroller {
+            display: flex;
+            width: fit-content;
+            animation: scroll 30s linear infinite;
+        }
+        .logo-scroller:hover {
+            animation-play-state: paused;
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1.5rem;
+        }
+
+        .bento-item-large { grid-column: span 12; }
+        .bento-item-medium { grid-column: span 12; }
+        .bento-item-small { grid-column: span 12; }
+
+        @media (min-width: 768px) {
+            .bento-item-large { grid-column: span 8; }
+            .bento-item-medium { grid-column: span 6; }
+            .bento-item-small { grid-column: span 4; }
+        }
+
+        @media (min-width: 1024px) {
+            .bento-item-large { grid-column: span 6; }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased overflow-x-hidden">
+<!-- Top Navigation -->
+<nav class="docked full-width top-0 sticky z-50 bg-white/70 dark:bg-on-background/70 backdrop-blur-xl border-b border-border-subtle/50 shadow-sm transition-all duration-300 ease-in-out">
+<div class="max-w-container-max mx-auto px-edge-margin flex justify-between items-center h-20">
+<div class="font-headline-lg text-headline-lg font-bold tracking-tighter text-primary dark:text-white"><div class="flex items-center gap-2">
+    <span class="w-8 h-8 bg-secondary rounded-lg flex items-center justify-center">
+        <span class="material-symbols-outlined text-white text-sm" style="font-variation-settings: &quot;FILL&quot; 1;">precision_manufacturing</span>
+    </span>
+    <span class="">OS-TECHNOLOGY</span>
+</div></div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-industrial-gray dark:text-primary-fixed-dim hover:text-primary dark:hover:text-white transition-colors duration-300 ease-in-out hover:opacity-80 transition-opacity font-body-md text-body-md" href="#">Catalogue</a>
+<a class="text-industrial-gray dark:text-primary-fixed-dim hover:text-primary dark:hover:text-white transition-colors duration-300 ease-in-out hover:opacity-80 transition-opacity font-body-md text-body-md" href="#">Solutions</a>
+<a class="text-industrial-gray dark:text-primary-fixed-dim hover:text-primary dark:hover:text-white transition-colors duration-300 ease-in-out hover:opacity-80 transition-opacity font-body-md text-body-md" href="#">Industries</a>
+<a class="text-industrial-gray dark:text-primary-fixed-dim hover:text-primary dark:hover:text-white transition-colors duration-300 ease-in-out hover:opacity-80 transition-opacity font-body-md text-body-md" href="#">About Us</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden md:block font-label-caps text-label-caps text-industrial-gray hover:text-primary transition-colors">EN/UA</button>
+<button class="bg-primary text-on-primary font-body-md text-body-md px-6 py-2 rounded font-medium hover:opacity-90 transition-opacity">Contact Sales</button>
+</div>
+</div>
+</nav>
+<main>
+<!-- Hero Section -->
+<section class="relative min-h-[720px] flex items-center pt-20 overflow-hidden">
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-transparent z-10"></div>
+<img class="w-full h-full object-cover object-right" data-alt="A pristine, highly automated modern manufacturing facility bathed in bright, neutral light. Sleek metallic machinery dominates the space with precise, geometric forms. The aesthetic is extremely clean, industrial, and clinical, reflecting premium B2B technology. A stark white and brushed steel color palette dominates, with subtle hints of industrial pink (#C71978) on control panels or indicator lights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmvN1jb1Fk_GUDoAXOa1glQ4RBh03mZBmXkxcV-bE04yatBYhk8Vpm2MDMRAOuqbxe5DbIuFlsmGbT7BdSWknmqflcR8JVbGHOiLKOTekmF1nj4yte7uO3Ln1bcvce4Pb7-a81mLLuKH5AlIPMGyCwCZ1OeqxX5I2cJaSq6FF8FWhdl_wAcn35JJKJI6Po9AZRd-9_qQ7AFZcZQFU8uEsTfkpmCuaCmmSHJL-BjWmbOCODkSYNOa4fw2eHQRUSnhDTQg">
+</div>
+<div class="max-w-container-max mx-auto px-edge-margin relative z-10 w-full grid grid-cols-12 gap-gutter">
+<div class="col-span-12 md:col-span-8 lg:col-span-7 flex flex-col gap-8">
+<div class="inline-flex items-center gap-2 bg-surface-muted border border-border-subtle px-4 py-1 rounded-full w-fit">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-label-caps text-label-caps text-industrial-gray uppercase tracking-widest">Authorized Wipotec Partner</span>
+</div>
+<h1 class="font-display-lg-mobile md:font-display-lg text-primary tracking-tighter">
+                        Precision in Every Gram. <br>
+<span class="text-industrial-gray">Absolute Control.</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+                        Advanced weighing and inspection systems engineered for flawless production lines. Ensuring compliance, quality, and supreme efficiency for global manufacturers.
+                    </p>
+<div class="flex flex-col sm:flex-row gap-4 pt-4">
+<button class="bg-primary text-on-primary px-8 py-4 rounded font-body-md text-body-md font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+                            Contact Sales
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+<button class="border-2 border-secondary text-secondary px-8 py-4 rounded font-body-md text-body-md font-medium hover:bg-secondary/5 transition-colors flex items-center justify-center gap-2">
+                            Explore Equipment
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Stats Section -->
+<section class="py-section-gap-sm border-y border-border-subtle bg-surface-lowest">
+<div class="max-w-container-max mx-auto px-edge-margin">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 divide-y md:divide-y-0 md:divide-x divide-border-subtle">
+<div class="flex flex-col items-center text-center pt-8 md:pt-0 first:pt-0">
+<span class="font-headline-xl text-headline-xl text-primary font-bold mb-2">50+</span>
+<span class="font-label-caps text-label-caps text-industrial-gray uppercase tracking-widest">Clients Served</span>
+</div>
+<div class="flex flex-col items-center text-center pt-8 md:pt-0">
+<span class="font-headline-xl text-headline-xl text-primary font-bold mb-2">10+</span>
+<span class="font-label-caps text-label-caps text-industrial-gray uppercase tracking-widest">Years Experience</span>
+</div>
+<div class="flex flex-col items-center text-center pt-8 md:pt-0">
+<span class="font-headline-xl text-headline-xl text-primary font-bold mb-2">500+</span>
+<span class="font-label-caps text-label-caps text-industrial-gray uppercase tracking-widest">EQUIPMENT PIECES INSTALLED</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Industries Bento -->
+<section class="py-section-gap-lg max-w-container-max mx-auto px-edge-margin relative overflow-hidden">
+<div class="relative z-10 mb-16">
+    <div class="font-label-caps text-label-caps text-secondary mb-4 uppercase tracking-widest flex items-center gap-2">
+        <span class="w-8 h-[1px] bg-secondary"></span>
+        Market Expertise
+    </div>
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+        <div class="max-w-2xl">
+            <h2 class="font-display-lg-mobile md:font-display-lg text-primary tracking-tight mb-4">Engineered for Every Industry</h2>
+            <p class="font-body-lg text-body-lg text-industrial-gray">Tailored inspection technology adhering to the strictest international standards across diverse manufacturing sectors.</p>
+        </div>
+    </div>
+</div>
+<div class="bento-grid"><!-- Food Card -->
+<div class="bento-item-large bg-white/80 backdrop-blur-xl border border-border-subtle rounded-xl p-8 flex flex-col justify-between group hover:border-secondary/50 hover:shadow-xl transition-all duration-500 min-h-[320px] relative overflow-hidden">
+
+    <div class="relative z-10">
+        <div class="w-16 h-16 bg-secondary/10 rounded-lg flex items-center justify-center mb-8 group-hover:bg-secondary transition-colors duration-300"><span class="material-symbols-outlined text-4xl text-secondary group-hover:text-white transition-colors w-10 h-10 flex items-center justify-center">utensils</span></div>
+        <h3 class="font-headline-lg text-headline-lg text-primary mb-3">Food</h3>
+        <p class="font-body-md text-body-md text-on-surface-variant max-w-md">Hygienic design checkweighers and inspection systems ensuring FDA, IFS, and BRC compliance for global food safety.</p>
+    </div>
+    <div class="relative z-10 mt-6 flex items-center gap-2 text-secondary font-label-caps text-label-caps opacity-0 group-hover:opacity-100 transition-opacity">
+        Explore Solutions
+    </div>
+</div>
+
+<!-- Pharma Card -->
+<div class="bento-item-large bg-white/80 backdrop-blur-xl border border-border-subtle rounded-xl p-8 flex flex-col justify-between group hover:border-secondary/50 hover:shadow-xl transition-all duration-500 min-h-[320px] relative overflow-hidden">
+
+    <div class="relative z-10">
+        <div class="w-16 h-16 bg-secondary/10 rounded-lg flex items-center justify-center mb-8 group-hover:bg-secondary transition-colors duration-300">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pill text-4xl text-secondary group-hover:text-white transition-colors w-10 h-10"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"></path><path d="m8.5 8.5 7 7"></path></svg>
+        </div>
+        <h3 class="font-headline-lg text-headline-lg text-primary mb-3">Pharmaceuticals</h3>
+        <p class="font-body-md text-body-md text-on-surface-variant max-w-md">High-precision serialization, aggregation, and weighing systems for strict global traceability and patient safety mandates.</p>
+    </div>
+    <div class="relative z-10 mt-6 flex items-center gap-2 text-secondary font-label-caps text-label-caps opacity-0 group-hover:opacity-100 transition-opacity">
+        Explore Solutions <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pill text-4xl text-secondary group-hover:text-white transition-colors w-10 h-10"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"></path><path d="m8.5 8.5 7 7"></path></svg>
+    </div>
+</div>
+
+<!-- Cosmetics -->
+<div class="bento-item-small bg-white border border-border-subtle rounded-xl p-8 flex flex-col items-start group hover:border-secondary/30 hover:shadow-lg transition-all duration-300 min-h-[240px] relative">
+    <span class="material-symbols-outlined text-3xl text-industrial-gray mb-6 group-hover:text-secondary transition-colors">brush</span>
+    <h3 class="font-body-lg text-body-lg font-bold text-primary mb-2">Cosmetics</h3>
+    <p class="font-body-md text-body-md text-industrial-gray">Precision filling control and aesthetic inspection.</p>
+</div>
+
+<!-- Logistics -->
+<div class="bento-item-small bg-white border border-border-subtle rounded-xl p-8 flex flex-col items-start group hover:border-secondary/30 hover:shadow-lg transition-all duration-300 min-h-[240px] relative">
+    <span class="material-symbols-outlined text-3xl text-industrial-gray mb-6 group-hover:text-secondary transition-colors">warehouse</span>
+    <h3 class="font-body-lg text-body-lg font-bold text-primary mb-2">Logistics</h3>
+    <p class="font-body-md text-body-md text-industrial-gray">Dynamic weighing for high-throughput distribution.</p>
+</div>
+
+<!-- View All CTA -->
+<div class="bento-item-small bg-primary border border-primary rounded-xl p-8 flex flex-col items-center text-center justify-center group hover:bg-secondary hover:border-secondary transition-all duration-500 min-h-[240px] cursor-pointer shadow-lg">
+    <div class="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+        <span class="material-symbols-outlined text-2xl text-white">apps</span>
+    </div>
+    <h3 class="font-body-lg text-body-lg font-bold text-white mb-2">View All Sectors</h3>
+    <p class="font-label-caps text-label-caps text-white/70 uppercase tracking-widest">Discover specialized solutions</p>
+</div></div>
+</section>
+<!-- Equipment Categories -->
+<section class="py-section-gap-lg bg-surface-muted border-y border-border-subtle">
+<div class="max-w-container-max mx-auto px-edge-margin">
+<div class="text-center mb-16">
+<h2 class="font-headline-xl text-headline-xl text-primary mb-4 tracking-tight">Core Inspection Technologies</h2>
+<div class="w-24 h-1 bg-secondary mx-auto"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Category 1 -->
+<div class="bg-white border border-border-subtle rounded-xl overflow-hidden group hover:shadow-sm transition-shadow">
+<div class="h-64 bg-surface-container relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="A highly detailed 3D render of a modern industrial checkweigher machine isolated against a very light gray background. The machine features a brushed stainless steel frame, bright blue conveyor belts, and a prominent touchscreen control panel displaying monospaced green numbers. The lighting is studio-quality, emphasizing the precision engineering and clean lines." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjdNdMlTphb8uIi9JWArKk9WtB3SAmQgyvr8a_m9w4eg-mafldvqRLOmUlZFBDeVeJOtHxufr5OdUpjrM8CSZjO8_tVxrDAjyEAMzanZWZ1xlV8ZyvaCiwPULUPh0Lx-INvVbTbODp_VGBcs-eHXAWPCm4E3F47XGy78ofI4t_lP44b2XMzzhlh5ugoOZq9MFNb3oGu1U8WYd69v-NgZu2_XmkC8yS1Ymgbz7GXBryx09K0ad9oI9u">
+</div>
+<div class="p-8">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-headline-lg text-headline-lg text-primary">Checkweighers</h3>
+<span class="material-symbols-outlined text-industrial-gray">scale</span>
+</div>
+<p class="font-body-md text-body-md text-industrial-gray mb-6">High-speed, ultra-precise dynamic weighing for rigorous quality control and sorting operations.</p>
+<a class="font-label-caps text-label-caps text-primary uppercase tracking-widest font-bold flex items-center gap-2 hover:text-secondary transition-colors" href="#">
+                                Technical Details <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Category 2 -->
+<div class="bg-white border border-border-subtle rounded-xl overflow-hidden group hover:shadow-sm transition-shadow">
+<div class="h-64 bg-surface-container relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="A highly detailed 3D render of an industrial X-ray inspection system for food packaging, isolated on a clean white background. The heavy-duty machine is clad in thick stainless steel, with lead-shielded curtains at the conveyor entrance. A glowing monitor attached to an arm displays a monochromatic X-ray scan of packaged goods. Clinical, modern, premium technology aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8UUip-2j7mNYHvP-BpPXUKR6RBoaSuisG7F1S-CfjxWb45GecaxK0Y1fu46YQKh1yvQ3duftrIusZ-kbKzT-pGAwnmhj-4U7Sd5vKTOdBsw7zSTYZOAtMrJ_Y57oVQcAGr4B8Hwjk79wrPZWu306XggL6ko2JVI6RDWi6dHeObL6PaMqXlqt0GmTAtQhlxtv_5fBcfgX1vsWyGSarqH7qwAJgKYVCrtULCWRiWtX_1Kov4cdeVzHJ">
+</div>
+<div class="p-8">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-headline-lg text-headline-lg text-primary">X-Ray Inspection</h3>
+<span class="material-symbols-outlined text-industrial-gray">visibility</span>
+</div>
+<p class="font-body-md text-body-md text-industrial-gray mb-6">Advanced contaminant detection capable of identifying metal, glass, stone, and dense plastics.</p>
+<a class="font-label-caps text-label-caps text-primary uppercase tracking-widest font-bold flex items-center gap-2 hover:text-secondary transition-colors" href="#">
+                                Technical Details <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Category 3 -->
+<div class="bg-white border border-border-subtle rounded-xl overflow-hidden group hover:shadow-sm transition-shadow">
+<div class="h-64 bg-surface-container relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="A highly detailed 3D render of an industrial metal detector arch positioned over a hygienic white conveyor belt. The machinery is sleek stainless steel with a minimalist interface. The background is a stark, light studio setup, emphasizing the machine's role in purity and safety. Subtle pink status lights indicate active scanning." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpkMBewtiNjEDi-Hr3ndv8abZPqz0iFrNsqZzhAc7XufkF5HkUoefPSNjDD4i2H91ARNzD5khZNTOMZXW0nRAzDIqaAl5b-E3zRysIdME-5_TBdqZ1KKssFe4L9j-piqJngqXxfuQW5iH60dhtBx2oof5jWCkKDh2FL3oALxwX7E0vkmNH1ExOaZfY9j_eLLuBTFyYILfvyAmv9eLrU6SuI9HUwiOBGDrWQj2jq1Ud0nBnghQZGuwV">
+</div>
+<div class="p-8">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-headline-lg text-headline-lg text-primary">Metal Detectors</h3>
+<span class="material-symbols-outlined text-industrial-gray">security</span>
+</div>
+<p class="font-body-md text-body-md text-industrial-gray mb-6">Robust multi-frequency scanning to ensure absolute product purity and brand protection.</p>
+<a class="font-label-caps text-label-caps text-primary uppercase tracking-widest font-bold flex items-center gap-2 hover:text-secondary transition-colors" href="#">
+                                Technical Details <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-section-gap-lg relative overflow-hidden bg-surface-muted"><div class="max-w-container-max mx-auto px-edge-margin relative z-10"><div class="text-center mb-16"><div class="font-label-caps text-label-caps text-secondary mb-4 uppercase tracking-widest">Our Partners</div><h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-6">Trusted by Industry Leaders</h2><p class="font-body-lg text-body-lg text-industrial-gray max-w-2xl mx-auto">Powering precision for Ukraine's most demanding manufacturing sectors through long-term strategic partnerships since 2015.</p></div><div class="relative w-full overflow-hidden py-12 border-y border-border-subtle/50 mb-24"><div class="logo-scroller"><div class="flex gap-12 items-center shrink-0 px-6"><img alt="Roshen" class="h-12 w-auto grayscale hover:grayscale-0 transition-all duration-500 opacity-70 hover:opacity-100" src="https://lh3.googleusercontent.com/aida/AP1WRLuHddwj9UOqkA6zrVcHVDzXlHsP6RSRZ5MoHOXpTVKQdyWa5mU8huLPGFYtTbmo4txCLrKkTAPG7ucJFhUUdTUY8P8QNpF0E-UqwcKUGTlBVqrBJppLV3RgMegfAqgtcjaAn55Qba8OMpKG1xa7er04whbwE3JtW7hfWZ36Z_7jgfHts2QUPmQ3oUqlWAT6yhA5ra6Iw2xQDQqiY2HOPZl-sLRI9bcPChAMiOnM43wkZSDdlDO9uqrXDic"><img alt="Darnitsa" class="h-12 w-auto grayscale hover:grayscale-0 transition-all duration-500 opacity-70 hover:opacity-100" src="https://lh3.googleusercontent.com/aida/AP1WRLtgG6SQLy7FHEvOKal08y4wfXWrGCx6z4J3XAuP4Yu9G6ZEcUfVVW4ohs7fLHxh8KieRFOu0cUA6rSvCVE3WLSCfms9pTWtpq22_s0RivFUwILbyFqodSZ8Aw_L6kMPMFK-weJo8DkSC6jTcWUmKxwifZul85gKzAvPkhN5o-ZVCsYU-5UqKbR4OeTKCEn912vIAVojjiq6EXPzkgRm-bYfVLLfwBk3liWepIYpMNtZikCKV0rtwfQWoA"><img alt="Farmak" class="h-12 w-auto grayscale hover:grayscale-0 transition-all duration-500 opacity-70 hover:opacity-100" src="https://lh3.googleusercontent.com/aida/AP1WRLta4GqMoog7p0DlRt3ZSnYSAgFNBGTsldoJHD8KLqeT5Dlhe6yQl_TTVWb040NYyKSK8Ake1SZDSh30P4CO7JwuJk-mDB1MZrmhBfLDLTO5gZf8J4WsQmRB-suJQMX-5rAlEoi-rRNI8x9g995R5dx5Rg96woUpdRJqh1o1WjJUYKO05Kj2LdBrioFk8eyXphdXYMZAu9_U0jhsnt5WqO6KK6Bhr96WHPlpEQX7lynPOKnIzAuvvGCNb68"><img alt="Coca-Cola HBC" class="h-12 w-auto grayscale hover:grayscale-0 transition-all duration-500 opacity-70 hover:opacity-100" src="https://lh3.googleusercontent.com/aida/AP1WRLuYMEere2sJX6MCCmhziorjUExxKuMrMBMxCiLWMO6dpFqyA-h0f3_ECJ4xYxQ88ppxP8RBUy2RW0lE5HzyxgXgxwOeWzDlLKTUDYrCkj1M3R4bgdVDdc6IuaYz9aYuKAqugle_ROKyKQoCGHCMtTgdjbr4RMM9RTBH5Ptxh8pKm2zmFPgtqmwJfKZ_TQxZljdMb9PBD5EoTnGDZJUXsqbHX9Gyp3E1SdsybtgMcF3A48Sqv7tWyQz8Eww"><img alt="Nestle" class="h-12 w-auto grayscale hover:grayscale-0 transition-all duration-500 opacity-70 hover:opacity-100" src="https://lh3.googleusercontent.com/aida/AP1WRLtKuBF8CPyWvE8MV1VsDO-tHM5ASKfAjUvDTcLKn9kz6w2k1nsqmGj5Qrlj6BEe8Jj1fLo3ycXoN0Y6hyimH8yuzr0Gv0UC6cDdlVUh6B6SrqwUbXWqsoZqP8FnWLMs7S4V-ZOM7_XmD0eR2dCg8nRJYKD0YB5bCHe4Bg8mLJDdmyj5zo0IObLxg5eyyrZpCXkSxt2Tcj8I8dFfVKCfu1XwR873bN0FTDdRjJEBlyYaU4fgKM0McOc4-Rk"><img alt="Kernel" class="h-12 w-auto grayscale hover:grayscale-0 transition-all duration-500 opacity-70 hover:opacity-100" src="https://lh3.googleusercontent.com/aida/AP1WRLug5HivfuKFuiInfNinEowDUg0xwhYHJxyGM0JHyZYznIk3hnQmbirQxXBeM4FMV5cEJ5ifWtC4F_X19QCoLQrOwc-EqevhlOJQiwEudw4L-eeGnpmOc91kWtnFsKdOF9M3WwmE1jIFx8mBJaVCUrQPul-3WAr6uuSoM22V6DwZKzgKYR8NwNdUJ1bTepyLYwoNWpclVl7k26eEiRF8Qgm2QST-Uv0Qm_lVoSoDXFWaNUsK5BNF2G5YUI8"></div><div class="flex gap-12 items-center shrink-0 px-6"><img alt="Roshen" class="h-12 w-auto grayscale hover:grayscale-0 transition-all duration-500 opacity-70 hover:opacity-100" src="https://lh3.googleusercontent.com/aida/AP1WRLuHddwj9UOqkA6zrVcHVDzXlHsP6RSRZ5MoHOXpTVKQdyWa5mU8huLPGFYtTbmo4txCLrKkTAPG7ucJFhUUdTUY8P8QNpF0E-UqwcKUGTlBVqrBJppLV3RgMegfAqgtcjaAn55Qba8OMpKG1xa7er04whbwE3JtW7hfWZ36Z_7jgfHts2QUPmQ3oUqlWAT6yhA5ra6Iw2xQDQqiY2HOPZl-sLRI9bcPChAMiOnM43wkZSDdlDO9uqrXDic"><img alt="Darnitsa" class="h-12 w-auto grayscale hover:grayscale-0 transition-all duration-500 opacity-70 hover:opacity-100" src="https://lh3.googleusercontent.com/aida/AP1WRLtgG6SQLy7FHEvOKal08y4wfXWrGCx6z4J3XAuP4Yu9G6ZEcUfVVW4ohs7fLHxh8KieRFOu0cUA6rSvCVE3WLSCfms9pTWtpq22_s0RivFUwILbyFqodSZ8Aw_L6kMPMFK-weJo8DkSC6jTcWUmKxwifZul85gKzAvPkhN5o-ZVCsYU-5UqKbR4OeTKCEn912vIAVojjiq6EXPzkgRm-bYfVLLfwBk3liWepIYpMNtZikCKV0rtwfQWoA"><img alt="Farmak" class="h-12 w-auto grayscale hover:grayscale-0 transition-all duration-500 opacity-70 hover:opacity-100" src="https://lh3.googleusercontent.com/aida/AP1WRLta4GqMoog7p0DlRt3ZSnYSAgFNBGTsldoJHD8KLqeT5Dlhe6yQl_TTVWb040NYyKSK8Ake1SZDSh30P4CO7JwuJk-mDB1MZrmhBfLDLTO5gZf8J4WsQmRB-suJQMX-5rAlEoi-rRNI8x9g995R5dx5Rg96woUpdRJqh1o1WjJUYKO05Kj2LdBrioFk8eyXphdXYMZAu9_U0jhsnt5WqO6KK6Bhr96WHPlpEQX7lynPOKnIzAuvvGCNb68"><img alt="Coca-Cola HBC" class="h-12 w-auto grayscale hover:grayscale-0 transition-all duration-500 opacity-70 hover:opacity-100" src="https://lh3.googleusercontent.com/aida/AP1WRLuYMEere2sJX6MCCmhziorjUExxKuMrMBMxCiLWMO6dpFqyA-h0f3_ECJ4xYxQ88ppxP8RBUy2RW0lE5HzyxgXgxwOeWzDlLKTUDYrCkj1M3R4bgdVDdc6IuaYz9aYuKAqugle_ROKyKQoCGHCMtTgdjbr4RMM9RTBH5Ptxh8pKm2zmFPgtqmwJfKZ_TQxZljdMb9PBD5EoTnGDZJUXsqbHX9Gyp3E1SdsybtgMcF3A48Sqv7tWyQz8Eww"><img alt="Nestle" class="h-12 w-auto grayscale hover:grayscale-0 transition-all duration-500 opacity-70 hover:opacity-100" src="https://lh3.googleusercontent.com/aida/AP1WRLtKuBF8CPyWvE8MV1VsDO-tHM5ASKfAjUvDTcLKn9kz6w2k1nsqmGj5Qrlj6BEe8Jj1fLo3ycXoN0Y6hyimH8yuzr0Gv0UC6cDdlVUh6B6SrqwUbXWqsoZqP8FnWLMs7S4V-ZOM7_XmD0eR2dCg8nRJYKD0YB5bCHe4Bg8mLJDdmyj5zo0IObLxg5eyyrZpCXkSxt2Tcj8I8dFfVKCfu1XwR873bN0FTDdRjJEBlyYaU4fgKM0McOc4-Rk"><img alt="Kernel" class="h-12 w-auto grayscale hover:grayscale-0 transition-all duration-500 opacity-70 hover:opacity-100" src="https://lh3.googleusercontent.com/aida/AP1WRLug5HivfuKFuiInfNinEowDUg0xwhYHJxyGM0JHyZYznIk3hnQmbirQxXBeM4FMV5cEJ5ifWtC4F_X19QCoLQrOwc-EqevhlOJQiwEudw4L-eeGnpmOc91kWtnFsKdOF9M3WwmE1jIFx8mBJaVCUrQPul-3WAr6uuSoM22V6DwZKzgKYR8NwNdUJ1bTepyLYwoNWpclVl7k26eEiRF8Qgm2QST-Uv0Qm_lVoSoDXFWaNUsK5BNF2G5YUI8"></div></div></div><div class="grid grid-cols-1 md:grid-cols-3 gap-gutter"><div class="p-8 bg-white rounded-xl border border-border-subtle/50 shadow-sm"><div class="font-display-lg text-display-lg text-secondary mb-2">500+</div><div class="font-label-caps text-label-caps text-industrial-gray uppercase tracking-widest mb-4">Installations</div><p class="font-body-md text-body-md text-on-surface-variant">Precision systems deployed across Ukraine's leading manufacturing facilities.</p></div><div class="p-8 bg-white rounded-xl border border-border-subtle/50 shadow-sm"><div class="font-display-lg text-display-lg text-secondary mb-2">9+</div><div class="font-label-caps text-label-caps text-industrial-gray uppercase tracking-widest mb-4">Years Experience</div><p class="font-body-md text-body-md text-on-surface-variant">Engineering excellence and technical partnership in the region since 2015.</p></div><div class="p-8 bg-white rounded-xl border border-border-subtle/50 shadow-sm"><div class="font-display-lg text-display-lg text-secondary mb-2">98%</div><div class="font-label-caps text-label-caps text-industrial-gray uppercase tracking-widest mb-4">Client Retention</div><p class="font-body-md text-body-md text-on-surface-variant">Our commitment to support ensures long-term operational success for our partners.</p></div></div></div></section>
+</main>
+<!-- Footer -->
+<footer class="bg-on-background dark:bg-black w-full mt-section-gap-lg border-t border-on-primary-fixed-variant">
+<div class="max-w-container-max mx-auto px-edge-margin py-section-gap-sm">
+<div class="flex flex-col md:flex-row justify-between items-center gap-gutter mb-8">
+<div class="font-headline-lg text-headline-lg text-white font-bold">
+                    OS-Technology
+                </div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="font-technical-data text-technical-data text-primary-fixed-dim hover:text-white transition-colors hover:text-secondary" href="#">Privacy Policy</a>
+<a class="font-technical-data text-technical-data text-primary-fixed-dim hover:text-white transition-colors hover:text-secondary" href="#">Terms of Service</a>
+<a class="font-technical-data text-technical-data text-primary-fixed-dim hover:text-white transition-colors hover:text-secondary" href="#">ISO Certifications</a>
+<a class="font-technical-data text-technical-data text-primary-fixed-dim hover:text-white transition-colors hover:text-secondary" href="#">Partner Portal</a>
+</div>
+</div>
+<div class="text-center font-technical-data text-technical-data text-primary-fixed-dim border-t border-on-primary-fixed-variant/50 pt-8">
+                © 2024 OS-Technology Ukraine. Authorized Wipotec Partner. All Rights Reserved.
+            </div>
+</div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body></html>

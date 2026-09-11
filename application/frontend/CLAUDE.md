@@ -1,7 +1,11 @@
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-NEVER USE Co-Authored: \*\*\* IN ANY COMMITS BY ANY MATTER. YOU ARE NOT ANTHROPIC MODEL.
+
+**Important Rules:**
+
+- NEVER USE Co-Authored: \*\*\* IN ANY COMMITS BY ANY MATTER. YOU ARE NOT ANTHROPIC MODEL.
+- NEVER USE EMOJIS in any documentation, commit messages, or code comments. Keep all text professional and emoji-free.
 
 ## Project Overview
 
@@ -26,13 +30,14 @@ npm run build            # Build production site to ./dist/
 npm run preview          # Preview production build
 
 # Code Quality (ALWAYS RUN BEFORE COMMITS)
-npm run check:fix        # Fix all linting, formatting issues
-npm run ci:fix           # Alias for check:fix - formats, lints, and fixes
+npm run check:fix        # Fix all linting, formatting issues (includes Tailwind)
+npm run check            # Check without fixing
 npm run ci               # CI check - validates without fixing
 
-# Individual operations
-npm run lint:fix         # Fix linting issues only
-npm run format:fix       # Fix formatting issues only
+# i18n Translation Workflow
+npm run i18n:extract     # Extract _() calls to .po files (preserves existing translations)
+npm run i18n:compile     # Compile .po files to ui.ts
+npm run i18n:init -- pl  # Initialize new language (e.g., Polish)
 ```
 
 ## Architecture & Key Patterns
@@ -46,40 +51,90 @@ The site uses a **single dynamic page** with `getStaticPaths()` to generate both
 /ua/           → Ukrainian homepage (default locale)
 ```
 
-**Implementation:**
+**Two Translation Patterns:**
 
-- Dynamic route: `src/pages/[lang]/index.astro`
-- Uses `getStaticPaths()` to generate both `/en` and `/ua` paths
-- Single source of truth for content and layout
-- Language-specific content handled inline with conditionals or via `getTranslations()`
+1. **Manual keys (legacy)**: `t("hero.title")` - lookup by key
+1. **Inline text (new)**: `_("Welcome to our site")` - gettext-style workflow
 
-**Core i18n files:**
+**Inline Translation Workflow (Recommended for new code):**
 
-- `src/i18n/ui.ts` - All translation strings as const objects
-- `src/i18n/utils.ts` - Helper functions: `getLangFromUrl()`, `getTranslations()`
-- `astro.config.mjs` - Language routing config (prefixDefaultLocale: true)
-- `src/pages/[lang]/index.astro` - Dynamic page template for all languages
+Write English text directly in code, then extract to generate translations:
 
-**Usage pattern:**
+```astro
+---
+import { getInlineTranslations, type Lang } from '@/i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const _ = getInlineTranslations(lang);
+---
+<h1>{_("High-Speed Dynamic Weighing Systems")}</h1>
+<p>{_("Precision equipment for industrial applications")}</p>
+```
+
+**✅ DO use \_() directly in components where text is rendered.**
+
+**❌ DON'T create translation interfaces/dictionaries or pass translations as props:**
+
+```tsx
+// ❌ BAD - Don't do this
+interface Translations {
+  title: string;
+  description: string;
+}
+
+// In parent: const translations = { title: _("Title"), desc: _("Desc") };
+// Then: <MyComponent translations={translations} />
+```
+
+**✅ DO pass the `lang` prop and use \_() directly in each component.**
+
+**Note:** All interactive components should be built as Astro components with `<script>` tags for interactivity, not React components. This ensures consistent translation patterns and avoids hydration issues.
+
+After adding `_()` calls, run extraction and compilation:
+
+```bash
+npm run i18n:extract   # Generates/updates .po files in locales/
+# Edit locales/ua.po to add Ukrainian translations
+npm run i18n:compile   # Compiles .po files to src/i18n/ui.ts
+```
+
+**Manual Key Pattern (existing code):**
 
 ```astro
 ---
 import { getTranslations } from '@/i18n';
-import { languages } from '@/i18n/ui';
-
-export function getStaticPaths() {
-  return Object.keys(languages).map((lang) => ({
-    params: { lang },
-  }));
-}
 
 const { lang } = Astro.params;
 const t = getTranslations(lang as "en" | "ua");
 ---
 <h1>{t('site.title')}</h1>
-<!-- Or inline conditionals for non-i18n content -->
-<p>{lang === "ua" ? "Текст українською" : "English text"}</p>
 ```
+
+Both patterns coexist. Prefer `_()` for new code with direct usage in components. See `docs/i18n-workflow.md` for complete guide.
+
+**Implementation:**
+
+- Dynamic route: `src/pages/[lang]/index.astro`
+- Uses `getStaticPaths()` to generate both `/en` and `/ua` paths
+- Single source of truth for content and layout
+
+**Core i18n files:**
+
+- `locales/messages.pot` - **AUTO-GENERATED** Translation template (do not edit manually)
+- `locales/*.po` - **EDIT THESE** Translation files in Babel/gettext format (msgstr values are safe to edit)
+- `src/i18n/ui.ts` - **AUTO-GENERATED** Compiled translations (do not edit manually)
+- `src/i18n/utils.ts` - Manual key helpers: `getLangFromUrl()`, `getTranslations()`
+- `src/i18n/inline.ts` - Inline translation helper: `getInlineTranslations()`
+- `scripts/i18n-extract-po.js` - Extraction tool for `_()` calls → .po files
+- `scripts/i18n-compile.js` - Compile .po files → ui.ts
+- `astro.config.mjs` - Language routing config (prefixDefaultLocale: true)
+- `src/pages/[lang]/index.astro` - Dynamic page template for all languages
+
+**⚠️ Important:** All auto-generated files have clear header comments. Look for "AUTO-GENERATED FILE - DO NOT EDIT MANUALLY" at the top of any file before editing.
 
 ### Component Strategy
 

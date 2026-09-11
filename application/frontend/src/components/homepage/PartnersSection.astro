@@ -1,0 +1,215 @@
+---
+import { Image } from "astro:assets";
+import { Card, CardContent } from "@/components/ui/card";
+import { getInlineTranslations, type Lang } from "@/i18n";
+
+interface Partner {
+	name: { en: string; ua: string };
+	website: string;
+	logo: string;
+}
+
+interface PartnersByCategory {
+	food: Partner[];
+	household: Partner[];
+	pharma: Partner[];
+}
+
+interface Props {
+	partnersByCategory: PartnersByCategory;
+	lang: Lang;
+}
+
+const { partnersByCategory, lang } = Astro.props;
+const _ = getInlineTranslations(lang);
+
+// Import all partner logos dynamically
+const partnerImages = import.meta.glob<{ default: ImageMetadata }>(
+	"/src/assets/partners/*.{png,webp,jpg,jpeg,svg}",
+	{
+		eager: true,
+	}
+);
+
+// Helper function to get image from path
+function getPartnerImage(logoPath: string) {
+	if (!logoPath || logoPath === "TODO:") {
+		return null;
+	}
+	const normalizedPath = logoPath.startsWith("/src/") ? logoPath : `/src/${logoPath}`;
+	return partnerImages[normalizedPath]?.default;
+}
+
+const carouselRows = [
+	{ partners: partnersByCategory.food, animation: "scrolling-reverse", duration: 80 },
+	{ partners: partnersByCategory.household, animation: "scrolling-normal", duration: 75 },
+	{ partners: partnersByCategory.pharma, animation: "scrolling-reverse", duration: 80 },
+];
+---
+
+<section class="bg-muted/50 relative overflow-hidden py-24 md:py-32">
+	<div class="relative z-10 mx-auto max-w-7xl px-8">
+		<div class="mb-16 text-center">
+			<div
+				class="text-primary mb-4 font-mono text-[12px] leading-4 font-medium tracking-wider uppercase"
+			>
+				{_("Our Clients")}
+			</div>
+			<h2
+				class="font-heading text-foreground mb-6 text-[32px] leading-10 font-semibold tracking-tight md:text-[48px] md:leading-14 md:tracking-[-0.02em]"
+			>
+				{_("Trusted by Ukraine's Leading Manufacturers")}
+			</h2>
+			<p class="text-muted-foreground mx-auto max-w-2xl text-[14px] leading-6">
+				{
+					_(
+						"Supplying and servicing precision weighing equipment for major food, pharmaceutical, and chemical companies since 2013."
+					)
+				}
+			</p>
+		</div>
+
+		<div class="mb-16 space-y-0">
+			{
+				carouselRows.map(({ partners, animation, duration }) => (
+					<div
+						class="partner-carousel border-border/50 relative w-full overflow-hidden border-y py-8"
+						style={{
+							WebkitMaskImage:
+								"linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+							maskImage: "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+						}}
+					>
+						<div class="partner-carousel-track flex gap-12">
+							{[false, true].map((isDuplicate) => (
+								<div
+									class="partner-group flex shrink-0 gap-12"
+									aria-hidden={isDuplicate}
+									style={`will-change: transform; animation: ${animation} ${duration}s linear infinite;`}
+								>
+									{partners.map((partner) => {
+										const image = getPartnerImage(partner.logo);
+										return (
+											<a
+												href={partner.website}
+												target="_blank"
+												rel="noopener noreferrer"
+												class="group flex h-12 w-37.5 shrink-0 items-center justify-center opacity-70 grayscale transition-[opacity,filter,transform] duration-300 ease-out hover:-translate-y-0.5 hover:opacity-100 hover:drop-shadow-md hover:grayscale-0"
+												tabindex={isDuplicate ? -1 : undefined}
+											>
+												{image ? (
+													<Image
+														src={image}
+														alt={partner.name[lang]}
+														class="h-12 max-w-full object-contain"
+														loading="eager"
+														decoding="async"
+														height={48}
+													/>
+												) : (
+													<span class="text-foreground/60 px-4 text-sm font-medium">
+														{partner.name[lang]}
+													</span>
+												)}
+											</a>
+										);
+									})}
+								</div>
+							))}
+						</div>
+					</div>
+				))
+			}
+		</div>
+
+		<div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+			<Card className="border-border/50 bg-card rounded-xl border p-8 shadow-sm">
+				<CardContent className="p-0">
+					<div
+						class="font-heading text-primary mb-2 text-[48px] leading-14 font-semibold tracking-[-0.02em]"
+					>
+						300+
+					</div>
+					<div
+						class="text-muted-foreground mb-4 font-mono text-[12px] leading-4 font-medium tracking-wider uppercase"
+					>
+						{_("Installations")}
+					</div>
+					<p class="text-muted-foreground text-[14px] leading-5">
+						{_("Systems operating across Ukrainian manufacturing facilities.")}
+					</p>
+				</CardContent>
+			</Card>
+
+			<Card className="border-border/50 bg-card rounded-xl border p-8 shadow-sm">
+				<CardContent className="p-0">
+					<div
+						class="font-heading text-primary mb-2 text-[48px] leading-14 font-semibold tracking-[-0.02em]"
+					>
+						10+
+					</div>
+					<div
+						class="text-muted-foreground mb-4 font-mono text-[12px] leading-4 font-medium tracking-wider uppercase"
+					>
+						{_("Years of Experience")}
+					</div>
+					<p class="text-muted-foreground text-[14px] leading-5">
+						{_("Technical expertise and service support since 2013.")}
+					</p>
+				</CardContent>
+			</Card>
+
+			<Card className="border-border/50 bg-card rounded-xl border p-8 shadow-sm">
+				<CardContent className="p-0">
+					<div
+						class="font-heading text-primary mb-2 text-[48px] leading-14 font-semibold tracking-[-0.02em]"
+					>
+						98%
+					</div>
+					<div
+						class="text-muted-foreground mb-4 font-mono text-[12px] leading-4 font-medium tracking-wider uppercase"
+					>
+						{_("Client Retention")}
+					</div>
+					<p class="text-muted-foreground text-[14px] leading-5">
+						{_("Long-term partnerships built on reliable support.")}
+					</p>
+				</CardContent>
+			</Card>
+		</div>
+	</div>
+</section>
+
+<style>
+	@keyframes scrolling-normal {
+		0% {
+			transform: translateX(0);
+		}
+		100% {
+			transform: translateX(-100%);
+		}
+	}
+
+	@keyframes scrolling-reverse {
+		0% {
+			transform: translateX(-100%);
+		}
+		100% {
+			transform: translateX(0);
+		}
+	}
+
+	.partner-carousel:hover .partner-group {
+		animation-play-state: paused;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.partner-group {
+			animation: none !important;
+		}
+		.partner-carousel-track {
+			flex-wrap: wrap;
+			justify-content: center;
+		}
+	}
+</style>
