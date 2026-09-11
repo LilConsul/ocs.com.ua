@@ -20,24 +20,26 @@ const _ = getInlineTranslations(lang as "en" | "ua");
 // Prepare translations for PartnersSection
 const partnerTranslations = {
 	label: _("Our Clients"),
-	title: _("Trusted by Leading Ukrainian Manufacturers"),
-	description: _("We supply and service weighing systems for major food, pharmaceutical, and chemical companies across Ukraine since 2013."),
-	categoryFood: _("Food Industry"),
-	categoryHousehold: _("Household Products"),
+	title: _("Trusted by Ukraine's Leading Manufacturers"),
+	description: _(
+		"Supplying and servicing precision weighing equipment for major food, pharmaceutical, and chemical companies since 2013."
+	),
+	categoryFood: _("Food & Beverage"),
+	categoryHousehold: _("Consumer Goods"),
 	categoryPharma: _("Pharmaceutical"),
 	installations: _("Installations"),
 	installationsValue: "300+",
-	installationsDescription: _("Systems installed at manufacturing facilities across Ukraine."),
-	experience: _("Years Experience"),
+	installationsDescription: _("Systems operating across Ukrainian manufacturing facilities."),
+	experience: _("Years of Experience"),
 	experienceValue: "10+",
 	experienceDescription: _("Technical expertise and service support since 2013."),
 	retention: _("Client Retention"),
 	retentionValue: "98%",
-	retentionDescription: _("Long-term partnerships through reliable support and service."),
+	retentionDescription: _("Long-term partnerships built on reliable support."),
 };
 ---
 
-<Layout title={_("OS-Technology Ukraine | Industrial Weighing & Inspection Systems")} description={_("Dynamic checkweighers, serialization and aggregation systems for food, pharmaceutical, and logistics industries in Ukraine")}>
+<Layout title={_("OS-Technology Ukraine | Checkweighers & Inspection Systems")} description={_("Dynamic checkweighers and Track & Trace systems for food, pharmaceutical, and logistics industries in Ukraine. Official Wipotec partner.")}>
 	<HeroSection lang={lang as "en" | "ua"} />
 	<StatsSection lang={lang as "en" | "ua"} />
 	<IndustriesSection lang={lang as "en" | "ua"} />

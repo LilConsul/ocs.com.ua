@@ -11,8 +11,8 @@
  *   npm run i18n:compile              # Compile .po files to ui.ts
  */
 
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
-import { resolve, dirname } from "node:path";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { glob } from "glob";
 
@@ -44,8 +44,8 @@ async function extractStrings() {
 		const content = readFileSync(filePath, "utf-8");
 		const lines = content.split("\n");
 
-		let match;
-		while ((match = INLINE_TRANSLATION_REGEX.exec(content)) !== null) {
+		let match = INLINE_TRANSLATION_REGEX.exec(content);
+		while (match !== null) {
 			const msgid = match[1];
 			const index = match.index;
 			const lineNumber = content.substring(0, index).split("\n").length;
@@ -54,6 +54,8 @@ async function extractStrings() {
 				extractedStrings.set(msgid, []);
 			}
 			extractedStrings.get(msgid).push({ file, line: lineNumber });
+
+			match = INLINE_TRANSLATION_REGEX.exec(content);
 		}
 	}
 
@@ -188,8 +190,9 @@ msgstr ""
 		po += `msgid "${escapePO(msgid)}"\n`;
 
 		// Add msgstr (preserve existing translation or leave empty)
+		// IMPORTANT: Only preserve non-empty translations to avoid overwriting
 		const existing = existingPO?.get(msgid);
-		const msgstr = existing?.msgstr || "";
+		const msgstr = existing?.msgstr && existing.msgstr.trim() !== "" ? existing.msgstr : "";
 		po += `msgstr "${escapePO(msgstr)}"\n\n`;
 	}
 
@@ -243,7 +246,8 @@ async function extract() {
 	console.log(`[OK] Created template file: locales/messages.pot`);
 
 	// Update existing PO files
-	const languages = ["ua", "en"];
+	// Note: English is the source language, so we only generate translations for other languages
+	const languages = ["ua"];
 
 	for (const lang of languages) {
 		const poFile = resolve(LOCALES_DIR, `${lang}.po`);

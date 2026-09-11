@@ -30,16 +30,12 @@ npm run build            # Build production site to ./dist/
 npm run preview          # Preview production build
 
 # Code Quality (ALWAYS RUN BEFORE COMMITS)
-npm run check:fix        # Fix all linting, formatting issues
-npm run ci:fix           # Alias for check:fix - formats, lints, and fixes
+npm run check:fix        # Fix all linting, formatting issues (includes Tailwind)
+npm run check            # Check without fixing
 npm run ci               # CI check - validates without fixing
 
-# Individual operations
-npm run lint:fix         # Fix linting issues only
-npm run format:fix       # Fix formatting issues only
-
-# i18n Translation Extraction
-npm run i18n:extract     # Extract _() calls to .po files (Babel-style)
+# i18n Translation Workflow
+npm run i18n:extract     # Extract _() calls to .po files (preserves existing translations)
 npm run i18n:compile     # Compile .po files to ui.ts
 npm run i18n:init -- pl  # Initialize new language (e.g., Polish)
 ```

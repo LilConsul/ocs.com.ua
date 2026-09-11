@@ -70,7 +70,7 @@ function PartnerScroller({
 	useLayoutEffect(() => {
 		const wrapper = wrapperRef.current;
 		const track = trackRef.current;
-		if (!wrapper || !track) return;
+		if (!(wrapper && track)) return;
 
 		const measure = () => {
 			const singleSet = wrapper.querySelector<HTMLDivElement>("[data-set='0']");

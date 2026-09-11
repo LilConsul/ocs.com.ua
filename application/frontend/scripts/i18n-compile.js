@@ -9,8 +9,8 @@
  *   npm run i18n:compile
  */
 
-import { readFileSync, writeFileSync, existsSync } from "node:fs";
-import { resolve, dirname } from "node:path";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -85,10 +85,24 @@ function escapeTS(str) {
 function compile() {
 	console.log("[COMPILE] Compiling .po files to TypeScript...\n");
 
-	const languages = ["en", "ua"];
+	// Only compile non-English languages (English uses msgid as source)
+	const languages = ["ua"];
 	const allTranslations = {};
 
-	// Load all PO files
+	// Load POT file for English source strings
+	const potFile = resolve(LOCALES_DIR, "messages.pot");
+	if (!existsSync(potFile)) {
+		console.error("[ERROR] Missing messages.pot file. Run 'npm run i18n:extract' first.");
+		process.exit(1);
+	}
+
+	const potContent = readFileSync(potFile, "utf-8");
+	const potTranslations = parsePO(potContent);
+	allTranslations.en = potTranslations; // English msgids from POT
+
+	console.log(`[OK] Loaded locales/messages.pot (${potTranslations.size} entries)`);
+
+	// Load other language PO files
 	for (const lang of languages) {
 		const poFile = resolve(LOCALES_DIR, `${lang}.po`);
 
@@ -106,15 +120,16 @@ function compile() {
 
 	// Build ui.ts structure
 	const uiData = {};
+	const allLanguages = ["en", ...languages];
 
-	for (const lang of languages) {
+	for (const lang of allLanguages) {
 		uiData[lang] = {};
 		const translations = allTranslations[lang];
 
 		for (const [msgid, msgstr] of translations) {
 			const key = `inline.${textToKey(msgid)}`;
-			// For English, use msgid as fallback; for others use msgstr
-			uiData[lang][key] = lang === "en" ? msgid : msgstr || msgid;
+			// For English, use msgid; for others use msgstr (or msgid as fallback)
+			uiData[lang][key] = lang === "en" ? msgid : msgstr && msgstr.trim() !== "" ? msgstr : msgid;
 		}
 	}
 
