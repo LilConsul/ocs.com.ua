@@ -33,7 +33,7 @@ const partnerImages = import.meta.glob<{ default: ImageMetadata }>(
 
 // Helper function to get image from path
 function getPartnerImage(logoPath: string) {
-	if (!logoPath || logoPath === "TODO:") {
+	if (!logoPath) {
 		return null;
 	}
 	const normalizedPath = logoPath.startsWith("/src/") ? logoPath : `/src/${logoPath}`;
@@ -42,8 +42,8 @@ function getPartnerImage(logoPath: string) {
 
 const carouselRows = [
 	{ partners: partnersByCategory.food, animation: "scrolling-reverse", duration: 80 },
-	{ partners: partnersByCategory.household, animation: "scrolling-normal", duration: 75 },
-	{ partners: partnersByCategory.pharma, animation: "scrolling-reverse", duration: 80 },
+	{ partners: partnersByCategory.household, animation: "scrolling-normal", duration: 50 }, 	// I have adjusted values to look a bit ore same speed of animation.
+	{ partners: partnersByCategory.pharma, animation: "scrolling-reverse", duration: 50 }, 		// TODO: Automatically adjust them with some math
 ];
 ---
 
@@ -102,7 +102,7 @@ const carouselRows = [
 														src={image}
 														alt={partner.name[lang]}
 														class="h-12 max-w-full object-contain"
-														loading="eager"
+														loading="lazy"
 														decoding="async"
 														height={48}
 													/>
