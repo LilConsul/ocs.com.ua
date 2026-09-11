@@ -14,7 +14,7 @@
 # - Running "npm run i18n:extract" will add new strings but keep existing translations
 #
 # Generation script: scripts/i18n-extract-po.js
-# Last updated: 2026-09-11 09:56:34+0000
+# Last updated: 2026-09-11 10:11:58+0000
 #
 # Copyright (C) 2026 OS-Technology Ukraine
 # This file is distributed under the same license as the OS-Technology project.
@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OS-Technology Frontend 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-11 09:56:34+0000\n"
-"PO-Revision-Date: 2026-09-11 09:56:34+0000\n"
+"POT-Creation-Date: 2026-09-11 10:11:58+0000\n"
+"PO-Revision-Date: 2026-09-11 10:11:58+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ua\n"
 "Language-Team: ua <LL@li.org>\n"
@@ -50,17 +50,13 @@ msgstr "Всі галузі"
 msgid "Checkweighers and inspection systems meeting FDA, IFS, BRC, and GMP standards — engineered for Ukrainian manufacturers."
 msgstr "Чеквейєри та системи інспекції відповідно до стандартів FDA, IFS, BRC та GMP — розроблені для українських виробників."
 
-#: src\pages\[lang]\index.astro:36
+#: src\components\homepage\PartnersSection.tsx:255
 msgid "Client Retention"
 msgstr "Утримання клієнтів"
 
 #: src\components\homepage\StatsSection.astro:23
 msgid "Clients"
 msgstr "Клієнтів"
-
-#: src\pages\[lang]\index.astro:28
-msgid "Consumer Goods"
-msgstr "Товари народного споживання"
 
 #: src\components\homepage\HeroSection.astro:80
 msgid "Contact Us"
@@ -74,7 +70,7 @@ msgstr "Косметика"
 msgid "Dynamic Checkweighers & Weighing Systems"
 msgstr "Динамічні чеквейєри та вагові системи"
 
-#: src\pages\[lang]\index.astro:42
+#: src\pages\[lang]\index.astro:21
 msgid "Dynamic checkweighers and Track & Trace systems for food, pharmaceutical, and logistics industries in Ukraine. Official Wipotec partner."
 msgstr "Динамічні чеквейєри та системи Track & Trace для харчової, фармацевтичної та логістичної промисловості України. Офіційний партнер Wipotec."
 
@@ -82,7 +78,6 @@ msgstr "Динамічні чеквейєри та системи Track & Trace 
 msgid "Explore industry-specific solutions"
 msgstr "Дізнайтеся про галузеві рішення"
 
-#: src\pages\[lang]\index.astro:27
 #: src\components\homepage\IndustriesSection.astro:41
 msgid "Food & Beverage"
 msgstr "Харчова промисловість"
@@ -115,7 +110,7 @@ msgstr "Галузі"
 msgid "Industries We Serve"
 msgstr "Галузі, які ми обслуговуємо"
 
-#: src\pages\[lang]\index.astro:30
+#: src\components\homepage\PartnersSection.tsx:227
 msgid "Installations"
 msgstr "Встановлень"
 
@@ -132,11 +127,11 @@ msgstr "Дізнатися більше"
 msgid "Logistics & Distribution"
 msgstr "Логістика та дистрибуція"
 
-#: src\pages\[lang]\index.astro:38
+#: src\components\homepage\PartnersSection.tsx:258
 msgid "Long-term partnerships built on reliable support."
 msgstr "Довгострокові партнерства, побудовані на надійній підтримці."
 
-#: src\pages\[lang]\index.astro:42
+#: src\pages\[lang]\index.astro:21
 msgid "OS-Technology Ukraine | Checkweighers & Inspection Systems"
 msgstr "OS-Technology Україна | Чеквейєри та системи інспекції"
 
@@ -148,11 +143,10 @@ msgstr "Офіційний партнер Mesutronic"
 msgid "Official Wipotec Partner"
 msgstr "Офіційний партнер Wipotec"
 
-#: src\pages\[lang]\index.astro:22
+#: src\components\homepage\PartnersSection.tsx:193
 msgid "Our Clients"
 msgstr "Наші клієнти"
 
-#: src\pages\[lang]\index.astro:29
 #: src\components\homepage\IndustriesSection.astro:51
 msgid "Pharmaceutical"
 msgstr "Фармацевтика"
@@ -177,7 +171,7 @@ msgstr "Рішення"
 msgid "Solutions for Every Industry"
 msgstr "Рішення для кожної галузі"
 
-#: src\pages\[lang]\index.astro:24
+#: src\components\homepage\PartnersSection.tsx:199
 msgid "Supplying and servicing precision weighing equipment for major food, pharmaceutical, and chemical companies since 2013."
 msgstr "Постачаємо та обслуговуємо прецизійне вагове обладнання для провідних харчових, фармацевтичних та хімічних компаній з 2013 року."
 
@@ -185,15 +179,15 @@ msgstr "Постачаємо та обслуговуємо прецизійне 
 msgid "Systems Installed"
 msgstr "Встановлених систем"
 
-#: src\pages\[lang]\index.astro:32
+#: src\components\homepage\PartnersSection.tsx:230
 msgid "Systems operating across Ukrainian manufacturing facilities."
 msgstr "Системи працюють на виробничих підприємствах по всій Україні."
 
-#: src\pages\[lang]\index.astro:35
+#: src\components\homepage\PartnersSection.tsx:244
 msgid "Technical expertise and service support since 2013."
 msgstr "Технічна експертиза та сервісна підтримка з 2013 року."
 
-#: src\pages\[lang]\index.astro:23
+#: src\components\homepage\PartnersSection.tsx:196
 msgid "Trusted by Ukraine's Leading Manufacturers"
 msgstr "Нам довіряють провідні виробники України"
 
@@ -205,6 +199,6 @@ msgstr "Переглянути продукцію"
 msgid "Years in Ukraine"
 msgstr "Років в Україні"
 
-#: src\pages\[lang]\index.astro:33
+#: src\components\homepage\PartnersSection.tsx:241
 msgid "Years of Experience"
 msgstr "Років досвіду"

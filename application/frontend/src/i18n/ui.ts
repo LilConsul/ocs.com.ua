@@ -12,7 +12,7 @@
  * - locales/ua.po (Ukrainian translations)
  *
  * Generation script: scripts/i18n-compile.js
- * Generated: 2026-09-11T09:56:34.597Z
+ * Generated: 2026-09-11T10:12:05.600Z
  */
 
 export const languages = {
@@ -32,7 +32,6 @@ export const ui = {
 			"Checkweighers and inspection systems meeting FDA, IFS, BRC, and GMP standards — engineered for Ukrainian manufacturers.",
 		"inline.client_retention": "Client Retention",
 		"inline.clients": "Clients",
-		"inline.consumer_goods": "Consumer Goods",
 		"inline.contact_us": "Contact Us",
 		"inline.cosmetics": "Cosmetics",
 		"inline.dynamic_checkweighers_and_track_trace_systems_for_food_pharmaceutical_and_logist":
@@ -90,7 +89,6 @@ export const ui = {
 			"Чеквейєри та системи інспекції відповідно до стандартів FDA, IFS, BRC та GMP — розроблені для українських виробників.",
 		"inline.client_retention": "Утримання клієнтів",
 		"inline.clients": "Клієнтів",
-		"inline.consumer_goods": "Товари народного споживання",
 		"inline.contact_us": "Зв'яжіться з нами",
 		"inline.cosmetics": "Косметика",
 		"inline.dynamic_checkweighers_and_track_trace_systems_for_food_pharmaceutical_and_logist":

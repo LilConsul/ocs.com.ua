@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
+import { getInlineTranslations } from "@/i18n";
 
 interface Partner {
 	name: { en: string; ua: string };
@@ -13,27 +14,8 @@ interface PartnersByCategory {
 	pharma: Partner[];
 }
 
-interface Translations {
-	label: string;
-	title: string;
-	description: string;
-	installations: string;
-	installationsValue: string;
-	installationsDescription: string;
-	experience: string;
-	experienceValue: string;
-	experienceDescription: string;
-	retention: string;
-	retentionValue: string;
-	retentionDescription: string;
-	categoryFood: string;
-	categoryHousehold: string;
-	categoryPharma: string;
-}
-
 interface Props {
 	partnersByCategory: PartnersByCategory;
-	translations: Translations;
 	lang: "en" | "ua";
 }
 
@@ -200,19 +182,23 @@ function PartnerScroller({
 	);
 }
 
-export function PartnersSection({ partnersByCategory, translations, lang }: Props) {
+export function PartnersSection({ partnersByCategory, lang }: Props) {
+	const _ = getInlineTranslations(lang);
+
 	return (
 		<section className="bg-muted/50 relative overflow-hidden py-24 md:py-32">
 			<div className="relative z-10 mx-auto max-w-7xl px-8">
 				<div className="mb-16 text-center">
 					<div className="text-primary mb-4 font-mono text-[12px] leading-4 font-medium tracking-wider uppercase">
-						{translations.label}
+						{_("Our Clients")}
 					</div>
 					<h2 className="font-heading text-foreground mb-6 text-[32px] leading-10 font-semibold tracking-tight md:text-[48px] md:leading-14 md:tracking-[-0.02em]">
-						{translations.title}
+						{_("Trusted by Ukraine's Leading Manufacturers")}
 					</h2>
 					<p className="text-muted-foreground mx-auto max-w-2xl text-[14px] leading-6">
-						{translations.description}
+						{_(
+							"Supplying and servicing precision weighing equipment for major food, pharmaceutical, and chemical companies since 2013."
+						)}
 					</p>
 				</div>
 
@@ -235,13 +221,13 @@ export function PartnersSection({ partnersByCategory, translations, lang }: Prop
 					<Card className="border-border/50 bg-card rounded-xl border p-8 shadow-sm">
 						<CardContent className="p-0">
 							<div className="font-heading text-primary mb-2 text-[48px] leading-14 font-semibold tracking-[-0.02em]">
-								{translations.installationsValue}
+								300+
 							</div>
 							<div className="text-muted-foreground mb-4 font-mono text-[12px] leading-4 font-medium tracking-wider uppercase">
-								{translations.installations}
+								{_("Installations")}
 							</div>
 							<p className="text-muted-foreground text-[14px] leading-5">
-								{translations.installationsDescription}
+								{_("Systems operating across Ukrainian manufacturing facilities.")}
 							</p>
 						</CardContent>
 					</Card>
@@ -249,13 +235,13 @@ export function PartnersSection({ partnersByCategory, translations, lang }: Prop
 					<Card className="border-border/50 bg-card rounded-xl border p-8 shadow-sm">
 						<CardContent className="p-0">
 							<div className="font-heading text-primary mb-2 text-[48px] leading-14 font-semibold tracking-[-0.02em]">
-								{translations.experienceValue}
+								10+
 							</div>
 							<div className="text-muted-foreground mb-4 font-mono text-[12px] leading-4 font-medium tracking-wider uppercase">
-								{translations.experience}
+								{_("Years of Experience")}
 							</div>
 							<p className="text-muted-foreground text-[14px] leading-5">
-								{translations.experienceDescription}
+								{_("Technical expertise and service support since 2013.")}
 							</p>
 						</CardContent>
 					</Card>
@@ -263,13 +249,13 @@ export function PartnersSection({ partnersByCategory, translations, lang }: Prop
 					<Card className="border-border/50 bg-card rounded-xl border p-8 shadow-sm">
 						<CardContent className="p-0">
 							<div className="font-heading text-primary mb-2 text-[48px] leading-14 font-semibold tracking-[-0.02em]">
-								{translations.retentionValue}
+								98%
 							</div>
 							<div className="text-muted-foreground mb-4 font-mono text-[12px] leading-4 font-medium tracking-wider uppercase">
-								{translations.retention}
+								{_("Client Retention")}
 							</div>
 							<p className="text-muted-foreground text-[14px] leading-5">
-								{translations.retentionDescription}
+								{_("Long-term partnerships built on reliable support.")}
 							</p>
 						</CardContent>
 					</Card>
