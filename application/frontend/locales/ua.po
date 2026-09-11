@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OS-Technology Frontend 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-11 09:45:35+0000\n"
-"PO-Revision-Date: 2026-09-11 09:45:35+0000\n"
+"POT-Creation-Date: 2026-09-11 09:52:55+0000\n"
+"PO-Revision-Date: 2026-09-11 09:52:55+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ua\n"
 "Language-Team: ua <LL@li.org>\n"
@@ -176,6 +176,10 @@ msgstr "Системи працюють на виробничих підприє
 msgid "Technical expertise and service support since 2013."
 msgstr "Технічна експертиза та сервісна підтримка з 2013 року."
 
+#: src\pages\[lang]\index.astro:23
+msgid "Trusted by Ukraine's Leading Manufacturers"
+msgstr "Нам довіряють провідні виробники України"
+
 #: src\components\homepage\HeroSection.astro:101
 msgid "View Products"
 msgstr "Переглянути продукцію"
@@ -187,7 +191,3 @@ msgstr "Років в Україні"
 #: src\pages\[lang]\index.astro:33
 msgid "Years of Experience"
 msgstr "Років досвіду"
-
-#: src\pages\[lang]\index.astro:23
-msgid "Trusted by Ukraine's Leading Manufacturers"
-msgstr "Нам довіряють провідні виробники України"

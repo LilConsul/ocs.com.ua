@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OS-Technology Frontend 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-11 09:45:35+0000\n"
+"POT-Creation-Date: 2026-09-11 09:52:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -173,6 +173,10 @@ msgstr ""
 
 #: src\pages\[lang]\index.astro:35
 msgid "Technical expertise and service support since 2013."
+msgstr ""
+
+#: src\pages\[lang]\index.astro:23
+msgid "Trusted by Ukraine's Leading Manufacturers"
 msgstr ""
 
 #: src\components\homepage\HeroSection.astro:101

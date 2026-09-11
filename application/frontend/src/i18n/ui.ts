@@ -58,6 +58,8 @@ export const ui = {
 			"Systems operating across Ukrainian manufacturing facilities.",
 		"inline.technical_expertise_and_service_support_since_2013":
 			"Technical expertise and service support since 2013.",
+		"inline.trusted_by_ukraine_s_leading_manufacturers":
+			"Trusted by Ukraine's Leading Manufacturers",
 		"inline.view_products": "View Products",
 		"inline.years_in_ukraine": "Years in Ukraine",
 		"inline.years_of_experience": "Years of Experience",
@@ -114,6 +116,7 @@ export const ui = {
 			"Системи працюють на виробничих підприємствах по всій Україні.",
 		"inline.technical_expertise_and_service_support_since_2013":
 			"Технічна експертиза та сервісна підтримка з 2013 року.",
+		"inline.trusted_by_ukraine_s_leading_manufacturers": "Нам довіряють провідні виробники України",
 		"inline.view_products": "Переглянути продукцію",
 		"inline.years_in_ukraine": "Років в Україні",
 		"inline.years_of_experience": "Років досвіду",

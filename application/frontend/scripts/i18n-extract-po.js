@@ -22,7 +22,9 @@ const LOCALES_DIR = resolve(ROOT_DIR, "locales");
 const POT_FILE = resolve(LOCALES_DIR, "messages.pot");
 
 // Regex to find _("text") or _('text') calls
-const INLINE_TRANSLATION_REGEX = /\b_\(\s*["'`]([^"'`]+)["'`]\s*\)/g;
+// Handles escaped quotes and apostrophes within strings
+const INLINE_TRANSLATION_REGEX =
+	/_\(\s*"((?:[^"\\]|\\.)*)"\s*\)|_\(\s*'((?:[^'\\]|\\.)*)'\s*\)|_\(\s*`((?:[^`\\]|\\.)*)`\s*\)/g;
 
 /**
  * Extract all _("text") strings from source files
@@ -46,7 +48,8 @@ async function extractStrings() {
 
 		let match = INLINE_TRANSLATION_REGEX.exec(content);
 		while (match !== null) {
-			const msgid = match[1];
+			// match[1] = double quotes, match[2] = single quotes, match[3] = backticks
+			const msgid = match[1] || match[2] || match[3];
 			const index = match.index;
 			const lineNumber = content.substring(0, index).split("\n").length;
 
