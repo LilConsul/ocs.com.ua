@@ -1,19 +1,11 @@
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { getInlineTranslations } from "@/i18n";
+import type { ui } from "@/i18n/ui";
 
-interface HeaderProps {
-	currentLang: "en" | "ua";
-	translations: {
-		catalogue: string;
-		solutions: string;
-		industries: string;
-		about: string;
-		language: string;
-	};
-}
-
-export function Header({ currentLang, translations }: HeaderProps) {
+export function Header({ currentLang }: { currentLang: keyof typeof ui }) {
+	const _ = getInlineTranslations(currentLang);
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 	const [scrolled, setScrolled] = useState(false);
 
@@ -26,10 +18,10 @@ export function Header({ currentLang, translations }: HeaderProps) {
 	}, []);
 
 	const navLinks = [
-		{ href: `/${currentLang}#catalogue`, label: translations.catalogue },
-		{ href: `/${currentLang}#solutions`, label: translations.solutions },
-		{ href: `/${currentLang}#industries`, label: translations.industries },
-		{ href: `/${currentLang}#about`, label: translations.about },
+		{ href: `/${currentLang}#catalogue`, label: _("Products") },
+		{ href: `/${currentLang}#solutions`, label: _("Solutions") },
+		{ href: `/${currentLang}#industries`, label: _("Industries") },
+		{ href: `/${currentLang}#about`, label: _("About") },
 	];
 
 	const languageOptions = [
@@ -132,7 +124,7 @@ export function Header({ currentLang, translations }: HeaderProps) {
 
 						<div className="border-border space-y-2 border-t pt-4">
 							<div className="text-muted-foreground mb-3 font-mono text-xs uppercase">
-								{translations.language}
+								{_("Language")}
 							</div>
 							{languageOptions.map((lang) => (
 								<button

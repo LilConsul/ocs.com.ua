@@ -26,21 +26,7 @@ const _ = getInlineTranslations(lang);
 		{description && <meta name="description" content={description} />}
 	</head>
 	<body class="bg-background text-foreground min-h-screen antialiased">
-		{
-			showHeader && (
-				<Header
-					client:load
-					currentLang={lang}
-					translations={{
-						catalogue: _("Products"),
-						solutions: _("Solutions"),
-						industries: _("Industries"),
-						about: _("About"),
-						language: _("Language"),
-					}}
-				/>
-			)
-		}
+		{showHeader && <Header client:load currentLang={lang} />}
 		<main class="pt-20">
 			<slot />
 		</main>
