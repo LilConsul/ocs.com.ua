@@ -2,7 +2,7 @@
 import "../styles/global.css";
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
-import { getInlineTranslations, getLangFromUrl } from "@/i18n";
+import { getLangFromUrl } from "@/i18n";
 
 interface Props {
 	title: string;
@@ -12,7 +12,6 @@ interface Props {
 
 const { title, description, showHeader = true } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
-const _ = getInlineTranslations(lang);
 ---
 
 <!doctype html>

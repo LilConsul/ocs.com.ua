@@ -1,5 +1,9 @@
 export { getInlineTranslations } from "./inline";
-export type { ui } from "./ui";
 export { defaultLang, languages, ui } from "./ui";
+export type { Lang } from "./utils";
 export { getLangFromUrl, getTranslations } from "./utils";
-export type Lang = keyof typeof ui;
+
+// Helper to validate language code
+export function isValidLang(lang: unknown): lang is import("./utils").Lang {
+	return typeof lang === "string" && (lang === "en" || lang === "ua");
+}

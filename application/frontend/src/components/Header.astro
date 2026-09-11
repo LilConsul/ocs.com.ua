@@ -8,18 +8,20 @@ interface Props {
 }
 
 const { currentLang } = Astro.props;
-const _ = getInlineTranslations(currentLang);
+// Ensure TypeScript knows this is a Lang, not string | number | symbol
+const lang: Lang = currentLang;
+const _ = getInlineTranslations(lang);
 
 const navLinks = [
-	{ href: `/${currentLang}#catalogue`, label: _("Products") },
-	{ href: `/${currentLang}#solutions`, label: _("Solutions") },
-	{ href: `/${currentLang}#industries`, label: _("Industries") },
-	{ href: `/${currentLang}#about`, label: _("About") },
+	{ href: `/${lang}#catalogue`, label: _("Products") },
+	{ href: `/${lang}#solutions`, label: _("Solutions") },
+	{ href: `/${lang}#industries`, label: _("Industries") },
+	{ href: `/${lang}#about`, label: _("About") },
 ];
 
 const languageOptions = [
-	{ code: "en", name: "English", flag: "🇬🇧" },
-	{ code: "ua", name: "Українська", flag: "🇺🇦" },
+	{ code: "en" as const, name: "English", flag: "🇬🇧" },
+	{ code: "ua" as const, name: "Українська", flag: "🇺🇦" },
 ];
 ---
 
@@ -30,9 +32,9 @@ const languageOptions = [
 >
 	<nav class="mx-auto flex h-20 max-w-[1280px] items-center justify-between px-8">
 		<!-- Company Name -->
-		<a href={`/${currentLang}`} class="text-foreground transition-opacity hover:opacity-80">
+		<a href={`/${lang}`} class="text-foreground transition-opacity hover:opacity-80">
 			<span class="font-heading text-xl font-bold tracking-tight">
-				{currentLang === "en" ? "OS-Technology Ukraine" : "ОС-Технолоджи Україна"}
+				{lang === "en" ? "OS-Technology Ukraine" : "ОС-Технолоджи Україна"}
 			</span>
 		</a>
 
@@ -57,17 +59,17 @@ const languageOptions = [
 				class="bg-muted/50 border-border/50 hidden items-center gap-1 rounded-lg border p-1 md:flex"
 			>
 				{
-					languageOptions.map((lang) => (
+					languageOptions.map((langOption) => (
 						<a
-							href={lang.code === currentLang ? "#" : `/${lang.code}`}
+							href={langOption.code === lang ? "#" : `/${langOption.code}`}
 							class={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-all duration-200 ${
-								currentLang === lang.code
+								lang === langOption.code
 									? "bg-primary text-primary-foreground shadow-sm"
 									: "text-muted-foreground hover:text-foreground hover:bg-background/50"
 							}`}
 						>
-							<span class="text-base leading-none">{lang.flag}</span>
-							<span class="font-mono text-xs tracking-wider uppercase">{lang.code}</span>
+							<span class="text-base leading-none">{langOption.flag}</span>
+							<span class="font-mono text-xs tracking-wider uppercase">{langOption.code}</span>
 						</a>
 					))
 				}
@@ -107,17 +109,17 @@ const languageOptions = [
 			<div class="border-border space-y-2 border-t pt-4">
 				<div class="text-muted-foreground mb-3 font-mono text-xs uppercase">{_("Language")}</div>
 				{
-					languageOptions.map((lang) => (
+					languageOptions.map((langOption) => (
 						<a
-							href={lang.code === currentLang ? "#" : `/${lang.code}`}
+							href={langOption.code === lang ? "#" : `/${langOption.code}`}
 							class={`flex w-full items-center gap-3 rounded-lg px-3 py-2 transition-colors ${
-								currentLang === lang.code
+								lang === langOption.code
 									? "bg-accent text-accent-foreground"
 									: "hover:bg-accent/50"
 							}`}
 						>
-							<span class="text-xl">{lang.flag}</span>
-							<span class="font-medium">{lang.name}</span>
+							<span class="text-xl">{langOption.flag}</span>
+							<span class="font-medium">{langOption.name}</span>
 						</a>
 					))
 				}
@@ -139,7 +141,7 @@ const languageOptions = [
 				"border-b",
 				"border-border",
 				"shadow-sm",
-				"backdrop-blur-xl"
+				"backdrop-blur-xl",
 			);
 			header.classList.remove("bg-background/70", "backdrop-blur-md");
 			header.dataset.scrolled = "true";
@@ -149,7 +151,7 @@ const languageOptions = [
 				"border-b",
 				"border-border",
 				"shadow-sm",
-				"backdrop-blur-xl"
+				"backdrop-blur-xl",
 			);
 			header.classList.add("bg-background/70", "backdrop-blur-md");
 			header.dataset.scrolled = "false";

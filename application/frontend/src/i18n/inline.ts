@@ -1,4 +1,5 @@
 import { defaultLang, ui } from "./ui";
+import type { Lang } from "./utils";
 
 /**
  * Inline translation function for gettext-style workflow.
@@ -7,7 +8,7 @@ import { defaultLang, ui } from "./ui";
  * The English text acts as the key - it gets auto-converted to a key like "inline.hello_world"
  * Run `npm run i18n:extract` to extract new strings and add translations.
  */
-export function getInlineTranslations(lang: keyof typeof ui) {
+export function getInlineTranslations(lang: Lang) {
 	return function _(text: string): string {
 		// Generate key from English text
 		const key = textToKey(text);
