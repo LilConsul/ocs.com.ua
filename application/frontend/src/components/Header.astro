@@ -113,9 +113,7 @@ const languageOptions = [
 						<a
 							href={langOption.code === lang ? "#" : `/${langOption.code}`}
 							class={`flex w-full items-center gap-3 rounded-lg px-3 py-2 transition-colors ${
-								lang === langOption.code
-									? "bg-accent text-accent-foreground"
-									: "hover:bg-accent/50"
+								lang === langOption.code ? "bg-accent text-accent-foreground" : "hover:bg-accent/50"
 							}`}
 						>
 							<span class="text-xl">{langOption.flag}</span>
@@ -141,7 +139,7 @@ const languageOptions = [
 				"border-b",
 				"border-border",
 				"shadow-sm",
-				"backdrop-blur-xl",
+				"backdrop-blur-xl"
 			);
 			header.classList.remove("bg-background/70", "backdrop-blur-md");
 			header.dataset.scrolled = "true";
@@ -151,7 +149,7 @@ const languageOptions = [
 				"border-b",
 				"border-border",
 				"shadow-sm",
-				"backdrop-blur-xl",
+				"backdrop-blur-xl"
 			);
 			header.classList.add("bg-background/70", "backdrop-blur-md");
 			header.dataset.scrolled = "false";

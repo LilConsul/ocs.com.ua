@@ -1,26 +1,22 @@
 ---
+import type { LucideIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { getIconName } from "@/lib/icon-map";
 
 interface Props {
 	title: string;
 	description: string;
-	icon: string;
+	icon: LucideIcon;
 }
 
-const { title, description, icon } = Astro.props;
-const iconName = getIconName(icon);
+const { title, description, icon: Icon } = Astro.props;
 ---
 
 <Card
 	className="bg-card border-border hover:border-primary/30 group relative min-h-[240px] flex-col items-start rounded-xl border p-8 transition-all duration-300 hover:shadow-lg"
 >
 	<CardContent className="flex flex-col items-start p-0">
-		<div
-			class="text-muted-foreground group-hover:text-primary mb-6 text-3xl transition-colors"
-			data-icon={iconName}
-			data-icon-class="w-8 h-8"
-		>
+		<div class="text-muted-foreground group-hover:text-primary mb-6 h-8 w-8 transition-colors">
+			<Icon className="h-8 w-8" />
 		</div>
 		<h3 class="text-foreground mb-2 text-[16px] leading-[24px] font-bold">
 			{title}
@@ -30,8 +26,3 @@ const iconName = getIconName(icon);
 		</p>
 	</CardContent>
 </Card>
-
-<script>
-	import { loadIcons } from "@/lib/icon-loader";
-	loadIcons();
-</script>
