@@ -1,0 +1,36 @@
+---
+import { getInlineTranslations, getLangFromUrl } from "@/i18n";
+
+const lang = getLangFromUrl(Astro.url);
+const _ = getInlineTranslations(lang);
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="border-border-subtle bg-background border-t">
+	<div class="container mx-auto max-w-[1280px] px-6">
+		<div
+			class="text-industrial-gray flex flex-col items-center justify-between gap-4 py-8 text-sm md:flex-row md:py-6"
+		>
+			<p class="font-sans">
+				&copy; {currentYear}
+				{_("OS-Technology Ukraine")}. {_("All rights reserved")}.
+			</p>
+
+			<nav class="flex flex-wrap items-center justify-center gap-6">
+				<a
+					href="#"
+					class="hover:text-primary focus:text-primary font-sans transition-colors focus:outline-none"
+				>
+					{_("Privacy Policy")}
+				</a>
+				<a
+					href="#"
+					class="hover:text-primary focus:text-primary font-sans transition-colors focus:outline-none"
+				>
+					{_("Terms of Service")}
+				</a>
+			</nav>
+		</div>
+	</div>
+</footer>

@@ -12,7 +12,7 @@
  * - locales/ua.po (Ukrainian translations)
  *
  * Generation script: scripts/i18n-compile.js
- * Generated: 2026-09-11T10:15:03.501Z
+ * Generated: 2026-09-11T10:56:55.874Z
  */
 
 export const languages = {
@@ -28,6 +28,7 @@ export const ui = {
 		"inline.advanced_checkweighers_and_track_trace_systems_for_food_pharma_and_logistics_tru":
 			"Advanced checkweighers and Track & Trace systems for food, pharma, and logistics. Trusted by 300+ Ukrainian manufacturers since 2013.",
 		"inline.all_industries": "All Industries",
+		"inline.all_rights_reserved": "All rights reserved",
 		"inline.checkweighers_and_inspection_systems_meeting_fda_ifs_brc_and_gmp_standards_engin":
 			"Checkweighers and inspection systems meeting FDA, IFS, BRC, and GMP standards — engineered for Ukrainian manufacturers.",
 		"inline.client_retention": "Client Retention",
@@ -56,12 +57,14 @@ export const ui = {
 			"Long-term partnerships built on reliable support.",
 		"inline.official_mesutronic_partner": "Official Mesutronic Partner",
 		"inline.official_wipotec_partner": "Official Wipotec Partner",
+		"inline.os_technology_ukraine": "OS-Technology Ukraine",
 		"inline.os_technology_ukraine_checkweighers_inspection_systems":
 			"OS-Technology Ukraine | Checkweighers & Inspection Systems",
 		"inline.our_clients": "Our Clients",
 		"inline.pharmaceutical": "Pharmaceutical",
 		"inline.precision_checkweighers_with_track_trace_serialization_gmp_compliant_and_audit_r":
 			"Precision checkweighers with Track & Trace serialization. GMP-compliant and audit-ready.",
+		"inline.privacy_policy": "Privacy Policy",
 		"inline.products": "Products",
 		"inline.quality_control_and_filling_inspection_systems":
 			"Quality control and filling inspection systems.",
@@ -74,6 +77,7 @@ export const ui = {
 			"Systems operating across Ukrainian manufacturing facilities.",
 		"inline.technical_expertise_and_service_support_since_2013":
 			"Technical expertise and service support since 2013.",
+		"inline.terms_of_service": "Terms of Service",
 		"inline.trusted_by_ukraine_s_leading_manufacturers":
 			"Trusted by Ukraine's Leading Manufacturers",
 		"inline.view_products": "View Products",
@@ -85,6 +89,7 @@ export const ui = {
 		"inline.advanced_checkweighers_and_track_trace_systems_for_food_pharma_and_logistics_tru":
 			"Сучасні чеквейєри та системи Track & Trace для харчової, фармацевтичної та логістичної галузей. Нам довіряють понад 300 українських виробників з 2013 року.",
 		"inline.all_industries": "Всі галузі",
+		"inline.all_rights_reserved": "Всі права захищено",
 		"inline.checkweighers_and_inspection_systems_meeting_fda_ifs_brc_and_gmp_standards_engin":
 			"Чеквейєри та системи інспекції відповідно до стандартів FDA, IFS, BRC та GMP — розроблені для українських виробників.",
 		"inline.client_retention": "Утримання клієнтів",
@@ -113,12 +118,14 @@ export const ui = {
 			"Довгострокові партнерства, побудовані на надійній підтримці.",
 		"inline.official_mesutronic_partner": "Офіційний партнер Mesutronic",
 		"inline.official_wipotec_partner": "Офіційний партнер Wipotec",
+		"inline.os_technology_ukraine": "OS-Technology Україна",
 		"inline.os_technology_ukraine_checkweighers_inspection_systems":
 			"OS-Technology Україна | Чеквейєри та системи інспекції",
 		"inline.our_clients": "Наші клієнти",
 		"inline.pharmaceutical": "Фармацевтика",
 		"inline.precision_checkweighers_with_track_trace_serialization_gmp_compliant_and_audit_r":
 			"Прецизійні чеквейєри з серіалізацією Track & Trace. Відповідають GMP та готові до аудиту.",
+		"inline.privacy_policy": "Політика конфіденційності",
 		"inline.products": "Продукція",
 		"inline.quality_control_and_filling_inspection_systems":
 			"Системи контролю якості та інспекції наповнення.",
@@ -131,6 +138,7 @@ export const ui = {
 			"Системи працюють на виробничих підприємствах по всій Україні.",
 		"inline.technical_expertise_and_service_support_since_2013":
 			"Технічна експертиза та сервісна підтримка з 2013 року.",
+		"inline.terms_of_service": "Умови використання",
 		"inline.trusted_by_ukraine_s_leading_manufacturers": "Нам довіряють провідні виробники України",
 		"inline.view_products": "Переглянути продукцію",
 		"inline.years_in_ukraine": "Років в Україні",
