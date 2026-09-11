@@ -101,15 +101,17 @@ Both patterns coexist. Prefer `_()` for new code. See `docs/i18n-inline-translat
 
 **Core i18n files:**
 
-- `locales/messages.pot` - Translation template (auto-generated)
-- `locales/*.po` - Translation files in Babel/gettext format (edit these)
-- `src/i18n/ui.ts` - Compiled translations (auto-generated from .po files)
+- `locales/messages.pot` - **AUTO-GENERATED** Translation template (do not edit manually)
+- `locales/*.po` - **EDIT THESE** Translation files in Babel/gettext format (msgstr values are safe to edit)
+- `src/i18n/ui.ts` - **AUTO-GENERATED** Compiled translations (do not edit manually)
 - `src/i18n/utils.ts` - Manual key helpers: `getLangFromUrl()`, `getTranslations()`
 - `src/i18n/inline.ts` - Inline translation helper: `getInlineTranslations()`
 - `scripts/i18n-extract-po.js` - Extraction tool for `_()` calls → .po files
 - `scripts/i18n-compile.js` - Compile .po files → ui.ts
 - `astro.config.mjs` - Language routing config (prefixDefaultLocale: true)
 - `src/pages/[lang]/index.astro` - Dynamic page template for all languages
+
+**⚠️ Important:** All auto-generated files have clear header comments. Look for "AUTO-GENERATED FILE - DO NOT EDIT MANUALLY" at the top of any file before editing.
 
 ### Component Strategy
 

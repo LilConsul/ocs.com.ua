@@ -1,4 +1,21 @@
+# EDIT THIS FILE TO ADD TRANSLATIONS
+#
 # UA translations for OS-Technology Frontend.
+#
+# This file contains translations that are safe to edit.
+# Add your UA translations to the "msgstr" fields below.
+#
+# To apply your changes:
+#   Run: npm run i18n:compile
+#
+# IMPORTANT: This file is partially auto-generated.
+# - The structure (msgid entries) is auto-generated from source code
+# - The translations (msgstr values) are manually added and preserved
+# - Running "npm run i18n:extract" will add new strings but keep existing translations
+#
+# Generation script: scripts/i18n-extract-po.js
+# Last updated: 2026-09-11 09:56:34+0000
+#
 # Copyright (C) 2026 OS-Technology Ukraine
 # This file is distributed under the same license as the OS-Technology project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
@@ -7,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OS-Technology Frontend 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-11 09:52:55+0000\n"
-"PO-Revision-Date: 2026-09-11 09:52:55+0000\n"
+"POT-Creation-Date: 2026-09-11 09:56:34+0000\n"
+"PO-Revision-Date: 2026-09-11 09:56:34+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ua\n"
 "Language-Team: ua <LL@li.org>\n"
