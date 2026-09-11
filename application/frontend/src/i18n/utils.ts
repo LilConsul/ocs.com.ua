@@ -11,6 +11,3 @@ export function getTranslations(lang: keyof typeof ui) {
 		return ui[lang][key] || ui[defaultLang][key];
 	};
 }
-
-// Deprecated: Use getTranslations instead
-export const useTranslations = getTranslations;
