@@ -1,8 +1,8 @@
 ---
-import { getInlineTranslations } from "@/i18n";
+import { getInlineTranslations, type Lang } from "@/i18n";
 
 interface Props {
-	lang: "en" | "ua";
+	lang: Lang;
 }
 
 const { lang } = Astro.props;

@@ -1,7 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import { Card, CardContent } from "@/components/ui/card";
-import { getInlineTranslations } from "@/i18n";
+import { getInlineTranslations, type Lang } from "@/i18n";
 
 interface Partner {
 	name: { en: string; ua: string };
@@ -17,7 +17,7 @@ interface PartnersByCategory {
 
 interface Props {
 	partnersByCategory: PartnersByCategory;
-	lang: "en" | "ua";
+	lang: Lang;
 }
 
 const { partnersByCategory, lang } = Astro.props;

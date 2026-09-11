@@ -1,11 +1,11 @@
 ---
-import { getInlineTranslations } from "@/i18n";
+import { getInlineTranslations, type Lang } from "@/i18n";
 import IndustryCard from "./atoms/IndustryCard.astro";
 import IndustryCardCTA from "./atoms/IndustryCardCTA.astro";
 import IndustryCardSmall from "./atoms/IndustryCardSmall.astro";
 
 interface Props {
-	lang: "en" | "ua";
+	lang: Lang;
 }
 
 const { lang } = Astro.props;

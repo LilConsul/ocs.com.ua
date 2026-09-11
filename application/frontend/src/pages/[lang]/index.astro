@@ -4,7 +4,7 @@ import IndustriesSection from "@/components/homepage/IndustriesSection.astro";
 import PartnersSection from "@/components/homepage/PartnersSection.astro";
 import StatsSection from "@/components/homepage/StatsSection.astro";
 import partnersData from "@/data/partners.json";
-import { getInlineTranslations } from "@/i18n";
+import { getInlineTranslations, type Lang } from "@/i18n";
 import { languages } from "@/i18n/ui";
 import Layout from "@/layouts/Layout.astro";
 
@@ -15,7 +15,7 @@ export function getStaticPaths() {
 }
 
 const { lang } = Astro.params;
-const _ = getInlineTranslations(lang as "en" | "ua");
+const _ = getInlineTranslations(lang as Lang);
 ---
 
 <Layout
@@ -24,8 +24,8 @@ const _ = getInlineTranslations(lang as "en" | "ua");
 		"Dynamic checkweighers and Track & Trace systems for food, pharmaceutical, and logistics industries in Ukraine. Official Wipotec partner."
 	)}
 >
-	<HeroSection lang={lang as "en" | "ua"} />
-	<StatsSection lang={lang as "en" | "ua"} />
-	<IndustriesSection lang={lang as "en" | "ua"} />
-	<PartnersSection partnersByCategory={partnersData} lang={lang as "en" | "ua"} />
+	<HeroSection lang={lang as Lang} />
+	<StatsSection lang={lang as Lang} />
+	<IndustriesSection lang={lang as Lang} />
+	<PartnersSection partnersByCategory={partnersData} lang={lang as Lang} />
 </Layout>

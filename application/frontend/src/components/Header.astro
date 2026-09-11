@@ -1,0 +1,190 @@
+---
+import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { getInlineTranslations, type Lang } from "@/i18n";
+
+interface Props {
+	currentLang: Lang;
+}
+
+const { currentLang } = Astro.props;
+const _ = getInlineTranslations(currentLang);
+
+const navLinks = [
+	{ href: `/${currentLang}#catalogue`, label: _("Products") },
+	{ href: `/${currentLang}#solutions`, label: _("Solutions") },
+	{ href: `/${currentLang}#industries`, label: _("Industries") },
+	{ href: `/${currentLang}#about`, label: _("About") },
+];
+
+const languageOptions = [
+	{ code: "en", name: "English", flag: "🇬🇧" },
+	{ code: "ua", name: "Українська", flag: "🇺🇦" },
+];
+---
+
+<header
+	id="main-header"
+	class="bg-background/70 fixed top-0 right-0 left-0 z-50 backdrop-blur-md transition-all duration-300"
+	data-scrolled="false"
+>
+	<nav class="mx-auto flex h-20 max-w-[1280px] items-center justify-between px-8">
+		<!-- Company Name -->
+		<a href={`/${currentLang}`} class="text-foreground transition-opacity hover:opacity-80">
+			<span class="font-heading text-xl font-bold tracking-tight">
+				{currentLang === "en" ? "OS-Technology Ukraine" : "ОС-Технолоджи Україна"}
+			</span>
+		</a>
+
+		<!-- Desktop Navigation -->
+		<div class="hidden items-center gap-8 md:flex">
+			{
+				navLinks.map((link) => (
+					<a
+						href={link.href}
+						class="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
+					>
+						{link.label}
+					</a>
+				))
+			}
+		</div>
+
+		<!-- Right Side Actions -->
+		<div class="flex items-center gap-4">
+			<!-- Language Switcher - Desktop -->
+			<div
+				class="bg-muted/50 border-border/50 hidden items-center gap-1 rounded-lg border p-1 md:flex"
+			>
+				{
+					languageOptions.map((lang) => (
+						<a
+							href={lang.code === currentLang ? "#" : `/${lang.code}`}
+							class={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-all duration-200 ${
+								currentLang === lang.code
+									? "bg-primary text-primary-foreground shadow-sm"
+									: "text-muted-foreground hover:text-foreground hover:bg-background/50"
+							}`}
+						>
+							<span class="text-base leading-none">{lang.flag}</span>
+							<span class="font-mono text-xs tracking-wider uppercase">{lang.code}</span>
+						</a>
+					))
+				}
+			</div>
+
+			<!-- Mobile Menu Toggle - using shadcn Button -->
+			<Button
+				variant="ghost"
+				size="icon"
+				className="md:hidden"
+				id="mobile-menu-toggle"
+				aria-label="Toggle menu"
+			>
+				<Menu className="h-5 w-5" id="menu-open-icon" />
+				<X className="hidden h-5 w-5" id="menu-close-icon" />
+			</Button>
+		</div>
+	</nav>
+
+	<!-- Mobile Menu -->
+	<div
+		id="mobile-menu"
+		class="border-border bg-background/95 hidden border-t backdrop-blur-xl md:hidden"
+	>
+		<div class="space-y-4 px-8 py-6">
+			{
+				navLinks.map((link) => (
+					<a
+						href={link.href}
+						class="text-muted-foreground hover:text-foreground block py-2 text-base font-medium transition-colors"
+					>
+						{link.label}
+					</a>
+				))
+			}
+
+			<div class="border-border space-y-2 border-t pt-4">
+				<div class="text-muted-foreground mb-3 font-mono text-xs uppercase">{_("Language")}</div>
+				{
+					languageOptions.map((lang) => (
+						<a
+							href={lang.code === currentLang ? "#" : `/${lang.code}`}
+							class={`flex w-full items-center gap-3 rounded-lg px-3 py-2 transition-colors ${
+								currentLang === lang.code
+									? "bg-accent text-accent-foreground"
+									: "hover:bg-accent/50"
+							}`}
+						>
+							<span class="text-xl">{lang.flag}</span>
+							<span class="font-medium">{lang.name}</span>
+						</a>
+					))
+				}
+			</div>
+		</div>
+	</div>
+</header>
+
+<script>
+	// Scroll effect
+	const header = document.getElementById("main-header");
+
+	const handleScroll = () => {
+		if (!header) return;
+
+		if (window.scrollY > 10) {
+			header.classList.add(
+				"bg-background/80",
+				"border-b",
+				"border-border",
+				"shadow-sm",
+				"backdrop-blur-xl"
+			);
+			header.classList.remove("bg-background/70", "backdrop-blur-md");
+			header.dataset.scrolled = "true";
+		} else {
+			header.classList.remove(
+				"bg-background/80",
+				"border-b",
+				"border-border",
+				"shadow-sm",
+				"backdrop-blur-xl"
+			);
+			header.classList.add("bg-background/70", "backdrop-blur-md");
+			header.dataset.scrolled = "false";
+		}
+	};
+
+	window.addEventListener("scroll", handleScroll);
+
+	// Mobile menu toggle
+	const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
+	const mobileMenu = document.getElementById("mobile-menu");
+	const menuOpenIcon = document.getElementById("menu-open-icon");
+	const menuCloseIcon = document.getElementById("menu-close-icon");
+
+	mobileMenuToggle?.addEventListener("click", () => {
+		const isOpen = !mobileMenu?.classList.contains("hidden");
+
+		if (isOpen) {
+			mobileMenu?.classList.add("hidden");
+			menuOpenIcon?.classList.remove("hidden");
+			menuCloseIcon?.classList.add("hidden");
+		} else {
+			mobileMenu?.classList.remove("hidden");
+			menuOpenIcon?.classList.add("hidden");
+			menuCloseIcon?.classList.remove("hidden");
+		}
+	});
+
+	// Close mobile menu when clicking on a link
+	const mobileMenuLinks = mobileMenu?.querySelectorAll("a");
+	mobileMenuLinks?.forEach((link) => {
+		link.addEventListener("click", () => {
+			mobileMenu?.classList.add("hidden");
+			menuOpenIcon?.classList.remove("hidden");
+			menuCloseIcon?.classList.add("hidden");
+		});
+	});
+</script>

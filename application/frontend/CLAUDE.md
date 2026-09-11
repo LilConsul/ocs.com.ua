@@ -62,37 +62,22 @@ Write English text directly in code, then extract to generate translations:
 
 ```astro
 ---
-import { getInlineTranslations } from '@/i18n';
+import { getInlineTranslations, type Lang } from '@/i18n';
 
-const { lang } = Astro.params;
-const _ = getInlineTranslations(lang as "en" | "ua");
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const _ = getInlineTranslations(lang);
 ---
 <h1>{_("High-Speed Dynamic Weighing Systems")}</h1>
 <p>{_("Precision equipment for industrial applications")}</p>
 ```
 
-**React Components (same pattern):**
+**✅ DO use \_() directly in components where text is rendered.**
 
-```tsx
-import { getInlineTranslations } from '@/i18n';
-
-interface Props {
-  lang: "en" | "ua";
-}
-
-export function MyComponent({ lang }: Props) {
-  const _ = getInlineTranslations(lang);
-
-  return (
-    <div>
-      <h1>{_("Title Here")}</h1>
-      <p>{_("Description here")}</p>
-    </div>
-  );
-}
-```
-
-**❌ DON'T create translation interfaces/dictionaries:**
+**❌ DON'T create translation interfaces/dictionaries or pass translations as props:**
 
 ```tsx
 // ❌ BAD - Don't do this
@@ -105,7 +90,9 @@ interface Translations {
 // Then: <MyComponent translations={translations} />
 ```
 
-**✅ DO use \_() directly in components where text is rendered.**
+**✅ DO pass the `lang` prop and use \_() directly in each component.**
+
+**Note:** All interactive components should be built as Astro components with `<script>` tags for interactivity, not React components. This ensures consistent translation patterns and avoids hydration issues.
 
 After adding `_()` calls, run extraction and compilation:
 
