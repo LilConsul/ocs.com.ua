@@ -1,5 +1,6 @@
 ---
 import { Card, CardContent } from "@/components/ui/card";
+import { getIconName } from "@/lib/icon-map";
 
 interface Props {
 	title: string;
@@ -9,17 +10,7 @@ interface Props {
 }
 
 const { title, description, icon, ctaText } = Astro.props;
-
-// Map icon names to Lucide React component names
-const iconMap: Record<string, string> = {
-	utensils: "Utensils",
-	pill: "Pill",
-	sparkles: "Sparkles",
-	warehouse: "Warehouse",
-	grid3x3: "Grid3x3",
-};
-
-const iconName = iconMap[icon.toLowerCase()] || "Circle";
+const iconName = getIconName(icon);
 ---
 
 <Card

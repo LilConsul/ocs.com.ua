@@ -7,6 +7,12 @@ interface Props {
 
 const { lang } = Astro.props;
 const _ = getInlineTranslations(lang);
+
+const stats = [
+	{ value: "50+", label: _("Clients") },
+	{ value: "10+", label: _("Years in Ukraine") },
+	{ value: "300+", label: _("Systems Installed") },
+];
 ---
 
 <section class="border-border bg-muted/30 border-y py-24">
@@ -14,28 +20,20 @@ const _ = getInlineTranslations(lang);
 		<div
 			class="divide-border grid grid-cols-1 gap-12 divide-y md:grid-cols-3 md:divide-x md:divide-y-0"
 		>
-			<div class="flex flex-col items-center pt-8 text-center first:pt-0 md:pt-0">
-				<span class="font-heading text-primary mb-2 text-[36px] leading-[44px] font-bold">50+</span>
-				<span
-					class="text-muted-foreground font-mono text-[12px] leading-[16px] font-medium tracking-widest uppercase"
-					>{_("Clients")}</span
-				>
-			</div>
-			<div class="flex flex-col items-center pt-8 text-center md:pt-0">
-				<span class="font-heading text-primary mb-2 text-[36px] leading-[44px] font-bold">10+</span>
-				<span
-					class="text-muted-foreground font-mono text-[12px] leading-[16px] font-medium tracking-widest uppercase"
-					>{_("Years in Ukraine")}</span
-				>
-			</div>
-			<div class="flex flex-col items-center pt-8 text-center md:pt-0">
-				<span class="font-heading text-primary mb-2 text-[36px] leading-[44px] font-bold">300+</span
-				>
-				<span
-					class="text-muted-foreground font-mono text-[12px] leading-[16px] font-medium tracking-widest uppercase"
-					>{_("Systems Installed")}</span
-				>
-			</div>
+			{
+				stats.map((stat, index) => (
+					<div
+						class={`flex flex-col items-center text-center ${index === 0 ? "pt-8 first:pt-0 md:pt-0" : "pt-8 md:pt-0"}`}
+					>
+						<span class="font-heading text-primary mb-2 text-[36px] leading-[44px] font-bold">
+							{stat.value}
+						</span>
+						<span class="text-muted-foreground font-mono text-[12px] leading-[16px] font-medium tracking-widest uppercase">
+							{stat.label}
+						</span>
+					</div>
+				))
+			}
 		</div>
 	</div>
 </section>

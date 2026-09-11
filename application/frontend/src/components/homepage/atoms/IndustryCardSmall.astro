@@ -1,5 +1,6 @@
 ---
 import { Card, CardContent } from "@/components/ui/card";
+import { getIconName } from "@/lib/icon-map";
 
 interface Props {
 	title: string;
@@ -8,14 +9,7 @@ interface Props {
 }
 
 const { title, description, icon } = Astro.props;
-
-const iconMap: Record<string, string> = {
-	sparkles: "Sparkles",
-	warehouse: "Warehouse",
-	grid3x3: "Grid3x3",
-};
-
-const iconName = iconMap[icon.toLowerCase()] || "Circle";
+const iconName = getIconName(icon);
 ---
 
 <Card

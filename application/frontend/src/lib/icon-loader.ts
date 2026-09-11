@@ -1,12 +1,16 @@
-import * as LucideIcons from "lucide-react";
 import { createElement } from "react";
 import { createRoot } from "react-dom/client";
+import { getIconComponent } from "./icon-registry";
 
+/**
+ * Load icons from data-icon attributes
+ * Replaces DOM elements marked with data-icon with Lucide React icons
+ */
 export function loadIcons() {
 	document.querySelectorAll("[data-icon]").forEach((element) => {
 		const iconName = element.getAttribute("data-icon");
-		if (iconName && iconName in LucideIcons) {
-			const Icon = LucideIcons[iconName as keyof typeof LucideIcons];
+		if (iconName) {
+			const Icon = getIconComponent(iconName);
 			const root = createRoot(element);
 			root.render(
 				createElement(Icon, {
