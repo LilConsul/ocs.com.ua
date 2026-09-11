@@ -71,6 +71,42 @@ const _ = getInlineTranslations(lang as "en" | "ua");
 <p>{_("Precision equipment for industrial applications")}</p>
 ```
 
+**React Components (same pattern):**
+
+```tsx
+import { getInlineTranslations } from '@/i18n';
+
+interface Props {
+  lang: "en" | "ua";
+}
+
+export function MyComponent({ lang }: Props) {
+  const _ = getInlineTranslations(lang);
+
+  return (
+    <div>
+      <h1>{_("Title Here")}</h1>
+      <p>{_("Description here")}</p>
+    </div>
+  );
+}
+```
+
+**❌ DON'T create translation interfaces/dictionaries:**
+
+```tsx
+// ❌ BAD - Don't do this
+interface Translations {
+  title: string;
+  description: string;
+}
+
+// In parent: const translations = { title: _("Title"), desc: _("Desc") };
+// Then: <MyComponent translations={translations} />
+```
+
+**✅ DO use \_() directly in components where text is rendered.**
+
 After adding `_()` calls, run extraction and compilation:
 
 ```bash
@@ -91,7 +127,7 @@ const t = getTranslations(lang as "en" | "ua");
 <h1>{t('site.title')}</h1>
 ```
 
-Both patterns coexist. Prefer `_()` for new code. See `docs/i18n-inline-translation.md` for complete guide.
+Both patterns coexist. Prefer `_()` for new code with direct usage in components. See `docs/i18n-workflow.md` for complete guide.
 
 **Implementation:**
 
