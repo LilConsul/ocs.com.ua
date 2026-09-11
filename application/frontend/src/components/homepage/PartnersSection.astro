@@ -1,0 +1,340 @@
+---
+import { Image } from "astro:assets";
+import { Card, CardContent } from "@/components/ui/card";
+import { getInlineTranslations } from "@/i18n";
+
+interface Partner {
+	name: { en: string; ua: string };
+	website: string;
+	logo: string;
+}
+
+interface PartnersByCategory {
+	food: Partner[];
+	household: Partner[];
+	pharma: Partner[];
+}
+
+interface Props {
+	partnersByCategory: PartnersByCategory;
+	lang: "en" | "ua";
+}
+
+const { partnersByCategory, lang } = Astro.props;
+const _ = getInlineTranslations(lang);
+
+// Import all partner logos dynamically
+const partnerImages = import.meta.glob<{ default: ImageMetadata }>("/src/assets/partners/*.(png|webp|jpg|jpeg|svg)", {
+	eager: true,
+});
+
+// Helper function to get image from path
+function getPartnerImage(logoPath: string) {
+	// Handle TODO: or missing logos
+	if (!logoPath || logoPath === "TODO:") {
+		return null;
+	}
+	// Normalize path to match glob pattern
+	const normalizedPath = logoPath.startsWith("/src/") ? logoPath : `/src/${logoPath}`;
+	return partnerImages[normalizedPath]?.default;
+}
+---
+
+<section class="bg-muted/50 relative overflow-hidden py-24 md:py-32">
+	<div class="relative z-10 mx-auto max-w-7xl px-8">
+		<div class="mb-16 text-center">
+			<div
+				class="text-primary mb-4 font-mono text-[12px] leading-4 font-medium tracking-wider uppercase"
+			>
+				{_("Our Clients")}
+			</div>
+			<h2
+				class="font-heading text-foreground mb-6 text-[32px] leading-10 font-semibold tracking-tight md:text-[48px] md:leading-14 md:tracking-[-0.02em]"
+			>
+				{_("Trusted by Ukraine's Leading Manufacturers")}
+			</h2>
+			<p class="text-muted-foreground mx-auto max-w-2xl text-[14px] leading-6">
+				{
+					_(
+						"Supplying and servicing precision weighing equipment for major food, pharmaceutical, and chemical companies since 2013."
+					)
+				}
+			</p>
+		</div>
+
+		<div class="mb-16 space-y-0">
+			<!-- Food Partners Row -->
+			<div
+				class="partner-carousel border-border/50 relative w-full overflow-hidden border-y py-8"
+				style={{
+					WebkitMaskImage:
+						"linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+					maskImage: "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+				}}
+			>
+				<div class="partner-carousel-track flex gap-12">
+					<div
+						class="partner-group flex shrink-0 gap-12"
+						style="will-change: transform; animation: scrolling-normal 40s linear infinite;"
+					>
+						{
+							partnersByCategory.food.map((partner) => (
+								<a
+									href={partner.website}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="group flex h-12 w-37.5 shrink-0 items-center justify-center opacity-70 grayscale transition-[opacity,filter,transform] duration-300 ease-out hover:-translate-y-0.5 hover:opacity-100 hover:drop-shadow-md hover:grayscale-0"
+								>
+									<img
+										src={partner.logo}
+										alt={partner.name[lang]}
+										class="h-12 max-w-full object-contain"
+										loading="eager"
+										decoding="async"
+									/>
+								</a>
+							))
+						}
+					</div>
+					<div
+						class="partner-group flex shrink-0 gap-12"
+						aria-hidden="true"
+						style="will-change: transform; animation: scrolling-normal 40s linear infinite;"
+					>
+						{
+							partnersByCategory.food.map((partner) => (
+								<a
+									href={partner.website}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="group flex h-12 w-37.5 shrink-0 items-center justify-center opacity-70 grayscale transition-[opacity,filter,transform] duration-300 ease-out hover:-translate-y-0.5 hover:opacity-100 hover:drop-shadow-md hover:grayscale-0"
+									tabindex="-1"
+								>
+									<img
+										src={partner.logo}
+										alt={partner.name[lang]}
+										class="h-12 max-w-full object-contain"
+										loading="eager"
+										decoding="async"
+									/>
+								</a>
+							))
+						}
+					</div>
+				</div>
+			</div>
+
+			<!-- Household Partners Row (Reverse) -->
+			<div
+				class="partner-carousel border-border/50 relative w-full overflow-hidden border-y py-8"
+				style={{
+					WebkitMaskImage:
+						"linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+					maskImage: "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+				}}
+			>
+				<div class="partner-carousel-track flex gap-12">
+					<div
+						class="partner-group flex shrink-0 gap-12"
+						style="will-change: transform; animation: scrolling-reverse 35s linear infinite;"
+					>
+						{
+							partnersByCategory.household.map((partner) => (
+								<a
+									href={partner.website}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="group flex h-12 w-37.5 shrink-0 items-center justify-center opacity-70 grayscale transition-[opacity,filter,transform] duration-300 ease-out hover:-translate-y-0.5 hover:opacity-100 hover:drop-shadow-md hover:grayscale-0"
+								>
+									<img
+										src={partner.logo}
+										alt={partner.name[lang]}
+										class="h-12 max-w-full object-contain"
+										loading="eager"
+										decoding="async"
+									/>
+								</a>
+							))
+						}
+					</div>
+					<div
+						class="partner-group flex shrink-0 gap-12"
+						aria-hidden="true"
+						style="will-change: transform; animation: scrolling-reverse 35s linear infinite;"
+					>
+						{
+							partnersByCategory.household.map((partner) => (
+								<a
+									href={partner.website}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="group flex h-12 w-37.5 shrink-0 items-center justify-center opacity-70 grayscale transition-[opacity,filter,transform] duration-300 ease-out hover:-translate-y-0.5 hover:opacity-100 hover:drop-shadow-md hover:grayscale-0"
+									tabindex="-1"
+								>
+									<img
+										src={partner.logo}
+										alt={partner.name[lang]}
+										class="h-12 max-w-full object-contain"
+										loading="eager"
+										decoding="async"
+									/>
+								</a>
+							))
+						}
+					</div>
+				</div>
+			</div>
+
+			<!-- Pharma Partners Row -->
+			<div
+				class="partner-carousel border-border/50 relative w-full overflow-hidden border-y py-8"
+				style={{
+					WebkitMaskImage:
+						"linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+					maskImage: "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+				}}
+			>
+				<div class="partner-carousel-track flex gap-12">
+					<div
+						class="partner-group flex shrink-0 gap-12"
+						style="will-change: transform; animation: scrolling-normal 45s linear infinite;"
+					>
+						{
+							partnersByCategory.pharma.map((partner) => (
+								<a
+									href={partner.website}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="group flex h-12 w-37.5 shrink-0 items-center justify-center opacity-70 grayscale transition-[opacity,filter,transform] duration-300 ease-out hover:-translate-y-0.5 hover:opacity-100 hover:drop-shadow-md hover:grayscale-0"
+								>
+									<img
+										src={partner.logo}
+										alt={partner.name[lang]}
+										class="h-12 max-w-full object-contain"
+										loading="eager"
+										decoding="async"
+									/>
+								</a>
+							))
+						}
+					</div>
+					<div
+						class="partner-group flex shrink-0 gap-12"
+						aria-hidden="true"
+						style="will-change: transform; animation: scrolling-normal 45s linear infinite;"
+					>
+						{
+							partnersByCategory.pharma.map((partner) => (
+								<a
+									href={partner.website}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="group flex h-12 w-37.5 shrink-0 items-center justify-center opacity-70 grayscale transition-[opacity,filter,transform] duration-300 ease-out hover:-translate-y-0.5 hover:opacity-100 hover:drop-shadow-md hover:grayscale-0"
+									tabindex="-1"
+								>
+									<img
+										src={partner.logo}
+										alt={partner.name[lang]}
+										class="h-12 max-w-full object-contain"
+										loading="eager"
+										decoding="async"
+									/>
+								</a>
+							))
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+			<Card className="border-border/50 bg-card rounded-xl border p-8 shadow-sm">
+				<CardContent className="p-0">
+					<div
+						class="font-heading text-primary mb-2 text-[48px] leading-14 font-semibold tracking-[-0.02em]"
+					>
+						300+
+					</div>
+					<div
+						class="text-muted-foreground mb-4 font-mono text-[12px] leading-4 font-medium tracking-wider uppercase"
+					>
+						{_("Installations")}
+					</div>
+					<p class="text-muted-foreground text-[14px] leading-5">
+						{_("Systems operating across Ukrainian manufacturing facilities.")}
+					</p>
+				</CardContent>
+			</Card>
+
+			<Card className="border-border/50 bg-card rounded-xl border p-8 shadow-sm">
+				<CardContent className="p-0">
+					<div
+						class="font-heading text-primary mb-2 text-[48px] leading-14 font-semibold tracking-[-0.02em]"
+					>
+						10+
+					</div>
+					<div
+						class="text-muted-foreground mb-4 font-mono text-[12px] leading-4 font-medium tracking-wider uppercase"
+					>
+						{_("Years of Experience")}
+					</div>
+					<p class="text-muted-foreground text-[14px] leading-5">
+						{_("Technical expertise and service support since 2013.")}
+					</p>
+				</CardContent>
+			</Card>
+
+			<Card className="border-border/50 bg-card rounded-xl border p-8 shadow-sm">
+				<CardContent className="p-0">
+					<div
+						class="font-heading text-primary mb-2 text-[48px] leading-14 font-semibold tracking-[-0.02em]"
+					>
+						98%
+					</div>
+					<div
+						class="text-muted-foreground mb-4 font-mono text-[12px] leading-4 font-medium tracking-wider uppercase"
+					>
+						{_("Client Retention")}
+					</div>
+					<p class="text-muted-foreground text-[14px] leading-5">
+						{_("Long-term partnerships built on reliable support.")}
+					</p>
+				</CardContent>
+			</Card>
+		</div>
+	</div>
+</section>
+
+<style>
+	@keyframes scrolling-normal {
+		0% {
+			transform: translateX(0);
+		}
+		100% {
+			transform: translateX(-100%);
+		}
+	}
+
+	@keyframes scrolling-reverse {
+		0% {
+			transform: translateX(-100%);
+		}
+		100% {
+			transform: translateX(0);
+		}
+	}
+
+	.partner-carousel:hover .partner-group {
+		animation-play-state: paused;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.partner-group {
+			animation: none !important;
+		}
+		.partner-carousel-track {
+			flex-wrap: wrap;
+			justify-content: center;
+		}
+	}
+</style>

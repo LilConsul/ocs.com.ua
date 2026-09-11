@@ -1,7 +1,7 @@
 ---
 import HeroSection from "@/components/homepage/HeroSection.astro";
 import IndustriesSection from "@/components/homepage/IndustriesSection.astro";
-import { PartnersSection } from "@/components/homepage/PartnersSection";
+import PartnersSection from "@/components/homepage/PartnersSection.astro";
 import StatsSection from "@/components/homepage/StatsSection.astro";
 import partnersData from "@/data/partners.json";
 import { getInlineTranslations } from "@/i18n";
@@ -18,13 +18,14 @@ const { lang } = Astro.params;
 const _ = getInlineTranslations(lang as "en" | "ua");
 ---
 
-<Layout title={_("OS-Technology Ukraine | Checkweighers & Inspection Systems")} description={_("Dynamic checkweighers and Track & Trace systems for food, pharmaceutical, and logistics industries in Ukraine. Official Wipotec partner.")}>
+<Layout
+	title={_("OS-Technology Ukraine | Checkweighers & Inspection Systems")}
+	description={_(
+		"Dynamic checkweighers and Track & Trace systems for food, pharmaceutical, and logistics industries in Ukraine. Official Wipotec partner."
+	)}
+>
 	<HeroSection lang={lang as "en" | "ua"} />
 	<StatsSection lang={lang as "en" | "ua"} />
 	<IndustriesSection lang={lang as "en" | "ua"} />
-	<PartnersSection
-		client:load
-		partnersByCategory={partnersData}
-		lang={lang as "en" | "ua"}
-	/>
+	<PartnersSection partnersByCategory={partnersData} lang={lang as "en" | "ua"} />
 </Layout>

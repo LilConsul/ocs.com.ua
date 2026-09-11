@@ -14,9 +14,7 @@ const _ = getInlineTranslations(lang);
 <section class="relative flex min-h-180 items-center overflow-hidden pt-20">
 	<!-- Background Image -->
 	<div class="absolute inset-0 z-0">
-		<div
-			class="from-background via-background absolute inset-0 z-10 bg-linear-to-r to-transparent"
-		>
+		<div class="from-background via-background absolute inset-0 z-10 bg-linear-to-r to-transparent">
 		</div>
 		<Image
 			src="/images/main_page.webp"
@@ -68,7 +66,11 @@ const _ = getInlineTranslations(lang);
 
 			<!-- Description -->
 			<p class="text-muted-foreground max-w-xl text-[15px] leading-[22px]">
-				{_("Advanced checkweighers and Track & Trace systems for food, pharma, and logistics. Trusted by 300+ Ukrainian manufacturers since 2013.")}
+				{
+					_(
+						"Advanced checkweighers and Track & Trace systems for food, pharma, and logistics. Trusted by 300+ Ukrainian manufacturers since 2013."
+					)
+				}
 			</p>
 
 			<!-- CTA Buttons -->

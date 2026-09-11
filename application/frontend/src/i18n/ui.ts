@@ -12,7 +12,7 @@
  * - locales/ua.po (Ukrainian translations)
  *
  * Generation script: scripts/i18n-compile.js
- * Generated: 2026-09-11T10:12:05.600Z
+ * Generated: 2026-09-11T10:15:03.501Z
  */
 
 export const languages = {
