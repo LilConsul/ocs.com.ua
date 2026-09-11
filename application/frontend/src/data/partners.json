@@ -21,7 +21,7 @@
 				"en": "Zolote Zerno",
 				"ua": "Золоте Зерно"
 			},
-			"website": "https://zolotezerno.com.ua",
+			"website": "https://zolote-zerno.com.ua",
 			"logo": "/src/assets/partners/zolote-zerno.webp"
 		},
 		{
@@ -29,7 +29,7 @@
 				"en": "Zveni Gora",
 				"ua": "Звени Гора"
 			},
-			"website": "https://zveni-gora.com",
+			"website": "https://zvenigora.com/",
 			"logo": "/src/assets/partners/zveni-gora.webp"
 		},
 		{
@@ -136,7 +136,7 @@
 				"ua": "CEMARK"
 			},
 			"website": "https://www.cemark.ua/",
-			"logo": "TODO:"
+			"logo": "/src/assets/partners/cemark.webp"
 		},
 		{
 			"name": {
@@ -144,7 +144,7 @@
 				"ua": "Розетка"
 			},
 			"website": "https://rozetka.com.ua",
-			"logo": "/src/assets/partners/rozetka.png"
+			"logo": "/src/assets/partners/rozetka.webp"
 		},
 		{
 			"name": {
@@ -152,7 +152,7 @@
 				"ua": "Biosphere Corporation"
 			},
 			"website": "https://biosphere-corp.com/",
-			"logo": "/src/assets/partners/biosphere.png"
+			"logo": "/src/assets/partners/biosphere.webp"
 		},
 		{
 			"name": {
@@ -160,7 +160,7 @@
 				"ua": "Eva"
 			},
 			"website": "https://eva.ua",
-			"logo": "/src/assets/partners/eva.png"
+			"logo": "/src/assets/partners/eva.webp"
 		},
 		{
 			"name": {
@@ -168,7 +168,7 @@
 				"ua": "P&G"
 			},
 			"website": "https://pg.com.ua",
-			"logo": "/src/assets/partners/pg.png"
+			"logo": "/src/assets/partners/P&G.webp"
 		},
 		{
 			"name": {
@@ -176,7 +176,7 @@
 				"ua": "Verallia"
 			},
 			"website": "https://ua.verallia.com",
-			"logo": "/src/assets/partners/verallia.png"
+			"logo": "/src/assets/partners/verallia.webp"
 		}
 	],
 	"pharma": [
@@ -186,7 +186,7 @@
 				"ua": "БаДМ"
 			},
 			"website": "https://www.badm.ua",
-			"logo": "TODO:"
+			"logo": "/src/assets/partners/badm.webp"
 		},
 		{
 			"name": {
@@ -194,7 +194,7 @@
 				"ua": "Юрія-Фарм"
 			},
 			"website": "https://www.uf.ua",
-			"logo": "/src/assets/partners/yuria-pharm.png"
+			"logo": "/src/assets/partners/yuria-pharm.webp"
 		},
 		{
 			"name": {
@@ -202,7 +202,7 @@
 				"ua": "Фармак"
 			},
 			"website": "https://farmak.ua",
-			"logo": "/src/assets/partners/farmak.png"
+			"logo": "/src/assets/partners/farmak.webp"
 		},
 		{
 			"name": {
@@ -210,7 +210,7 @@
 				"ua": "Дарниця"
 			},
 			"website": "https://darnitsa.ua",
-			"logo": "/src/assets/partners/darnitsa.png"
+			"logo": "/src/assets/partners/DARNYTSIA.webp"
 		},
 		{
 			"name": {
@@ -218,7 +218,7 @@
 				"ua": "Артеріум"
 			},
 			"website": "https://arterium.ua",
-			"logo": "/src/assets/partners/arterium.png"
+			"logo": "/src/assets/partners/arterium.webp"
 		},
 		{
 			"name": {
@@ -226,7 +226,7 @@
 				"ua": "Acino"
 			},
 			"website": "https://acino.ua",
-			"logo": "/src/assets/partners/acino.png"
+			"logo": "/src/assets/partners/acino.webp"
 		},
 		{
 			"name": {
@@ -234,7 +234,7 @@
 				"ua": "Оптіма Фарм"
 			},
 			"website": "https://optimapharm.ua",
-			"logo": "/src/assets/partners/optima-pharm.png"
+			"logo": "/src/assets/partners/optimapharm.webp"
 		}
 	]
 }
