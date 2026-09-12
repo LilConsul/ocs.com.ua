@@ -17,16 +17,20 @@ src/content/equipment/
     hc-m.md                          ← Content file (both languages)
     hc-a.md
     hc-wd.md
-    _assets/                         ← Assets folder
+
+public/assets/                       ← All media files (TinaCMS managed)
+  equipment/
+    checkweighers/
       hc-m/
         hero.jpg
         gallery-1.jpg
-        gallery-2.jpg
         datasheet.pdf
       hc-a/
         hero.jpg
-      hc-wd/
-        hero.jpg
+  partners/                          ← Partner logos
+    logo-1.png
+  logos/                             ← Company logos
+    company-logo.svg
 ```
 
 ### Content File Structure

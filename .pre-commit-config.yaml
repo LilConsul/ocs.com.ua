@@ -10,8 +10,18 @@ repos:
     hooks:
       - id: trailing-whitespace
         name: "[ALL] Trim trailing whitespace"
+        exclude: |
+          (?x)^(
+            application/frontend/content/.*\.md|
+            application/frontend/src/content/equipment/.*\.md
+          )$
       - id: end-of-file-fixer
         name: "[ALL] Fix end of files (ensure newline)"
+        exclude: |
+          (?x)^(
+            application/frontend/content/.*\.md|
+            application/frontend/src/content/equipment/.*\.md
+          )$
       - id: check-yaml
         name: "[ALL] Check YAML syntax"
       - id: check-json
@@ -31,6 +41,11 @@ repos:
         additional_dependencies:
           - mdformat-gfm     # GitHub Flavored Markdown
           - mdformat-tables  # Better table formatting
+        exclude: |
+          (?x)^(
+            application/frontend/content/.*\.md|
+            application/frontend/src/content/equipment/.*\.md
+          )$
 
   # Ruff for Python backend code
   - repo: https://github.com/astral-sh/ruff-pre-commit

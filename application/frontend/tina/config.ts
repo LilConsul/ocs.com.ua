@@ -154,17 +154,12 @@ export default defineConfig({
 					// ========================================
 					{
 						type: "image",
-						name: "heroImage",
-						label: "Hero Image",
-						required: true,
-						description: "Main product image (recommended: 800x600px)",
-					},
-					{
-						type: "image",
 						name: "gallery",
-						label: "Gallery Images",
+						label: "Images (First image is hero)",
 						list: true,
-						description: "Additional product photos (max 10 images)",
+						required: true,
+						description:
+							"Product photos (1-10 images). First image will be used as the hero image.",
 					},
 					{
 						type: "image",

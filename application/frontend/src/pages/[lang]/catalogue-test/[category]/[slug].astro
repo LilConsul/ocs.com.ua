@@ -73,9 +73,9 @@ const { item, lang } = Astro.props;
 
 			<section style="margin: 2rem 0;">
 				<h2>Images & Files</h2>
-				<p><strong>Hero:</strong> {item.data.heroImage.src}</p>
-				<p><strong>Gallery:</strong> {item.data.gallery.length} images</p>
-				{item.data.datasheet && <p><strong>Datasheet:</strong> {item.data.datasheet.src}</p>}
+				<p><strong>Hero (first image):</strong> {item.data.gallery[0]}</p>
+				<p><strong>Gallery:</strong> {item.data.gallery.length} images total</p>
+				{item.data.datasheet && <p><strong>Datasheet:</strong> {item.data.datasheet}</p>}
 			</section>
 
 			<section style="margin: 2rem 0;">

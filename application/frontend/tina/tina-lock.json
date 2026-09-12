@@ -164,20 +164,11 @@
 					},
 					{
 						"type": "image",
-						"name": "heroImage",
-						"label": "Hero Image",
-						"required": true,
-						"description": "Main product image (recommended: 800x600px)",
-						"namespace": ["equipment", "heroImage"],
-						"searchable": false,
-						"uid": false
-					},
-					{
-						"type": "image",
 						"name": "gallery",
-						"label": "Gallery Images",
+						"label": "Images (First image is hero)",
 						"list": true,
-						"description": "Additional product photos (max 10 images)",
+						"required": true,
+						"description": "Product photos (1-10 images). First image will be used as the hero image.",
 						"namespace": ["equipment", "gallery"],
 						"searchable": false,
 						"uid": false
@@ -1423,20 +1414,17 @@
 					},
 					{
 						"kind": "FieldDefinition",
-						"name": { "kind": "Name", "value": "heroImage" },
-						"arguments": [],
-						"type": {
-							"kind": "NonNullType",
-							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
-						}
-					},
-					{
-						"kind": "FieldDefinition",
 						"name": { "kind": "Name", "value": "gallery" },
 						"arguments": [],
 						"type": {
-							"kind": "ListType",
-							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+							"kind": "NonNullType",
+							"type": {
+								"kind": "ListType",
+								"type": {
+									"kind": "NonNullType",
+									"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+								}
+							}
 						}
 					},
 					{
@@ -1610,11 +1598,6 @@
 							"kind": "NamedType",
 							"name": { "kind": "Name", "value": "EquipmentDescriptionFilter" }
 						}
-					},
-					{
-						"kind": "InputValueDefinition",
-						"name": { "kind": "Name", "value": "heroImage" },
-						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "ImageFilter" } }
 					},
 					{
 						"kind": "InputValueDefinition",
@@ -2174,11 +2157,6 @@
 							"kind": "NamedType",
 							"name": { "kind": "Name", "value": "EquipmentDescriptionMutation" }
 						}
-					},
-					{
-						"kind": "InputValueDefinition",
-						"name": { "kind": "Name", "value": "heroImage" },
-						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
 					},
 					{
 						"kind": "InputValueDefinition",
