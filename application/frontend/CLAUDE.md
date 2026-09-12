@@ -23,21 +23,28 @@ This is the frontend application for OS-Technology Ukraine, a B2B industrial equ
 
 ```bash
 # Development
-npm run dev              # Start dev server at localhost:4321
+pnpm run dev              # Start dev server at localhost:4321
 
 # Building
-npm run build            # Build production site to ./dist/
-npm run preview          # Preview production build
+pnpm run build            # Build production site to ./dist/
+pnpm run preview          # Preview production build
 
 # Code Quality (ALWAYS RUN BEFORE COMMITS)
-npm run check:fix        # Fix all linting, formatting issues (includes Tailwind)
-npm run check            # Check without fixing
-npm run ci               # CI check - validates without fixing
+pnpm run check:fix        # Fix all linting, formatting issues (includes Tailwind)
+pnpm run check            # Check without fixing
+pnpm run ci               # CI check - validates without fixing
 
 # i18n Translation Workflow
-npm run i18n:extract     # Extract _() calls to .po files (preserves existing translations)
-npm run i18n:compile     # Compile .po files to ui.ts
-npm run i18n:init -- pl  # Initialize new language (e.g., Polish)
+pnpm run i18n:extract     # Extract _() calls to .po files (preserves existing translations)
+pnpm run i18n:compile     # Compile .po files to ui.ts
+pnpm run i18n:init -- pl  # Initialize new language (e.g., Polish)
+
+# Package Management
+pnpm install              # Install dependencies
+pnpm add <package>        # Add new dependency
+pnpm add -D <package>     # Add dev dependency
+pnpm remove <package>     # Remove dependency
+pnpm shadcn add <comp>    # Add shadcn/ui component
 ```
 
 ## Architecture & Key Patterns

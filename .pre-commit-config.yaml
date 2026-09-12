@@ -49,15 +49,15 @@ repos:
     hooks:
       - id: prettier-json-yaml-frontend
         name: Prettier (format JSON/YAML) — frontend only
-        entry: bash -c 'for file in "$@"; do (cd application/frontend && npx prettier --ignore-unknown --write "${file#application/frontend/}"); done' --
+        entry: bash -c 'for file in "$@"; do (cd application/frontend && pnpm exec prettier --ignore-unknown --write "${file#application/frontend/}"); done' --
         language: system
         files: ^application/frontend/.*\.(json|ya?ml)$
-        exclude: ^application/frontend/package-lock\.json$
+        exclude: ^application/frontend/pnpm-lock\.yaml$
         pass_filenames: true
 
       - id: biome-check-frontend
         name: Biome Check (Frontend)
-        entry: bash -c 'cd application/frontend && npm run check:fix'
+        entry: bash -c 'cd application/frontend && pnpm run check:fix'
         language: system
         types: [javascript, jsx, ts, tsx, json, css]
         pass_filenames: false
@@ -65,7 +65,7 @@ repos:
 
       - id: prettier-tailwind-frontend
         name: Prettier + Tailwind CSS (Frontend)
-        entry: bash -c 'for file in "$@"; do (cd application/frontend && npx prettier --ignore-unknown --write "${file#application/frontend/}"); done; git add "$@"' --
+        entry: bash -c 'for file in "$@"; do (cd application/frontend && pnpm exec prettier --ignore-unknown --write "${file#application/frontend/}"); done; git add "$@"' --
         language: system
         types_or: [javascript, jsx, ts, tsx]
         files: ^application/frontend/
@@ -73,7 +73,7 @@ repos:
 
       - id: biome-ci-frontend
         name: Biome CI (Frontend - strict)
-        entry: bash -c 'cd application/frontend && npm run ci'
+        entry: bash -c 'cd application/frontend && pnpm run ci'
         language: system
         types: [javascript, jsx, ts, tsx, json, css]
         pass_filenames: false

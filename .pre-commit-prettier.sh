@@ -15,4 +15,4 @@ for file in "$@"; do
 done
 
 # Run prettier with the relative paths
-npx prettier --write --ignore-unknown "${files[@]}"
+pnpm exec prettier --write --ignore-unknown "${files[@]}"
