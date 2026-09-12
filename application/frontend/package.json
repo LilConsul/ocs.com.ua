@@ -13,7 +13,6 @@
 		"check": "biome check .",
 		"check:fix": "biome check --write . && prettier --write \"**/*.{astro,tsx,jsx}\"",
 		"ci": "biome ci .",
-		"prepare": "husky || true",
 		"i18n:extract": "node scripts/i18n-extract-po.js",
 		"i18n:init": "node scripts/i18n-extract-po.js --init",
 		"i18n:compile": "node scripts/i18n-compile.js"
@@ -46,23 +45,13 @@
 		"@tinacms/cli": "^2.7.0",
 		"@types/node": "^22.20.2",
 		"glob": "^13.0.6",
-		"husky": "^9.1.7",
 		"i18next-parser": "^9.0.2",
 		"image-size": "^2.0.2",
 		"inquirer": "^14.1.0",
-		"lint-staged": "^17.3.0",
 		"prettier": "^3.9.6",
 		"prettier-plugin-astro": "^0.14.1",
 		"prettier-plugin-tailwindcss": "^0.8.1",
 		"shadcn": "^4.10.0",
 		"typescript": "^6.0.3"
-	},
-	"lint-staged": {
-		"*.{astro,tsx,jsx,ts,js}": [
-			"biome check --write --no-errors-on-unmatched",
-			"prettier --write --ignore-unknown"
-		],
-		"*.md": "prettier --write --ignore-unknown",
-		"src/content/**/*.md": "echo 'Skipping TinaCMS content files'"
 	}
 }

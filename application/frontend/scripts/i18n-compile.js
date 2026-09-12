@@ -6,7 +6,7 @@
  * Compiles .po files to TypeScript ui.ts format
  *
  * Usage:
- *   npm run i18n:compile
+ *   bun run i18n:compile
  */
 
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
@@ -92,7 +92,7 @@ function compile() {
 	// Load POT file for English source strings
 	const potFile = resolve(LOCALES_DIR, "messages.pot");
 	if (!existsSync(potFile)) {
-		console.error("[ERROR] Missing messages.pot file. Run 'npm run i18n:extract' first.");
+		console.error("[ERROR] Missing messages.pot file. Run 'bun run i18n:extract' first.");
 		process.exit(1);
 	}
 
@@ -107,7 +107,7 @@ function compile() {
 		const poFile = resolve(LOCALES_DIR, `${lang}.po`);
 
 		if (!existsSync(poFile)) {
-			console.error(`[ERROR] Missing ${lang}.po file. Run 'npm run i18n:extract' first.`);
+			console.error(`[ERROR] Missing ${lang}.po file. Run 'bun run i18n:extract' first.`);
 			process.exit(1);
 		}
 
@@ -158,7 +158,7 @@ function compile() {
  *
  * To update translations:
  * 1. Edit the .po files in the 'locales/' directory
- * 2. Run: npm run i18n:compile
+ * 2. Run: bun run i18n:compile
  *
  * Source files:
  * - locales/messages.pot (English source)
