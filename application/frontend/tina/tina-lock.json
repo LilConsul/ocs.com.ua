@@ -91,6 +91,180 @@
 				],
 				"ui": {},
 				"namespace": ["post"]
+			},
+			{
+				"name": "equipment",
+				"label": "Equipment Catalogue",
+				"path": "src/content/equipment",
+				"format": "md",
+				"ui": {
+					"allowedActions": { "create": true, "delete": true },
+					"filename": { "readonly": false }
+				},
+				"fields": [
+					{
+						"type": "object",
+						"name": "title",
+						"label": "Title (Multilingual)",
+						"required": true,
+						"fields": [
+							{
+								"type": "string",
+								"name": "en",
+								"label": "🇬🇧 English",
+								"required": true,
+								"namespace": ["equipment", "title", "en"],
+								"searchable": true,
+								"uid": false
+							},
+							{
+								"type": "string",
+								"name": "ua",
+								"label": "🇺🇦 Ukrainian",
+								"required": true,
+								"namespace": ["equipment", "title", "ua"],
+								"searchable": true,
+								"uid": false
+							}
+						],
+						"namespace": ["equipment", "title"],
+						"searchable": true,
+						"uid": false
+					},
+					{
+						"type": "object",
+						"name": "description",
+						"label": "Short Description (Multilingual)",
+						"required": true,
+						"fields": [
+							{
+								"type": "string",
+								"name": "en",
+								"label": "🇬🇧 English",
+								"required": true,
+								"ui": { "component": "textarea" },
+								"namespace": ["equipment", "description", "en"],
+								"searchable": true,
+								"uid": false
+							},
+							{
+								"type": "string",
+								"name": "ua",
+								"label": "🇺🇦 Ukrainian",
+								"required": true,
+								"ui": { "component": "textarea" },
+								"namespace": ["equipment", "description", "ua"],
+								"searchable": true,
+								"uid": false
+							}
+						],
+						"namespace": ["equipment", "description"],
+						"searchable": true,
+						"uid": false
+					},
+					{
+						"type": "image",
+						"name": "heroImage",
+						"label": "Hero Image",
+						"required": true,
+						"description": "Main product image (recommended: 800x600px)",
+						"namespace": ["equipment", "heroImage"],
+						"searchable": false,
+						"uid": false
+					},
+					{
+						"type": "image",
+						"name": "gallery",
+						"label": "Gallery Images",
+						"list": true,
+						"description": "Additional product photos (max 10 images)",
+						"namespace": ["equipment", "gallery"],
+						"searchable": false,
+						"uid": false
+					},
+					{
+						"type": "string",
+						"name": "datasheet",
+						"label": "Datasheet PDF Path",
+						"description": "Relative path to PDF (e.g., \"./_assets/hc-m/datasheet.pdf\")",
+						"namespace": ["equipment", "datasheet"],
+						"searchable": true,
+						"uid": false
+					},
+					{
+						"type": "object",
+						"name": "specs",
+						"label": "Specifications (Max 3)",
+						"list": true,
+						"description": "Maximum 3 specifications shown on catalogue cards",
+						"ui": {},
+						"fields": [
+							{
+								"type": "object",
+								"name": "label",
+								"label": "Label (Multilingual)",
+								"required": true,
+								"fields": [
+									{
+										"type": "string",
+										"name": "en",
+										"label": "🇬🇧 English",
+										"required": true,
+										"namespace": ["equipment", "specs", "label", "en"],
+										"searchable": true,
+										"uid": false
+									},
+									{
+										"type": "string",
+										"name": "ua",
+										"label": "🇺🇦 Ukrainian",
+										"required": true,
+										"namespace": ["equipment", "specs", "label", "ua"],
+										"searchable": true,
+										"uid": false
+									}
+								],
+								"namespace": ["equipment", "specs", "label"],
+								"searchable": true,
+								"uid": false
+							},
+							{
+								"type": "string",
+								"name": "value",
+								"label": "Value",
+								"required": true,
+								"description": "Usually language-independent (e.g., '250 pcs/min')",
+								"namespace": ["equipment", "specs", "value"],
+								"searchable": true,
+								"uid": false
+							}
+						],
+						"namespace": ["equipment", "specs"],
+						"searchable": true,
+						"uid": false
+					},
+					{
+						"type": "rich-text",
+						"name": "bodyEn",
+						"label": "Technical Documentation (🇬🇧 English)",
+						"description": "Detailed technical information, features, specifications",
+						"namespace": ["equipment", "bodyEn"],
+						"searchable": true,
+						"parser": { "type": "markdown" },
+						"uid": false
+					},
+					{
+						"type": "rich-text",
+						"name": "bodyUa",
+						"label": "Technical Documentation (🇺🇦 Ukrainian)",
+						"description": "Детальна технічна інформація, характеристики, специфікації",
+						"namespace": ["equipment", "bodyUa"],
+						"searchable": true,
+						"parser": { "type": "markdown" },
+						"uid": false
+					}
+				],
+				"namespace": ["equipment"]
 			}
 		],
 		"config": { "media": { "tina": { "publicFolder": "public", "mediaRoot": "" } } }
@@ -99,7 +273,7 @@
 		"DocumentConnection": {
 			"type": "DocumentConnection",
 			"resolveType": "multiCollectionDocumentList",
-			"collections": ["post"]
+			"collections": ["post", "equipment"]
 		},
 		"Node": { "type": "Node", "resolveType": "nodeDocument" },
 		"DocumentNode": {
@@ -119,6 +293,18 @@
 			"type": "PostConnection",
 			"resolveType": "collectionDocumentList",
 			"collection": "post"
+		},
+		"Equipment": {
+			"type": "Equipment",
+			"resolveType": "collectionDocument",
+			"collection": "equipment",
+			"createEquipment": "create",
+			"updateEquipment": "update"
+		},
+		"EquipmentConnection": {
+			"type": "EquipmentConnection",
+			"resolveType": "collectionDocumentList",
+			"collection": "equipment"
 		}
 	},
 	"graphql": {
@@ -534,6 +720,67 @@
 							"kind": "NonNullType",
 							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "PostConnection" } }
 						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "equipment" },
+						"arguments": [
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "relativePath" },
+								"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+							}
+						],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "Equipment" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "equipmentConnection" },
+						"arguments": [
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "before" },
+								"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+							},
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "after" },
+								"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+							},
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "first" },
+								"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "Float" } }
+							},
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "last" },
+								"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "Float" } }
+							},
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "sort" },
+								"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+							},
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "filter" },
+								"type": {
+									"kind": "NamedType",
+									"name": { "kind": "Name", "value": "EquipmentFilter" }
+								}
+							}
+						],
+						"type": {
+							"kind": "NonNullType",
+							"type": {
+								"kind": "NamedType",
+								"name": { "kind": "Name", "value": "EquipmentConnection" }
+							}
+						}
 					}
 				]
 			},
@@ -545,6 +792,11 @@
 						"kind": "InputValueDefinition",
 						"name": { "kind": "Name", "value": "post" },
 						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "PostFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "equipment" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "EquipmentFilter" } }
 					}
 				]
 			},
@@ -737,6 +989,7 @@
 				"directives": [],
 				"types": [
 					{ "kind": "NamedType", "name": { "kind": "Name", "value": "Post" } },
+					{ "kind": "NamedType", "name": { "kind": "Name", "value": "Equipment" } },
 					{ "kind": "NamedType", "name": { "kind": "Name", "value": "Folder" } }
 				]
 			},
@@ -1035,6 +1288,429 @@
 				"kind": "ObjectTypeDefinition",
 				"interfaces": [],
 				"directives": [],
+				"name": { "kind": "Name", "value": "EquipmentTitle" },
+				"fields": [
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "en" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "ua" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+						}
+					}
+				]
+			},
+			{
+				"kind": "ObjectTypeDefinition",
+				"interfaces": [],
+				"directives": [],
+				"name": { "kind": "Name", "value": "EquipmentDescription" },
+				"fields": [
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "en" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "ua" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+						}
+					}
+				]
+			},
+			{
+				"kind": "ObjectTypeDefinition",
+				"interfaces": [],
+				"directives": [],
+				"name": { "kind": "Name", "value": "EquipmentSpecsLabel" },
+				"fields": [
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "en" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "ua" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+						}
+					}
+				]
+			},
+			{
+				"kind": "ObjectTypeDefinition",
+				"interfaces": [],
+				"directives": [],
+				"name": { "kind": "Name", "value": "EquipmentSpecs" },
+				"fields": [
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "label" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": {
+								"kind": "NamedType",
+								"name": { "kind": "Name", "value": "EquipmentSpecsLabel" }
+							}
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "value" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+						}
+					}
+				]
+			},
+			{
+				"kind": "ObjectTypeDefinition",
+				"interfaces": [
+					{ "kind": "NamedType", "name": { "kind": "Name", "value": "Node" } },
+					{ "kind": "NamedType", "name": { "kind": "Name", "value": "Document" } }
+				],
+				"directives": [],
+				"name": { "kind": "Name", "value": "Equipment" },
+				"fields": [
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "title" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "EquipmentTitle" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "description" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": {
+								"kind": "NamedType",
+								"name": { "kind": "Name", "value": "EquipmentDescription" }
+							}
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "heroImage" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "gallery" },
+						"arguments": [],
+						"type": {
+							"kind": "ListType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "datasheet" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "specs" },
+						"arguments": [],
+						"type": {
+							"kind": "ListType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "EquipmentSpecs" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "bodyEn" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "JSON" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "bodyUa" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "JSON" } }
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "id" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "ID" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "_sys" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "SystemInfo" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "_values" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "JSON" } }
+						}
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "EquipmentTitleFilter" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "en" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "ua" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "EquipmentDescriptionFilter" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "en" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "ua" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "ImageFilter" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "startsWith" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "eq" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "exists" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "Boolean" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "in" },
+						"type": {
+							"kind": "ListType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+						}
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "EquipmentSpecsLabelFilter" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "en" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "ua" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "EquipmentSpecsFilter" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "label" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "EquipmentSpecsLabelFilter" }
+						}
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "value" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "EquipmentFilter" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "title" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "EquipmentTitleFilter" }
+						}
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "description" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "EquipmentDescriptionFilter" }
+						}
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "heroImage" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "ImageFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "gallery" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "ImageFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "datasheet" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "specs" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "EquipmentSpecsFilter" }
+						}
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "bodyEn" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "RichTextFilter" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "bodyUa" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "RichTextFilter" } }
+					}
+				]
+			},
+			{
+				"kind": "ObjectTypeDefinition",
+				"interfaces": [],
+				"directives": [],
+				"name": { "kind": "Name", "value": "EquipmentConnectionEdges" },
+				"fields": [
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "cursor" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "node" },
+						"arguments": [],
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "Equipment" } }
+					}
+				]
+			},
+			{
+				"kind": "ObjectTypeDefinition",
+				"interfaces": [{ "kind": "NamedType", "name": { "kind": "Name", "value": "Connection" } }],
+				"directives": [],
+				"name": { "kind": "Name", "value": "EquipmentConnection" },
+				"fields": [
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "pageInfo" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "PageInfo" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "totalCount" },
+						"arguments": [],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "Float" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "edges" },
+						"arguments": [],
+						"type": {
+							"kind": "ListType",
+							"type": {
+								"kind": "NamedType",
+								"name": { "kind": "Name", "value": "EquipmentConnectionEdges" }
+							}
+						}
+					}
+				]
+			},
+			{
+				"kind": "ObjectTypeDefinition",
+				"interfaces": [],
+				"directives": [],
 				"name": { "kind": "Name", "value": "Mutation" },
 				"fields": [
 					{
@@ -1239,6 +1915,64 @@
 							"kind": "NonNullType",
 							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "Post" } }
 						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "updateEquipment" },
+						"arguments": [
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "relativePath" },
+								"type": {
+									"kind": "NonNullType",
+									"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+								}
+							},
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "params" },
+								"type": {
+									"kind": "NonNullType",
+									"type": {
+										"kind": "NamedType",
+										"name": { "kind": "Name", "value": "EquipmentMutation" }
+									}
+								}
+							}
+						],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "Equipment" } }
+						}
+					},
+					{
+						"kind": "FieldDefinition",
+						"name": { "kind": "Name", "value": "createEquipment" },
+						"arguments": [
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "relativePath" },
+								"type": {
+									"kind": "NonNullType",
+									"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+								}
+							},
+							{
+								"kind": "InputValueDefinition",
+								"name": { "kind": "Name", "value": "params" },
+								"type": {
+									"kind": "NonNullType",
+									"type": {
+										"kind": "NamedType",
+										"name": { "kind": "Name", "value": "EquipmentMutation" }
+									}
+								}
+							}
+						],
+						"type": {
+							"kind": "NonNullType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "Equipment" } }
+						}
 					}
 				]
 			},
@@ -1250,6 +1984,14 @@
 						"kind": "InputValueDefinition",
 						"name": { "kind": "Name", "value": "post" },
 						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "PostMutation" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "equipment" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "EquipmentMutation" }
+						}
 					},
 					{
 						"kind": "InputValueDefinition",
@@ -1266,6 +2008,14 @@
 						"kind": "InputValueDefinition",
 						"name": { "kind": "Name", "value": "post" },
 						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "PostMutation" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "equipment" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "EquipmentMutation" }
+						}
 					}
 				]
 			},
@@ -1335,6 +2085,134 @@
 							"kind": "NamedType",
 							"name": { "kind": "Name", "value": "PostCtaSecondaryMutation" }
 						}
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "EquipmentTitleMutation" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "en" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "ua" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "EquipmentDescriptionMutation" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "en" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "ua" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "EquipmentSpecsLabelMutation" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "en" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "ua" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "EquipmentSpecsMutation" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "label" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "EquipmentSpecsLabelMutation" }
+						}
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "value" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					}
+				]
+			},
+			{
+				"kind": "InputObjectTypeDefinition",
+				"name": { "kind": "Name", "value": "EquipmentMutation" },
+				"fields": [
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "title" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "EquipmentTitleMutation" }
+						}
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "description" },
+						"type": {
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "EquipmentDescriptionMutation" }
+						}
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "heroImage" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "gallery" },
+						"type": {
+							"kind": "ListType",
+							"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+						}
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "datasheet" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "String" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "specs" },
+						"type": {
+							"kind": "ListType",
+							"type": {
+								"kind": "NamedType",
+								"name": { "kind": "Name", "value": "EquipmentSpecsMutation" }
+							}
+						}
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "bodyEn" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "JSON" } }
+					},
+					{
+						"kind": "InputValueDefinition",
+						"name": { "kind": "Name", "value": "bodyUa" },
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "JSON" } }
 					}
 				]
 			}

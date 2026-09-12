@@ -1,0 +1,102 @@
+---
+import { getCollection } from 'astro:content';
+import type { Lang } from '@/i18n';
+
+// Test page to verify multilingual equipment rendering (Option A structure)
+export async function getStaticPaths() {
+	const paths = [];
+
+	for (const lang of ['en', 'ua'] as Lang[]) {
+		const equipment = await getCollection('equipment');
+
+		for (const item of equipment) {
+			// Extract slug from filename (Option A structure)
+			// e.g., "checkweighers/hc-m.md" -> category: "checkweighers", slug: "hc-m"
+			const parts = item.id.split('/');
+			const category = parts[0];
+			const filename = parts[1]; // "hc-m.md"
+			const slug = filename.replace('.md', ''); // "hc-m"
+
+			paths.push({
+				params: { lang, category, slug },
+				props: { item, lang },
+			});
+		}
+	}
+
+	return paths;
+}
+
+interface Props {
+	item: any;
+	lang: Lang;
+}
+
+const { item, lang } = Astro.props;
+---
+
+<!doctype html>
+<html lang={lang}>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>{item.data.title[lang]} - TEST (Option A)</title>
+	</head>
+	<body>
+		<main style="max-width: 800px; margin: 0 auto; padding: 2rem; font-family: system-ui;">
+			<nav style="margin-bottom: 2rem; padding: 1rem; background: #f5f5f5; border-radius: 4px;">
+				<strong>Language:</strong>
+				<a href={`/en/catalogue-test/${Astro.params.category}/${Astro.params.slug}`}>English</a> |
+				<a href={`/ua/catalogue-test/${Astro.params.category}/${Astro.params.slug}`}>Українська</a>
+			</nav>
+
+			<div style="padding: 1rem; background: #e3f2fd; border-left: 4px solid #1976d2; margin-bottom: 2rem;">
+				<strong>📍 File Structure (Option A):</strong><br/>
+				<code>equipment/{Astro.params.category}/{Astro.params.slug}.md</code><br/>
+				<strong>Slug:</strong> {Astro.params.slug}<br/>
+				<strong>Category:</strong> {Astro.params.category}
+			</div>
+
+			<h1>{item.data.title[lang]}</h1>
+			<p style="font-size: 1.25rem; color: #666;">{item.data.description[lang]}</p>
+
+			<section style="margin: 2rem 0;">
+				<h2>Key Specifications</h2>
+				<ul>
+					{item.data.specs.map((spec: any) => (
+						<li>
+							<strong>{spec.label[lang]}:</strong> {spec.value}
+						</li>
+					))}
+				</ul>
+			</section>
+
+			<section style="margin: 2rem 0;">
+				<h2>Images & Files</h2>
+				<p><strong>Hero:</strong> {item.data.heroImage.src}</p>
+				<p><strong>Gallery:</strong> {item.data.gallery.length} images</p>
+				{item.data.datasheet && <p><strong>Datasheet:</strong> {item.data.datasheet.src}</p>}
+			</section>
+
+			<section style="margin: 2rem 0;">
+				<h2>Technical Documentation ({lang === 'en' ? 'English' : 'Ukrainian'})</h2>
+				<div style="padding: 1rem; background: #f9f9f9; border: 1px solid #ddd; white-space: pre-wrap;">
+					{lang === 'en' ? item.data.bodyEn : item.data.bodyUa}
+				</div>
+			</section>
+
+			<hr style="margin: 3rem 0;" />
+
+			<section style="background: #d4edda; padding: 1rem; border-radius: 4px;">
+				<h3>✅ Option A Structure Working</h3>
+				<ul>
+					<li>✅ Filename: <code>{Astro.params.slug}.md</code> (not index.md)</li>
+					<li>✅ Assets path: <code>_assets/{Astro.params.slug}/</code></li>
+					<li>✅ Separate body fields: <code>bodyEn</code> and <code>bodyUa</code></li>
+					<li>✅ Slug extracted from filename</li>
+					<li>✅ URL: <code>/{lang}/catalogue-test/{Astro.params.category}/{Astro.params.slug}</code></li>
+				</ul>
+			</section>
+		</main>
+	</body>
+</html>

@@ -78,6 +78,163 @@ export default defineConfig({
 					router: () => "/tinacms-demo",
 				},
 			},
+			// TEST: Multilingual Equipment Collection (Option A File Structure)
+			{
+				name: "equipment",
+				label: "Equipment Catalogue",
+				path: "src/content/equipment",
+				format: "md",
+				ui: {
+					allowedActions: {
+						create: true,
+						delete: true,
+					},
+					filename: {
+						readonly: false,
+						slugify: (values) => {
+							// Generate filename from English title
+							// "HC-M Checkweigher" → "hc-m-checkweigher"
+							const title = values?.title?.en || "untitled";
+							return title
+								.toLowerCase()
+								.replace(/\s+/g, "-")
+								.replace(/[^a-z0-9-]/g, "");
+						},
+					},
+				},
+				fields: [
+					// ========================================
+					// MULTILINGUAL FIELDS
+					// ========================================
+					{
+						type: "object",
+						name: "title",
+						label: "Title (Multilingual)",
+						required: true,
+						fields: [
+							{
+								type: "string",
+								name: "en",
+								label: "🇬🇧 English",
+								required: true,
+							},
+							{
+								type: "string",
+								name: "ua",
+								label: "🇺🇦 Ukrainian",
+								required: true,
+							},
+						],
+					},
+					{
+						type: "object",
+						name: "description",
+						label: "Short Description (Multilingual)",
+						required: true,
+						fields: [
+							{
+								type: "string",
+								name: "en",
+								label: "🇬🇧 English",
+								required: true,
+								ui: { component: "textarea" },
+							},
+							{
+								type: "string",
+								name: "ua",
+								label: "🇺🇦 Ukrainian",
+								required: true,
+								ui: { component: "textarea" },
+							},
+						],
+					},
+
+					// ========================================
+					// SHARED FIELDS (language-independent)
+					// ========================================
+					{
+						type: "image",
+						name: "heroImage",
+						label: "Hero Image",
+						required: true,
+						description: "Main product image (recommended: 800x600px)",
+					},
+					{
+						type: "image",
+						name: "gallery",
+						label: "Gallery Images",
+						list: true,
+						description: "Additional product photos (max 10 images)",
+					},
+					{
+						type: "image",
+						name: "datasheet",
+						label: "Datasheet PDF",
+						description: "Upload technical datasheet PDF (will be saved automatically)",
+					},
+
+					// ========================================
+					// SPECIFICATIONS (multilingual labels)
+					// ========================================
+					{
+						type: "object",
+						name: "specs",
+						label: "Specifications (Max 3)",
+						list: true,
+						description: "Maximum 3 specifications shown on catalogue cards",
+						ui: {
+							itemProps: (item) => ({
+								label: item?.label?.en || "New Specification",
+							}),
+						},
+						fields: [
+							{
+								type: "object",
+								name: "label",
+								label: "Label (Multilingual)",
+								required: true,
+								fields: [
+									{
+										type: "string",
+										name: "en",
+										label: "🇬🇧 English",
+										required: true,
+									},
+									{
+										type: "string",
+										name: "ua",
+										label: "🇺🇦 Ukrainian",
+										required: true,
+									},
+								],
+							},
+							{
+								type: "string",
+								name: "value",
+								label: "Value",
+								required: true,
+								description: "Usually language-independent (e.g., '250 pcs/min')",
+							},
+						],
+					},
+
+					// ========================================
+					// BODY CONTENT (separate fields per language)
+					// ========================================
+					{
+						type: "rich-text",
+						name: "bodyEn",
+						label: "Technical Documentation (🇬🇧 English)",
+						description: "Detailed technical information, features, specifications",
+					},
+					{
+						type: "rich-text",
+						name: "bodyUa",
+						label: "Technical Documentation (🇺🇦 Ukrainian)",
+						description: "Детальна технічна інформація, характеристики, специфікації",
+					},
+				],
+			},
 		],
 	},
 });
