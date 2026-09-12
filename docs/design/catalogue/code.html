@@ -1,0 +1,372 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Equipment Catalogue - OS-Technology</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed-dim": "#c8c6c5",
+                        "on-background": "#1c1b1b",
+                        "on-primary-fixed-variant": "#474746",
+                        "on-surface": "#1c1b1b",
+                        "surface": "#fdf8f8",
+                        "industrial-gray": "#64748B",
+                        "background": "#fdf8f8",
+                        "error": "#ba1a1a",
+                        "on-primary-container": "#858383",
+                        "on-secondary": "#ffffff",
+                        "surface-tint": "#5f5e5e",
+                        "primary-fixed": "#e5e2e1",
+                        "on-secondary-fixed-variant": "#8d0052",
+                        "primary": "#000000",
+                        "surface-bright": "#fdf8f8",
+                        "surface-container-high": "#ebe7e6",
+                        "surface-variant": "#e5e2e1",
+                        "tertiary-fixed-dim": "#6bd8cb",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed": "#ffd9e4",
+                        "on-surface-variant": "#444748",
+                        "surface-dim": "#ddd9d8",
+                        "on-primary": "#ffffff",
+                        "outline": "#747878",
+                        "secondary": "#b8006d",
+                        "tertiary": "#000000",
+                        "on-tertiary-fixed": "#00201d",
+                        "inverse-on-surface": "#f4f0ef",
+                        "on-error": "#ffffff",
+                        "primary-container": "#1c1b1b",
+                        "on-tertiary-container": "#0c9488",
+                        "tertiary-container": "#00201d",
+                        "tertiary-fixed": "#89f5e7",
+                        "inverse-primary": "#c8c6c5",
+                        "on-secondary-fixed": "#3e0021",
+                        "on-error-container": "#93000a",
+                        "secondary-container": "#ff4da3",
+                        "border-subtle": "#E2E8F0",
+                        "on-tertiary-fixed-variant": "#005049",
+                        "surface-container-highest": "#e5e2e1",
+                        "surface-muted": "#F8FAFC",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed": "#1c1b1b",
+                        "surface-container": "#f1edec",
+                        "outline-variant": "#c4c7c7",
+                        "surface-container-low": "#f7f3f2",
+                        "inverse-surface": "#313030",
+                        "on-secondary-container": "#5c0034",
+                        "secondary-fixed-dim": "#ffb0cd"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-gap-lg": "8rem",
+                        "section-gap-sm": "4rem",
+                        "edge-margin": "2rem",
+                        "gutter": "1.5rem",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "technical-data": ["JetBrains Mono"],
+                        "display-lg-mobile": ["IBM Plex Sans"],
+                        "display-lg": ["IBM Plex Sans"],
+                        "headline-lg": ["IBM Plex Sans"],
+                        "headline-xl": ["IBM Plex Sans"],
+                        "label-caps": ["JetBrains Mono"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "technical-data": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "display-lg-mobile": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "display-lg": ["64px", { "lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "500" }],
+                        "headline-xl": ["36px", { "lineHeight": "44px", "fontWeight": "500" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Custom scrollbar for technical aesthetic */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fdf8f8;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c8c6c5;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #858383;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col antialiased">
+<!-- TopNavBar -->
+<header class="bg-white/70 dark:bg-on-background/70 backdrop-blur-xl docked full-width top-0 sticky z-50 border-b border-border-subtle/50 shadow-sm">
+<div class="max-w-container-max mx-auto px-edge-margin flex justify-between items-center h-20">
+<div class="flex items-center gap-8">
+<a class="font-headline-lg text-headline-lg font-bold tracking-tighter text-primary dark:text-white" href="#">OS-Technology</a>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-primary dark:text-white font-semibold border-b-2 border-secondary pb-1 duration-300 ease-in-out hover:opacity-80 transition-opacity" href="#">Catalogue</a>
+<a class="text-industrial-gray dark:text-primary-fixed-dim hover:text-primary dark:hover:text-white transition-colors duration-300 ease-in-out hover:opacity-80 transition-opacity" href="#">Solutions</a>
+<a class="text-industrial-gray dark:text-primary-fixed-dim hover:text-primary dark:hover:text-white transition-colors duration-300 ease-in-out hover:opacity-80 transition-opacity" href="#">Industries</a>
+<a class="text-industrial-gray dark:text-primary-fixed-dim hover:text-primary dark:hover:text-white transition-colors duration-300 ease-in-out hover:opacity-80 transition-opacity" href="#">About Us</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden md:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-industrial-gray text-sm">search</span>
+<input class="pl-9 pr-4 py-2 bg-surface-muted border border-border-subtle rounded text-technical-data font-technical-data focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all w-64" placeholder="Search equipment..." type="text">
+</div>
+<button class="text-industrial-gray hover:text-primary transition-colors text-sm font-medium hidden sm:block">EN/UA</button>
+<button class="bg-primary text-white px-5 py-2.5 rounded font-medium hover:bg-on-surface-variant transition-colors text-sm">Contact Sales</button>
+</div>
+</div>
+</header>
+<div class="flex-1 flex max-w-container-max mx-auto w-full px-edge-margin gap-gutter relative">
+<!-- SideNavBar -->
+<aside class="h-screen w-72 sticky top-24 left-0 hidden lg:flex flex-col bg-surface-container-low dark:bg-on-primary-container border-r border-border-subtle py-8 px-4 space-y-6">
+<div class="px-2 mb-4">
+<h2 class="font-headline-xl text-headline-xl text-primary mb-1">Catalogue Filters</h2>
+<p class="font-technical-data text-technical-data text-industrial-gray">Technical Specs</p>
+</div>
+<nav class="space-y-2 flex-1">
+<p class="font-label-caps text-label-caps text-industrial-gray px-4 mb-2">Equipment Categories</p>
+<a class="text-secondary dark:text-secondary-fixed-dim font-bold flex items-center gap-3 py-3 px-4 bg-surface-bright dark:bg-on-background/20 rounded-lg cursor-pointer active:scale-95 hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="scale">scale</span>
+<span class="font-label-caps text-label-caps">Checkweighers</span>
+</a>
+<a class="text-industrial-gray dark:text-primary-fixed-dim flex items-center gap-3 py-3 px-4 hover:bg-surface-container-high transition-all cursor-pointer active:scale-95 hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+<span class="font-label-caps text-label-caps">X-Ray Inspection</span>
+</a>
+<a class="text-industrial-gray dark:text-primary-fixed-dim flex items-center gap-3 py-3 px-4 hover:bg-surface-container-high transition-all cursor-pointer active:scale-95 hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="security">security</span>
+<span class="font-label-caps text-label-caps">Metal Detectors</span>
+</a>
+
+<a class="text-industrial-gray dark:text-primary-fixed-dim flex items-center gap-3 py-3 px-4 hover:bg-surface-container-high transition-all cursor-pointer active:scale-95 hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="qr_code_scanner">qr_code_scanner</span>
+<span class="font-label-caps text-label-caps">Track &amp; Trace</span>
+</a>
+</nav>
+<div class="mt-auto px-2 pt-6 border-t border-border-subtle">
+<button class="w-full border border-secondary text-secondary px-4 py-2.5 rounded hover:bg-secondary/5 transition-colors font-medium text-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                    Request Full Specs
+                </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 py-8 min-w-0 pb-section-gap-lg">
+<!-- Content Header -->
+<div class="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+<div>
+<h1 class="font-display-lg text-display-lg text-primary mb-2 hidden md:block">Checkweighers</h1>
+<h1 class="font-display-lg-mobile text-display-lg-mobile text-primary mb-2 md:hidden">Checkweighers</h1>
+<p class="font-body-lg text-body-lg text-industrial-gray max-w-2xl">High-precision dynamic weighing systems for industrial applications, ensuring 100% weight control and compliance.</p>
+</div>
+<div class="flex items-center gap-3 self-stretch sm:self-auto">
+<div class="relative w-full sm:w-auto">
+
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-industrial-gray pointer-events-none text-sm">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Active Filters Row (Mobile/Tablet) -->
+<div class="flex lg:hidden gap-2 overflow-x-auto pb-4 mb-4 hide-scrollbar">
+<span class="inline-flex items-center gap-1 px-3 py-1 bg-surface-muted border border-border-subtle rounded-full text-xs font-medium whitespace-nowrap">
+                    Checkweighers
+                    <span class="material-symbols-outlined text-[14px] cursor-pointer hover:text-primary">close</span>
+</span>
+<button class="inline-flex items-center gap-1 px-3 py-1 bg-white border border-border-subtle rounded-full text-xs font-medium whitespace-nowrap hover:bg-surface-muted transition-colors">
+<span class="material-symbols-outlined text-[14px]">filter_list</span>
+                    More Filters
+                </button>
+</div>
+<!-- Product Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Product Card 1 -->
+<div class="bg-surface-muted border border-border-subtle rounded-lg overflow-hidden flex flex-col group hover:shadow-sm transition-all duration-300">
+<div class="aspect-[4/3] bg-white p-6 flex items-center justify-center relative border-b border-border-subtle">
+<img class="object-contain w-full h-full mix-blend-multiply transition-transform duration-500 group-hover:scale-105" data-alt="A pristine, high-resolution studio render of a Wipotec HC-M Checkweigher machine. The industrial equipment is displayed against a pure white background with soft, highly controlled studio lighting highlighting its sleek, metallic surfaces and technical components. The style is modern, technical, and hyper-realistic, suited for a premium B2B engineering catalogue." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBynqvs0JYX0sHmjG55OzVmzawsa5fvvYpU5S1SzpoHeunxl3T1yuTPBVwxuEBTd5qbIEThmKkhL4aT9m3RPS_aEE9S9EHYYPM5Ra3aOm7S52e69bJfLQKQU7_wsaCcf0RUdFKrqCRdaLKpfFe4u6ooNvsXqWuLpgSiK_i4pK3BKL82lvpx1MqdlGDMU-yCtOG3_hCa36XmCwgmYZHq1d9Gmw11aLBNfQy_GRj3pQucz_pYx3eESjUQ">
+<div class="absolute top-4 left-4">
+
+</div>
+</div>
+<div class="p-6 flex flex-col flex-1">
+<h3 class="font-headline-lg text-headline-lg text-primary mb-2 text-[20px] leading-tight">HC-M Checkweigher</h3>
+<p class="font-body-md text-body-md text-industrial-gray text-sm mb-4 line-clamp-2">The standard for dynamic weighing, offering high precision and reliability for mid-range applications.</p>
+<div class="flex flex-wrap gap-2 mb-6">
+
+
+</div>
+<div class="mt-auto grid grid-cols-2 gap-4 border-t border-border-subtle pt-4 mb-6">
+<div>
+<p class="text-[10px] text-industrial-gray uppercase tracking-wider mb-1">Max Speed</p>
+<p class="font-technical-data text-technical-data">250 pcs/min</p>
+</div>
+<div>
+<p class="text-[10px] text-industrial-gray uppercase tracking-wider mb-1">Display value</p>
+<p class="font-technical-data text-technical-data">0.1g</p>
+</div>
+</div>
+<button class="w-full bg-white border border-border-subtle text-primary py-2.5 rounded text-sm font-medium hover:bg-surface-container transition-colors flex items-center justify-center gap-2 group-hover:border-primary">
+                            Technical Details
+                            <span class="material-symbols-outlined text-[16px] transition-transform group-hover:translate-x-1">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="bg-surface-muted border border-border-subtle rounded-lg overflow-hidden flex flex-col group hover:shadow-sm transition-all duration-300">
+<div class="aspect-[4/3] bg-white p-6 flex items-center justify-center relative border-b border-border-subtle">
+<img class="object-contain w-full h-full mix-blend-multiply transition-transform duration-500 group-hover:scale-105" data-alt="A pristine, high-resolution studio render of a Wipotec HC-A Checkweigher machine, designed for high-speed applications. The industrial equipment is displayed against a pure white background with soft, highly controlled studio lighting highlighting its advanced precision components and stainless steel frame. The style is modern, technical, and hyper-realistic, suited for a premium B2B engineering catalogue." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjWECqodTOM6wKrsgk81Cj_KZu-0Hzb4BAMQwGzLmjy6utgKSB9Ss0rn6eeJwX0YLo22MEHsUTQzzfGND5Bag1joJSpgx6Y5VZ5xEIBBOtN-PvKb2tjjuDeR6LR1c17kfnQ1joDkN2AXVj8E8YvMMxUJrY_Hgu_opMCfsiKeFq1pLDYCMNzjXuuGsYxbzpL8gE-w-Mp9cZwyDTJ2nPfLXJDE7xeT2OuylouBssOfryTkZM5_8Hn0T8">
+<div class="absolute top-4 left-4">
+
+</div>
+</div>
+<div class="p-6 flex flex-col flex-1">
+<h3 class="font-headline-lg text-headline-lg text-primary mb-2 text-[20px] leading-tight">HC-A Checkweigher</h3>
+<p class="font-body-md text-body-md text-industrial-gray text-sm mb-4 line-clamp-2">Advanced checkweighing system designed for the highest speeds and maximum precision in demanding environments.</p>
+<div class="flex flex-wrap gap-2 mb-6">
+
+
+</div>
+<div class="mt-auto grid grid-cols-2 gap-4 border-t border-border-subtle pt-4 mb-6">
+<div>
+<p class="text-[10px] text-industrial-gray uppercase tracking-wider mb-1">Max Speed</p>
+<p class="font-technical-data text-technical-data">&gt;250 pcs/min</p>
+</div>
+<div>
+<p class="text-[10px] text-industrial-gray uppercase tracking-wider mb-1">Display value</p>
+<p class="font-technical-data text-technical-data">0.05g</p>
+</div>
+</div>
+<button class="w-full bg-white border border-border-subtle text-primary py-2.5 rounded text-sm font-medium hover:bg-surface-container transition-colors flex items-center justify-center gap-2 group-hover:border-primary">
+                            Technical Details
+                            <span class="material-symbols-outlined text-[16px] transition-transform group-hover:translate-x-1">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="bg-surface-muted border border-border-subtle rounded-lg overflow-hidden flex flex-col group hover:shadow-sm transition-all duration-300">
+<div class="aspect-[4/3] bg-white p-6 flex items-center justify-center relative border-b border-border-subtle">
+<img class="object-contain w-full h-full mix-blend-multiply transition-transform duration-500 group-hover:scale-105" data-alt="A pristine, high-resolution studio render of a Wipotec HC-WD Washdown Checkweigher machine. The industrial equipment is displayed against a pure white background with soft, highly controlled studio lighting highlighting its robust IP69K rated stainless steel casing designed for harsh environments. The style is modern, technical, and hyper-realistic, suited for a premium B2B engineering catalogue." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYhSeQt67APatgdJLM4Z50fondVJOLVnlFNkTfiq2WWdMp5RgwRdYyi845VmCXyXC0ww_wj2HIiRX6Zxcy1D_a_MTLFM8pLeUr9crlCEakd63PkbZMI8yhIXCAPiq1G8TZU42NTXuHZAiDGueoDP9HgrcNVVUBR-4NZLElCqzBCJ0DbT37MFWYIzxiuF5b2WMytBdcN2XaZJlmSBbeql8vN2HixzrkjiWrk9fj7bV9Ir8D1FjJ-geY">
+<div class="absolute top-4 left-4">
+
+</div>
+</div>
+<div class="p-6 flex flex-col flex-1">
+<h3 class="font-headline-lg text-headline-lg text-primary mb-2 text-[20px] leading-tight">HC-WD Washdown</h3>
+<p class="font-body-md text-body-md text-industrial-gray text-sm mb-4 line-clamp-2">Rugged, IP69K-rated checkweigher specifically designed for intense cleaning cycles in the food industry.</p>
+<div class="flex flex-wrap gap-2 mb-6">
+
+
+</div>
+<div class="mt-auto grid grid-cols-2 gap-4 border-t border-border-subtle pt-4 mb-6">
+<div>
+<p class="text-[10px] text-industrial-gray uppercase tracking-wider mb-1">Max Speed</p>
+<p class="font-technical-data text-technical-data">100 pcs/min</p>
+</div>
+<div>
+<p class="text-[10px] text-industrial-gray uppercase tracking-wider mb-1">Display value</p>
+<p class="font-technical-data text-technical-data">0.1g</p>
+</div>
+</div>
+<button class="w-full bg-white border border-border-subtle text-primary py-2.5 rounded text-sm font-medium hover:bg-surface-container transition-colors flex items-center justify-center gap-2 group-hover:border-primary">
+                            Technical Details
+                            <span class="material-symbols-outlined text-[16px] transition-transform group-hover:translate-x-1">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="bg-surface-muted border border-border-subtle rounded-lg overflow-hidden flex flex-col group hover:shadow-sm transition-all duration-300">
+<div class="aspect-[4/3] bg-white p-6 flex items-center justify-center relative border-b border-border-subtle">
+<img class="object-contain w-full h-full mix-blend-multiply transition-transform duration-500 group-hover:scale-105" data-alt="A pristine, high-resolution studio render of a Wipotec EC-E Essential Checkweigher machine. The industrial equipment is displayed against a pure white background with soft, highly controlled studio lighting highlighting its compact and efficient design. The style is modern, technical, and hyper-realistic, suited for a premium B2B engineering catalogue." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhDBGXYXENFYgANPTKjDaTTt9sSI71IU1sWa63V3PDaoYXuAEVsrHkKZmAjVY1svxZ_996OWCWj2ftw7FnU9XZA2voll0Rj4oKCt4ur8i6HO8HI4mPkjjWjPAReHqD7wPRY0rabtPdPW7RWbPWlWKBGHV8s8Un9D9zduccubaquBlN9mB0IePrcNi7dtDROJIo_QPCuetjksIcFukAWK0dWgA0Wq_Zc3rdxg-c5ZcfjYY5sW_Q9YLD">
+<div class="absolute top-4 left-4">
+
+</div>
+</div>
+<div class="p-6 flex flex-col flex-1">
+<h3 class="font-headline-lg text-headline-lg text-primary mb-2 text-[20px] leading-tight">EC-E Essential</h3>
+<p class="font-body-md text-body-md text-industrial-gray text-sm mb-4 line-clamp-2">Cost-effective entry into automated weight control with renowned Wipotec EMFR weighing technology.</p>
+<div class="flex flex-wrap gap-2 mb-6">
+
+
+</div>
+<div class="mt-auto grid grid-cols-2 gap-4 border-t border-border-subtle pt-4 mb-6">
+<div>
+<p class="text-[10px] text-industrial-gray uppercase tracking-wider mb-1">Max Speed</p>
+<p class="font-technical-data text-technical-data">150 pcs/min</p>
+</div>
+<div>
+<p class="text-[10px] text-industrial-gray uppercase tracking-wider mb-1">Max Load</p>
+<p class="font-technical-data text-technical-data">3 kg</p>
+</div>
+</div>
+<button class="w-full bg-white border border-border-subtle text-primary py-2.5 rounded text-sm font-medium hover:bg-surface-container transition-colors flex items-center justify-center gap-2 group-hover:border-primary">
+                            Technical Details
+                            <span class="material-symbols-outlined text-[16px] transition-transform group-hover:translate-x-1">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Pagination (Technical style) -->
+<div class="mt-12 flex justify-center items-center gap-2 font-technical-data text-technical-data">
+<button class="w-8 h-8 flex items-center justify-center border border-border-subtle rounded text-industrial-gray hover:text-primary hover:border-primary transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center border border-primary bg-primary text-white rounded">1</button>
+<button class="w-8 h-8 flex items-center justify-center border border-border-subtle rounded text-industrial-gray hover:text-primary hover:border-primary transition-colors">2</button>
+<button class="w-8 h-8 flex items-center justify-center border border-border-subtle rounded text-industrial-gray hover:text-primary hover:border-primary transition-colors">3</button>
+<span class="text-industrial-gray px-1">...</span>
+<button class="w-8 h-8 flex items-center justify-center border border-border-subtle rounded text-industrial-gray hover:text-primary hover:border-primary transition-colors">12</button>
+<button class="w-8 h-8 flex items-center justify-center border border-border-subtle rounded text-industrial-gray hover:text-primary hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-on-background dark:bg-black full-width mt-auto">
+<div class="max-w-container-max mx-auto px-edge-margin py-section-gap-sm flex flex-col md:flex-row justify-between items-center gap-gutter border-t border-on-primary-fixed-variant">
+<div class="font-headline-lg text-headline-lg text-white">OS-Technology</div>
+<div class="font-technical-data text-technical-data text-white dark:text-primary-fixed text-center md:text-left">
+                © 2024 OS-Technology Ukraine. Authorized Wipotec Partner. All Rights Reserved.
+            </div>
+<div class="flex flex-wrap justify-center gap-6 font-technical-data text-technical-data">
+<a class="text-primary-fixed-dim hover:text-white transition-colors hover:text-secondary" href="#">Privacy Policy</a>
+<a class="text-primary-fixed-dim hover:text-white transition-colors hover:text-secondary" href="#">Terms of Service</a>
+<a class="text-primary-fixed-dim hover:text-white transition-colors hover:text-secondary" href="#">ISO Certifications</a>
+<a class="text-primary-fixed-dim hover:text-white transition-colors hover:text-secondary" href="#">Partner Portal</a>
+</div>
+</div>
+</footer>
+
+
+
+</body></html>

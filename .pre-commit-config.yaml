@@ -9,17 +9,27 @@ repos:
     rev: v6.0.0
     hooks:
       - id: trailing-whitespace
-        name: Trim trailing whitespace
+        name: "[ALL] Trim trailing whitespace"
+        exclude: |
+          (?x)^(
+            application/frontend/content/.*\.md|
+            application/frontend/src/content/equipment/.*\.md
+          )$
       - id: end-of-file-fixer
-        name: Fix end of files (ensure newline)
+        name: "[ALL] Fix end of files (ensure newline)"
+        exclude: |
+          (?x)^(
+            application/frontend/content/.*\.md|
+            application/frontend/src/content/equipment/.*\.md
+          )$
       - id: check-yaml
-        name: Check YAML syntax
+        name: "[ALL] Check YAML syntax"
       - id: check-json
-        name: Check JSON syntax
+        name: "[ALL] Check JSON syntax"
       - id: check-merge-conflict
-        name: Check for merge conflicts
+        name: "[ALL] Check for merge conflicts"
       - id: mixed-line-ending
-        name: Fix mixed line endings
+        name: "[ALL] Fix mixed line endings"
         args: ['--fix=lf']
 
   # Markdown formatting
@@ -27,53 +37,58 @@ repos:
     rev: 0.7.17
     hooks:
       - id: mdformat
-        name: Format Markdown files
+        name: "[DOCS] Format Markdown files"
         additional_dependencies:
           - mdformat-gfm     # GitHub Flavored Markdown
           - mdformat-tables  # Better table formatting
+        exclude: |
+          (?x)^(
+            application/frontend/content/.*\.md|
+            application/frontend/src/content/equipment/.*\.md
+          )$
 
   # Ruff for Python backend code
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.9.1
     hooks:
       - id: ruff
-        name: Ruff Check (Backend)
+        name: "[BE] Ruff Check"
         args: [--fix]
         files: ^application/backend/
       - id: ruff-format
-        name: Ruff Format (Backend)
+        name: "[BE] Ruff Format"
         files: ^application/backend/
 
   # Local hooks for frontend (Biome, Prettier)
   - repo: local
     hooks:
       - id: prettier-json-yaml-frontend
-        name: Prettier (format JSON/YAML) — frontend only
-        entry: bash -c 'for file in "$@"; do (cd application/frontend && npx prettier --ignore-unknown --write "${file#application/frontend/}"); done' --
+        name: "[FE] Prettier (format JSON/YAML)"
+        entry: bash -c 'for file in "$@"; do (cd application/frontend && pnpm exec prettier --ignore-unknown --write "${file#application/frontend/}"); done' --
         language: system
         files: ^application/frontend/.*\.(json|ya?ml)$
-        exclude: ^application/frontend/package-lock\.json$
+        exclude: ^application/frontend/pnpm-lock\.yaml$
         pass_filenames: true
 
       - id: biome-check-frontend
-        name: Biome Check (Frontend)
-        entry: bash -c 'cd application/frontend && npm run check:fix'
+        name: "[FE] Biome Check"
+        entry: bash -c 'cd application/frontend && pnpm run check:fix'
         language: system
         types: [javascript, jsx, ts, tsx, json, css]
         pass_filenames: false
         files: ^application/frontend/
 
       - id: prettier-tailwind-frontend
-        name: Prettier + Tailwind CSS (Frontend)
-        entry: bash -c 'for file in "$@"; do (cd application/frontend && npx prettier --ignore-unknown --write "${file#application/frontend/}"); done; git add "$@"' --
+        name: "[FE] Prettier + Tailwind CSS"
+        entry: bash -c 'for file in "$@"; do (cd application/frontend && pnpm exec prettier --ignore-unknown --write "${file#application/frontend/}"); done; git add "$@"' --
         language: system
         types_or: [javascript, jsx, ts, tsx]
         files: ^application/frontend/
         pass_filenames: true
 
       - id: biome-ci-frontend
-        name: Biome CI (Frontend - strict)
-        entry: bash -c 'cd application/frontend && npm run ci'
+        name: "[FE] Biome CI"
+        entry: bash -c 'cd application/frontend && pnpm run ci'
         language: system
         types: [javascript, jsx, ts, tsx, json, css]
         pass_filenames: false

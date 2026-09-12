@@ -1,22 +1,18 @@
-# Dependencies
-node_modules/
+# TinaCMS content files - managed by TinaCMS, do not format
+src/content/equipment/**/*.md
+src/content/categories/**/*.md
 
-# Build outputs
+# TinaCMS generated files
+tina/__generated__/
+
+# Build output
 dist/
 .astro/
 
-# Logs
-*.log
+# Dependencies
+node_modules/
 
 # Environment files
 .env
-.env.*
-
-# IDE
-.vscode/
-.idea/
-
-# Package manager
-pnpm-lock.yaml
-package-lock.json
-yarn.lock
+.env.local
+.env.production
