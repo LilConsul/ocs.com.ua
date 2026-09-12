@@ -23,28 +23,28 @@ This is the frontend application for OS-Technology Ukraine, a B2B industrial equ
 
 ```bash
 # Development
-pnpm run dev              # Start dev server at localhost:4321
+bun run dev              # Start dev server at localhost:4321
 
 # Building
-pnpm run build            # Build production site to ./dist/
-pnpm run preview          # Preview production build
+bun run build            # Build production site to ./dist/
+bun run preview          # Preview production build
 
 # Code Quality (ALWAYS RUN BEFORE COMMITS)
-pnpm run check:fix        # Fix all linting, formatting issues (includes Tailwind)
-pnpm run check            # Check without fixing
-pnpm run ci               # CI check - validates without fixing
+bun run check:fix        # Fix all linting, formatting issues (includes Tailwind)
+bun run check            # Check without fixing
+bun run ci               # CI check - validates without fixing
 
 # i18n Translation Workflow
-pnpm run i18n:extract     # Extract _() calls to .po files (preserves existing translations)
-pnpm run i18n:compile     # Compile .po files to ui.ts
-pnpm run i18n:init -- pl  # Initialize new language (e.g., Polish)
+bun run i18n:extract     # Extract _() calls to .po files (preserves existing translations)
+bun run i18n:compile     # Compile .po files to ui.ts
+bun run i18n:init -- pl  # Initialize new language (e.g., Polish)
 
 # Package Management
-pnpm install              # Install dependencies
-pnpm add <package>        # Add new dependency
-pnpm add -D <package>     # Add dev dependency
-pnpm remove <package>     # Remove dependency
-pnpm shadcn add <comp>    # Add shadcn/ui component
+bun install              # Install dependencies
+bun add <package>        # Add new dependency
+bun add -D <package>     # Add dev dependency
+bun remove <package>     # Remove dependency
+bun x shadcn add <comp>  # Add shadcn/ui component
 ```
 
 ## Architecture & Key Patterns
