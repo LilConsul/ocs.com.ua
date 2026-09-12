@@ -1,0 +1,271 @@
+---
+import { getCollection } from 'astro:content';
+import type { Lang } from '@/i18n';
+import { marked } from 'marked';
+
+export async function getStaticPaths() {
+	const paths = [];
+
+	for (const lang of ['en', 'ua'] as Lang[]) {
+		const equipment = await getCollection('equipment');
+
+		for (const item of equipment) {
+			// Extract slug from filename
+			// e.g., "checkweighers/hc-m.md" -> category: "checkweighers", slug: "hc-m"
+			const parts = item.id.split('/');
+			const category = parts[0];
+			const filename = parts[1]; // "hc-m.md"
+			const slug = filename.replace('.md', ''); // "hc-m"
+
+			paths.push({
+				params: { lang, category, slug },
+				props: { item, lang },
+			});
+		}
+	}
+
+	return paths;
+}
+
+interface Props {
+	item: any;
+	lang: Lang;
+}
+
+const { item, lang } = Astro.props;
+
+// Access the actual field names with dashes
+const title = lang === 'en' ? item.data['en-title'] : item.data['ua-title'];
+const description = lang === 'en' ? item.data['en-description'] : item.data['ua-description'];
+const bodyMarkdown = lang === 'en' ? item.data['en-body'] : item.data['ua-body'];
+
+// Convert markdown to HTML using marked
+const body = await marked.parse(bodyMarkdown || '');
+---
+
+<!doctype html>
+<html lang={lang} class="dark">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>{title} - Equipment Catalogue</title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+			body {
+				font-family: system-ui, -apple-system, sans-serif;
+				background: #0a0a0a;
+				color: #e5e5e5;
+				line-height: 1.6;
+			}
+			.container {
+				max-width: 1200px;
+				margin: 0 auto;
+				padding: 2rem;
+			}
+			nav {
+				background: #1a1a1a;
+				padding: 1rem;
+				border-radius: 8px;
+				margin-bottom: 2rem;
+				border: 1px solid #333;
+			}
+			nav a {
+				color: #60a5fa;
+				text-decoration: none;
+				margin: 0 0.5rem;
+			}
+			nav a:hover {
+				text-decoration: underline;
+			}
+			.info-box {
+				background: #1e293b;
+				padding: 1rem;
+				border-left: 4px solid #3b82f6;
+				margin-bottom: 2rem;
+				border-radius: 4px;
+			}
+			.info-box code {
+				background: #0f172a;
+				padding: 0.2rem 0.4rem;
+				border-radius: 3px;
+				font-size: 0.9em;
+			}
+			h1 {
+				font-size: 2.5rem;
+				margin-bottom: 1rem;
+				color: #fff;
+			}
+			.description {
+				font-size: 1.25rem;
+				color: #9ca3af;
+				margin-bottom: 2rem;
+			}
+			section {
+				margin: 2rem 0;
+			}
+			h2 {
+				color: #fff;
+				margin-bottom: 1rem;
+				border-bottom: 2px solid #333;
+				padding-bottom: 0.5rem;
+			}
+			ul {
+				list-style: none;
+				padding: 0;
+			}
+			li {
+				padding: 0.5rem 0;
+				border-bottom: 1px solid #2a2a2a;
+			}
+			li strong {
+				color: #60a5fa;
+			}
+			.gallery {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+				gap: 1rem;
+				margin-top: 1rem;
+			}
+			.gallery img {
+				width: 100%;
+				height: 200px;
+				object-fit: cover;
+				border-radius: 8px;
+				background: #1a1a1a;
+			}
+			.body-content {
+				background: #1a1a1a;
+				padding: 2rem;
+				border-radius: 8px;
+				border: 1px solid #333;
+				line-height: 1.8;
+			}
+			.body-content h2,
+			.body-content h3 {
+				color: #fff;
+				margin-top: 2rem;
+				margin-bottom: 1rem;
+				border-bottom: 2px solid #333;
+				padding-bottom: 0.5rem;
+			}
+			.body-content h2 {
+				font-size: 1.75rem;
+			}
+			.body-content h3 {
+				font-size: 1.4rem;
+				border-bottom: 1px solid #333;
+			}
+			.body-content p {
+				margin-bottom: 1rem;
+				color: #d1d5db;
+			}
+			.body-content ul {
+				margin-left: 2rem;
+				margin-bottom: 1rem;
+				list-style: disc;
+			}
+			.body-content li {
+				border: none;
+				padding: 0.4rem 0;
+				color: #d1d5db;
+			}
+			.body-content li strong {
+				color: #60a5fa;
+			}
+			.body-content strong {
+				color: #fff;
+				font-weight: 600;
+			}
+			.success-box {
+				background: #064e3b;
+				padding: 1.5rem;
+				border-radius: 8px;
+				margin-top: 3rem;
+				border: 1px solid #065f46;
+			}
+			.success-box h3 {
+				color: #10b981;
+				margin-bottom: 1rem;
+			}
+			.success-box ul {
+				list-style: none;
+			}
+			.success-box li {
+				border: none;
+				padding: 0.25rem 0;
+				color: #d1fae5;
+			}
+			.success-box li::before {
+				content: "✓ ";
+				color: #10b981;
+				font-weight: bold;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<nav>
+				<strong>Language:</strong>
+				<a href={`/en/catalogue/${Astro.params.category}/${Astro.params.slug}`}>English</a> |
+				<a href={`/ua/catalogue/${Astro.params.category}/${Astro.params.slug}`}>Українська</a>
+			</nav>
+
+			<div class="info-box">
+				<strong>📍 File Structure:</strong><br/>
+				<code>equipment/{Astro.params.category}/{Astro.params.slug}.md</code><br/>
+				<strong>Slug:</strong> {Astro.params.slug}<br/>
+				<strong>Category:</strong> {Astro.params.category}<br/>
+				<strong>Language:</strong> {lang}
+			</div>
+
+			<h1>{title}</h1>
+			<p class="description">{description}</p>
+
+			<section>
+				<h2>Key Specifications</h2>
+				<ul>
+					{item.data.specs?.map((spec: any) => (
+						<li>
+							<strong>{lang === 'en' ? spec['en-label'] : spec['ua-label']}:</strong> {spec.value}
+						</li>
+					))}
+				</ul>
+			</section>
+
+			<section>
+				<h2>Images</h2>
+				<div class="gallery">
+					{item.data.gallery?.map((img: string) => (
+						<img src={img} alt={title} />
+					))}
+				</div>
+			</section>
+
+			{item.data.datasheet && (
+				<section>
+					<h2>Downloads</h2>
+					<p><a href={item.data.datasheet} style="color: #60a5fa;">📄 Download Datasheet (PDF)</a></p>
+				</section>
+			)}
+
+			<section>
+				<h2>Technical Documentation</h2>
+				<div class="body-content" set:html={body} />
+			</section>
+
+			<div class="success-box">
+				<h3>Equipment Catalogue Working</h3>
+				<ul>
+					<li>Filename: <code>{Astro.params.slug}.md</code></li>
+					<li>Multilingual fields with dashes (en-title, ua-title)</li>
+					<li>Dynamic routing: <code>/{lang}/catalogue/{Astro.params.category}/{Astro.params.slug}</code></li>
+					<li>Dark theme enabled</li>
+				</ul>
+			</div>
+		</div>
+	</body>
+</html>
