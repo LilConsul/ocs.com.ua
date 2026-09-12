@@ -62,33 +62,19 @@ repos:
   # Local hooks for frontend (Biome, Prettier)
   - repo: local
     hooks:
-      - id: prettier-json-yaml-frontend
-        name: "[FE] Prettier (format JSON/YAML)"
-        entry: bash -c 'for file in "$@"; do (cd application/frontend && bun x prettier --ignore-unknown --write "${file#application/frontend/}"); done' --
-        language: system
-        files: ^application/frontend/.*\.(json|ya?ml)$
-        exclude: ^application/frontend/bun\.lock$
-        pass_filenames: true
-
       - id: biome-check-frontend
         name: "[FE] Biome Check"
-        entry: bash -c 'cd application/frontend && bun run check:fix'
+        entry: bun
+        args: ["--cwd", "application/frontend", "run", "check:fix"]
         language: system
         types: [javascript, jsx, ts, tsx, json, css]
         pass_filenames: false
         files: ^application/frontend/
 
-      - id: prettier-tailwind-frontend
-        name: "[FE] Prettier + Tailwind CSS"
-        entry: bash -c 'for file in "$@"; do (cd application/frontend && bun x prettier --ignore-unknown --write "${file#application/frontend/}"); done; git add "$@"' --
-        language: system
-        types_or: [javascript, jsx, ts, tsx]
-        files: ^application/frontend/
-        pass_filenames: true
-
       - id: biome-ci-frontend
         name: "[FE] Biome CI"
-        entry: bash -c 'cd application/frontend && bun run ci'
+        entry: bun
+        args: ["--cwd", "application/frontend", "run", "ci"]
         language: system
         types: [javascript, jsx, ts, tsx, json, css]
         pass_filenames: false
