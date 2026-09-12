@@ -1,12 +1,12 @@
 ---
+import { sanitizeHref } from "@tinacms/astro/sanitize";
 // @ts-nocheck (generated types/client appear after your first tinacms dev run)
-import TinaMarkdown from '@tinacms/astro/TinaMarkdown.astro';
-import { tinaField } from '@tinacms/astro/tina-field';
-import { sanitizeHref } from '@tinacms/astro/sanitize';
-import type { PostQuery } from '../../../tina/__generated__/types';
+import TinaMarkdown from "@tinacms/astro/TinaMarkdown.astro";
+import { tinaField } from "@tinacms/astro/tina-field";
+import type { PostQuery } from "../../../tina/__generated__/types";
 
 interface Props {
-  data?: PostQuery['post'] | null;
+	data?: PostQuery["post"] | null;
 }
 const { data } = Astro.props;
 ---

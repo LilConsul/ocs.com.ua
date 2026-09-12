@@ -37,18 +37,18 @@ repos:
     rev: v0.9.1
     hooks:
       - id: ruff
-        name: Ruff Check (Backend)
+        name: "[BE] Ruff Check"
         args: [--fix]
         files: ^application/backend/
       - id: ruff-format
-        name: Ruff Format (Backend)
+        name: "[BE] Ruff Format"
         files: ^application/backend/
 
   # Local hooks for frontend (Biome, Prettier)
   - repo: local
     hooks:
       - id: prettier-json-yaml-frontend
-        name: Prettier (format JSON/YAML) — frontend only
+        name: "[FE] Prettier (format JSON/YAML)"
         entry: bash -c 'for file in "$@"; do (cd application/frontend && pnpm exec prettier --ignore-unknown --write "${file#application/frontend/}"); done' --
         language: system
         files: ^application/frontend/.*\.(json|ya?ml)$
@@ -56,7 +56,7 @@ repos:
         pass_filenames: true
 
       - id: biome-check-frontend
-        name: Biome Check (Frontend)
+        name: "[FE] Biome Check"
         entry: bash -c 'cd application/frontend && pnpm run check:fix'
         language: system
         types: [javascript, jsx, ts, tsx, json, css]
@@ -64,7 +64,7 @@ repos:
         files: ^application/frontend/
 
       - id: prettier-tailwind-frontend
-        name: Prettier + Tailwind CSS (Frontend)
+        name: "[FE] Prettier + Tailwind CSS"
         entry: bash -c 'for file in "$@"; do (cd application/frontend && pnpm exec prettier --ignore-unknown --write "${file#application/frontend/}"); done; git add "$@"' --
         language: system
         types_or: [javascript, jsx, ts, tsx]
@@ -72,7 +72,7 @@ repos:
         pass_filenames: true
 
       - id: biome-ci-frontend
-        name: Biome CI (Frontend - strict)
+        name: "[FE] Biome CI"
         entry: bash -c 'cd application/frontend && pnpm run ci'
         language: system
         types: [javascript, jsx, ts, tsx, json, css]

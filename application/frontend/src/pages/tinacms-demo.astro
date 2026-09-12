@@ -4,16 +4,16 @@
 // pages. Self-contained: scoped styles, no CSS framework, no image assets. Safe
 // to delete (with src/lib/tina/, src/components/tina/, src/pages/tina-island/)
 // once you're done.
-import TinaIsland from '@tinacms/astro/TinaIsland.astro';
-import PostBody from '../components/tina/PostBody.astro';
-import Starfield from '../components/tina/Starfield.astro';
-import { getPost } from '../lib/tina/data';
-import { islands } from '../lib/tina/islands';
+import TinaIsland from "@tinacms/astro/TinaIsland.astro";
+import PostBody from "../components/tina/PostBody.astro";
+import Starfield from "../components/tina/Starfield.astro";
+import { getPost } from "../lib/tina/data";
+import { islands } from "../lib/tina/islands";
 
-const slug = 'hello-world';
+const slug = "hello-world";
 const post = await getPost(slug);
 const data = post.data?.post;
-if (!data) return new Response('Not Found', { status: 404 });
+if (!data) return new Response("Not Found", { status: 404 });
 ---
 <!doctype html>
 <html lang="en">
