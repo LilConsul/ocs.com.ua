@@ -9,17 +9,17 @@ repos:
     rev: v6.0.0
     hooks:
       - id: trailing-whitespace
-        name: Trim trailing whitespace
+        name: "[ALL] Trim trailing whitespace"
       - id: end-of-file-fixer
-        name: Fix end of files (ensure newline)
+        name: "[ALL] Fix end of files (ensure newline)"
       - id: check-yaml
-        name: Check YAML syntax
+        name: "[ALL] Check YAML syntax"
       - id: check-json
-        name: Check JSON syntax
+        name: "[ALL] Check JSON syntax"
       - id: check-merge-conflict
-        name: Check for merge conflicts
+        name: "[ALL] Check for merge conflicts"
       - id: mixed-line-ending
-        name: Fix mixed line endings
+        name: "[ALL] Fix mixed line endings"
         args: ['--fix=lf']
 
   # Markdown formatting
@@ -27,7 +27,7 @@ repos:
     rev: 0.7.17
     hooks:
       - id: mdformat
-        name: Format Markdown files
+        name: "[DOCS] Format Markdown files"
         additional_dependencies:
           - mdformat-gfm     # GitHub Flavored Markdown
           - mdformat-tables  # Better table formatting
