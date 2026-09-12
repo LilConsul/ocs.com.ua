@@ -5,14 +5,14 @@
  *
  * To update translations:
  * 1. Edit the .po files in the 'locales/' directory
- * 2. Run: npm run i18n:compile
+ * 2. Run: bun run i18n:compile
  *
  * Source files:
  * - locales/messages.pot (English source)
  * - locales/ua.po (Ukrainian translations)
  *
  * Generation script: scripts/i18n-compile.js
- * Generated: 2026-09-11T10:56:55.874Z
+ * Generated: 2026-09-12T19:07:04.488Z
  */
 
 export const languages = {

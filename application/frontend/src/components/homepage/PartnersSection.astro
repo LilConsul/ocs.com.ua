@@ -1,9 +1,9 @@
 ---
 import { Image } from "astro:assets";
+import { resolve } from "node:path";
+import sizeOf from "image-size";
 import { Card, CardContent } from "@/components/ui/card";
 import { getInlineTranslations, type Lang } from "@/i18n";
-import sizeOf from "image-size";
-import { resolve } from "node:path";
 
 interface Partner {
 	name: { en: string; ua: string };

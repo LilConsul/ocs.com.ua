@@ -1,21 +1,21 @@
 ---
-import { getCollection } from 'astro:content';
-import type { Lang } from '@/i18n';
-import { marked } from 'marked';
+import { getCollection } from "astro:content";
+import { marked } from "marked";
+import type { Lang } from "@/i18n";
 
 export async function getStaticPaths() {
 	const paths = [];
 
-	for (const lang of ['en', 'ua'] as Lang[]) {
-		const equipment = await getCollection('equipment');
+	for (const lang of ["en", "ua"] as Lang[]) {
+		const equipment = await getCollection("equipment");
 
 		for (const item of equipment) {
 			// Extract slug from filename
 			// e.g., "checkweighers/hc-m.md" -> category: "checkweighers", slug: "hc-m"
-			const parts = item.id.split('/');
+			const parts = item.id.split("/");
 			const category = parts[0];
 			const filename = parts[1]; // "hc-m.md"
-			const slug = filename.replace('.md', ''); // "hc-m"
+			const slug = filename.replace(".md", ""); // "hc-m"
 
 			paths.push({
 				params: { lang, category, slug },
@@ -35,12 +35,12 @@ interface Props {
 const { item, lang } = Astro.props;
 
 // Access the actual field names with dashes
-const title = lang === 'en' ? item.data['en-title'] : item.data['ua-title'];
-const description = lang === 'en' ? item.data['en-description'] : item.data['ua-description'];
-const bodyMarkdown = lang === 'en' ? item.data['en-body'] : item.data['ua-body'];
+const title = lang === "en" ? item.data["en-title"] : item.data["ua-title"];
+const description = lang === "en" ? item.data["en-description"] : item.data["ua-description"];
+const bodyMarkdown = lang === "en" ? item.data["en-body"] : item.data["ua-body"];
 
 // Convert markdown to HTML using marked
-const body = await marked.parse(bodyMarkdown || '');
+const body = await marked.parse(bodyMarkdown || "");
 ---
 
 <!doctype html>

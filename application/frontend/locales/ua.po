@@ -6,15 +6,15 @@
 # Add your UA translations to the "msgstr" fields below.
 #
 # To apply your changes:
-#   Run: npm run i18n:compile
+#   Run: bun run i18n:compile
 #
 # IMPORTANT: This file is partially auto-generated.
 # - The structure (msgid entries) is auto-generated from source code
 # - The translations (msgstr values) are manually added and preserved
-# - Running "npm run i18n:extract" will add new strings but keep existing translations
+# - Running "bun run i18n:extract" will add new strings but keep existing translations
 #
 # Generation script: scripts/i18n-extract-po.js
-# Last updated: 2026-09-11 10:55:35+0000
+# Last updated: 2026-09-12 19:06:59+0000
 #
 # Copyright (C) 2026 OS-Technology Ukraine
 # This file is distributed under the same license as the OS-Technology project.
@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OS-Technology Frontend 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-11 10:55:35+0000\n"
-"PO-Revision-Date: 2026-09-11 10:55:35+0000\n"
+"POT-Creation-Date: 2026-09-12 19:06:59+0000\n"
+"PO-Revision-Date: 2026-09-12 19:06:59+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ua\n"
 "Language-Team: ua <LL@li.org>\n"
@@ -34,187 +34,187 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: i18n-extract\n"
 
-#: src\layouts\Layout.astro:38
+#: src/components/Header.astro:19
 msgid "About"
 msgstr "Про нас"
 
-#: src\components\homepage\HeroSection.astro:70
+#: src/components/homepage/HeroSection.astro:70
 msgid "Advanced checkweighers and Track & Trace systems for food, pharma, and logistics. Trusted by 300+ Ukrainian manufacturers since 2013."
 msgstr "Сучасні чеквейєри та системи Track & Trace для харчової, фармацевтичної та логістичної галузей. Нам довіряють понад 300 українських виробників з 2013 року."
 
-#: src\components\homepage\IndustriesSection.astro:87
+#: src/components/homepage/IndustriesSection.astro:88
 msgid "All Industries"
 msgstr "Всі галузі"
 
-#: src\components\Footer.astro:16
+#: src/components/Footer.astro:17
 msgid "All rights reserved"
 msgstr "Всі права захищено"
 
-#: src\components\homepage\IndustriesSection.astro:32
+#: src/components/homepage/IndustriesSection.astro:33
 msgid "Checkweighers and inspection systems meeting FDA, IFS, BRC, and GMP standards — engineered for Ukrainian manufacturers."
 msgstr "Чеквейєри та системи інспекції відповідно до стандартів FDA, IFS, BRC та GMP — розроблені для українських виробників."
 
-#: src\components\homepage\PartnersSection.astro:172
+#: src/components/homepage/PartnersSection.astro:169
 msgid "Client Retention"
 msgstr "Утримання клієнтів"
 
-#: src\components\homepage\StatsSection.astro:12
+#: src/components/homepage/StatsSection.astro:12
 msgid "Clients"
 msgstr "Клієнтів"
 
-#: src\components\homepage\HeroSection.astro:82
+#: src/components/homepage/HeroSection.astro:82
 msgid "Contact Us"
 msgstr "Зв'яжіться з нами"
 
-#: src\components\homepage\IndustriesSection.astro:69
+#: src/components/homepage/IndustriesSection.astro:70
 msgid "Cosmetics"
 msgstr "Косметика"
 
-#: src\components\homepage\HeroSection.astro:62
+#: src/components/homepage/HeroSection.astro:62
 msgid "Dynamic Checkweighers & Weighing Systems"
 msgstr "Динамічні чеквейєри та вагові системи"
 
-#: src\pages\[lang]\index.astro:23
+#: src/pages/[lang]/index.astro:27
 msgid "Dynamic checkweighers and Track & Trace systems for food, pharmaceutical, and logistics industries in Ukraine. Official Wipotec partner."
 msgstr "Динамічні чеквейєри та системи Track & Trace для харчової, фармацевтичної та логістичної промисловості України. Офіційний партнер Wipotec."
 
-#: src\components\homepage\IndustriesSection.astro:88
+#: src/components/homepage/IndustriesSection.astro:89
 msgid "Explore industry-specific solutions"
 msgstr "Дізнайтеся про галузеві рішення"
 
-#: src\components\homepage\IndustriesSection.astro:45
+#: src/components/homepage/IndustriesSection.astro:46
 msgid "Food & Beverage"
 msgstr "Харчова промисловість"
 
-#: src\components\homepage\HeroSection.astro:64
+#: src/components/homepage/HeroSection.astro:64
 msgid "German Precision. Ukrainian Support."
 msgstr "Німецька точність. Українська підтримка."
 
-#: src\i18n\inline.ts:5
+#: src/i18n/inline.ts:6
 msgid "Hello, world"
 msgstr "Привіт, світ"
 
-#: src\components\homepage\IndustriesSection.astro:79
+#: src/components/homepage/IndustriesSection.astro:80
 msgid "High-speed checkweighers for warehouses and fulfillment centers."
 msgstr "Швидкісні чеквейєри для складів та центрів виконання замовлень."
 
-#: src\components\homepage\IndustriesSection.astro:46
+#: src/components/homepage/IndustriesSection.astro:47
 msgid "Hygienic checkweighers meeting food safety standards (FDA, IFS, BRC). Built for production lines."
 msgstr "Гігієнічні чеквейєри відповідно до стандартів харчової безпеки (FDA, IFS, BRC). Створені для виробничих ліній."
 
-#: src\components\homepage\HeroSection.astro:21
+#: src/components/homepage/HeroSection.astro:21
 msgid "Industrial Checkweigher Systems"
 msgstr "Промислові системи чеквейєрів"
 
-#: src\layouts\Layout.astro:37
+#: src/components/Header.astro:18
 msgid "Industries"
 msgstr "Галузі"
 
-#: src\components\homepage\IndustriesSection.astro:21
+#: src/components/homepage/IndustriesSection.astro:22
 msgid "Industries We Serve"
 msgstr "Галузі, які ми обслуговуємо"
 
-#: src\components\homepage\PartnersSection.astro:136
+#: src/components/homepage/PartnersSection.astro:133
 msgid "Installations"
 msgstr "Встановлень"
 
-#: src\layouts\Layout.astro:39
+#: src/components/Header.astro:110
 msgid "Language"
 msgstr "Мова"
 
-#: src\components\homepage\IndustriesSection.astro:50
-#: src\components\homepage\IndustriesSection.astro:62
+#: src/components/homepage/IndustriesSection.astro:51
+#: src/components/homepage/IndustriesSection.astro:63
 msgid "Learn More"
 msgstr "Дізнатися більше"
 
-#: src\components\homepage\IndustriesSection.astro:78
+#: src/components/homepage/IndustriesSection.astro:79
 msgid "Logistics & Distribution"
 msgstr "Логістика та дистрибуція"
 
-#: src\components\homepage\PartnersSection.astro:175
+#: src/components/homepage/PartnersSection.astro:172
 msgid "Long-term partnerships built on reliable support."
 msgstr "Довгострокові партнерства, побудовані на надійній підтримці."
 
-#: src\components\Footer.astro:16
+#: src/components/Footer.astro:17
 msgid "OS-Technology Ukraine"
 msgstr "OS-Technology Україна"
 
-#: src\pages\[lang]\index.astro:22
+#: src/pages/[lang]/index.astro:26
 msgid "OS-Technology Ukraine | Checkweighers & Inspection Systems"
 msgstr "OS-Technology Україна | Чеквейєри та системи інспекції"
 
-#: src\components\homepage\HeroSection.astro:53
+#: src/components/homepage/HeroSection.astro:53
 msgid "Official Mesutronic Partner"
 msgstr "Офіційний партнер Mesutronic"
 
-#: src\components\homepage\HeroSection.astro:42
+#: src/components/homepage/HeroSection.astro:42
 msgid "Official Wipotec Partner"
 msgstr "Офіційний партнер Wipotec"
 
-#: src\components\homepage\PartnersSection.astro:56
+#: src/components/homepage/PartnersSection.astro:53
 msgid "Our Clients"
 msgstr "Наші клієнти"
 
-#: src\components\homepage\IndustriesSection.astro:57
+#: src/components/homepage/IndustriesSection.astro:58
 msgid "Pharmaceutical"
 msgstr "Фармацевтика"
 
-#: src\components\homepage\IndustriesSection.astro:58
+#: src/components/homepage/IndustriesSection.astro:59
 msgid "Precision checkweighers with Track & Trace serialization. GMP-compliant and audit-ready."
 msgstr "Прецизійні чеквейєри з серіалізацією Track & Trace. Відповідають GMP та готові до аудиту."
 
-#: src\components\Footer.astro:24
+#: src/components/Footer.astro:25
 msgid "Privacy Policy"
 msgstr "Політика конфіденційності"
 
-#: src\layouts\Layout.astro:35
+#: src/components/Header.astro:16
 msgid "Products"
 msgstr "Продукція"
 
-#: src\components\homepage\IndustriesSection.astro:70
+#: src/components/homepage/IndustriesSection.astro:71
 msgid "Quality control and filling inspection systems."
 msgstr "Системи контролю якості та інспекції наповнення."
 
-#: src\layouts\Layout.astro:36
+#: src/components/Header.astro:17
 msgid "Solutions"
 msgstr "Рішення"
 
-#: src\components\homepage\IndustriesSection.astro:28
+#: src/components/homepage/IndustriesSection.astro:29
 msgid "Solutions for Every Industry"
 msgstr "Рішення для кожної галузі"
 
-#: src\components\homepage\PartnersSection.astro:65
+#: src/components/homepage/PartnersSection.astro:62
 msgid "Supplying and servicing precision weighing equipment for major food, pharmaceutical, and chemical companies since 2013."
 msgstr "Постачаємо та обслуговуємо прецизійне вагове обладнання для провідних харчових, фармацевтичних та хімічних компаній з 2013 року."
 
-#: src\components\homepage\StatsSection.astro:14
+#: src/components/homepage/StatsSection.astro:14
 msgid "Systems Installed"
 msgstr "Встановлених систем"
 
-#: src\components\homepage\PartnersSection.astro:139
+#: src/components/homepage/PartnersSection.astro:136
 msgid "Systems operating across Ukrainian manufacturing facilities."
 msgstr "Системи працюють на виробничих підприємствах по всій Україні."
 
-#: src\components\homepage\PartnersSection.astro:157
+#: src/components/homepage/PartnersSection.astro:154
 msgid "Technical expertise and service support since 2013."
 msgstr "Технічна експертиза та сервісна підтримка з 2013 року."
 
-#: src\components\Footer.astro:30
+#: src/components/Footer.astro:31
 msgid "Terms of Service"
 msgstr "Умови використання"
 
-#: src\components\homepage\PartnersSection.astro:61
+#: src/components/homepage/PartnersSection.astro:58
 msgid "Trusted by Ukraine's Leading Manufacturers"
 msgstr "Нам довіряють провідні виробники України"
 
-#: src\components\homepage\HeroSection.astro:103
+#: src/components/homepage/HeroSection.astro:103
 msgid "View Products"
 msgstr "Переглянути продукцію"
 
-#: src\components\homepage\StatsSection.astro:13
+#: src/components/homepage/StatsSection.astro:13
 msgid "Years in Ukraine"
 msgstr "Років в Україні"
 
-#: src\components\homepage\PartnersSection.astro:154
+#: src/components/homepage/PartnersSection.astro:151
 msgid "Years of Experience"
 msgstr "Років досвіду"

@@ -21,6 +21,6 @@ max_line_length = 100
 trim_trailing_whitespace = false
 
 # Package manager lock files
-[{package-lock.json,pnpm-lock.yaml,yarn.lock}]
+[{package-lock.json,bun.lock,yarn.lock}]
 indent_style = space
 indent_size = 2
