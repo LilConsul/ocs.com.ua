@@ -183,12 +183,12 @@
 						"uid": false
 					},
 					{
-						"type": "string",
+						"type": "image",
 						"name": "datasheet",
-						"label": "Datasheet PDF Path",
-						"description": "Relative path to PDF (e.g., \"./_assets/hc-m/datasheet.pdf\")",
+						"label": "Datasheet PDF",
+						"description": "Upload technical datasheet PDF (will be saved automatically)",
 						"namespace": ["equipment", "datasheet"],
-						"searchable": true,
+						"searchable": false,
 						"uid": false
 					},
 					{
@@ -267,7 +267,7 @@
 				"namespace": ["equipment"]
 			}
 		],
-		"config": { "media": { "tina": { "publicFolder": "public", "mediaRoot": "" } } }
+		"config": { "media": { "tina": { "publicFolder": "src", "mediaRoot": "assets" } } }
 	},
 	"lookup": {
 		"DocumentConnection": {
@@ -1624,7 +1624,7 @@
 					{
 						"kind": "InputValueDefinition",
 						"name": { "kind": "Name", "value": "datasheet" },
-						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "StringFilter" } }
+						"type": { "kind": "NamedType", "name": { "kind": "Name", "value": "ImageFilter" } }
 					},
 					{
 						"kind": "InputValueDefinition",
