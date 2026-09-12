@@ -1,9 +1,0 @@
-<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
-  <rect width="400" height="400" fill="#f0f0f0"/>
-  <text x="200" y="190" font-family="Arial" font-size="18" text-anchor="middle" fill="#666">
-    Gallery Image 1
-  </text>
-  <text x="200" y="220" font-family="Arial" font-size="14" text-anchor="middle" fill="#999">
-    400x400
-  </text>
-</svg>
