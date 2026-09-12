@@ -57,15 +57,17 @@ const { item, lang } = Astro.props;
 				<strong>Category:</strong> {Astro.params.category}
 			</div>
 
-			<h1>{item.data.title[lang]}</h1>
-			<p style="font-size: 1.25rem; color: #666;">{item.data.description[lang]}</p>
+			<h1>{lang === 'en' ? item.data.titleEn : item.data.titleUa}</h1>
+			<p style="font-size: 1.25rem; color: #666;">
+				{lang === 'en' ? item.data.descriptionEn : item.data.descriptionUa}
+			</p>
 
 			<section style="margin: 2rem 0;">
 				<h2>Key Specifications</h2>
 				<ul>
 					{item.data.specs.map((spec: any) => (
 						<li>
-							<strong>{spec.label[lang]}:</strong> {spec.value}
+							<strong>{lang === 'en' ? spec.labelEn : spec.labelUa}:</strong> {spec.value}
 						</li>
 					))}
 				</ul>

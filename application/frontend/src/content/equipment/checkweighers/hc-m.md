@@ -1,29 +1,24 @@
 ---
-title:
-  en: HC-M Checkweigher
-  ua: Чекові ваги HC-M
-description:
-  en: 'The standard for dynamic weighing, offering high precision and reliability for mid-range applications.'
-  ua: 'Стандарт динамічного зважування, що забезпечує високу точність та надійність для застосувань середнього рівня.'
+en-title: HC-M Checkweigher
+ua-title: Чеквейер HC-M
+en-description: 'The standard for dynamic weighing, offering high precision and reliability for mid-range applications.'
+ua-description: 'Стандарт динамічного зважування, що забезпечує високу точність та надійність для застосувань середнього рівня.'
 gallery:
   - /assets/equipment/checkweighers/hc-m/csm_checkweigher-hc-m-left_51bfea9ea2.webp
   - /assets/equipment/checkweighers/hc-m/csm_checkweigher-hc-m-front_aa34489ed7.webp
   - /assets/equipment/checkweighers/hc-m/csm_checkweigher-hc-m-right_efe164ce5c.webp
 datasheet: /assets/equipment/checkweighers/hc-m/datasheet.pdf
 specs:
-  - label:
-      en: Max Speed
-      ua: Макс. швидкість
+  - en-label: Max Speed
+    ua-label: Макс. швидкість
     value: 250 pcs/min
-  - label:
-      en: Display Value
-      ua: Відображуване значення
+  - en-label: Display Value
+    ua-label: Відображуване значення
     value: 0.1g
-  - label:
-      en: Belt Width
-      ua: Ширина стрічки
+  - en-label: Belt Width
+    ua-label: Ширина стрічки
     value: 300mm
-bodyEn: |
+en-body: |
   ## Technical Overview
 
   The HC-M Checkweigher represents the industry standard for dynamic weighing applications, combining precision, reliability, and ease of integration.
@@ -54,7 +49,7 @@ bodyEn: |
   ## Applications
 
   Ideal for pharmaceutical, food, and cosmetics industries where precise weight control is critical for regulatory compliance and quality assurance.
-bodyUa: |
+ua-body: |
   ## Технічний огляд
 
   Чекові ваги HC-M є промисловим стандартом для динамічного зважування, поєднуючи точність, надійність та простоту інтеграції.
@@ -66,7 +61,7 @@ bodyUa: |
   * **Інтегроване відхилення** - Доступні різні механізми відхилення
   * **SPC у реальному часі** - Статистичний контроль процесу з аналізом тенденцій
 
-  ## Специфікації
+  ## Специфікації 
 
   ### Продуктивність зважування
 
