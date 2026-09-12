@@ -104,9 +104,9 @@ interface Translations {
 After adding `_()` calls, run extraction and compilation:
 
 ```bash
-npm run i18n:extract   # Generates/updates .po files in locales/
+bun run i18n:extract   # Generates/updates .po files in locales/
 # Edit locales/ua.po to add Ukrainian translations
-npm run i18n:compile   # Compiles .po files to src/i18n/ui.ts
+bun run i18n:compile   # Compiles .po files to src/i18n/ui.ts
 ```
 
 **Manual Key Pattern (existing code):**
@@ -216,7 +216,7 @@ Stitch is used for design creation:
 **Before every commit:**
 
 ```bash
-npm run check:fix
+bun run check:fix
 ```
 
 This runs format + lint + organize imports in one command.

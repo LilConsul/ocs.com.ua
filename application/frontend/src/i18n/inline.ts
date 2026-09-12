@@ -6,7 +6,7 @@ import type { Lang } from "./utils";
  * Use this with English source text: _("Hello, world")
  *
  * The English text acts as the key - it gets auto-converted to a key like "inline.hello_world"
- * Run `npm run i18n:extract` to extract new strings and add translations.
+ * Run `bun run i18n:extract` to extract new strings and add translations.
  */
 export function getInlineTranslations(lang: Lang) {
 	return function _(text: string): string {

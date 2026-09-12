@@ -135,7 +135,7 @@ ______________________________________________________________________
 ### ✅ Astro Check Passed
 
 ```bash
-pnpm astro check
+bun astro check
 # Result: 0 errors, 0 warnings
 ```
 
@@ -179,7 +179,7 @@ ______________________________________________________________________
 ### 1. Start Dev Server
 
 ```bash
-pnpm run dev
+bun run dev
 ```
 
 ### 2. View Test Page
