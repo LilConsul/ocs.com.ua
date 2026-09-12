@@ -25,3 +25,7 @@ pnpm-debug.log*
 
 # Symlinks
 /.claude/hooks
+
+node_modules
+.env
+tina/__generated__
