@@ -6,7 +6,7 @@
 				"ua": "Рошен"
 			},
 			"website": "https://roshen.com",
-			"logo": "/src/assets/partners/roshen.webp"
+			"logo": "/assets/partners/roshen.webp"
 		},
 		{
 			"name": {
@@ -14,7 +14,7 @@
 				"ua": "Grona"
 			},
 			"website": "https://grona.ua",
-			"logo": "/src/assets/partners/grona.webp"
+			"logo": "/assets/partners/grona.webp"
 		},
 		{
 			"name": {
@@ -22,7 +22,7 @@
 				"ua": "Золоте Зерно"
 			},
 			"website": "https://zolote-zerno.com.ua",
-			"logo": "/src/assets/partners/zolote-zerno.webp"
+			"logo": "/assets/partners/zolote-zerno.webp"
 		},
 		{
 			"name": {
@@ -30,7 +30,7 @@
 				"ua": "Звени Гора"
 			},
 			"website": "https://zvenigora.com/",
-			"logo": "/src/assets/partners/zveni-gora.webp"
+			"logo": "/assets/partners/zveni-gora.webp"
 		},
 		{
 			"name": {
@@ -38,7 +38,7 @@
 				"ua": "Легко!"
 			},
 			"website": "https://legko.ua",
-			"logo": "/src/assets/partners/legko.webp"
+			"logo": "/assets/partners/legko.webp"
 		},
 		{
 			"name": {
@@ -46,7 +46,7 @@
 				"ua": "Mondelez International"
 			},
 			"website": "https://mondelezinternational.com",
-			"logo": "/src/assets/partners/mondelez.webp"
+			"logo": "/assets/partners/mondelez.webp"
 		},
 		{
 			"name": {
@@ -54,7 +54,7 @@
 				"ua": "Галка"
 			},
 			"website": "https://galca.com.ua/",
-			"logo": "/src/assets/partners/halka.webp"
+			"logo": "/assets/partners/halka.webp"
 		},
 		{
 			"name": {
@@ -62,7 +62,7 @@
 				"ua": "Jacobs"
 			},
 			"website": "https://jacobs.ua",
-			"logo": "/src/assets/partners/jacobs.webp"
+			"logo": "/assets/partners/jacobs.webp"
 		},
 		{
 			"name": {
@@ -70,7 +70,7 @@
 				"ua": "МХП"
 			},
 			"website": "https://mhp.com.ua",
-			"logo": "/src/assets/partners/mxp.webp"
+			"logo": "/assets/partners/mxp.webp"
 		},
 		{
 			"name": {
@@ -78,7 +78,7 @@
 				"ua": "Євро Фуд Сервіс (EFS)"
 			},
 			"website": "https://www.eufservice.com/",
-			"logo": "/src/assets/partners/euro-food-service.webp"
+			"logo": "/assets/partners/euro-food-service.webp"
 		},
 		{
 			"name": {
@@ -86,7 +86,7 @@
 				"ua": "MacCoffee"
 			},
 			"website": "https://maccoffee.ua",
-			"logo": "/src/assets/partners/maccoffee.webp"
+			"logo": "/assets/partners/maccoffee.webp"
 		},
 		{
 			"name": {
@@ -94,7 +94,7 @@
 				"ua": "Lantmännen"
 			},
 			"website": "https://lantmannen.ua",
-			"logo": "/src/assets/partners/lantmannen.webp"
+			"logo": "/assets/partners/lantmannen.webp"
 		},
 		{
 			"name": {
@@ -102,7 +102,7 @@
 				"ua": "Борисфен Трейд"
 			},
 			"website": "https://www.borysfentrade.com.ua/",
-			"logo": "/src/assets/partners/borysfen.webp"
+			"logo": "/assets/partners/borysfen.webp"
 		},
 		{
 			"name": {
@@ -110,7 +110,7 @@
 				"ua": "Сузірʼя"
 			},
 			"website": "https://suziria.ua/",
-			"logo": "/src/assets/partners/suziria.webp"
+			"logo": "/assets/partners/suziria.webp"
 		},
 		{
 			"name": {
@@ -118,7 +118,7 @@
 				"ua": "Кормотех"
 			},
 			"website": "https://kormotech.com",
-			"logo": "/src/assets/partners/kormotech.webp"
+			"logo": "/assets/partners/kormotech.webp"
 		},
 		{
 			"name": {
@@ -126,7 +126,7 @@
 				"ua": "Харчові Технології Закарпаття"
 			},
 			"website": "http://carpathianpetfood.com/",
-			"logo": "/src/assets/partners/hft.webp"
+			"logo": "/assets/partners/hft.webp"
 		}
 	],
 	"household": [
@@ -136,7 +136,7 @@
 				"ua": "CEMARK"
 			},
 			"website": "https://www.cemark.ua/",
-			"logo": "/src/assets/partners/cemark.webp"
+			"logo": "/assets/partners/cemark.webp"
 		},
 		{
 			"name": {
@@ -144,7 +144,7 @@
 				"ua": "Розетка"
 			},
 			"website": "https://rozetka.com.ua",
-			"logo": "/src/assets/partners/rozetka.webp"
+			"logo": "/assets/partners/rozetka.webp"
 		},
 		{
 			"name": {
@@ -152,7 +152,7 @@
 				"ua": "Biosphere Corporation"
 			},
 			"website": "https://biosphere-corp.com/",
-			"logo": "/src/assets/partners/biosphere.webp"
+			"logo": "/assets/partners/biosphere.webp"
 		},
 		{
 			"name": {
@@ -160,7 +160,7 @@
 				"ua": "Eva"
 			},
 			"website": "https://eva.ua",
-			"logo": "/src/assets/partners/eva.webp"
+			"logo": "/assets/partners/eva.webp"
 		},
 		{
 			"name": {
@@ -168,7 +168,7 @@
 				"ua": "P&G"
 			},
 			"website": "https://pg.com.ua",
-			"logo": "/src/assets/partners/P&G.webp"
+			"logo": "/assets/partners/P&G.webp"
 		},
 		{
 			"name": {
@@ -176,7 +176,7 @@
 				"ua": "Verallia"
 			},
 			"website": "https://ua.verallia.com",
-			"logo": "/src/assets/partners/verallia.webp"
+			"logo": "/assets/partners/verallia.webp"
 		}
 	],
 	"pharma": [
@@ -186,7 +186,7 @@
 				"ua": "БаДМ"
 			},
 			"website": "https://www.badm.ua",
-			"logo": "/src/assets/partners/badm.webp"
+			"logo": "/assets/partners/badm.webp"
 		},
 		{
 			"name": {
@@ -194,7 +194,7 @@
 				"ua": "Юрія-Фарм"
 			},
 			"website": "https://www.uf.ua",
-			"logo": "/src/assets/partners/yuria-pharm.webp"
+			"logo": "/assets/partners/yuria-pharm.webp"
 		},
 		{
 			"name": {
@@ -202,7 +202,7 @@
 				"ua": "Фармак"
 			},
 			"website": "https://farmak.ua",
-			"logo": "/src/assets/partners/farmak.webp"
+			"logo": "/assets/partners/farmak.webp"
 		},
 		{
 			"name": {
@@ -210,7 +210,7 @@
 				"ua": "Дарниця"
 			},
 			"website": "https://darnitsa.ua",
-			"logo": "/src/assets/partners/DARNYTSIA.webp"
+			"logo": "/assets/partners/DARNYTSIA.webp"
 		},
 		{
 			"name": {
@@ -218,7 +218,7 @@
 				"ua": "Артеріум"
 			},
 			"website": "https://arterium.ua",
-			"logo": "/src/assets/partners/arterium.webp"
+			"logo": "/assets/partners/arterium.webp"
 		},
 		{
 			"name": {
@@ -226,7 +226,7 @@
 				"ua": "Acino"
 			},
 			"website": "https://acino.ua",
-			"logo": "/src/assets/partners/acino.webp"
+			"logo": "/assets/partners/acino.webp"
 		},
 		{
 			"name": {
@@ -234,7 +234,7 @@
 				"ua": "Оптіма Фарм"
 			},
 			"website": "https://optimapharm.ua",
-			"logo": "/src/assets/partners/optimapharm.webp"
+			"logo": "/assets/partners/optimapharm.webp"
 		}
 	]
 }

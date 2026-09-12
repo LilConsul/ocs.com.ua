@@ -267,7 +267,7 @@
 				"namespace": ["equipment"]
 			}
 		],
-		"config": { "media": { "tina": { "publicFolder": "src", "mediaRoot": "assets" } } }
+		"config": { "media": { "tina": { "publicFolder": "public", "mediaRoot": "assets" } } }
 	},
 	"lookup": {
 		"DocumentConnection": {

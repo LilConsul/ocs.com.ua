@@ -2,6 +2,8 @@
 import { Image } from "astro:assets";
 import { Card, CardContent } from "@/components/ui/card";
 import { getInlineTranslations, type Lang } from "@/i18n";
+import sizeOf from "image-size";
+import { resolve } from "node:path";
 
 interface Partner {
 	name: { en: string; ua: string };
@@ -23,21 +25,16 @@ interface Props {
 const { partnersByCategory, lang } = Astro.props;
 const _ = getInlineTranslations(lang);
 
-// Import all partner logos dynamically
-const partnerImages = import.meta.glob<{ default: ImageMetadata }>(
-	"/src/assets/partners/*.{png,webp,jpg,jpeg,svg}",
-	{
-		eager: true,
+// Helper to get image dimensions from public folder
+function getImageDimensions(logoPath: string) {
+	try {
+		const publicPath = resolve("./public" + logoPath);
+		const dimensions = sizeOf(publicPath);
+		return { width: dimensions.width || 150, height: dimensions.height || 48 };
+	} catch (error) {
+		// Fallback dimensions if image not found
+		return { width: 150, height: 48 };
 	}
-);
-
-// Helper function to get image from path
-function getPartnerImage(logoPath: string) {
-	if (!logoPath) {
-		return null;
-	}
-	const normalizedPath = logoPath.startsWith("/src/") ? logoPath : `/src/${logoPath}`;
-	return partnerImages[normalizedPath]?.default;
 }
 
 const carouselRows = [
@@ -88,7 +85,7 @@ const carouselRows = [
 									style={`will-change: transform; animation: ${animation} ${duration}s linear infinite;`}
 								>
 									{partners.map((partner) => {
-										const image = getPartnerImage(partner.logo);
+										const dimensions = partner.logo ? getImageDimensions(partner.logo) : null;
 										return (
 											<a
 												href={partner.website}
@@ -97,14 +94,14 @@ const carouselRows = [
 												class="group flex h-12 w-37.5 shrink-0 items-center justify-center opacity-70 grayscale transition-[opacity,filter,transform] duration-300 ease-out hover:-translate-y-0.5 hover:opacity-100 hover:drop-shadow-md hover:grayscale-0"
 												tabindex={isDuplicate ? -1 : undefined}
 											>
-												{image ? (
+												{partner.logo && dimensions ? (
 													<Image
-														src={image}
+														src={partner.logo}
 														alt={partner.name[lang]}
+														width={dimensions.width}
+														height={dimensions.height}
 														class="h-12 max-w-full object-contain"
 														loading="lazy"
-														decoding="async"
-														height={48}
 													/>
 												) : (
 													<span class="text-foreground/60 px-4 text-sm font-medium">
