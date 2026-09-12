@@ -52,11 +52,11 @@ msgstr "Всі права захищено"
 
 #: src/components/homepage/IndustriesSection.astro:33
 msgid "Checkweighers and inspection systems meeting FDA, IFS, BRC, and GMP standards — engineered for Ukrainian manufacturers."
-msgstr "Чеквейєри та системи інспекції відповідно до стандартів FDA, IFS, BRC та GMP — розроблені для українських виробників."
+msgstr "Чеквейєри та системи контролю якості, які відповідають стандартам FDA, IFS, BRC та GMP — розроблені для українських виробників."
 
 #: src/components/homepage/PartnersSection.astro:169
 msgid "Client Retention"
-msgstr "Утримання клієнтів"
+msgstr "Лояльність клієнтів"
 
 #: src/components/homepage/StatsSection.astro:12
 msgid "Clients"
@@ -80,7 +80,7 @@ msgstr "Динамічні чеквейєри та системи Track & Trace 
 
 #: src/components/homepage/IndustriesSection.astro:89
 msgid "Explore industry-specific solutions"
-msgstr "Дізнайтеся про галузеві рішення"
+msgstr "Перегляньте рішення для вашої галузі"
 
 #: src/components/homepage/IndustriesSection.astro:46
 msgid "Food & Beverage"
@@ -100,11 +100,11 @@ msgstr "Швидкісні чеквейєри для складів та цен�
 
 #: src/components/homepage/IndustriesSection.astro:47
 msgid "Hygienic checkweighers meeting food safety standards (FDA, IFS, BRC). Built for production lines."
-msgstr "Гігієнічні чеквейєри відповідно до стандартів харчової безпеки (FDA, IFS, BRC). Створені для виробничих ліній."
+msgstr "Гігієнічні чеквейєри, які відповідають стандартам харчової безпеки (FDA, IFS, BRC). Створені для виробничих ліній."
 
 #: src/components/homepage/HeroSection.astro:21
 msgid "Industrial Checkweigher Systems"
-msgstr "Промислові системи чеквейєрів"
+msgstr "Промислові системи зважування"
 
 #: src/components/Header.astro:18
 msgid "Industries"
@@ -112,7 +112,7 @@ msgstr "Галузі"
 
 #: src/components/homepage/IndustriesSection.astro:22
 msgid "Industries We Serve"
-msgstr "Галузі, які ми обслуговуємо"
+msgstr "Галузі, з якими ми працюємо"
 
 #: src/components/homepage/PartnersSection.astro:133
 msgid "Installations"
@@ -141,7 +141,7 @@ msgstr "OS-Technology Україна"
 
 #: src/pages/[lang]/index.astro:26
 msgid "OS-Technology Ukraine | Checkweighers & Inspection Systems"
-msgstr "OS-Technology Україна | Чеквейєри та системи інспекції"
+msgstr "OS-Technology Україна | Чеквейєри та системи контролю якості"
 
 #: src/components/homepage/HeroSection.astro:53
 msgid "Official Mesutronic Partner"
@@ -161,7 +161,7 @@ msgstr "Фармацевтика"
 
 #: src/components/homepage/IndustriesSection.astro:59
 msgid "Precision checkweighers with Track & Trace serialization. GMP-compliant and audit-ready."
-msgstr "Прецизійні чеквейєри з серіалізацією Track & Trace. Відповідають GMP та готові до аудиту."
+msgstr "Високоточні чеквейєри з серіалізацією Track & Trace. Відповідають стандарту GMP та готові до аудиту."
 
 #: src/components/Footer.astro:25
 msgid "Privacy Policy"
@@ -173,7 +173,7 @@ msgstr "Продукція"
 
 #: src/components/homepage/IndustriesSection.astro:71
 msgid "Quality control and filling inspection systems."
-msgstr "Системи контролю якості та інспекції наповнення."
+msgstr "Системи контролю якості та перевірки наповнення."
 
 #: src/components/Header.astro:17
 msgid "Solutions"
@@ -185,7 +185,7 @@ msgstr "Рішення для кожної галузі"
 
 #: src/components/homepage/PartnersSection.astro:62
 msgid "Supplying and servicing precision weighing equipment for major food, pharmaceutical, and chemical companies since 2013."
-msgstr "Постачаємо та обслуговуємо прецизійне вагове обладнання для провідних харчових, фармацевтичних та хімічних компаній з 2013 року."
+msgstr "Поставляємо та обслуговуємо високоточне вагове обладнання для провідних харчових, фармацевтичних та хімічних компаній з 2013 року."
 
 #: src/components/homepage/StatsSection.astro:14
 msgid "Systems Installed"
