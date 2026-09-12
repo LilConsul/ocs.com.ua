@@ -70,6 +70,8 @@ repos:
         types: [javascript, jsx, ts, tsx, json, css]
         pass_filenames: false
         files: ^application/frontend/
+        exclude: ^application/frontend/(tina/tina-lock\.json|public/admin/\.gitignore)$
+
 
       - id: biome-ci-frontend
         name: "[FE] Biome CI"
@@ -79,4 +81,5 @@ repos:
         types: [javascript, jsx, ts, tsx, json, css]
         pass_filenames: false
         files: ^application/frontend/
+        exclude: ^application/frontend/(tina/tina-lock\.json|public/admin/\.gitignore)$
         stages: [pre-push]
