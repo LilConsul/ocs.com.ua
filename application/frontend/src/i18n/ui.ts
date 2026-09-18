@@ -12,7 +12,7 @@
  * - locales/ua.po (Ukrainian translations)
  *
  * Generation script: scripts/i18n-compile.js
- * Generated: 2026-09-18T11:06:29.037Z
+ * Generated: 2026-09-18T17:12:35.332Z
  */
 
 export const languages = {
@@ -33,12 +33,14 @@ export const ui = {
 		"inline.checkweighers_and_inspection_systems_meeting_fda_ifs_brc_and_gmp_standards_engin": "Checkweighers and inspection systems meeting FDA, IFS, BRC, and GMP standards — engineered for Ukrainian manufacturers.",
 		"inline.client_retention": "Client Retention",
 		"inline.clients": "Clients",
+		"inline.close_filters": "Close filters",
 		"inline.contact_us": "Contact Us",
 		"inline.cosmetics": "Cosmetics",
 		"inline.dynamic_checkweighers_and_track_trace_systems_for_food_pharmaceutical_and_logist": "Dynamic checkweighers and Track & Trace systems for food, pharmaceutical, and logistics industries in Ukraine. Official Wipotec partner.",
 		"inline.dynamic_checkweighers_weighing_systems": "Dynamic Checkweighers & Weighing Systems",
 		"inline.equipment_categories": "Equipment Categories",
 		"inline.explore_industry_specific_solutions": "Explore industry-specific solutions",
+		"inline.filters": "Filters",
 		"inline.food_beverage": "Food & Beverage",
 		"inline.german_precision_ukrainian_support": "German Precision. Ukrainian Support.",
 		"inline.hello_world": "Hello, world",
@@ -55,6 +57,7 @@ export const ui = {
 		"inline.no_products_available_in_this_category": "No products available in this category",
 		"inline.official_mesutronic_partner": "Official Mesutronic Partner",
 		"inline.official_wipotec_partner": "Official Wipotec Partner",
+		"inline.open_filters": "Open filters",
 		"inline.os_technology_ukraine": "OS-Technology Ukraine",
 		"inline.os_technology_ukraine_checkweighers_inspection_systems": "OS-Technology Ukraine | Checkweighers & Inspection Systems",
 		"inline.our_clients": "Our Clients",
@@ -88,12 +91,14 @@ export const ui = {
 		"inline.checkweighers_and_inspection_systems_meeting_fda_ifs_brc_and_gmp_standards_engin": "Чеквейєри та системи контролю якості, які відповідають стандартам FDA, IFS, BRC та GMP — розроблені для українських виробників.",
 		"inline.client_retention": "Лояльність клієнтів",
 		"inline.clients": "Клієнтів",
+		"inline.close_filters": "Закрити фільтри",
 		"inline.contact_us": "Зв'яжіться з нами",
 		"inline.cosmetics": "Косметика",
 		"inline.dynamic_checkweighers_and_track_trace_systems_for_food_pharmaceutical_and_logist": "Динамічні чеквейєри та системи Track & Trace для харчової, фармацевтичної та логістичної промисловості України. Офіційний партнер Wipotec.",
 		"inline.dynamic_checkweighers_weighing_systems": "Динамічні чеквейєри та вагові системи",
 		"inline.equipment_categories": "Категорії обладнання",
 		"inline.explore_industry_specific_solutions": "Перегляньте рішення для вашої галузі",
+		"inline.filters": "Фільтри",
 		"inline.food_beverage": "Харчова промисловість",
 		"inline.german_precision_ukrainian_support": "Німецька точність. Українська підтримка.",
 		"inline.hello_world": "Привіт, світ",
@@ -110,6 +115,7 @@ export const ui = {
 		"inline.no_products_available_in_this_category": "Немає доступних товарів у цій категорії",
 		"inline.official_mesutronic_partner": "Офіційний партнер Mesutronic",
 		"inline.official_wipotec_partner": "Офіційний партнер Wipotec",
+		"inline.open_filters": "Відкрити фільтри",
 		"inline.os_technology_ukraine": "OS-Technology Україна",
 		"inline.os_technology_ukraine_checkweighers_inspection_systems": "OS-Technology Україна | Чеквейєри та системи контролю якості",
 		"inline.our_clients": "Наші клієнти",

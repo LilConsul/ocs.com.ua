@@ -14,7 +14,7 @@
 # - Running "bun run i18n:extract" will add new strings but keep existing translations
 #
 # Generation script: scripts/i18n-extract-po.js
-# Last updated: 2026-09-18 11:06:00+0000
+# Last updated: 2026-09-18 17:11:49+0000
 #
 # Copyright (C) 2026 OS-Technology Ukraine
 # This file is distributed under the same license as the OS-Technology project.
@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OS-Technology Frontend 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-18 11:06:00+0000\n"
-"PO-Revision-Date: 2026-09-18 11:06:00+0000\n"
+"POT-Creation-Date: 2026-09-18 17:11:49+0000\n"
+"PO-Revision-Date: 2026-09-18 17:11:49+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ua\n"
 "Language-Team: ua <LL@li.org>\n"
@@ -34,7 +34,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: i18n-extract\n"
 
-#: src/components/Header.astro:19
+#: src/components/Header.astro:20
 msgid "About Us"
 msgstr "Про нас"
 
@@ -50,11 +50,11 @@ msgstr "Всі галузі"
 msgid "All rights reserved"
 msgstr "Всі права захищено"
 
-#: src/components/Header.astro:16
+#: src/components/Header.astro:17
 msgid "Catalogue"
 msgstr "Каталог"
 
-#: src/components/catalogue/CatalogueSidebar.astro:24
+#: src/components/catalogue/CatalogueSidebar.astro:55
 msgid "Catalogue Filters"
 msgstr "Фільтри каталогу"
 
@@ -69,6 +69,10 @@ msgstr "Лояльність клієнтів"
 #: src/components/homepage/StatsSection.astro:12
 msgid "Clients"
 msgstr "Клієнтів"
+
+#: src/components/catalogue/CatalogueSidebar.astro:48
+msgid "Close filters"
+msgstr "Закрити фільтри"
 
 #: src/components/homepage/HeroSection.astro:82
 msgid "Contact Us"
@@ -86,13 +90,17 @@ msgstr "Динамічні чеквейєри та вагові системи"
 msgid "Dynamic checkweighers and Track & Trace systems for food, pharmaceutical, and logistics industries in Ukraine. Official Wipotec partner."
 msgstr "Динамічні чеквейєри та системи Track & Trace для харчової, фармацевтичної та логістичної промисловості України. Офіційний партнер Wipotec."
 
-#: src/components/catalogue/CatalogueSidebar.astro:33
+#: src/components/catalogue/CatalogueSidebar.astro:64
 msgid "Equipment Categories"
 msgstr "Категорії обладнання"
 
 #: src/components/homepage/IndustriesSection.astro:89
 msgid "Explore industry-specific solutions"
 msgstr "Перегляньте рішення для вашої галузі"
+
+#: src/components/catalogue/CatalogueSidebar.astro:26
+msgid "Filters"
+msgstr "Фільтри"
 
 #: src/components/homepage/IndustriesSection.astro:46
 msgid "Food & Beverage"
@@ -118,7 +126,7 @@ msgstr "Гігієнічні чеквейєри, які відповідають
 msgid "Industrial Checkweigher Systems"
 msgstr "Промислові системи зважування"
 
-#: src/components/Header.astro:17
+#: src/components/Header.astro:18
 msgid "Industries"
 msgstr "Галузі"
 
@@ -130,7 +138,7 @@ msgstr "Галузі, з якими ми працюємо"
 msgid "Installations"
 msgstr "Встановлень"
 
-#: src/components/Header.astro:110
+#: src/components/Header.astro:125
 msgid "Language"
 msgstr "Мова"
 
@@ -167,6 +175,10 @@ msgstr "Офіційний партнер Mesutronic"
 msgid "Official Wipotec Partner"
 msgstr "Офіційний партнер Wipotec"
 
+#: src/components/catalogue/CatalogueSidebar.astro:23
+msgid "Open filters"
+msgstr "Відкрити фільтри"
+
 #: src/components/homepage/PartnersSection.astro:53
 msgid "Our Clients"
 msgstr "Наші клієнти"
@@ -191,7 +203,7 @@ msgstr "Продукція"
 msgid "Quality control and filling inspection systems."
 msgstr "Системи контролю якості та перевірки наповнення."
 
-#: src/components/catalogue/CatalogueSidebar.astro:69
+#: src/components/catalogue/CatalogueSidebar.astro:100
 msgid "Request Full Specs"
 msgstr "Запитати повні характеристики"
 
@@ -211,11 +223,11 @@ msgstr "Встановлених систем"
 msgid "Systems operating across Ukrainian manufacturing facilities."
 msgstr "Системи працюють на виробничих підприємствах по всій Україні."
 
-#: src/components/catalogue/ProductCard.astro:68
+#: src/components/catalogue/ProductCard.astro:71
 msgid "Technical Details"
 msgstr "Технічні деталі"
 
-#: src/components/catalogue/CatalogueSidebar.astro:27
+#: src/components/catalogue/CatalogueSidebar.astro:58
 msgid "Technical Specs"
 msgstr "Технічні характеристики"
 
@@ -235,7 +247,7 @@ msgstr "Нам довіряють провідні виробники Украї
 msgid "View Products"
 msgstr "Переглянути продукцію"
 
-#: src/components/Header.astro:18
+#: src/components/Header.astro:19
 msgid "Wiki"
 msgstr "База знань"
 
