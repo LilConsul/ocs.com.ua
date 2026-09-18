@@ -13,6 +13,15 @@ const { currentLang, currentPath } = Astro.props;
 const lang: Lang = currentLang;
 const _ = getInlineTranslations(lang);
 
+// Helper to swap language in current path
+const getLanguagePath = (targetLang: string) => {
+	if (!currentPath) return `/${targetLang}`;
+	// Replace the language code at the start of the path
+	// e.g., /en/catalogue/checkweighers -> /ua/catalogue/checkweighers
+	const pathWithoutLang = currentPath.replace(/^\/(en|ua)/, '');
+	return `/${targetLang}${pathWithoutLang}`;
+};
+
 const navLinks = [
 	{ href: `/${lang}/catalogue/checkweighers`, label: _("Catalogue"), pattern: "/catalogue" },
 	{ href: `/${lang}/catalogue`, label: _("Industries"), pattern: "/industries" },
@@ -72,7 +81,7 @@ const isActive = (pattern: string) => {
 				{
 					languageOptions.map((langOption) => (
 						<a
-							href={langOption.code === lang ? "#" : `/${langOption.code}`}
+							href={getLanguagePath(langOption.code)}
 							class={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-all duration-200 ${
 								lang === langOption.code
 									? "bg-primary text-primary-foreground shadow-sm"
@@ -126,7 +135,7 @@ const isActive = (pattern: string) => {
 				{
 					languageOptions.map((langOption) => (
 						<a
-							href={langOption.code === lang ? "#" : `/${langOption.code}`}
+							href={getLanguagePath(langOption.code)}
 							class={`flex w-full items-center gap-3 rounded-lg px-3 py-2 transition-colors ${
 								lang === langOption.code ? "bg-accent text-accent-foreground" : "hover:bg-accent/50"
 							}`}

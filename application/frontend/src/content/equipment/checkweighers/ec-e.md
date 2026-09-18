@@ -1,6 +1,7 @@
 ---
 en-title: EC-E Checkweigher
 ua-title: Чеквейєр EC-E
+order: 3
 industries:
   - food-beverage
   - general

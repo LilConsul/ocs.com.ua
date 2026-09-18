@@ -1,6 +1,7 @@
 ---
 en-title: HC-A Checkweigher
 ua-title: Чеквейєр HC-A
+order: 1
 industries:
   - food-beverage
   - pharmaceutical

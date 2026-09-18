@@ -249,7 +249,7 @@ msgstr "Переглянути продукцію"
 
 #: src/components/Header.astro:19
 msgid "Wiki"
-msgstr "База знань"
+msgstr "Wiki"
 
 #: src/components/homepage/StatsSection.astro:13
 msgid "Years in Ukraine"

@@ -18,6 +18,8 @@ const productSchema = z.object({
 	"ua-title": z.string(),
 	"en-description": z.string(),
 	"ua-description": z.string(),
+	// Display order (lower numbers appear first)
+	order: z.number().optional(),
 	// Media files stored in public/assets/ (as string paths)
 	gallery: z.array(z.string()).min(1).max(10), // First image is hero
 	datasheet: z.string().optional(),

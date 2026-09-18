@@ -12,7 +12,7 @@
  * - locales/ua.po (Ukrainian translations)
  *
  * Generation script: scripts/i18n-compile.js
- * Generated: 2026-09-18T17:12:35.332Z
+ * Generated: 2026-09-18T17:37:47.722Z
  */
 
 export const languages = {
@@ -135,7 +135,7 @@ export const ui = {
 		"inline.terms_of_service": "Умови використання",
 		"inline.trusted_by_ukraine_s_leading_manufacturers": "Нам довіряють провідні виробники України",
 		"inline.view_products": "Переглянути продукцію",
-		"inline.wiki": "База знань",
+		"inline.wiki": "Wiki",
 		"inline.years_in_ukraine": "Років в Україні",
 		"inline.years_of_experience": "Років досвіду",
 	},

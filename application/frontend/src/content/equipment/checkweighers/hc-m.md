@@ -1,6 +1,7 @@
 ---
 en-title: HC-M Checkweigher
 ua-title: Чеквейєр HC-M
+order: 2
 industries:
   - food-beverage
   - pharmaceutical
