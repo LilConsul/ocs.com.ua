@@ -8,10 +8,10 @@ industries:
 en-description: Reliable checkweigher for fully automatic weight control and data acquisition. Capable of 150 weight values per minute with intuitive 8-inch touchscreen operation.
 ua-description: Надійний чеквейєр для повністю автоматичного контролю ваги та збору даних. Здатний виконувати 150 вимірювань ваги на хвилину з інтуїтивним управлінням через 8-дюймовий сенсорний екран.
 gallery:
-  - /assets/equipment/checkweighers/ec-e/csm_checkweigher-ec-e-left_b64a401e9a.webp
-  - /assets/equipment/checkweighers/ec-e/csm_checkweigher-ec-e-front_03ef4b6a1d.webp
-  - /assets/equipment/checkweighers/ec-e/csm_checkweigher-ec-e-right_40e479f487.webp
-datasheet: /assets/equipment/checkweighers/ec-e/datasheet.pdf
+  - /assets/equipment/ec-e/csm_checkweigher-ec-e-left_b64a401e9a.webp
+  - /assets/equipment/ec-e/csm_checkweigher-ec-e-front_03ef4b6a1d.webp
+  - /assets/equipment/ec-e/csm_checkweigher-ec-e-right_40e479f487.webp
+datasheet: /assets/equipment/ec-e/datasheet.pdf
 specs:
   - en-label: Max Speed
     ua-label: Макс. швидкість

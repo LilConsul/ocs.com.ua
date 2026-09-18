@@ -9,10 +9,10 @@ industries:
 en-description: Flexible checkweighers for medium performance ranges. The link between EC-E and HC-A series, providing up to 250 weight values per minute for mid-range checkweighing applications.
 ua-description: Гнучкі чеквейєри для середніх діапазонів продуктивності. Зв'язок між серіями EC-E та HC-A, забезпечує до 250 вимірювань ваги на хвилину для застосувань середнього діапазону.
 gallery:
-  - /assets/equipment/checkweighers/hc-m/csm_checkweigher-hc-m-left_51bfea9ea2.webp
-  - /assets/equipment/checkweighers/hc-m/csm_checkweigher-hc-m-front_aa34489ed7.webp
-  - /assets/equipment/checkweighers/hc-m/csm_checkweigher-hc-m-right_efe164ce5c.webp
-datasheet: /assets/equipment/checkweighers/hc-m/datasheet.pdf
+  - /assets/equipment/hc-m/csm_checkweigher-hc-m-left_51bfea9ea2.webp
+  - /assets/equipment/hc-m/csm_checkweigher-hc-m-front_aa34489ed7.webp
+  - /assets/equipment/hc-m/csm_checkweigher-hc-m-right_efe164ce5c.webp
+datasheet: /assets/equipment/hc-m/datasheet.pdf
 specs:
   - en-label: Max Speed
     ua-label: Макс. швидкість

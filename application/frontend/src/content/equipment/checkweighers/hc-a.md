@@ -9,10 +9,10 @@ industries:
 en-description: High-speed checkweighers for maximum performance. Provides up to 600 weight values per minute with 100% product monitoring for demanding high-speed weighing requirements.
 ua-description: Високошвидкісні чеквейєри для максимальної продуктивності. Забезпечує до 600 вимірювань ваги на хвилину зі 100% моніторингом продукції для вимогливих високошвидкісних вимог до зважування.
 gallery:
-  - /assets/equipment/checkweighers/hc-a/csm_checkweigher-hc-a-right_a7ab8c2ea6.webp
-  - /assets/equipment/checkweighers/hc-a/csm_checkweigher-hc-a-front_d6527f5b5a.webp
-  - /assets/equipment/checkweighers/hc-a/csm_checkweigher-hc-a-left_777170ec62.webp
-datasheet: /assets/equipment/checkweighers/hc-a/datasheet.pdf
+  - /assets/equipment/hc-a/csm_checkweigher-hc-a-right_a7ab8c2ea6.webp
+  - /assets/equipment/hc-a/csm_checkweigher-hc-a-front_d6527f5b5a.webp
+  - /assets/equipment/hc-a/csm_checkweigher-hc-a-left_777170ec62.webp
+datasheet: /assets/equipment/hc-a/datasheet.pdf
 specs:
   - en-label: Max Speed
     ua-label: Макс. швидкість
