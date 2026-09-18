@@ -14,7 +14,7 @@
 # - Running "bun run i18n:extract" will add new strings but keep existing translations
 #
 # Generation script: scripts/i18n-extract-po.js
-# Last updated: 2026-09-18 10:31:33+0000
+# Last updated: 2026-09-18 11:06:00+0000
 #
 # Copyright (C) 2026 OS-Technology Ukraine
 # This file is distributed under the same license as the OS-Technology project.
@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OS-Technology Frontend 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-18 10:31:33+0000\n"
-"PO-Revision-Date: 2026-09-18 10:31:33+0000\n"
+"POT-Creation-Date: 2026-09-18 11:06:00+0000\n"
+"PO-Revision-Date: 2026-09-18 11:06:00+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ua\n"
 "Language-Team: ua <LL@li.org>\n"
@@ -35,7 +35,7 @@ msgstr ""
 "Generated-By: i18n-extract\n"
 
 #: src/components/Header.astro:19
-msgid "About"
+msgid "About Us"
 msgstr "Про нас"
 
 #: src/components/homepage/HeroSection.astro:70
@@ -50,7 +50,11 @@ msgstr "Всі галузі"
 msgid "All rights reserved"
 msgstr "Всі права захищено"
 
-#: src/components/catalogue/CatalogueSidebar.astro:22
+#: src/components/Header.astro:16
+msgid "Catalogue"
+msgstr "Каталог"
+
+#: src/components/catalogue/CatalogueSidebar.astro:24
 msgid "Catalogue Filters"
 msgstr "Фільтри каталогу"
 
@@ -82,7 +86,7 @@ msgstr "Динамічні чеквейєри та вагові системи"
 msgid "Dynamic checkweighers and Track & Trace systems for food, pharmaceutical, and logistics industries in Ukraine. Official Wipotec partner."
 msgstr "Динамічні чеквейєри та системи Track & Trace для харчової, фармацевтичної та логістичної промисловості України. Офіційний партнер Wipotec."
 
-#: src/components/catalogue/CatalogueSidebar.astro:26
+#: src/components/catalogue/CatalogueSidebar.astro:33
 msgid "Equipment Categories"
 msgstr "Категорії обладнання"
 
@@ -114,7 +118,7 @@ msgstr "Гігієнічні чеквейєри, які відповідають
 msgid "Industrial Checkweigher Systems"
 msgstr "Промислові системи зважування"
 
-#: src/components/Header.astro:18
+#: src/components/Header.astro:17
 msgid "Industries"
 msgstr "Галузі"
 
@@ -143,7 +147,7 @@ msgstr "Логістика та дистрибуція"
 msgid "Long-term partnerships built on reliable support."
 msgstr "Довгострокові партнерства, побудовані на надійній підтримці."
 
-#: src/pages/[lang]/catalogue/[category]/index.astro:75
+#: src/pages/[lang]/catalogue/[category]/index.astro:76
 msgid "No products available in this category"
 msgstr "Немає доступних товарів у цій категорії"
 
@@ -179,8 +183,7 @@ msgstr "Високоточні чеквейєри з серіалізацією 
 msgid "Privacy Policy"
 msgstr "Політика конфіденційності"
 
-#: src/components/Header.astro:16
-#: src/pages/[lang]/catalogue/[category]/index.astro:65
+#: src/pages/[lang]/catalogue/[category]/index.astro:66
 msgid "Products"
 msgstr "Продукція"
 
@@ -188,13 +191,9 @@ msgstr "Продукція"
 msgid "Quality control and filling inspection systems."
 msgstr "Системи контролю якості та перевірки наповнення."
 
-#: src/components/catalogue/CatalogueSidebar.astro:64
+#: src/components/catalogue/CatalogueSidebar.astro:69
 msgid "Request Full Specs"
 msgstr "Запитати повні характеристики"
-
-#: src/components/Header.astro:17
-msgid "Solutions"
-msgstr "Рішення"
 
 #: src/components/homepage/IndustriesSection.astro:29
 msgid "Solutions for Every Industry"
@@ -212,9 +211,13 @@ msgstr "Встановлених систем"
 msgid "Systems operating across Ukrainian manufacturing facilities."
 msgstr "Системи працюють на виробничих підприємствах по всій Україні."
 
-#: src/components/catalogue/ProductCard.astro:90
+#: src/components/catalogue/ProductCard.astro:68
 msgid "Technical Details"
 msgstr "Технічні деталі"
+
+#: src/components/catalogue/CatalogueSidebar.astro:27
+msgid "Technical Specs"
+msgstr "Технічні характеристики"
 
 #: src/components/homepage/PartnersSection.astro:154
 msgid "Technical expertise and service support since 2013."
@@ -231,6 +234,10 @@ msgstr "Нам довіряють провідні виробники Украї
 #: src/components/homepage/HeroSection.astro:103
 msgid "View Products"
 msgstr "Переглянути продукцію"
+
+#: src/components/Header.astro:18
+msgid "Wiki"
+msgstr "База знань"
 
 #: src/components/homepage/StatsSection.astro:13
 msgid "Years in Ukraine"
