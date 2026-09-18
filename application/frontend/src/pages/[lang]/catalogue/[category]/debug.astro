@@ -14,12 +14,8 @@ export async function getStaticPaths() {
 		);
 
 		// Separate categories from products
-		const allCategories = allEquipment.filter((item) =>
-			item.id.includes("/index")
-		);
-		const allProducts = allEquipment.filter(
-			(item) => !item.id.includes("/index")
-		);
+		const allCategories = allEquipment.filter((item) => item.id.includes("/index"));
+		const allProducts = allEquipment.filter((item) => !item.id.includes("/index"));
 
 		console.log("Categories:", allCategories.length);
 		console.log("Products:", allProducts.length);
@@ -36,9 +32,7 @@ export async function getStaticPaths() {
 				return folder === categorySlug;
 			});
 
-			console.log(
-				`Category ${categorySlug}: ${categoryProducts.length} products`
-			);
+			console.log(`Category ${categorySlug}: ${categoryProducts.length} products`);
 
 			return ["en", "ua"].map((lang) => ({
 				params: { lang, category: categorySlug },

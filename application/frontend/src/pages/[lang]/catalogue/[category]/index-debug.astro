@@ -8,17 +8,15 @@ export async function getStaticPaths() {
 		console.log("Total equipment items:", allEquipment.length);
 
 		// Log all IDs
-		allEquipment.forEach(item => {
+		allEquipment.forEach((item) => {
 			console.log(`  - ${item.id}`);
 			console.log(`    Has en-label: ${"en-label" in item.data}`);
 			console.log(`    Has en-title: ${"en-title" in item.data}`);
 		});
 
 		// Type guard functions
-		const isCategory = (item: any) =>
-			item.id.includes("/index") && "en-label" in item.data;
-		const isProduct = (item: any) =>
-			!item.id.includes("/index") && "en-title" in item.data;
+		const isCategory = (item: any) => item.id.includes("/index") && "en-label" in item.data;
+		const isProduct = (item: any) => !item.id.includes("/index") && "en-title" in item.data;
 
 		// Separate categories (index files) from products
 		const allCategories = allEquipment.filter(isCategory);

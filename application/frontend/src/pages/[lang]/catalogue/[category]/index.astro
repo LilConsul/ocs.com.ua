@@ -1,10 +1,10 @@
 ---
 import { getCollection } from "astro:content";
-import Layout from "@/layouts/Layout.astro";
 import CatalogueSidebar from "@/components/catalogue/CatalogueSidebar.astro";
 import CategoryHeader from "@/components/catalogue/CategoryHeader.astro";
 import ProductCard from "@/components/catalogue/ProductCard.astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
+import Layout from "@/layouts/Layout.astro";
 
 export async function getStaticPaths() {
 	const allEquipment = await getCollection("equipment");
@@ -40,8 +40,7 @@ export async function getStaticPaths() {
 	});
 }
 
-const { categoryData, categorySlug, products, allCategories, lang } =
-	Astro.props;
+const { categoryData, categorySlug, products, allCategories, lang } = Astro.props;
 const _ = getInlineTranslations(lang as Lang);
 
 // Page metadata

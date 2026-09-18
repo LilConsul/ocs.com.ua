@@ -19,8 +19,12 @@ const sortedCategories = allCategories.sort(
 <aside class="hidden lg:flex w-72 flex-shrink-0 sticky top-24 h-fit">
 	<div class="w-full py-8 px-4 bg-white border border-border-subtle rounded-lg">
 		<h2 class="font-heading text-lg font-bold text-primary mb-4 px-4">
-			{_("Equipment Categories")}
+			{_("Catalogue Filters")}
 		</h2>
+
+		<p class="text-xs text-industrial-gray uppercase tracking-wider mb-3 px-4">
+			{_("Equipment Categories")}
+		</p>
 
 		<nav aria-label="Category navigation" class="space-y-1">
 			{
@@ -43,7 +47,7 @@ const sortedCategories = allCategories.sort(
 							<span class="material-symbols-outlined text-[20px]">
 								{icon}
 							</span>
-							<span class="text-sm font-medium uppercase tracking-wide">
+							<span class="font-label-caps text-label-caps">
 								{label}
 							</span>
 						</a>

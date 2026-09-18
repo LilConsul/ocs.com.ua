@@ -14,7 +14,6 @@ const title = product.data[`${lang}-title`];
 const description = product.data[`${lang}-description`];
 const specs = product.data.specs?.slice(0, 3) || []; // Max 3 specs, handle undefined
 const firstImage = product.data.gallery?.[0] || "/placeholder.jpg";
-const industries = product.data.industries || [];
 
 // Build product URL
 const categorySlug = product.id.split("/")[0];
@@ -38,25 +37,12 @@ const productUrl = `/${lang}/catalogue/${categorySlug}/${productSlug}`;
 
 	<!-- Content -->
 	<div class="p-6 flex flex-col flex-1">
-		<h3 class="font-heading text-xl font-semibold text-primary mb-2">
+		<h3 class="font-headline-lg text-headline-lg text-secondary mb-2 text-[20px]">
 			{title}
 		</h3>
-		<p class="text-sm text-industrial-gray mb-4 line-clamp-2">
+		<p class="font-body-md text-body-md text-industrial-gray text-sm mb-4 line-clamp-2">
 			{description}
 		</p>
-
-		<!-- Industry tags -->
-		{
-			industries.length > 0 && (
-				<div class="flex flex-wrap gap-2 mb-6">
-					{industries.map((industry: string) => (
-						<span class="px-2 py-1 bg-surface-container text-industrial-gray text-xs rounded">
-							{industry}
-						</span>
-					))}
-				</div>
-			)
-		}
 
 		<!-- Specs grid -->
 		{
@@ -72,7 +58,7 @@ const productUrl = `/${lang}/catalogue/${categorySlug}/${productSlug}`;
 								<p class="text-[10px] text-industrial-gray uppercase tracking-wider mb-1">
 									{spec[`${lang}-label`]}
 								</p>
-								<p class="font-mono text-sm font-medium text-primary">
+								<p class="font-technical-data text-technical-data text-secondary">
 									{spec.value}
 								</p>
 							</div>
@@ -85,7 +71,7 @@ const productUrl = `/${lang}/catalogue/${categorySlug}/${productSlug}`;
 		<!-- CTA -->
 		<a
 			href={productUrl}
-			class="w-full bg-white border border-border-subtle text-primary py-2.5 rounded text-sm font-medium hover:bg-surface-container transition-colors flex items-center justify-center gap-2 group-hover:border-primary mt-auto"
+			class="w-full bg-white border border-border-subtle text-secondary py-2.5 rounded text-sm font-medium hover:bg-surface-container transition-colors flex items-center justify-center gap-2 group-hover:border-secondary mt-auto"
 		>
 			{_("Technical Details")}
 			<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
