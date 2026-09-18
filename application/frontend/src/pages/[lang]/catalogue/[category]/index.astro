@@ -1,0 +1,75 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import CatalogueSidebar from "@/components/catalogue/CatalogueSidebar.astro";
+import CategoryHeader from "@/components/catalogue/CategoryHeader.astro";
+import ProductCard from "@/components/catalogue/ProductCard.astro";
+import { getInlineTranslations, type Lang } from "@/i18n";
+
+export async function getStaticPaths() {
+	const allCategories = await getCollection("categories");
+	const allEquipment = await getCollection("equipment");
+
+	return allCategories.flatMap((category) => {
+		const categorySlug = category.id;
+
+		// Filter products in this category (exclude index.md)
+		const categoryProducts = allEquipment.filter((item) => {
+			const folder = item.id.split("/")[0];
+			return folder === categorySlug && !item.id.endsWith("index.md");
+		});
+
+		return ["en", "ua"].map((lang) => ({
+			params: { lang, category: categorySlug },
+			props: {
+				categoryData: category.data,
+				categorySlug,
+				products: categoryProducts,
+				allCategories, // For sidebar
+				lang,
+			},
+		}));
+	});
+}
+
+const { categoryData, categorySlug, products, allCategories, lang } =
+	Astro.props;
+const _ = getInlineTranslations(lang as Lang);
+
+// Page metadata
+const pageTitle = `${categoryData[`${lang}-label`]} | OS-Technology`;
+const pageDescription = categoryData[`${lang}-description`];
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+	<div class="max-w-[1280px] mx-auto px-8 py-12 flex gap-8">
+		<!-- Sidebar Navigation -->
+		<CatalogueSidebar
+			allCategories={allCategories}
+			currentCategory={categorySlug}
+			lang={lang as Lang}
+		/>
+
+		<!-- Main Content -->
+		<main class="flex-1 min-w-0">
+			<CategoryHeader categoryData={categoryData} lang={lang as Lang} />
+
+			<!-- Products Grid -->
+			<section aria-label={_("Products")} class="pb-32">
+				{
+					products.length > 0 ? (
+						<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+							{products.map((product) => (
+								<ProductCard product={product} lang={lang as Lang} />
+							))}
+						</div>
+					) : (
+						<div class="text-center py-16 text-industrial-gray">
+							<p class="text-lg">{_("No products available in this category")}</p>
+						</div>
+					)
+				}
+			</section>
+		</main>
+	</div>
+</Layout>

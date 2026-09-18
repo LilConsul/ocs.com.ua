@@ -1,0 +1,28 @@
+---
+import type { Lang } from "@/i18n/utils";
+
+interface Props {
+	categoryData: {
+		"en-label": string;
+		"ua-label": string;
+		"en-description": string;
+		"ua-description": string;
+	};
+	lang: Lang;
+}
+
+const { categoryData, lang } = Astro.props;
+const title = categoryData[`${lang}-label`];
+const description = categoryData[`${lang}-description`];
+---
+
+<header class="mb-8 lg:mb-12">
+	<h1
+		class="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-primary mb-4"
+	>
+		{title}
+	</h1>
+	<p class="text-base md:text-lg text-industrial-gray max-w-3xl">
+		{description}
+	</p>
+</header>

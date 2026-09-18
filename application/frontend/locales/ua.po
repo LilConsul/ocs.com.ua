@@ -14,7 +14,7 @@
 # - Running "bun run i18n:extract" will add new strings but keep existing translations
 #
 # Generation script: scripts/i18n-extract-po.js
-# Last updated: 2026-09-12 19:06:59+0000
+# Last updated: 2026-09-18 10:12:08+0000
 #
 # Copyright (C) 2026 OS-Technology Ukraine
 # This file is distributed under the same license as the OS-Technology project.
@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OS-Technology Frontend 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-12 19:06:59+0000\n"
-"PO-Revision-Date: 2026-09-12 19:06:59+0000\n"
+"POT-Creation-Date: 2026-09-18 10:12:08+0000\n"
+"PO-Revision-Date: 2026-09-18 10:12:08+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ua\n"
 "Language-Team: ua <LL@li.org>\n"
@@ -77,6 +77,10 @@ msgstr "Динамічні чеквейєри та вагові системи"
 #: src/pages/[lang]/index.astro:27
 msgid "Dynamic checkweighers and Track & Trace systems for food, pharmaceutical, and logistics industries in Ukraine. Official Wipotec partner."
 msgstr "Динамічні чеквейєри та системи Track & Trace для харчової, фармацевтичної та логістичної промисловості України. Офіційний партнер Wipotec."
+
+#: src/components/catalogue/CatalogueSidebar.astro:22
+msgid "Equipment Categories"
+msgstr "Категорії обладнання"
 
 #: src/components/homepage/IndustriesSection.astro:89
 msgid "Explore industry-specific solutions"
@@ -135,6 +139,10 @@ msgstr "Логістика та дистрибуція"
 msgid "Long-term partnerships built on reliable support."
 msgstr "Довгострокові партнерства, побудовані на надійній підтримці."
 
+#: src/pages/[lang]/catalogue/[category]/index.astro:68
+msgid "No products available in this category"
+msgstr "Немає доступних товарів у цій категорії"
+
 #: src/components/Footer.astro:17
 msgid "OS-Technology Ukraine"
 msgstr "OS-Technology Україна"
@@ -168,12 +176,17 @@ msgid "Privacy Policy"
 msgstr "Політика конфіденційності"
 
 #: src/components/Header.astro:16
+#: src/pages/[lang]/catalogue/[category]/index.astro:58
 msgid "Products"
 msgstr "Продукція"
 
 #: src/components/homepage/IndustriesSection.astro:71
 msgid "Quality control and filling inspection systems."
 msgstr "Системи контролю якості та перевірки наповнення."
+
+#: src/components/catalogue/CatalogueSidebar.astro:58
+msgid "Request Full Specs"
+msgstr "Запитати повні характеристики"
 
 #: src/components/Header.astro:17
 msgid "Solutions"
@@ -194,6 +207,10 @@ msgstr "Встановлених систем"
 #: src/components/homepage/PartnersSection.astro:136
 msgid "Systems operating across Ukrainian manufacturing facilities."
 msgstr "Системи працюють на виробничих підприємствах по всій Україні."
+
+#: src/components/catalogue/ProductCard.astro:90
+msgid "Technical Details"
+msgstr "Технічні деталі"
 
 #: src/components/homepage/PartnersSection.astro:154
 msgid "Technical expertise and service support since 2013."

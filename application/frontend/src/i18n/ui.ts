@@ -12,7 +12,7 @@
  * - locales/ua.po (Ukrainian translations)
  *
  * Generation script: scripts/i18n-compile.js
- * Generated: 2026-09-12T20:32:09.619Z
+ * Generated: 2026-09-18T10:13:14.143Z
  */
 
 export const languages = {
@@ -35,6 +35,7 @@ export const ui = {
 		"inline.cosmetics": "Cosmetics",
 		"inline.dynamic_checkweighers_and_track_trace_systems_for_food_pharmaceutical_and_logist": "Dynamic checkweighers and Track & Trace systems for food, pharmaceutical, and logistics industries in Ukraine. Official Wipotec partner.",
 		"inline.dynamic_checkweighers_weighing_systems": "Dynamic Checkweighers & Weighing Systems",
+		"inline.equipment_categories": "Equipment Categories",
 		"inline.explore_industry_specific_solutions": "Explore industry-specific solutions",
 		"inline.food_beverage": "Food & Beverage",
 		"inline.german_precision_ukrainian_support": "German Precision. Ukrainian Support.",
@@ -49,6 +50,7 @@ export const ui = {
 		"inline.learn_more": "Learn More",
 		"inline.logistics_distribution": "Logistics & Distribution",
 		"inline.long_term_partnerships_built_on_reliable_support": "Long-term partnerships built on reliable support.",
+		"inline.no_products_available_in_this_category": "No products available in this category",
 		"inline.official_mesutronic_partner": "Official Mesutronic Partner",
 		"inline.official_wipotec_partner": "Official Wipotec Partner",
 		"inline.os_technology_ukraine": "OS-Technology Ukraine",
@@ -59,11 +61,13 @@ export const ui = {
 		"inline.privacy_policy": "Privacy Policy",
 		"inline.products": "Products",
 		"inline.quality_control_and_filling_inspection_systems": "Quality control and filling inspection systems.",
+		"inline.request_full_specs": "Request Full Specs",
 		"inline.solutions": "Solutions",
 		"inline.solutions_for_every_industry": "Solutions for Every Industry",
 		"inline.supplying_and_servicing_precision_weighing_equipment_for_major_food_pharmaceutic": "Supplying and servicing precision weighing equipment for major food, pharmaceutical, and chemical companies since 2013.",
 		"inline.systems_installed": "Systems Installed",
 		"inline.systems_operating_across_ukrainian_manufacturing_facilities": "Systems operating across Ukrainian manufacturing facilities.",
+		"inline.technical_details": "Technical Details",
 		"inline.technical_expertise_and_service_support_since_2013": "Technical expertise and service support since 2013.",
 		"inline.terms_of_service": "Terms of Service",
 		"inline.trusted_by_ukraine_s_leading_manufacturers": "Trusted by Ukraine's Leading Manufacturers",
@@ -83,6 +87,7 @@ export const ui = {
 		"inline.cosmetics": "Косметика",
 		"inline.dynamic_checkweighers_and_track_trace_systems_for_food_pharmaceutical_and_logist": "Динамічні чеквейєри та системи Track & Trace для харчової, фармацевтичної та логістичної промисловості України. Офіційний партнер Wipotec.",
 		"inline.dynamic_checkweighers_weighing_systems": "Динамічні чеквейєри та вагові системи",
+		"inline.equipment_categories": "Категорії обладнання",
 		"inline.explore_industry_specific_solutions": "Перегляньте рішення для вашої галузі",
 		"inline.food_beverage": "Харчова промисловість",
 		"inline.german_precision_ukrainian_support": "Німецька точність. Українська підтримка.",
@@ -97,6 +102,7 @@ export const ui = {
 		"inline.learn_more": "Дізнатися більше",
 		"inline.logistics_distribution": "Логістика та дистрибуція",
 		"inline.long_term_partnerships_built_on_reliable_support": "Довгострокові партнерства, побудовані на надійній підтримці.",
+		"inline.no_products_available_in_this_category": "Немає доступних товарів у цій категорії",
 		"inline.official_mesutronic_partner": "Офіційний партнер Mesutronic",
 		"inline.official_wipotec_partner": "Офіційний партнер Wipotec",
 		"inline.os_technology_ukraine": "OS-Technology Україна",
@@ -107,11 +113,13 @@ export const ui = {
 		"inline.privacy_policy": "Політика конфіденційності",
 		"inline.products": "Продукція",
 		"inline.quality_control_and_filling_inspection_systems": "Системи контролю якості та перевірки наповнення.",
+		"inline.request_full_specs": "Запитати повні характеристики",
 		"inline.solutions": "Рішення",
 		"inline.solutions_for_every_industry": "Рішення для кожної галузі",
 		"inline.supplying_and_servicing_precision_weighing_equipment_for_major_food_pharmaceutic": "Поставляємо та обслуговуємо високоточне вагове обладнання для провідних харчових, фармацевтичних та хімічних компаній з 2013 року.",
 		"inline.systems_installed": "Встановлених систем",
 		"inline.systems_operating_across_ukrainian_manufacturing_facilities": "Системи працюють на виробничих підприємствах по всій Україні.",
+		"inline.technical_details": "Технічні деталі",
 		"inline.technical_expertise_and_service_support_since_2013": "Технічна експертиза та сервісна підтримка з 2013 року.",
 		"inline.terms_of_service": "Умови використання",
 		"inline.trusted_by_ukraine_s_leading_manufacturers": "Нам довіряють провідні виробники України",

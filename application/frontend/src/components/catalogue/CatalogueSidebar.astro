@@ -1,0 +1,62 @@
+---
+import { getInlineTranslations, type Lang } from "@/i18n";
+
+interface Props {
+	allCategories: any[];
+	currentCategory: string;
+	lang: Lang;
+}
+
+const { allCategories, currentCategory, lang } = Astro.props;
+const _ = getInlineTranslations(lang);
+
+// Sort categories by order field (default 999)
+const sortedCategories = allCategories.sort(
+	(a, b) => (a.data.order || 999) - (b.data.order || 999)
+);
+---
+
+<aside class="hidden lg:flex w-72 flex-shrink-0 sticky top-24 h-fit">
+	<div class="w-full py-8 px-4 bg-white border border-border-subtle rounded-lg">
+		<h2 class="font-heading text-lg font-bold text-primary mb-4 px-4">
+			{_("Equipment Categories")}
+		</h2>
+
+		<nav aria-label="Category navigation" class="space-y-1">
+			{
+				sortedCategories.map((cat) => {
+					const isActive = cat.id === currentCategory;
+					const label = cat.data[`${lang}-label`];
+					const icon = cat.data.icon || "category";
+
+					return (
+						<a
+							href={`/${lang}/catalogue/${cat.id}`}
+							class={`flex items-center gap-3 py-3 px-4 rounded-lg transition-all cursor-pointer ${
+								isActive
+									? "bg-surface-bright text-secondary font-bold"
+									: "text-industrial-gray hover:bg-surface-container-high hover:translate-x-1"
+							}`}
+						>
+							<span class="material-symbols-outlined text-[20px]">
+								{icon}
+							</span>
+							<span class="text-sm font-medium uppercase tracking-wide">
+								{label}
+							</span>
+						</a>
+					);
+				})
+			}
+		</nav>
+
+		<div class="mt-8 pt-6 border-t border-border-subtle px-4">
+			<button
+				class="w-full border border-secondary text-secondary px-4 py-2.5 rounded hover:bg-secondary/5 transition-colors font-medium text-sm flex items-center justify-center gap-2"
+			>
+				<span class="material-symbols-outlined text-[18px]">download</span>
+				{_("Request Full Specs")}
+			</button>
+		</div>
+	</div>
+</aside>
