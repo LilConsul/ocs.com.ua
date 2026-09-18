@@ -16,13 +16,15 @@ const title = categoryData[`${lang}-label`];
 const description = categoryData[`${lang}-description`];
 ---
 
-<header class="mb-8 lg:mb-12">
+<header class="mb-12">
+	<!-- Large display heading with generous spacing -->
 	<h1
-		class="font-display-lg-mobile text-display-lg-mobile lg:font-display-lg lg:text-display-lg text-primary mb-4"
+		class="font-heading text-foreground mb-4 text-4xl leading-tight font-semibold tracking-tight md:text-5xl lg:text-6xl"
 	>
 		{title}
 	</h1>
-	<p class="font-body-md text-body-md text-industrial-gray max-w-3xl">
+	<!-- Description with clear hierarchy -->
+	<p class="text-muted-foreground max-w-3xl text-base leading-relaxed md:text-lg">
 		{description}
 	</p>
 </header>

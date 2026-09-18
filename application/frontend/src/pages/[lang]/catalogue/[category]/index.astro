@@ -49,7 +49,8 @@ const pageDescription = categoryData[`${lang}-description`];
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
-	<div class="max-w-[1280px] mx-auto px-8 py-12 flex gap-8">
+	<!-- Generous container with maximum width constraint -->
+	<div class="mx-auto flex max-w-[1280px] gap-8 px-8 py-16">
 		<!-- Sidebar Navigation -->
 		<CatalogueSidebar
 			allCategories={allCategories}
@@ -57,26 +58,28 @@ const pageDescription = categoryData[`${lang}-description`];
 			lang={lang as Lang}
 		/>
 
-		<!-- Main Content -->
-		<main class="flex-1 min-w-0">
+		<!-- Main Content with spacious layout -->
+		<main class="min-w-0 flex-1">
 			<CategoryHeader categoryData={categoryData} lang={lang as Lang} />
 
-			<!-- Products Grid -->
-			<section aria-label={_("Products")} class="pb-32">
+			<!-- Products Grid with generous gaps -->
+			<section aria-label={_("Products")}>
 				{
 					products.length > 0 ? (
-						<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+						<div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
 							{products.map((product) => (
 								<ProductCard product={product} lang={lang as Lang} />
 							))}
 						</div>
 					) : (
-						<div class="text-center py-16 text-industrial-gray">
+						<div class="text-muted-foreground py-24 text-center">
 							<p class="text-lg">{_("No products available in this category")}</p>
 						</div>
 					)
 				}
 			</section>
+
+			<div class="h-32"></div>
 		</main>
 	</div>
 </Layout>
