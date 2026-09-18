@@ -1,0 +1,76 @@
+HC-A CHECKWEIGHER - TECHNICAL DATASHEET
+=========================================
+
+DUMMY DATASHEET - FOR DEVELOPMENT PURPOSES ONLY
+
+Product: HC-A High-Speed Checkweigher
+Manufacturer: OS-Technology Ukraine (Wipotec distributor)
+
+GENERAL SPECIFICATIONS
+---------------------
+Model: HC-A
+Type: High-Speed Dynamic Checkweigher
+Weighing Technology: EMFR (Electro Magnetic Force Restoration)
+
+PERFORMANCE
+-----------
+Weighing Range: 0 - 6000g
+Accuracy: ±0.05g
+Maximum Throughput: 600 products/minute
+Weight Values per Minute: 600
+Belt Speed: Up to 120 m/min
+
+PHYSICAL DIMENSIONS
+------------------
+Belt Width: 300-600mm (customizable)
+Belt Length: 600-1200mm (customizable)
+Machine Weight: 250-400kg (depending on configuration)
+Frame Construction: Stainless steel with concrete-filled base
+
+ELECTRICAL
+----------
+Power Supply: 230V AC / 50-60Hz
+Power Consumption: 500W (typical)
+
+ENVIRONMENTAL
+-------------
+Operating Temperature: 0°C to 40°C
+Storage Temperature: -20°C to 60°C
+Humidity: 10-90% non-condensing
+Protection Class: IP54 (optional IP65)
+
+COMPLIANCE & CERTIFICATIONS
+--------------------------
+- FDA Food Safety Standards
+- IFS Certified
+- BRC Global Standards
+- GMP Compliant
+- CE Marking
+- OIML R51 Class III
+
+OPTIONAL FEATURES
+----------------
+- Multi-lane configurations (2-4 lanes)
+- Track & Trace serialization
+- Various rejection mechanisms
+- Top runner belt systems
+- Metering screws
+- Remote monitoring
+
+APPLICATIONS
+------------
+- Food & Beverage industry
+- Pharmaceutical production
+- Cosmetics manufacturing
+- High-speed packaging lines
+- Quality control systems
+
+CONTACT INFORMATION
+------------------
+OS-Technology Ukraine
+Email: info@ocs.com.ua
+Website: https://ocs.com.ua
+
+---
+This is a placeholder datasheet for development purposes.
+Replace with actual manufacturer datasheet before production deployment.
