@@ -1,0 +1,144 @@
+HC-WAREHOUSE CATCHWEIGHER - TECHNICAL DATASHEET
+================================================
+
+DUMMY DATASHEET - FOR DEVELOPMENT PURPOSES ONLY
+
+Product: HC-Warehouse Catchweigher for Logistics
+Manufacturer: OS-Technology Ukraine (Wipotec distributor)
+
+GENERAL SPECIFICATIONS
+---------------------
+Model: HC-Warehouse
+Type: Industrial Catchweigher for Warehouse & Intralogistics
+Application: Logistics, warehousing, distribution centers
+Weigh Cell Technology: Central strain gauge design
+
+PERFORMANCE
+-----------
+Weighing Range: 0 - 50 kg
+Accuracy: ±5-50g (depending on load)
+Transport Speed: Up to 1.2 m/s (4.3 km/h)
+Throughput: Up to 120 packages/minute
+Weigh Cell Type: Single central strain gauge
+
+PHYSICAL DIMENSIONS
+------------------
+Belt Lengths Available: 600mm, 800mm, 1,000mm
+Belt Widths Available: 400mm, 500mm, 600mm, 700mm
+Frame Construction: Powder-coated steel (sheet metal bending)
+Overall Height: Adjustable for line integration
+Machine Weight: 150-250kg (depending on configuration)
+
+CONSTRUCTION
+------------
+Frame: Powder-coated steel in sheet metal bending construction
+Weighing Bridge: Wipotec proprietary design
+Protection Class: IP54 (standard)
+Material: Industrial-grade steel with protective coating
+
+ELECTRICAL
+----------
+Power Supply: 230V AC / 50-60Hz
+Power Consumption: 200W (typical)
+
+ENVIRONMENTAL
+-------------
+Operating Temperature: 0°C to 40°C
+Storage Temperature: -20°C to 60°C
+Humidity: 10-90% non-condensing
+Protection Class: IP54 (IP65 optional)
+Vibration Resistance: Enhanced with AVC technology
+
+COMMUNICATION PROTOCOLS
+----------------------
+- Ethernet/IP (Allen-Bradley, Rockwell Automation)
+- Profinet (Siemens industrial Ethernet)
+- Profibus (Legacy fieldbus support)
+- Real-time data transmission
+- WMS/ERP system integration ready
+
+PREDICTIVE MAINTENANCE
+---------------------
+- Condition monitoring system
+- Throughput tracking
+- Motor current analysis
+- Optimal service timing alerts
+- Process data insights
+- Remote diagnostics capability
+
+KEY FEATURES
+------------
+- Transport speeds up to 1.2 m/s
+- Weighing range up to 50 kg
+- Predictive maintenance concept
+- Multiple communication protocols
+- Protection class IP54
+- Single central strain gauge for reliability
+- Fast and uncomplicated maintenance
+- Excellent price-performance ratio
+
+INNOVATIVE DESIGN
+-----------------
+- One central strain gauge weigh cell
+- Robust and reliable construction
+- Easy maintenance access
+- Minimal service requirements
+- Long operational life
+- Cost-effective without quality compromise
+
+COMPLIANCE & CERTIFICATIONS
+--------------------------
+- Industrial safety standards compliant
+- CE Marking
+- OIML Class III (optional for legal-for-trade)
+- Quality management system integration ready
+- Warehouse automation standards compliant
+
+APPLICATIONS
+------------
+- Warehouse operations
+- Distribution centers
+- E-commerce fulfillment
+- Intralogistics
+- Parcel services
+- Manufacturing logistics
+- Cross-docking operations
+- Shipping verification
+
+OPTIONAL FEATURES
+----------------
+- Enhanced protection class IP65
+- Additional communication protocols
+- Advanced reporting packages
+- Remote monitoring and diagnostics
+- Barcode scanner integration
+- Dimension measurement (DWS integration)
+- Automated rejection systems
+- Custom belt configurations
+
+ADVANTAGES
+----------
+- Very good price-performance ratio
+- Fewer production breaks due to predictive maintenance
+- Especially robust due to Wipotec weighing bridge
+- Valuable process data (throughput, motor current)
+- Flexible integration options
+- Reliable control of picking and shipping units
+
+TECHNOLOGIES
+------------
+- Active Vibration Compensation (AVC)
+- Weighing Accuracy Analytics
+- Predictive maintenance algorithms
+- Real-time process monitoring
+- Statistical process control
+
+CONTACT INFORMATION
+------------------
+OS-Technology Ukraine
+Email: info@ocs.com.ua
+Website: https://ocs.com.ua
+
+---
+This is a placeholder datasheet for development purposes.
+Replace with actual manufacturer datasheet before production deployment.

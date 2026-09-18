@@ -1,0 +1,109 @@
+EC-E CHECKWEIGHER - TECHNICAL DATASHEET
+=========================================
+
+DUMMY DATASHEET - FOR DEVELOPMENT PURPOSES ONLY
+
+Product: EC-E Entry-Level Checkweigher
+Manufacturer: OS-Technology Ukraine (Wipotec distributor)
+
+GENERAL SPECIFICATIONS
+---------------------
+Model: EC-E
+Type: Entry-Level Dynamic Checkweigher
+Weighing Technology: Precision load cell technology
+Control System: 8-inch colour touchscreen
+
+PERFORMANCE
+-----------
+Weighing Range: 0 - 3000g (customizable)
+Accuracy: ±0.1-0.5g (depending on configuration)
+Maximum Throughput: 150 products/minute
+Weight Values per Minute: 150
+Belt Speed: Up to 60 m/min
+
+PHYSICAL DIMENSIONS
+------------------
+Belt Width: 200-400mm (customizable)
+Belt Length: 400-800mm (customizable)
+Machine Weight: 80-150kg (depending on configuration)
+Frame Construction: Stainless steel cabinet
+
+CONTROL SYSTEM
+--------------
+Display: 8-inch colour touchscreen
+User Interface: Intuitive menu structure
+Languages: Multiple language support
+Statistical Functions: Histograms, SPC, production reports
+Data Storage: Internal memory with export capability
+
+DRIVE SYSTEM
+------------
+Type: Maintenance-free servo drives
+Control: Precise speed regulation
+Reliability: Long service life with minimal maintenance
+Synchronization: Line sync with potential-free contacts
+
+ELECTRICAL
+----------
+Power Supply: 230V AC / 50-60Hz
+Power Consumption: 300W (typical)
+
+ENVIRONMENTAL
+-------------
+Operating Temperature: 0°C to 40°C
+Storage Temperature: -20°C to 60°C
+Humidity: 10-90% non-condensing
+Protection Class: IP54 (standard)
+
+CONNECTIVITY
+------------
+Line Synchronisation: Potential-free switching contacts
+Signal Types: Binary signals for integration
+Data Export: Standard formats for MES/ERP systems
+Network: Optional Ethernet connectivity
+
+COMPLIANCE & CERTIFICATIONS
+--------------------------
+- Food Safety Standards compliant
+- Hygienic design principles
+- CE Marking
+- Production data traceability
+- Quality management system integration ready
+
+KEY FEATURES
+------------
+- Stainless steel cabinet with integrated control system
+- Maintenance-free servo drives
+- Line synchronisation capabilities
+- Extensive statistical functions and histograms
+- Fully automated sorter
+- Intuitive touchscreen operation
+- Excellent price-performance ratio
+
+APPLICATIONS
+------------
+- Food & Beverage industry
+- Sausage and meat products
+- Packaged food items
+- Bakery products
+- Confectionery
+- General manufacturing quality control
+- Simple packaging lines
+
+OPTIONAL FEATURES
+----------------
+- Different belt widths and lengths
+- Various rejection mechanisms
+- Enhanced connectivity options
+- Additional statistical packages
+- Remote monitoring capabilities
+
+CONTACT INFORMATION
+------------------
+OS-Technology Ukraine
+Email: info@ocs.com.ua
+Website: https://ocs.com.ua
+
+---
+This is a placeholder datasheet for development purposes.
+Replace with actual manufacturer datasheet before production deployment.
