@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { SEO } from "astro-seo";
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
 import { getLangFromUrl } from "@/i18n";
@@ -8,11 +9,26 @@ interface Props {
 	title: string;
 	description?: string;
 	showHeader?: boolean;
+	image?: string;
+	article?: boolean;
 }
 
-const { title, description, showHeader = true } = Astro.props;
+const { title, description, showHeader = true, image, article = false } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const currentPath = Astro.url.pathname;
+
+const siteUrl = Astro.site || "https://ocs.com.ua";
+const canonicalUrl = new URL(currentPath, siteUrl).href;
+
+const alternateUrl =
+	lang === "en" ? currentPath.replace("/en/", "/ua/") : currentPath.replace("/ua/", "/en/");
+
+const ogImage = image || `${siteUrl}/assets/icons/wipotec-logo.svg`;
+
+const defaultDescription =
+	lang === "en"
+		? "OS-Technology Ukraine - B2B industrial equipment for precision weighing, inspection, and quality control systems"
+		: "OS-Technology Україна - промислове обладнання для точного зважування, інспекції та систем контролю якості";
 ---
 
 <!doctype html>
@@ -20,14 +36,55 @@ const currentPath = Astro.url.pathname;
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg" />
 		<link
 			rel="stylesheet"
 			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
 		/>
 		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-		{description && <meta name="description" content={description} />}
+
+		<SEO
+			title={title}
+			description={description || defaultDescription}
+			canonical={canonicalUrl}
+			openGraph={{
+				basic: {
+					title: title,
+					type: article ? "article" : "website",
+					image: ogImage,
+					url: canonicalUrl,
+				},
+				optional: {
+					description: description || defaultDescription,
+					locale: lang === "en" ? "en_US" : "uk_UA",
+					siteName: "OS-Technology Ukraine",
+				},
+				image: {
+					alt: title,
+				}
+			}}
+			twitter={{
+				card: "summary_large_image",
+				title: title,
+				description: description || defaultDescription,
+				image: ogImage,
+				imageAlt: title,
+			}}
+			languageAlternates={[
+				{
+					href: canonicalUrl,
+					hrefLang: lang,
+				},
+				{
+					href: new URL(alternateUrl, siteUrl).href,
+					hrefLang: lang === "en" ? "ua" : "en",
+				},
+				{
+					href: new URL(alternateUrl, siteUrl).href,
+					hrefLang: "x-default",
+				}
+			]}
+		/>
 	</head>
 	<body class="bg-background text-foreground min-h-screen antialiased">
 		{showHeader && <Header currentLang={lang} currentPath={currentPath} />}

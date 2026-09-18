@@ -35,7 +35,7 @@ export default defineConfig({
 					filename: {
 						readonly: false,
 						slugify: (values) => {
-							const title = values?.["en_title"] || "untitled";
+							const title = values?.en_title || "untitled";
 							return title
 								.toLowerCase()
 								.replace(/\s+/g, "-")
@@ -128,7 +128,7 @@ export default defineConfig({
 						description: "Maximum 3 specifications shown on catalogue cards",
 						ui: {
 							itemProps: (item) => ({
-								label: item?.["en_label"] || "New Specification",
+								label: item?.en_label || "New Specification",
 							}),
 						},
 						fields: [

@@ -44,16 +44,67 @@ const { categoryData, categorySlug, products, allCategories, lang } = Astro.prop
 const _ = getInlineTranslations(lang as Lang);
 
 // Sort products by order field (default 999 for products without order)
-const sortedProducts = products.sort(
-	(a, b) => (a.data.order || 999) - (b.data.order || 999)
-);
+const sortedProducts = products.sort((a, b) => (a.data.order || 999) - (b.data.order || 999));
 
 // Page metadata
 const pageTitle = `${categoryData[`${lang}-label`]} | OS-Technology`;
 const pageDescription = categoryData[`${lang}-description`];
+
+// Structured data for SEO
+const siteUrl = Astro.site || "https://ocs.com.ua";
+const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
+
+const structuredData = {
+	"@context": "https://schema.org",
+	"@type": "CollectionPage",
+	name: categoryData[`${lang}-label`],
+	description: categoryData[`${lang}-description`],
+	url: currentUrl,
+	inLanguage: lang,
+	breadcrumb: {
+		"@type": "BreadcrumbList",
+		itemListElement: [
+			{
+				"@type": "ListItem",
+				position: 1,
+				name: lang === "en" ? "Home" : "Головна",
+				item: `${siteUrl}/${lang}/`,
+			},
+			{
+				"@type": "ListItem",
+				position: 2,
+				name: lang === "en" ? "Catalogue" : "Каталог",
+				item: `${siteUrl}/${lang}/catalogue/`,
+			},
+			{
+				"@type": "ListItem",
+				position: 3,
+				name: categoryData[`${lang}-label`],
+				item: currentUrl,
+			},
+		],
+	},
+	mainEntity: {
+		"@type": "ItemList",
+		numberOfItems: sortedProducts.length,
+		itemListElement: sortedProducts.map((product, index) => {
+			const productSlug = product.id.split("/")[1].replace(".md", "");
+			const productUrl = `${siteUrl}/${lang}/catalogue/${categorySlug}/${productSlug}`;
+			return {
+				"@type": "ListItem",
+				position: index + 1,
+				url: productUrl,
+				name: product.data[`${lang}-title`],
+				description: product.data[`${lang}-description`],
+			};
+		}),
+	},
+};
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
+	<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
 	<!-- Generous container with maximum width constraint -->
 	<div class="mx-auto flex max-w-[1600px] gap-8 px-8 py-16">
 		<!-- Sidebar Navigation -->

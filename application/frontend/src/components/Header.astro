@@ -18,7 +18,7 @@ const getLanguagePath = (targetLang: string) => {
 	if (!currentPath) return `/${targetLang}`;
 	// Replace the language code at the start of the path
 	// e.g., /en/catalogue/checkweighers -> /ua/catalogue/checkweighers
-	const pathWithoutLang = currentPath.replace(/^\/(en|ua)/, '');
+	const pathWithoutLang = currentPath.replace(/^\/(en|ua)/, "");
 	return `/${targetLang}${pathWithoutLang}`;
 };
 
