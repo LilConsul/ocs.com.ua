@@ -1,7 +1,7 @@
 ---
 en-title: HC-Warehouse Catchweigher
 ua-title: Динамічні ваги HC-Warehouse
-order: 4
+order: 1
 industries:
   - logistics
 en-description: Attractively priced catchweigher for warehouse and intralogistics. Weighing range up to 50 kg with transport speeds up to 1.2 m/s. Features predictive maintenance concept for maximum uptime.
