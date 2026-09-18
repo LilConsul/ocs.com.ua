@@ -12,7 +12,7 @@ const _ = getInlineTranslations(lang);
 // Extract multilingual fields
 const title = product.data[`${lang}-title`];
 const description = product.data[`${lang}-description`];
-const specs = product.data.specs?.slice(0, 3) || []; // Max 3 specs
+const specs = product.data.specs?.slice(0, 3) || []; // Max 3 specs, handle undefined
 const firstImage = product.data.gallery?.[0] || "/placeholder.jpg";
 const industries = product.data.industries || [];
 

@@ -1,0 +1,91 @@
+---
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+	try {
+		const allEquipment = await getCollection("equipment");
+		console.log("=== STATIC PATHS DEBUG ===");
+		console.log("Total equipment items:", allEquipment.length);
+
+		// Log all IDs
+		allEquipment.forEach(item => {
+			console.log(`  - ${item.id}`);
+			console.log(`    Has en-label: ${"en-label" in item.data}`);
+			console.log(`    Has en-title: ${"en-title" in item.data}`);
+		});
+
+		// Type guard functions
+		const isCategory = (item: any) =>
+			item.id.includes("/index") && "en-label" in item.data;
+		const isProduct = (item: any) =>
+			!item.id.includes("/index") && "en-title" in item.data;
+
+		// Separate categories (index files) from products
+		const allCategories = allEquipment.filter(isCategory);
+		const allProducts = allEquipment.filter(isProduct);
+
+		console.log("Categories found:", allCategories.length);
+		console.log("Products found:", allProducts.length);
+
+		const paths = allCategories.flatMap((category) => {
+			// Extract category slug from id like "checkweighers/index"
+			const categorySlug = category.id.replace("/index", "");
+			console.log(`Generating paths for category: ${categorySlug}`);
+
+			// Filter products in this category
+			const categoryProducts = allProducts.filter((item) => {
+				const folder = item.id.split("/")[0];
+				return folder === categorySlug;
+			});
+
+			console.log(`  Products in ${categorySlug}:`, categoryProducts.length);
+
+			return ["en", "ua"].map((lang) => {
+				const path = {
+					params: { lang, category: categorySlug },
+					props: {
+						categoryData: category.data,
+						categorySlug,
+						products: categoryProducts,
+						allCategories,
+						lang,
+					},
+				};
+				console.log(`  Generated: /${lang}/catalogue/${categorySlug}`);
+				return path;
+			});
+		});
+
+		console.log("Total paths generated:", paths.length);
+		console.log("=== END DEBUG ===");
+		return paths;
+	} catch (error) {
+		console.error("ERROR in getStaticPaths:", error);
+		throw error;
+	}
+}
+
+const { categoryData, categorySlug, products, lang } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang={lang}>
+<head>
+	<meta charset="UTF-8" />
+	<title>{categoryData[`${lang}-label`]} - Debug</title>
+</head>
+<body>
+	<h1>{categoryData[`${lang}-label`]}</h1>
+	<p>{categoryData[`${lang}-description`]}</p>
+	<p>Language: {lang}</p>
+	<p>Category Slug: {categorySlug}</p>
+	<p>Number of products: {products.length}</p>
+
+	<h2>Products:</h2>
+	<ul>
+		{products.map((product: any) => (
+			<li>{product.data[`${lang}-title`]}</li>
+		))}
+	</ul>
+</body>
+</html>

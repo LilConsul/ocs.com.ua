@@ -25,13 +25,15 @@ const sortedCategories = allCategories.sort(
 		<nav aria-label="Category navigation" class="space-y-1">
 			{
 				sortedCategories.map((cat) => {
-					const isActive = cat.id === currentCategory;
+					// Category ID is the slug directly (e.g., "checkweighers")
+					const catSlug = cat.id;
+					const isActive = catSlug === currentCategory;
 					const label = cat.data[`${lang}-label`];
 					const icon = cat.data.icon || "category";
 
 					return (
 						<a
-							href={`/${lang}/catalogue/${cat.id}`}
+							href={`/${lang}/catalogue/${catSlug}`}
 							class={`flex items-center gap-3 py-3 px-4 rounded-lg transition-all cursor-pointer ${
 								isActive
 									? "bg-surface-bright text-secondary font-bold"

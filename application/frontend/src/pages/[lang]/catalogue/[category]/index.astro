@@ -7,16 +7,24 @@ import ProductCard from "@/components/catalogue/ProductCard.astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 
 export async function getStaticPaths() {
-	const allCategories = await getCollection("categories");
 	const allEquipment = await getCollection("equipment");
 
+	// Type guard functions - check by schema fields, not ID
+	const isCategory = (item: any) => "en-label" in item.data;
+	const isProduct = (item: any) => "en-title" in item.data;
+
+	// Separate categories from products
+	const allCategories = allEquipment.filter(isCategory);
+	const allProducts = allEquipment.filter(isProduct);
+
 	return allCategories.flatMap((category) => {
+		// Category ID is the slug directly (e.g., "checkweighers")
 		const categorySlug = category.id;
 
-		// Filter products in this category (exclude index.md)
-		const categoryProducts = allEquipment.filter((item) => {
+		// Filter products in this category (e.g., "checkweighers/hc-m")
+		const categoryProducts = allProducts.filter((item) => {
 			const folder = item.id.split("/")[0];
-			return folder === categorySlug && !item.id.endsWith("index.md");
+			return folder === categorySlug;
 		});
 
 		return ["en", "ua"].map((lang) => ({

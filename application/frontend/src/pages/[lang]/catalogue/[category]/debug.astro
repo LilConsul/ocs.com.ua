@@ -1,0 +1,85 @@
+---
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+	try {
+		const allEquipment = await getCollection("equipment");
+
+		// Debug: Log what we got
+		console.log("=== DEBUG: Collection loaded ===");
+		console.log("Total items:", allEquipment.length);
+		console.log(
+			"IDs:",
+			allEquipment.map((i) => i.id)
+		);
+
+		// Separate categories from products
+		const allCategories = allEquipment.filter((item) =>
+			item.id.includes("/index")
+		);
+		const allProducts = allEquipment.filter(
+			(item) => !item.id.includes("/index")
+		);
+
+		console.log("Categories:", allCategories.length);
+		console.log("Products:", allProducts.length);
+
+		if (allCategories.length === 0) {
+			console.error("ERROR: No categories found!");
+			return [];
+		}
+
+		return allCategories.flatMap((category) => {
+			const categorySlug = category.id.replace("/index", "");
+			const categoryProducts = allProducts.filter((item) => {
+				const folder = item.id.split("/")[0];
+				return folder === categorySlug;
+			});
+
+			console.log(
+				`Category ${categorySlug}: ${categoryProducts.length} products`
+			);
+
+			return ["en", "ua"].map((lang) => ({
+				params: { lang, category: categorySlug },
+				props: {
+					categoryData: category.data,
+					categorySlug,
+					products: categoryProducts,
+					lang,
+					debug: true,
+				},
+			}));
+		});
+	} catch (error) {
+		console.error("ERROR in getStaticPaths:", error);
+		return [];
+	}
+}
+
+const { categoryData, categorySlug, products, lang, debug } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Debug: {categorySlug}</title>
+</head>
+<body>
+	<h1>Category: {categorySlug}</h1>
+	<p>Language: {lang}</p>
+
+	{debug && (
+		<div style="border: 2px solid red; padding: 1rem; margin: 1rem 0;">
+			<h2>Debug Info</h2>
+			<p>Category Data: {JSON.stringify(categoryData)}</p>
+			<p>Number of products: {products.length}</p>
+			<ul>
+				{products.map((p: any) => (
+					<li>{p.id} - {p.data[`${lang}-title`]}</li>
+				))}
+			</ul>
+		</div>
+	)}
+</body>
+</html>
