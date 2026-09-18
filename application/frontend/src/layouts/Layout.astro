@@ -12,6 +12,7 @@ interface Props {
 
 const { title, description, showHeader = true } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
+const currentPath = Astro.url.pathname;
 ---
 
 <!doctype html>
@@ -29,7 +30,7 @@ const lang = getLangFromUrl(Astro.url);
 		{description && <meta name="description" content={description} />}
 	</head>
 	<body class="bg-background text-foreground min-h-screen antialiased">
-		{showHeader && <Header currentLang={lang} />}
+		{showHeader && <Header currentLang={lang} currentPath={currentPath} />}
 		<main class="pt-20">
 			<slot />
 		</main>

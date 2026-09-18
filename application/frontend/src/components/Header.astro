@@ -5,24 +5,31 @@ import { getInlineTranslations, type Lang } from "@/i18n";
 
 interface Props {
 	currentLang: Lang;
+	currentPath?: string;
 }
 
-const { currentLang } = Astro.props;
+const { currentLang, currentPath } = Astro.props;
 // Ensure TypeScript knows this is a Lang, not string | number | symbol
 const lang: Lang = currentLang;
 const _ = getInlineTranslations(lang);
 
 const navLinks = [
-	{ href: `/${lang}/catalogue/checkweighers`, label: _("Catalogue") },
-	{ href: `/${lang}/catalogue`, label: _("Industries") },
-	{ href: `/${lang}/wiki`, label: _("Wiki") },
-	{ href: `/${lang}/about`, label: _("About Us") },
+	{ href: `/${lang}/catalogue/checkweighers`, label: _("Catalogue"), pattern: "/catalogue" },
+	{ href: `/${lang}/catalogue`, label: _("Industries"), pattern: "/industries" },
+	{ href: `/${lang}/wiki`, label: _("Wiki"), pattern: "/wiki" },
+	{ href: `/${lang}/about`, label: _("About Us"), pattern: "/about" },
 ];
 
 const languageOptions = [
 	{ code: "en" as const, name: "English", flag: "🇬🇧" },
 	{ code: "ua" as const, name: "Українська", flag: "🇺🇦" },
 ];
+
+// Helper to check if nav link is active
+const isActive = (pattern: string) => {
+	if (!currentPath) return false;
+	return currentPath.includes(pattern);
+};
 ---
 
 <header
@@ -44,7 +51,11 @@ const languageOptions = [
 				navLinks.map((link) => (
 					<a
 						href={link.href}
-						class="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
+						class={`relative text-sm font-medium transition-colors ${
+							isActive(link.pattern)
+								? "text-foreground after:bg-primary after:absolute after:right-0 after:bottom-[-8px] after:left-0 after:h-0.5 after:content-['']"
+								: "text-muted-foreground hover:text-foreground"
+						}`}
 					>
 						{link.label}
 					</a>
@@ -99,7 +110,11 @@ const languageOptions = [
 				navLinks.map((link) => (
 					<a
 						href={link.href}
-						class="text-muted-foreground hover:text-foreground block py-2 text-base font-medium transition-colors"
+						class={`block py-2 text-base font-medium transition-colors ${
+							isActive(link.pattern)
+								? "text-foreground border-primary border-l-2 pl-3 font-semibold"
+								: "text-muted-foreground hover:text-foreground"
+						}`}
 					>
 						{link.label}
 					</a>
