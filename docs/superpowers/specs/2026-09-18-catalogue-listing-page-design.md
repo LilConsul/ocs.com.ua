@@ -533,7 +533,7 @@ ______________________________________________________________________
 - [ ] Update `content.config.ts` with categories collection
 - [ ] Add `industries` field to equipment schema
 - [ ] Standardize `checkweighers/index.md` fields
-- [ ] Run `pnpm run check:fix` to validate
+- [ ] Run `bun run check:fix` to validate
 
 ### Phase 2: Components
 
@@ -552,9 +552,9 @@ ______________________________________________________________________
 ### Phase 4: Translations
 
 - [ ] Add static strings with `_()` calls
-- [ ] Run `pnpm run i18n:extract`
+- [ ] Run `bun run i18n:extract`
 - [ ] Add Ukrainian translations to `locales/ua.po`
-- [ ] Run `pnpm run i18n:compile`
+- [ ] Run `bun run i18n:compile`
 
 ### Phase 5: Polish & Validation
 
@@ -563,7 +563,7 @@ ______________________________________________________________________
 - [ ] Check responsive breakpoints (mobile, tablet, desktop)
 - [ ] Validate accessibility (focus states, aria labels)
 - [ ] Run lighthouse audit (should be 100 for SEO/Accessibility)
-- [ ] Run `pnpm run check:fix` before commit
+- [ ] Run `bun run check:fix` before commit
 
 ______________________________________________________________________
 
