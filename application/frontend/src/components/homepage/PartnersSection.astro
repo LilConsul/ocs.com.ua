@@ -28,7 +28,7 @@ const _ = getInlineTranslations(lang);
 // Helper to get image dimensions from public folder
 function getImageDimensions(logoPath: string) {
 	try {
-		const publicPath = resolve("./public" + logoPath);
+		const publicPath = resolve(`./public${logoPath}`);
 		const dimensions = sizeOf(publicPath);
 		return { width: dimensions.width || 150, height: dimensions.height || 48 };
 	} catch (error) {

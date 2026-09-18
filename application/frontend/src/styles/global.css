@@ -3,6 +3,8 @@
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/inter";
 @import "@fontsource-variable/ibm-plex-sans";
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/500.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -40,7 +42,14 @@
 	--sidebar-border: oklch(0.922 0 0);
 	--sidebar-ring: oklch(0.708 0 0);
 	--surface-lowest: oklch(1 0 0);
-	--industrial-gray: oklch(0.55 0.015 254);
+	--industrial-gray: oklch(0.55 0.015 254); /* #64748B */
+	--surface-muted: oklch(0.982 0 0); /* #F8FAFC */
+	--border-subtle: oklch(0.922 0.005 254); /* #E2E8F0 */
+	--surface-container: oklch(0.96 0 0);
+	--surface-container-high: oklch(0.94 0 0);
+	--surface-bright: oklch(0.99 0 0);
+	--on-surface-variant: oklch(0.4 0 0);
+	--on-primary: oklch(1 0 0);
 }
 
 .dark {
@@ -115,6 +124,13 @@
 	--color-background: var(--background);
 	--color-surface-lowest: var(--surface-lowest);
 	--color-industrial-gray: var(--industrial-gray);
+	--color-surface-muted: var(--surface-muted);
+	--color-border-subtle: var(--border-subtle);
+	--color-surface-container: var(--surface-container);
+	--color-surface-container-high: var(--surface-container-high);
+	--color-surface-bright: var(--surface-bright);
+	--color-on-surface-variant: var(--on-surface-variant);
+	--color-on-primary: var(--on-primary);
 	--radius-sm: calc(var(--radius) * 0.6);
 	--radius-md: calc(var(--radius) * 0.8);
 	--radius-lg: var(--radius);
@@ -122,6 +138,9 @@
 	--radius-2xl: calc(var(--radius) * 1.8);
 	--radius-3xl: calc(var(--radius) * 2.2);
 	--radius-4xl: calc(var(--radius) * 2.6);
+	--spacing-section-gap-lg: 8rem;
+	--spacing-edge-margin: 2rem;
+	--spacing-gutter: 1.5rem;
 }
 
 @layer base {
@@ -133,5 +152,69 @@
 	}
 	html {
 		@apply font-sans;
+	}
+}
+
+@layer utilities {
+	/* Display typography - Category titles */
+	.font-display-lg {
+		font-family: var(--font-heading);
+		font-weight: 700;
+	}
+	.text-display-lg {
+		font-size: 3.75rem; /* 60px */
+		line-height: 1.1;
+		letter-spacing: -0.02em;
+	}
+	.font-display-lg-mobile {
+		font-family: var(--font-heading);
+		font-weight: 700;
+	}
+	.text-display-lg-mobile {
+		font-size: 2.5rem; /* 40px */
+		line-height: 1.2;
+		letter-spacing: -0.01em;
+	}
+
+	/* Headline typography - Product card titles */
+	.font-headline-lg {
+		font-family: var(--font-heading);
+		font-weight: 600;
+	}
+	.text-headline-lg {
+		font-size: 1.5rem; /* 24px */
+		line-height: 1.3;
+	}
+
+	/* Body typography */
+	.font-body-md {
+		font-family: var(--font-sans);
+		font-weight: 400;
+	}
+	.text-body-md {
+		font-size: 1rem; /* 16px */
+		line-height: 1.5;
+	}
+
+	/* Label caps - Navigation and labels */
+	.font-label-caps {
+		font-family: var(--font-sans);
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+	.text-label-caps {
+		font-size: 0.875rem; /* 14px */
+		line-height: 1.4;
+	}
+
+	/* Technical data - Spec values */
+	.font-technical-data {
+		font-family: "JetBrains Mono", monospace;
+		font-weight: 500;
+	}
+	.text-technical-data {
+		font-size: 0.875rem; /* 14px */
+		line-height: 1.4;
 	}
 }

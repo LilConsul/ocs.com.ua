@@ -1,0 +1,136 @@
+---
+import { getInlineTranslations, type Lang } from "@/i18n";
+
+interface Props {
+	allCategories: any[];
+	currentCategory: string;
+	lang: Lang;
+}
+
+const { allCategories, currentCategory, lang } = Astro.props;
+const _ = getInlineTranslations(lang);
+
+// Sort categories by order field (default 999)
+const sortedCategories = allCategories.sort(
+	(a, b) => (a.data.order || 999) - (b.data.order || 999)
+);
+---
+
+<!-- Mobile Filter Button -->
+<button
+	id="mobile-filter-toggle"
+	class="bg-card border-border text-foreground fixed bottom-6 right-6 z-40 flex items-center gap-2 rounded-full border px-6 py-3 shadow-lg transition-all hover:shadow-xl lg:hidden"
+	aria-label={_("Open filters")}
+>
+	<span class="material-symbols-outlined text-[20px]">filter_list</span>
+	<span class="text-sm font-medium">{_("Filters")}</span>
+</button>
+
+<!-- Mobile Filter Overlay -->
+<div
+	id="mobile-filter-overlay"
+	class="fixed inset-0 z-50 hidden bg-black/50 backdrop-blur-sm lg:hidden"
+	aria-hidden="true"
+>
+</div>
+
+<!-- Desktop Sidebar & Mobile Drawer -->
+<aside
+	id="catalogue-sidebar"
+	class="fixed inset-y-0 left-0 z-50 w-80 -translate-x-full transition-transform duration-300 lg:sticky lg:top-24 lg:h-fit lg:w-72 lg:translate-x-0 lg:flex-shrink-0"
+>
+	<div class="bg-card border-border h-full w-full overflow-y-auto rounded-none border-r px-6 py-8 shadow-sm lg:rounded-lg lg:border"
+		>
+		<!-- Close button (mobile only) -->
+		<button
+			id="mobile-filter-close"
+			class="text-muted-foreground hover:text-foreground absolute right-4 top-4 transition-colors lg:hidden"
+			aria-label={_("Close filters")}
+		>
+			<span class="material-symbols-outlined text-[24px]">close</span>
+		</button>
+		<!-- Header with generous spacing -->
+		<div class="mb-6 px-2">
+			<h2 class="font-heading text-foreground mb-1 text-2xl font-semibold">
+				{_("Catalogue Filters")}
+			</h2>
+			<p class="text-muted-foreground font-mono text-xs tracking-wide">
+				{_("Technical Specs")}
+			</p>
+		</div>
+
+		<!-- Category label -->
+		<p class="text-muted-foreground mb-3 px-2 font-mono text-[10px] tracking-[0.05em] uppercase">
+			{_("Equipment Categories")}
+		</p>
+
+		<!-- Navigation with precise spacing -->
+		<nav aria-label="Category navigation" class="space-y-2">
+			{
+				sortedCategories.map((cat) => {
+					// Category ID is the slug directly (e.g., "checkweighers")
+					const catSlug = cat.id;
+					const isActive = catSlug === currentCategory;
+					const label = cat.data[`${lang}-label`];
+					const icon = cat.data.icon || "category";
+
+					return (
+						<a
+							href={`/${lang}/catalogue/${catSlug}`}
+							class={`flex cursor-pointer items-center gap-3 rounded-lg px-4 py-3 transition-all ${
+								isActive
+									? "bg-accent text-secondary font-bold"
+									: "text-muted-foreground hover:bg-muted hover:translate-x-1"
+							}`}
+						>
+							<span class="material-symbols-outlined text-[20px]">{icon}</span>
+							<span class="font-mono text-xs tracking-wider uppercase">{label}</span>
+						</a>
+					);
+				})
+			}
+		</nav>
+
+		<!-- CTA button with reserved accent -->
+		<div class="border-border mt-8 border-t px-2 pt-6">
+			<button
+				class="border-secondary text-secondary hover:bg-secondary/5 flex w-full items-center justify-center gap-2 rounded border-2 px-4 py-2.5 text-sm font-medium transition-colors"
+			>
+				<span class="material-symbols-outlined text-[18px]">download</span>
+				{_("Request Full Specs")}
+			</button>
+		</div>
+	</div>
+</aside>
+
+<script>
+	const toggleBtn = document.getElementById("mobile-filter-toggle");
+	const closeBtn = document.getElementById("mobile-filter-close");
+	const overlay = document.getElementById("mobile-filter-overlay");
+	const sidebar = document.getElementById("catalogue-sidebar");
+
+	function openFilters() {
+		sidebar?.classList.remove("-translate-x-full");
+		overlay?.classList.remove("hidden");
+		document.body.style.overflow = "hidden";
+	}
+
+	function closeFilters() {
+		sidebar?.classList.add("-translate-x-full");
+		overlay?.classList.add("hidden");
+		document.body.style.overflow = "";
+	}
+
+	toggleBtn?.addEventListener("click", openFilters);
+	closeBtn?.addEventListener("click", closeFilters);
+	overlay?.addEventListener("click", closeFilters);
+
+	const categoryLinks = sidebar?.querySelectorAll("a");
+	categoryLinks?.forEach((link) => {
+		link.addEventListener("click", () => {
+			if (window.innerWidth < 1024) {
+				closeFilters();
+			}
+		});
+	});
+</script>

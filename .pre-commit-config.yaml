@@ -3,6 +3,27 @@
 # Setup: pre-commit install
 # Run manually: pre-commit run --all-files
 
+# Shared exclusion patterns (YAML anchors for reusability)
+x-exclude-autogen: &exclude-autogen |
+  (?x)^(
+    application/frontend/public/admin/\.gitignore|
+    application/frontend/tina/tina-lock\.json
+  )$
+
+x-exclude-content-md: &exclude-content-md |
+  (?x)^(
+    application/frontend/content/.*\.md|
+    application/frontend/src/content/equipment/.*\.md
+  )$
+
+x-exclude-all-common: &exclude-all-common |
+  (?x)^(
+    application/frontend/content/.*\.md|
+    application/frontend/src/content/equipment/.*\.md|
+    application/frontend/public/admin/\.gitignore|
+    application/frontend/tina/tina-lock\.json
+  )$
+
 repos:
   # Standard pre-commit hooks for file quality
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -10,27 +31,21 @@ repos:
     hooks:
       - id: trailing-whitespace
         name: "[ALL] Trim trailing whitespace"
-        exclude: |
-          (?x)^(
-            application/frontend/content/.*\.md|
-            application/frontend/src/content/equipment/.*\.md
-          )$
+        exclude: *exclude-all-common
       - id: end-of-file-fixer
         name: "[ALL] Fix end of files (ensure newline)"
-        exclude: |
-          (?x)^(
-            application/frontend/content/.*\.md|
-            application/frontend/src/content/equipment/.*\.md
-          )$
+        exclude: *exclude-all-common
       - id: check-yaml
         name: "[ALL] Check YAML syntax"
       - id: check-json
         name: "[ALL] Check JSON syntax"
+        exclude: application/frontend/tina/tina-lock\.json
       - id: check-merge-conflict
         name: "[ALL] Check for merge conflicts"
       - id: mixed-line-ending
         name: "[ALL] Fix mixed line endings"
         args: ['--fix=lf']
+        exclude: *exclude-autogen
 
   # Markdown formatting
   - repo: https://github.com/executablebooks/mdformat
@@ -41,11 +56,7 @@ repos:
         additional_dependencies:
           - mdformat-gfm     # GitHub Flavored Markdown
           - mdformat-tables  # Better table formatting
-        exclude: |
-          (?x)^(
-            application/frontend/content/.*\.md|
-            application/frontend/src/content/equipment/.*\.md
-          )$
+        exclude: *exclude-content-md
 
   # Ruff for Python backend code
   - repo: https://github.com/astral-sh/ruff-pre-commit
