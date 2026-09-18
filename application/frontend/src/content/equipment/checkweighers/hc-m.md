@@ -1,4 +1,8 @@
 ---
+industries:
+  - food-beverage
+  - pharmaceutical
+  - cosmetics
 en-title: HC-M Checkweigher
 ua-title: Чеквейєр HC-M
 en-description: 'Flexible checkweigher for medium performance ranges. Provides up to 250 weight values per minute for complete medium range applications with maximum precision and reliability.'

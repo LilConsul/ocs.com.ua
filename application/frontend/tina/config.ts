@@ -61,6 +61,26 @@ export default defineConfig({
 						label: "[UA] Назва обладнання",
 						required: true,
 					},
+
+					// ========================================
+					// INDUSTRY CLASSIFICATION
+					// ========================================
+					{
+						type: "string",
+						name: "industries",
+						label: "Industries",
+						required: true,
+						list: true,
+						description: "Select one or more industries this equipment serves",
+						options: [
+							{ value: "food-beverage", label: "Food & Beverage" },
+							{ value: "pharmaceutical", label: "Pharmaceutical" },
+							{ value: "cosmetics", label: "Cosmetics" },
+							{ value: "logistics", label: "Logistics & Distribution" },
+							{ value: "general", label: "General / All Industries" },
+						],
+					},
+
 					{
 						type: "string",
 						name: "en_description",
