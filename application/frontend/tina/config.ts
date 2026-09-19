@@ -5,8 +5,9 @@ const branch =
 
 export default defineConfig({
 	branch,
-	clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID,
-	token: process.env.TINA_TOKEN,
+	// Self-hosted mode - these are undefined for local development
+	clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID || null,
+	token: process.env.TINA_TOKEN || null,
 
 	build: {
 		outputFolder: "admin",
