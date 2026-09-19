@@ -4,7 +4,13 @@
 
 **Goal:** Convert the Astro project from TinaCloud-oriented configuration to a fully self-hosted TinaCMS backend with GitHub integration and authentication.
 
-**Architecture:** Self-hosted TinaCMS v3.14.0 using the built-in local filesystem backend with Git integration. No external database required - TinaCMS v3.x operates directly on the filesystem and Git. Authentication will use GitHub OAuth for admin access.
+**Architecture:** Single-domain architecture where TinaCMS admin UI is served at `/admin` on the same domain as the main Astro site. Self-hosted TinaCMS v3.14.0 using the built-in local filesystem backend with Git integration. No external database required - TinaCMS v3.x operates directly on the filesystem and Git. Authentication will use GitHub OAuth for admin access.
+
+```
+dev.ocs.com.ua
+├── /           → Astro site (all pages)
+└── /admin      → TinaCMS admin UI
+```
 
 **Tech Stack:**
 
@@ -26,7 +32,7 @@
 - All credentials via environment variables
 - No MongoDB or external database dependencies
 - GitHub repository: LilConsul/ocs.com.ua
-- Production target: admin.dev.ocs.com.ua → Tina backend → GitHub
+- Single-domain architecture: dev.ocs.com.ua with /admin for TinaCMS
 
 ______________________________________________________________________
 
@@ -184,7 +190,7 @@ cat > application/frontend/.env.example << 'EOF'
 # GitHub OAuth Application Credentials
 # Create at: https://github.com/settings/developers
 # Authorization callback URL: http://localhost:4321/api/auth/callback/github (dev)
-#                             https://admin.dev.ocs.com.ua/api/auth/callback/github (prod)
+#                             https://dev.ocs.com.ua/api/auth/callback/github (prod)
 GITHUB_CLIENT_ID=your_github_oauth_client_id_here
 GITHUB_CLIENT_SECRET=your_github_oauth_client_secret_here
 
@@ -199,7 +205,7 @@ NEXTAUTH_SECRET=your_nextauth_secret_here
 NEXTAUTH_URL=http://localhost:4321
 
 # TinaCMS Admin Origin (for CORS in production)
-# Leave empty for local development
+# Set to your production domain
 PUBLIC_TINA_ADMIN_ORIGIN=
 
 # Optional: Personal Access Token for GitHub API (if not using OAuth)
@@ -379,13 +385,17 @@ This document describes the self-hosted TinaCMS configuration for the OCS.com.ua
 
 ```
 
-admin.dev.ocs.com.ua
-↓
-Tina Backend (Self-Hosted)
-↓
-GitHub (LilConsul/ocs.com.ua)
+dev.ocs.com.ua
+├── /           → Astro site (bilingual pages)
+└── /admin      → TinaCMS admin UI
 
 ````
+
+This single-domain setup means:
+- Main site and admin UI share the same origin (no CORS issues)
+- Simpler authentication flow (same-site cookies)
+- Easier deployment (one domain, one SSL cert)
+- Admin UI accessible at https://dev.ocs.com.ua/admin
 
 ## Prerequisites
 
@@ -468,8 +478,8 @@ This command:
 
 Follow the same steps as local development, but use production URLs:
 
-- **Homepage URL**: https://admin.dev.ocs.com.ua
-- **Authorization callback URL**: https://admin.dev.ocs.com.ua/api/auth/callback/github
+- **Homepage URL**: https://dev.ocs.com.ua
+- **Authorization callback URL**: https://dev.ocs.com.ua/api/auth/callback/github
 
 ### 2. Set Production Environment Variables
 
@@ -479,8 +489,8 @@ On your production server, configure:
 GITHUB_CLIENT_ID=prod_client_id
 GITHUB_CLIENT_SECRET=prod_client_secret
 NEXTAUTH_SECRET=prod_secret_generated_with_openssl
-NEXTAUTH_URL=https://admin.dev.ocs.com.ua
-PUBLIC_TINA_ADMIN_ORIGIN=https://admin.dev.ocs.com.ua
+NEXTAUTH_URL=https://dev.ocs.com.ua
+PUBLIC_TINA_ADMIN_ORIGIN=https://dev.ocs.com.ua
 GITHUB_OWNER=LilConsul
 GITHUB_REPO=ocs.com.ua
 GITHUB_BRANCH=main
@@ -732,15 +742,15 @@ Create `application/frontend/docs/TINA_PRODUCTION_CHECKLIST.md`:
 ````markdown
 # TinaCMS Production Deployment Checklist
 
-Use this checklist when deploying TinaCMS self-hosted backend to production at admin.dev.ocs.com.ua.
+Use this checklist when deploying TinaCMS self-hosted backend to production at dev.ocs.com.ua/admin.
 
 ## Pre-Deployment Requirements
 
 ### GitHub OAuth Application
 
 - [ ] Create production GitHub OAuth app at https://github.com/settings/developers
-- [ ] Set Homepage URL to: `https://admin.dev.ocs.com.ua`
-- [ ] Set Authorization callback URL to: `https://admin.dev.ocs.com.ua/api/auth/callback/github`
+- [ ] Set Homepage URL to: `https://dev.ocs.com.ua`
+- [ ] Set Authorization callback URL to: `https://dev.ocs.com.ua/api/auth/callback/github`
 - [ ] Note the Client ID
 - [ ] Generate and note the Client Secret
 - [ ] Configure access restrictions (organization/user whitelist) in `src/pages/api/auth/[...auth].ts`
@@ -754,8 +764,8 @@ Use this checklist when deploying TinaCMS self-hosted backend to production at a
 GITHUB_CLIENT_ID=<prod_oauth_client_id>
 GITHUB_CLIENT_SECRET=<prod_oauth_client_secret>
 NEXTAUTH_SECRET=<generated_secret>
-NEXTAUTH_URL=https://admin.dev.ocs.com.ua
-PUBLIC_TINA_ADMIN_ORIGIN=https://admin.dev.ocs.com.ua
+NEXTAUTH_URL=https://dev.ocs.com.ua
+PUBLIC_TINA_ADMIN_ORIGIN=https://dev.ocs.com.ua
 GITHUB_OWNER=LilConsul
 GITHUB_REPO=ocs.com.ua
 GITHUB_BRANCH=main
@@ -826,7 +836,7 @@ Configure in your process manager's environment section.
 
 This is handled separately by the user (per spec requirements), but verify:
 
-- [ ] Domain admin.dev.ocs.com.ua points to server
+- [ ] Domain dev.ocs.com.ua points to server
 - [ ] SSL certificate configured
 - [ ] Reverse proxy configured (if applicable)
 - [ ] Port forwarding configured correctly
@@ -835,9 +845,9 @@ This is handled separately by the user (per spec requirements), but verify:
 
 ### Connectivity Tests
 
-- [ ] Visit https://admin.dev.ocs.com.ua
+- [ ] Visit https://dev.ocs.com.ua
 - [ ] Verify homepage loads without errors
-- [ ] Visit https://admin.dev.ocs.com.ua/admin
+- [ ] Visit https://dev.ocs.com.ua/admin
 - [ ] Verify admin UI loads
 
 ### Authentication Tests
@@ -860,8 +870,8 @@ This is handled separately by the user (per spec requirements), but verify:
 
 ### Frontend Integration Tests
 
-- [ ] Visit https://admin.dev.ocs.com.ua/ua/
-- [ ] Visit https://admin.dev.ocs.com.ua/en/
+- [ ] Visit https://dev.ocs.com.ua/ua/
+- [ ] Visit https://dev.ocs.com.ua/en/
 - [ ] Verify bilingual content loads correctly
 - [ ] Check that any edited content appears correctly
 
@@ -939,7 +949,7 @@ If issues occur, check:
 
 Deployment is successful when:
 
-- [ ] Admin UI loads at https://admin.dev.ocs.com.ua/admin
+- [ ] Admin UI loads at https://dev.ocs.com.ua/admin
 - [ ] GitHub authentication works for authorized users
 - [ ] Equipment collection is visible and editable
 - [ ] Content changes persist after page reload
