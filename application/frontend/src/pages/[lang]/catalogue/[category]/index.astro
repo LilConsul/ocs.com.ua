@@ -1,0 +1,139 @@
+---
+import { getCollection } from "astro:content";
+import CatalogueSidebar from "@/components/catalogue/CatalogueSidebar.astro";
+import CategoryHeader from "@/components/catalogue/CategoryHeader.astro";
+import ProductCard from "@/components/catalogue/ProductCard.astro";
+import { getInlineTranslations, type Lang } from "@/i18n";
+import Layout from "@/layouts/Layout.astro";
+
+export async function getStaticPaths() {
+	const allEquipment = await getCollection("equipment");
+
+	// Type guard functions - check by schema fields, not ID
+	const isCategory = (item: any) => "en-label" in item.data;
+	const isProduct = (item: any) => "en-title" in item.data;
+
+	// Separate categories from products
+	const allCategories = allEquipment.filter(isCategory);
+	const allProducts = allEquipment.filter(isProduct);
+
+	return allCategories.flatMap((category) => {
+		// Category ID is the slug directly (e.g., "checkweighers")
+		const categorySlug = category.id;
+
+		// Filter products in this category (e.g., "checkweighers/hc-m")
+		const categoryProducts = allProducts.filter((item) => {
+			const folder = item.id.split("/")[0];
+			return folder === categorySlug;
+		});
+
+		return ["en", "ua"].map((lang) => ({
+			params: { lang, category: categorySlug },
+			props: {
+				categoryData: category.data,
+				categorySlug,
+				products: categoryProducts,
+				allCategories, // For sidebar
+				lang,
+			},
+		}));
+	});
+}
+
+const { categoryData, categorySlug, products, allCategories, lang } = Astro.props;
+const _ = getInlineTranslations(lang as Lang);
+
+// Sort products by order field (default 999 for products without order)
+const sortedProducts = products.sort((a, b) => (a.data.order || 999) - (b.data.order || 999));
+
+// Page metadata
+const pageTitle = `${categoryData[`${lang}-label`]} | OS-Technology`;
+const pageDescription = categoryData[`${lang}-description`];
+
+// Structured data for SEO
+const siteUrl = Astro.site || "https://ocs.com.ua";
+const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
+
+const structuredData = {
+	"@context": "https://schema.org",
+	"@type": "CollectionPage",
+	name: categoryData[`${lang}-label`],
+	description: categoryData[`${lang}-description`],
+	url: currentUrl,
+	inLanguage: lang,
+	breadcrumb: {
+		"@type": "BreadcrumbList",
+		itemListElement: [
+			{
+				"@type": "ListItem",
+				position: 1,
+				name: lang === "en" ? "Home" : "Головна",
+				item: `${siteUrl}/${lang}/`,
+			},
+			{
+				"@type": "ListItem",
+				position: 2,
+				name: lang === "en" ? "Catalogue" : "Каталог",
+				item: `${siteUrl}/${lang}/catalogue/`,
+			},
+			{
+				"@type": "ListItem",
+				position: 3,
+				name: categoryData[`${lang}-label`],
+				item: currentUrl,
+			},
+		],
+	},
+	mainEntity: {
+		"@type": "ItemList",
+		numberOfItems: sortedProducts.length,
+		itemListElement: sortedProducts.map((product, index) => {
+			const productSlug = product.id.split("/")[1].replace(".md", "");
+			const productUrl = `${siteUrl}/${lang}/catalogue/${categorySlug}/${productSlug}`;
+			return {
+				"@type": "ListItem",
+				position: index + 1,
+				url: productUrl,
+				name: product.data[`${lang}-title`],
+				description: product.data[`${lang}-description`],
+			};
+		}),
+	},
+};
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+	<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+	<!-- Generous container with maximum width constraint -->
+	<div class="mx-auto flex max-w-[1600px] gap-8 px-8 py-16">
+		<!-- Sidebar Navigation -->
+		<CatalogueSidebar
+			allCategories={allCategories}
+			currentCategory={categorySlug}
+			lang={lang as Lang}
+		/>
+
+		<main class="min-w-0 flex-1">
+			<CategoryHeader categoryData={categoryData} lang={lang as Lang} />
+
+			<section aria-label={_("Products")}>
+				{
+					sortedProducts.length > 0 ? (
+						<div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+							{sortedProducts.map((product) => (
+								<ProductCard product={product} lang={lang as Lang} />
+							))}
+						</div>
+					) : (
+						<div class="text-muted-foreground py-24 text-center">
+							<p class="text-lg">{_("No products available in this category")}</p>
+						</div>
+					)
+				}
+			</section>
+
+			<div class="h-32"></div>
+		</main>
+	</div>
+</Layout>

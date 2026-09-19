@@ -10,12 +10,16 @@ export async function getStaticPaths() {
 		const equipment = await getCollection("equipment");
 
 		for (const item of equipment) {
-			// Extract slug from filename
-			// e.g., "checkweighers/hc-m.md" -> category: "checkweighers", slug: "hc-m"
+			// Skip category files - they don't have en-title
+			if (!("en-title" in item.data)) {
+				continue;
+			}
+
+			// Extract slug from ID
+			// e.g., "checkweighers/hc-m" -> category: "checkweighers", slug: "hc-m"
 			const parts = item.id.split("/");
 			const category = parts[0];
-			const filename = parts[1]; // "hc-m.md"
-			const slug = filename.replace(".md", ""); // "hc-m"
+			const slug = parts[1]; // Already without extension
 
 			paths.push({
 				params: { lang, category, slug },

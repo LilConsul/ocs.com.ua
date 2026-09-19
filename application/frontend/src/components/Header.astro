@@ -5,24 +5,40 @@ import { getInlineTranslations, type Lang } from "@/i18n";
 
 interface Props {
 	currentLang: Lang;
+	currentPath?: string;
 }
 
-const { currentLang } = Astro.props;
+const { currentLang, currentPath } = Astro.props;
 // Ensure TypeScript knows this is a Lang, not string | number | symbol
 const lang: Lang = currentLang;
 const _ = getInlineTranslations(lang);
 
+// Helper to swap language in current path
+const getLanguagePath = (targetLang: string) => {
+	if (!currentPath) return `/${targetLang}`;
+	// Replace the language code at the start of the path
+	// e.g., /en/catalogue/checkweighers -> /ua/catalogue/checkweighers
+	const pathWithoutLang = currentPath.replace(/^\/(en|ua)/, "");
+	return `/${targetLang}${pathWithoutLang}`;
+};
+
 const navLinks = [
-	{ href: `/${lang}#catalogue`, label: _("Products") },
-	{ href: `/${lang}#solutions`, label: _("Solutions") },
-	{ href: `/${lang}#industries`, label: _("Industries") },
-	{ href: `/${lang}#about`, label: _("About") },
+	{ href: `/${lang}/catalogue/checkweighers`, label: _("Catalogue"), pattern: "/catalogue" },
+	{ href: `/${lang}/catalogue`, label: _("Industries"), pattern: "/industries" },
+	{ href: `/${lang}/wiki`, label: _("Wiki"), pattern: "/wiki" },
+	{ href: `/${lang}/about`, label: _("About Us"), pattern: "/about" },
 ];
 
 const languageOptions = [
 	{ code: "en" as const, name: "English", flag: "🇬🇧" },
 	{ code: "ua" as const, name: "Українська", flag: "🇺🇦" },
 ];
+
+// Helper to check if nav link is active
+const isActive = (pattern: string) => {
+	if (!currentPath) return false;
+	return currentPath.includes(pattern);
+};
 ---
 
 <header
@@ -44,7 +60,11 @@ const languageOptions = [
 				navLinks.map((link) => (
 					<a
 						href={link.href}
-						class="text-muted-foreground hover:text-foreground text-sm font-medium transition-colors"
+						class={`relative text-sm font-medium transition-colors ${
+							isActive(link.pattern)
+								? "text-foreground after:bg-primary after:absolute after:right-0 after:bottom-[-8px] after:left-0 after:h-0.5 after:content-['']"
+								: "text-muted-foreground hover:text-foreground"
+						}`}
 					>
 						{link.label}
 					</a>
@@ -61,7 +81,7 @@ const languageOptions = [
 				{
 					languageOptions.map((langOption) => (
 						<a
-							href={langOption.code === lang ? "#" : `/${langOption.code}`}
+							href={getLanguagePath(langOption.code)}
 							class={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-all duration-200 ${
 								lang === langOption.code
 									? "bg-primary text-primary-foreground shadow-sm"
@@ -99,7 +119,11 @@ const languageOptions = [
 				navLinks.map((link) => (
 					<a
 						href={link.href}
-						class="text-muted-foreground hover:text-foreground block py-2 text-base font-medium transition-colors"
+						class={`block py-2 text-base font-medium transition-colors ${
+							isActive(link.pattern)
+								? "text-foreground border-primary border-l-2 pl-3 font-semibold"
+								: "text-muted-foreground hover:text-foreground"
+						}`}
 					>
 						{link.label}
 					</a>
@@ -111,7 +135,7 @@ const languageOptions = [
 				{
 					languageOptions.map((langOption) => (
 						<a
-							href={langOption.code === lang ? "#" : `/${langOption.code}`}
+							href={getLanguagePath(langOption.code)}
 							class={`flex w-full items-center gap-3 rounded-lg px-3 py-2 transition-colors ${
 								lang === langOption.code ? "bg-accent text-accent-foreground" : "hover:bg-accent/50"
 							}`}

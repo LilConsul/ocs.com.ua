@@ -35,7 +35,7 @@ export default defineConfig({
 					filename: {
 						readonly: false,
 						slugify: (values) => {
-							const title = values?.["en_title"] || "untitled";
+							const title = values?.en_title || "untitled";
 							return title
 								.toLowerCase()
 								.replace(/\s+/g, "-")
@@ -61,6 +61,26 @@ export default defineConfig({
 						label: "[UA] Назва обладнання",
 						required: true,
 					},
+
+					// ========================================
+					// INDUSTRY CLASSIFICATION
+					// ========================================
+					{
+						type: "string",
+						name: "industries",
+						label: "Industries",
+						required: true,
+						list: true,
+						description: "Select one or more industries this equipment serves",
+						options: [
+							{ value: "food-beverage", label: "Food & Beverage" },
+							{ value: "pharmaceutical", label: "Pharmaceutical" },
+							{ value: "cosmetics", label: "Cosmetics" },
+							{ value: "logistics", label: "Logistics & Distribution" },
+							{ value: "general", label: "General / All Industries" },
+						],
+					},
+
 					{
 						type: "string",
 						name: "en_description",
@@ -108,7 +128,7 @@ export default defineConfig({
 						description: "Maximum 3 specifications shown on catalogue cards",
 						ui: {
 							itemProps: (item) => ({
-								label: item?.["en_label"] || "New Specification",
+								label: item?.en_label || "New Specification",
 							}),
 						},
 						fields: [

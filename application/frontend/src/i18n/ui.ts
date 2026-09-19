@@ -12,7 +12,7 @@
  * - locales/ua.po (Ukrainian translations)
  *
  * Generation script: scripts/i18n-compile.js
- * Generated: 2026-09-12T20:32:09.619Z
+ * Generated: 2026-09-18T17:37:47.722Z
  */
 
 export const languages = {
@@ -24,23 +24,33 @@ export const defaultLang = "ua";
 
 export const ui = {
 	en: {
-		"inline.about": "About",
-		"inline.advanced_checkweighers_and_track_trace_systems_for_food_pharma_and_logistics_tru": "Advanced checkweighers and Track & Trace systems for food, pharma, and logistics. Trusted by 300+ Ukrainian manufacturers since 2013.",
+		"inline.about_us": "About Us",
+		"inline.advanced_checkweighers_and_track_trace_systems_for_food_pharma_and_logistics_tru":
+			"Advanced checkweighers and Track & Trace systems for food, pharma, and logistics. Trusted by 300+ Ukrainian manufacturers since 2013.",
 		"inline.all_industries": "All Industries",
 		"inline.all_rights_reserved": "All rights reserved",
-		"inline.checkweighers_and_inspection_systems_meeting_fda_ifs_brc_and_gmp_standards_engin": "Checkweighers and inspection systems meeting FDA, IFS, BRC, and GMP standards — engineered for Ukrainian manufacturers.",
+		"inline.catalogue": "Catalogue",
+		"inline.catalogue_filters": "Catalogue Filters",
+		"inline.checkweighers_and_inspection_systems_meeting_fda_ifs_brc_and_gmp_standards_engin":
+			"Checkweighers and inspection systems meeting FDA, IFS, BRC, and GMP standards — engineered for Ukrainian manufacturers.",
 		"inline.client_retention": "Client Retention",
 		"inline.clients": "Clients",
+		"inline.close_filters": "Close filters",
 		"inline.contact_us": "Contact Us",
 		"inline.cosmetics": "Cosmetics",
-		"inline.dynamic_checkweighers_and_track_trace_systems_for_food_pharmaceutical_and_logist": "Dynamic checkweighers and Track & Trace systems for food, pharmaceutical, and logistics industries in Ukraine. Official Wipotec partner.",
+		"inline.dynamic_checkweighers_and_track_trace_systems_for_food_pharmaceutical_and_logist":
+			"Dynamic checkweighers and Track & Trace systems for food, pharmaceutical, and logistics industries in Ukraine. Official Wipotec partner.",
 		"inline.dynamic_checkweighers_weighing_systems": "Dynamic Checkweighers & Weighing Systems",
+		"inline.equipment_categories": "Equipment Categories",
 		"inline.explore_industry_specific_solutions": "Explore industry-specific solutions",
+		"inline.filters": "Filters",
 		"inline.food_beverage": "Food & Beverage",
 		"inline.german_precision_ukrainian_support": "German Precision. Ukrainian Support.",
 		"inline.hello_world": "Hello, world",
-		"inline.high_speed_checkweighers_for_warehouses_and_fulfillment_centers": "High-speed checkweighers for warehouses and fulfillment centers.",
-		"inline.hygienic_checkweighers_meeting_food_safety_standards_fda_ifs_brc_built_for_produ": "Hygienic checkweighers meeting food safety standards (FDA, IFS, BRC). Built for production lines.",
+		"inline.high_speed_checkweighers_for_warehouses_and_fulfillment_centers":
+			"High-speed checkweighers for warehouses and fulfillment centers.",
+		"inline.hygienic_checkweighers_meeting_food_safety_standards_fda_ifs_brc_built_for_produ":
+			"Hygienic checkweighers meeting food safety standards (FDA, IFS, BRC). Built for production lines.",
 		"inline.industrial_checkweigher_systems": "Industrial Checkweigher Systems",
 		"inline.industries": "Industries",
 		"inline.industries_we_serve": "Industries We Serve",
@@ -48,47 +58,70 @@ export const ui = {
 		"inline.language": "Language",
 		"inline.learn_more": "Learn More",
 		"inline.logistics_distribution": "Logistics & Distribution",
-		"inline.long_term_partnerships_built_on_reliable_support": "Long-term partnerships built on reliable support.",
+		"inline.long_term_partnerships_built_on_reliable_support":
+			"Long-term partnerships built on reliable support.",
+		"inline.no_products_available_in_this_category": "No products available in this category",
 		"inline.official_mesutronic_partner": "Official Mesutronic Partner",
 		"inline.official_wipotec_partner": "Official Wipotec Partner",
+		"inline.open_filters": "Open filters",
 		"inline.os_technology_ukraine": "OS-Technology Ukraine",
-		"inline.os_technology_ukraine_checkweighers_inspection_systems": "OS-Technology Ukraine | Checkweighers & Inspection Systems",
+		"inline.os_technology_ukraine_checkweighers_inspection_systems":
+			"OS-Technology Ukraine | Checkweighers & Inspection Systems",
 		"inline.our_clients": "Our Clients",
 		"inline.pharmaceutical": "Pharmaceutical",
-		"inline.precision_checkweighers_with_track_trace_serialization_gmp_compliant_and_audit_r": "Precision checkweighers with Track & Trace serialization. GMP-compliant and audit-ready.",
+		"inline.precision_checkweighers_with_track_trace_serialization_gmp_compliant_and_audit_r":
+			"Precision checkweighers with Track & Trace serialization. GMP-compliant and audit-ready.",
 		"inline.privacy_policy": "Privacy Policy",
 		"inline.products": "Products",
-		"inline.quality_control_and_filling_inspection_systems": "Quality control and filling inspection systems.",
-		"inline.solutions": "Solutions",
+		"inline.quality_control_and_filling_inspection_systems":
+			"Quality control and filling inspection systems.",
+		"inline.request_full_specs": "Request Full Specs",
 		"inline.solutions_for_every_industry": "Solutions for Every Industry",
-		"inline.supplying_and_servicing_precision_weighing_equipment_for_major_food_pharmaceutic": "Supplying and servicing precision weighing equipment for major food, pharmaceutical, and chemical companies since 2013.",
+		"inline.supplying_and_servicing_precision_weighing_equipment_for_major_food_pharmaceutic":
+			"Supplying and servicing precision weighing equipment for major food, pharmaceutical, and chemical companies since 2013.",
 		"inline.systems_installed": "Systems Installed",
-		"inline.systems_operating_across_ukrainian_manufacturing_facilities": "Systems operating across Ukrainian manufacturing facilities.",
-		"inline.technical_expertise_and_service_support_since_2013": "Technical expertise and service support since 2013.",
+		"inline.systems_operating_across_ukrainian_manufacturing_facilities":
+			"Systems operating across Ukrainian manufacturing facilities.",
+		"inline.technical_details": "Technical Details",
+		"inline.technical_expertise_and_service_support_since_2013":
+			"Technical expertise and service support since 2013.",
+		"inline.technical_specs": "Technical Specs",
 		"inline.terms_of_service": "Terms of Service",
-		"inline.trusted_by_ukraine_s_leading_manufacturers": "Trusted by Ukraine's Leading Manufacturers",
+		"inline.trusted_by_ukraine_s_leading_manufacturers":
+			"Trusted by Ukraine's Leading Manufacturers",
 		"inline.view_products": "View Products",
+		"inline.wiki": "Wiki",
 		"inline.years_in_ukraine": "Years in Ukraine",
 		"inline.years_of_experience": "Years of Experience",
 	},
 	ua: {
-		"inline.about": "Про нас",
-		"inline.advanced_checkweighers_and_track_trace_systems_for_food_pharma_and_logistics_tru": "Сучасні чеквейєри та системи Track & Trace для харчової, фармацевтичної та логістичної галузей. Нам довіряють понад 300 українських виробників з 2013 року.",
+		"inline.about_us": "Про нас",
+		"inline.advanced_checkweighers_and_track_trace_systems_for_food_pharma_and_logistics_tru":
+			"Сучасні чеквейєри та системи Track & Trace для харчової, фармацевтичної та логістичної галузей. Нам довіряють понад 300 українських виробників з 2013 року.",
 		"inline.all_industries": "Всі галузі",
 		"inline.all_rights_reserved": "Всі права захищено",
-		"inline.checkweighers_and_inspection_systems_meeting_fda_ifs_brc_and_gmp_standards_engin": "Чеквейєри та системи контролю якості, які відповідають стандартам FDA, IFS, BRC та GMP — розроблені для українських виробників.",
+		"inline.catalogue": "Каталог",
+		"inline.catalogue_filters": "Фільтри каталогу",
+		"inline.checkweighers_and_inspection_systems_meeting_fda_ifs_brc_and_gmp_standards_engin":
+			"Чеквейєри та системи контролю якості, які відповідають стандартам FDA, IFS, BRC та GMP — розроблені для українських виробників.",
 		"inline.client_retention": "Лояльність клієнтів",
 		"inline.clients": "Клієнтів",
+		"inline.close_filters": "Закрити фільтри",
 		"inline.contact_us": "Зв'яжіться з нами",
 		"inline.cosmetics": "Косметика",
-		"inline.dynamic_checkweighers_and_track_trace_systems_for_food_pharmaceutical_and_logist": "Динамічні чеквейєри та системи Track & Trace для харчової, фармацевтичної та логістичної промисловості України. Офіційний партнер Wipotec.",
+		"inline.dynamic_checkweighers_and_track_trace_systems_for_food_pharmaceutical_and_logist":
+			"Динамічні чеквейєри та системи Track & Trace для харчової, фармацевтичної та логістичної промисловості України. Офіційний партнер Wipotec.",
 		"inline.dynamic_checkweighers_weighing_systems": "Динамічні чеквейєри та вагові системи",
+		"inline.equipment_categories": "Категорії обладнання",
 		"inline.explore_industry_specific_solutions": "Перегляньте рішення для вашої галузі",
+		"inline.filters": "Фільтри",
 		"inline.food_beverage": "Харчова промисловість",
 		"inline.german_precision_ukrainian_support": "Німецька точність. Українська підтримка.",
 		"inline.hello_world": "Привіт, світ",
-		"inline.high_speed_checkweighers_for_warehouses_and_fulfillment_centers": "Швидкісні чеквейєри для складів та центрів виконання замовлень.",
-		"inline.hygienic_checkweighers_meeting_food_safety_standards_fda_ifs_brc_built_for_produ": "Гігієнічні чеквейєри, які відповідають стандартам харчової безпеки (FDA, IFS, BRC). Створені для виробничих ліній.",
+		"inline.high_speed_checkweighers_for_warehouses_and_fulfillment_centers":
+			"Швидкісні чеквейєри для складів та центрів виконання замовлень.",
+		"inline.hygienic_checkweighers_meeting_food_safety_standards_fda_ifs_brc_built_for_produ":
+			"Гігієнічні чеквейєри, які відповідають стандартам харчової безпеки (FDA, IFS, BRC). Створені для виробничих ліній.",
 		"inline.industrial_checkweigher_systems": "Промислові системи зважування",
 		"inline.industries": "Галузі",
 		"inline.industries_we_serve": "Галузі, з якими ми працюємо",
@@ -96,26 +129,38 @@ export const ui = {
 		"inline.language": "Мова",
 		"inline.learn_more": "Дізнатися більше",
 		"inline.logistics_distribution": "Логістика та дистрибуція",
-		"inline.long_term_partnerships_built_on_reliable_support": "Довгострокові партнерства, побудовані на надійній підтримці.",
+		"inline.long_term_partnerships_built_on_reliable_support":
+			"Довгострокові партнерства, побудовані на надійній підтримці.",
+		"inline.no_products_available_in_this_category": "Немає доступних товарів у цій категорії",
 		"inline.official_mesutronic_partner": "Офіційний партнер Mesutronic",
 		"inline.official_wipotec_partner": "Офіційний партнер Wipotec",
+		"inline.open_filters": "Відкрити фільтри",
 		"inline.os_technology_ukraine": "OS-Technology Україна",
-		"inline.os_technology_ukraine_checkweighers_inspection_systems": "OS-Technology Україна | Чеквейєри та системи контролю якості",
+		"inline.os_technology_ukraine_checkweighers_inspection_systems":
+			"OS-Technology Україна | Чеквейєри та системи контролю якості",
 		"inline.our_clients": "Наші клієнти",
 		"inline.pharmaceutical": "Фармацевтика",
-		"inline.precision_checkweighers_with_track_trace_serialization_gmp_compliant_and_audit_r": "Високоточні чеквейєри з серіалізацією Track & Trace. Відповідають стандарту GMP та готові до аудиту.",
+		"inline.precision_checkweighers_with_track_trace_serialization_gmp_compliant_and_audit_r":
+			"Високоточні чеквейєри з серіалізацією Track & Trace. Відповідають стандарту GMP та готові до аудиту.",
 		"inline.privacy_policy": "Політика конфіденційності",
 		"inline.products": "Продукція",
-		"inline.quality_control_and_filling_inspection_systems": "Системи контролю якості та перевірки наповнення.",
-		"inline.solutions": "Рішення",
+		"inline.quality_control_and_filling_inspection_systems":
+			"Системи контролю якості та перевірки наповнення.",
+		"inline.request_full_specs": "Запитати повні характеристики",
 		"inline.solutions_for_every_industry": "Рішення для кожної галузі",
-		"inline.supplying_and_servicing_precision_weighing_equipment_for_major_food_pharmaceutic": "Поставляємо та обслуговуємо високоточне вагове обладнання для провідних харчових, фармацевтичних та хімічних компаній з 2013 року.",
+		"inline.supplying_and_servicing_precision_weighing_equipment_for_major_food_pharmaceutic":
+			"Поставляємо та обслуговуємо високоточне вагове обладнання для провідних харчових, фармацевтичних та хімічних компаній з 2013 року.",
 		"inline.systems_installed": "Встановлених систем",
-		"inline.systems_operating_across_ukrainian_manufacturing_facilities": "Системи працюють на виробничих підприємствах по всій Україні.",
-		"inline.technical_expertise_and_service_support_since_2013": "Технічна експертиза та сервісна підтримка з 2013 року.",
+		"inline.systems_operating_across_ukrainian_manufacturing_facilities":
+			"Системи працюють на виробничих підприємствах по всій Україні.",
+		"inline.technical_details": "Технічні деталі",
+		"inline.technical_expertise_and_service_support_since_2013":
+			"Технічна експертиза та сервісна підтримка з 2013 року.",
+		"inline.technical_specs": "Технічні характеристики",
 		"inline.terms_of_service": "Умови використання",
 		"inline.trusted_by_ukraine_s_leading_manufacturers": "Нам довіряють провідні виробники України",
 		"inline.view_products": "Переглянути продукцію",
+		"inline.wiki": "Wiki",
 		"inline.years_in_ukraine": "Років в Україні",
 		"inline.years_of_experience": "Років досвіду",
 	},
