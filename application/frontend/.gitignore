@@ -5,7 +5,7 @@ dist/
 .astro/
 
 # dependencies
-node_modules/
+node_modules*/
 
 # logs
 npm-debug.log*
@@ -30,3 +30,4 @@ bun-debug.log*
 node_modules
 .env
 tina/__generated__
+.env.local
