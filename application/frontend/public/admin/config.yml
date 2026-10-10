@@ -1,0 +1,112 @@
+backend:
+  name: github
+  repo: LilConsul/ocs.com.ua
+  branch: main
+  base_url: https://dev.ocs.com.ua
+  auth_endpoint: api/auth
+
+media_folder: "application/frontend/public/assets/equipment"
+public_folder: "/assets/equipment"
+
+collections:
+  - name: "checkweighers"
+    label: "Checkweighers"
+    folder: "application/frontend/src/content/equipment/checkweighers"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { label: "Title (English)", name: "title", widget: "string" }
+      - { label: "Title (Ukrainian)", name: "title_ua", widget: "string" }
+      - { label: "Description (English)", name: "description", widget: "text" }
+      - { label: "Description (Ukrainian)", name: "description_ua", widget: "text" }
+      - { label: "Category", name: "category", widget: "hidden", default: "checkweighers" }
+      - { label: "Manufacturer", name: "manufacturer", widget: "select", options: ["Wipotec", "Mesutronic", "Other"] }
+      - { label: "Model", name: "model", widget: "string" }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - { label: "Brochure PDF", name: "brochure", widget: "file", required: false }
+      - { label: "Datasheet", name: "datasheet", widget: "file", required: false }
+      - { label: "Weight Range", name: "weight_range", widget: "string", required: false }
+      - { label: "Speed", name: "speed", widget: "string", required: false }
+      - { label: "Accuracy", name: "accuracy", widget: "string", required: false }
+      - { label: "Featured", name: "featured", widget: "boolean", default: false }
+      - { label: "Order", name: "order", widget: "number", default: 0 }
+      - { label: "Body (English)", name: "body", widget: "markdown" }
+      - { label: "Body (Ukrainian)", name: "body_ua", widget: "markdown" }
+
+  - name: "catchweighers"
+    label: "Catchweighers"
+    folder: "application/frontend/src/content/equipment/catchweighers"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { label: "Title (English)", name: "title", widget: "string" }
+      - { label: "Title (Ukrainian)", name: "title_ua", widget: "string" }
+      - { label: "Description (English)", name: "description", widget: "text" }
+      - { label: "Description (Ukrainian)", name: "description_ua", widget: "text" }
+      - { label: "Category", name: "category", widget: "hidden", default: "catchweighers" }
+      - { label: "Manufacturer", name: "manufacturer", widget: "select", options: ["Wipotec", "Mesutronic", "Other"] }
+      - { label: "Model", name: "model", widget: "string" }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - { label: "Brochure PDF", name: "brochure", widget: "file", required: false }
+      - { label: "Datasheet", name: "datasheet", widget: "file", required: false }
+      - { label: "Weight Range", name: "weight_range", widget: "string", required: false }
+      - { label: "Speed", name: "speed", widget: "string", required: false }
+      - { label: "Accuracy", name: "accuracy", widget: "string", required: false }
+      - { label: "Featured", name: "featured", widget: "boolean", default: false }
+      - { label: "Order", name: "order", widget: "number", default: 0 }
+      - { label: "Body (English)", name: "body", widget: "markdown" }
+      - { label: "Body (Ukrainian)", name: "body_ua", widget: "markdown" }
+
+  - name: "metal-detectors"
+    label: "Metal Detectors"
+    folder: "application/frontend/src/content/equipment/metal-detectors"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { label: "Title (English)", name: "title", widget: "string" }
+      - { label: "Title (Ukrainian)", name: "title_ua", widget: "string" }
+      - { label: "Description (English)", name: "description", widget: "text" }
+      - { label: "Description (Ukrainian)", name: "description_ua", widget: "text" }
+      - { label: "Category", name: "category", widget: "hidden", default: "metal-detectors" }
+      - { label: "Manufacturer", name: "manufacturer", widget: "select", options: ["Wipotec", "Mesutronic", "Other"] }
+      - { label: "Model", name: "model", widget: "string" }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - { label: "Brochure PDF", name: "brochure", widget: "file", required: false }
+      - { label: "Datasheet", name: "datasheet", widget: "file", required: false }
+      - { label: "Detection Sensitivity", name: "sensitivity", widget: "string", required: false }
+      - { label: "Belt Width", name: "belt_width", widget: "string", required: false }
+      - { label: "Featured", name: "featured", widget: "boolean", default: false }
+      - { label: "Order", name: "order", widget: "number", default: 0 }
+      - { label: "Body (English)", name: "body", widget: "markdown" }
+      - { label: "Body (Ukrainian)", name: "body_ua", widget: "markdown" }
+
+  - name: "x-ray-inspection"
+    label: "X-Ray Inspection Systems"
+    folder: "application/frontend/src/content/equipment/x-ray-inspection"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { label: "Title (English)", name: "title", widget: "string" }
+      - { label: "Title (Ukrainian)", name: "title_ua", widget: "string" }
+      - { label: "Description (English)", name: "description", widget: "text" }
+      - { label: "Description (Ukrainian)", name: "description_ua", widget: "text" }
+      - { label: "Category", name: "category", widget: "hidden", default: "x-ray-inspection" }
+      - { label: "Manufacturer", name: "manufacturer", widget: "select", options: ["Wipotec", "Mesutronic", "Other"] }
+      - { label: "Model", name: "model", widget: "string" }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - { label: "Brochure PDF", name: "brochure", widget: "file", required: false }
+      - { label: "Datasheet", name: "datasheet", widget: "file", required: false }
+      - { label: "Resolution", name: "resolution", widget: "string", required: false }
+      - { label: "Throughput", name: "throughput", widget: "string", required: false }
+      - { label: "Featured", name: "featured", widget: "boolean", default: false }
+      - { label: "Order", name: "order", widget: "number", default: 0 }
+      - { label: "Body (English)", name: "body", widget: "markdown" }
+      - { label: "Body (Ukrainian)", name: "body_ua", widget: "markdown" }

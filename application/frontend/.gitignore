@@ -17,6 +17,7 @@ bun-debug.log*
 # environment variables
 .env
 .env.production
+.env.local
 
 # macOS-specific files
 .DS_Store
@@ -28,6 +29,3 @@ bun-debug.log*
 /.claude/hooks
 
 node_modules
-.env
-tina/__generated__
-.env.local
