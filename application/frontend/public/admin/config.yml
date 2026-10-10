@@ -1,0 +1,127 @@
+backend:
+  name: github
+  repo: LilConsul/ocs.com.ua
+  branch: main
+  # For local development: create a Personal Access Token at
+  # https://github.com/settings/tokens (classic token with 'repo' scope)
+  # Then add to URL: http://localhost:4321/admin/#access_token=YOUR_TOKEN
+
+media_folder: "application/frontend/public/assets/equipment"
+public_folder: "/assets/equipment"
+
+collections:
+  - name: "checkweighers"
+    label: "Checkweighers"
+    folder: "application/frontend/src/content/equipment/checkweighers"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    identifier_field: "en-title"
+    filter: {field: "en-title", pattern: ".+"}
+    fields:
+      - { label: "Title (English)", name: "en-title", widget: "string" }
+      - { label: "Title (Ukrainian)", name: "ua-title", widget: "string" }
+      - { label: "Order", name: "order", widget: "number", default: 0 }
+      - { label: "Industries", name: "industries", widget: "list", required: false }
+      - { label: "Description (English)", name: "en-description", widget: "text" }
+      - { label: "Description (Ukrainian)", name: "ua-description", widget: "text" }
+      - { label: "Gallery", name: "gallery", widget: "list", required: false }
+      - { label: "Datasheet", name: "datasheet", widget: "file", required: false }
+      - label: "Specifications"
+        name: "specs"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Label (English)", name: "en-label", widget: "string" }
+          - { label: "Label (Ukrainian)", name: "ua-label", widget: "string" }
+          - { label: "Value", name: "value", widget: "string" }
+      - { label: "Body (English)", name: "en-body", widget: "markdown" }
+      - { label: "Body (Ukrainian)", name: "ua-body", widget: "markdown" }
+
+  - name: "catchweighers"
+    label: "Catchweighers"
+    folder: "application/frontend/src/content/equipment/catchweighers"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    identifier_field: "en-title"
+    filter: {field: "en-title", pattern: ".+"}
+    fields:
+      - { label: "Title (English)", name: "en-title", widget: "string" }
+      - { label: "Title (Ukrainian)", name: "ua-title", widget: "string" }
+      - { label: "Order", name: "order", widget: "number", default: 0 }
+      - { label: "Industries", name: "industries", widget: "list", required: false }
+      - { label: "Description (English)", name: "en-description", widget: "text" }
+      - { label: "Description (Ukrainian)", name: "ua-description", widget: "text" }
+      - { label: "Gallery", name: "gallery", widget: "list", required: false }
+      - { label: "Datasheet", name: "datasheet", widget: "file", required: false }
+      - label: "Specifications"
+        name: "specs"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Label (English)", name: "en-label", widget: "string" }
+          - { label: "Label (Ukrainian)", name: "ua-label", widget: "string" }
+          - { label: "Value", name: "value", widget: "string" }
+      - { label: "Body (English)", name: "en-body", widget: "markdown" }
+      - { label: "Body (Ukrainian)", name: "ua-body", widget: "markdown" }
+
+  - name: "metal-detectors"
+    label: "Metal Detectors"
+    folder: "application/frontend/src/content/equipment/metal-detectors"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    identifier_field: "en-title"
+    filter: {field: "en-title", pattern: ".+"}
+    fields:
+      - { label: "Title (English)", name: "en-title", widget: "string" }
+      - { label: "Title (Ukrainian)", name: "ua-title", widget: "string" }
+      - { label: "Order", name: "order", widget: "number", default: 0 }
+      - { label: "Industries", name: "industries", widget: "list", required: false }
+      - { label: "Description (English)", name: "en-description", widget: "text" }
+      - { label: "Description (Ukrainian)", name: "ua-description", widget: "text" }
+      - { label: "Gallery", name: "gallery", widget: "list", required: false }
+      - { label: "Datasheet", name: "datasheet", widget: "file", required: false }
+      - label: "Specifications"
+        name: "specs"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Label (English)", name: "en-label", widget: "string" }
+          - { label: "Label (Ukrainian)", name: "ua-label", widget: "string" }
+          - { label: "Value", name: "value", widget: "string" }
+      - { label: "Body (English)", name: "en-body", widget: "markdown" }
+      - { label: "Body (Ukrainian)", name: "ua-body", widget: "markdown" }
+
+  - name: "x-ray-inspection"
+    label: "X-Ray Inspection Systems"
+    folder: "application/frontend/src/content/equipment/x-ray-inspection"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    identifier_field: "en-title"
+    filter: {field: "en-title", pattern: ".+"}
+    fields:
+      - { label: "Title (English)", name: "en-title", widget: "string" }
+      - { label: "Title (Ukrainian)", name: "ua-title", widget: "string" }
+      - { label: "Order", name: "order", widget: "number", default: 0 }
+      - { label: "Industries", name: "industries", widget: "list", required: false }
+      - { label: "Description (English)", name: "en-description", widget: "text" }
+      - { label: "Description (Ukrainian)", name: "ua-description", widget: "text" }
+      - { label: "Gallery", name: "gallery", widget: "list", required: false }
+      - { label: "Datasheet", name: "datasheet", widget: "file", required: false }
+      - label: "Specifications"
+        name: "specs"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Label (English)", name: "en-label", widget: "string" }
+          - { label: "Label (Ukrainian)", name: "ua-label", widget: "string" }
+          - { label: "Value", name: "value", widget: "string" }
+      - { label: "Body (English)", name: "en-body", widget: "markdown" }
+      - { label: "Body (Ukrainian)", name: "ua-body", widget: "markdown" }
