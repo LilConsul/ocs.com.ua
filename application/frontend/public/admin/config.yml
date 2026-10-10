@@ -2,8 +2,9 @@ backend:
   name: github
   repo: LilConsul/ocs.com.ua
   branch: main
-  base_url: https://dev.ocs.com.ua
-  auth_endpoint: api/auth
+  # For local development: create a Personal Access Token at
+  # https://github.com/settings/tokens (classic token with 'repo' scope)
+  # Then add to URL: http://localhost:4321/admin/#access_token=YOUR_TOKEN
 
 media_folder: "application/frontend/public/assets/equipment"
 public_folder: "/assets/equipment"
@@ -16,24 +17,27 @@ collections:
     slug: "{{slug}}"
     extension: "md"
     format: "frontmatter"
+    identifier_field: "en-title"
+    filter: {field: "en-title", pattern: ".+"}
     fields:
-      - { label: "Title (English)", name: "title", widget: "string" }
-      - { label: "Title (Ukrainian)", name: "title_ua", widget: "string" }
-      - { label: "Description (English)", name: "description", widget: "text" }
-      - { label: "Description (Ukrainian)", name: "description_ua", widget: "text" }
-      - { label: "Category", name: "category", widget: "hidden", default: "checkweighers" }
-      - { label: "Manufacturer", name: "manufacturer", widget: "select", options: ["Wipotec", "Mesutronic", "Other"] }
-      - { label: "Model", name: "model", widget: "string" }
-      - { label: "Image", name: "image", widget: "image", required: false }
-      - { label: "Brochure PDF", name: "brochure", widget: "file", required: false }
-      - { label: "Datasheet", name: "datasheet", widget: "file", required: false }
-      - { label: "Weight Range", name: "weight_range", widget: "string", required: false }
-      - { label: "Speed", name: "speed", widget: "string", required: false }
-      - { label: "Accuracy", name: "accuracy", widget: "string", required: false }
-      - { label: "Featured", name: "featured", widget: "boolean", default: false }
+      - { label: "Title (English)", name: "en-title", widget: "string" }
+      - { label: "Title (Ukrainian)", name: "ua-title", widget: "string" }
       - { label: "Order", name: "order", widget: "number", default: 0 }
-      - { label: "Body (English)", name: "body", widget: "markdown" }
-      - { label: "Body (Ukrainian)", name: "body_ua", widget: "markdown" }
+      - { label: "Industries", name: "industries", widget: "list", required: false }
+      - { label: "Description (English)", name: "en-description", widget: "text" }
+      - { label: "Description (Ukrainian)", name: "ua-description", widget: "text" }
+      - { label: "Gallery", name: "gallery", widget: "list", required: false }
+      - { label: "Datasheet", name: "datasheet", widget: "file", required: false }
+      - label: "Specifications"
+        name: "specs"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Label (English)", name: "en-label", widget: "string" }
+          - { label: "Label (Ukrainian)", name: "ua-label", widget: "string" }
+          - { label: "Value", name: "value", widget: "string" }
+      - { label: "Body (English)", name: "en-body", widget: "markdown" }
+      - { label: "Body (Ukrainian)", name: "ua-body", widget: "markdown" }
 
   - name: "catchweighers"
     label: "Catchweighers"
@@ -42,24 +46,27 @@ collections:
     slug: "{{slug}}"
     extension: "md"
     format: "frontmatter"
+    identifier_field: "en-title"
+    filter: {field: "en-title", pattern: ".+"}
     fields:
-      - { label: "Title (English)", name: "title", widget: "string" }
-      - { label: "Title (Ukrainian)", name: "title_ua", widget: "string" }
-      - { label: "Description (English)", name: "description", widget: "text" }
-      - { label: "Description (Ukrainian)", name: "description_ua", widget: "text" }
-      - { label: "Category", name: "category", widget: "hidden", default: "catchweighers" }
-      - { label: "Manufacturer", name: "manufacturer", widget: "select", options: ["Wipotec", "Mesutronic", "Other"] }
-      - { label: "Model", name: "model", widget: "string" }
-      - { label: "Image", name: "image", widget: "image", required: false }
-      - { label: "Brochure PDF", name: "brochure", widget: "file", required: false }
-      - { label: "Datasheet", name: "datasheet", widget: "file", required: false }
-      - { label: "Weight Range", name: "weight_range", widget: "string", required: false }
-      - { label: "Speed", name: "speed", widget: "string", required: false }
-      - { label: "Accuracy", name: "accuracy", widget: "string", required: false }
-      - { label: "Featured", name: "featured", widget: "boolean", default: false }
+      - { label: "Title (English)", name: "en-title", widget: "string" }
+      - { label: "Title (Ukrainian)", name: "ua-title", widget: "string" }
       - { label: "Order", name: "order", widget: "number", default: 0 }
-      - { label: "Body (English)", name: "body", widget: "markdown" }
-      - { label: "Body (Ukrainian)", name: "body_ua", widget: "markdown" }
+      - { label: "Industries", name: "industries", widget: "list", required: false }
+      - { label: "Description (English)", name: "en-description", widget: "text" }
+      - { label: "Description (Ukrainian)", name: "ua-description", widget: "text" }
+      - { label: "Gallery", name: "gallery", widget: "list", required: false }
+      - { label: "Datasheet", name: "datasheet", widget: "file", required: false }
+      - label: "Specifications"
+        name: "specs"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Label (English)", name: "en-label", widget: "string" }
+          - { label: "Label (Ukrainian)", name: "ua-label", widget: "string" }
+          - { label: "Value", name: "value", widget: "string" }
+      - { label: "Body (English)", name: "en-body", widget: "markdown" }
+      - { label: "Body (Ukrainian)", name: "ua-body", widget: "markdown" }
 
   - name: "metal-detectors"
     label: "Metal Detectors"
@@ -68,23 +75,27 @@ collections:
     slug: "{{slug}}"
     extension: "md"
     format: "frontmatter"
+    identifier_field: "en-title"
+    filter: {field: "en-title", pattern: ".+"}
     fields:
-      - { label: "Title (English)", name: "title", widget: "string" }
-      - { label: "Title (Ukrainian)", name: "title_ua", widget: "string" }
-      - { label: "Description (English)", name: "description", widget: "text" }
-      - { label: "Description (Ukrainian)", name: "description_ua", widget: "text" }
-      - { label: "Category", name: "category", widget: "hidden", default: "metal-detectors" }
-      - { label: "Manufacturer", name: "manufacturer", widget: "select", options: ["Wipotec", "Mesutronic", "Other"] }
-      - { label: "Model", name: "model", widget: "string" }
-      - { label: "Image", name: "image", widget: "image", required: false }
-      - { label: "Brochure PDF", name: "brochure", widget: "file", required: false }
-      - { label: "Datasheet", name: "datasheet", widget: "file", required: false }
-      - { label: "Detection Sensitivity", name: "sensitivity", widget: "string", required: false }
-      - { label: "Belt Width", name: "belt_width", widget: "string", required: false }
-      - { label: "Featured", name: "featured", widget: "boolean", default: false }
+      - { label: "Title (English)", name: "en-title", widget: "string" }
+      - { label: "Title (Ukrainian)", name: "ua-title", widget: "string" }
       - { label: "Order", name: "order", widget: "number", default: 0 }
-      - { label: "Body (English)", name: "body", widget: "markdown" }
-      - { label: "Body (Ukrainian)", name: "body_ua", widget: "markdown" }
+      - { label: "Industries", name: "industries", widget: "list", required: false }
+      - { label: "Description (English)", name: "en-description", widget: "text" }
+      - { label: "Description (Ukrainian)", name: "ua-description", widget: "text" }
+      - { label: "Gallery", name: "gallery", widget: "list", required: false }
+      - { label: "Datasheet", name: "datasheet", widget: "file", required: false }
+      - label: "Specifications"
+        name: "specs"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Label (English)", name: "en-label", widget: "string" }
+          - { label: "Label (Ukrainian)", name: "ua-label", widget: "string" }
+          - { label: "Value", name: "value", widget: "string" }
+      - { label: "Body (English)", name: "en-body", widget: "markdown" }
+      - { label: "Body (Ukrainian)", name: "ua-body", widget: "markdown" }
 
   - name: "x-ray-inspection"
     label: "X-Ray Inspection Systems"
@@ -93,20 +104,24 @@ collections:
     slug: "{{slug}}"
     extension: "md"
     format: "frontmatter"
+    identifier_field: "en-title"
+    filter: {field: "en-title", pattern: ".+"}
     fields:
-      - { label: "Title (English)", name: "title", widget: "string" }
-      - { label: "Title (Ukrainian)", name: "title_ua", widget: "string" }
-      - { label: "Description (English)", name: "description", widget: "text" }
-      - { label: "Description (Ukrainian)", name: "description_ua", widget: "text" }
-      - { label: "Category", name: "category", widget: "hidden", default: "x-ray-inspection" }
-      - { label: "Manufacturer", name: "manufacturer", widget: "select", options: ["Wipotec", "Mesutronic", "Other"] }
-      - { label: "Model", name: "model", widget: "string" }
-      - { label: "Image", name: "image", widget: "image", required: false }
-      - { label: "Brochure PDF", name: "brochure", widget: "file", required: false }
-      - { label: "Datasheet", name: "datasheet", widget: "file", required: false }
-      - { label: "Resolution", name: "resolution", widget: "string", required: false }
-      - { label: "Throughput", name: "throughput", widget: "string", required: false }
-      - { label: "Featured", name: "featured", widget: "boolean", default: false }
+      - { label: "Title (English)", name: "en-title", widget: "string" }
+      - { label: "Title (Ukrainian)", name: "ua-title", widget: "string" }
       - { label: "Order", name: "order", widget: "number", default: 0 }
-      - { label: "Body (English)", name: "body", widget: "markdown" }
-      - { label: "Body (Ukrainian)", name: "body_ua", widget: "markdown" }
+      - { label: "Industries", name: "industries", widget: "list", required: false }
+      - { label: "Description (English)", name: "en-description", widget: "text" }
+      - { label: "Description (Ukrainian)", name: "ua-description", widget: "text" }
+      - { label: "Gallery", name: "gallery", widget: "list", required: false }
+      - { label: "Datasheet", name: "datasheet", widget: "file", required: false }
+      - label: "Specifications"
+        name: "specs"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Label (English)", name: "en-label", widget: "string" }
+          - { label: "Label (Ukrainian)", name: "ua-label", widget: "string" }
+          - { label: "Value", name: "value", widget: "string" }
+      - { label: "Body (English)", name: "en-body", widget: "markdown" }
+      - { label: "Body (Ukrainian)", name: "ua-body", widget: "markdown" }
