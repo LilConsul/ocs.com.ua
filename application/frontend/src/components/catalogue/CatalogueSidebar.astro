@@ -1,5 +1,6 @@
 ---
 import { getInlineTranslations, type Lang } from "@/i18n";
+import { getCategory } from "@/lib/content-utils";
 
 interface Props {
 	allCategories: any[];
@@ -68,10 +69,10 @@ const sortedCategories = allCategories.sort(
 		<nav aria-label="Category navigation" class="space-y-2">
 			{
 				sortedCategories.map((cat) => {
-					// Category ID is the slug directly (e.g., "checkweighers")
-					const catSlug = cat.id;
+					// Extract category slug from entry ID (handles locale suffix)
+					const catSlug = getCategory(cat);
 					const isActive = catSlug === currentCategory;
-					const label = cat.data[`${lang}-label`];
+					const label = cat.data.label; // Clean field name!
 					const icon = cat.data.icon || "category";
 
 					return (

@@ -1,4 +1,5 @@
 ---
+category: checkweighers
 title: Чеквейєр HC-A
 order: 1
 industries:

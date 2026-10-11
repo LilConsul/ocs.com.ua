@@ -1,4 +1,5 @@
 ---
+category: catchweighers
 label: Кетчвейєри & DWS
 description: >-
   Промислові ваги та системи DWS для логістики та електронної комерції.

@@ -1,4 +1,5 @@
 ---
+category: checkweighers
 label: Checkweighers
 description: >-
   High-precision dynamic checkweighers combining cutting-edge weighing

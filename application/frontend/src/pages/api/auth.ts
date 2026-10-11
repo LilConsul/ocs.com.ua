@@ -7,7 +7,7 @@ export const GET: APIRoute = async ({ url, redirect }) => {
 	const code = url.searchParams.get('code');
 
 	// Debug: Check if env vars are loaded
-	if (!GITHUB_CLIENT_ID || !GITHUB_CLIENT_SECRET) {
+	if (!(GITHUB_CLIENT_ID && GITHUB_CLIENT_SECRET)) {
 		return new Response(
 			`Configuration Error: Missing GitHub credentials. CLIENT_ID exists: ${!!GITHUB_CLIENT_ID}, CLIENT_SECRET exists: ${!!GITHUB_CLIENT_SECRET}`,
 			{ status: 500 }

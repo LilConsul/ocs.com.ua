@@ -1,4 +1,5 @@
 ---
+category: catchweighers
 label: Catchweighers & DWS
 description: >-
   Industrial scales and DWS systems for logistics and e-commerce applications.

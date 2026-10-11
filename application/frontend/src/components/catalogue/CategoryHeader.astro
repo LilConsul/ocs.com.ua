@@ -3,17 +3,15 @@ import type { Lang } from "@/i18n/utils";
 
 interface Props {
 	categoryData: {
-		"en-label": string;
-		"ua-label": string;
-		"en-description": string;
-		"ua-description": string;
+		label: string;
+		description: string;
 	};
 	lang: Lang;
 }
 
 const { categoryData, lang } = Astro.props;
-const title = categoryData[`${lang}-label`];
-const description = categoryData[`${lang}-description`];
+const title = categoryData.label;
+const description = categoryData.description;
 ---
 
 <header class="mb-12">

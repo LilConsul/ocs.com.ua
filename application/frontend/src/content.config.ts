@@ -1,57 +1,88 @@
 import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
 
-// Category schema for index.md files
-const categorySchema = z.object({
-	"en-label": z.string(),
-	"ua-label": z.string(),
-	"en-description": z.string(),
-	"ua-description": z.string(),
-	icon: z.string().optional(),
-	order: z.number().optional(),
-});
+/**
+ * Content Collections Configuration - Native i18n with multiple_files structure
+ *
+ * File structure:
+ *   - Products: checkweighers/hc-a.en.md, checkweighers/hc-a.ua.md
+ *   - Categories: checkweighers/index.en.md, checkweighers/index.ua.md
+ *
+ * Entry IDs include locale: "checkweighers/hc-a.en", "checkweighers/hc-a.ua"
+ */
 
-// Product schema for equipment files
-const productSchema = z.object({
-	// Multilingual fields - flattened with kebab-case names
-	"en-title": z.string(),
-	"ua-title": z.string(),
-	"en-description": z.string(),
-	"ua-description": z.string(),
-	// Display order (lower numbers appear first)
+// Combined schema that handles both categories and products
+const equipmentSchema = z.object({
+	// Required fields for all entries
+	category: z.enum(["checkweighers", "catchweighers", "metal-detectors", "x-ray-inspection"]),
+	description: z.string(),
 	order: z.number().optional(),
-	// Media files stored in public/assets/ (as string paths)
-	gallery: z.array(z.string()).min(1).max(10), // First image is hero
+
+	// Category-specific fields
+	label: z.string().optional(),
+	icon: z.string().optional(),
+
+	// Product-specific fields
+	title: z.string().optional(),
+	gallery: z.array(z.string()).optional(),
 	datasheet: z.string().optional(),
-	// Industry tags for filtering
 	industries: z.array(z.string()).optional(),
-	// Specs with flattened multilingual labels
 	specs: z
 		.array(
 			z.object({
-				"en-label": z.string(),
-				"ua-label": z.string(),
+				label: z.string(),
 				value: z.string(),
 			})
 		)
-		.min(1)
-		.max(3)
 		.optional(),
-	// Separate body fields for each language
-	"en-body": z.string(),
-	"ua-body": z.string(),
-});
+	body: z.string().optional(),
+}).refine(
+	(data) => {
+		// Must be either a category (has label) or product (has title)
+		return (data.label && !data.title) || (data.title && !data.label);
+	},
+	{
+		message: "Entry must be either a category (with label) or product (with title)",
+	}
+);
 
-// Equipment collection contains both products and categories (index files)
-// Use discriminated union to handle both schemas
+// Equipment collection - handles both products and categories
+// Loader pattern matches .en.md and .ua.md files
 const equipmentCollection = defineCollection({
 	loader: glob({
-		pattern: "**/*.md",
+		pattern: "**/*.{en,ua}.md", // Match locale-suffixed files
 		base: "./src/content/equipment",
 	}),
-	schema: z.union([categorySchema, productSchema]),
+	schema: equipmentSchema,
 });
 
 export const collections = {
 	equipment: equipmentCollection,
 };
+
+/**
+ * Helper types for TypeScript consumers
+ */
+
+// Extract locale from entry ID (e.g., "checkweighers/hc-a.en" -> "en")
+export type Locale = "en" | "ua";
+
+export function getLocaleFromId(id: string): Locale {
+	const match = id.match(/\.(en|ua)$/);
+	return (match?.[1] as Locale) || "en";
+}
+
+// Extract slug without locale (e.g., "checkweighers/hc-a.en" -> "checkweighers/hc-a")
+export function getSlugWithoutLocale(id: string): string {
+	return id.replace(/\.(en|ua)$/, "");
+}
+
+// Check if entry is a category (index file)
+export function isCategory(id: string): boolean {
+	return /index\.(en|ua)$/.test(id);
+}
+
+// Check if entry is a product
+export function isProduct(id: string): boolean {
+	return !isCategory(id);
+}
