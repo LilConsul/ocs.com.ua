@@ -1,12 +1,10 @@
 ---
 import { getCollection } from "astro:content";
 import { marked } from "marked";
-import type { Lang } from "@/i18n";
 import {
 	getLocale,
 	getCategory,
 	getSlug,
-	filterByLocale,
 	getProducts,
 	type Locale,
 } from "@/lib/content-utils";
@@ -42,9 +40,9 @@ const { product, lang } = Astro.props;
 
 const title = product.data.title;
 const description = product.data.description;
-const bodyMarkdown = product.data.body;
+const bodyMarkdown = product.body ?? "";
 
-const body = await marked.parse(bodyMarkdown || "");
+const body = await marked.parse(bodyMarkdown);
 ---
 
 <!doctype html>

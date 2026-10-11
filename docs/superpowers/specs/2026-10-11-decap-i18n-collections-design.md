@@ -131,12 +131,12 @@ collections:
         name: "gallery"
         widget: "list"
         required: false
-        i18n: duplicate
+        i18n: true
         min: 0
         max: 3
         field: { label: "Image", name: "image", widget: "image" }
       - { label: "Datasheet", name: "datasheet", widget: "file", required: false, i18n: duplicate }
-      - { label: "Industries", name: "industries", widget: "list", required: false, i18n: duplicate }
+      - { label: "Industries", name: "industries", widget: "list", required: false, i18n: true }
 
       # Translatable fields (side-by-side locale editor)
       - { label: "Title", name: "title", widget: "string", i18n: true }

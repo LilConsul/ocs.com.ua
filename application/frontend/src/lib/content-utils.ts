@@ -1,10 +1,11 @@
 /**
  * Content utilities for working with i18n content collections
  *
- * With multiple_files structure, entries have locale suffixes:
- * - ID: "checkweighers/hc-a.en", "checkweighers/hc-a.ua"
- * - Slug: "hc-a" (same for both locales)
- * - Category: "checkweighers"
+ * The glob loader generates IDs from filenames by stripping the .md extension.
+ * Dots within the filename are also removed, so:
+ *   - "catchweighers/hc-sl.en.md"  → ID: "catchweighers/hc-slen"
+ *   - "catchweighers/_index.en.md" → ID: "catchweighers/_indexen"
+ *   - "catchweighers/hc-sl.ua.md"  → ID: "catchweighers/hc-slua"
  */
 
 import type { CollectionEntry } from "astro:content";
@@ -14,34 +15,29 @@ export type EquipmentEntry = CollectionEntry<"equipment">;
 
 /**
  * Extract locale from entry ID
- * @example getLocale("checkweighers/hc-a.en") => "en"
+ * @example getLocale("catchweighers/hc-slen") => "en"
  */
 export function getLocale(entry: EquipmentEntry): Locale {
-	const match = entry.id.match(/\.(en|ua)$/);
-	return (match?.[1] as Locale) || "en";
-}
-
-/**
- * Extract base slug without locale suffix
- * @example getBaseSlug("checkweighers/hc-a.en") => "checkweighers/hc-a"
- */
-export function getBaseSlug(entry: EquipmentEntry): string {
-	return entry.id.replace(/\.(en|ua)$/, "");
+	const id = entry.id;
+	if (id.endsWith("en")) return "en";
+	if (id.endsWith("ua")) return "ua";
+	return "en";
 }
 
 /**
  * Extract just the filename slug (without category and locale)
- * @example getSlug("checkweighers/hc-a.en") => "hc-a"
+ * @example getSlug("catchweighers/hc-slen") => "hc-sl"
  */
 export function getSlug(entry: EquipmentEntry): string {
 	const parts = entry.id.split("/");
 	const filename = parts[parts.length - 1];
-	return filename.replace(/\.(en|ua)$/, "").replace("_index", "");
+	// Remove trailing locale suffix ("en" or "ua")
+	return filename.replace(/(en|ua)$/, "");
 }
 
 /**
  * Extract category from entry ID
- * @example getCategory("checkweighers/hc-a.en") => "checkweighers"
+ * @example getCategory("catchweighers/hc-slen") => "catchweighers"
  */
 export function getCategory(entry: EquipmentEntry): string {
 	return entry.id.split("/")[0];
@@ -49,9 +45,12 @@ export function getCategory(entry: EquipmentEntry): string {
 
 /**
  * Check if entry is a category (_index file)
+ * @example isCategory("catchweighers/_indexen") => true
  */
 export function isCategory(entry: EquipmentEntry): boolean {
-	return /_index\.(en|ua)$/.test(entry.id);
+	const parts = entry.id.split("/");
+	const filename = parts[parts.length - 1];
+	return filename.startsWith("_index");
 }
 
 /**
@@ -71,7 +70,10 @@ export function filterByLocale(entries: EquipmentEntry[], locale: Locale): Equip
 /**
  * Filter entries by category
  */
-export function filterByCategory(entries: EquipmentEntry[], categorySlug: string): EquipmentEntry[] {
+export function filterByCategory(
+	entries: EquipmentEntry[],
+	categorySlug: string,
+): EquipmentEntry[] {
 	return entries.filter((entry) => getCategory(entry) === categorySlug);
 }
 
@@ -83,7 +85,7 @@ export function getProducts(entries: EquipmentEntry[]): EquipmentEntry[] {
 }
 
 /**
- * Get all categories (index entries)
+ * Get all categories (_index entries)
  */
 export function getCategories(entries: EquipmentEntry[]): EquipmentEntry[] {
 	return entries.filter(isCategory);
@@ -91,53 +93,24 @@ export function getCategories(entries: EquipmentEntry[]): EquipmentEntry[] {
 
 /**
  * Find matching entry in a different locale
- * @example findTranslation(hcaEN, "ua", allEntries) => hcaUA
+ * @example findTranslation(hcaEN, "ua", allEntries) => hcaUA entry
  */
 export function findTranslation(
 	entry: EquipmentEntry,
 	targetLocale: Locale,
-	allEntries: EquipmentEntry[]
+	allEntries: EquipmentEntry[],
 ): EquipmentEntry | undefined {
-	const baseSlug = getBaseSlug(entry);
-	const targetId = `${baseSlug}.${targetLocale}`;
+	const category = getCategory(entry);
+	const slug = getSlug(entry);
+	const targetId = `${category}/${slug}${targetLocale}`;
 	return allEntries.find((e) => e.id === targetId);
-}
-
-/**
- * Group entries by base slug (all locales together)
- * @returns Map<baseSlug, EquipmentEntry[]>
- */
-export function groupBySlug(entries: EquipmentEntry[]): Map<string, EquipmentEntry[]> {
-	const groups = new Map<string, EquipmentEntry[]>();
-
-	for (const entry of entries) {
-		const baseSlug = getBaseSlug(entry);
-		if (!groups.has(baseSlug)) {
-			groups.set(baseSlug, []);
-		}
-		groups.get(baseSlug)!.push(entry);
-	}
-
-	return groups;
-}
-
-/**
- * Get available locales for a slug
- * @example getAvailableLocales("checkweighers/hc-a", allEntries) => ["en", "ua"]
- */
-export function getAvailableLocales(baseSlug: string, entries: EquipmentEntry[]): Locale[] {
-	return entries
-		.filter((entry) => getBaseSlug(entry) === baseSlug)
-		.map((entry) => getLocale(entry));
 }
 
 /**
  * Sort entries by order field
  */
 export function sortByOrder(entries: EquipmentEntry[]): EquipmentEntry[] {
-	if (!Array.isArray(entries) || entries.length === 0) {
-		return [];
-	}
+	if (!Array.isArray(entries) || entries.length === 0) return [];
 	return [...entries].sort((a, b) => {
 		const orderA = a?.data?.order ?? 999;
 		const orderB = b?.data?.order ?? 999;
@@ -149,7 +122,7 @@ export function sortByOrder(entries: EquipmentEntry[]): EquipmentEntry[] {
  * Type guard for category entries
  */
 export function isCategoryEntry(
-	entry: EquipmentEntry
+	entry: EquipmentEntry,
 ): entry is EquipmentEntry & {
 	data: {
 		title?: string;
@@ -165,17 +138,16 @@ export function isCategoryEntry(
  * Type guard for product entries
  */
 export function isProductEntry(
-	entry: EquipmentEntry
+	entry: EquipmentEntry,
 ): entry is EquipmentEntry & {
 	data: {
-		title: string;
-		description: string;
-		gallery: string[];
+		title?: string;
+		description?: string;
+		gallery?: string[];
 		datasheet?: string;
 		industries?: string[];
 		specs?: Array<{ label: string; value: string }>;
 		order?: number;
-		body: string;
 	};
 } {
 	return isProduct(entry);
