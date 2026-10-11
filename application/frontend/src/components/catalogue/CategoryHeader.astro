@@ -3,14 +3,14 @@ import type { Lang } from "@/i18n/utils";
 
 interface Props {
 	categoryData: {
-		label: string;
-		description: string;
+		title?: string;
+		description?: string;
 	};
 	lang: Lang;
 }
 
 const { categoryData, lang } = Astro.props;
-const title = categoryData.label;
+const title = categoryData.title;
 const description = categoryData.description;
 ---
 

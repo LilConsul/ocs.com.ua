@@ -70,7 +70,7 @@ const sortedProducts = Array.isArray(products) ? sortByOrder(products) : [];
 const sortedCategories = Array.isArray(allCategories) ? sortByOrder(allCategories) : [];
 
 // Page metadata (clean field names!) - with fallback for missing categoryData
-const pageTitle = `${categoryData?.label || "Equipment"} | OS-Technology`;
+const pageTitle = `${categoryData?.title || "Equipment"} | OS-Technology`;
 const pageDescription = categoryData?.description || "";
 
 // Structured data for SEO
@@ -80,7 +80,7 @@ const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
 const structuredData = {
 	"@context": "https://schema.org",
 	"@type": "CollectionPage",
-	name: categoryData?.label || "Equipment",
+	name: categoryData?.title || "Equipment",
 	description: categoryData?.description || "",
 	url: currentUrl,
 	inLanguage: lang,
@@ -102,7 +102,7 @@ const structuredData = {
 			{
 				"@type": "ListItem",
 				position: 3,
-				name: categoryData?.label || categorySlug,
+				name: categoryData?.title || categorySlug,
 				item: currentUrl,
 			},
 		],

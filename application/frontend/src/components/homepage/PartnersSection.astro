@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import sizeOf from "image-size";
 import { Card, CardContent } from "@/components/ui/card";
@@ -29,7 +30,8 @@ const _ = getInlineTranslations(lang);
 function getImageDimensions(logoPath: string) {
 	try {
 		const publicPath = resolve(`./public${logoPath}`);
-		const dimensions = sizeOf(publicPath);
+		const buffer = readFileSync(publicPath);
+		const dimensions = sizeOf(buffer);
 		return { width: dimensions.width || 150, height: dimensions.height || 48 };
 	} catch (error) {
 		// Fallback dimensions if image not found
