@@ -32,19 +32,27 @@ export const GET: APIRoute = async ({ url, redirect }) => {
 		return new Response(data.error_description || data.error, { status: 400 });
 	}
 
-	// Decap CMS expects this exact postMessage string format to complete the OAuth flow.
-	// Build the entire payload server-side so no browser-side eval is needed.
-	const payload = JSON.stringify({ token: data.access_token, provider: "github" });
-	const message = `authorization:github:success:${payload}`;
+	// Decap CMS OAuth handshake (see decap-cms-app handshakeCallback / authorizeCallback):
+	// 1. Popup sends "authorizing:github" to opener
+	// 2. Opener echoes it back to popup
+	// 3. Popup sends "authorization:github:success:{...}" to opener
+	const successPayload = JSON.stringify({ token: data.access_token, provider: "github" });
+	const successMsg = `authorization:github:success:${successPayload}`;
 
 	return new Response(
 		`<!doctype html><html><body><script>
 (function() {
-  var msg = ${JSON.stringify(message)};
-  if (window.opener) {
-    window.opener.postMessage(msg, "*");
-  }
-  setTimeout(function() { window.close(); }, 500);
+	 if (!window.opener) { document.body.innerText = "Error: no opener"; return; }
+	 // Step 1 — send handshake, wait for echo, then send success
+	 function onMessage(e) {
+	   if (e.data === "authorizing:github") {
+	     window.removeEventListener("message", onMessage, false);
+	     window.opener.postMessage(${JSON.stringify(successMsg)}, "*");
+	     setTimeout(function() { window.close(); }, 500);
+	   }
+	 }
+	 window.addEventListener("message", onMessage, false);
+	 window.opener.postMessage("authorizing:github", "*");
 })();
 <\/script></body></html>`,
 		{ status: 200, headers: { "Content-Type": "text/html" } },
