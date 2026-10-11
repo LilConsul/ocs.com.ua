@@ -1,5 +1,4 @@
 ---
-category: checkweighers
 title: EC-E Checkweigher
 order: 3
 industries:

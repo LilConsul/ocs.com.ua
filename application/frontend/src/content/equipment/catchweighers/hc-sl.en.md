@@ -1,5 +1,4 @@
 ---
-category: catchweighers
 title: HC-SL Catchweigher
 order: 2
 industries:

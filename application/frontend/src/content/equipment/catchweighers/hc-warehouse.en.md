@@ -1,5 +1,4 @@
 ---
-category: catchweighers
 title: HC-Warehouse Catchweigher
 order: 1
 industries:

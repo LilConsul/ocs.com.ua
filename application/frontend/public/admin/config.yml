@@ -1,110 +1,59 @@
 backend:
   name: test-repo
 
+# All equipment media (images, datasheets) uploads land here
 media_folder: "application/frontend/public/assets/equipment"
 public_folder: "/assets/equipment"
 
+i18n:
+  structure: multiple_files
+  locales: [en, ua]
+  default_locale: en
+
 collections:
-  # Equipment Collection - all products
   - name: "equipment"
     label: "Equipment"
     folder: "application/frontend/src/content/equipment"
     create: true
-    identifier_field: "en-title"
-
-    # Use nested to scan subdirectories for existing files
+    i18n: true
     nested:
-      depth: 100
-      summary: "{{category}}: {{en-title}}"
-
-    # Path template: places new files in subdirectory matching category
-    path: "{{category}}/{{slug}}"
-    slug: "{{slug}}"
-    extension: "md"
-    format: "frontmatter"
-
+      depth: 2
+      summary: "{{title | default('index')}}"
+    meta:
+      path:
+        widget: string
+        label: Path
+        index_file: "_index"
     fields:
-      - { label: "Category", name: "category", widget: "select", options: ["checkweighers", "catchweighers", "metal-detectors", "x-ray-inspection"], required: true, hint: "Files will be created in the subdirectory matching this category" }
-
-      # English fields
-      - { label: "[EN] Title", name: "en-title", widget: "string", required: true }
-      - { label: "[EN] Description", name: "en-description", widget: "text", required: true }
-
-      # Ukrainian fields
-      - { label: "[UA] Title", name: "ua-title", widget: "string", required: true }
-      - { label: "[UA] Description", name: "ua-description", widget: "text", required: true }
-
-      # Shared fields
-      - { label: "Order", name: "order", widget: "number", default: 0, value_type: "int", hint: "Display order in lists (lower numbers appear first)" }
-      - { label: "Industries", name: "industries", widget: "list", required: false, hint: "Target industries (e.g., food, pharma, logistics)" }
-      - { label: "Gallery", name: "gallery", widget: "list", required: false, hint: "Image paths for product gallery" }
-      - { label: "Datasheet", name: "datasheet", widget: "string", required: false, hint: "Path to PDF datasheet" }
-
-      # Specifications (shared structure, but labels can differ)
-      - label: "[EN] Specifications"
-        name: "en-specs"
+      # Shared across locales (editors fill once, auto-duplicated to other locale)
+      - { label: "Icon", name: "icon", widget: "string", required: false, i18n: duplicate }
+      # Order controls display sort position.
+      # On _index files: sorts equipment type categories relative to each other (e.g. checkweighers=1, catchweighers=2).
+      # On product files: sorts products within their category (e.g. hc-sl=1, hc-warehouse=2).
+      # Lower numbers appear first. Default 0.
+      - { label: "Order", name: "order", widget: "number", value_type: "int", default: 0, required: false, i18n: duplicate }
+      - label: "Gallery"
+        name: "gallery"
         widget: "list"
         required: false
+        i18n: duplicate
+        min: 0
+        max: 3
+        field: { label: "Image", name: "image", widget: "image" }
+      - { label: "Datasheet", name: "datasheet", widget: "file", required: false, i18n: duplicate }
+      - { label: "Industries", name: "industries", widget: "list", required: false, i18n: duplicate }
+
+      # Translatable fields (side-by-side locale editor)
+      - { label: "Title", name: "title", widget: "string", i18n: true }
+      - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
+      - label: "Specifications"
+        name: "specs"
+        widget: "list"
+        required: false
+        i18n: true
+        min: 0
+        max: 3
         fields:
           - { label: "Label", name: "label", widget: "string" }
           - { label: "Value", name: "value", widget: "string" }
-
-      - label: "[UA] Specifications"
-        name: "ua-specs"
-        widget: "list"
-        required: false
-        fields:
-          - { label: "Label", name: "label", widget: "string" }
-          - { label: "Value", name: "value", widget: "string" }
-
-      # Body content
-      - { label: "[EN] Body", name: "en-body", widget: "markdown", required: false, hint: "Full product description in English" }
-      - { label: "[UA] Body", name: "ua-body", widget: "markdown", required: false, hint: "Full product description in Ukrainian" }
-
-  # Category Indexes Collection
-  - name: "categories"
-    label: "Categories"
-    files:
-      - label: "Checkweighers Category"
-        name: "checkweighers-index"
-        file: "application/frontend/src/content/equipment/checkweighers/index.md"
-        fields:
-          - { label: "Category", name: "category", widget: "hidden", default: "checkweighers" }
-          - { label: "[EN] Label", name: "en-label", widget: "string" }
-          - { label: "[EN] Description", name: "en-description", widget: "text" }
-          - { label: "[UA] Label", name: "ua-label", widget: "string" }
-          - { label: "[UA] Description", name: "ua-description", widget: "text" }
-          - { label: "Icon", name: "icon", widget: "string" }
-
-      - label: "Catchweighers Category"
-        name: "catchweighers-index"
-        file: "application/frontend/src/content/equipment/catchweighers/index.md"
-        fields:
-          - { label: "Category", name: "category", widget: "hidden", default: "catchweighers" }
-          - { label: "[EN] Label", name: "en-label", widget: "string" }
-          - { label: "[EN] Description", name: "en-description", widget: "text" }
-          - { label: "[UA] Label", name: "ua-label", widget: "string" }
-          - { label: "[UA] Description", name: "ua-description", widget: "text" }
-          - { label: "Icon", name: "icon", widget: "string" }
-
-      - label: "Metal Detectors Category"
-        name: "metal-detectors-index"
-        file: "application/frontend/src/content/equipment/metal-detectors/index.md"
-        fields:
-          - { label: "Category", name: "category", widget: "hidden", default: "metal-detectors" }
-          - { label: "[EN] Label", name: "en-label", widget: "string" }
-          - { label: "[EN] Description", name: "en-description", widget: "text" }
-          - { label: "[UA] Label", name: "ua-label", widget: "string" }
-          - { label: "[UA] Description", name: "ua-description", widget: "text" }
-          - { label: "Icon", name: "icon", widget: "string" }
-
-      - label: "X-Ray Inspection Category"
-        name: "x-ray-inspection-index"
-        file: "application/frontend/src/content/equipment/x-ray-inspection/index.md"
-        fields:
-          - { label: "Category", name: "category", widget: "hidden", default: "x-ray-inspection" }
-          - { label: "[EN] Label", name: "en-label", widget: "string" }
-          - { label: "[EN] Description", name: "en-description", widget: "text" }
-          - { label: "[UA] Label", name: "ua-label", widget: "string" }
-          - { label: "[UA] Description", name: "ua-description", widget: "text" }
-          - { label: "Icon", name: "icon", widget: "string" }
+      - { label: "Body", name: "body", widget: "richtext", required: false, i18n: true }

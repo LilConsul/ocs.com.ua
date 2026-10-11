@@ -1,5 +1,4 @@
 ---
-category: catchweighers
 title: Кетчвейєр HC-Warehouse
 order: 1
 industries:

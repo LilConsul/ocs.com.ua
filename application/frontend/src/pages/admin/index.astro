@@ -11,7 +11,11 @@
 		<title>Content Manager</title>
 	</head>
 	<body>
-		<!-- Include the Decap CMS script -->
-		<script is:inline src="https://unpkg.com/decap-cms@^3.3.3/dist/decap-cms.js"></script>
+		<!-- Decap CMS ^3.12.0 required for richtext widget (Beta) -->
+		<script is:inline src="https://unpkg.com/decap-cms@^3.12.0/dist/decap-cms.js"></script>
+		<!-- Normalize bullet lists to '-' on save (remark@10 compatible) -->
+		<script is:inline>
+			CMS.registerRemarkPlugin({ settings: { bullet: '-' } });
+		</script>
 	</body>
 </html>

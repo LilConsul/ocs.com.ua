@@ -1,5 +1,4 @@
 ---
-category: checkweighers
 title: HC-M Checkweigher
 order: 2
 industries:
