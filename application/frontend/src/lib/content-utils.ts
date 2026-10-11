@@ -36,7 +36,7 @@ export function getBaseSlug(entry: EquipmentEntry): string {
 export function getSlug(entry: EquipmentEntry): string {
 	const parts = entry.id.split("/");
 	const filename = parts[parts.length - 1];
-	return filename.replace(/\.(en|ua)$/, "").replace("index", "");
+	return filename.replace(/\.(en|ua)$/, "").replace("_index", "");
 }
 
 /**
@@ -48,10 +48,10 @@ export function getCategory(entry: EquipmentEntry): string {
 }
 
 /**
- * Check if entry is a category (index file)
+ * Check if entry is a category (_index file)
  */
 export function isCategory(entry: EquipmentEntry): boolean {
-	return /index\.(en|ua)$/.test(entry.id);
+	return /_index\.(en|ua)$/.test(entry.id);
 }
 
 /**
@@ -152,8 +152,8 @@ export function isCategoryEntry(
 	entry: EquipmentEntry
 ): entry is EquipmentEntry & {
 	data: {
-		label: string;
-		description: string;
+		title?: string;
+		description?: string;
 		icon?: string;
 		order?: number;
 	};
