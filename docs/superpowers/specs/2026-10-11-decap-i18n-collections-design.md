@@ -96,6 +96,7 @@ ______________________________________________________________________
 backend:
   name: test-repo
 
+# Top-level media folder used as fallback; per-field media_folder overrides take precedence
 media_folder: "application/frontend/public/assets/equipment"
 public_folder: "/assets/equipment"
 
@@ -121,12 +122,18 @@ collections:
     fields:
       # Shared across locales (editors fill once, auto-duplicated to other locale)
       - { label: "Icon", name: "icon", widget: "string", required: false, i18n: duplicate }
-      - { label: "Order", name: "order", widget: "number", value_type: "int", required: false, i18n: duplicate }
+      # Order controls display sort position.
+      # On _index files: sorts equipment type categories relative to each other (e.g. checkweighers=1, catchweighers=2).
+      # On product files: sorts products within their category (e.g. hc-sl=1, hc-warehouse=2).
+      # Lower numbers appear first. Default 0.
+      - { label: "Order", name: "order", widget: "number", value_type: "int", default: 0, required: false, i18n: duplicate }
       - label: "Gallery"
         name: "gallery"
         widget: "list"
         required: false
         i18n: duplicate
+        min: 0
+        max: 3
         field: { label: "Image", name: "image", widget: "image" }
       - { label: "Datasheet", name: "datasheet", widget: "file", required: false, i18n: duplicate }
       - { label: "Industries", name: "industries", widget: "list", required: false, i18n: duplicate }
@@ -139,6 +146,8 @@ collections:
         widget: "list"
         required: false
         i18n: true
+        min: 0
+        max: 3
         fields:
           - { label: "Label", name: "label", widget: "string" }
           - { label: "Value", name: "value", widget: "string" }
@@ -147,17 +156,17 @@ collections:
 
 ### Widget Choices Rationale
 
-| Field         | Widget                  | Reason                                                                                                                 |
-| ------------- | ----------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `title`       | `string`                | Single-line text input                                                                                                 |
-| `description` | `text`                  | Multiline textarea for short paragraph                                                                                 |
-| `icon`        | `string`                | Icon name/identifier string                                                                                            |
-| `order`       | `number (int)`          | Integer sort order                                                                                                     |
-| `gallery`     | `list` + `field: image` | Image picker per item via media library                                                                                |
-| `datasheet`   | `file`                  | PDF upload/select via media library                                                                                    |
-| `industries`  | `list` (plain)          | Simple comma-separated string tags                                                                                     |
-| `specs`       | `list` + `fields`       | Repeatable `{label, value}` pairs                                                                                      |
-| `body`        | `richtext`              | Replaces deprecated `markdown`; outputs markdown string; must be named `body` to write file contents after frontmatter |
+| Field         | Widget                  | Constraints | Reason                                                                                                                 |
+| ------------- | ----------------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `title`       | `string`                | —           | Single-line text input                                                                                                 |
+| `description` | `text`                  | —           | Multiline textarea for short paragraph                                                                                 |
+| `icon`        | `string`                | —           | Icon name/identifier string                                                                                            |
+| `order`       | `number (int)`          | —           | Integer sort order                                                                                                     |
+| `gallery`     | `list` + `field: image` | max: 3      | Image picker per item; uploads to top-level `/assets/equipment/`                                                       |
+| `datasheet`   | `file`                  | —           | PDF upload/select; uploads to top-level `/assets/equipment/`                                                           |
+| `industries`  | `list` (plain)          | —           | Simple comma-separated string tags                                                                                     |
+| `specs`       | `list` + `fields`       | max: 3      | Repeatable `{label, value}` pairs                                                                                      |
+| `body`        | `richtext`              | —           | Replaces deprecated `markdown`; outputs markdown string; must be named `body` to write file contents after frontmatter |
 
 ______________________________________________________________________
 
