@@ -1,75 +1,110 @@
 backend:
-#  name: github
-#  repo: LilConsul/ocs.com.ua
-#  branch: main
-  repo: test-backend
-  # For local development: create a Personal Access Token at
-  # https://github.com/settings/tokens (classic token with 'repo' scope)
-  # Then add to URL: http://localhost:4321/admin/#access_token=YOUR_TOKEN
+  name: test-repo
 
 media_folder: "application/frontend/public/assets/equipment"
 public_folder: "/assets/equipment"
 
-# Native i18n configuration
-i18n:
-  structure: multiple_files  # Creates hc-a.en.md and hc-a.ua.md
-  locales: [en, ua]
-  default_locale: en
-
 collections:
-  # Single equipment collection with nested folder support
+  # Equipment Collection - all products
   - name: "equipment"
     label: "Equipment"
     folder: "application/frontend/src/content/equipment"
     create: true
-    # Nested folders configuration
+    identifier_field: "en-title"
+
+    # Use nested to scan subdirectories for existing files
     nested:
       depth: 100
-      summary: "{{dirname}}/{{filename}}"
-    meta:
-      path:
-        widget: "string"
-        label: "Path"
-        index_file: "index"
+      summary: "{{category}}: {{en-title}}"
+
+    # Path template: places new files in subdirectory matching category
+    path: "{{category}}/{{slug}}"
     slug: "{{slug}}"
     extension: "md"
     format: "frontmatter"
-    i18n: true
+
     fields:
-      # Category selector - determines folder structure
-      - label: "Category"
-        name: "category"
-        widget: "select"
-        options:
-          - { label: "Checkweighers", value: "checkweighers" }
-          - { label: "Catchweighers", value: "catchweighers" }
-          - { label: "Metal Detectors", value: "metal-detectors" }
-          - { label: "X-Ray Inspection", value: "x-ray-inspection" }
-        i18n: duplicate
+      - { label: "Category", name: "category", widget: "select", options: ["checkweighers", "catchweighers", "metal-detectors", "x-ray-inspection"], required: true, hint: "Files will be created in the subdirectory matching this category" }
 
-      # Product fields (for equipment items)
-      - { label: "Title", name: "title", widget: "string", required: false, i18n: true }
-      - { label: "Description", name: "description", widget: "text", i18n: true }
-      - { label: "Order", name: "order", widget: "number", default: 0, value_type: "int", i18n: duplicate }
+      # English fields
+      - { label: "[EN] Title", name: "en-title", widget: "string", required: true }
+      - { label: "[EN] Description", name: "en-description", widget: "text", required: true }
 
-      # Category fields (for index.md files)
-      - { label: "Label", name: "label", widget: "string", required: false, i18n: true }
-      - { label: "Icon", name: "icon", widget: "string", required: false, i18n: duplicate }
+      # Ukrainian fields
+      - { label: "[UA] Title", name: "ua-title", widget: "string", required: true }
+      - { label: "[UA] Description", name: "ua-description", widget: "text", required: true }
 
       # Shared fields
-      - { label: "Industries", name: "industries", widget: "list", required: false, i18n: true }
-      - { label: "Gallery", name: "gallery", widget: "list", required: false, i18n: true }
-      - { label: "Datasheet", name: "datasheet", widget: "file", required: false, i18n: duplicate }
+      - { label: "Order", name: "order", widget: "number", default: 0, value_type: "int", hint: "Display order in lists (lower numbers appear first)" }
+      - { label: "Industries", name: "industries", widget: "list", required: false, hint: "Target industries (e.g., food, pharma, logistics)" }
+      - { label: "Gallery", name: "gallery", widget: "list", required: false, hint: "Image paths for product gallery" }
+      - { label: "Datasheet", name: "datasheet", widget: "string", required: false, hint: "Path to PDF datasheet" }
 
-      # Specifications - manually editable list
-      - label: "Specifications"
-        name: "specs"
+      # Specifications (shared structure, but labels can differ)
+      - label: "[EN] Specifications"
+        name: "en-specs"
         widget: "list"
         required: false
-        i18n: true
+        fields:
+          - { label: "Label", name: "label", widget: "string" }
+          - { label: "Value", name: "value", widget: "string" }
+
+      - label: "[UA] Specifications"
+        name: "ua-specs"
+        widget: "list"
+        required: false
         fields:
           - { label: "Label", name: "label", widget: "string" }
           - { label: "Value", name: "value", widget: "string" }
 
       # Body content
-      - { label: "Body", name: "body", widget: "markdown", required: false, i18n: true }
+      - { label: "[EN] Body", name: "en-body", widget: "markdown", required: false, hint: "Full product description in English" }
+      - { label: "[UA] Body", name: "ua-body", widget: "markdown", required: false, hint: "Full product description in Ukrainian" }
+
+  # Category Indexes Collection
+  - name: "categories"
+    label: "Categories"
+    files:
+      - label: "Checkweighers Category"
+        name: "checkweighers-index"
+        file: "application/frontend/src/content/equipment/checkweighers/index.md"
+        fields:
+          - { label: "Category", name: "category", widget: "hidden", default: "checkweighers" }
+          - { label: "[EN] Label", name: "en-label", widget: "string" }
+          - { label: "[EN] Description", name: "en-description", widget: "text" }
+          - { label: "[UA] Label", name: "ua-label", widget: "string" }
+          - { label: "[UA] Description", name: "ua-description", widget: "text" }
+          - { label: "Icon", name: "icon", widget: "string" }
+
+      - label: "Catchweighers Category"
+        name: "catchweighers-index"
+        file: "application/frontend/src/content/equipment/catchweighers/index.md"
+        fields:
+          - { label: "Category", name: "category", widget: "hidden", default: "catchweighers" }
+          - { label: "[EN] Label", name: "en-label", widget: "string" }
+          - { label: "[EN] Description", name: "en-description", widget: "text" }
+          - { label: "[UA] Label", name: "ua-label", widget: "string" }
+          - { label: "[UA] Description", name: "ua-description", widget: "text" }
+          - { label: "Icon", name: "icon", widget: "string" }
+
+      - label: "Metal Detectors Category"
+        name: "metal-detectors-index"
+        file: "application/frontend/src/content/equipment/metal-detectors/index.md"
+        fields:
+          - { label: "Category", name: "category", widget: "hidden", default: "metal-detectors" }
+          - { label: "[EN] Label", name: "en-label", widget: "string" }
+          - { label: "[EN] Description", name: "en-description", widget: "text" }
+          - { label: "[UA] Label", name: "ua-label", widget: "string" }
+          - { label: "[UA] Description", name: "ua-description", widget: "text" }
+          - { label: "Icon", name: "icon", widget: "string" }
+
+      - label: "X-Ray Inspection Category"
+        name: "x-ray-inspection-index"
+        file: "application/frontend/src/content/equipment/x-ray-inspection/index.md"
+        fields:
+          - { label: "Category", name: "category", widget: "hidden", default: "x-ray-inspection" }
+          - { label: "[EN] Label", name: "en-label", widget: "string" }
+          - { label: "[EN] Description", name: "en-description", widget: "text" }
+          - { label: "[UA] Label", name: "ua-label", widget: "string" }
+          - { label: "[UA] Description", name: "ua-description", widget: "text" }
+          - { label: "Icon", name: "icon", widget: "string" }
