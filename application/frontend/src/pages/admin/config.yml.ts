@@ -161,7 +161,6 @@ collections:
                 name: "icon"
                 widget: "icon-select"
                 required: false
-                i18n: duplicate
                 options:
 ${iconOptions}
 
@@ -170,8 +169,9 @@ ${iconOptions}
     label: "Products"
     label_singular: "Equipment Product"
     description: >-
-      Individual product pages. Choose a category from the dropdown to place
-      the product in the correct folder.
+      Individual product pages, grouped by category folder. Open a category
+      in the sidebar to see its products. Choose a category from the dropdown
+      to place a new product in the correct folder.
     folder: "application/frontend/src/content/equipment"
     create: true
     delete: false
@@ -200,9 +200,12 @@ ${iconOptions}
         field: order
     editor:
       preview: false
-    # Products live in category sub-folders; without depth Decap only lists the top level
+    # Products live in category sub-folders; without depth Decap only lists the top level.
+    # subfolders: false = plain folder browsing (category folder shows its own files);
+    # the legacy default expects <category>/<product>/index.md and shows nothing here.
     nested:
       depth: 2
+      subfolders: false
     meta:
       path:
         widget: select
