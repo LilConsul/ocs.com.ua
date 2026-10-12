@@ -13,7 +13,7 @@ const _ = getInlineTranslations(lang);
 
 {
 	products.length > 0 && (
-		<section class="border-t border-border-subtle pt-12">
+		<section class="border-border-subtle border-t pt-12">
 			<h2 class="font-heading text-headline-xl text-foreground mb-8 font-semibold">
 				{_("Related Equipment")}
 			</h2>
@@ -28,9 +28,9 @@ const _ = getInlineTranslations(lang);
 					return (
 						<a
 							href={itemUrl}
-							class="group block overflow-hidden rounded-lg border border-border-subtle bg-card transition-all duration-300 hover:shadow-md"
+							class="group border-border-subtle bg-card block overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-md"
 						>
-							<div class="flex h-44 items-center justify-center bg-surface-muted p-4">
+							<div class="bg-surface-muted flex h-44 items-center justify-center p-4">
 								<img
 									src={itemImg}
 									alt={item.data.title ?? ""}
@@ -38,7 +38,7 @@ const _ = getInlineTranslations(lang);
 									loading="lazy"
 								/>
 							</div>
-							<div class="border-t border-border-subtle p-4">
+							<div class="border-border-subtle border-t p-4">
 								<p class="font-label-caps text-industrial-gray mb-1 text-[11px] font-semibold tracking-wider uppercase">
 									{itemCategory}
 								</p>
@@ -47,7 +47,8 @@ const _ = getInlineTranslations(lang);
 								</h3>
 								{itemSpec && (
 									<p class="font-technical-data text-industrial-gray text-xs">
-										{itemSpec.label}: <span class="font-medium text-foreground">{itemSpec.value}</span>
+										{itemSpec.label}:{" "}
+										<span class="text-foreground font-medium">{itemSpec.value}</span>
 									</p>
 								)}
 							</div>

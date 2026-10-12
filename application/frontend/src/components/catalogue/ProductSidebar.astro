@@ -11,22 +11,25 @@ interface Props {
 const { title, datasheet, lang } = Astro.props;
 const _ = getInlineTranslations(lang);
 
-const contactPerson = companyData.contactPerson[lang as "en" | "ua"] || companyData.contactPerson.en;
+const contactPerson =
+	companyData.contactPerson[lang as "en" | "ua"] || companyData.contactPerson.en;
 const workingHours = companyData.workingHours[lang as "en" | "ua"] || companyData.workingHours.en;
 ---
 
 <aside class="relative lg:col-span-4">
 	<div
-		class="sticky top-28 flex w-full flex-col gap-6 rounded-xl border border-border-subtle bg-card/80 p-8 shadow-sm backdrop-blur-xl"
+		class="border-border-subtle bg-card/80 sticky top-28 flex w-full flex-col gap-6 rounded-xl border p-8 shadow-sm backdrop-blur-xl"
 	>
 		<div>
 			<h3 class="font-heading text-headline-lg text-foreground mb-2 font-semibold">
 				{_("Ready to upgrade your line?")}
 			</h3>
 			<p class="text-on-surface-variant text-sm leading-relaxed">
-				{_(
-					"Our engineering team is ready to configure this equipment for your specific production environment."
-				)}
+				{
+					_(
+						"Our engineering team is ready to configure this equipment for your specific production environment."
+					)
+				}
 			</p>
 		</div>
 
@@ -54,14 +57,17 @@ const workingHours = companyData.workingHours[lang as "en" | "ua"] || companyDat
 			}
 		</div>
 
-		<div class="mt-2 border-t border-border-subtle pt-6">
-			<p class="font-label-caps text-industrial-gray mb-1 text-xs font-semibold tracking-wider uppercase">
+		<div class="border-border-subtle mt-2 border-t pt-6">
+			<p
+				class="font-label-caps text-industrial-gray mb-1 text-xs font-semibold tracking-wider uppercase"
+			>
 				{_("Direct Technical Sales")}
 			</p>
 			{
 				contactPerson && (
-					<p class="text-foreground text-sm font-medium mb-2">
-						{contactPerson.name} <span class="text-industrial-gray text-xs font-normal">({contactPerson.title})</span>
+					<p class="text-foreground mb-2 text-sm font-medium">
+						{contactPerson.name}{" "}
+						<span class="text-industrial-gray text-xs font-normal">({contactPerson.title})</span>
 					</p>
 				)
 			}
@@ -69,7 +75,9 @@ const workingHours = companyData.workingHours[lang as "en" | "ua"] || companyDat
 				href={companyData.phone.href}
 				class="text-foreground hover:text-secondary group flex items-center gap-3 transition-colors"
 			>
-				<span class="material-symbols-outlined text-[22px] text-industrial-gray group-hover:text-secondary">
+				<span
+					class="material-symbols-outlined text-industrial-gray group-hover:text-secondary text-[22px]"
+				>
 					call
 				</span>
 				<span class="font-technical-data text-technical-data text-base font-semibold">

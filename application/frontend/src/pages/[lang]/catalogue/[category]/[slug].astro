@@ -34,9 +34,10 @@ export async function getStaticPaths() {
 
 		const localeProducts = filterByLocale(allProducts, locale);
 		const categoryProducts = filterByCategory(localeProducts, category);
-		const relatedProducts = sortByOrder(
-			categoryProducts.filter((p) => getSlug(p) !== slug)
-		).slice(0, 3);
+		const relatedProducts = sortByOrder(categoryProducts.filter((p) => getSlug(p) !== slug)).slice(
+			0,
+			3
+		);
 
 		paths.push({
 			params: { lang: locale, category, slug },
@@ -80,12 +81,19 @@ const structuredData = {
 };
 ---
 
-<Layout title={`${title} | ${lang === "en" ? "OS-Technology" : "ОС-Технолоджи"}`} description={description} article={true}>
+<Layout
+	title={`${title} | ${lang === "en" ? "OS-Technology" : "ОС-Технолоджи"}`}
+	description={description}
+	article={true}
+>
 	<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
-	<div class="mx-auto max-w-container-max px-edge-margin pt-10 pb-section-gap-lg">
+	<div class="max-w-container-max px-edge-margin pb-section-gap-lg mx-auto pt-10">
 		<!-- Breadcrumbs -->
-		<nav aria-label={_("Breadcrumb")} class="text-industrial-gray mb-8 flex items-center space-x-2 text-sm font-medium">
+		<nav
+			aria-label={_("Breadcrumb")}
+			class="text-industrial-gray mb-8 flex items-center space-x-2 text-sm font-medium"
+		>
 			<a href={`/${lang}/catalogue/${category}`} class="hover:text-foreground transition-colors">
 				{_("Catalogue")}
 			</a>
@@ -98,24 +106,14 @@ const structuredData = {
 		</nav>
 
 		<!-- 12-Column Grid Layout -->
-		<div class="relative grid grid-cols-1 gap-gutter lg:grid-cols-12">
+		<div class="gap-gutter relative grid grid-cols-1 lg:grid-cols-12">
 			<!-- Main Content Column (8 Cols) -->
 			<div class="space-y-12 lg:col-span-8">
 				<!-- Hero Section -->
 				<section>
-					{
-						product.data.industries && product.data.industries.length > 0 && (
-							<div class="mb-4 flex flex-wrap gap-2">
-								{product.data.industries.map((ind) => (
-									<span class="bg-surface-muted text-industrial-gray font-label-caps rounded-md px-2.5 py-1 text-[11px] font-semibold tracking-wider uppercase border border-border-subtle">
-										{ind}
-									</span>
-								))}
-							</div>
-						)
-					}
-
-					<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-foreground mb-8">
+					<h1
+						class="font-display-lg text-display-lg-mobile md:text-display-lg text-foreground mb-8"
+					>
 						{title}
 					</h1>
 
