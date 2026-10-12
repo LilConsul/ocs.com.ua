@@ -161,11 +161,11 @@ msgstr "Немає доступних товарів у цій категорі�
 
 #: src/components/Footer.astro:17
 msgid "OS-Technology Ukraine"
-msgstr "OS-Technology Україна"
+msgstr "ОС-Технолоджи Україна"
 
 #: src/pages/[lang]/index.astro:26
 msgid "OS-Technology Ukraine | Checkweighers & Inspection Systems"
-msgstr "OS-Technology Україна | Чеквейєри та системи контролю якості"
+msgstr "ОС-Технолоджи Україна | Чеквейєри та системи контролю якості"
 
 #: src/components/homepage/HeroSection.astro:53
 msgid "Official Mesutronic Partner"

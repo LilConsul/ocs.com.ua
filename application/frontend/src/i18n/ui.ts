@@ -12,7 +12,7 @@
  * - locales/ua.po (Ukrainian translations)
  *
  * Generation script: scripts/i18n-compile.js
- * Generated: 2026-09-18T17:37:47.722Z
+ * Generated: 2026-10-12T13:22:47.727Z
  */
 
 export const languages = {
@@ -135,9 +135,9 @@ export const ui = {
 		"inline.official_mesutronic_partner": "Офіційний партнер Mesutronic",
 		"inline.official_wipotec_partner": "Офіційний партнер Wipotec",
 		"inline.open_filters": "Відкрити фільтри",
-		"inline.os_technology_ukraine": "OS-Technology Україна",
+		"inline.os_technology_ukraine": "ОС-Технолоджи Україна",
 		"inline.os_technology_ukraine_checkweighers_inspection_systems":
-			"OS-Technology Україна | Чеквейєри та системи контролю якості",
+			"ОС-Технолоджи Україна | Чеквейєри та системи контролю якості",
 		"inline.our_clients": "Наші клієнти",
 		"inline.pharmaceutical": "Фармацевтика",
 		"inline.precision_checkweighers_with_track_trace_serialization_gmp_compliant_and_audit_r":

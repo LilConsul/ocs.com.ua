@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" viewBox="0 0 48 48">
+  <!-- Admin-only favicon: square tile in site primary (oklch(0.525 0.223 3.958) ≈ #c6005c) with the OCS mark -->
+  <rect width="48" height="48" rx="10" fill="#c6005c"/>
+  <path fill="#fff" transform="translate(9.5 5.2) scale(0.95)" d="m25.727 28.495-1.809-4.784v15.846h1.809V28.495ZM15.81 39.557h2.931V10.004L15.81 2.267v37.29Zm6.435-20.272-2.252-5.964v26.236h2.252V19.285Zm5.713 15.109v5.163h1.952l-1.952-5.163ZM14.98.057h-.007L14.951 0 0 39.557h14.98V.057Z"/>
+</svg>

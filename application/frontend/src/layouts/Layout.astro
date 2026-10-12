@@ -28,7 +28,7 @@ const ogImage = image || `${siteUrl}/assets/icons/wipotec-logo.svg`;
 const defaultDescription =
 	lang === "en"
 		? "OS-Technology Ukraine - B2B industrial equipment for precision weighing, inspection, and quality control systems"
-		: "OS-Technology Україна - промислове обладнання для точного зважування, інспекції та систем контролю якості";
+		: "ОС-Технолоджи Україна - промислове обладнання для точного зважування, інспекції та систем контролю якості";
 ---
 
 <!doctype html>
@@ -57,7 +57,7 @@ const defaultDescription =
 				optional: {
 					description: description || defaultDescription,
 					locale: lang === "en" ? "en_US" : "uk_UA",
-					siteName: "OS-Technology Ukraine",
+					siteName: lang === "en" ? "OS-Technology Ukraine" : "ОС-Технолоджи Україна",
 				},
 				image: {
 					alt: title,
