@@ -84,12 +84,16 @@ msgstr "Клієнтів"
 msgid "Close filters"
 msgstr "Закрити фільтри"
 
+#: src/components/Header.astro:68
+msgid "Close notification"
+msgstr "Закрити сповіщення"
+
 #: src/components/catalogue/ProductGallery.astro:158
 msgid "Close preview"
 msgstr "Закрити попередній перегляд"
 
-#: src/components/catalogue/CatalogueSidebar.astro:95
 #: src/components/homepage/HeroSection.astro:86
+#: src/components/catalogue/CatalogueSidebar.astro:95
 msgid "Contact Us"
 msgstr "Зв’язатися з нами"
 
@@ -98,7 +102,7 @@ msgid "Cosmetics"
 msgstr "Косметична промисловість"
 
 #: src/components/catalogue/ProductSidebar.astro:64
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:164
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:173
 msgid "Direct Technical Sales"
 msgstr "Прямі продажі технічного обладнання"
 
@@ -163,7 +167,7 @@ msgstr "Галузі, для яких ми працюємо"
 msgid "Installations"
 msgstr "Встановлених систем"
 
-#: src/components/Header.astro:138
+#: src/components/Header.astro:164
 msgid "Language"
 msgstr "Мова"
 
@@ -214,7 +218,7 @@ msgid "Our Clients"
 msgstr "Наші клієнти"
 
 #: src/components/catalogue/ProductSidebar.astro:29
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:155
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:161
 msgid "Our engineering team is ready to configure this equipment for your specific production environment."
 msgstr "Наша інженерна команда готова підібрати конфігурацію обладнання відповідно до потреб вашого виробництва."
 
@@ -222,7 +226,7 @@ msgstr "Наша інженерна команда готова підібрат
 msgid "Pharmaceutical"
 msgstr "Фармацевтична промисловість"
 
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:152
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:157
 msgid "Planning to upgrade your production line?"
 msgstr "Плануєте модернізувати виробничу лінію?"
 
@@ -239,7 +243,7 @@ msgstr "Попереднє зображення"
 msgid "Privacy Policy"
 msgstr "Політика конфіденційності"
 
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:132
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:134
 msgid "Product Overview"
 msgstr "Огляд обладнання"
 
@@ -264,7 +268,7 @@ msgid "Related Equipment"
 msgstr "Схоже обладнання"
 
 #: src/components/catalogue/ProductSidebar.astro:41
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:193
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:213
 msgid "Request Consultation"
 msgstr "Замовити консультацію"
 
@@ -285,7 +289,7 @@ msgid "Systems operating across Ukrainian manufacturing facilities."
 msgstr "Наше обладнання працює на виробничих підприємствах по всій Україні."
 
 #: src/components/catalogue/ProductSidebar.astro:54
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:206
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:226
 msgid "Technical Datasheet"
 msgstr "Технічна специфікація"
 
@@ -309,7 +313,7 @@ msgstr "Технічна експертиза та сервісна підтри
 msgid "Terms of Service"
 msgstr "Умови користування"
 
-#: src/components/Header.astro:108
+#: src/components/Header.astro:134
 msgid "Toggle menu"
 msgstr "Відкрити або закрити меню"
 
@@ -329,6 +333,10 @@ msgstr "Переглянути обладнання"
 #: src/components/catalogue/ProductGallery.astro:208
 msgid "View image"
 msgstr "Переглянути зображення"
+
+#: src/components/Header.astro:59
+msgid "Website in active development: Information and specifications may not be accurate, pages are still being completed, and all content is subject to change."
+msgstr "Сайт у процесі розробки: інформація та технічні дані можуть бути неточними, сторінки наповнюються та весь вміст може змінюватися."
 
 #: src/components/Header.astro:28
 msgid "Wiki"

@@ -80,12 +80,16 @@ msgstr ""
 msgid "Close filters"
 msgstr ""
 
+#: src/components/Header.astro:68
+msgid "Close notification"
+msgstr ""
+
 #: src/components/catalogue/ProductGallery.astro:158
 msgid "Close preview"
 msgstr ""
 
-#: src/components/catalogue/CatalogueSidebar.astro:95
 #: src/components/homepage/HeroSection.astro:86
+#: src/components/catalogue/CatalogueSidebar.astro:95
 msgid "Contact Us"
 msgstr ""
 
@@ -94,7 +98,7 @@ msgid "Cosmetics"
 msgstr ""
 
 #: src/components/catalogue/ProductSidebar.astro:64
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:164
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:173
 msgid "Direct Technical Sales"
 msgstr ""
 
@@ -159,7 +163,7 @@ msgstr ""
 msgid "Installations"
 msgstr ""
 
-#: src/components/Header.astro:138
+#: src/components/Header.astro:164
 msgid "Language"
 msgstr ""
 
@@ -210,7 +214,7 @@ msgid "Our Clients"
 msgstr ""
 
 #: src/components/catalogue/ProductSidebar.astro:29
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:155
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:161
 msgid "Our engineering team is ready to configure this equipment for your specific production environment."
 msgstr ""
 
@@ -218,7 +222,7 @@ msgstr ""
 msgid "Pharmaceutical"
 msgstr ""
 
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:152
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:157
 msgid "Planning to upgrade your production line?"
 msgstr ""
 
@@ -235,7 +239,7 @@ msgstr ""
 msgid "Privacy Policy"
 msgstr ""
 
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:132
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:134
 msgid "Product Overview"
 msgstr ""
 
@@ -260,7 +264,7 @@ msgid "Related Equipment"
 msgstr ""
 
 #: src/components/catalogue/ProductSidebar.astro:41
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:193
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:213
 msgid "Request Consultation"
 msgstr ""
 
@@ -281,7 +285,7 @@ msgid "Systems operating across Ukrainian manufacturing facilities."
 msgstr ""
 
 #: src/components/catalogue/ProductSidebar.astro:54
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:206
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:226
 msgid "Technical Datasheet"
 msgstr ""
 
@@ -305,7 +309,7 @@ msgstr ""
 msgid "Terms of Service"
 msgstr ""
 
-#: src/components/Header.astro:108
+#: src/components/Header.astro:134
 msgid "Toggle menu"
 msgstr ""
 
@@ -324,6 +328,10 @@ msgstr ""
 #: src/components/catalogue/ProductGallery.astro:109
 #: src/components/catalogue/ProductGallery.astro:208
 msgid "View image"
+msgstr ""
+
+#: src/components/Header.astro:59
+msgid "Website in active development: Information and specifications may not be accurate, pages are still being completed, and all content is subject to change."
 msgstr ""
 
 #: src/components/Header.astro:28
