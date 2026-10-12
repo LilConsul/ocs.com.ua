@@ -31,7 +31,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: i18n-extract\n"
 
-#: src/components/Header.astro:29
+#: src/components/Header.astro:25
 msgid "About Us"
 msgstr "Про нас"
 
@@ -47,11 +47,19 @@ msgstr "Усі галузі"
 msgid "All rights reserved"
 msgstr "Усі права захищено"
 
+#: src/components/NotFoundContent.astro:76
+msgid "Back to Home"
+msgstr "На головну"
+
 #: src/pages/[lang]/catalogue/[category]/[slug].astro:108
 msgid "Breadcrumb"
 msgstr "Навігація"
 
-#: src/components/Header.astro:26
+#: src/components/NotFoundContent.astro:83
+msgid "Browse Catalogue"
+msgstr "Каталог обладнання"
+
+#: src/components/Header.astro:22
 #: src/pages/[lang]/catalogue/[category]/[slug].astro:112
 msgid "Catalogue"
 msgstr "Каталог"
@@ -84,7 +92,8 @@ msgstr "Клієнтів"
 msgid "Close filters"
 msgstr "Закрити фільтри"
 
-#: src/components/Header.astro:68
+#: src/components/Header.astro:71
+#: src/components/Header.astro:72
 msgid "Close notification"
 msgstr "Закрити сповіщення"
 
@@ -92,8 +101,9 @@ msgstr "Закрити сповіщення"
 msgid "Close preview"
 msgstr "Закрити попередній перегляд"
 
-#: src/components/homepage/HeroSection.astro:86
+#: src/components/NotFoundContent.astro:93
 #: src/components/catalogue/CatalogueSidebar.astro:95
+#: src/components/homepage/HeroSection.astro:86
 msgid "Contact Us"
 msgstr "Зв’язатися з нами"
 
@@ -155,7 +165,7 @@ msgstr "Перегляд зображення у збільшеному форм
 msgid "Industrial Checkweigher Systems"
 msgstr "Промислові системи контрольного зважування"
 
-#: src/components/Header.astro:27
+#: src/components/Header.astro:23
 msgid "Industries"
 msgstr "Галузі"
 
@@ -167,7 +177,7 @@ msgstr "Галузі, для яких ми працюємо"
 msgid "Installations"
 msgstr "Встановлених систем"
 
-#: src/components/Header.astro:164
+#: src/components/Header.astro:169
 msgid "Language"
 msgstr "Мова"
 
@@ -183,6 +193,10 @@ msgstr "Логістика та дистрибуція"
 #: src/components/homepage/PartnersSection.astro:174
 msgid "Long-term partnerships built on reliable support."
 msgstr "Довгострокове партнерство, засноване на надійній підтримці."
+
+#: src/components/NotFoundContent.astro:88
+msgid "Need help finding equipment?"
+msgstr "Потрібна допомога з вибором обладнання?"
 
 #: src/components/catalogue/ProductGallery.astro:83
 #: src/components/catalogue/ProductGallery.astro:190
@@ -221,6 +235,13 @@ msgstr "Наші клієнти"
 #: src/pages/[lang]/catalogue/[category]/[slug].astro:161
 msgid "Our engineering team is ready to configure this equipment for your specific production environment."
 msgstr "Наша інженерна команда готова підібрати конфігурацію обладнання відповідно до потреб вашого виробництва."
+
+#: src/pages/404.astro:11
+#: src/pages/404.astro:11
+#: src/components/NotFoundContent.astro:15
+#: src/components/NotFoundContent.astro:50
+msgid "Page Not Found"
+msgstr "Сторінку не знайдено"
 
 #: src/components/homepage/IndustriesSection.astro:58
 msgid "Pharmaceutical"
@@ -272,6 +293,10 @@ msgstr "Схоже обладнання"
 msgid "Request Consultation"
 msgstr "Замовити консультацію"
 
+#: src/components/NotFoundContent.astro:65
+msgid "Requested path"
+msgstr "Запитана адреса"
+
 #: src/components/homepage/IndustriesSection.astro:29
 msgid "Solutions for Every Industry"
 msgstr "Рішення для кожної галузі"
@@ -313,7 +338,11 @@ msgstr "Технічна експертиза та сервісна підтри
 msgid "Terms of Service"
 msgstr "Умови користування"
 
-#: src/components/Header.astro:134
+#: src/components/NotFoundContent.astro:55
+msgid "The page you are looking for does not exist or has been moved. Explore our catalogue or return to the homepage."
+msgstr "Сторінка, яку ви шукаєте, не існує або була переміщена. Перегляньте наш каталог або поверніться на головну сторінку."
+
+#: src/components/Header.astro:139
 msgid "Toggle menu"
 msgstr "Відкрити або закрити меню"
 
@@ -334,11 +363,11 @@ msgstr "Переглянути обладнання"
 msgid "View image"
 msgstr "Переглянути зображення"
 
-#: src/components/Header.astro:59
+#: src/components/Header.astro:60
 msgid "Website in active development: Information and specifications may not be accurate, pages are still being completed, and all content is subject to change."
 msgstr "Сайт у процесі розробки: інформація та технічні дані можуть бути неточними, сторінки наповнюються та весь вміст може змінюватися."
 
-#: src/components/Header.astro:28
+#: src/components/Header.astro:24
 msgid "Wiki"
 msgstr "База знань"
 
