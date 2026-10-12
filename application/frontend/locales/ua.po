@@ -37,7 +37,7 @@ msgstr "Про нас"
 
 #: src/components/homepage/HeroSection.astro:74
 msgid "Advanced checkweighers and Track & Trace systems for food, pharma, and logistics. Trusted by 300+ Ukrainian manufacturers since 2013."
-msgstr "Сучасні динамічні чеквейєри та системи Track & Trace для харчової промисловості, фармацевтики й логістики. Понад 300 українських виробників довіряють нам із 2013 року."
+msgstr "Сучасні динамічні чеквейєри та системи Track & Trace для харчової промисловості, фармацевтики й логістики. З 2013 року нам довіряють понад 300 українських виробників."
 
 #: src/components/homepage/IndustriesSection.astro:88
 msgid "All Industries"
@@ -49,7 +49,7 @@ msgstr "Усі права захищено"
 
 #: src/pages/[lang]/catalogue/[category]/[slug].astro:88
 msgid "Breadcrumb"
-msgstr ""
+msgstr "Навігація"
 
 #: src/components/Header.astro:26
 #: src/pages/[lang]/catalogue/[category]/[slug].astro:90
@@ -86,7 +86,7 @@ msgstr "Закрити фільтри"
 
 #: src/components/catalogue/ProductGallery.astro:82
 msgid "Close preview"
-msgstr ""
+msgstr "Закрити попередній перегляд"
 
 #: src/components/homepage/HeroSection.astro:86
 #: src/components/catalogue/CatalogueSidebar.astro:95
@@ -99,7 +99,7 @@ msgstr "Косметична промисловість"
 
 #: src/components/catalogue/ProductSidebar.astro:59
 msgid "Direct Technical Sales"
-msgstr ""
+msgstr "Прямі продажі технічного обладнання"
 
 #: src/pages/[lang]/index.astro:28
 msgid "Dynamic checkweighers and Track & Trace systems for food, pharmaceutical, and logistics industries in Ukraine. Official Wipotec partner."
@@ -112,7 +112,7 @@ msgstr "Категорії обладнання"
 #: src/components/catalogue/ProductGallery.astro:35
 #: src/components/catalogue/ProductGallery.astro:36
 msgid "Expand image"
-msgstr ""
+msgstr "Збільшити зображення"
 
 #: src/components/homepage/IndustriesSection.astro:89
 msgid "Explore industry-specific solutions"
@@ -140,11 +140,11 @@ msgstr "Високошвидкісні чеквейєри для складів 
 
 #: src/components/homepage/IndustriesSection.astro:47
 msgid "Hygienic checkweighers meeting food safety standards (FDA, IFS, BRC). Built for production lines."
-msgstr "Гігієнічні чеквейєри, що відповідають вимогам харчової безпеки (FDA, IFS, BRC) і призначені для виробничих ліній."
+msgstr "Гігієнічні чеквейєри, що відповідають вимогам харчової безпеки (FDA, IFS, BRC) та призначені для виробничих ліній."
 
 #: src/components/catalogue/ProductGallery.astro:70
 msgid "Image lightbox"
-msgstr ""
+msgstr "Перегляд зображення у збільшеному форматі"
 
 #: src/components/homepage/HeroSection.astro:21
 msgid "Industrial Checkweigher Systems"
@@ -177,11 +177,11 @@ msgstr "Логістика та дистрибуція"
 
 #: src/components/homepage/PartnersSection.astro:174
 msgid "Long-term partnerships built on reliable support."
-msgstr "Будуємо довгострокові партнерства завдяки надійній підтримці."
+msgstr "Довгострокове партнерство, засноване на надійній підтримці."
 
 #: src/components/catalogue/ProductGallery.astro:114
 msgid "Next image"
-msgstr ""
+msgstr "Наступне зображення"
 
 #: src/pages/[lang]/catalogue/[category]/index.astro:143
 msgid "No products available in this category"
@@ -189,11 +189,11 @@ msgstr "У цій категорії поки немає обладнання"
 
 #: src/components/Footer.astro:16
 msgid "OS-Technology Ukraine"
-msgstr "ОС-Технолоджи Україна"
+msgstr "OS-Technology Україна"
 
 #: src/pages/[lang]/index.astro:27
 msgid "OS-Technology Ukraine | Checkweighers & Inspection Systems"
-msgstr "ОС-Технолоджи Україна | Чеквейєри та інспекційні системи"
+msgstr "OS-Technology Україна | Чеквейєри та інспекційні системи"
 
 #: src/components/homepage/HeroSection.astro:53
 msgid "Official Partner of Mesutronic GmbH"
@@ -213,7 +213,7 @@ msgstr "Наші клієнти"
 
 #: src/components/catalogue/ProductSidebar.astro:27
 msgid "Our engineering team is ready to configure this equipment for your specific production environment."
-msgstr ""
+msgstr "Наша інженерна команда готова підібрати конфігурацію обладнання відповідно до потреб вашого виробництва."
 
 #: src/components/homepage/IndustriesSection.astro:58
 msgid "Pharmaceutical"
@@ -225,7 +225,7 @@ msgstr "Високоточні чеквейєри із системами сер
 
 #: src/components/catalogue/ProductGallery.astro:106
 msgid "Previous image"
-msgstr ""
+msgstr "Попереднє зображення"
 
 #: src/components/Footer.astro:24
 msgid "Privacy Policy"
@@ -233,7 +233,7 @@ msgstr "Політика конфіденційності"
 
 #: src/components/catalogue/ProductGallery.astro:45
 msgid "Product image thumbnails"
-msgstr ""
+msgstr "Мініатюри зображень обладнання"
 
 #: src/pages/[lang]/catalogue/[category]/index.astro:133
 msgid "Products"
@@ -245,15 +245,15 @@ msgstr "Системи контролю якості та перевірки р�
 
 #: src/components/catalogue/ProductSidebar.astro:24
 msgid "Ready to upgrade your line?"
-msgstr ""
+msgstr "Плануєте модернізувати виробничу лінію?"
 
 #: src/components/catalogue/RelatedEquipment.astro:18
 msgid "Related Equipment"
-msgstr ""
+msgstr "Супутнє обладнання"
 
 #: src/components/catalogue/ProductSidebar.astro:38
 msgid "Request Consultation"
-msgstr ""
+msgstr "Замовити консультацію"
 
 #: src/components/homepage/IndustriesSection.astro:29
 msgid "Solutions for Every Industry"
@@ -269,19 +269,19 @@ msgstr "Встановлених систем"
 
 #: src/components/homepage/PartnersSection.astro:138
 msgid "Systems operating across Ukrainian manufacturing facilities."
-msgstr "Наші системи працюють на виробничих підприємствах по всій Україні."
+msgstr "Наше обладнання працює на виробничих підприємствах по всій Україні."
 
 #: src/components/catalogue/ProductSidebar.astro:51
 msgid "Technical Datasheet"
-msgstr ""
+msgstr "Технічна специфікація"
 
 #: src/components/catalogue/ProductCard.astro:72
 msgid "Technical Details"
-msgstr "Технічні подробиці"
+msgstr "Технічні деталі"
 
 #: src/components/catalogue/ProductSpecsTable.astro:17
 msgid "Technical Specifications"
-msgstr ""
+msgstr "Технічні характеристики"
 
 #: src/components/catalogue/CatalogueSidebar.astro:55
 msgid "Technical Specs"
@@ -293,7 +293,7 @@ msgstr "Технічна експертиза та сервісна підтри
 
 #: src/components/Footer.astro:30
 msgid "Terms of Service"
-msgstr "Умови використання"
+msgstr "Умови користування"
 
 #: src/components/Header.astro:108
 msgid "Toggle menu"
@@ -313,7 +313,7 @@ msgstr "Переглянути обладнання"
 
 #: src/components/catalogue/ProductGallery.astro:55
 msgid "View image"
-msgstr ""
+msgstr "Переглянути зображення"
 
 #: src/components/Header.astro:28
 msgid "Wiki"
