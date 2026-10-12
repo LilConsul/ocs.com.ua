@@ -88,8 +88,8 @@ msgid "Download Datasheet"
 msgstr "Завантажити технічну специфікацію"
 
 #: src/components/homepage/HeroSection.astro:62
-msgid "Dynamic Weighing Systems, Metal Detectors, Serialization & Aggregation Systems"
-msgstr "Системи динамічного зважування, металодетектори, системи серіалізації та агрегації"
+msgid "Checkweighers, Metal Detectors, Serialization & Aggregation Systems"
+msgstr "Чеквейєри, металодетектори, системи серіалізації та агрегації"
 
 #: src/pages/[lang]/index.astro:28
 msgid "Dynamic checkweighers and Track & Trace systems for food, pharmaceutical, and logistics industries in Ukraine. Official Wipotec partner."
@@ -171,11 +171,11 @@ msgstr "У цій категорії поки немає обладнання"
 
 #: src/components/Footer.astro:17
 msgid "OS-Technology Ukraine"
-msgstr "OS-Technology Україна"
+msgstr "ОС-Технолоджи Україна"
 
 #: src/pages/[lang]/index.astro:27
 msgid "OS-Technology Ukraine | Checkweighers & Inspection Systems"
-msgstr "OS-Technology Україна | Чеквейєри та інспекційні системи"
+msgstr "ОС-Технолоджи Україна | Чеквейєри та інспекційні системи"
 
 #: src/components/homepage/HeroSection.astro:53
 msgid "Official Partner of Mesutronic GmbH"

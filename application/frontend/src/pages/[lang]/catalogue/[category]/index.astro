@@ -60,7 +60,7 @@ const sortedProducts = Array.isArray(products) ? sortByOrder(products) : [];
 const sortedCategories = Array.isArray(allCategories) ? allCategories : [];
 
 // Page metadata (clean field names!) - with fallback for missing categoryData
-const pageTitle = `${categoryData?.title || "Equipment"} | OS-Technology`;
+const pageTitle = `${categoryData?.title || "Equipment"} | ${lang === "en" ? "OS-Technology" : "ОС-Технолоджи"}`;
 const pageDescription = categoryData?.description || "";
 
 // Structured data for SEO

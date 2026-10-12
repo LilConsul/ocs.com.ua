@@ -84,7 +84,7 @@ msgid "Download Datasheet"
 msgstr ""
 
 #: src/components/homepage/HeroSection.astro:62
-msgid "Dynamic Weighing Systems, Metal Detectors, Serialization & Aggregation Systems"
+msgid "Checkweighers, Metal Detectors, Serialization & Aggregation Systems"
 msgstr ""
 
 #: src/pages/[lang]/index.astro:28

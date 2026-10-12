@@ -64,7 +64,7 @@ const structuredData = {
 };
 ---
 
-<Layout title={`${title} | OS-Technology`} description={description} article={true}>
+<Layout title={`${title} | ${lang === "en" ? "OS-Technology" : "ОС-Технолоджи"}`} description={description} article={true}>
 	<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
 	<div class="mx-auto flex max-w-[1600px] gap-8 px-8 py-16">
