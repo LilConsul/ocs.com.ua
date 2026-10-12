@@ -1,11 +1,15 @@
 ---
 import { getCollection } from "astro:content";
 import { marked } from "marked";
+import CatalogueSidebar from "@/components/catalogue/CatalogueSidebar.astro";
+import { getInlineTranslations, type Lang } from "@/i18n";
+import Layout from "@/layouts/Layout.astro";
 import {
 	getLocale,
 	getCategory,
 	getSlug,
 	getProducts,
+	getCategoriesForLocale,
 	type Locale,
 } from "@/lib/content-utils";
 
@@ -21,10 +25,11 @@ export async function getStaticPaths() {
 		const locale = getLocale(product);
 		const category = getCategory(product);
 		const slug = getSlug(product);
+		const allCategories = getCategoriesForLocale(locale);
 
 		paths.push({
 			params: { lang: locale, category, slug },
-			props: { product, lang: locale },
+			props: { product, lang: locale, allCategories },
 		});
 	}
 
@@ -34,216 +39,139 @@ export async function getStaticPaths() {
 interface Props {
 	product: any;
 	lang: Locale;
+	allCategories: ReturnType<typeof getCategoriesForLocale>;
 }
 
-const { product, lang } = Astro.props;
+const { product, lang, allCategories } = Astro.props;
+const _ = getInlineTranslations(lang as Lang);
+const category = getCategory(product);
 
-const title = product.data.title;
-const description = product.data.description;
+const title = product.data.title ?? "";
+const description = product.data.description ?? "";
 const bodyMarkdown = product.body ?? "";
-
 const body = await marked.parse(bodyMarkdown);
+
+const siteUrl = Astro.site || "https://ocs.com.ua";
+const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
+
+const structuredData = {
+	"@context": "https://schema.org",
+	"@type": "Product",
+	name: title,
+	description,
+	url: currentUrl,
+	inLanguage: lang,
+	image: product.data.gallery?.[0] ?? undefined,
+};
 ---
 
-<!doctype html>
-<html lang={lang} class="dark">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>{title} - Equipment Catalogue</title>
-		<style>
-			* {
-				margin: 0;
-				padding: 0;
-				box-sizing: border-box;
-			}
-			body {
-				font-family: system-ui, -apple-system, sans-serif;
-				background: #0a0a0a;
-				color: #e5e5e5;
-				line-height: 1.6;
-			}
-			.container {
-				max-width: 1200px;
-				margin: 0 auto;
-				padding: 2rem;
-			}
-			nav {
-				background: #1a1a1a;
-				padding: 1rem;
-				border-radius: 8px;
-				margin-bottom: 2rem;
-				border: 1px solid #333;
-			}
-			nav a {
-				color: #60a5fa;
-				text-decoration: none;
-				margin: 0 0.5rem;
-			}
-			nav a:hover {
-				text-decoration: underline;
-			}
-			.info-box {
-				background: #1e293b;
-				padding: 1rem;
-				border-left: 4px solid #3b82f6;
-				margin-bottom: 2rem;
-				border-radius: 4px;
-			}
-			.info-box code {
-				background: #0f172a;
-				padding: 0.2rem 0.4rem;
-				border-radius: 3px;
-				font-size: 0.9em;
-			}
-			.success-badge {
-				display: inline-block;
-				background: #10b981;
-				color: #000;
-				padding: 0.5rem 1rem;
-				border-radius: 6px;
-				font-weight: bold;
-				margin-bottom: 1rem;
-			}
-			h1 {
-				font-size: 2.5rem;
-				margin-bottom: 1rem;
-				color: #fff;
-			}
-			.description {
-				font-size: 1.25rem;
-				color: #9ca3af;
-				margin-bottom: 2rem;
-			}
-			section {
-				margin: 2rem 0;
-			}
-			h2 {
-				color: #fff;
-				margin-bottom: 1rem;
-				border-bottom: 2px solid #333;
-				padding-bottom: 0.5rem;
-			}
-			ul {
-				list-style: none;
-				padding: 0;
-			}
-			li {
-				padding: 0.5rem 0;
-				border-bottom: 1px solid #2a2a2a;
-			}
-			li strong {
-				color: #60a5fa;
-			}
-			.gallery {
-				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-				gap: 1rem;
-				margin-top: 1rem;
-			}
-			.gallery img {
-				width: 100%;
-				height: 200px;
-				object-fit: cover;
-				border-radius: 8px;
-				background: #1a1a1a;
-			}
-			.body-content {
-				background: #1a1a1a;
-				padding: 2rem;
-				border-radius: 8px;
-				border: 1px solid #333;
-				line-height: 1.8;
-			}
-			.body-content h2,
-			.body-content h3 {
-				color: #fff;
-				margin-top: 2rem;
-				margin-bottom: 1rem;
-				border-bottom: 2px solid #333;
-				padding-bottom: 0.5rem;
-			}
-			.body-content h2 {
-				font-size: 1.75rem;
-			}
-			.body-content h3 {
-				font-size: 1.4rem;
-				border-bottom: 1px solid #333;
-			}
-			.body-content p {
-				margin-bottom: 1rem;
-				color: #d1d5db;
-			}
-			.body-content ul {
-				margin-left: 2rem;
-				margin-bottom: 1rem;
-				list-style: disc;
-			}
-			.body-content li {
-				border: none;
-				padding: 0.4rem 0;
-				color: #d1d5db;
-			}
-			.body-content li strong {
-				color: #60a5fa;
-			}
-			.body-content strong {
-				color: #fff;
-				font-weight: 600;
-			}
-		</style>
-	</head>
-	<body>
-		<div class="container">
-			<nav>
-				<strong>Language:</strong>
-				<a href={`/en/catalogue/${Astro.params.category}/${Astro.params.slug}`}>English</a> |
-				<a href={`/ua/catalogue/${Astro.params.category}/${Astro.params.slug}`}>Українська</a>
+<Layout title={`${title} | OS-Technology`} description={description} article={true}>
+	<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+	<div class="mx-auto flex max-w-[1600px] gap-8 px-8 py-16">
+		<CatalogueSidebar
+			allCategories={allCategories}
+			currentCategory={category}
+			lang={lang as Lang}
+		/>
+
+		<main class="min-w-0 flex-1">
+			<!-- Breadcrumb -->
+			<nav class="text-muted-foreground mb-8 flex items-center gap-2 font-mono text-xs">
+				<a href={`/${lang}/catalogue/${category}`} class="hover:text-foreground transition-colors">
+					{allCategories.find((c) => c.slug === category)?.title ?? category}
+				</a>
+				<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+				<span class="text-foreground">{title}</span>
 			</nav>
 
-			<span class="success-badge">✅ Native i18n Migration Complete</span>
+			<!-- Header -->
+			<header class="mb-10">
+				<h1 class="font-heading text-foreground mb-4 text-4xl leading-tight font-semibold tracking-tight md:text-5xl">
+					{title}
+				</h1>
+				{description && (
+					<p class="text-muted-foreground max-w-3xl text-sm leading-relaxed md:text-base">
+						{description}
+					</p>
+				)}
+			</header>
 
-			<div class="info-box">
-				<strong>📍 New File Structure (multiple_files):</strong><br/>
-				<code>equipment/{Astro.params.category}/{Astro.params.slug}.{lang}.md</code><br/>
-				<strong>Entry ID:</strong> <code>{product.id}</code><br/>
-				<strong>Clean Fields:</strong> title, description, body (no prefixes!)
-			</div>
-
-			<h1>{title}</h1>
-			<p class="description">{description}</p>
-
-			<section>
-				<h2>Key Specifications</h2>
-				<ul>
-					{product.data.specs?.map((spec: any) => (
-						<li>
-							<strong>{spec.label}:</strong> {spec.value}
-						</li>
-					))}
-				</ul>
-			</section>
-
-			<section>
-				<h2>Images</h2>
-				<div class="gallery">
-					{product.data.gallery?.map((img: string) => (
-						<img src={img} alt={title} />
-					))}
-				</div>
-			</section>
-
-			{product.data.datasheet && (
-				<section>
-					<h2>Downloads</h2>
-					<p><a href={product.data.datasheet} style="color: #60a5fa;">📄 Download Datasheet (PDF)</a></p>
+			<!-- Gallery -->
+			{product.data.gallery && product.data.gallery.length > 0 && (
+				<section class="mb-10">
+					<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+						{product.data.gallery.map((img: string) => (
+							<div class="bg-background border-border aspect-[4/3] overflow-hidden rounded-lg border">
+								<img
+									src={img}
+									alt={title}
+									class="h-full w-full object-contain p-4"
+									loading="lazy"
+								/>
+							</div>
+						))}
+					</div>
 				</section>
 			)}
 
-			<section>
-				<h2>Technical Documentation</h2>
-				<div class="body-content" set:html={body} />
-			</section>
-		</div>
-	</body>
-</html>
+			<!-- Specifications -->
+			{product.data.specs && product.data.specs.length > 0 && (
+				<section class="mb-10">
+					<h2 class="font-heading text-foreground mb-4 text-xl font-semibold">
+						{_("Key Specifications")}
+					</h2>
+					<div class="border-border divide-border divide-y rounded-lg border">
+						{product.data.specs.map((spec: { label: string; value: string }) => (
+							<div class="flex items-center justify-between px-4 py-3">
+								<span class="text-muted-foreground font-mono text-xs tracking-wider uppercase">
+									{spec.label}
+								</span>
+								<span class="text-foreground font-mono text-sm font-medium">
+									{spec.value}
+								</span>
+							</div>
+						))}
+					</div>
+				</section>
+			)}
+
+			<!-- Industries -->
+			{product.data.industries && product.data.industries.length > 0 && (
+				<section class="mb-10">
+					<h2 class="font-heading text-foreground mb-4 text-xl font-semibold">
+						{_("Industries")}
+					</h2>
+					<div class="flex flex-wrap gap-2">
+						{product.data.industries.map((industry: string) => (
+							<span class="bg-muted text-muted-foreground rounded-full px-3 py-1 font-mono text-xs tracking-wider uppercase">
+								{industry}
+							</span>
+						))}
+					</div>
+				</section>
+			)}
+
+			<!-- Body content -->
+			{body && (
+				<section class="mb-10">
+					<div class="prose prose-sm max-w-none" set:html={body} />
+				</section>
+			)}
+
+			<!-- Datasheet download -->
+			{product.data.datasheet && (
+				<section class="mb-10">
+					<a
+						href={product.data.datasheet}
+						class="border-secondary text-secondary hover:bg-secondary/5 inline-flex items-center gap-2 rounded border-2 px-5 py-2.5 text-sm font-medium transition-colors"
+						download
+					>
+						<span class="material-symbols-outlined text-[18px]">download</span>
+						{_("Download Datasheet")}
+					</a>
+				</section>
+			)}
+		</main>
+	</div>
+</Layout>

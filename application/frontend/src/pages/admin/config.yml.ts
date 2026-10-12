@@ -161,14 +161,10 @@ ${iconOptions}
         field: order
     editor:
       preview: false
-    nested:
-      depth: 2
-      summary: "{{title | default('index')}}"
     meta:
       path:
         widget: select
         label: "Category"
-        index_file: "_index"
         options:
 ${categoryOptions}
     fields:
