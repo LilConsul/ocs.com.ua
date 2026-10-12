@@ -14,7 +14,14 @@
 		"ci": "biome ci .",
 		"i18n:extract": "node scripts/i18n-extract-po.js",
 		"i18n:init": "node scripts/i18n-extract-po.js --init",
-		"i18n:compile": "node scripts/i18n-compile.js"
+		"i18n:compile": "node scripts/i18n-compile.js",
+		"remark:check": "remark src/content --frail",
+		"remark:write": "remark src/content --output"
+	},
+	"remarkConfig": {
+		"plugins": [
+			"remark-frontmatter"
+		]
 	},
 	"dependencies": {
 		"@astrojs/node": "11.0.2",
@@ -51,6 +58,8 @@
 		"prettier": "^3.9.6",
 		"prettier-plugin-astro": "^0.14.1",
 		"prettier-plugin-tailwindcss": "^0.8.1",
+		"remark-cli": "^12.0.1",
+		"remark-frontmatter": "^5.0.0",
 		"shadcn": "^4.10.0",
 		"typescript": "^6.0.3"
 	}

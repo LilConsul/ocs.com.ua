@@ -84,6 +84,14 @@ repos:
         exclude: ^application/frontend/(tina/tina-lock\.json|public/admin/\.gitignore)$
 
 
+      - id: remark-content-frontend
+        name: "[FE] Remark format Decap content (Markdown)"
+        entry: bun
+        args: ["run", "--cwd", "application/frontend", "remark:write"]
+        language: system
+        pass_filenames: false
+        files: ^application/frontend/src/content/.*\.md$
+
       - id: biome-ci-frontend
         name: "[FE] Biome CI"
         entry: bun

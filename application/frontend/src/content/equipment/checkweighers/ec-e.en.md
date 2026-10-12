@@ -19,6 +19,7 @@ specs:
   - label: Display Value
     value: TODO
 ---
+
 ## Precise Checkweighers: Fully Automatic Weight Control & Data Acquisition
 
 Reliability and transparency of production data are the basis of all planning. The EC-E checkweigher from Wipotec guarantees 100% data capture in ongoing production.

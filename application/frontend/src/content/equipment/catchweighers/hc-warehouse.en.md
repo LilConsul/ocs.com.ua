@@ -21,6 +21,7 @@ specs:
   - label: Display Value
     value: TODO
 ---
+
 ## Attractively Priced Catchweigher for Warehouse and Intralogistics Sector
 
 The HC-Warehouse is the ideal solution for weighing applications in the warehouse and intralogistics sector. Wipotec has thus created the first scale in this price segment without compromising on quality and durability. Due to the innovative use of only one central strain gauge Weigh Cell, the HC-Warehouse is very robust and reliable. At the same time, it enables fast and uncomplicated maintenance.
