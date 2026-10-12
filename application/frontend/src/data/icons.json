@@ -6,7 +6,7 @@
   { "label": "Factory", "value": "factory" },
   { "label": "Precision Manufacturing", "value": "precision_manufacturing" },
   { "label": "Barcode Scanner", "value": "barcode_scanner" },
-  { "label": "Qr Code Scanner", "value": "qr_code_scanner" },
+  { "label": "QR Code Scanner", "value": "qr_code_scanner" },
   { "label": "Forklift", "value": "forklift" },
   { "label": "Warehouse", "value": "warehouse" },
   { "label": "Shipping", "value": "local_shipping" },

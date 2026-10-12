@@ -20,16 +20,15 @@ export interface EquipmentType {
 	title: string;
 	description: string;
 	icon: string;
-	order: number;
 }
 
 /**
- * Get all equipment category types for a given locale, sorted by order.
- * Reads from src/data/equipment-types.{locale}.json (managed by CMS).
+ * Get all equipment category types for a given locale, in array order.
+ * Reads from src/data/equipment-types.{locale}.json (managed by CMS, drag to reorder).
  */
 export function getCategoriesForLocale(locale: Locale): EquipmentType[] {
 	const data = locale === "ua" ? uaTypes : enTypes;
-	return [...(data as EquipmentType[])].sort((a, b) => a.order - b.order);
+	return (data as { categories: EquipmentType[] }).categories ?? [];
 }
 
 /**

@@ -11,9 +11,6 @@ interface Props {
 const { allCategories, currentCategory, lang } = Astro.props;
 const _ = getInlineTranslations(lang);
 
-const sortedCategories = [...allCategories].sort(
-	(a, b) => (a.order ?? 999) - (b.order ?? 999)
-);
 ---
 
 <!-- Mobile Filter Button -->
@@ -67,7 +64,7 @@ const sortedCategories = [...allCategories].sort(
 		<!-- Navigation with precise spacing -->
 		<nav aria-label="Category navigation" class="space-y-2">
 			{
-				sortedCategories.map((cat) => {
+				allCategories.map((cat) => {
 						const isActive = cat.slug === currentCategory;
 						const label = cat.title;
 						const icon = cat.icon || "category";

@@ -5,7 +5,6 @@ import { resolve } from "path";
 interface EquipmentType {
 	slug: string;
 	title: string;
-	order: number;
 }
 
 interface Icon {
@@ -24,8 +23,11 @@ function readJson<T>(relativePath: string, fallback: T): T {
 }
 
 export const GET: APIRoute = () => {
-	const categories = readJson<EquipmentType[]>("src/data/equipment-types.en.json", [])
-		.sort((a, b) => a.order - b.order);
+	// Array position is the display order (drag to reorder in the CMS)
+	const categories = readJson<{ categories: EquipmentType[] }>(
+		"src/data/equipment-types.en.json",
+		{ categories: [] }
+	).categories ?? [];
 
 	const icons = readJson<Icon[]>("src/data/icons.json", []);
 
@@ -49,6 +51,7 @@ export const GET: APIRoute = () => {
     delete: '[CMS] Delete: {{collection}} "{{slug}}"'
     uploadMedia: '[CMS] Upload: "{{path}}"'
     deleteMedia: '[CMS] Delete: "{{path}}"'
+    openAuthoring: '[CMS] {{message}}'
   squash_merges: true
 
   #name: test-repo
@@ -64,6 +67,13 @@ logo:
 
 locale: en
 
+# Disable search to avoid exhausting GitHub API rate limits on large collections
+search: false
+
+# Report issues to the project repo, not Decap's default
+issue_reports:
+  url: https://github.com/LilConsul/ocs.com.ua/issues/new
+
 slug:
   encoding: ascii
   clean_accents: true
@@ -71,6 +81,17 @@ slug:
 
 media_folder: "application/frontend/public/assets/equipment"
 public_folder: "/assets/equipment"
+
+# Convert all uploaded images to WebP, cap at 1600 px wide, strip EXIF metadata
+media_processing:
+  enabled: true
+  format:
+    enabled: true
+    default: webp
+  quality: 82
+  strip_metadata: true
+  width: 1600
+  height: null
 
 i18n:
   structure: multiple_files
@@ -85,8 +106,8 @@ collections:
     label: "Equipment Categories"
     label_singular: "Equipment Category"
     description: >-
-      Equipment type definitions. Each entry controls the sidebar label, icon,
-      sort order and description for one category. Adding a new entry here
+      Equipment type definitions. Each entry controls the sidebar label, icon
+      and description for one category; drag entries to reorder. Adding a new entry here
       automatically populates the category dropdown in Equipment Products.
     editor:
       preview: false
@@ -99,17 +120,21 @@ collections:
           - label: "Categories"
             name: "categories"
             widget: list
+            hint: "Drag entries to reorder — the order here is the order in the sidebar."
             fields:
-              - { label: "Slug", name: "slug", widget: "string", hint: "URL-safe folder name, e.g. checkweighers. Must match folder in src/content/equipment/." }
+              - label: "Slug"
+                name: "slug"
+                widget: "string"
+                hint: "URL-safe folder name, e.g. **checkweighers**. Must match the folder name in \`src/content/equipment/\`."
+                pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', "Lowercase letters, numbers and hyphens only — no spaces or special characters"]
               - { label: "Title", name: "title", widget: "string" }
               - { label: "Description", name: "description", widget: "text", required: false }
               - label: "Icon"
                 name: "icon"
-                widget: "select"
+                widget: "icon-select"
                 required: false
                 options:
 ${iconOptions}
-              - { label: "Order", name: "order", widget: "number", value_type: "int", default: 0, hint: "Lower numbers appear first in the sidebar." }
       - name: "equipment-types-ua"
         label: "Equipment Types (UA)"
         file: "application/frontend/src/data/equipment-types.ua.json"
@@ -118,17 +143,21 @@ ${iconOptions}
           - label: "Categories"
             name: "categories"
             widget: list
+            hint: "Drag entries to reorder — keep the same order as the EN file."
             fields:
-              - { label: "Slug", name: "slug", widget: "string", hint: "Must match the EN slug exactly." }
+              - label: "Slug"
+                name: "slug"
+                widget: "string"
+                hint: "Must match the EN slug **exactly**, e.g. **checkweighers**."
+                pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', "Lowercase letters, numbers and hyphens only — no spaces or special characters"]
               - { label: "Title", name: "title", widget: "string" }
               - { label: "Description", name: "description", widget: "text", required: false }
               - label: "Icon"
                 name: "icon"
-                widget: "select"
+                widget: "icon-select"
                 required: false
                 options:
 ${iconOptions}
-              - { label: "Order", name: "order", widget: "number", value_type: "int", default: 0, hint: "Lower numbers appear first in the sidebar." }
 
   # ── Equipment Products ─────────────────────────────────────────────────────
   - name: "equipment"
@@ -142,8 +171,9 @@ ${iconOptions}
     delete: false
     i18n: true
     preview_path: "{{locale}}/catalogue/{{dirname}}/{{filename}}"
-    summary: "{{title}} — {{dirname}}/{{filename}}"
-    sortable_fields: ["order", "title"]
+    preview_path_date_field: "date"
+    summary: "{{title}} [{{dirname}}/{{filename}}]"
+    sortable_fields: ["commit_date", "order", "title", "commit_author"]
     view_filters:
       - label: "Food & Beverage"
         field: industries
@@ -154,9 +184,12 @@ ${iconOptions}
       - label: "Cosmetics"
         field: industries
         pattern: "cosmetics"
+      - label: "General / Industrial"
+        field: industries
+        pattern: "general"
     view_groups:
       - label: "By Category"
-        field: dirname
+        field: category
       - label: "By Order"
         field: order
     editor:
@@ -176,9 +209,35 @@ ${categoryOptions}
         i18n: true
         min: 0
         max: 3
-        field: { label: "Image", name: "image", widget: "image" }
+        field:
+          label: "Image"
+          name: "image"
+          widget: "image"
+          media_processing:
+            enabled: true
+            format:
+              enabled: true
+              default: webp
+            quality: 85
+            strip_metadata: true
+            width: 1200
+            height: null
+            aspect_ratio: 4x3
       - { label: "Datasheet", name: "datasheet", widget: "file", required: false, i18n: duplicate }
-      - { label: "Industries", name: "industries", widget: "list", required: false, i18n: true }
+      - label: "Industries"
+        name: "industries"
+        widget: "select"
+        required: false
+        i18n: true
+        multiple: true
+        min: 0
+        options:
+          - { label: "Food & Beverage", value: "food-beverage" }
+          - { label: "Pharmaceutical", value: "pharmaceutical" }
+          - { label: "Cosmetics", value: "cosmetics" }
+          - { label: "General / Industrial", value: "general" }
+          - { label: "Logistics & E-commerce", value: "logistics" }
+          - { label: "Chemical", value: "chemical" }
       - { label: "Title", name: "title", widget: "string", i18n: true }
       - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
       - label: "Specifications"
@@ -187,7 +246,7 @@ ${categoryOptions}
         required: false
         i18n: true
         min: 0
-        max: 10
+        max: 20
         fields:
           - { label: "Label", name: "label", widget: "string" }
           - { label: "Value", name: "value", widget: "string" }
