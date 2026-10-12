@@ -16,7 +16,8 @@ export function getStaticPaths() {
 
 const langParam = Astro.params.lang;
 if (!isValidLang(langParam)) {
-	throw new Error(`Invalid language: ${langParam}`);
+	// Manual i18n routing no longer 404s unknown locales for us
+	return new Response(null, { status: 404 });
 }
 const lang: Lang = langParam;
 const _ = getInlineTranslations(lang);

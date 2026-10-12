@@ -5,7 +5,7 @@ dist/
 .astro/
 
 # dependencies
-node_modules/
+node_modules*/
 
 # logs
 npm-debug.log*
@@ -17,6 +17,7 @@ bun-debug.log*
 # environment variables
 .env
 .env.production
+.env.local
 
 # macOS-specific files
 .DS_Store
@@ -28,5 +29,3 @@ bun-debug.log*
 /.claude/hooks
 
 node_modules
-.env
-tina/__generated__

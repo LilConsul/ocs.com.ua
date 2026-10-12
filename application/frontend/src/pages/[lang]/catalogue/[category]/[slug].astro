@@ -1,275 +1,188 @@
 ---
 import { getCollection } from "astro:content";
 import { marked } from "marked";
-import type { Lang } from "@/i18n";
+import CatalogueSidebar from "@/components/catalogue/CatalogueSidebar.astro";
+import { getInlineTranslations, type Lang } from "@/i18n";
+import Layout from "@/layouts/Layout.astro";
+import {
+	type EquipmentEntry,
+	getCategoriesForLocale,
+	getCategory,
+	getLocale,
+	getProducts,
+	getSlug,
+	type Locale,
+} from "@/lib/content-utils";
 
 export async function getStaticPaths() {
+	const allEquipment = await getCollection("equipment");
+	const allProducts = getProducts(allEquipment);
+
 	const paths = [];
 
-	for (const lang of ["en", "ua"] as Lang[]) {
-		const equipment = await getCollection("equipment");
+	for (const product of allProducts) {
+		const locale = getLocale(product);
+		const category = getCategory(product);
+		const slug = getSlug(product);
+		const allCategories = getCategoriesForLocale(locale);
 
-		for (const item of equipment) {
-			// Skip category files - they don't have en-title
-			if (!("en-title" in item.data)) {
-				continue;
-			}
-
-			// Extract slug from ID
-			// e.g., "checkweighers/hc-m" -> category: "checkweighers", slug: "hc-m"
-			const parts = item.id.split("/");
-			const category = parts[0];
-			const slug = parts[1]; // Already without extension
-
-			paths.push({
-				params: { lang, category, slug },
-				props: { item, lang },
-			});
-		}
+		paths.push({
+			params: { lang: locale, category, slug },
+			props: { product, lang: locale, allCategories },
+		});
 	}
 
 	return paths;
 }
 
 interface Props {
-	item: any;
-	lang: Lang;
+	product: EquipmentEntry;
+	lang: Locale;
+	allCategories: ReturnType<typeof getCategoriesForLocale>;
 }
 
-const { item, lang } = Astro.props;
+const { product, lang, allCategories } = Astro.props;
+const _ = getInlineTranslations(lang as Lang);
+const category = getCategory(product);
 
-// Access the actual field names with dashes
-const title = lang === "en" ? item.data["en-title"] : item.data["ua-title"];
-const description = lang === "en" ? item.data["en-description"] : item.data["ua-description"];
-const bodyMarkdown = lang === "en" ? item.data["en-body"] : item.data["ua-body"];
+const title = product.data.title ?? "";
+const description = product.data.description ?? "";
+const bodyMarkdown = product.body ?? "";
+const body = await marked.parse(bodyMarkdown);
 
-// Convert markdown to HTML using marked
-const body = await marked.parse(bodyMarkdown || "");
+const siteUrl = Astro.site || "https://ocs.com.ua";
+const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
+
+const structuredData = {
+	"@context": "https://schema.org",
+	"@type": "Product",
+	name: title,
+	description,
+	url: currentUrl,
+	inLanguage: lang,
+	image: product.data.gallery?.[0] ?? undefined,
+};
 ---
 
-<!doctype html>
-<html lang={lang} class="dark">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>{title} - Equipment Catalogue</title>
-		<style>
-			* {
-				margin: 0;
-				padding: 0;
-				box-sizing: border-box;
-			}
-			body {
-				font-family: system-ui, -apple-system, sans-serif;
-				background: #0a0a0a;
-				color: #e5e5e5;
-				line-height: 1.6;
-			}
-			.container {
-				max-width: 1200px;
-				margin: 0 auto;
-				padding: 2rem;
-			}
-			nav {
-				background: #1a1a1a;
-				padding: 1rem;
-				border-radius: 8px;
-				margin-bottom: 2rem;
-				border: 1px solid #333;
-			}
-			nav a {
-				color: #60a5fa;
-				text-decoration: none;
-				margin: 0 0.5rem;
-			}
-			nav a:hover {
-				text-decoration: underline;
-			}
-			.info-box {
-				background: #1e293b;
-				padding: 1rem;
-				border-left: 4px solid #3b82f6;
-				margin-bottom: 2rem;
-				border-radius: 4px;
-			}
-			.info-box code {
-				background: #0f172a;
-				padding: 0.2rem 0.4rem;
-				border-radius: 3px;
-				font-size: 0.9em;
-			}
-			h1 {
-				font-size: 2.5rem;
-				margin-bottom: 1rem;
-				color: #fff;
-			}
-			.description {
-				font-size: 1.25rem;
-				color: #9ca3af;
-				margin-bottom: 2rem;
-			}
-			section {
-				margin: 2rem 0;
-			}
-			h2 {
-				color: #fff;
-				margin-bottom: 1rem;
-				border-bottom: 2px solid #333;
-				padding-bottom: 0.5rem;
-			}
-			ul {
-				list-style: none;
-				padding: 0;
-			}
-			li {
-				padding: 0.5rem 0;
-				border-bottom: 1px solid #2a2a2a;
-			}
-			li strong {
-				color: #60a5fa;
-			}
-			.gallery {
-				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-				gap: 1rem;
-				margin-top: 1rem;
-			}
-			.gallery img {
-				width: 100%;
-				height: 200px;
-				object-fit: cover;
-				border-radius: 8px;
-				background: #1a1a1a;
-			}
-			.body-content {
-				background: #1a1a1a;
-				padding: 2rem;
-				border-radius: 8px;
-				border: 1px solid #333;
-				line-height: 1.8;
-			}
-			.body-content h2,
-			.body-content h3 {
-				color: #fff;
-				margin-top: 2rem;
-				margin-bottom: 1rem;
-				border-bottom: 2px solid #333;
-				padding-bottom: 0.5rem;
-			}
-			.body-content h2 {
-				font-size: 1.75rem;
-			}
-			.body-content h3 {
-				font-size: 1.4rem;
-				border-bottom: 1px solid #333;
-			}
-			.body-content p {
-				margin-bottom: 1rem;
-				color: #d1d5db;
-			}
-			.body-content ul {
-				margin-left: 2rem;
-				margin-bottom: 1rem;
-				list-style: disc;
-			}
-			.body-content li {
-				border: none;
-				padding: 0.4rem 0;
-				color: #d1d5db;
-			}
-			.body-content li strong {
-				color: #60a5fa;
-			}
-			.body-content strong {
-				color: #fff;
-				font-weight: 600;
-			}
-			.success-box {
-				background: #064e3b;
-				padding: 1.5rem;
-				border-radius: 8px;
-				margin-top: 3rem;
-				border: 1px solid #065f46;
-			}
-			.success-box h3 {
-				color: #10b981;
-				margin-bottom: 1rem;
-			}
-			.success-box ul {
-				list-style: none;
-			}
-			.success-box li {
-				border: none;
-				padding: 0.25rem 0;
-				color: #d1fae5;
-			}
-			.success-box li::before {
-				content: "✓ ";
-				color: #10b981;
-				font-weight: bold;
-			}
-		</style>
-	</head>
-	<body>
-		<div class="container">
-			<nav>
-				<strong>Language:</strong>
-				<a href={`/en/catalogue/${Astro.params.category}/${Astro.params.slug}`}>English</a> |
-				<a href={`/ua/catalogue/${Astro.params.category}/${Astro.params.slug}`}>Українська</a>
+<Layout title={`${title} | OS-Technology`} description={description} article={true}>
+	<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+	<div class="mx-auto flex max-w-[1600px] gap-8 px-8 py-16">
+		<CatalogueSidebar
+			allCategories={allCategories}
+			currentCategory={category}
+			lang={lang as Lang}
+		/>
+
+		<main class="min-w-0 flex-1">
+			<!-- Breadcrumb -->
+			<nav class="text-muted-foreground mb-8 flex items-center gap-2 font-mono text-xs">
+				<a href={`/${lang}/catalogue/${category}`} class="hover:text-foreground transition-colors">
+					{allCategories.find((c) => c.slug === category)?.title ?? category}
+				</a>
+				<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+				<span class="text-foreground">{title}</span>
 			</nav>
 
-			<div class="info-box">
-				<strong>📍 File Structure:</strong><br/>
-				<code>equipment/{Astro.params.category}/{Astro.params.slug}.md</code><br/>
-				<strong>Slug:</strong> {Astro.params.slug}<br/>
-				<strong>Category:</strong> {Astro.params.category}<br/>
-				<strong>Language:</strong> {lang}
-			</div>
+			<!-- Header -->
+			<header class="mb-10">
+				<h1
+					class="font-heading text-foreground mb-4 text-4xl leading-tight font-semibold tracking-tight md:text-5xl"
+				>
+					{title}
+				</h1>
+				{
+					description && (
+						<p class="text-muted-foreground max-w-3xl text-sm leading-relaxed md:text-base">
+							{description}
+						</p>
+					)
+				}
+			</header>
 
-			<h1>{title}</h1>
-			<p class="description">{description}</p>
+			<!-- Gallery -->
+			{
+				product.data.gallery && product.data.gallery.length > 0 && (
+					<section class="mb-10">
+						<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+							{product.data.gallery.map((img: string) => (
+								<div class="bg-background border-border aspect-[4/3] overflow-hidden rounded-lg border">
+									<img
+										src={img}
+										alt={title}
+										class="h-full w-full object-contain p-4"
+										loading="lazy"
+									/>
+								</div>
+							))}
+						</div>
+					</section>
+				)
+			}
 
-			<section>
-				<h2>Key Specifications</h2>
-				<ul>
-					{item.data.specs?.map((spec: any) => (
-						<li>
-							<strong>{lang === 'en' ? spec['en-label'] : spec['ua-label']}:</strong> {spec.value}
-						</li>
-					))}
-				</ul>
-			</section>
+			<!-- Specifications -->
+			{
+				product.data.specs && product.data.specs.length > 0 && (
+					<section class="mb-10">
+						<h2 class="font-heading text-foreground mb-4 text-xl font-semibold">
+							{_("Key Specifications")}
+						</h2>
+						<div class="border-border divide-border divide-y rounded-lg border">
+							{product.data.specs.map((spec: { label: string; value: string }) => (
+								<div class="flex items-center justify-between px-4 py-3">
+									<span class="text-muted-foreground font-mono text-xs tracking-wider uppercase">
+										{spec.label}
+									</span>
+									<span class="text-foreground font-mono text-sm font-medium">{spec.value}</span>
+								</div>
+							))}
+						</div>
+					</section>
+				)
+			}
 
-			<section>
-				<h2>Images</h2>
-				<div class="gallery">
-					{item.data.gallery?.map((img: string) => (
-						<img src={img} alt={title} />
-					))}
-				</div>
-			</section>
+			<!-- Industries -->
+			{
+				product.data.industries && product.data.industries.length > 0 && (
+					<section class="mb-10">
+						<h2 class="font-heading text-foreground mb-4 text-xl font-semibold">
+							{_("Industries")}
+						</h2>
+						<div class="flex flex-wrap gap-2">
+							{product.data.industries.map((industry: string) => (
+								<span class="bg-muted text-muted-foreground rounded-full px-3 py-1 font-mono text-xs tracking-wider uppercase">
+									{industry}
+								</span>
+							))}
+						</div>
+					</section>
+				)
+			}
 
-			{item.data.datasheet && (
-				<section>
-					<h2>Downloads</h2>
-					<p><a href={item.data.datasheet} style="color: #60a5fa;">📄 Download Datasheet (PDF)</a></p>
-				</section>
-			)}
+			<!-- Body content -->
+			{
+				body && (
+					<section class="mb-10">
+						<div class="prose prose-sm max-w-none" set:html={body} />
+					</section>
+				)
+			}
 
-			<section>
-				<h2>Technical Documentation</h2>
-				<div class="body-content" set:html={body} />
-			</section>
-
-			<div class="success-box">
-				<h3>Equipment Catalogue Working</h3>
-				<ul>
-					<li>Filename: <code>{Astro.params.slug}.md</code></li>
-					<li>Multilingual fields with dashes (en-title, ua-title)</li>
-					<li>Dynamic routing: <code>/{lang}/catalogue/{Astro.params.category}/{Astro.params.slug}</code></li>
-					<li>Dark theme enabled</li>
-				</ul>
-			</div>
-		</div>
-	</body>
-</html>
+			<!-- Datasheet download -->
+			{
+				product.data.datasheet && (
+					<section class="mb-10">
+						<a
+							href={product.data.datasheet}
+							class="border-secondary text-secondary hover:bg-secondary/5 inline-flex items-center gap-2 rounded border-2 px-5 py-2.5 text-sm font-medium transition-colors"
+							download
+						>
+							<span class="material-symbols-outlined text-[18px]">download</span>
+							{_("Download Datasheet")}
+						</a>
+					</section>
+				)
+			}
+		</main>
+	</div>
+</Layout>

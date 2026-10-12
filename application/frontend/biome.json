@@ -152,6 +152,31 @@
 			}
 		},
 		{
+			"includes": ["src/data/equipment-types.json"],
+			"json": {
+				"formatter": {
+					"indentStyle": "space",
+					"indentWidth": 2
+				}
+			}
+		},
+		{
+			"includes": ["src/i18n/ui.ts"],
+			"formatter": {
+				"enabled": false
+			}
+		},
+		{
+			"includes": ["public/**/*.svg"],
+			"linter": {
+				"rules": {
+					"a11y": {
+						"noSvgWithoutTitle": "off"
+					}
+				}
+			}
+		},
+		{
 			"includes": ["**/*.test.ts", "**/*.test.js", "**/*.spec.ts", "**/*.spec.js"],
 			"linter": {
 				"rules": {

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="250" height="40" fill="none" viewBox="0 0 250 40">
+  <title>ОС-Технолоджи Україна</title>
+  <path fill="#009AA3" d="m25.727 28.495-1.809-4.784v15.846h1.809V28.495ZM15.81 39.557h2.931V10.004L15.81 2.267v37.29Zm6.435-20.272-2.252-5.964v26.236h2.252V19.285Zm5.713 15.109v5.163h1.952l-1.952-5.163ZM14.98.057h-.007L14.951 0 0 39.557h14.98V.057Z"/>
+  <line x1="40" y1="4" x2="40" y2="36" stroke="#009AA3" stroke-width="1.5" stroke-opacity="0.4"/>
+  <text x="52" y="20" dominant-baseline="central"
+    font-family="system-ui,-apple-system,'Segoe UI',sans-serif"
+    font-size="16" font-weight="700" fill="#0f172a" letter-spacing="-0.3">ОС-Технолоджи Україна</text>
+</svg>

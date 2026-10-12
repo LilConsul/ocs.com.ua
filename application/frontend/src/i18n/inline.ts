@@ -14,8 +14,17 @@ export function getInlineTranslations(lang: Lang) {
 		const key = textToKey(text);
 		const fullKey = `inline.${key}` as keyof (typeof ui)[typeof defaultLang];
 
+		// Defensive lookup with proper fallbacks
+		const langTranslations = ui[lang];
+		const defaultTranslations = ui[defaultLang];
+
+		if (!(langTranslations && defaultTranslations)) {
+			console.warn(`[i18n] Missing translations object for lang: ${lang}`);
+			return text;
+		}
+
 		// Look up translation, fallback to English text if not found
-		return ui[lang][fullKey] || ui[defaultLang][fullKey] || text;
+		return langTranslations[fullKey] || defaultTranslations[fullKey] || text;
 	};
 }
 

@@ -1,0 +1,11 @@
+# Always use LF in the working tree (Biome, Prettier, .editorconfig and pre-commit expect LF),
+# regardless of the local core.autocrlf setting
+* text=auto eol=lf
+
+# Never touch line endings in binary assets
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.wasm binary

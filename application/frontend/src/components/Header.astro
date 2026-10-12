@@ -17,13 +17,13 @@ const _ = getInlineTranslations(lang);
 const getLanguagePath = (targetLang: string) => {
 	if (!currentPath) return `/${targetLang}`;
 	// Replace the language code at the start of the path
-	// e.g., /en/catalogue/checkweighers -> /ua/catalogue/checkweighers
+	// e.g., /en/catalogue/checkweigher -> /ua/catalogue/checkweigher
 	const pathWithoutLang = currentPath.replace(/^\/(en|ua)/, "");
 	return `/${targetLang}${pathWithoutLang}`;
 };
 
 const navLinks = [
-	{ href: `/${lang}/catalogue/checkweighers`, label: _("Catalogue"), pattern: "/catalogue" },
+	{ href: `/${lang}/catalogue/checkweigher`, label: _("Catalogue"), pattern: "/catalogue" },
 	{ href: `/${lang}/catalogue`, label: _("Industries"), pattern: "/industries" },
 	{ href: `/${lang}/wiki`, label: _("Wiki"), pattern: "/wiki" },
 	{ href: `/${lang}/about`, label: _("About Us"), pattern: "/about" },
@@ -47,11 +47,15 @@ const isActive = (pattern: string) => {
 	data-scrolled="false"
 >
 	<nav class="mx-auto flex h-20 max-w-[1280px] items-center justify-between px-8">
-		<!-- Company Name -->
-		<a href={`/${lang}`} class="text-foreground transition-opacity hover:opacity-80">
-			<span class="font-heading text-xl font-bold tracking-tight">
-				{lang === "en" ? "OS-Technology Ukraine" : "ОС-Технолоджи Україна"}
-			</span>
+		<!-- Logo (per-language SVG) -->
+		<a href={`/${lang}`} class="transition-opacity hover:opacity-80">
+			<img
+				src={`/assets/icons/logo-${lang}.svg`}
+				alt={lang === "en" ? "OS-Technology Ukraine" : "ОС-Технолоджи Україна"}
+				width="250"
+				height="40"
+				class="h-8 w-auto md:h-10"
+			/>
 		</a>
 
 		<!-- Desktop Navigation -->
@@ -101,7 +105,7 @@ const isActive = (pattern: string) => {
 				size="icon"
 				className="md:hidden"
 				id="mobile-menu-toggle"
-				aria-label="Toggle menu"
+				aria-label={_("Toggle menu")}
 			>
 				<Menu className="h-5 w-5" id="menu-open-icon" />
 				<X className="hidden h-5 w-5" id="menu-close-icon" />

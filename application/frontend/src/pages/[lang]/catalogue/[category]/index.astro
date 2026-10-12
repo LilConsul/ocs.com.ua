@@ -5,50 +5,63 @@ import CategoryHeader from "@/components/catalogue/CategoryHeader.astro";
 import ProductCard from "@/components/catalogue/ProductCard.astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import Layout from "@/layouts/Layout.astro";
+import {
+	type EquipmentType,
+	filterByCategory,
+	filterByLocale,
+	getCategoriesForLocale,
+	getCategory,
+	getLocale,
+	getProducts,
+	type Locale,
+	sortByOrder,
+} from "@/lib/content-utils";
 
 export async function getStaticPaths() {
 	const allEquipment = await getCollection("equipment");
+	const allProducts = getProducts(allEquipment);
 
-	// Type guard functions - check by schema fields, not ID
-	const isCategory = (item: any) => "en-label" in item.data;
-	const isProduct = (item: any) => "en-title" in item.data;
+	// Categories are now sourced from JSON, not _index entries
+	const enCategories = getCategoriesForLocale("en");
+	const uaCategories = getCategoriesForLocale("ua");
 
-	// Separate categories from products
-	const allCategories = allEquipment.filter(isCategory);
-	const allProducts = allEquipment.filter(isProduct);
+	const paths = [];
 
-	return allCategories.flatMap((category) => {
-		// Category ID is the slug directly (e.g., "checkweighers")
-		const categorySlug = category.id;
+	for (const cat of enCategories) {
+		for (const lang of ["en", "ua"] as Locale[]) {
+			const localeCategories = lang === "en" ? enCategories : uaCategories;
+			const categoryData = localeCategories.find((c) => c.slug === cat.slug);
+			if (!categoryData) continue;
 
-		// Filter products in this category (e.g., "checkweighers/hc-m")
-		const categoryProducts = allProducts.filter((item) => {
-			const folder = item.id.split("/")[0];
-			return folder === categorySlug;
-		});
+			const localeProducts = filterByLocale(allProducts, lang);
+			const categoryProducts = filterByCategory(localeProducts, cat.slug);
 
-		return ["en", "ua"].map((lang) => ({
-			params: { lang, category: categorySlug },
-			props: {
-				categoryData: category.data,
-				categorySlug,
-				products: categoryProducts,
-				allCategories, // For sidebar
-				lang,
-			},
-		}));
-	});
+			paths.push({
+				params: { lang, category: cat.slug },
+				props: {
+					categoryData,
+					categorySlug: cat.slug,
+					products: categoryProducts || [],
+					allCategories: localeCategories,
+					lang,
+				},
+			});
+		}
+	}
+
+	return paths;
 }
 
-const { categoryData, categorySlug, products, allCategories, lang } = Astro.props;
+const { categoryData, categorySlug, products = [], allCategories = [], lang } = Astro.props;
 const _ = getInlineTranslations(lang as Lang);
 
-// Sort products by order field (default 999 for products without order)
-const sortedProducts = products.sort((a, b) => (a.data.order || 999) - (b.data.order || 999));
+// Sort products by order field; categories keep their JSON array order
+const sortedProducts = Array.isArray(products) ? sortByOrder(products) : [];
+const sortedCategories = Array.isArray(allCategories) ? allCategories : [];
 
-// Page metadata
-const pageTitle = `${categoryData[`${lang}-label`]} | OS-Technology`;
-const pageDescription = categoryData[`${lang}-description`];
+// Page metadata (clean field names!) - with fallback for missing categoryData
+const pageTitle = `${categoryData?.title || "Equipment"} | OS-Technology`;
+const pageDescription = categoryData?.description || "";
 
 // Structured data for SEO
 const siteUrl = Astro.site || "https://ocs.com.ua";
@@ -57,8 +70,8 @@ const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
 const structuredData = {
 	"@context": "https://schema.org",
 	"@type": "CollectionPage",
-	name: categoryData[`${lang}-label`],
-	description: categoryData[`${lang}-description`],
+	name: categoryData?.title || "Equipment",
+	description: categoryData?.description || "",
 	url: currentUrl,
 	inLanguage: lang,
 	breadcrumb: {
@@ -79,7 +92,7 @@ const structuredData = {
 			{
 				"@type": "ListItem",
 				position: 3,
-				name: categoryData[`${lang}-label`],
+				name: categoryData?.title || categorySlug,
 				item: currentUrl,
 			},
 		],
@@ -88,14 +101,14 @@ const structuredData = {
 		"@type": "ItemList",
 		numberOfItems: sortedProducts.length,
 		itemListElement: sortedProducts.map((product, index) => {
-			const productSlug = product.id.split("/")[1].replace(".md", "");
+			const productSlug = product.id.split("/")[1].replace(/\.(en|ua)$/, "");
 			const productUrl = `${siteUrl}/${lang}/catalogue/${categorySlug}/${productSlug}`;
 			return {
 				"@type": "ListItem",
 				position: index + 1,
 				url: productUrl,
-				name: product.data[`${lang}-title`],
-				description: product.data[`${lang}-description`],
+				name: product.data.title,
+				description: product.data.description,
 			};
 		}),
 	},
@@ -109,7 +122,7 @@ const structuredData = {
 	<div class="mx-auto flex max-w-[1600px] gap-8 px-8 py-16">
 		<!-- Sidebar Navigation -->
 		<CatalogueSidebar
-			allCategories={allCategories}
+			allCategories={sortedCategories}
 			currentCategory={categorySlug}
 			lang={lang as Lang}
 		/>
