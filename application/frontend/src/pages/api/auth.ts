@@ -1,6 +1,7 @@
 import {
 	GITHUB_CLIENT_ID as CLIENT_ID,
 	GITHUB_CLIENT_SECRET as CLIENT_SECRET,
+	CMS_BASE_URL,
 	SITE_URL,
 } from "astro:env/server";
 import type { APIRoute } from "astro";
@@ -17,6 +18,9 @@ const text = (body: string, status: number) =>
 const inlineJson = (value: unknown) => JSON.stringify(value).replace(/</g, "\\u003c");
 
 export const GET: APIRoute = async ({ url, redirect, cookies }) => {
+	// Public origin of this endpoint. Behind a reverse proxy the request URL is the internal
+	// http:// one, so prefer CMS_BASE_URL (must match the OAuth app callback URL).
+	const origin = CMS_BASE_URL ? new URL(CMS_BASE_URL).origin : url.origin;
 	const code = url.searchParams.get("code");
 	const oauthError = url.searchParams.get("error");
 
@@ -30,7 +34,7 @@ export const GET: APIRoute = async ({ url, redirect, cookies }) => {
 		cookies.set(STATE_COOKIE, state, {
 			httpOnly: true,
 			sameSite: "lax",
-			secure: url.protocol === "https:",
+			secure: origin.startsWith("https:"),
 			path: "/api/auth",
 			maxAge: 600,
 		});
@@ -38,7 +42,7 @@ export const GET: APIRoute = async ({ url, redirect, cookies }) => {
 		const authUrl = new URL("https://github.com/login/oauth/authorize");
 		authUrl.searchParams.set("client_id", CLIENT_ID);
 		authUrl.searchParams.set("scope", SCOPE);
-		authUrl.searchParams.set("redirect_uri", `${url.origin}/api/auth`);
+		authUrl.searchParams.set("redirect_uri", `${origin}/api/auth`);
 		authUrl.searchParams.set("state", state);
 		return redirect(authUrl.toString());
 	}
@@ -71,7 +75,7 @@ export const GET: APIRoute = async ({ url, redirect, cookies }) => {
 
 	// Only these origins may receive the token: the host serving this endpoint
 	// (dev, or an admin on the same host) and the public site.
-	const allowedOrigins = [...new Set([url.origin, new URL(SITE_URL).origin])];
+	const allowedOrigins = [...new Set([origin, new URL(SITE_URL).origin])];
 
 	// Decap CMS OAuth handshake (see decap-cms-app handshakeCallback / authorizeCallback):
 	// 1. Popup sends "authorizing:github" to opener
