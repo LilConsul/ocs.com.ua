@@ -3,26 +3,8 @@
 # Setup: pre-commit install
 # Run manually: pre-commit run --all-files
 
-# Shared exclusion patterns (YAML anchors for reusability)
-x-exclude-autogen: &exclude-autogen |
-  (?x)^(
-    application/frontend/public/admin/\.gitignore|
-    application/frontend/tina/tina-lock\.json
-  )$
-
-x-exclude-content-md: &exclude-content-md |
-  (?x)^(
-    application/frontend/content/.*\.md|
-    application/frontend/src/content/equipment/.*\.md
-  )$
-
-x-exclude-all-common: &exclude-all-common |
-  (?x)^(
-    application/frontend/content/.*\.md|
-    application/frontend/src/content/equipment/.*\.md|
-    application/frontend/public/admin/\.gitignore|
-    application/frontend/tina/tina-lock\.json
-  )$
+# Content Markdown is formatted by remark (same as Decap CMS writes it), not by the generic hooks
+x-exclude-content-md: &exclude-content-md ^application/frontend/src/content/equipment/.*\.md$
 
 repos:
   # Standard pre-commit hooks for file quality
@@ -31,21 +13,19 @@ repos:
     hooks:
       - id: trailing-whitespace
         name: "[ALL] Trim trailing whitespace"
-        exclude: *exclude-all-common
+        exclude: *exclude-content-md
       - id: end-of-file-fixer
         name: "[ALL] Fix end of files (ensure newline)"
-        exclude: *exclude-all-common
+        exclude: *exclude-content-md
       - id: check-yaml
         name: "[ALL] Check YAML syntax"
       - id: check-json
         name: "[ALL] Check JSON syntax"
-        exclude: application/frontend/tina/tina-lock\.json
       - id: check-merge-conflict
         name: "[ALL] Check for merge conflicts"
       - id: mixed-line-ending
         name: "[ALL] Fix mixed line endings"
         args: ['--fix=lf']
-        exclude: *exclude-autogen
 
   # Markdown formatting
   - repo: https://github.com/executablebooks/mdformat
@@ -89,8 +69,6 @@ repos:
         types: [javascript, jsx, ts, tsx, json, css]
         pass_filenames: false
         files: ^application/frontend/
-        exclude: ^application/frontend/(tina/tina-lock\.json|public/admin/\.gitignore)$
-
 
       - id: remark-content-frontend
         name: "[FE] Remark format Decap content (Markdown)"
@@ -108,5 +86,4 @@ repos:
         types: [javascript, jsx, ts, tsx, json, css]
         pass_filenames: false
         files: ^application/frontend/
-        exclude: ^application/frontend/(tina/tina-lock\.json|public/admin/\.gitignore)$
         stages: [pre-push]

@@ -1,0 +1,37 @@
+---
+import { getInlineTranslations, type Lang } from "@/i18n";
+
+interface Props {
+	specs?: Array<{ label: string; value: string }>;
+	lang: Lang;
+}
+
+const { specs = [], lang } = Astro.props;
+const _ = getInlineTranslations(lang);
+---
+
+{
+	specs && specs.length > 0 && (
+		<section class="space-y-4">
+			<h2 class="font-heading text-headline-xl text-foreground font-semibold">
+				{_("Technical Specifications")}
+			</h2>
+			<div class="border-border-subtle bg-card overflow-hidden rounded-lg border">
+				<table class="w-full border-collapse text-left">
+					<tbody class="font-technical-data text-technical-data">
+						{specs.map((spec, index) => (
+							<tr
+								class={`border-border-subtle hover:bg-surface-muted border-b transition-colors last:border-b-0 ${
+									index % 2 === 1 ? "bg-surface-muted/50" : "bg-card"
+								}`}
+							>
+								<th class="text-industrial-gray w-1/3 px-6 py-4 font-medium">{spec.label}</th>
+								<td class="text-foreground px-6 py-4 font-medium">{spec.value}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+		</section>
+	)
+}

@@ -1,0 +1,61 @@
+---
+import { getInlineTranslations, type Lang } from "@/i18n";
+import { type EquipmentEntry, getCategory, getSlug } from "@/lib/content-utils";
+
+interface Props {
+	products: EquipmentEntry[];
+	lang: Lang;
+}
+
+const { products = [], lang } = Astro.props;
+const _ = getInlineTranslations(lang);
+---
+
+{
+	products.length > 0 && (
+		<section class="border-border-subtle border-t pt-12">
+			<h2 class="font-heading text-headline-xl text-foreground mb-8 font-semibold">
+				{_("Related Equipment")}
+			</h2>
+			<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+				{products.map((item) => {
+					const itemCategory = getCategory(item);
+					const itemSlug = getSlug(item);
+					const itemUrl = `/${lang}/catalogue/${itemCategory}/${itemSlug}`;
+					const itemImg = item.data.gallery?.[0] || "/placeholder.jpg";
+					const itemSpec = item.data.specs?.[0];
+
+					return (
+						<a
+							href={itemUrl}
+							class="group border-border-subtle bg-card block overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-md"
+						>
+							<div class="bg-surface-muted flex h-44 items-center justify-center p-4">
+								<img
+									src={itemImg}
+									alt={item.data.title ?? ""}
+									class="max-h-full max-w-full object-contain mix-blend-multiply transition-transform duration-300 group-hover:scale-105"
+									loading="lazy"
+								/>
+							</div>
+							<div class="border-border-subtle border-t p-4">
+								<p class="font-label-caps text-industrial-gray mb-1 text-[11px] font-semibold tracking-wider uppercase">
+									{itemCategory}
+								</p>
+								<h3 class="font-heading text-foreground group-hover:text-secondary mb-2 font-semibold transition-colors">
+									{item.data.title}
+								</h3>
+								{itemSpec && (
+									<p class="font-technical-data text-industrial-gray text-xs">
+										{itemSpec.label}:{" "}
+										<span class="text-foreground font-medium">{itemSpec.value}</span>
+									</p>
+								)}
+							</div>
+						</a>
+					);
+				})}
+			</div>
+		</section>
+	)
+}

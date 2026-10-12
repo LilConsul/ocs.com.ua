@@ -1,0 +1,22 @@
+{
+	"phone": {
+		"display": "+38 067 35 33 853",
+		"href": "tel:+380673533853"
+	},
+	"emails": {
+		"sales": "gs@ocs.com.ua",
+		"info": "info@ocs.com.ua"
+	},
+	"contactPerson": {
+		"en": {
+			"name": "George Shevchenko"
+		},
+		"ua": {
+			"name": "Георгій Шевченко"
+		}
+	},
+	"workingHours": {
+		"en": "Mon-Fri, 9:00 - 18:00 (Kyiv)",
+		"ua": "Пн-Пт, 9:00 - 18:00 (Київ)"
+	}
+}

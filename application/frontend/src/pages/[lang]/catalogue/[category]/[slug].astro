@@ -2,16 +2,23 @@
 import { getCollection } from "astro:content";
 import { marked } from "marked";
 import CatalogueSidebar from "@/components/catalogue/CatalogueSidebar.astro";
+import ProductGallery from "@/components/catalogue/ProductGallery.astro";
+import ProductSpecsTable from "@/components/catalogue/ProductSpecsTable.astro";
+import RelatedEquipment from "@/components/catalogue/RelatedEquipment.astro";
+import companyData from "@/data/company.json";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import Layout from "@/layouts/Layout.astro";
 import {
 	type EquipmentEntry,
+	filterByCategory,
+	filterByLocale,
 	getCategoriesForLocale,
 	getCategory,
 	getLocale,
 	getProducts,
 	getSlug,
 	type Locale,
+	sortByOrder,
 } from "@/lib/content-utils";
 
 export async function getStaticPaths() {
@@ -26,9 +33,16 @@ export async function getStaticPaths() {
 		const slug = getSlug(product);
 		const allCategories = getCategoriesForLocale(locale);
 
+		const localeProducts = filterByLocale(allProducts, locale);
+		const categoryProducts = filterByCategory(localeProducts, category);
+		const relatedProducts = sortByOrder(categoryProducts.filter((p) => getSlug(p) !== slug)).slice(
+			0,
+			3
+		);
+
 		paths.push({
 			params: { lang: locale, category, slug },
-			props: { product, lang: locale, allCategories },
+			props: { product, lang: locale, allCategories, relatedProducts },
 		});
 	}
 
@@ -39,9 +53,10 @@ interface Props {
 	product: EquipmentEntry;
 	lang: Locale;
 	allCategories: ReturnType<typeof getCategoriesForLocale>;
+	relatedProducts: EquipmentEntry[];
 }
 
-const { product, lang, allCategories } = Astro.props;
+const { product, lang, allCategories, relatedProducts = [] } = Astro.props;
 const _ = getInlineTranslations(lang as Lang);
 const category = getCategory(product);
 
@@ -49,6 +64,13 @@ const title = product.data.title ?? "";
 const description = product.data.description ?? "";
 const bodyMarkdown = product.body ?? "";
 const body = await marked.parse(bodyMarkdown);
+
+const categoryObj = allCategories.find((c) => c.slug === category);
+const categoryTitle = categoryObj?.title ?? category;
+
+const contactPerson =
+	companyData.contactPerson[lang as "en" | "ua"] || companyData.contactPerson.en;
+const workingHours = companyData.workingHours[lang as "en" | "ua"] || companyData.workingHours.en;
 
 const siteUrl = Astro.site || "https://ocs.com.ua";
 const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
@@ -64,125 +86,166 @@ const structuredData = {
 };
 ---
 
-<Layout title={`${title} | OS-Technology`} description={description} article={true}>
+<Layout
+	title={`${title} | ${lang === "en" ? "OS-Technology" : "ОС-Технолоджи"}`}
+	description={description}
+	article={true}
+>
 	<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
-	<div class="mx-auto flex max-w-[1600px] gap-8 px-8 py-16">
+	<div class="mx-auto flex max-w-[1600px] gap-8 px-8 py-12">
+		{/* Left Catalogue Sidebar Navigation */}
 		<CatalogueSidebar
 			allCategories={allCategories}
 			currentCategory={category}
 			lang={lang as Lang}
 		/>
 
-		<main class="min-w-0 flex-1">
-			<!-- Breadcrumb -->
-			<nav class="text-muted-foreground mb-8 flex items-center gap-2 font-mono text-xs">
+		{/* Right Product Detail Content */}
+		<main class="min-w-0 flex-1 space-y-12">
+			{/* Breadcrumb Navigation */}
+			<nav
+				aria-label={_("Breadcrumb")}
+				class="text-muted-foreground flex items-center space-x-2 font-mono text-xs"
+			>
 				<a href={`/${lang}/catalogue/${category}`} class="hover:text-foreground transition-colors">
-					{allCategories.find((c) => c.slug === category)?.title ?? category}
+					{_("Catalogue")}
 				</a>
 				<span class="material-symbols-outlined text-[14px]">chevron_right</span>
-				<span class="text-foreground">{title}</span>
+				<a href={`/${lang}/catalogue/${category}`} class="hover:text-foreground transition-colors">
+					{categoryTitle}
+				</a>
+				<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+				<span class="text-foreground font-medium">{title}</span>
 			</nav>
 
-			<!-- Header -->
-			<header class="mb-10">
+			{/* Header & Title */}
+			<header>
 				<h1
-					class="font-heading text-foreground mb-4 text-4xl leading-tight font-semibold tracking-tight md:text-5xl"
+					class="font-heading text-foreground text-3xl font-semibold tracking-tight md:text-4xl lg:text-5xl"
 				>
 					{title}
 				</h1>
-				{
-					description && (
-						<p class="text-muted-foreground max-w-3xl text-sm leading-relaxed md:text-base">
-							{description}
-						</p>
-					)
-				}
 			</header>
 
-			<!-- Gallery -->
-			{
-				product.data.gallery && product.data.gallery.length > 0 && (
-					<section class="mb-10">
-						<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-							{product.data.gallery.map((img: string) => (
-								<div class="bg-background border-border aspect-[4/3] overflow-hidden rounded-lg border">
-									<img
-										src={img}
-										alt={title}
-										class="h-full w-full object-contain p-4"
-										loading="lazy"
-									/>
-								</div>
-							))}
-						</div>
-					</section>
-				)
-			}
+			{/* Product Hero Grid: Gallery (2/3) + Description & Sales Card (1/3) */}
+			<section
+				class="grid grid-cols-1 items-start gap-8 lg:grid-cols-12"
+				aria-label={_("Product Overview")}
+			>
+				{/* Left 7 cols: Interactive Gallery */}
+				<div class="lg:col-span-7">
+					<ProductGallery images={product.data.gallery} title={title} lang={lang as Lang} />
+				</div>
 
-			<!-- Specifications -->
-			{
-				product.data.specs && product.data.specs.length > 0 && (
-					<section class="mb-10">
-						<h2 class="font-heading text-foreground mb-4 text-xl font-semibold">
-							{_("Key Specifications")}
-						</h2>
-						<div class="border-border divide-border divide-y rounded-lg border">
-							{product.data.specs.map((spec: { label: string; value: string }) => (
-								<div class="flex items-center justify-between px-4 py-3">
-									<span class="text-muted-foreground font-mono text-xs tracking-wider uppercase">
-										{spec.label}
-									</span>
-									<span class="text-foreground font-mono text-sm font-medium">{spec.value}</span>
-								</div>
-							))}
-						</div>
-					</section>
-				)
-			}
+				{/* Right 5 cols: Description & Sales Consultation Card */}
+				<div class="flex flex-col gap-6 lg:col-span-5">
+					{
+						description && (
+							<p class="text-muted-foreground text-sm leading-relaxed md:text-base">
+								{description}
+							</p>
+						)
+					}
 
-			<!-- Industries -->
-			{
-				product.data.industries && product.data.industries.length > 0 && (
-					<section class="mb-10">
-						<h2 class="font-heading text-foreground mb-4 text-xl font-semibold">
-							{_("Industries")}
-						</h2>
-						<div class="flex flex-wrap gap-2">
-							{product.data.industries.map((industry: string) => (
-								<span class="bg-muted text-muted-foreground rounded-full px-3 py-1 font-mono text-xs tracking-wider uppercase">
-									{industry}
-								</span>
-							))}
+					{/* Sticky / Floating Consultation Box */}
+					<div
+						class="border-border/80 from-card via-card/90 to-muted/20 space-y-5 rounded-2xl border bg-gradient-to-b p-6 shadow-xs"
+					>
+						<div>
+							<h3 class="font-heading text-foreground mb-1.5 text-lg font-semibold">
+								{_("Planning to upgrade your production line?")}
+							</h3>
+							<p class="text-muted-foreground text-xs leading-relaxed">
+								{
+									_(
+										"Our engineering team is ready to configure this equipment for your specific production environment."
+									)
+								}
+							</p>
 						</div>
-					</section>
-				)
-			}
 
-			<!-- Body content -->
+						{/* Direct Technical Sales Contact Info */}
+						<div class="border-border/60 space-y-2 border-t pt-4">
+							<p
+								class="font-label-caps text-muted-foreground text-[10px] font-semibold tracking-wider uppercase"
+							>
+								{_("Direct Technical Sales")}
+							</p>
+							{
+								contactPerson && (
+									<p class="text-foreground text-sm font-medium">{contactPerson.name}</p>
+								)
+							}
+							<div class="flex items-center gap-2">
+								<span class="material-symbols-outlined text-primary text-[18px]">call</span>
+								<a
+									href={companyData.phone.href}
+									class="text-foreground hover:text-primary font-mono text-sm font-semibold transition-colors"
+								>
+									{companyData.phone.display}
+								</a>
+							</div>
+							{
+								companyData.emails?.sales && (
+									<div class="flex items-center gap-2">
+										<span class="material-symbols-outlined text-primary text-[18px]">mail</span>
+										<a
+											href={`mailto:${companyData.emails.sales}`}
+											class="text-muted-foreground hover:text-primary font-mono text-xs font-medium transition-colors"
+										>
+											{companyData.emails.sales}
+										</a>
+									</div>
+								)
+							}
+							<p class="text-muted-foreground text-[11px]">
+								{workingHours}
+							</p>
+						</div>
+
+						{/* Action CTAs */}
+						<div class="flex flex-col gap-2.5 pt-1">
+							<a
+								href={`/${lang}#contact`}
+								class="bg-primary text-primary-foreground inline-flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-medium shadow-xs transition-all hover:opacity-90 active:scale-95"
+							>
+								{_("Request Consultation")}
+								<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+							</a>
+
+							{
+								product.data.datasheet && (
+									<a
+										href={product.data.datasheet}
+										target="_blank"
+										rel="noopener noreferrer"
+										class="border-border bg-background text-foreground hover:bg-muted inline-flex w-full items-center justify-center gap-2 rounded-xl border px-4 py-2.5 text-xs font-medium shadow-2xs transition-all active:scale-95"
+									>
+										<span class="material-symbols-outlined text-[16px]">download</span>
+										{_("Technical Datasheet")}
+									</a>
+								)
+							}
+						</div>
+					</div>
+				</div>
+			</section>
+
+			{/* Technical Specifications Table */}
+			<ProductSpecsTable specs={product.data.specs} lang={lang as Lang} />
+
+			{/* Markdown Documentation Body */}
 			{
 				body && (
-					<section class="mb-10">
-						<div class="prose prose-sm max-w-none" set:html={body} />
+					<section class="prose prose-neutral dark:prose-invert max-w-none">
+						<div set:html={body} />
 					</section>
 				)
 			}
 
-			<!-- Datasheet download -->
-			{
-				product.data.datasheet && (
-					<section class="mb-10">
-						<a
-							href={product.data.datasheet}
-							class="border-secondary text-secondary hover:bg-secondary/5 inline-flex items-center gap-2 rounded border-2 px-5 py-2.5 text-sm font-medium transition-colors"
-							download
-						>
-							<span class="material-symbols-outlined text-[18px]">download</span>
-							{_("Download Datasheet")}
-						</a>
-					</section>
-				)
-			}
+			{/* Related Equipment */}
+			<RelatedEquipment products={relatedProducts} lang={lang as Lang} />
 		</main>
 	</div>
 </Layout>

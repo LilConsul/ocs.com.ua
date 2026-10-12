@@ -12,7 +12,7 @@ const { allCategories, currentCategory, lang } = Astro.props;
 const _ = getInlineTranslations(lang);
 ---
 
-<!-- Mobile Filter Button -->
+{/* Mobile Filter Button */}
 <button
 	id="mobile-filter-toggle"
 	class="bg-card border-border text-foreground fixed right-6 bottom-6 z-40 flex items-center gap-2 rounded-full border px-6 py-3 shadow-lg transition-all hover:shadow-xl lg:hidden"
@@ -22,7 +22,7 @@ const _ = getInlineTranslations(lang);
 	<span class="text-sm font-medium">{_("Filters")}</span>
 </button>
 
-<!-- Mobile Filter Overlay -->
+{/* Mobile Filter Overlay */}
 <div
 	id="mobile-filter-overlay"
 	class="fixed inset-0 z-50 hidden bg-black/50 backdrop-blur-sm lg:hidden"
@@ -30,15 +30,15 @@ const _ = getInlineTranslations(lang);
 >
 </div>
 
-<!-- Desktop Sidebar & Mobile Drawer -->
+{/* Desktop Sidebar & Mobile Drawer */}
 <aside
 	id="catalogue-sidebar"
-	class="fixed inset-y-0 left-0 z-50 w-80 -translate-x-full transition-transform duration-300 lg:sticky lg:top-24 lg:h-fit lg:w-72 lg:flex-shrink-0 lg:translate-x-0"
+	class="fixed inset-y-0 left-0 z-50 w-80 -translate-x-full transition-transform duration-300 lg:sticky lg:top-24 lg:z-10 lg:h-fit lg:w-72 lg:flex-shrink-0 lg:translate-x-0"
 >
 	<div
 		class="bg-card border-border h-full w-full overflow-y-auto rounded-none border-r px-6 py-8 shadow-sm lg:rounded-lg lg:border"
 	>
-		<!-- Close button (mobile only) -->
+		{/* Close button (mobile only) */}
 		<button
 			id="mobile-filter-close"
 			class="text-muted-foreground hover:text-foreground absolute top-4 right-4 transition-colors lg:hidden"
@@ -46,7 +46,7 @@ const _ = getInlineTranslations(lang);
 		>
 			<span class="material-symbols-outlined text-[24px]">close</span>
 		</button>
-		<!-- Header with generous spacing -->
+		{/* Header with generous spacing */}
 		<div class="mb-6 px-2">
 			<h2 class="font-heading text-foreground mb-1 text-2xl font-semibold">
 				{_("Catalogue Filters")}
@@ -56,12 +56,12 @@ const _ = getInlineTranslations(lang);
 			</p>
 		</div>
 
-		<!-- Category label -->
+		{/* Category label */}
 		<p class="text-muted-foreground mb-3 px-2 font-mono text-[10px] tracking-[0.05em] uppercase">
 			{_("Equipment Categories")}
 		</p>
 
-		<!-- Navigation with precise spacing -->
+		{/* Navigation with precise spacing */}
 		<nav aria-label={_("Category navigation")} class="space-y-2">
 			{
 				allCategories.map((cat) => {
@@ -86,14 +86,29 @@ const _ = getInlineTranslations(lang);
 			}
 		</nav>
 
-		<!-- CTA button with reserved accent -->
+		{/* CTA button */}
 		<div class="border-border mt-8 border-t px-2 pt-6">
-			<button
-				class="border-secondary text-secondary hover:bg-secondary/5 flex w-full items-center justify-center gap-2 rounded border-2 px-4 py-2.5 text-sm font-medium transition-colors"
+			<a
+				href={`/${lang}#contact`}
+				class="bg-primary text-primary-foreground flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-opacity hover:opacity-90"
 			>
-				<span class="material-symbols-outlined text-[18px]">download</span>
-				{_("Request Full Specs")}
-			</button>
+				{_("Contact Us")}
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="16"
+					height="16"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					class="lucide lucide-arrow-right"
+				>
+					<path d="M5 12h14"></path>
+					<path d="m12 5 7 7-7 7"></path>
+				</svg>
+			</a>
 		</div>
 	</div>
 </aside>

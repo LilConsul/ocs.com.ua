@@ -1,0 +1,98 @@
+---
+import companyData from "@/data/company.json";
+import { getInlineTranslations, type Lang } from "@/i18n";
+
+interface Props {
+	title: string;
+	datasheet?: string;
+	lang: Lang;
+}
+
+const { title, datasheet, lang } = Astro.props;
+const _ = getInlineTranslations(lang);
+
+const contactPerson =
+	companyData.contactPerson[lang as "en" | "ua"] || companyData.contactPerson.en;
+const workingHours = companyData.workingHours[lang as "en" | "ua"] || companyData.workingHours.en;
+---
+
+<aside class="relative lg:col-span-4">
+	<div
+		class="border-border-subtle bg-card/80 sticky top-28 flex w-full flex-col gap-6 rounded-xl border p-8 shadow-sm backdrop-blur-xl"
+	>
+		<div>
+			<h3 class="font-heading text-headline-lg text-foreground mb-2 font-semibold">
+				{_("Ready to upgrade your line?")}
+			</h3>
+			<p class="text-on-surface-variant text-sm leading-relaxed">
+				{
+					_(
+						"Our engineering team is ready to configure this equipment for your specific production environment."
+					)
+				}
+			</p>
+		</div>
+
+		<div class="space-y-3">
+			<a
+				href={`/${lang}#contact`}
+				class="bg-primary text-primary-foreground hover:bg-primary/90 flex w-full items-center justify-center gap-2 rounded-lg py-3.5 text-sm font-semibold transition-all hover:shadow-md"
+			>
+				{_("Request Consultation")}
+				<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+			</a>
+
+			{
+				datasheet && (
+					<a
+						href={datasheet}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="text-secondary border-secondary hover:bg-secondary/10 flex w-full items-center justify-center gap-2 rounded-lg border py-3 text-sm font-medium transition-colors"
+					>
+						<span class="material-symbols-outlined text-[18px]">download</span>
+						{_("Technical Datasheet")}
+					</a>
+				)
+			}
+		</div>
+
+		<div class="border-border-subtle mt-2 space-y-2 border-t pt-6">
+			<p
+				class="font-label-caps text-industrial-gray mb-1 text-xs font-semibold tracking-wider uppercase"
+			>
+				{_("Direct Technical Sales")}
+			</p>
+			{contactPerson && <p class="text-foreground text-sm font-medium">{contactPerson.name}</p>}
+			<a
+				href={companyData.phone.href}
+				class="text-foreground hover:text-secondary group flex items-center gap-2 transition-colors"
+			>
+				<span
+					class="material-symbols-outlined text-industrial-gray group-hover:text-secondary text-[20px]"
+				>
+					call
+				</span>
+				<span class="font-technical-data text-technical-data text-sm font-semibold">
+					{companyData.phone.display}
+				</span>
+			</a>
+			{
+				companyData.emails?.sales && (
+					<a
+						href={`mailto:${companyData.emails.sales}`}
+						class="text-muted-foreground hover:text-secondary group flex items-center gap-2 transition-colors"
+					>
+						<span class="material-symbols-outlined text-industrial-gray group-hover:text-secondary text-[20px]">
+							mail
+						</span>
+						<span class="font-mono text-xs font-medium">{companyData.emails.sales}</span>
+					</a>
+				)
+			}
+			<p class="text-industrial-gray pt-1 text-xs">
+				{workingHours}
+			</p>
+		</div>
+	</div>
+</aside>

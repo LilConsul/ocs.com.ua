@@ -1,0 +1,37 @@
+---
+import NotFoundContent from "@/components/NotFoundContent.astro";
+import { defaultLang, getInlineTranslations } from "@/i18n";
+import Layout from "@/layouts/Layout.astro";
+
+// A single static 404.html is served for every missing URL, so both languages are
+// rendered and the visible one is picked on the client from the URL prefix.
+const _ = getInlineTranslations(defaultLang);
+---
+
+<Layout title={`404 | ${_("Page Not Found")}`} description={_("Page Not Found")}>
+	<script is:inline>
+		if (/^\/en(\/|$)/.test(window.location.pathname)) {
+			document.documentElement.dataset.locale = "en";
+			document.documentElement.lang = "en";
+		}
+	</script>
+
+	<NotFoundContent lang="ua" />
+	<NotFoundContent lang="en" />
+
+	<script is:inline>
+		const locale = document.documentElement.dataset.locale || "ua";
+		const section = document.querySelector(`section[data-locale="${locale}"]`);
+		if (section?.dataset.title) document.title = section.dataset.title;
+		for (const el of document.querySelectorAll("[data-requested-path]")) {
+			el.textContent = window.location.pathname;
+		}
+	</script>
+</Layout>
+
+<style is:global>
+	html:not([data-locale="en"]) [data-locale="en"],
+	html[data-locale="en"] [data-locale="ua"] {
+		display: none;
+	}
+</style>

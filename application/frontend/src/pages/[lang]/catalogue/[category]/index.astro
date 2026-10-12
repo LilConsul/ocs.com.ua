@@ -60,7 +60,7 @@ const sortedProducts = Array.isArray(products) ? sortByOrder(products) : [];
 const sortedCategories = Array.isArray(allCategories) ? allCategories : [];
 
 // Page metadata (clean field names!) - with fallback for missing categoryData
-const pageTitle = `${categoryData?.title || "Equipment"} | OS-Technology`;
+const pageTitle = `${categoryData?.title || "Equipment"} | ${lang === "en" ? "OS-Technology" : "ОС-Технолоджи"}`;
 const pageDescription = categoryData?.description || "";
 
 // Structured data for SEO
@@ -118,9 +118,9 @@ const structuredData = {
 <Layout title={pageTitle} description={pageDescription}>
 	<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
-	<!-- Generous container with maximum width constraint -->
+	{/* Generous container with maximum width constraint */}
 	<div class="mx-auto flex max-w-[1600px] gap-8 px-8 py-16">
-		<!-- Sidebar Navigation -->
+		{/* Sidebar Navigation */}
 		<CatalogueSidebar
 			allCategories={sortedCategories}
 			currentCategory={categorySlug}

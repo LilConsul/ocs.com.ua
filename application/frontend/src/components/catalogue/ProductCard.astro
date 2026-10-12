@@ -39,7 +39,7 @@ const productUrl = `/${lang}/catalogue/${categorySlug}/${productSlug}`;
 		/>
 	</div>
 
-	<!-- Content - Compact spacing, clear hierarchy -->
+	{/* Content - Compact spacing, clear hierarchy */}
 	<div class="flex flex-1 flex-col p-4">
 		<h3 class="font-heading text-foreground mb-2 text-xl leading-tight font-medium">
 			{title}
@@ -48,7 +48,7 @@ const productUrl = `/${lang}/catalogue/${categorySlug}/${productSlug}`;
 			{description}
 		</p>
 
-		<!-- Specs grid - Technical precision aesthetic -->
+		{/* Specs grid - Technical precision aesthetic */}
 		{
 			specs.length > 0 && (
 				<div class="border-border mt-auto mb-4 grid grid-cols-2 gap-4 border-t pt-3">
@@ -64,7 +64,7 @@ const productUrl = `/${lang}/catalogue/${categorySlug}/${productSlug}`;
 			)
 		}
 
-		<!-- CTA - Reserved accent color -->
+		{/* CTA - Reserved accent color */}
 		<a
 			href={productUrl}
 			class="bg-background border-border text-foreground hover:bg-muted group-hover:border-primary flex w-full items-center justify-center gap-2 rounded border py-2.5 text-sm font-medium transition-colors"

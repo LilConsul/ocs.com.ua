@@ -27,11 +27,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: i18n-extract\n"
 
-#: src/components/Header.astro:29
+#: src/components/Header.astro:25
 msgid "About Us"
 msgstr ""
 
-#: src/components/homepage/HeroSection.astro:70
+#: src/components/homepage/HeroSection.astro:74
 msgid "Advanced checkweighers and Track & Trace systems for food, pharma, and logistics. Trusted by 300+ Ukrainian manufacturers since 2013."
 msgstr ""
 
@@ -39,11 +39,24 @@ msgstr ""
 msgid "All Industries"
 msgstr ""
 
-#: src/components/Footer.astro:17
+#: src/components/Footer.astro:16
 msgid "All rights reserved"
 msgstr ""
 
-#: src/components/Header.astro:26
+#: src/components/NotFoundContent.astro:76
+msgid "Back to Home"
+msgstr ""
+
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:108
+msgid "Breadcrumb"
+msgstr ""
+
+#: src/components/NotFoundContent.astro:83
+msgid "Browse Catalogue"
+msgstr ""
+
+#: src/components/Header.astro:22
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:112
 msgid "Catalogue"
 msgstr ""
 
@@ -59,6 +72,10 @@ msgstr ""
 msgid "Checkweighers and inspection systems meeting FDA, IFS, BRC, and GMP standards — engineered for Ukrainian manufacturers."
 msgstr ""
 
+#: src/components/homepage/HeroSection.astro:62
+msgid "Checkweighers, Metal Detectors, Serialization & Aggregation Systems"
+msgstr ""
+
 #: src/components/homepage/PartnersSection.astro:171
 msgid "Client Retention"
 msgstr ""
@@ -71,7 +88,18 @@ msgstr ""
 msgid "Close filters"
 msgstr ""
 
-#: src/components/homepage/HeroSection.astro:82
+#: src/components/Header.astro:71
+#: src/components/Header.astro:72
+msgid "Close notification"
+msgstr ""
+
+#: src/components/catalogue/ProductGallery.astro:158
+msgid "Close preview"
+msgstr ""
+
+#: src/components/NotFoundContent.astro:93
+#: src/components/catalogue/CatalogueSidebar.astro:95
+#: src/components/homepage/HeroSection.astro:86
 msgid "Contact Us"
 msgstr ""
 
@@ -79,12 +107,9 @@ msgstr ""
 msgid "Cosmetics"
 msgstr ""
 
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:181
-msgid "Download Datasheet"
-msgstr ""
-
-#: src/components/homepage/HeroSection.astro:62
-msgid "Dynamic Weighing Systems, Metal Detectors, Serialization & Aggregation Systems"
+#: src/components/catalogue/ProductSidebar.astro:64
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:173
+msgid "Direct Technical Sales"
 msgstr ""
 
 #: src/pages/[lang]/index.astro:28
@@ -93,6 +118,11 @@ msgstr ""
 
 #: src/components/catalogue/CatalogueSidebar.astro:61
 msgid "Equipment Categories"
+msgstr ""
+
+#: src/components/catalogue/ProductGallery.astro:49
+#: src/components/catalogue/ProductGallery.astro:50
+msgid "Expand image"
 msgstr ""
 
 #: src/components/homepage/IndustriesSection.astro:89
@@ -107,8 +137,8 @@ msgstr ""
 msgid "Food & Beverage"
 msgstr ""
 
-#: src/components/homepage/HeroSection.astro:64
-msgid "German Precision. Ukrainian Support."
+#: src/components/homepage/HeroSection.astro:65
+msgid "German Precision."
 msgstr ""
 
 #: src/i18n/inline.ts:6
@@ -123,12 +153,15 @@ msgstr ""
 msgid "Hygienic checkweighers meeting food safety standards (FDA, IFS, BRC). Built for production lines."
 msgstr ""
 
+#: src/components/catalogue/ProductGallery.astro:129
+msgid "Image lightbox"
+msgstr ""
+
 #: src/components/homepage/HeroSection.astro:21
 msgid "Industrial Checkweigher Systems"
 msgstr ""
 
-#: src/components/Header.astro:27
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:149
+#: src/components/Header.astro:23
 msgid "Industries"
 msgstr ""
 
@@ -140,11 +173,7 @@ msgstr ""
 msgid "Installations"
 msgstr ""
 
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:128
-msgid "Key Specifications"
-msgstr ""
-
-#: src/components/Header.astro:138
+#: src/components/Header.astro:169
 msgid "Language"
 msgstr ""
 
@@ -161,11 +190,20 @@ msgstr ""
 msgid "Long-term partnerships built on reliable support."
 msgstr ""
 
+#: src/components/NotFoundContent.astro:88
+msgid "Need help finding equipment?"
+msgstr ""
+
+#: src/components/catalogue/ProductGallery.astro:83
+#: src/components/catalogue/ProductGallery.astro:190
+msgid "Next image"
+msgstr ""
+
 #: src/pages/[lang]/catalogue/[category]/index.astro:143
 msgid "No products available in this category"
 msgstr ""
 
-#: src/components/Footer.astro:17
+#: src/components/Footer.astro:16
 msgid "OS-Technology Ukraine"
 msgstr ""
 
@@ -189,16 +227,45 @@ msgstr ""
 msgid "Our Clients"
 msgstr ""
 
+#: src/components/catalogue/ProductSidebar.astro:29
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:161
+msgid "Our engineering team is ready to configure this equipment for your specific production environment."
+msgstr ""
+
+#: src/pages/404.astro:11
+#: src/pages/404.astro:11
+#: src/components/NotFoundContent.astro:15
+#: src/components/NotFoundContent.astro:50
+msgid "Page Not Found"
+msgstr ""
+
 #: src/components/homepage/IndustriesSection.astro:58
 msgid "Pharmaceutical"
+msgstr ""
+
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:157
+msgid "Planning to upgrade your production line?"
 msgstr ""
 
 #: src/components/homepage/IndustriesSection.astro:59
 msgid "Precision checkweighers with Track & Trace serialization. GMP-compliant and audit-ready."
 msgstr ""
 
-#: src/components/Footer.astro:25
+#: src/components/catalogue/ProductGallery.astro:75
+#: src/components/catalogue/ProductGallery.astro:182
+msgid "Previous image"
+msgstr ""
+
+#: src/components/Footer.astro:24
 msgid "Privacy Policy"
+msgstr ""
+
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:134
+msgid "Product Overview"
+msgstr ""
+
+#: src/components/catalogue/ProductGallery.astro:98
+msgid "Product image thumbnails"
 msgstr ""
 
 #: src/pages/[lang]/catalogue/[category]/index.astro:133
@@ -209,8 +276,21 @@ msgstr ""
 msgid "Quality control and filling inspection systems."
 msgstr ""
 
-#: src/components/catalogue/CatalogueSidebar.astro:95
-msgid "Request Full Specs"
+#: src/components/catalogue/ProductSidebar.astro:25
+msgid "Ready to upgrade your line?"
+msgstr ""
+
+#: src/components/catalogue/RelatedEquipment.astro:18
+msgid "Related Equipment"
+msgstr ""
+
+#: src/components/catalogue/ProductSidebar.astro:41
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:213
+msgid "Request Consultation"
+msgstr ""
+
+#: src/components/NotFoundContent.astro:65
+msgid "Requested path"
 msgstr ""
 
 #: src/components/homepage/IndustriesSection.astro:29
@@ -229,8 +309,17 @@ msgstr ""
 msgid "Systems operating across Ukrainian manufacturing facilities."
 msgstr ""
 
+#: src/components/catalogue/ProductSidebar.astro:54
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:226
+msgid "Technical Datasheet"
+msgstr ""
+
 #: src/components/catalogue/ProductCard.astro:72
 msgid "Technical Details"
+msgstr ""
+
+#: src/components/catalogue/ProductSpecsTable.astro:17
+msgid "Technical Specifications"
 msgstr ""
 
 #: src/components/catalogue/CatalogueSidebar.astro:55
@@ -241,11 +330,15 @@ msgstr ""
 msgid "Technical expertise and service support since 2013."
 msgstr ""
 
-#: src/components/Footer.astro:31
+#: src/components/Footer.astro:30
 msgid "Terms of Service"
 msgstr ""
 
-#: src/components/Header.astro:108
+#: src/components/NotFoundContent.astro:55
+msgid "The page you are looking for does not exist or has been moved. Explore our catalogue or return to the homepage."
+msgstr ""
+
+#: src/components/Header.astro:139
 msgid "Toggle menu"
 msgstr ""
 
@@ -253,11 +346,24 @@ msgstr ""
 msgid "Trusted by Ukraine's Leading Manufacturers"
 msgstr ""
 
-#: src/components/homepage/HeroSection.astro:103
+#: src/components/homepage/HeroSection.astro:67
+msgid "Ukrainian Support."
+msgstr ""
+
+#: src/components/homepage/HeroSection.astro:107
 msgid "View Products"
 msgstr ""
 
-#: src/components/Header.astro:28
+#: src/components/catalogue/ProductGallery.astro:109
+#: src/components/catalogue/ProductGallery.astro:208
+msgid "View image"
+msgstr ""
+
+#: src/components/Header.astro:60
+msgid "Website in active development: Information and specifications may not be accurate, pages are still being completed, and all content is subject to change."
+msgstr ""
+
+#: src/components/Header.astro:24
 msgid "Wiki"
 msgstr ""
 
