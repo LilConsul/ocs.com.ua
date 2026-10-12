@@ -7,14 +7,19 @@ import { defineConfig, envField } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
-	// Pages are prerendered to static HTML; only routes with `prerender = false`
-	// (Decap CMS OAuth + config) are rendered on demand by the Node adapter.
 	output: "static",
 	adapter: node({ mode: "standalone" }),
 	integrations: [react()],
-	vite: { plugins: [tailwindcss()] },
+	vite: {
+		plugins: [tailwindcss()],
+		build: {
+			// The /admin Decap CMS bundle is a single ~5 MB chunk; public pages stay small
+			chunkSizeWarningLimit: 6000,
+			// Direct eval lives in Decap's deps (js-sha256, gray-matter, @iarna/toml), not our code
+			rolldownOptions: { checks: { eval: false } },
+		},
+	},
 	// Typed, validated environment (read from .env / .env.local / process env).
-	// Import via `astro:env/server`; the server refuses to start on invalid values.
 	env: {
 		schema: {
 			// === DecapCMS ===
