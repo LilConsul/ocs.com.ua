@@ -110,7 +110,7 @@ collections:
     description: >-
       Equipment type definitions. Each entry controls the sidebar label, icon
       and description for one category; drag entries to reorder. Adding a new entry here
-      automatically populates the category dropdown in Equipment Products.
+      automatically populates the category dropdown in Products.
     editor:
       preview: false
     i18n:
@@ -154,9 +154,9 @@ collections:
                 options:
 ${iconOptions}
 
-  # ── Equipment Products ─────────────────────────────────────────────────────
+  # ── Products ─────────────────────────────────────────────────────
   - name: "equipment"
-    label: "Equipment Products"
+    label: "Products"
     label_singular: "Equipment Product"
     description: >-
       Individual product pages. Choose a category from the dropdown to place
