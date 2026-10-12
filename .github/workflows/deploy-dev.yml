@@ -58,9 +58,10 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
           echo "${{ secrets.DEV_SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
 
+      # Files are owned by the SSH user on the server; don't try to copy the runner's owner/group
       - name: Upload
         run: |
-          rsync -az --delete \
+          rsync -az --delete --no-owner --no-group \
             dist node_modules package.json \
             "${{ secrets.DEV_SSH_USER }}@${{ secrets.DEV_SSH_HOST }}:$APP_DIR/"
 
