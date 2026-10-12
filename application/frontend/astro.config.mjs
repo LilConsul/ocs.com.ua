@@ -7,7 +7,9 @@ import { defineConfig, envField } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
-	output: "server",
+	// Pages are prerendered to static HTML; only routes with `prerender = false`
+	// (Decap CMS OAuth + config) are rendered on demand by the Node adapter.
+	output: "static",
 	adapter: node({ mode: "standalone" }),
 	integrations: [react()],
 	vite: { plugins: [tailwindcss()] },

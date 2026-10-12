@@ -13,8 +13,6 @@ import {
 	type Locale,
 } from "@/lib/content-utils";
 
-export const prerender = true;
-
 export async function getStaticPaths() {
 	const allEquipment = await getCollection("equipment");
 	const allProducts = getProducts(allEquipment);

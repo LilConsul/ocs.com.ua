@@ -5,6 +5,9 @@ import {
 } from "astro:env/server";
 import type { APIRoute } from "astro";
 
+// Holds the client secret and exchanges tokens per request, so it must run on the server
+export const prerender = false;
+
 const SCOPE = "repo,user";
 const STATE_COOKIE = "decap_oauth_state";
 
