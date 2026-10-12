@@ -1,0 +1,68 @@
+# Builds the frontend on every push to main and deploys it to https://dev.ocs.com.ua.
+# CMS publishes are commits to main too, so content edits go live the same way.
+#
+# Repository secrets: DEV_SSH_HOST, DEV_SSH_USER, DEV_SSH_KEY, DEV_SSH_KNOWN_HOSTS
+# Server layout and setup: see "Deployment" in README.md
+
+name: Deploy dev
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "application/frontend/**"
+      - ".github/workflows/deploy-dev.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-dev
+  cancel-in-progress: false
+
+env:
+  APP_DIR: /home/ocs/domains/dev.ocs.com.ua/app
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: application/frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: oven-sh/setup-bun@v2
+
+      - run: bun install --frozen-lockfile
+
+      # Public astro:env values are inlined at build time; secrets are read at runtime on the server
+      - name: Build
+        run: bun run build
+        env:
+          SITE_URL: https://dev.ocs.com.ua
+          CMS_BASE_URL: https://dev.ocs.com.ua
+
+      # The server bundle imports runtime packages from node_modules, so ship production deps only
+      - name: Install production dependencies
+        run: |
+          rm -rf node_modules
+          bun install --frozen-lockfile --production
+
+      - name: Configure SSH
+        run: |
+          install -m 700 -d ~/.ssh
+          echo "${{ secrets.DEV_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          echo "${{ secrets.DEV_SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+
+      - name: Upload
+        run: |
+          rsync -az --delete \
+            dist node_modules package.json \
+            "${{ secrets.DEV_SSH_USER }}@${{ secrets.DEV_SSH_HOST }}:$APP_DIR/"
+
+      - name: Restart
+        run: ssh "${{ secrets.DEV_SSH_USER }}@${{ secrets.DEV_SSH_HOST }}" "sudo /usr/bin/systemctl restart ocs-dev"
