@@ -43,12 +43,12 @@ msgstr ""
 msgid "All rights reserved"
 msgstr ""
 
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:88
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:107
 msgid "Breadcrumb"
 msgstr ""
 
 #: src/components/Header.astro:26
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:90
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:111
 msgid "Catalogue"
 msgstr ""
 
@@ -80,12 +80,12 @@ msgstr ""
 msgid "Close filters"
 msgstr ""
 
-#: src/components/catalogue/ProductGallery.astro:82
+#: src/components/catalogue/ProductGallery.astro:145
 msgid "Close preview"
 msgstr ""
 
-#: src/components/homepage/HeroSection.astro:86
 #: src/components/catalogue/CatalogueSidebar.astro:95
+#: src/components/homepage/HeroSection.astro:86
 msgid "Contact Us"
 msgstr ""
 
@@ -93,7 +93,7 @@ msgstr ""
 msgid "Cosmetics"
 msgstr ""
 
-#: src/components/catalogue/ProductSidebar.astro:59
+#: src/components/catalogue/ProductSidebar.astro:64
 msgid "Direct Technical Sales"
 msgstr ""
 
@@ -105,8 +105,8 @@ msgstr ""
 msgid "Equipment Categories"
 msgstr ""
 
-#: src/components/catalogue/ProductGallery.astro:35
-#: src/components/catalogue/ProductGallery.astro:36
+#: src/components/catalogue/ProductGallery.astro:42
+#: src/components/catalogue/ProductGallery.astro:43
 msgid "Expand image"
 msgstr ""
 
@@ -138,7 +138,7 @@ msgstr ""
 msgid "Hygienic checkweighers meeting food safety standards (FDA, IFS, BRC). Built for production lines."
 msgstr ""
 
-#: src/components/catalogue/ProductGallery.astro:70
+#: src/components/catalogue/ProductGallery.astro:122
 msgid "Image lightbox"
 msgstr ""
 
@@ -175,7 +175,8 @@ msgstr ""
 msgid "Long-term partnerships built on reliable support."
 msgstr ""
 
-#: src/components/catalogue/ProductGallery.astro:114
+#: src/components/catalogue/ProductGallery.astro:76
+#: src/components/catalogue/ProductGallery.astro:177
 msgid "Next image"
 msgstr ""
 
@@ -207,7 +208,8 @@ msgstr ""
 msgid "Our Clients"
 msgstr ""
 
-#: src/components/catalogue/ProductSidebar.astro:27
+#: src/components/catalogue/ProductSidebar.astro:29
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:162
 msgid "Our engineering team is ready to configure this equipment for your specific production environment."
 msgstr ""
 
@@ -219,7 +221,8 @@ msgstr ""
 msgid "Precision checkweighers with Track & Trace serialization. GMP-compliant and audit-ready."
 msgstr ""
 
-#: src/components/catalogue/ProductGallery.astro:106
+#: src/components/catalogue/ProductGallery.astro:68
+#: src/components/catalogue/ProductGallery.astro:169
 msgid "Previous image"
 msgstr ""
 
@@ -227,7 +230,11 @@ msgstr ""
 msgid "Privacy Policy"
 msgstr ""
 
-#: src/components/catalogue/ProductGallery.astro:45
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:138
+msgid "Product Gallery"
+msgstr ""
+
+#: src/components/catalogue/ProductGallery.astro:91
 msgid "Product image thumbnails"
 msgstr ""
 
@@ -239,7 +246,8 @@ msgstr ""
 msgid "Quality control and filling inspection systems."
 msgstr ""
 
-#: src/components/catalogue/ProductSidebar.astro:24
+#: src/components/catalogue/ProductSidebar.astro:25
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:159
 msgid "Ready to upgrade your line?"
 msgstr ""
 
@@ -247,7 +255,8 @@ msgstr ""
 msgid "Related Equipment"
 msgstr ""
 
-#: src/components/catalogue/ProductSidebar.astro:38
+#: src/components/catalogue/ProductSidebar.astro:41
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:199
 msgid "Request Consultation"
 msgstr ""
 
@@ -267,7 +276,8 @@ msgstr ""
 msgid "Systems operating across Ukrainian manufacturing facilities."
 msgstr ""
 
-#: src/components/catalogue/ProductSidebar.astro:51
+#: src/components/catalogue/ProductSidebar.astro:54
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:191
 msgid "Technical Datasheet"
 msgstr ""
 
@@ -307,7 +317,8 @@ msgstr ""
 msgid "View Products"
 msgstr ""
 
-#: src/components/catalogue/ProductGallery.astro:55
+#: src/components/catalogue/ProductGallery.astro:102
+#: src/components/catalogue/ProductGallery.astro:195
 msgid "View image"
 msgstr ""
 

@@ -1,10 +1,11 @@
 ---
 import { getCollection } from "astro:content";
 import { marked } from "marked";
+import CatalogueSidebar from "@/components/catalogue/CatalogueSidebar.astro";
 import ProductGallery from "@/components/catalogue/ProductGallery.astro";
-import ProductSidebar from "@/components/catalogue/ProductSidebar.astro";
 import ProductSpecsTable from "@/components/catalogue/ProductSpecsTable.astro";
 import RelatedEquipment from "@/components/catalogue/RelatedEquipment.astro";
+import companyData from "@/data/company.json";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import Layout from "@/layouts/Layout.astro";
 import {
@@ -67,6 +68,10 @@ const body = await marked.parse(bodyMarkdown);
 const categoryObj = allCategories.find((c) => c.slug === category);
 const categoryTitle = categoryObj?.title ?? category;
 
+const contactPerson =
+	companyData.contactPerson[lang as "en" | "ua"] || companyData.contactPerson.en;
+const workingHours = companyData.workingHours[lang as "en" | "ua"] || companyData.workingHours.en;
+
 const siteUrl = Astro.site || "https://ocs.com.ua";
 const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
 
@@ -88,68 +93,128 @@ const structuredData = {
 >
 	<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
-	<div class="max-w-container-max px-edge-margin pb-section-gap-lg mx-auto pt-10">
-		<!-- Breadcrumbs -->
-		<nav
-			aria-label={_("Breadcrumb")}
-			class="text-industrial-gray mb-8 flex items-center space-x-2 text-sm font-medium"
-		>
-			<a href={`/${lang}/catalogue/${category}`} class="hover:text-foreground transition-colors">
-				{_("Catalogue")}
-			</a>
-			<span class="material-symbols-outlined text-[16px]">chevron_right</span>
-			<a href={`/${lang}/catalogue/${category}`} class="hover:text-foreground transition-colors">
-				{categoryTitle}
-			</a>
-			<span class="material-symbols-outlined text-[16px]">chevron_right</span>
-			<span class="text-foreground font-semibold">{title}</span>
-		</nav>
+	<div class="mx-auto flex max-w-[1600px] gap-8 px-8 py-12">
+		<!-- Left Catalogue Sidebar Navigation -->
+		<CatalogueSidebar
+			allCategories={allCategories}
+			currentCategory={category}
+			lang={lang as Lang}
+		/>
 
-		<!-- 12-Column Grid Layout -->
-		<div class="gap-gutter relative grid grid-cols-1 lg:grid-cols-12">
-			<!-- Main Content Column (8 Cols) -->
-			<div class="space-y-12 lg:col-span-8">
-				<!-- Hero Section -->
-				<section>
-					<h1
-						class="font-display-lg text-display-lg-mobile md:text-display-lg text-foreground mb-8"
-					>
-						{title}
-					</h1>
+		<!-- Right Product Detail Content -->
+		<main class="min-w-0 flex-1 space-y-12">
+			<!-- Breadcrumb Navigation -->
+			<nav
+				aria-label={_("Breadcrumb")}
+				class="text-muted-foreground flex items-center space-x-2 font-mono text-xs"
+			>
+				<a href={`/${lang}/catalogue/${category}`} class="hover:text-foreground transition-colors">
+					{_("Catalogue")}
+				</a>
+				<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+				<a href={`/${lang}/catalogue/${category}`} class="hover:text-foreground transition-colors">
+					{categoryTitle}
+				</a>
+				<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+				<span class="text-foreground font-medium">{title}</span>
+			</nav>
 
-					<!-- Interactive Multi-Image Gallery -->
-					<div class="mb-8">
-						<ProductGallery images={product.data.gallery} title={title} lang={lang as Lang} />
-					</div>
-
-					<!-- Overview Lead Text -->
-					{
-						description && (
-							<p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl leading-relaxed">
-								{description}
-							</p>
-						)
-					}
-				</section>
-
-				<!-- Technical Specifications -->
-				<ProductSpecsTable specs={product.data.specs} lang={lang as Lang} />
-
-				<!-- Markdown Documentation Body -->
+			<!-- Header & Title -->
+			<header>
+				<h1
+					class="font-heading text-foreground mb-4 text-3xl font-semibold tracking-tight md:text-4xl lg:text-5xl"
+				>
+					{title}
+				</h1>
 				{
-					body && (
-						<section class="prose prose-neutral dark:prose-invert max-w-none">
-							<div set:html={body} />
-						</section>
+					description && (
+						<p class="text-muted-foreground max-w-3xl text-sm leading-relaxed md:text-base">
+							{description}
+						</p>
 					)
 				}
+			</header>
 
-				<!-- Related Equipment -->
-				<RelatedEquipment products={relatedProducts} lang={lang as Lang} />
-			</div>
+			<!-- Interactive Multi-Image Gallery -->
+			<section aria-label={_("Product Gallery")}>
+				<ProductGallery images={product.data.gallery} title={title} lang={lang as Lang} />
+			</section>
 
-			<!-- Sticky Technical Sales Sidebar (4 Cols) -->
-			<ProductSidebar title={title} datasheet={product.data.datasheet} lang={lang as Lang} />
-		</div>
+			<!-- Technical Specifications Table -->
+			<ProductSpecsTable specs={product.data.specs} lang={lang as Lang} />
+
+			<!-- Markdown Documentation Body -->
+			{
+				body && (
+					<section class="prose prose-neutral dark:prose-invert max-w-none">
+						<div set:html={body} />
+					</section>
+				)
+			}
+
+			<!-- Consultation & Engineering Inquiry CTA -->
+			<section
+				class="border-border/80 from-card to-card/60 rounded-2xl border bg-gradient-to-b p-6 shadow-xs md:p-8"
+			>
+				<div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+					<div class="max-w-xl space-y-2">
+						<h3 class="font-heading text-foreground text-xl font-semibold">
+							{_("Ready to upgrade your line?")}
+						</h3>
+						<p class="text-muted-foreground text-sm leading-relaxed">
+							{
+								_(
+									"Our engineering team is ready to configure this equipment for your specific production environment."
+								)
+							}
+						</p>
+						<div
+							class="text-muted-foreground flex flex-wrap items-center gap-x-6 gap-y-2 pt-2 text-xs"
+						>
+							{
+								contactPerson && (
+									<span class="text-foreground font-medium">
+										{contactPerson.name} ({contactPerson.title})
+									</span>
+								)
+							}
+							<a
+								href={companyData.phone.href}
+								class="text-foreground hover:text-primary font-mono font-medium transition-colors"
+							>
+								{companyData.phone.display}
+							</a>
+							<span>{workingHours}</span>
+						</div>
+					</div>
+
+					<div class="flex shrink-0 flex-col items-stretch gap-3 sm:flex-row sm:items-center">
+						{
+							product.data.datasheet && (
+								<a
+									href={product.data.datasheet}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="border-border bg-background text-foreground hover:bg-muted inline-flex items-center justify-center gap-2 rounded-xl border px-5 py-3 text-sm font-medium shadow-2xs transition-all active:scale-95"
+								>
+									<span class="material-symbols-outlined text-[18px]">download</span>
+									{_("Technical Datasheet")}
+								</a>
+							)
+						}
+						<a
+							href={`/${lang}#contact`}
+							class="bg-primary text-primary-foreground inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-medium whitespace-nowrap shadow-xs transition-all hover:opacity-90 active:scale-95"
+						>
+							{_("Request Consultation")}
+							<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+						</a>
+					</div>
+				</div>
+			</section>
+
+			<!-- Related Equipment -->
+			<RelatedEquipment products={relatedProducts} lang={lang as Lang} />
+		</main>
 	</div>
 </Layout>

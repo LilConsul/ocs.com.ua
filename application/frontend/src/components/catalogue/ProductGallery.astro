@@ -14,31 +14,38 @@ const galleryImages = images.length > 0 ? images : ["/placeholder.jpg"];
 const hasMultiple = galleryImages.length > 1;
 ---
 
-<div class="product-gallery-container w-full select-none" data-images={JSON.stringify(galleryImages)}>
+<div
+	class="product-gallery-container w-full select-none"
+	data-images={JSON.stringify(galleryImages)}
+>
 	<!-- Main Interactive Viewer Card -->
 	<div
-		class="group relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-border/80 bg-gradient-to-b from-muted/50 via-muted/20 to-background shadow-xs transition-all duration-300 hover:border-border md:aspect-[16/10]"
+		class="group border-border/80 from-muted/50 via-muted/20 to-background hover:border-border relative aspect-[4/3] w-full overflow-hidden rounded-2xl border bg-gradient-to-b shadow-xs transition-all duration-300 md:aspect-[16/10]"
 	>
 		<!-- Top Badges Bar -->
-		<div class="pointer-events-none absolute inset-x-0 top-0 z-10 flex items-center justify-between p-4">
+		<div
+			class="pointer-events-none absolute inset-x-0 top-0 z-10 flex items-center justify-between p-4"
+		>
 			{
 				hasMultiple ? (
 					<span
 						id="gallery-badge-counter"
-						class="pointer-events-auto inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/80 px-2.5 py-1 font-mono text-[11px] font-medium text-muted-foreground shadow-2xs backdrop-blur-md"
+						class="border-border/60 bg-background/80 text-muted-foreground pointer-events-auto inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[11px] font-medium shadow-2xs backdrop-blur-md"
 					>
-						<span class="inline-block h-1.5 w-1.5 rounded-full bg-primary"></span>
-						<span id="gallery-badge-text">01 / {galleryImages.length < 10 ? `0${galleryImages.length}` : galleryImages.length}</span>
+						<span class="bg-primary inline-block h-1.5 w-1.5 rounded-full" />
+						<span id="gallery-badge-text">
+							01 / {galleryImages.length < 10 ? `0${galleryImages.length}` : galleryImages.length}
+						</span>
 					</span>
 				) : (
-					<span></span>
+					<span />
 				)
 			}
 
 			<button
 				type="button"
 				id="gallery-expand-btn"
-				class="pointer-events-auto inline-flex h-8 w-8 items-center justify-center rounded-lg border border-border/60 bg-background/80 text-muted-foreground shadow-2xs backdrop-blur-md transition-all hover:scale-105 hover:bg-background hover:text-foreground active:scale-95"
+				class="border-border/60 bg-background/80 text-muted-foreground hover:bg-background hover:text-foreground pointer-events-auto inline-flex h-8 w-8 items-center justify-center rounded-lg border shadow-2xs backdrop-blur-md transition-all hover:scale-105 active:scale-95"
 				aria-label={_("Expand image")}
 				title={_("Expand image")}
 			>
@@ -64,7 +71,7 @@ const hasMultiple = galleryImages.length > 1;
 					<button
 						type="button"
 						id="gallery-card-prev"
-						class="absolute top-1/2 left-3 -translate-y-1/2 opacity-0 transition-all duration-200 group-hover:opacity-100 flex h-9 w-9 items-center justify-center rounded-full border border-border/70 bg-background/85 text-muted-foreground shadow-sm backdrop-blur-md hover:scale-105 hover:bg-background hover:text-foreground active:scale-95"
+						class="border-border/70 bg-background/85 text-muted-foreground hover:bg-background hover:text-foreground absolute top-1/2 left-3 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border opacity-0 shadow-sm backdrop-blur-md transition-all duration-200 group-hover:opacity-100 hover:scale-105 active:scale-95"
 						aria-label={_("Previous image")}
 					>
 						<span class="material-symbols-outlined text-[20px]">chevron_left</span>
@@ -72,7 +79,7 @@ const hasMultiple = galleryImages.length > 1;
 					<button
 						type="button"
 						id="gallery-card-next"
-						class="absolute top-1/2 right-3 -translate-y-1/2 opacity-0 transition-all duration-200 group-hover:opacity-100 flex h-9 w-9 items-center justify-center rounded-full border border-border/70 bg-background/85 text-muted-foreground shadow-sm backdrop-blur-md hover:scale-105 hover:bg-background hover:text-foreground active:scale-95"
+						class="border-border/70 bg-background/85 text-muted-foreground hover:bg-background hover:text-foreground absolute top-1/2 right-3 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border opacity-0 shadow-sm backdrop-blur-md transition-all duration-200 group-hover:opacity-100 hover:scale-105 active:scale-95"
 						aria-label={_("Next image")}
 					>
 						<span class="material-symbols-outlined text-[20px]">chevron_right</span>
@@ -93,10 +100,10 @@ const hasMultiple = galleryImages.length > 1;
 				{galleryImages.map((img, idx) => (
 					<button
 						type="button"
-						class={`gallery-thumb group relative aspect-[4/3] h-18 shrink-0 overflow-hidden rounded-xl border bg-muted/30 p-1.5 transition-all duration-200 cursor-pointer ${
+						class={`gallery-thumb group bg-muted/30 relative aspect-[4/3] h-18 shrink-0 cursor-pointer overflow-hidden rounded-xl border p-1.5 transition-all duration-200 ${
 							idx === 0
-								? "border-primary ring-2 ring-primary/20 ring-offset-2 ring-offset-background opacity-100 shadow-xs"
-								: "border-border/60 opacity-60 hover:border-border hover:opacity-100"
+								? "border-primary ring-primary/20 ring-offset-background opacity-100 shadow-xs ring-2 ring-offset-2"
+								: "border-border/60 hover:border-border opacity-60 hover:opacity-100"
 						}`}
 						data-index={idx}
 						aria-label={`${_("View image")} ${idx + 1}`}
@@ -118,30 +125,36 @@ const hasMultiple = galleryImages.length > 1;
 	<!-- Lightbox Modal (shadcn Dialog style) -->
 	<dialog
 		id="gallery-lightbox"
-		class="fixed inset-0 z-50 m-0 h-full max-h-none w-full max-w-none bg-background/90 p-0 backdrop-blur-xl backdrop:bg-background/90 open:flex open:flex-col open:items-center open:justify-center animate-in fade-in-0 duration-200"
+		class="bg-background/90 backdrop:bg-background/90 animate-in fade-in-0 fixed inset-0 z-50 m-0 h-full max-h-none w-full max-w-none p-0 backdrop-blur-xl duration-200 open:flex open:flex-col open:items-center open:justify-center"
 		aria-label={_("Image lightbox")}
 	>
-		<div class="relative flex h-full w-full max-w-6xl flex-col items-center justify-between p-4 md:p-6">
+		<div
+			class="relative flex h-full w-full max-w-6xl flex-col items-center justify-between p-4 md:p-6"
+		>
 			<!-- Lightbox Header -->
-			<div class="flex w-full items-center justify-between border-b border-border/40 pb-4">
+			<div class="border-border/40 flex w-full items-center justify-between border-b pb-4">
 				<div class="flex items-center gap-3">
-					<span class="font-heading text-sm font-semibold text-foreground md:text-base">{title}</span>
+					<span class="font-heading text-foreground text-sm font-semibold md:text-base"
+						>{title}</span
+					>
 					<span
 						id="lightbox-counter"
-						class="rounded-full border border-border/60 bg-muted/60 px-2.5 py-0.5 font-mono text-xs text-muted-foreground"
+						class="border-border/60 bg-muted/60 text-muted-foreground rounded-full border px-2.5 py-0.5 font-mono text-xs"
 					>
 						01 / {galleryImages.length < 10 ? `0${galleryImages.length}` : galleryImages.length}
 					</span>
 				</div>
 
 				<div class="flex items-center gap-2">
-					<kbd class="hidden rounded border border-border/60 bg-muted/50 px-2 py-0.5 font-mono text-[11px] text-muted-foreground md:inline-block">
+					<kbd
+						class="border-border/60 bg-muted/50 text-muted-foreground hidden rounded border px-2 py-0.5 font-mono text-[11px] md:inline-block"
+					>
 						ESC
 					</kbd>
 					<button
 						type="button"
 						id="lightbox-close-btn"
-						class="flex h-9 w-9 items-center justify-center rounded-lg border border-border/60 bg-background text-muted-foreground transition-all hover:bg-muted hover:text-foreground active:scale-95"
+						class="border-border/60 bg-background text-muted-foreground hover:bg-muted hover:text-foreground flex h-9 w-9 items-center justify-center rounded-lg border transition-all active:scale-95"
 						aria-label={_("Close preview")}
 					>
 						<span class="material-symbols-outlined text-[20px]">close</span>
@@ -165,7 +178,7 @@ const hasMultiple = galleryImages.length > 1;
 							<button
 								type="button"
 								id="lightbox-prev-btn"
-								class="absolute top-1/2 left-2 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full border border-border/80 bg-background/90 text-foreground shadow-md backdrop-blur-md transition-all hover:scale-105 hover:bg-background active:scale-95"
+								class="border-border/80 bg-background/90 text-foreground hover:bg-background absolute top-1/2 left-2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border shadow-md backdrop-blur-md transition-all hover:scale-105 active:scale-95"
 								aria-label={_("Previous image")}
 							>
 								<span class="material-symbols-outlined text-[24px]">chevron_left</span>
@@ -173,7 +186,7 @@ const hasMultiple = galleryImages.length > 1;
 							<button
 								type="button"
 								id="lightbox-next-btn"
-								class="absolute top-1/2 right-2 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full border border-border/80 bg-background/90 text-foreground shadow-md backdrop-blur-md transition-all hover:scale-105 hover:bg-background active:scale-95"
+								class="border-border/80 bg-background/90 text-foreground hover:bg-background absolute top-1/2 right-2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border shadow-md backdrop-blur-md transition-all hover:scale-105 active:scale-95"
 								aria-label={_("Next image")}
 							>
 								<span class="material-symbols-outlined text-[24px]">chevron_right</span>
@@ -186,11 +199,11 @@ const hasMultiple = galleryImages.length > 1;
 			<!-- Lightbox Bottom Thumbnail Bar -->
 			{
 				hasMultiple && (
-					<div class="flex items-center gap-2 overflow-x-auto border-t border-border/40 pt-4 pb-2">
+					<div class="border-border/40 flex items-center gap-2 overflow-x-auto border-t pt-4 pb-2">
 						{galleryImages.map((img, idx) => (
 							<button
 								type="button"
-								class="lightbox-thumb aspect-[4/3] h-14 shrink-0 overflow-hidden rounded-lg border bg-muted/40 p-1 transition-all cursor-pointer"
+								class="lightbox-thumb bg-muted/40 aspect-[4/3] h-14 shrink-0 cursor-pointer overflow-hidden rounded-lg border p-1 transition-all"
 								data-index={idx}
 								aria-label={`${_("View image")} ${idx + 1}`}
 							>
@@ -259,10 +272,24 @@ const hasMultiple = galleryImages.length > 1;
 				const isCurrent = i === activeIndex;
 				thumb.setAttribute("aria-selected", isCurrent ? "true" : "false");
 				if (isCurrent) {
-					thumb.classList.add("border-primary", "ring-2", "ring-primary/20", "ring-offset-2", "opacity-100", "shadow-xs");
+					thumb.classList.add(
+						"border-primary",
+						"ring-2",
+						"ring-primary/20",
+						"ring-offset-2",
+						"opacity-100",
+						"shadow-xs"
+					);
 					thumb.classList.remove("border-border/60", "opacity-60");
 				} else {
-					thumb.classList.remove("border-primary", "ring-2", "ring-primary/20", "ring-offset-2", "opacity-100", "shadow-xs");
+					thumb.classList.remove(
+						"border-primary",
+						"ring-2",
+						"ring-primary/20",
+						"ring-offset-2",
+						"opacity-100",
+						"shadow-xs"
+					);
 					thumb.classList.add("border-border/60", "opacity-60");
 				}
 			});
