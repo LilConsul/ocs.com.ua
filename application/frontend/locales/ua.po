@@ -37,7 +37,7 @@ msgstr "Про нас"
 
 #: src/components/homepage/HeroSection.astro:74
 msgid "Advanced checkweighers and Track & Trace systems for food, pharma, and logistics. Trusted by 300+ Ukrainian manufacturers since 2013."
-msgstr "Сучасні динамічні чеквейєри та системи Track & Trace для харчової промисловості, фармацевтики й логістики. З 2013 року нам довіряють понад 300 українських виробників."
+msgstr "Сучасні контрольно динамічні ваги та системи Track & Trace для харчової промисловості, фармацевтики й логістики. З 2013 року нам довіряють понад 300 українських виробників."
 
 #: src/components/homepage/IndustriesSection.astro:88
 msgid "All Industries"
@@ -74,11 +74,11 @@ msgstr "Навігація за категоріями"
 
 #: src/components/homepage/IndustriesSection.astro:33
 msgid "Checkweighers and inspection systems meeting FDA, IFS, BRC, and GMP standards — engineered for Ukrainian manufacturers."
-msgstr "Чеквейєри та інспекційні системи, що відповідають вимогам FDA, IFS, BRC і GMP та призначені для українських виробників."
+msgstr "Контрольно динамічні ваги та інспекційні системи, що відповідають вимогам FDA, IFS, BRC і GMP та призначені для українських виробників."
 
 #: src/components/homepage/HeroSection.astro:62
 msgid "Checkweighers, Metal Detectors, Serialization & Aggregation Systems"
-msgstr "Чеквейєри, металодетектори, системи серіалізації та агрегації"
+msgstr "Контрольно динамічні ваги, металодетектори, системи серіалізації та агрегації"
 
 #: src/components/homepage/PartnersSection.astro:171
 msgid "Client Retention"
@@ -118,7 +118,7 @@ msgstr "Прямі продажі технічного обладнання"
 
 #: src/pages/[lang]/index.astro:28
 msgid "Dynamic checkweighers and Track & Trace systems for food, pharmaceutical, and logistics industries in Ukraine. Official Wipotec partner."
-msgstr "Динамічні чеквейєри та системи Track & Trace для харчової промисловості, фармацевтики й логістики в Україні. Офіційний партнер Wipotec."
+msgstr "Контрольно динамічні ваги та системи Track & Trace для харчової промисловості, фармацевтики й логістики в Україні. Офіційний партнер Wipotec."
 
 #: src/components/catalogue/CatalogueSidebar.astro:61
 msgid "Equipment Categories"
@@ -151,11 +151,11 @@ msgstr "Привіт, світе!"
 
 #: src/components/homepage/IndustriesSection.astro:80
 msgid "High-speed checkweighers for warehouses and fulfillment centers."
-msgstr "Високошвидкісні чеквейєри для складів і центрів комплектації замовлень."
+msgstr "Високошвидкісні контрольно динамічні ваги для складів і центрів комплектації замовлень."
 
 #: src/components/homepage/IndustriesSection.astro:47
 msgid "Hygienic checkweighers meeting food safety standards (FDA, IFS, BRC). Built for production lines."
-msgstr "Гігієнічні чеквейєри, що відповідають вимогам харчової безпеки (FDA, IFS, BRC) та призначені для виробничих ліній."
+msgstr "Гігієнічні контрольно динамічні ваги, що відповідають вимогам харчової безпеки (FDA, IFS, BRC) та призначені для виробничих ліній."
 
 #: src/components/catalogue/ProductGallery.astro:129
 msgid "Image lightbox"
@@ -209,11 +209,11 @@ msgstr "У цій категорії поки немає обладнання"
 
 #: src/components/Footer.astro:16
 msgid "OS-Technology Ukraine"
-msgstr "OS-Technology Україна"
+msgstr "ОС-Технолоджи Україна"
 
 #: src/pages/[lang]/index.astro:27
 msgid "OS-Technology Ukraine | Checkweighers & Inspection Systems"
-msgstr "OS-Technology Україна | Чеквейєри та інспекційні системи"
+msgstr "ОС-Технолоджи Україна | Контрольно динамічні ваги та інспекційні системи"
 
 #: src/components/homepage/HeroSection.astro:53
 msgid "Official Partner of Mesutronic GmbH"
@@ -253,7 +253,7 @@ msgstr "Плануєте модернізувати виробничу ліні�
 
 #: src/components/homepage/IndustriesSection.astro:59
 msgid "Precision checkweighers with Track & Trace serialization. GMP-compliant and audit-ready."
-msgstr "Високоточні чеквейєри із системами серіалізації Track & Trace, що відповідають вимогам GMP та готові до аудиту."
+msgstr "Високоточні контрольно динамічні ваги із системами серіалізації Track & Trace, що відповідають вимогам GMP та готові до аудиту."
 
 #: src/components/catalogue/ProductGallery.astro:75
 #: src/components/catalogue/ProductGallery.astro:182
