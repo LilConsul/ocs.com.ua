@@ -92,7 +92,7 @@ export function filterByLocale(entries: EquipmentEntry[], locale: Locale): Equip
  */
 export function filterByCategory(
 	entries: EquipmentEntry[],
-	categorySlug: string,
+	categorySlug: string
 ): EquipmentEntry[] {
 	return entries.filter((entry) => getCategory(entry) === categorySlug);
 }
@@ -118,7 +118,7 @@ export function getCategories(entries: EquipmentEntry[]): EquipmentEntry[] {
 export function findTranslation(
 	entry: EquipmentEntry,
 	targetLocale: Locale,
-	allEntries: EquipmentEntry[],
+	allEntries: EquipmentEntry[]
 ): EquipmentEntry | undefined {
 	const category = getCategory(entry);
 	const slug = getSlug(entry);
@@ -141,9 +141,7 @@ export function sortByOrder(entries: EquipmentEntry[]): EquipmentEntry[] {
 /**
  * Type guard for category entries
  */
-export function isCategoryEntry(
-	entry: EquipmentEntry,
-): entry is EquipmentEntry & {
+export function isCategoryEntry(entry: EquipmentEntry): entry is EquipmentEntry & {
 	data: {
 		title?: string;
 		description?: string;
@@ -157,9 +155,7 @@ export function isCategoryEntry(
 /**
  * Type guard for product entries
  */
-export function isProductEntry(
-	entry: EquipmentEntry,
-): entry is EquipmentEntry & {
+export function isProductEntry(entry: EquipmentEntry): entry is EquipmentEntry & {
 	data: {
 		title?: string;
 		description?: string;

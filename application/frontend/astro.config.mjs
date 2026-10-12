@@ -32,11 +32,26 @@ export default defineConfig({
 			GITHUB_REPO: envField.string({ context: "server", access: "public", default: "ocs.com.ua" }),
 			GITHUB_BRANCH: envField.string({ context: "server", access: "public", default: "main" }),
 			// Public site URL used for "View live" links in the CMS
-			SITE_URL: envField.string({ context: "server", access: "public", url: true, default: "https://ocs.com.ua" }),
+			SITE_URL: envField.string({
+				context: "server",
+				access: "public",
+				url: true,
+				default: "https://ocs.com.ua",
+			}),
 			// Host serving /api/auth; falls back to the origin the admin is opened on
-			CMS_BASE_URL: envField.string({ context: "server", access: "public", url: true, optional: true }),
+			CMS_BASE_URL: envField.string({
+				context: "server",
+				access: "public",
+				url: true,
+				optional: true,
+			}),
 			// Decap UI language
-			CMS_LOCALE: envField.enum({ context: "server", access: "public", values: ["en", "ua"], default: "en" }),
+			CMS_LOCALE: envField.enum({
+				context: "server",
+				access: "public",
+				values: ["en", "ua"],
+				default: "en",
+			}),
 			// Decap entry search; off by default to avoid exhausting GitHub API rate limits
 			CMS_SEARCH: envField.boolean({ context: "server", access: "public", default: false }),
 		},

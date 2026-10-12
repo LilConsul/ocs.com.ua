@@ -5,11 +5,12 @@ import CatalogueSidebar from "@/components/catalogue/CatalogueSidebar.astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import Layout from "@/layouts/Layout.astro";
 import {
-	getLocale,
-	getCategory,
-	getSlug,
-	getProducts,
+	type EquipmentEntry,
 	getCategoriesForLocale,
+	getCategory,
+	getLocale,
+	getProducts,
+	getSlug,
 	type Locale,
 } from "@/lib/content-utils";
 
@@ -35,7 +36,7 @@ export async function getStaticPaths() {
 }
 
 interface Props {
-	product: any;
+	product: EquipmentEntry;
 	lang: Locale;
 	allCategories: ReturnType<typeof getCategoriesForLocale>;
 }

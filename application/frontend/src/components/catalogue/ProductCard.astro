@@ -1,10 +1,10 @@
 ---
 import { Image } from "astro:assets";
 import { getInlineTranslations, type Lang } from "@/i18n";
-import { getCategory, getSlug } from "@/lib/content-utils";
+import { type EquipmentEntry, getCategory, getSlug } from "@/lib/content-utils";
 
 interface Props {
-	product: any;
+	product: EquipmentEntry;
 	lang: Lang;
 }
 
@@ -12,7 +12,7 @@ const { product, lang } = Astro.props;
 const _ = getInlineTranslations(lang);
 
 // Extract fields using clean names (no prefixes!)
-const title = product.data.title;
+const title = product.data.title ?? "";
 const description = product.data.description;
 const specs = product.data.specs?.slice(0, 2) || []; // Max 2 specs for cleaner layout
 const firstImage = product.data.gallery?.[0] || "/placeholder.jpg";

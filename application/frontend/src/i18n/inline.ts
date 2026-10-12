@@ -18,7 +18,7 @@ export function getInlineTranslations(lang: Lang) {
 		const langTranslations = ui[lang];
 		const defaultTranslations = ui[defaultLang];
 
-		if (!langTranslations || !defaultTranslations) {
+		if (!(langTranslations && defaultTranslations)) {
 			console.warn(`[i18n] Missing translations object for lang: ${lang}`);
 			return text;
 		}

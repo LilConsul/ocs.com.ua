@@ -6,15 +6,15 @@ import ProductCard from "@/components/catalogue/ProductCard.astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import Layout from "@/layouts/Layout.astro";
 import {
-	getLocale,
-	getCategory,
-	filterByLocale,
-	filterByCategory,
-	getProducts,
-	sortByOrder,
-	getCategoriesForLocale,
-	type Locale,
 	type EquipmentType,
+	filterByCategory,
+	filterByLocale,
+	getCategoriesForLocale,
+	getCategory,
+	getLocale,
+	getProducts,
+	type Locale,
+	sortByOrder,
 } from "@/lib/content-utils";
 
 export async function getStaticPaths() {

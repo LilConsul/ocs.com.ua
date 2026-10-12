@@ -20,7 +20,7 @@ const equipment = defineCollection({
 				z.object({
 					label: z.string(),
 					value: z.string(),
-				}),
+				})
 			)
 			.optional(),
 	}),
