@@ -1,17 +1,23 @@
 ---
 import { getCollection } from "astro:content";
 import { marked } from "marked";
-import CatalogueSidebar from "@/components/catalogue/CatalogueSidebar.astro";
+import ProductGallery from "@/components/catalogue/ProductGallery.astro";
+import ProductSidebar from "@/components/catalogue/ProductSidebar.astro";
+import ProductSpecsTable from "@/components/catalogue/ProductSpecsTable.astro";
+import RelatedEquipment from "@/components/catalogue/RelatedEquipment.astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import Layout from "@/layouts/Layout.astro";
 import {
 	type EquipmentEntry,
+	filterByCategory,
+	filterByLocale,
 	getCategoriesForLocale,
 	getCategory,
 	getLocale,
 	getProducts,
 	getSlug,
 	type Locale,
+	sortByOrder,
 } from "@/lib/content-utils";
 
 export async function getStaticPaths() {
@@ -26,9 +32,15 @@ export async function getStaticPaths() {
 		const slug = getSlug(product);
 		const allCategories = getCategoriesForLocale(locale);
 
+		const localeProducts = filterByLocale(allProducts, locale);
+		const categoryProducts = filterByCategory(localeProducts, category);
+		const relatedProducts = sortByOrder(
+			categoryProducts.filter((p) => getSlug(p) !== slug)
+		).slice(0, 3);
+
 		paths.push({
 			params: { lang: locale, category, slug },
-			props: { product, lang: locale, allCategories },
+			props: { product, lang: locale, allCategories, relatedProducts },
 		});
 	}
 
@@ -39,9 +51,10 @@ interface Props {
 	product: EquipmentEntry;
 	lang: Locale;
 	allCategories: ReturnType<typeof getCategoriesForLocale>;
+	relatedProducts: EquipmentEntry[];
 }
 
-const { product, lang, allCategories } = Astro.props;
+const { product, lang, allCategories, relatedProducts = [] } = Astro.props;
 const _ = getInlineTranslations(lang as Lang);
 const category = getCategory(product);
 
@@ -49,6 +62,9 @@ const title = product.data.title ?? "";
 const description = product.data.description ?? "";
 const bodyMarkdown = product.body ?? "";
 const body = await marked.parse(bodyMarkdown);
+
+const categoryObj = allCategories.find((c) => c.slug === category);
+const categoryTitle = categoryObj?.title ?? category;
 
 const siteUrl = Astro.site || "https://ocs.com.ua";
 const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
@@ -67,143 +83,75 @@ const structuredData = {
 <Layout title={`${title} | ${lang === "en" ? "OS-Technology" : "ОС-Технолоджи"}`} description={description} article={true}>
 	<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
-	<div class="mx-auto flex max-w-[1600px] gap-8 px-8 py-16">
-		<CatalogueSidebar
-			allCategories={allCategories}
-			currentCategory={category}
-			lang={lang as Lang}
-		/>
+	<div class="mx-auto max-w-container-max px-edge-margin pt-10 pb-section-gap-lg">
+		<!-- Breadcrumbs -->
+		<nav aria-label={_("Breadcrumb")} class="text-industrial-gray mb-8 flex items-center space-x-2 text-sm font-medium">
+			<a href={`/${lang}/catalogue/${category}`} class="hover:text-foreground transition-colors">
+				{_("Catalogue")}
+			</a>
+			<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+			<a href={`/${lang}/catalogue/${category}`} class="hover:text-foreground transition-colors">
+				{categoryTitle}
+			</a>
+			<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+			<span class="text-foreground font-semibold">{title}</span>
+		</nav>
 
-		<main class="min-w-0 flex-1">
-			{/* Breadcrumb */}
-			<nav class="text-muted-foreground mb-8 flex items-center gap-2 font-mono text-xs">
-				<a href={`/${lang}/catalogue/${category}`} class="hover:text-foreground transition-colors">
-					{allCategories.find((c) => c.slug === category)?.title ?? category}
-				</a>
-				<span class="material-symbols-outlined text-[14px]">chevron_right</span>
-				<span class="text-foreground">{title}</span>
-			</nav>
+		<!-- 12-Column Grid Layout -->
+		<div class="relative grid grid-cols-1 gap-gutter lg:grid-cols-12">
+			<!-- Main Content Column (8 Cols) -->
+			<div class="space-y-12 lg:col-span-8">
+				<!-- Hero Section -->
+				<section>
+					{
+						product.data.industries && product.data.industries.length > 0 && (
+							<div class="mb-4 flex flex-wrap gap-2">
+								{product.data.industries.map((ind) => (
+									<span class="bg-surface-muted text-industrial-gray font-label-caps rounded-md px-2.5 py-1 text-[11px] font-semibold tracking-wider uppercase border border-border-subtle">
+										{ind}
+									</span>
+								))}
+							</div>
+						)
+					}
 
-			{/* Header */}
-			<header class="mb-10">
-				<h1
-					class="font-heading text-foreground mb-4 text-4xl leading-tight font-semibold tracking-tight md:text-5xl"
-				>
-					{title}
-				</h1>
+					<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-foreground mb-8">
+						{title}
+					</h1>
+
+					<!-- Interactive Multi-Image Gallery -->
+					<div class="mb-8">
+						<ProductGallery images={product.data.gallery} title={title} lang={lang as Lang} />
+					</div>
+
+					<!-- Overview Lead Text -->
+					{
+						description && (
+							<p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl leading-relaxed">
+								{description}
+							</p>
+						)
+					}
+				</section>
+
+				<!-- Technical Specifications -->
+				<ProductSpecsTable specs={product.data.specs} lang={lang as Lang} />
+
+				<!-- Markdown Documentation Body -->
 				{
-					description && (
-						<p class="text-muted-foreground max-w-3xl text-sm leading-relaxed md:text-base">
-							{description}
-						</p>
+					body && (
+						<section class="prose prose-neutral dark:prose-invert max-w-none">
+							<div set:html={body} />
+						</section>
 					)
 				}
-			</header>
 
-			{/* Gallery */}
-			{
-				product.data.gallery && product.data.gallery.length > 0 && (
-					<section class="mb-10">
-						<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-							{product.data.gallery.map((img: string) => (
-								<div class="bg-background border-border aspect-[4/3] overflow-hidden rounded-lg border">
-									<img
-										src={img}
-										alt={title}
-										class="h-full w-full object-contain p-4"
-										loading="lazy"
-									/>
-								</div>
-							))}
-						</div>
-					</section>
-				)
-			}
+				<!-- Related Equipment -->
+				<RelatedEquipment products={relatedProducts} lang={lang as Lang} />
+			</div>
 
-			{/* Specifications */}
-			{
-				product.data.specs && product.data.specs.length > 0 && (
-					<section class="mb-10">
-						<h2 class="font-heading text-foreground mb-4 text-xl font-semibold">
-							{_("Key Specifications")}
-						</h2>
-						<div class="border-border divide-border divide-y rounded-lg border">
-							{product.data.specs.map((spec: { label: string; value: string }) => (
-								<div class="flex items-center justify-between px-4 py-3">
-									<span class="text-muted-foreground font-mono text-xs tracking-wider uppercase">
-										{spec.label}
-									</span>
-									<span class="text-foreground font-mono text-sm font-medium">{spec.value}</span>
-								</div>
-							))}
-						</div>
-					</section>
-				)
-			}
-
-			{/* Industries */}
-			{
-				product.data.industries && product.data.industries.length > 0 && (
-					<section class="mb-10">
-						<h2 class="font-heading text-foreground mb-4 text-xl font-semibold">
-							{_("Industries")}
-						</h2>
-						<div class="flex flex-wrap gap-2">
-							{product.data.industries.map((industry: string) => (
-								<span class="bg-muted text-muted-foreground rounded-full px-3 py-1 font-mono text-xs tracking-wider uppercase">
-									{industry}
-								</span>
-							))}
-						</div>
-					</section>
-				)
-			}
-
-			{/* Body content */}
-			{
-				body && (
-					<section class="mb-10">
-						<div class="prose prose-sm max-w-none" set:html={body} />
-					</section>
-				)
-			}
-
-			{/* Consultation & Inquiry CTA */}
-			<section class="border-border bg-card/60 mt-12 rounded-xl border p-6 md:p-8">
-				<div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-					<div class="space-y-2">
-						<h3 class="font-heading text-foreground text-xl font-semibold">
-							{_("Need help choosing the right configuration?")}
-						</h3>
-						<p class="text-muted-foreground text-sm max-w-xl leading-relaxed">
-							{_(
-								"Contact our engineering team to get tailored technical specifications, custom integration solutions, and equipment pricing for your production line."
-							)}
-						</p>
-					</div>
-					<a
-						href={`/${lang}#contact`}
-						class="bg-primary text-primary-foreground hover:opacity-90 inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3 text-sm font-medium transition-opacity whitespace-nowrap"
-					>
-						{_("Contact Us")}
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="16"
-							height="16"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							class="lucide lucide-arrow-right"
-						>
-							<path d="M5 12h14"></path>
-							<path d="m12 5 7 7-7 7"></path>
-						</svg>
-					</a>
-				</div>
-			</section>
-		</main>
+			<!-- Sticky Technical Sales Sidebar (4 Cols) -->
+			<ProductSidebar title={title} datasheet={product.data.datasheet} lang={lang as Lang} />
+		</div>
 	</div>
 </Layout>

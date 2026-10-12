@@ -1,0 +1,236 @@
+---
+import { getInlineTranslations, type Lang } from "@/i18n";
+
+interface Props {
+	images?: string[];
+	title: string;
+	lang: Lang;
+}
+
+const { images = [], title, lang } = Astro.props;
+const _ = getInlineTranslations(lang);
+
+const galleryImages = images.length > 0 ? images : ["/placeholder.jpg"];
+const hasMultiple = galleryImages.length > 1;
+---
+
+<div class="product-gallery-container w-full" data-images={JSON.stringify(galleryImages)}>
+	<!-- Main High-Res Viewer -->
+	<div
+		class="relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-border-subtle bg-surface-muted shadow-sm md:aspect-[16/10]"
+	>
+		<img
+			id="gallery-main-image"
+			src={galleryImages[0]}
+			alt={title}
+			class="h-full w-full cursor-zoom-in object-contain p-6 transition-all duration-300"
+			loading="eager"
+		/>
+
+		<!-- Expand Lightbox Button -->
+		<button
+			type="button"
+			id="gallery-expand-btn"
+			class="absolute right-4 bottom-4 flex h-10 w-10 items-center justify-center rounded-lg border border-border-subtle/80 bg-white/80 text-foreground backdrop-blur-md transition-all hover:bg-white hover:shadow-md dark:bg-card/80 dark:hover:bg-card"
+			aria-label={_("Expand image")}
+			title={_("Expand image")}
+		>
+			<span class="material-symbols-outlined text-[20px]">zoom_out_map</span>
+		</button>
+	</div>
+
+	<!-- Thumbnail Rail (visible if 2+ images) -->
+	{
+		hasMultiple && (
+			<div class="mt-4 flex flex-wrap gap-3" role="tablist" aria-label={_("Product image thumbnails")}>
+				{galleryImages.map((img, idx) => (
+					<button
+						type="button"
+						class={`gallery-thumb relative aspect-[4/3] h-20 overflow-hidden rounded-lg border bg-surface-muted p-2 transition-all ${
+							idx === 0
+								? "border-primary ring-2 ring-primary/20 opacity-100"
+								: "border-border-subtle opacity-70 hover:opacity-100"
+						}`}
+						data-index={idx}
+						aria-label={`${_("View image")} ${idx + 1}`}
+						role="tab"
+						aria-selected={idx === 0 ? "true" : "false"}
+					>
+						<img src={img} alt={`${title} - ${idx + 1}`} class="h-full w-full object-contain" loading="lazy" />
+					</button>
+				))}
+			</div>
+		)
+	}
+
+	<!-- Lightbox Modal -->
+	<dialog
+		id="gallery-lightbox"
+		class="fixed inset-0 z-50 m-0 h-full max-h-none w-full max-w-none bg-black/90 p-0 backdrop-blur-md backdrop:bg-black/90 open:flex open:flex-col open:items-center open:justify-center"
+		aria-label={_("Image lightbox")}
+	>
+		<div class="relative flex h-full w-full max-w-6xl flex-col items-center justify-center p-4 md:p-8">
+			<!-- Top bar: Counter & Close -->
+			<div class="absolute top-4 right-4 left-4 flex items-center justify-between text-white">
+				<span id="lightbox-counter" class="font-mono text-sm tracking-widest text-white/80">
+					1 / {galleryImages.length}
+				</span>
+				<button
+					type="button"
+					id="lightbox-close-btn"
+					class="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 text-white transition-colors hover:bg-white/20"
+					aria-label={_("Close preview")}
+				>
+					<span class="material-symbols-outlined text-[24px]">close</span>
+				</button>
+			</div>
+
+			<!-- Main lightbox image -->
+			<div class="relative flex max-h-[80vh] w-full items-center justify-center overflow-hidden">
+				<img
+					id="lightbox-image"
+					src={galleryImages[0]}
+					alt={title}
+					class="max-h-[80vh] max-w-full object-contain"
+				/>
+			</div>
+
+			<!-- Nav arrows (visible if 2+ images) -->
+			{
+				hasMultiple && (
+					<>
+						<button
+							type="button"
+							id="lightbox-prev-btn"
+							class="absolute left-4 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition-all hover:bg-white/25"
+							aria-label={_("Previous image")}
+						>
+							<span class="material-symbols-outlined text-[28px]">chevron_left</span>
+						</button>
+						<button
+							type="button"
+							id="lightbox-next-btn"
+							class="absolute right-4 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition-all hover:bg-white/25"
+							aria-label={_("Next image")}
+						>
+							<span class="material-symbols-outlined text-[28px]">chevron_right</span>
+						</button>
+					</>
+				)
+			}
+		</div>
+	</dialog>
+</div>
+
+<script>
+	function setupGallery() {
+		const container = document.querySelector<HTMLElement>(".product-gallery-container");
+		if (!container) return;
+
+		const imagesData = container.dataset.images;
+		if (!imagesData) return;
+
+		let images: string[] = [];
+		try {
+			images = JSON.parse(imagesData);
+		} catch {
+			return;
+		}
+
+		let activeIndex = 0;
+		const mainImg = container.querySelector<HTMLImageElement>("#gallery-main-image");
+		const thumbs = container.querySelectorAll<HTMLButtonElement>(".gallery-thumb");
+		const expandBtn = container.querySelector<HTMLButtonElement>("#gallery-expand-btn");
+		const lightbox = container.querySelector<HTMLDialogElement>("#gallery-lightbox");
+		const lightboxImg = container.querySelector<HTMLImageElement>("#lightbox-image");
+		const lightboxCounter = container.querySelector<HTMLElement>("#lightbox-counter");
+		const lightboxClose = container.querySelector<HTMLButtonElement>("#lightbox-close-btn");
+		const lightboxPrev = container.querySelector<HTMLButtonElement>("#lightbox-prev-btn");
+		const lightboxNext = container.querySelector<HTMLButtonElement>("#lightbox-next-btn");
+
+		function setActiveImage(index: number) {
+			if (index < 0 || index >= images.length) return;
+			activeIndex = index;
+
+			if (mainImg) {
+				mainImg.src = images[activeIndex];
+			}
+			if (lightboxImg) {
+				lightboxImg.src = images[activeIndex];
+			}
+			if (lightboxCounter) {
+				lightboxCounter.textContent = `${activeIndex + 1} / ${images.length}`;
+			}
+
+			thumbs.forEach((thumb, i) => {
+				const isCurrent = i === activeIndex;
+				thumb.setAttribute("aria-selected", isCurrent ? "true" : "false");
+				if (isCurrent) {
+					thumb.classList.add("border-primary", "ring-2", "ring-primary/20", "opacity-100");
+					thumb.classList.remove("border-border-subtle", "opacity-70");
+				} else {
+					thumb.classList.remove("border-primary", "ring-2", "ring-primary/20", "opacity-100");
+					thumb.classList.add("border-border-subtle", "opacity-70");
+				}
+			});
+		}
+
+		thumbs.forEach((thumb) => {
+			thumb.addEventListener("click", () => {
+				const idx = Number.parseInt(thumb.dataset.index || "0", 10);
+				setActiveImage(idx);
+			});
+		});
+
+		function openLightbox() {
+			if (!lightbox) return;
+			setActiveImage(activeIndex);
+			lightbox.showModal();
+			document.body.style.overflow = "hidden";
+		}
+
+		function closeLightbox() {
+			if (!lightbox) return;
+			lightbox.close();
+			document.body.style.overflow = "";
+		}
+
+		mainImg?.addEventListener("click", openLightbox);
+		expandBtn?.addEventListener("click", openLightbox);
+		lightboxClose?.addEventListener("click", closeLightbox);
+
+		lightbox?.addEventListener("click", (e) => {
+			if (e.target === lightbox) {
+				closeLightbox();
+			}
+		});
+
+		lightboxPrev?.addEventListener("click", (e) => {
+			e.stopPropagation();
+			const prev = (activeIndex - 1 + images.length) % images.length;
+			setActiveImage(prev);
+		});
+
+		lightboxNext?.addEventListener("click", (e) => {
+			e.stopPropagation();
+			const next = (activeIndex + 1) % images.length;
+			setActiveImage(next);
+		});
+
+		window.addEventListener("keydown", (e) => {
+			if (!lightbox || !lightbox.open) return;
+			if (e.key === "Escape") {
+				closeLightbox();
+			} else if (e.key === "ArrowLeft") {
+				const prev = (activeIndex - 1 + images.length) % images.length;
+				setActiveImage(prev);
+			} else if (e.key === "ArrowRight") {
+				const next = (activeIndex + 1) % images.length;
+				setActiveImage(next);
+			}
+		});
+	}
+
+	setupGallery();
+	document.addEventListener("astro:page-load", setupGallery);
+</script>
