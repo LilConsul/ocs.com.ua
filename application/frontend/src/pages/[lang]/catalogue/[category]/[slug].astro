@@ -75,7 +75,7 @@ const structuredData = {
 		/>
 
 		<main class="min-w-0 flex-1">
-			<!-- Breadcrumb -->
+			{/* Breadcrumb */}
 			<nav class="text-muted-foreground mb-8 flex items-center gap-2 font-mono text-xs">
 				<a href={`/${lang}/catalogue/${category}`} class="hover:text-foreground transition-colors">
 					{allCategories.find((c) => c.slug === category)?.title ?? category}
@@ -84,7 +84,7 @@ const structuredData = {
 				<span class="text-foreground">{title}</span>
 			</nav>
 
-			<!-- Header -->
+			{/* Header */}
 			<header class="mb-10">
 				<h1
 					class="font-heading text-foreground mb-4 text-4xl leading-tight font-semibold tracking-tight md:text-5xl"
@@ -100,7 +100,7 @@ const structuredData = {
 				}
 			</header>
 
-			<!-- Gallery -->
+			{/* Gallery */}
 			{
 				product.data.gallery && product.data.gallery.length > 0 && (
 					<section class="mb-10">
@@ -120,7 +120,7 @@ const structuredData = {
 				)
 			}
 
-			<!-- Specifications -->
+			{/* Specifications */}
 			{
 				product.data.specs && product.data.specs.length > 0 && (
 					<section class="mb-10">
@@ -141,7 +141,7 @@ const structuredData = {
 				)
 			}
 
-			<!-- Industries -->
+			{/* Industries */}
 			{
 				product.data.industries && product.data.industries.length > 0 && (
 					<section class="mb-10">
@@ -159,7 +159,7 @@ const structuredData = {
 				)
 			}
 
-			<!-- Body content -->
+			{/* Body content */}
 			{
 				body && (
 					<section class="mb-10">
@@ -168,7 +168,7 @@ const structuredData = {
 				)
 			}
 
-			<!-- Consultation & Inquiry CTA -->
+			{/* Consultation & Inquiry CTA */}
 			<section class="border-border bg-card/60 mt-12 rounded-xl border p-6 md:p-8">
 				<div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
 					<div class="space-y-2">

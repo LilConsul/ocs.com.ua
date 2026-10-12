@@ -47,7 +47,7 @@ const isActive = (pattern: string) => {
 	data-scrolled="false"
 >
 	<nav class="mx-auto flex h-20 max-w-[1280px] items-center justify-between px-8">
-		<!-- Logo (per-language SVG) -->
+		{/* Logo (per-language SVG) */}
 		<a href={`/${lang}`} class="transition-opacity hover:opacity-80">
 			<img
 				src={`/assets/icons/logo-${lang}.svg`}
@@ -58,7 +58,7 @@ const isActive = (pattern: string) => {
 			/>
 		</a>
 
-		<!-- Desktop Navigation -->
+		{/* Desktop Navigation */}
 		<div class="hidden items-center gap-8 md:flex">
 			{
 				navLinks.map((link) => (
@@ -76,9 +76,9 @@ const isActive = (pattern: string) => {
 			}
 		</div>
 
-		<!-- Right Side Actions -->
+		{/* Right Side Actions */}
 		<div class="flex items-center gap-4">
-			<!-- Language Switcher - Desktop -->
+			{/* Language Switcher - Desktop */}
 			<div
 				class="bg-muted/50 border-border/50 hidden items-center gap-1 rounded-lg border p-1 md:flex"
 			>
@@ -99,7 +99,7 @@ const isActive = (pattern: string) => {
 				}
 			</div>
 
-			<!-- Mobile Menu Toggle - using shadcn Button -->
+			{/* Mobile Menu Toggle - using shadcn Button */}
 			<Button
 				variant="ghost"
 				size="icon"
@@ -113,7 +113,7 @@ const isActive = (pattern: string) => {
 		</div>
 	</nav>
 
-	<!-- Mobile Menu -->
+	{/* Mobile Menu */}
 	<div
 		id="mobile-menu"
 		class="border-border bg-background/95 hidden border-t backdrop-blur-xl md:hidden"

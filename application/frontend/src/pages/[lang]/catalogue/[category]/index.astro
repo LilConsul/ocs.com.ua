@@ -118,9 +118,9 @@ const structuredData = {
 <Layout title={pageTitle} description={pageDescription}>
 	<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
-	<!-- Generous container with maximum width constraint -->
+	{/* Generous container with maximum width constraint */}
 	<div class="mx-auto flex max-w-[1600px] gap-8 px-8 py-16">
-		<!-- Sidebar Navigation -->
+		{/* Sidebar Navigation */}
 		<CatalogueSidebar
 			allCategories={sortedCategories}
 			currentCategory={categorySlug}
