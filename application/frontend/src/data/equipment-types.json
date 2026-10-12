@@ -23,7 +23,7 @@
         "slug": "metal-detectors",
         "title": "Metal Detectors",
         "description": "Industrial metal detection systems for reliable contaminant inspection and product safety. Discover conveyor-type, gravity-fall, pipeline, and Meatline metal detectors for different products and production environments.",
-        "icon": "shield_check"
+        "icon": "detector"
       },
       {
         "slug": "x-ray-inspection",
@@ -63,7 +63,7 @@
         "slug": "metal-detectors",
         "title": "Металодетектори",
         "description": "Промислові системи виявлення металевих забруднень для забезпечення безпечності продукції. Обирайте конвеєрні металодетектори, системи для сипучих продуктів із гравітаційною подачею, трубопровідні рішення та металодетектори Meatline для різних продуктів і виробничих середовищ.",
-        "icon": "shield_check"
+        "icon": "detector"
       },
       {
         "slug": "x-ray-inspection",
