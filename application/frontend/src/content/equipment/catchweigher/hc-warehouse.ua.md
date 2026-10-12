@@ -18,7 +18,7 @@ gallery:
 datasheet: /assets/equipment/hc-warehouse/datasheet.pdf
 specs:
   - label: Макс. швидкість
-    value: 1.2 m/s
+    value: 1,2 м/с
   - label: Дискретність
     value: TODO
 ---

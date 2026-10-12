@@ -17,7 +17,7 @@ gallery:
 datasheet: /assets/equipment/hc-a/datasheet.pdf
 specs:
   - label: Макс. швидкість
-    value: 600 ppm
+    value: 600 уп/хв
   - label: Дискретність
     value: TODO
 ---

@@ -15,11 +15,11 @@ gallery:
 datasheet: /assets/equipment/hc-sl/datasheet.pdf
 specs:
   - label: Макс. швидкість
-    value: 2.9 m/s
+    value: 2,9 м/с
   - label: Діапазон зважування
-    value: up to 60 kg
+    value: до 60 кг
   - label: Точність
-    value: ±5g
+    value: ±5 г
 ---
 
 ## Висока точність зважування та пропускна здатність посилок

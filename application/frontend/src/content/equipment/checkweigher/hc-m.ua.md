@@ -17,7 +17,7 @@ gallery:
 datasheet: /assets/equipment/hc-m/datasheet.pdf
 specs:
   - label: Макс. швидкість
-    value: 250 ppm
+    value: 250 уп/хв
   - label: Дискретність
     value: TODO
 ---

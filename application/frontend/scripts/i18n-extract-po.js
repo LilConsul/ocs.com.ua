@@ -37,6 +37,7 @@ async function extractStrings() {
 	const files = await glob(patterns, {
 		cwd: ROOT_DIR,
 		ignore: ["**/node_modules/**", "**/dist/**", "**/*.d.ts"],
+		posix: true,
 	});
 
 	const extractedStrings = new Map(); // msgid -> [{ file, line }]

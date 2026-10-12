@@ -12,7 +12,7 @@
  * - locales/ua.po (Ukrainian translations)
  *
  * Generation script: scripts/i18n-compile.js
- * Generated: 2026-10-12T13:22:47.727Z
+ * Generated: 2026-10-12T14:44:59.203Z
  */
 
 export const languages = {
@@ -38,9 +38,11 @@ export const ui = {
 		"inline.close_filters": "Close filters",
 		"inline.contact_us": "Contact Us",
 		"inline.cosmetics": "Cosmetics",
+		"inline.download_datasheet": "Download Datasheet",
 		"inline.dynamic_checkweighers_and_track_trace_systems_for_food_pharmaceutical_and_logist":
 			"Dynamic checkweighers and Track & Trace systems for food, pharmaceutical, and logistics industries in Ukraine. Official Wipotec partner.",
-		"inline.dynamic_checkweighers_weighing_systems": "Dynamic Checkweighers & Weighing Systems",
+		"inline.dynamic_weighing_systems_metal_detectors_serialization_aggregation_systems":
+			"Dynamic Weighing Systems, Metal Detectors, Serialization & Aggregation Systems",
 		"inline.equipment_categories": "Equipment Categories",
 		"inline.explore_industry_specific_solutions": "Explore industry-specific solutions",
 		"inline.filters": "Filters",
@@ -55,14 +57,15 @@ export const ui = {
 		"inline.industries": "Industries",
 		"inline.industries_we_serve": "Industries We Serve",
 		"inline.installations": "Installations",
+		"inline.key_specifications": "Key Specifications",
 		"inline.language": "Language",
 		"inline.learn_more": "Learn More",
 		"inline.logistics_distribution": "Logistics & Distribution",
 		"inline.long_term_partnerships_built_on_reliable_support":
 			"Long-term partnerships built on reliable support.",
 		"inline.no_products_available_in_this_category": "No products available in this category",
-		"inline.official_mesutronic_partner": "Official Mesutronic Partner",
-		"inline.official_wipotec_partner": "Official Wipotec Partner",
+		"inline.official_partner_of_mesutronic_gmbh": "Official Partner of Mesutronic GmbH",
+		"inline.official_partner_of_wipotec_gmbh": "Official Partner of Wipotec GmbH",
 		"inline.open_filters": "Open filters",
 		"inline.os_technology_ukraine": "OS-Technology Ukraine",
 		"inline.os_technology_ukraine_checkweighers_inspection_systems":
@@ -109,9 +112,11 @@ export const ui = {
 		"inline.close_filters": "Закрити фільтри",
 		"inline.contact_us": "Зв'яжіться з нами",
 		"inline.cosmetics": "Косметика",
+		"inline.download_datasheet": "Завантажити технічну документацію",
 		"inline.dynamic_checkweighers_and_track_trace_systems_for_food_pharmaceutical_and_logist":
 			"Динамічні чеквейєри та системи Track & Trace для харчової, фармацевтичної та логістичної промисловості України. Офіційний партнер Wipotec.",
-		"inline.dynamic_checkweighers_weighing_systems": "Динамічні чеквейєри та вагові системи",
+		"inline.dynamic_weighing_systems_metal_detectors_serialization_aggregation_systems":
+			"Системи динамічного зважування, металодетектори, системи серіалізації та агрегації",
 		"inline.equipment_categories": "Категорії обладнання",
 		"inline.explore_industry_specific_solutions": "Перегляньте рішення для вашої галузі",
 		"inline.filters": "Фільтри",
@@ -126,14 +131,15 @@ export const ui = {
 		"inline.industries": "Галузі",
 		"inline.industries_we_serve": "Галузі, з якими ми працюємо",
 		"inline.installations": "Встановлень",
+		"inline.key_specifications": "Основні характеристики",
 		"inline.language": "Мова",
 		"inline.learn_more": "Дізнатися більше",
 		"inline.logistics_distribution": "Логістика та дистрибуція",
 		"inline.long_term_partnerships_built_on_reliable_support":
 			"Довгострокові партнерства, побудовані на надійній підтримці.",
 		"inline.no_products_available_in_this_category": "Немає доступних товарів у цій категорії",
-		"inline.official_mesutronic_partner": "Офіційний партнер Mesutronic",
-		"inline.official_wipotec_partner": "Офіційний партнер Wipotec",
+		"inline.official_partner_of_mesutronic_gmbh": "Офіційний партнер Mesutronic GmbH",
+		"inline.official_partner_of_wipotec_gmbh": "Офіційний партнер Wipotec GmbH",
 		"inline.open_filters": "Відкрити фільтри",
 		"inline.os_technology_ukraine": "ОС-Технолоджи Україна",
 		"inline.os_technology_ukraine_checkweighers_inspection_systems":
@@ -160,7 +166,7 @@ export const ui = {
 		"inline.terms_of_service": "Умови використання",
 		"inline.trusted_by_ukraine_s_leading_manufacturers": "Нам довіряють провідні виробники України",
 		"inline.view_products": "Переглянути продукцію",
-		"inline.wiki": "Wiki",
+		"inline.wiki": "База Знань",
 		"inline.years_in_ukraine": "Років в Україні",
 		"inline.years_of_experience": "Років досвіду",
 	},

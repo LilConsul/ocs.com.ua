@@ -86,91 +86,103 @@ const structuredData = {
 
 			<!-- Header -->
 			<header class="mb-10">
-				<h1 class="font-heading text-foreground mb-4 text-4xl leading-tight font-semibold tracking-tight md:text-5xl">
+				<h1
+					class="font-heading text-foreground mb-4 text-4xl leading-tight font-semibold tracking-tight md:text-5xl"
+				>
 					{title}
 				</h1>
-				{description && (
-					<p class="text-muted-foreground max-w-3xl text-sm leading-relaxed md:text-base">
-						{description}
-					</p>
-				)}
+				{
+					description && (
+						<p class="text-muted-foreground max-w-3xl text-sm leading-relaxed md:text-base">
+							{description}
+						</p>
+					)
+				}
 			</header>
 
 			<!-- Gallery -->
-			{product.data.gallery && product.data.gallery.length > 0 && (
-				<section class="mb-10">
-					<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-						{product.data.gallery.map((img: string) => (
-							<div class="bg-background border-border aspect-[4/3] overflow-hidden rounded-lg border">
-								<img
-									src={img}
-									alt={title}
-									class="h-full w-full object-contain p-4"
-									loading="lazy"
-								/>
-							</div>
-						))}
-					</div>
-				</section>
-			)}
+			{
+				product.data.gallery && product.data.gallery.length > 0 && (
+					<section class="mb-10">
+						<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+							{product.data.gallery.map((img: string) => (
+								<div class="bg-background border-border aspect-[4/3] overflow-hidden rounded-lg border">
+									<img
+										src={img}
+										alt={title}
+										class="h-full w-full object-contain p-4"
+										loading="lazy"
+									/>
+								</div>
+							))}
+						</div>
+					</section>
+				)
+			}
 
 			<!-- Specifications -->
-			{product.data.specs && product.data.specs.length > 0 && (
-				<section class="mb-10">
-					<h2 class="font-heading text-foreground mb-4 text-xl font-semibold">
-						{_("Key Specifications")}
-					</h2>
-					<div class="border-border divide-border divide-y rounded-lg border">
-						{product.data.specs.map((spec: { label: string; value: string }) => (
-							<div class="flex items-center justify-between px-4 py-3">
-								<span class="text-muted-foreground font-mono text-xs tracking-wider uppercase">
-									{spec.label}
-								</span>
-								<span class="text-foreground font-mono text-sm font-medium">
-									{spec.value}
-								</span>
-							</div>
-						))}
-					</div>
-				</section>
-			)}
+			{
+				product.data.specs && product.data.specs.length > 0 && (
+					<section class="mb-10">
+						<h2 class="font-heading text-foreground mb-4 text-xl font-semibold">
+							{_("Key Specifications")}
+						</h2>
+						<div class="border-border divide-border divide-y rounded-lg border">
+							{product.data.specs.map((spec: { label: string; value: string }) => (
+								<div class="flex items-center justify-between px-4 py-3">
+									<span class="text-muted-foreground font-mono text-xs tracking-wider uppercase">
+										{spec.label}
+									</span>
+									<span class="text-foreground font-mono text-sm font-medium">{spec.value}</span>
+								</div>
+							))}
+						</div>
+					</section>
+				)
+			}
 
 			<!-- Industries -->
-			{product.data.industries && product.data.industries.length > 0 && (
-				<section class="mb-10">
-					<h2 class="font-heading text-foreground mb-4 text-xl font-semibold">
-						{_("Industries")}
-					</h2>
-					<div class="flex flex-wrap gap-2">
-						{product.data.industries.map((industry: string) => (
-							<span class="bg-muted text-muted-foreground rounded-full px-3 py-1 font-mono text-xs tracking-wider uppercase">
-								{industry}
-							</span>
-						))}
-					</div>
-				</section>
-			)}
+			{
+				product.data.industries && product.data.industries.length > 0 && (
+					<section class="mb-10">
+						<h2 class="font-heading text-foreground mb-4 text-xl font-semibold">
+							{_("Industries")}
+						</h2>
+						<div class="flex flex-wrap gap-2">
+							{product.data.industries.map((industry: string) => (
+								<span class="bg-muted text-muted-foreground rounded-full px-3 py-1 font-mono text-xs tracking-wider uppercase">
+									{industry}
+								</span>
+							))}
+						</div>
+					</section>
+				)
+			}
 
 			<!-- Body content -->
-			{body && (
-				<section class="mb-10">
-					<div class="prose prose-sm max-w-none" set:html={body} />
-				</section>
-			)}
+			{
+				body && (
+					<section class="mb-10">
+						<div class="prose prose-sm max-w-none" set:html={body} />
+					</section>
+				)
+			}
 
 			<!-- Datasheet download -->
-			{product.data.datasheet && (
-				<section class="mb-10">
-					<a
-						href={product.data.datasheet}
-						class="border-secondary text-secondary hover:bg-secondary/5 inline-flex items-center gap-2 rounded border-2 px-5 py-2.5 text-sm font-medium transition-colors"
-						download
-					>
-						<span class="material-symbols-outlined text-[18px]">download</span>
-						{_("Download Datasheet")}
-					</a>
-				</section>
-			)}
+			{
+				product.data.datasheet && (
+					<section class="mb-10">
+						<a
+							href={product.data.datasheet}
+							class="border-secondary text-secondary hover:bg-secondary/5 inline-flex items-center gap-2 rounded border-2 px-5 py-2.5 text-sm font-medium transition-colors"
+							download
+						>
+							<span class="material-symbols-outlined text-[18px]">download</span>
+							{_("Download Datasheet")}
+						</a>
+					</section>
+				)
+			}
 		</main>
 	</div>
 </Layout>

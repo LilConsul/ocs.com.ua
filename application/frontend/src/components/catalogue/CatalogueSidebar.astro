@@ -15,7 +15,7 @@ const _ = getInlineTranslations(lang);
 <!-- Mobile Filter Button -->
 <button
 	id="mobile-filter-toggle"
-	class="bg-card border-border text-foreground fixed bottom-6 right-6 z-40 flex items-center gap-2 rounded-full border px-6 py-3 shadow-lg transition-all hover:shadow-xl lg:hidden"
+	class="bg-card border-border text-foreground fixed right-6 bottom-6 z-40 flex items-center gap-2 rounded-full border px-6 py-3 shadow-lg transition-all hover:shadow-xl lg:hidden"
 	aria-label={_("Open filters")}
 >
 	<span class="material-symbols-outlined text-[20px]">filter_list</span>
@@ -33,14 +33,15 @@ const _ = getInlineTranslations(lang);
 <!-- Desktop Sidebar & Mobile Drawer -->
 <aside
 	id="catalogue-sidebar"
-	class="fixed inset-y-0 left-0 z-50 w-80 -translate-x-full transition-transform duration-300 lg:sticky lg:top-24 lg:h-fit lg:w-72 lg:translate-x-0 lg:flex-shrink-0"
+	class="fixed inset-y-0 left-0 z-50 w-80 -translate-x-full transition-transform duration-300 lg:sticky lg:top-24 lg:h-fit lg:w-72 lg:flex-shrink-0 lg:translate-x-0"
 >
-	<div class="bg-card border-border h-full w-full overflow-y-auto rounded-none border-r px-6 py-8 shadow-sm lg:rounded-lg lg:border"
-		>
+	<div
+		class="bg-card border-border h-full w-full overflow-y-auto rounded-none border-r px-6 py-8 shadow-sm lg:rounded-lg lg:border"
+	>
 		<!-- Close button (mobile only) -->
 		<button
 			id="mobile-filter-close"
-			class="text-muted-foreground hover:text-foreground absolute right-4 top-4 transition-colors lg:hidden"
+			class="text-muted-foreground hover:text-foreground absolute top-4 right-4 transition-colors lg:hidden"
 			aria-label={_("Close filters")}
 		>
 			<span class="material-symbols-outlined text-[24px]">close</span>
@@ -61,16 +62,16 @@ const _ = getInlineTranslations(lang);
 		</p>
 
 		<!-- Navigation with precise spacing -->
-		<nav aria-label="Category navigation" class="space-y-2">
+		<nav aria-label={_("Category navigation")} class="space-y-2">
 			{
 				allCategories.map((cat) => {
-						const isActive = cat.slug === currentCategory;
-						const label = cat.title;
-						const icon = cat.icon || "category";
+					const isActive = cat.slug === currentCategory;
+					const label = cat.title;
+					const icon = cat.icon || "category";
 
-						return (
-							<a
-								href={`/${lang}/catalogue/${cat.slug}`}
+					return (
+						<a
+							href={`/${lang}/catalogue/${cat.slug}`}
 							class={`flex cursor-pointer items-center gap-3 rounded-lg px-4 py-3 transition-all ${
 								isActive
 									? "bg-accent text-secondary font-bold"

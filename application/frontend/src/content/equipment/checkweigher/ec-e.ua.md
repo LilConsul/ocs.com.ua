@@ -16,7 +16,7 @@ gallery:
 datasheet: /assets/equipment/ec-e/datasheet.pdf
 specs:
   - label: Макс. швидкість
-    value: 150 ppm
+    value: 150 уп/хв
   - label: Дискретність
     value: TODO
 ---
