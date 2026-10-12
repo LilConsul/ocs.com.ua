@@ -170,6 +170,26 @@
 				}
 			});
 
+			// Media library lists only top-level files by default; images live in per-product
+			// sub-folders (assets/equipment/<product>/), so list the media folder recursively.
+			(function() {
+				var github = CMS.getBackend('github');
+				if (!github) return;
+				var originalInit = github.init;
+				github.init = function() {
+					var backend = originalInit.apply(null, arguments);
+					backend.getMedia = function(mediaFolder) {
+						var folder = mediaFolder || backend.mediaFolder;
+						return backend.api.listFiles(folder, { depth: 100 }).then(function(files) {
+							return files.map(function(f) {
+								return { id: f.id, name: f.name, size: f.size, displayURL: { id: f.id, path: f.path }, path: f.path };
+							});
+						});
+					};
+					return backend;
+				};
+			})();
+
 			// All widgets registered — now boot Decap
 			CMS.init();
 		</script>

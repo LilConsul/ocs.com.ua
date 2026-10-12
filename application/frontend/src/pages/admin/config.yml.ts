@@ -81,8 +81,8 @@ slug:
   clean_accents: true
   sanitize_replacement: "-"
 
-media_folder: "application/frontend/public/assets/equipment"
-public_folder: "/assets/equipment"
+media_folder: "application/frontend/public/assets"
+public_folder: "/assets"
 
 # Convert all uploaded images to WebP, cap at 1600 px wide, strip EXIF metadata
 media_processing:
