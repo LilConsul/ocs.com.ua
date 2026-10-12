@@ -47,11 +47,15 @@ const isActive = (pattern: string) => {
 	data-scrolled="false"
 >
 	<nav class="mx-auto flex h-20 max-w-[1280px] items-center justify-between px-8">
-		<!-- Company Name -->
-		<a href={`/${lang}`} class="text-foreground transition-opacity hover:opacity-80">
-			<span class="font-heading text-xl font-bold tracking-tight">
-				{lang === "en" ? "OS-Technology Ukraine" : "ОС-Технолоджи Україна"}
-			</span>
+		<!-- Logo (per-language SVG) -->
+		<a href={`/${lang}`} class="transition-opacity hover:opacity-80">
+			<img
+				src={`/assets/icons/logo-${lang}.svg`}
+				alt={lang === "en" ? "OS-Technology Ukraine" : "ОС-Технолоджи Україна"}
+				width="250"
+				height="40"
+				class="h-8 w-auto md:h-10"
+			/>
 		</a>
 
 		<!-- Desktop Navigation -->
