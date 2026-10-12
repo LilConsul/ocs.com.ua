@@ -189,6 +189,9 @@ ${iconOptions}
         field: order
     editor:
       preview: false
+    # Products live in category sub-folders; without depth Decap only lists the top level
+    nested:
+      depth: 2
     meta:
       path:
         widget: select
