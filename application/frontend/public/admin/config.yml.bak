@@ -46,40 +46,39 @@ i18n:
 
 collections:
   # ── Equipment Categories ────────────────────────────────────────────────────
-  # Folder collection scoped to depth:1 — only sees _index files at the top of
-  # each category sub-folder. Same i18n/nested/meta pattern as equipment products.
+  # File collection — each locale of each _index file is a named entry.
+  # No i18n on the collection (file collections only support single_file i18n).
+  # To add a new category: add two entries below (one en, one ua) and create the files.
   - name: "equipment-categories"
     label: "Equipment Categories"
     label_singular: "Equipment Category"
     description: >-
-      Equipment type categories (e.g. Checkweighers, Catchweighers).
-      Each entry is the _index file for one category folder. Controls the
-      sidebar label, icon, sort order and description.
-    folder: "application/frontend/src/content/equipment"
-    create: true
-    delete: false
-    i18n: true
-    filter:
-      field: type
-      value: category
-    summary: "{{title}} (order: {{order}})"
-    sortable_fields: ["order", "title"]
+      Equipment type category index files. Controls sidebar label, icon,
+      sort order and description for each category folder.
     editor:
       preview: false
-    nested:
-      depth: 1
-      summary: "{{title}}"
-    meta:
-      path:
-        widget: string
-        label: "Category folder name (e.g. checkweighers)"
-        index_file: "_index"
-    fields:
-      - { label: "Type", name: "type", widget: "hidden", default: "category", i18n: duplicate }
-      - { label: "Title", name: "title", widget: "string", i18n: true }
-      - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
-      - { label: "Icon", name: "icon", widget: "string", required: false, hint: "Material Symbol name, e.g. scale", i18n: duplicate }
-      - { label: "Order", name: "order", widget: "number", value_type: "int", default: 0, required: false, hint: "Lower numbers appear first in the sidebar.", i18n: duplicate }
+    files:
+      - name: "checkweighers-en"
+        label: "Checkweighers (EN)"
+        file: "application/frontend/src/content/equipment/checkweighers/_index.en.md"
+        fields: &category_fields
+          - { label: "Type", name: "type", widget: "hidden", default: "category" }
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Description", name: "description", widget: "text", required: false }
+          - { label: "Icon", name: "icon", widget: "string", required: false, hint: "Material Symbol name, e.g. scale" }
+          - { label: "Order", name: "order", widget: "number", value_type: "int", default: 0, required: false, hint: "Lower numbers appear first in the sidebar." }
+      - name: "checkweighers-ua"
+        label: "Checkweighers (UA)"
+        file: "application/frontend/src/content/equipment/checkweighers/_index.ua.md"
+        fields: *category_fields
+      - name: "catchweighers-en"
+        label: "Catchweighers & DWS (EN)"
+        file: "application/frontend/src/content/equipment/catchweighers/_index.en.md"
+        fields: *category_fields
+      - name: "catchweighers-ua"
+        label: "Catchweighers & DWS (UA)"
+        file: "application/frontend/src/content/equipment/catchweighers/_index.ua.md"
+        fields: *category_fields
 
   # ── Equipment Products ───────────────────────────────────────────────────────
   # Manages product files inside category sub-folders (everything except _index).
@@ -93,9 +92,6 @@ collections:
     create: true
     delete: false
     i18n: true
-    filter:
-      field: type
-      value: product
     preview_path: "{{locale}}/catalogue/{{dirname}}/{{filename}}"
     summary: "{{title}} — {{dirname}}/{{filename}}"
     sortable_fields: ["order", "title"]
@@ -121,9 +117,12 @@ collections:
       summary: "{{title | default('index')}}"
     meta:
       path:
-        widget: string
-        label: Path
+        widget: select
+        label: "Category"
         index_file: "_index"
+        options:
+          - { label: "Checkweighers", value: "checkweighers" }
+          - { label: "Catchweighers & DWS", value: "catchweighers" }
     fields:
       - { label: "Type", name: "type", widget: "hidden", default: "product", i18n: duplicate }
       # Shared across locales

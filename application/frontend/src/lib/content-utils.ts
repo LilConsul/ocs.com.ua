@@ -9,9 +9,28 @@
  */
 
 import type { CollectionEntry } from "astro:content";
+import enTypes from "../data/equipment-types.en.json";
+import uaTypes from "../data/equipment-types.ua.json";
 
 export type Locale = "en" | "ua";
 export type EquipmentEntry = CollectionEntry<"equipment">;
+
+export interface EquipmentType {
+	slug: string;
+	title: string;
+	description: string;
+	icon: string;
+	order: number;
+}
+
+/**
+ * Get all equipment category types for a given locale, sorted by order.
+ * Reads from src/data/equipment-types.{locale}.json (managed by CMS).
+ */
+export function getCategoriesForLocale(locale: Locale): EquipmentType[] {
+	const data = locale === "ua" ? uaTypes : enTypes;
+	return [...(data as EquipmentType[])].sort((a, b) => a.order - b.order);
+}
 
 /**
  * Extract locale from entry ID

@@ -1,9 +1,9 @@
 ---
 import { getInlineTranslations, type Lang } from "@/i18n";
-import { getCategory } from "@/lib/content-utils";
+import type { EquipmentType } from "@/lib/content-utils";
 
 interface Props {
-	allCategories: any[];
+	allCategories: EquipmentType[];
 	currentCategory: string;
 	lang: Lang;
 }
@@ -11,9 +11,8 @@ interface Props {
 const { allCategories, currentCategory, lang } = Astro.props;
 const _ = getInlineTranslations(lang);
 
-// Sort categories by order field (default 999)
-const sortedCategories = allCategories.sort(
-	(a, b) => (a.data.order || 999) - (b.data.order || 999)
+const sortedCategories = [...allCategories].sort(
+	(a, b) => (a.order ?? 999) - (b.order ?? 999)
 );
 ---
 
@@ -69,15 +68,13 @@ const sortedCategories = allCategories.sort(
 		<nav aria-label="Category navigation" class="space-y-2">
 			{
 				sortedCategories.map((cat) => {
-					// Extract category slug from entry ID (handles locale suffix)
-					const catSlug = getCategory(cat);
-					const isActive = catSlug === currentCategory;
-					const label = cat.data.title;
-					const icon = cat.data.icon || "category";
+						const isActive = cat.slug === currentCategory;
+						const label = cat.title;
+						const icon = cat.icon || "category";
 
-					return (
-						<a
-							href={`/${lang}/catalogue/${catSlug}`}
+						return (
+							<a
+								href={`/${lang}/catalogue/${cat.slug}`}
 							class={`flex cursor-pointer items-center gap-3 rounded-lg px-4 py-3 transition-all ${
 								isActive
 									? "bg-accent text-secondary font-bold"

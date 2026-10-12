@@ -1,0 +1,22 @@
+[
+  { "label": "Scale", "value": "scale" },
+  { "label": "Inventory", "value": "inventory_2" },
+  { "label": "Package", "value": "package_2" },
+  { "label": "Conveyor Belt", "value": "conveyor_belt" },
+  { "label": "Factory", "value": "factory" },
+  { "label": "Precision Manufacturing", "value": "precision_manufacturing" },
+  { "label": "Barcode Scanner", "value": "barcode_scanner" },
+  { "label": "Qr Code Scanner", "value": "qr_code_scanner" },
+  { "label": "Forklift", "value": "forklift" },
+  { "label": "Warehouse", "value": "warehouse" },
+  { "label": "Shipping", "value": "local_shipping" },
+  { "label": "Science", "value": "science" },
+  { "label": "Biotech", "value": "biotech" },
+  { "label": "Medical Services", "value": "medical_services" },
+  { "label": "Food", "value": "lunch_dining" },
+  { "label": "Cosmetics", "value": "spa" },
+  { "label": "Category", "value": "category" },
+  { "label": "Settings", "value": "settings" },
+  { "label": "Tune", "value": "tune" },
+  { "label": "Speed", "value": "speed" }
+]

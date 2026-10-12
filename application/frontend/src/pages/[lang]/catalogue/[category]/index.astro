@@ -10,49 +10,41 @@ import {
 	getCategory,
 	filterByLocale,
 	filterByCategory,
-	getCategories,
 	getProducts,
 	sortByOrder,
+	getCategoriesForLocale,
 	type Locale,
+	type EquipmentType,
 } from "@/lib/content-utils";
 
 export const prerender = true;
 
 export async function getStaticPaths() {
 	const allEquipment = await getCollection("equipment");
-
-	// Separate categories and products
-	const allCategories = getCategories(allEquipment);
 	const allProducts = getProducts(allEquipment);
 
-	// Get unique category slugs
-	const uniqueCategories = [...new Set(allCategories.map((c) => getCategory(c)))];
+	// Categories are now sourced from JSON, not _index entries
+	const enCategories = getCategoriesForLocale("en");
+	const uaCategories = getCategoriesForLocale("ua");
 
 	const paths = [];
 
-	for (const categorySlug of uniqueCategories) {
+	for (const cat of enCategories) {
 		for (const lang of ["en", "ua"] as Locale[]) {
-			// Find category data for this locale
-			const categoryEntry = allCategories.find(
-				(c) => getCategory(c) === categorySlug && getLocale(c) === lang
-			);
+			const localeCategories = lang === "en" ? enCategories : uaCategories;
+			const categoryData = localeCategories.find((c) => c.slug === cat.slug);
+			if (!categoryData) continue;
 
-			if (!categoryEntry) continue;
-
-			// Get products for this category and locale
 			const localeProducts = filterByLocale(allProducts, lang);
-			const categoryProducts = filterByCategory(localeProducts, categorySlug);
-
-			// Get all categories for sidebar (in this locale)
-			const categoriesForSidebar = filterByLocale(allCategories, lang);
+			const categoryProducts = filterByCategory(localeProducts, cat.slug);
 
 			paths.push({
-				params: { lang, category: categorySlug },
+				params: { lang, category: cat.slug },
 				props: {
-					categoryData: categoryEntry.data,
-					categorySlug,
+					categoryData,
+					categorySlug: cat.slug,
 					products: categoryProducts || [],
-					allCategories: categoriesForSidebar || [],
+					allCategories: localeCategories,
 					lang,
 				},
 			});
