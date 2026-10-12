@@ -1,4 +1,12 @@
 import type { APIRoute } from "astro";
+import {
+	CMS_BASE_URL,
+	CMS_LOCALE,
+	GITHUB_BRANCH,
+	GITHUB_OWNER,
+	GITHUB_REPO,
+	SITE_URL,
+} from "astro:env/server";
 import { readFileSync, existsSync } from "fs";
 import { resolve } from "path";
 
@@ -22,7 +30,10 @@ function readJson<T>(relativePath: string, fallback: T): T {
 	}
 }
 
-export const GET: APIRoute = () => {
+export const GET: APIRoute = ({ url }) => {
+	// OAuth host serving /api/auth; defaults to the host the CMS is opened on
+	const baseUrl = CMS_BASE_URL ?? url.origin;
+
 	// Array position is the display order (drag to reorder in the CMS)
 	const equipmentData = readJson<{
 		en?: { categories: EquipmentType[] };
@@ -43,9 +54,9 @@ export const GET: APIRoute = () => {
 
 	const config = `backend:
   name: github
-  repo: LilConsul/ocs.com.ua
-  branch: denys/chore/deploy
-  base_url: http://localhost:4321
+  repo: ${GITHUB_OWNER}/${GITHUB_REPO}
+  branch: ${GITHUB_BRANCH}
+  base_url: ${baseUrl}
   auth_endpoint: /api/auth
   commit_messages:
     create: '[CMS] Create: {{collection}} "{{slug}}"'
@@ -60,14 +71,14 @@ export const GET: APIRoute = () => {
 
 publish_mode: editorial_workflow
 
-site_url: https://ocs.com.ua
-display_url: https://ocs.com.ua
+site_url: ${SITE_URL}
+display_url: ${SITE_URL}
 
 logo:
   src: /admin-logo.svg
   show_in_header: true
 
-locale: en
+locale: ${CMS_LOCALE}
 
 # Disable search to avoid exhausting GitHub API rate limits on large collections
 search: false

@@ -1,15 +1,9 @@
 import type { APIRoute } from "astro";
+import { GITHUB_CLIENT_ID as CLIENT_ID, GITHUB_CLIENT_SECRET as CLIENT_SECRET } from "astro:env/server";
 
 const SCOPE = "repo,user";
 
 export const GET: APIRoute = async ({ url, redirect }) => {
-	const CLIENT_ID = import.meta.env.GITHUB_CLIENT_ID;
-	const CLIENT_SECRET = import.meta.env.GITHUB_CLIENT_SECRET;
-
-	if (!CLIENT_ID || !CLIENT_SECRET) {
-		return new Response("Missing GitHub OAuth credentials (set GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET in .env)", { status: 500 });
-	}
-
 	const code = url.searchParams.get("code");
 
 	if (!code) {
@@ -43,7 +37,7 @@ export const GET: APIRoute = async ({ url, redirect }) => {
 		`<!doctype html><html><body><script>
 (function() {
 	 if (!window.opener) { document.body.innerText = "Error: no opener"; return; }
-	 // Step 1 — send handshake, wait for echo, then send success
+	 // Step 1 â€” send handshake, wait for echo, then send success
 	 function onMessage(e) {
 	   if (e.data === "authorizing:github") {
 	     window.removeEventListener("message", onMessage, false);

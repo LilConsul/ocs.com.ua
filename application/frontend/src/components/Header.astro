@@ -17,13 +17,13 @@ const _ = getInlineTranslations(lang);
 const getLanguagePath = (targetLang: string) => {
 	if (!currentPath) return `/${targetLang}`;
 	// Replace the language code at the start of the path
-	// e.g., /en/catalogue/checkweighers -> /ua/catalogue/checkweighers
+	// e.g., /en/catalogue/checkweigher -> /ua/catalogue/checkweigher
 	const pathWithoutLang = currentPath.replace(/^\/(en|ua)/, "");
 	return `/${targetLang}${pathWithoutLang}`;
 };
 
 const navLinks = [
-	{ href: `/${lang}/catalogue/checkweighers`, label: _("Catalogue"), pattern: "/catalogue" },
+	{ href: `/${lang}/catalogue/checkweigher`, label: _("Catalogue"), pattern: "/catalogue" },
 	{ href: `/${lang}/catalogue`, label: _("Industries"), pattern: "/industries" },
 	{ href: `/${lang}/wiki`, label: _("Wiki"), pattern: "/wiki" },
 	{ href: `/${lang}/about`, label: _("About Us"), pattern: "/about" },
