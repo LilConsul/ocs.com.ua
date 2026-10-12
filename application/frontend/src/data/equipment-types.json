@@ -2,16 +2,16 @@
   "en": {
     "categories": [
       {
-        "slug": "catchweigher",
-        "title": "Catchweighers",
-        "description": "High-speed catchweighers for logistics warehouses and distribution centers. Compare solutions by maximum throughput and displayed weight value, with dedicated options for dynamic parcel weighing and Combi systems.",
-        "icon": "inventory_2"
-      },
-      {
         "slug": "checkweigher",
         "title": "Checkweighers",
         "description": "High-performance checkweighers for inline weight verification and quality control across food, pharmaceutical, cosmetics, and other industries. Compare systems by maximum throughput and displayed weight value to find the right solution for your production line.",
         "icon": "scale"
+      },
+      {
+        "slug": "catchweigher",
+        "title": "Catchweighers",
+        "description": "High-speed catchweighers for logistics warehouses and distribution centers. Compare solutions by maximum throughput and displayed weight value, with dedicated options for dynamic parcel weighing and Combi systems.",
+        "icon": "inventory_2"
       },
       {
         "slug": "track-and-trace",
@@ -42,16 +42,16 @@
   "ua": {
     "categories": [
       {
-        "slug": "catchweigher",
-        "title": "Кетчвейєри",
-        "description": "Високошвидкісні динамічні ваги для логістичних складів і розподільчих центрів. Порівнюйте рішення за максимальною продуктивністю та значенням маси, що відображається, зокрема системи для динамічного зважування посилок і комбіновані системи.",
-        "icon": "inventory_2"
-      },
-      {
         "slug": "checkweigher",
         "title": "Контрольні ваги",
         "description": "Високопродуктивні контрольні ваги для вбудованої перевірки маси та контролю якості у харчовій, фармацевтичній, косметичній та інших галузях. Порівнюйте системи за максимальною продуктивністю та значенням маси, що відображається, щоб обрати оптимальне рішення для виробничої лінії.",
         "icon": "scale"
+      },
+      {
+        "slug": "catchweigher",
+        "title": "Кетчвейєри",
+        "description": "Високошвидкісні динамічні ваги для логістичних складів і розподільчих центрів. Порівнюйте рішення за максимальною продуктивністю та значенням маси, що відображається, зокрема системи для динамічного зважування посилок і комбіновані системи.",
+        "icon": "inventory_2"
       },
       {
         "slug": "track-and-trace",
