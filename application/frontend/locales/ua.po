@@ -35,7 +35,7 @@ msgstr ""
 msgid "About Us"
 msgstr "Про нас"
 
-#: src/components/homepage/HeroSection.astro:70
+#: src/components/homepage/HeroSection.astro:74
 msgid "Advanced checkweighers and Track & Trace systems for food, pharma, and logistics. Trusted by 300+ Ukrainian manufacturers since 2013."
 msgstr "Сучасні динамічні чеквейєри та системи Track & Trace для харчової промисловості, фармацевтики й логістики. Понад 300 українських виробників довіряють нам із 2013 року."
 
@@ -43,7 +43,7 @@ msgstr "Сучасні динамічні чеквейєри та системи
 msgid "All Industries"
 msgstr "Усі галузі"
 
-#: src/components/Footer.astro:17
+#: src/components/Footer.astro:16
 msgid "All rights reserved"
 msgstr "Усі права захищено"
 
@@ -63,6 +63,10 @@ msgstr "Навігація за категоріями"
 msgid "Checkweighers and inspection systems meeting FDA, IFS, BRC, and GMP standards — engineered for Ukrainian manufacturers."
 msgstr "Чеквейєри та інспекційні системи, що відповідають вимогам FDA, IFS, BRC і GMP та призначені для українських виробників."
 
+#: src/components/homepage/HeroSection.astro:62
+msgid "Checkweighers, Metal Detectors, Serialization & Aggregation Systems"
+msgstr "Чеквейєри, металодетектори, системи серіалізації та агрегації"
+
 #: src/components/homepage/PartnersSection.astro:171
 msgid "Client Retention"
 msgstr "Утримання клієнтів"
@@ -75,21 +79,19 @@ msgstr "Клієнтів"
 msgid "Close filters"
 msgstr "Закрити фільтри"
 
-#: src/components/homepage/HeroSection.astro:82
+#: src/components/homepage/HeroSection.astro:86
+#: src/components/catalogue/CatalogueSidebar.astro:95
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:188
 msgid "Contact Us"
 msgstr "Зв’язатися з нами"
+
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:179
+msgid "Contact our engineering team to get tailored technical specifications, custom integration solutions, and equipment pricing for your production line."
+msgstr "Зв’яжіться з нашими інженерами, щоб отримати індивідуальні технічні характеристики, консультацію щодо інтеграції та розрахунок вартості обладнання."
 
 #: src/components/homepage/IndustriesSection.astro:70
 msgid "Cosmetics"
 msgstr "Косметична промисловість"
-
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:181
-msgid "Download Datasheet"
-msgstr "Завантажити технічну специфікацію"
-
-#: src/components/homepage/HeroSection.astro:62
-msgid "Checkweighers, Metal Detectors, Serialization & Aggregation Systems"
-msgstr "Чеквейєри, металодетектори, системи серіалізації та агрегації"
 
 #: src/pages/[lang]/index.astro:28
 msgid "Dynamic checkweighers and Track & Trace systems for food, pharmaceutical, and logistics industries in Ukraine. Official Wipotec partner."
@@ -111,9 +113,9 @@ msgstr "Фільтри"
 msgid "Food & Beverage"
 msgstr "Харчова промисловість і виробництво напоїв"
 
-#: src/components/homepage/HeroSection.astro:64
-msgid "German Precision. Ukrainian Support."
-msgstr "Німецька точність. Українська підтримка."
+#: src/components/homepage/HeroSection.astro:65
+msgid "German Precision."
+msgstr "Німецька точність."
 
 #: src/i18n/inline.ts:6
 msgid "Hello, world"
@@ -165,11 +167,15 @@ msgstr "Логістика та дистрибуція"
 msgid "Long-term partnerships built on reliable support."
 msgstr "Будуємо довгострокові партнерства завдяки надійній підтримці."
 
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:176
+msgid "Need help choosing the right configuration?"
+msgstr "Потрібна допомога у виборі оптимальної конфігурації?"
+
 #: src/pages/[lang]/catalogue/[category]/index.astro:143
 msgid "No products available in this category"
 msgstr "У цій категорії поки немає обладнання"
 
-#: src/components/Footer.astro:17
+#: src/components/Footer.astro:16
 msgid "OS-Technology Ukraine"
 msgstr "ОС-Технолоджи Україна"
 
@@ -201,7 +207,7 @@ msgstr "Фармацевтична промисловість"
 msgid "Precision checkweighers with Track & Trace serialization. GMP-compliant and audit-ready."
 msgstr "Високоточні чеквейєри із системами серіалізації Track & Trace, що відповідають вимогам GMP та готові до аудиту."
 
-#: src/components/Footer.astro:25
+#: src/components/Footer.astro:24
 msgid "Privacy Policy"
 msgstr "Політика конфіденційності"
 
@@ -212,10 +218,6 @@ msgstr "Обладнання"
 #: src/components/homepage/IndustriesSection.astro:71
 msgid "Quality control and filling inspection systems."
 msgstr "Системи контролю якості та перевірки рівня наповнення."
-
-#: src/components/catalogue/CatalogueSidebar.astro:95
-msgid "Request Full Specs"
-msgstr "Запросити повні технічні характеристики"
 
 #: src/components/homepage/IndustriesSection.astro:29
 msgid "Solutions for Every Industry"
@@ -245,7 +247,7 @@ msgstr "Технічні характеристики"
 msgid "Technical expertise and service support since 2013."
 msgstr "Технічна експертиза та сервісна підтримка з 2013 року."
 
-#: src/components/Footer.astro:31
+#: src/components/Footer.astro:30
 msgid "Terms of Service"
 msgstr "Умови використання"
 
@@ -257,7 +259,11 @@ msgstr "Відкрити або закрити меню"
 msgid "Trusted by Ukraine's Leading Manufacturers"
 msgstr "Нам довіряють провідні виробники України"
 
-#: src/components/homepage/HeroSection.astro:103
+#: src/components/homepage/HeroSection.astro:67
+msgid "Ukrainian Support."
+msgstr "Українська підтримка."
+
+#: src/components/homepage/HeroSection.astro:107
 msgid "View Products"
 msgstr "Переглянути обладнання"
 

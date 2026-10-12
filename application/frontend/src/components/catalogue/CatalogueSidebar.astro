@@ -86,14 +86,29 @@ const _ = getInlineTranslations(lang);
 			}
 		</nav>
 
-		<!-- CTA button with reserved accent -->
+		<!-- CTA button -->
 		<div class="border-border mt-8 border-t px-2 pt-6">
-			<button
-				class="border-secondary text-secondary hover:bg-secondary/5 flex w-full items-center justify-center gap-2 rounded border-2 px-4 py-2.5 text-sm font-medium transition-colors"
+			<a
+				href={`/${lang}#contact`}
+				class="bg-primary text-primary-foreground hover:opacity-90 flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-opacity"
 			>
-				<span class="material-symbols-outlined text-[18px]">download</span>
-				{_("Request Full Specs")}
-			</button>
+				{_("Contact Us")}
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="16"
+					height="16"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					class="lucide lucide-arrow-right"
+				>
+					<path d="M5 12h14"></path>
+					<path d="m12 5 7 7-7 7"></path>
+				</svg>
+			</a>
 		</div>
 	</div>
 </aside>
