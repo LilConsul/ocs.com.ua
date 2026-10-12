@@ -1,4 +1,5 @@
 ---
+type: product
 title: HC-M Checkweigher
 order: 2
 industries:

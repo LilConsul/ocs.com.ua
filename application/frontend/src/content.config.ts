@@ -7,6 +7,7 @@ const equipment = defineCollection({
 		base: "./src/content/equipment",
 	}),
 	schema: z.object({
+		type: z.enum(["category", "product"]).optional(),
 		title: z.string().optional(),
 		description: z.string().optional(),
 		icon: z.string().optional(),

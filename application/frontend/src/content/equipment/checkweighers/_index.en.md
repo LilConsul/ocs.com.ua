@@ -1,4 +1,5 @@
 ---
+type: category
 icon: scale
 order: 1
 title: Checkweighers

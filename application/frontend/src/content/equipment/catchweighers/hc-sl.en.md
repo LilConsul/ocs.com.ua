@@ -1,4 +1,5 @@
 ---
+type: product
 title: HC-SL Catchweigher
 order: 2
 industries:

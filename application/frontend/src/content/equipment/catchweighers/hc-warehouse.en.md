@@ -1,4 +1,5 @@
 ---
+type: product
 title: HC-Warehouse Catchweigher
 order: 1
 industries:

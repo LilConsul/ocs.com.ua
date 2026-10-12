@@ -45,18 +45,57 @@ i18n:
   default_locale: en
 
 collections:
-  - name: "equipment"
-    label: "Equipment"
-    label_singular: "Equipment Item"
+  # ── Equipment Categories ────────────────────────────────────────────────────
+  # Folder collection scoped to depth:1 — only sees _index files at the top of
+  # each category sub-folder. Same i18n/nested/meta pattern as equipment products.
+  - name: "equipment-categories"
+    label: "Equipment Categories"
+    label_singular: "Equipment Category"
     description: >-
-      Product catalogue entries. Each sub-folder is a category (_index files)
-      containing individual product pages. Use Order to control display position.
+      Equipment type categories (e.g. Checkweighers, Catchweighers).
+      Each entry is the _index file for one category folder. Controls the
+      sidebar label, icon, sort order and description.
     folder: "application/frontend/src/content/equipment"
     create: true
     delete: false
     i18n: true
-    # Link "Open Preview" button in the CMS to the live product page.
-    # dirname = category slug (e.g. checkweighers), filename = product slug (e.g. hc-a).
+    filter:
+      field: type
+      value: category
+    summary: "{{title}} (order: {{order}})"
+    sortable_fields: ["order", "title"]
+    editor:
+      preview: false
+    nested:
+      depth: 1
+      summary: "{{title}}"
+    meta:
+      path:
+        widget: string
+        label: "Category folder name (e.g. checkweighers)"
+        index_file: "_index"
+    fields:
+      - { label: "Type", name: "type", widget: "hidden", default: "category", i18n: duplicate }
+      - { label: "Title", name: "title", widget: "string", i18n: true }
+      - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
+      - { label: "Icon", name: "icon", widget: "string", required: false, hint: "Material Symbol name, e.g. scale", i18n: duplicate }
+      - { label: "Order", name: "order", widget: "number", value_type: "int", default: 0, required: false, hint: "Lower numbers appear first in the sidebar.", i18n: duplicate }
+
+  # ── Equipment Products ───────────────────────────────────────────────────────
+  # Manages product files inside category sub-folders (everything except _index).
+  - name: "equipment"
+    label: "Equipment Products"
+    label_singular: "Equipment Product"
+    description: >-
+      Individual product pages inside a category sub-folder.
+      Use Order to control sort position within the category.
+    folder: "application/frontend/src/content/equipment"
+    create: true
+    delete: false
+    i18n: true
+    filter:
+      field: type
+      value: product
     preview_path: "{{locale}}/catalogue/{{dirname}}/{{filename}}"
     summary: "{{title}} — {{dirname}}/{{filename}}"
     sortable_fields: ["order", "title"]
@@ -71,6 +110,8 @@ collections:
         field: industries
         pattern: "cosmetics"
     view_groups:
+      - label: "By Category"
+        field: dirname
       - label: "By Order"
         field: order
     editor:
@@ -84,13 +125,10 @@ collections:
         label: Path
         index_file: "_index"
     fields:
-      # Shared across locales (editors fill once, auto-duplicated to other locale)
+      - { label: "Type", name: "type", widget: "hidden", default: "product", i18n: duplicate }
+      # Shared across locales
       - { label: "Icon", name: "icon", widget: "string", required: false, i18n: duplicate }
-      # Order controls display sort position.
-      # On _index files: sorts equipment type categories relative to each other (e.g. checkweighers=1, catchweighers=2).
-      # On product files: sorts products within their category (e.g. hc-sl=1, hc-warehouse=2).
-      # Lower numbers appear first. Default 0.
-      - { label: "Order", name: "order", widget: "number", value_type: "int", default: 0, required: false, i18n: duplicate }
+      - { label: "Order", name: "order", widget: "number", value_type: "int", default: 0, required: false, hint: "Lower numbers appear first within this category.", i18n: duplicate }
       - label: "Gallery"
         name: "gallery"
         widget: "list"
@@ -101,8 +139,7 @@ collections:
         field: { label: "Image", name: "image", widget: "image" }
       - { label: "Datasheet", name: "datasheet", widget: "file", required: false, i18n: duplicate }
       - { label: "Industries", name: "industries", widget: "list", required: false, i18n: true }
-
-      # Translatable fields (side-by-side locale editor)
+      # Translatable fields
       - { label: "Title", name: "title", widget: "string", i18n: true }
       - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
       - label: "Specifications"

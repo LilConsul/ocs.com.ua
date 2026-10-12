@@ -1,4 +1,5 @@
 ---
+type: category
 icon: inventory_2
 order: 2
 title: Кетчвейєри & DWS

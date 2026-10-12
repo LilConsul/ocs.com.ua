@@ -1,4 +1,5 @@
 ---
+type: product
 title: Кетчвейєр HC-SL
 order: 2
 industries:
