@@ -92,3 +92,20 @@ ______________________________________________________________________
 ## CMS (Decap CMS)
 
 The CMS is available at `/admin` when the dev server or production site is running. Sign in with GitHub. The account needs write access to the repository. Edits go through the editorial workflow (draft → review → publish) and are committed as `[CMS] …` commits.
+
+______________________________________________________________________
+
+## Deployment (dev.ocs.com.ua)
+
+Every push to `main` that touches `application/frontend/` (including CMS publishes) runs [`.github/workflows/deploy-dev.yml`](.github/workflows/deploy-dev.yml). It builds the site on GitHub, rsyncs `dist/`, production `node_modules` and `package.json` to the server, and restarts the service. It can also be run manually from the Actions tab.
+
+Server layout (Debian 13, Virtualmin domain `dev.ocs.com.ua` owned by user `ocs`):
+
+| Path / unit                                    | Purpose                                                                  |
+| ---------------------------------------------- | ------------------------------------------------------------------------ |
+| `/home/ocs/domains/dev.ocs.com.ua/app/`        | Deployed build (`dist/client` is the Apache document root)               |
+| `/home/ocs/domains/dev.ocs.com.ua/ocs-dev.env` | Runtime secrets (`GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`)             |
+| `ocs-dev.service` (systemd)                    | `node dist/server/entry.mjs` on `127.0.0.1:4321`                         |
+| Apache vhost                                   | Serves static files, proxies `/api/auth` and `/admin/config.yml` to Node |
+
+GitHub repository secrets used by the workflow: `DEV_SSH_HOST`, `DEV_SSH_USER`, `DEV_SSH_KEY`, `DEV_SSH_KNOWN_HOSTS`.
