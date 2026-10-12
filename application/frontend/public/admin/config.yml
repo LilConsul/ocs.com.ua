@@ -4,8 +4,36 @@ backend:
   branch: denys/chore/deploy
   base_url: http://localhost:4321
   auth_endpoint: /api/auth
+  commit_messages:
+    create: '[CMS] Create: {{collection}} "{{slug}}"'
+    update: '[CMS] Update" {{collection}} "{{slug}}"'
+    delete: '[CMS] Delete: {{collection}} "{{slug}}"'
+    uploadMedia: '[CMS] Upload: "{{path}}"'
+    deleteMedia: '[CMS] Delete: "{{path}}"'
+  squash_merges: true
 
   #name: test-repo
+
+# Editorial workflow — drafts live in PRs, editors promote Draft → In Review → Ready
+publish_mode: editorial_workflow
+
+# Site URLs
+site_url: https://ocs.com.ua
+display_url: https://ocs.com.ua
+
+# Branding
+logo:
+  src: /admin-logo.svg
+  show_in_header: true
+
+# CMS locale (UI language)
+locale: en # ua
+
+# Slug sanitization: force ASCII filenames, strip diacritics (important for Ukrainian category names)
+slug:
+  encoding: ascii
+  clean_accents: true
+  sanitize_replacement: "-"
 
 # All equipment media (images, datasheets) uploads land here
 media_folder: "application/frontend/public/assets/equipment"
@@ -19,9 +47,34 @@ i18n:
 collections:
   - name: "equipment"
     label: "Equipment"
+    label_singular: "Equipment Item"
+    description: >-
+      Product catalogue entries. Each sub-folder is a category (_index files)
+      containing individual product pages. Use Order to control display position.
     folder: "application/frontend/src/content/equipment"
     create: true
+    delete: false
     i18n: true
+    # Link "Open Preview" button in the CMS to the live product page.
+    # dirname = category slug (e.g. checkweighers), filename = product slug (e.g. hc-a).
+    preview_path: "{{locale}}/catalogue/{{dirname}}/{{filename}}"
+    summary: "{{title}} — {{dirname}}/{{filename}}"
+    sortable_fields: ["order", "title"]
+    view_filters:
+      - label: "Food & Beverage"
+        field: industries
+        pattern: "food-beverage"
+      - label: "Pharmaceutical"
+        field: industries
+        pattern: "pharmaceutical"
+      - label: "Cosmetics"
+        field: industries
+        pattern: "cosmetics"
+    view_groups:
+      - label: "By Order"
+        field: order
+    editor:
+      preview: false
     nested:
       depth: 2
       summary: "{{title | default('index')}}"
@@ -58,7 +111,7 @@ collections:
         required: false
         i18n: true
         min: 0
-        max: 3
+        max: 10
         fields:
           - { label: "Label", name: "label", widget: "string" }
           - { label: "Value", name: "value", widget: "string" }
