@@ -12,7 +12,7 @@
  * - locales/ua.po (Ukrainian translations)
  *
  * Generation script: scripts/i18n-compile.js
- * Generated: 2026-10-12T14:44:59.203Z
+ * Generated: 2026-10-12T14:47:05.383Z
  */
 
 export const languages = {
@@ -31,6 +31,7 @@ export const ui = {
 		"inline.all_rights_reserved": "All rights reserved",
 		"inline.catalogue": "Catalogue",
 		"inline.catalogue_filters": "Catalogue Filters",
+		"inline.category_navigation": "Category navigation",
 		"inline.checkweighers_and_inspection_systems_meeting_fda_ifs_brc_and_gmp_standards_engin":
 			"Checkweighers and inspection systems meeting FDA, IFS, BRC, and GMP standards — engineered for Ukrainian manufacturers.",
 		"inline.client_retention": "Client Retention",
@@ -90,6 +91,7 @@ export const ui = {
 			"Technical expertise and service support since 2013.",
 		"inline.technical_specs": "Technical Specs",
 		"inline.terms_of_service": "Terms of Service",
+		"inline.toggle_menu": "Toggle menu",
 		"inline.trusted_by_ukraine_s_leading_manufacturers":
 			"Trusted by Ukraine's Leading Manufacturers",
 		"inline.view_products": "View Products",
@@ -105,6 +107,7 @@ export const ui = {
 		"inline.all_rights_reserved": "Всі права захищено",
 		"inline.catalogue": "Каталог",
 		"inline.catalogue_filters": "Фільтри каталогу",
+		"inline.category_navigation": "Навігація за категоріями",
 		"inline.checkweighers_and_inspection_systems_meeting_fda_ifs_brc_and_gmp_standards_engin":
 			"Чеквейєри та системи контролю якості, які відповідають стандартам FDA, IFS, BRC та GMP — розроблені для українських виробників.",
 		"inline.client_retention": "Лояльність клієнтів",
@@ -164,6 +167,7 @@ export const ui = {
 			"Технічна експертиза та сервісна підтримка з 2013 року.",
 		"inline.technical_specs": "Технічні характеристики",
 		"inline.terms_of_service": "Умови використання",
+		"inline.toggle_menu": "Меню",
 		"inline.trusted_by_ukraine_s_leading_manufacturers": "Нам довіряють провідні виробники України",
 		"inline.view_products": "Переглянути продукцію",
 		"inline.wiki": "База Знань",

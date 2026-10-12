@@ -122,7 +122,7 @@ msgstr ""
 		pot += `msgstr ""\n\n`;
 	}
 
-	return pot;
+	return `${pot.trimEnd()}\n`;
 }
 
 /**
@@ -231,7 +231,7 @@ msgstr ""
 		po += `msgstr "${escapePO(msgstr)}"\n\n`;
 	}
 
-	return po;
+	return `${po.trimEnd()}\n`;
 }
 
 /**
