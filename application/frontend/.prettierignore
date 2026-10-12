@@ -1,9 +1,5 @@
-# TinaCMS content files - managed by TinaCMS, do not format
+# Content files - written by Decap CMS and formatted by remark
 src/content/equipment/**/*.md
-src/content/categories/**/*.md
-
-# TinaCMS generated files
-tina/__generated__/
 
 # Build output
 dist/
