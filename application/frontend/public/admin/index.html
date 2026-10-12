@@ -88,6 +88,88 @@
 				CMS.registerWidget('icon-select', IconControl, IconPreview);
 			})();
 
+			// Slugify helper for auto-generating URL-safe slugs from titles (supports Cyrillic transliteration)
+			function slugify(text) {
+				if (!text) return '';
+				var cyrillicMap = {
+					'а':'a','б':'b','в':'v','г':'h','ґ':'g','д':'d','е':'e','є':'ye','ж':'zh','з':'z',
+					'и':'y','і':'i','ї':'yi','й':'y','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p',
+					'р':'r','с':'s','т':'t','у':'u','ф':'f','х':'kh','ц':'ts','ч':'ch','ш':'sh','щ':'shch',
+					'ь':'','ю':'yu','я':'ya','ы':'y','э':'e','ё':'yo'
+				};
+				var str = text.toString().toLowerCase().trim();
+				str = str.replace(/[а-яґєіїёыэ]/g, function(ch) {
+					return cyrillicMap[ch] !== undefined ? cyrillicMap[ch] : ch;
+				});
+				return str
+					.normalize('NFD')
+					.replace(/[\u0300-\u036f]/g, '')
+					.replace(/[^a-z0-9]+/g, '-')
+					.replace(/^-+|-+$/g, '');
+			}
+
+			// Auto-generate hidden category slugs from EN title (persists once created, synced across locales)
+			CMS.registerEventListener({
+				name: 'preSave',
+				handler: function(data) {
+					try {
+						var entry = data.entry;
+						var collection = entry.get ? entry.get('collection') : entry.collection;
+						if (collection !== 'equipment-categories') return;
+
+						var entryData = entry.get ? entry.get('data') : entry.data;
+						if (!entryData) return;
+
+						var updatedData = entryData;
+
+						// 1. Process EN categories: preserve existing slug if present, otherwise generate from EN title
+						var enCats = (updatedData.getIn && updatedData.getIn(['en', 'categories'])) ||
+						             (updatedData.get && updatedData.get('categories'));
+
+						if (enCats) {
+							enCats.forEach(function(cat, idx) {
+								var existingSlug = cat.get ? cat.get('slug') : cat.slug;
+								var title = (cat.get ? cat.get('title') : cat.title) || '';
+								var slug = existingSlug ? existingSlug.trim() : slugify(title);
+
+								if (slug && updatedData.setIn) {
+									if (updatedData.hasIn && updatedData.hasIn(['en', 'categories'])) {
+										updatedData = updatedData.setIn(['en', 'categories', idx, 'slug'], slug);
+									}
+									if (updatedData.has && updatedData.has('categories')) {
+										updatedData = updatedData.setIn(['categories', idx, 'slug'], slug);
+									}
+								}
+							});
+						}
+
+						// 2. Sync the exact same slug to UA categories
+						var uaCats = updatedData.getIn && updatedData.getIn(['ua', 'categories']);
+						if (uaCats) {
+							var finalEnCats = (updatedData.getIn && updatedData.getIn(['en', 'categories'])) ||
+							                  (updatedData.get && updatedData.get('categories'));
+
+							uaCats.forEach(function(cat, idx) {
+								var enCat = finalEnCats ? (finalEnCats.get ? finalEnCats.get(idx) : finalEnCats[idx]) : null;
+								var enSlug = enCat ? (enCat.get ? enCat.get('slug') : enCat.slug) : '';
+								var existingSlug = cat.get ? cat.get('slug') : cat.slug;
+								var title = (cat.get ? cat.get('title') : cat.title) || '';
+								var slug = enSlug || (existingSlug ? existingSlug.trim() : slugify(title));
+
+								if (slug && updatedData.setIn) {
+									updatedData = updatedData.setIn(['ua', 'categories', idx, 'slug'], slug);
+								}
+							});
+						}
+
+						// Return updated data Map directly to Decap CMS
+						return updatedData;
+					} catch (err) {
+						console.error('[preSave] category slug error:', err);
+					}
+				}
+			});
+
 			// All widgets registered — now boot Decap
 			CMS.init();
 		</script>

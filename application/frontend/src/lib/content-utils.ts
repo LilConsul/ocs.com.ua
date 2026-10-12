@@ -9,8 +9,7 @@
  */
 
 import type { CollectionEntry } from "astro:content";
-import enTypes from "../data/equipment-types.en.json";
-import uaTypes from "../data/equipment-types.ua.json";
+import equipmentTypes from "../data/equipment-types.json";
 
 export type Locale = "en" | "ua";
 export type EquipmentEntry = CollectionEntry<"equipment">;
@@ -24,11 +23,14 @@ export interface EquipmentType {
 
 /**
  * Get all equipment category types for a given locale, in array order.
- * Reads from src/data/equipment-types.{locale}.json (managed by CMS, drag to reorder).
+ * Reads from src/data/equipment-types.json (managed by CMS, drag to reorder).
  */
 export function getCategoriesForLocale(locale: Locale): EquipmentType[] {
-	const data = locale === "ua" ? uaTypes : enTypes;
-	return (data as { categories: EquipmentType[] }).categories ?? [];
+	const data = equipmentTypes as {
+		en?: { categories: EquipmentType[] };
+		ua?: { categories: EquipmentType[] };
+	};
+	return data[locale]?.categories ?? [];
 }
 
 /**

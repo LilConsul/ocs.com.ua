@@ -24,10 +24,12 @@ function readJson<T>(relativePath: string, fallback: T): T {
 
 export const GET: APIRoute = () => {
 	// Array position is the display order (drag to reorder in the CMS)
-	const categories = readJson<{ categories: EquipmentType[] }>(
-		"src/data/equipment-types.en.json",
-		{ categories: [] }
-	).categories ?? [];
+	const equipmentData = readJson<{
+		en?: { categories: EquipmentType[] };
+		categories?: EquipmentType[];
+	}>("src/data/equipment-types.json", {});
+
+	const categories = equipmentData.en?.categories ?? equipmentData.categories ?? [];
 
 	const icons = readJson<Icon[]>("src/data/icons.json", []);
 
@@ -111,51 +113,44 @@ collections:
       automatically populates the category dropdown in Equipment Products.
     editor:
       preview: false
+    i18n:
+      structure: single_file
+      locales: [en, ua]
+      default_locale: en
     files:
-      - name: "equipment-types-en"
-        label: "Equipment Types (EN)"
-        file: "application/frontend/src/data/equipment-types.en.json"
+      - name: "equipment-types"
+        label: "Equipment Types"
+        file: "application/frontend/src/data/equipment-types.json"
         format: json
+        i18n: true
         fields:
           - label: "Categories"
             name: "categories"
             widget: list
+            i18n: true
             hint: "Drag entries to reorder — the order here is the order in the sidebar."
             fields:
               - label: "Slug"
                 name: "slug"
+                widget: "hidden"
+                i18n: duplicate
+                required: false
+              - label: "Title"
+                name: "title"
                 widget: "string"
-                hint: "URL-safe folder name, e.g. **checkweighers**. Must match the folder name in \`src/content/equipment/\`."
-                pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', "Lowercase letters, numbers and hyphens only — no spaces or special characters"]
-              - { label: "Title", name: "title", widget: "string" }
-              - { label: "Description", name: "description", widget: "text", required: false }
+                i18n: true
+                hint: "Category name displayed in the sidebar, header, and product category dropdown."
+              - label: "Description"
+                name: "description"
+                widget: "text"
+                required: false
+                i18n: true
+                hint: "Brief category overview shown at the top of the catalogue page."
               - label: "Icon"
                 name: "icon"
                 widget: "icon-select"
                 required: false
-                options:
-${iconOptions}
-      - name: "equipment-types-ua"
-        label: "Equipment Types (UA)"
-        file: "application/frontend/src/data/equipment-types.ua.json"
-        format: json
-        fields:
-          - label: "Categories"
-            name: "categories"
-            widget: list
-            hint: "Drag entries to reorder — keep the same order as the EN file."
-            fields:
-              - label: "Slug"
-                name: "slug"
-                widget: "string"
-                hint: "Must match the EN slug **exactly**, e.g. **checkweighers**."
-                pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', "Lowercase letters, numbers and hyphens only — no spaces or special characters"]
-              - { label: "Title", name: "title", widget: "string" }
-              - { label: "Description", name: "description", widget: "text", required: false }
-              - label: "Icon"
-                name: "icon"
-                widget: "icon-select"
-                required: false
+                i18n: duplicate
                 options:
 ${iconOptions}
 

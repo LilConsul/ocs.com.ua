@@ -2,32 +2,80 @@
   "en": {
     "categories": [
       {
+        "slug": "catchweighers",
+        "title": "Catchweighers",
+        "description": "High-speed catchweighers for logistics warehouses and distribution centers. Compare solutions by maximum throughput and displayed weight value, with dedicated options for dynamic parcel weighing and Combi systems.",
+        "icon": "inventory_2"
+      },
+      {
         "slug": "checkweighers",
         "title": "Checkweighers",
-        "description": "High-performance checkweighers for inline weight verification and quality control. Reliable detection of underweight and overweight products in food, pharmaceutical, cosmetics, and industrial production lines at speeds up to 600 products per minute.",
+        "description": "High-performance checkweighers for inline weight verification and quality control across food, pharmaceutical, cosmetics, and other industries. Compare systems by maximum throughput and displayed weight value to find the right solution for your production line.",
         "icon": "scale"
       },
       {
-        "slug": "catchweighers",
-        "title": "Catchweighers & DWS",
-        "description": "Industrial scales and DWS systems for logistics and e-commerce applications. High-speed solutions for parcel weighing up to 60 kg at 3.4 m/s with exceptional accuracy. Optimized for CEP organizations, warehouses, and distribution centers with throughput up to 11,000 parcels per hour.",
-        "icon": "inventory_2"
+        "slug": "track-and-trace",
+        "title": "Track & Trace",
+        "description": "Product serialization and aggregation solutions for reliable identification and traceability throughout the supply chain. Explore serialization systems with 2D code inspection, integrated weighing, and tamper-evident packaging verification, as well as semi-automatic aggregation and integration kits for case packers.",
+        "icon": "qr_code"
+      },
+      {
+        "slug": "metal-detectors",
+        "title": "Metal Detectors",
+        "description": "Industrial metal detection systems for reliable contaminant inspection and product safety. Discover conveyor-type, gravity-fall, pipeline, and Meatline metal detectors for different products and production environments.",
+        "icon": "shield_check"
+      },
+      {
+        "slug": "x-ray-inspection",
+        "title": "X-Ray Inspection Systems",
+        "description": "Industrial X-ray inspection systems for detecting foreign bodies and inspecting product integrity. Find the right solution by belt width, product weight category, and product presentation, including bulk-flow and upright products.",
+        "icon": "scan"
+      },
+      {
+        "slug": "miscellaneous",
+        "title": "Accessories & Software",
+        "description": "Complementary products and solutions for inspection systems, including software and certified test pieces for performance verification and routine quality control.",
+        "icon": "settings"
       }
     ]
   },
   "ua": {
     "categories": [
       {
+        "slug": "catchweighers",
+        "title": "Кетчвейєри",
+        "description": "Високошвидкісні динамічні ваги для логістичних складів і розподільчих центрів. Порівнюйте рішення за максимальною продуктивністю та значенням маси, що відображається, зокрема системи для динамічного зважування посилок і комбіновані системи.",
+        "icon": "inventory_2"
+      },
+      {
         "slug": "checkweighers",
         "title": "Контрольні ваги",
-        "description": "Високопродуктивні контрольні ваги для вбудованої перевірки маси та контролю якості. Надійне виявлення недовкладень та перевантажень у харчовій, фармацевтичній, косметичній та промисловій галузях зі швидкістю до 600 продуктів за хвилину.",
+        "description": "Високопродуктивні контрольні ваги для вбудованої перевірки маси та контролю якості у харчовій, фармацевтичній, косметичній та інших галузях. Порівнюйте системи за максимальною продуктивністю та значенням маси, що відображається, щоб обрати оптимальне рішення для виробничої лінії.",
         "icon": "scale"
       },
       {
-        "slug": "catchweighers",
-        "title": "Кетчвейєри & DWS",
-        "description": "Промислові ваги та системи DWS для логістики та електронної комерції. Високошвидкісні рішення для зважування посилок до 60 кг при швидкості 3.4 м/с з винятковою точністю. Оптимізовано для CEP-організацій, складів та розподільчих центрів з продуктивністю до 11,000 посилок на годину.",
-        "icon": "inventory_2"
+        "slug": "track-and-trace",
+        "title": "Track & Trace — серіалізація та агрегація",
+        "description": "Рішення для серіалізації та агрегації продукції, що забезпечують її надійну ідентифікацію та простежуваність упродовж усього ланцюга постачання. Ознайомтеся із системами серіалізації з контролем 2D-кодів, інтегрованим зважуванням і перевіркою захисту упаковки від несанкціонованого відкриття, а також рішеннями для напівавтоматичної агрегації та комплектами інтеграції для пакувальників у транспортні короби.",
+        "icon": "qr_code"
+      },
+      {
+        "slug": "metal-detectors",
+        "title": "Металодетектори",
+        "description": "Промислові системи виявлення металевих забруднень для забезпечення безпечності продукції. Обирайте конвеєрні металодетектори, системи для сипучих продуктів із гравітаційною подачею, трубопровідні рішення та металодетектори Meatline для різних продуктів і виробничих середовищ.",
+        "icon": "shield_check"
+      },
+      {
+        "slug": "x-ray-inspection",
+        "title": "Рентгенівські системи контролю",
+        "description": "Промислові рентгенівські системи для виявлення сторонніх включень і перевірки цілісності продукції. Підбирайте рішення за шириною конвеєрної стрічки, ваговою категорією та типом подачі продукції, зокрема для сипучих продуктів і продукції у вертикальному положенні.",
+        "icon": "scan"
+      },
+      {
+        "slug": "miscellaneous",
+        "title": "Аксесуари та програмне забезпечення",
+        "description": "Додаткові продукти й рішення для систем контролю, зокрема програмне забезпечення та тестові зразки для перевірки працездатності обладнання й регулярного контролю якості.",
+        "icon": "settings"
       }
     ]
   }
