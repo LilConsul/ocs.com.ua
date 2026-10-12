@@ -37,6 +37,8 @@ export default defineConfig({
 	i18n: {
 		defaultLocale: "ua",
 		locales: ["ua", "en"],
-		routing: { prefixDefaultLocale: true },
+		// "manual" disables Astro's automatic locale-prefix enforcement, which would 404 the
+		// locale-less /admin page. Locale routes are the explicit src/pages/[lang] pages.
+		routing: "manual",
 	},
 });
