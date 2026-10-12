@@ -73,6 +73,14 @@ repos:
   # Local hooks for frontend (Biome, Prettier)
   - repo: local
     hooks:
+      - id: i18n-frontend
+        name: "[FE] i18n Extract & Compile"
+        entry: bun
+        args: ["--cwd", "application/frontend", "run", "i18n"]
+        language: system
+        pass_filenames: false
+        files: ^application/frontend/(src/|locales/)
+
       - id: biome-check-frontend
         name: "[FE] Biome Check"
         entry: bun

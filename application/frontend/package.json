@@ -12,6 +12,7 @@
 		"check": "biome check .",
 		"check:fix": "biome check --write . && prettier --write \"**/*.{astro,tsx,jsx}\"",
 		"ci": "biome ci .",
+		"i18n": "node scripts/i18n-extract-po.js && node scripts/i18n-compile.js",
 		"i18n:extract": "node scripts/i18n-extract-po.js",
 		"i18n:init": "node scripts/i18n-extract-po.js --init",
 		"i18n:compile": "node scripts/i18n-compile.js",

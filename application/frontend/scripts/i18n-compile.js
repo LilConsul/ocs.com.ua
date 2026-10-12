@@ -165,7 +165,6 @@ function compile() {
  * - locales/ua.po (Ukrainian translations)
  *
  * Generation script: scripts/i18n-compile.js
- * Generated: ${new Date().toISOString()}
  */
 
 export const languages = {
@@ -185,8 +184,12 @@ ${buildObject("ua")},
 } as const;
 `;
 
-	writeFileSync(UI_FILE, uiContent, "utf-8");
-	console.log(`\n[OK] Compiled to src/i18n/ui.ts (${sortedKeys.length} keys)`);
+	if (existsSync(UI_FILE) && readFileSync(UI_FILE, "utf-8") === uiContent) {
+		console.log(`\n[OK] Up-to-date: src/i18n/ui.ts (${sortedKeys.length} keys)`);
+	} else {
+		writeFileSync(UI_FILE, uiContent, "utf-8");
+		console.log(`\n[OK] Compiled to src/i18n/ui.ts (${sortedKeys.length} keys)`);
+	}
 	console.log("\n[DONE] Compilation complete!");
 }
 
