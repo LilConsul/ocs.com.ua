@@ -15,6 +15,8 @@ export default defineConfig({
 	// Import via `astro:env/server`; the server refuses to start on invalid values.
 	env: {
 		schema: {
+			// === DecapCMS ===
+
 			// GitHub OAuth app (Decap CMS login)
 			GITHUB_CLIENT_ID: envField.string({ context: "server", access: "secret" }),
 			GITHUB_CLIENT_SECRET: envField.string({ context: "server", access: "secret" }),
@@ -28,6 +30,8 @@ export default defineConfig({
 			CMS_BASE_URL: envField.string({ context: "server", access: "public", url: true, optional: true }),
 			// Decap UI language
 			CMS_LOCALE: envField.enum({ context: "server", access: "public", values: ["en", "ua"], default: "en" }),
+			// Decap entry search; off by default to avoid exhausting GitHub API rate limits
+			CMS_SEARCH: envField.boolean({ context: "server", access: "public", default: false }),
 		},
 	},
 	i18n: {
