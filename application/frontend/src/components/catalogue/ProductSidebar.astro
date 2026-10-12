@@ -57,34 +57,40 @@ const workingHours = companyData.workingHours[lang as "en" | "ua"] || companyDat
 			}
 		</div>
 
-		<div class="border-border-subtle mt-2 border-t pt-6">
+		<div class="border-border-subtle mt-2 space-y-2 border-t pt-6">
 			<p
 				class="font-label-caps text-industrial-gray mb-1 text-xs font-semibold tracking-wider uppercase"
 			>
 				{_("Direct Technical Sales")}
 			</p>
-			{
-				contactPerson && (
-					<p class="text-foreground mb-2 text-sm font-medium">
-						{contactPerson.name}{" "}
-						<span class="text-industrial-gray text-xs font-normal">({contactPerson.title})</span>
-					</p>
-				)
-			}
+			{contactPerson && <p class="text-foreground text-sm font-medium">{contactPerson.name}</p>}
 			<a
 				href={companyData.phone.href}
-				class="text-foreground hover:text-secondary group flex items-center gap-3 transition-colors"
+				class="text-foreground hover:text-secondary group flex items-center gap-2 transition-colors"
 			>
 				<span
-					class="material-symbols-outlined text-industrial-gray group-hover:text-secondary text-[22px]"
+					class="material-symbols-outlined text-industrial-gray group-hover:text-secondary text-[20px]"
 				>
 					call
 				</span>
-				<span class="font-technical-data text-technical-data text-base font-semibold">
+				<span class="font-technical-data text-technical-data text-sm font-semibold">
 					{companyData.phone.display}
 				</span>
 			</a>
-			<p class="text-industrial-gray mt-2 text-xs">
+			{
+				companyData.emails?.sales && (
+					<a
+						href={`mailto:${companyData.emails.sales}`}
+						class="text-muted-foreground hover:text-secondary group flex items-center gap-2 transition-colors"
+					>
+						<span class="material-symbols-outlined text-industrial-gray group-hover:text-secondary text-[20px]">
+							mail
+						</span>
+						<span class="font-mono text-xs font-medium">{companyData.emails.sales}</span>
+					</a>
+				)
+			}
+			<p class="text-industrial-gray pt-1 text-xs">
 				{workingHours}
 			</p>
 		</div>

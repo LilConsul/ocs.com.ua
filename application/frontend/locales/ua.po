@@ -47,12 +47,12 @@ msgstr "Усі галузі"
 msgid "All rights reserved"
 msgstr "Усі права захищено"
 
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:107
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:108
 msgid "Breadcrumb"
 msgstr "Навігація"
 
 #: src/components/Header.astro:26
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:111
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:112
 msgid "Catalogue"
 msgstr "Каталог"
 
@@ -84,7 +84,7 @@ msgstr "Клієнтів"
 msgid "Close filters"
 msgstr "Закрити фільтри"
 
-#: src/components/catalogue/ProductGallery.astro:145
+#: src/components/catalogue/ProductGallery.astro:158
 msgid "Close preview"
 msgstr "Закрити попередній перегляд"
 
@@ -98,6 +98,7 @@ msgid "Cosmetics"
 msgstr "Косметична промисловість"
 
 #: src/components/catalogue/ProductSidebar.astro:64
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:164
 msgid "Direct Technical Sales"
 msgstr "Прямі продажі технічного обладнання"
 
@@ -109,8 +110,8 @@ msgstr "Динамічні чеквейєри та системи Track & Trace 
 msgid "Equipment Categories"
 msgstr "Категорії обладнання"
 
-#: src/components/catalogue/ProductGallery.astro:42
-#: src/components/catalogue/ProductGallery.astro:43
+#: src/components/catalogue/ProductGallery.astro:49
+#: src/components/catalogue/ProductGallery.astro:50
 msgid "Expand image"
 msgstr "Збільшити зображення"
 
@@ -142,7 +143,7 @@ msgstr "Високошвидкісні чеквейєри для складів 
 msgid "Hygienic checkweighers meeting food safety standards (FDA, IFS, BRC). Built for production lines."
 msgstr "Гігієнічні чеквейєри, що відповідають вимогам харчової безпеки (FDA, IFS, BRC) та призначені для виробничих ліній."
 
-#: src/components/catalogue/ProductGallery.astro:122
+#: src/components/catalogue/ProductGallery.astro:129
 msgid "Image lightbox"
 msgstr "Перегляд зображення у збільшеному форматі"
 
@@ -179,8 +180,8 @@ msgstr "Логістика та дистрибуція"
 msgid "Long-term partnerships built on reliable support."
 msgstr "Довгострокове партнерство, засноване на надійній підтримці."
 
-#: src/components/catalogue/ProductGallery.astro:76
-#: src/components/catalogue/ProductGallery.astro:177
+#: src/components/catalogue/ProductGallery.astro:83
+#: src/components/catalogue/ProductGallery.astro:190
 msgid "Next image"
 msgstr "Наступне зображення"
 
@@ -213,7 +214,7 @@ msgid "Our Clients"
 msgstr "Наші клієнти"
 
 #: src/components/catalogue/ProductSidebar.astro:29
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:162
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:155
 msgid "Our engineering team is ready to configure this equipment for your specific production environment."
 msgstr "Наша інженерна команда готова підібрати конфігурацію обладнання відповідно до потреб вашого виробництва."
 
@@ -221,12 +222,16 @@ msgstr "Наша інженерна команда готова підібрат
 msgid "Pharmaceutical"
 msgstr "Фармацевтична промисловість"
 
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:152
+msgid "Planning to upgrade your production line?"
+msgstr "Плануєте модернізувати виробничу лінію?"
+
 #: src/components/homepage/IndustriesSection.astro:59
 msgid "Precision checkweighers with Track & Trace serialization. GMP-compliant and audit-ready."
 msgstr "Високоточні чеквейєри із системами серіалізації Track & Trace, що відповідають вимогам GMP та готові до аудиту."
 
-#: src/components/catalogue/ProductGallery.astro:68
-#: src/components/catalogue/ProductGallery.astro:169
+#: src/components/catalogue/ProductGallery.astro:75
+#: src/components/catalogue/ProductGallery.astro:182
 msgid "Previous image"
 msgstr "Попереднє зображення"
 
@@ -234,11 +239,11 @@ msgstr "Попереднє зображення"
 msgid "Privacy Policy"
 msgstr "Політика конфіденційності"
 
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:138
-msgid "Product Gallery"
-msgstr ""
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:132
+msgid "Product Overview"
+msgstr "Огляд обладнання"
 
-#: src/components/catalogue/ProductGallery.astro:91
+#: src/components/catalogue/ProductGallery.astro:98
 msgid "Product image thumbnails"
 msgstr "Мініатюри зображень обладнання"
 
@@ -251,16 +256,15 @@ msgid "Quality control and filling inspection systems."
 msgstr "Системи контролю якості та перевірки рівня наповнення."
 
 #: src/components/catalogue/ProductSidebar.astro:25
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:159
 msgid "Ready to upgrade your line?"
 msgstr "Плануєте модернізувати виробничу лінію?"
 
 #: src/components/catalogue/RelatedEquipment.astro:18
 msgid "Related Equipment"
-msgstr "Супутнє обладнання"
+msgstr "Схоже обладнання"
 
 #: src/components/catalogue/ProductSidebar.astro:41
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:199
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:193
 msgid "Request Consultation"
 msgstr "Замовити консультацію"
 
@@ -281,7 +285,7 @@ msgid "Systems operating across Ukrainian manufacturing facilities."
 msgstr "Наше обладнання працює на виробничих підприємствах по всій Україні."
 
 #: src/components/catalogue/ProductSidebar.astro:54
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:191
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:206
 msgid "Technical Datasheet"
 msgstr "Технічна специфікація"
 
@@ -321,8 +325,8 @@ msgstr "Українська підтримка."
 msgid "View Products"
 msgstr "Переглянути обладнання"
 
-#: src/components/catalogue/ProductGallery.astro:102
-#: src/components/catalogue/ProductGallery.astro:195
+#: src/components/catalogue/ProductGallery.astro:109
+#: src/components/catalogue/ProductGallery.astro:208
 msgid "View image"
 msgstr "Переглянути зображення"
 

@@ -4,16 +4,15 @@
 		"href": "tel:+380673533853"
 	},
 	"emails": {
+		"sales": "gs@ocs.com.ua",
 		"info": "info@ocs.com.ua"
 	},
 	"contactPerson": {
 		"en": {
-			"name": "George Shevchenko",
-			"title": "Director"
+			"name": "George Shevchenko"
 		},
 		"ua": {
-			"name": "Георгій Шевченко",
-			"title": "Директор"
+			"name": "Георгій Шевченко"
 		}
 	},
 	"workingHours": {
