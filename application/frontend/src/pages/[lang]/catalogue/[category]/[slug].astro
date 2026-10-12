@@ -94,16 +94,16 @@ const structuredData = {
 	<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
 	<div class="mx-auto flex max-w-[1600px] gap-8 px-8 py-12">
-		<!-- Left Catalogue Sidebar Navigation -->
+		{/* Left Catalogue Sidebar Navigation */}
 		<CatalogueSidebar
 			allCategories={allCategories}
 			currentCategory={category}
 			lang={lang as Lang}
 		/>
 
-		<!-- Right Product Detail Content -->
+		{/* Right Product Detail Content */}
 		<main class="min-w-0 flex-1 space-y-12">
-			<!-- Breadcrumb Navigation -->
+			{/* Breadcrumb Navigation */}
 			<nav
 				aria-label={_("Breadcrumb")}
 				class="text-muted-foreground flex items-center space-x-2 font-mono text-xs"
@@ -119,7 +119,7 @@ const structuredData = {
 				<span class="text-foreground font-medium">{title}</span>
 			</nav>
 
-			<!-- Header & Title -->
+			{/* Header & Title */}
 			<header>
 				<h1
 					class="font-heading text-foreground text-3xl font-semibold tracking-tight md:text-4xl lg:text-5xl"
@@ -128,17 +128,17 @@ const structuredData = {
 				</h1>
 			</header>
 
-			<!-- Product Hero Grid: Gallery (2/3) + Description & Sales Card (1/3) -->
+			{/* Product Hero Grid: Gallery (2/3) + Description & Sales Card (1/3) */}
 			<section
 				class="grid grid-cols-1 items-start gap-8 lg:grid-cols-12"
 				aria-label={_("Product Overview")}
 			>
-				<!-- Left 7 cols: Interactive Gallery -->
+				{/* Left 7 cols: Interactive Gallery */}
 				<div class="lg:col-span-7">
 					<ProductGallery images={product.data.gallery} title={title} lang={lang as Lang} />
 				</div>
 
-				<!-- Right 5 cols: Description & Sales Consultation Card -->
+				{/* Right 5 cols: Description & Sales Consultation Card */}
 				<div class="flex flex-col gap-6 lg:col-span-5">
 					{
 						description && (
@@ -148,7 +148,7 @@ const structuredData = {
 						)
 					}
 
-					<!-- Sticky / Floating Consultation Box -->
+					{/* Sticky / Floating Consultation Box */}
 					<div
 						class="border-border/80 from-card via-card/90 to-muted/20 space-y-5 rounded-2xl border bg-gradient-to-b p-6 shadow-xs"
 					>
@@ -165,7 +165,7 @@ const structuredData = {
 							</p>
 						</div>
 
-						<!-- Direct Technical Sales Contact Info -->
+						{/* Direct Technical Sales Contact Info */}
 						<div class="border-border/60 space-y-2 border-t pt-4">
 							<p
 								class="font-label-caps text-muted-foreground text-[10px] font-semibold tracking-wider uppercase"
@@ -204,7 +204,7 @@ const structuredData = {
 							</p>
 						</div>
 
-						<!-- Action CTAs -->
+						{/* Action CTAs */}
 						<div class="flex flex-col gap-2.5 pt-1">
 							<a
 								href={`/${lang}#contact`}
@@ -232,10 +232,10 @@ const structuredData = {
 				</div>
 			</section>
 
-			<!-- Technical Specifications Table -->
+			{/* Technical Specifications Table */}
 			<ProductSpecsTable specs={product.data.specs} lang={lang as Lang} />
 
-			<!-- Markdown Documentation Body -->
+			{/* Markdown Documentation Body */}
 			{
 				body && (
 					<section class="prose prose-neutral dark:prose-invert max-w-none">
@@ -244,7 +244,7 @@ const structuredData = {
 				)
 			}
 
-			<!-- Related Equipment -->
+			{/* Related Equipment */}
 			<RelatedEquipment products={relatedProducts} lang={lang as Lang} />
 		</main>
 	</div>

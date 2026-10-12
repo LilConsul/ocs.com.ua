@@ -18,11 +18,11 @@ const hasMultiple = galleryImages.length > 1;
 	class="product-gallery-container w-full select-none"
 	data-images={JSON.stringify(galleryImages)}
 >
-	<!-- Main Interactive Viewer Card -->
+	{/* Main Interactive Viewer Card */}
 	<div
 		class="group border-border/80 from-muted/50 via-muted/20 to-background hover:border-border relative aspect-[4/3] w-full overflow-hidden rounded-2xl border bg-gradient-to-b shadow-xs transition-all duration-300 md:aspect-[16/10]"
 	>
-		<!-- Top Badges Bar -->
+		{/* Top Badges Bar */}
 		<div
 			class="pointer-events-none absolute inset-x-0 top-0 z-10 flex items-center justify-between p-4"
 		>
@@ -53,7 +53,7 @@ const hasMultiple = galleryImages.length > 1;
 			</button>
 		</div>
 
-		<!-- Main Image Frame -->
+		{/* Main Image Frame */}
 		<div class="flex h-full w-full items-center justify-center p-6 md:p-8">
 			<img
 				id="gallery-main-image"
@@ -64,7 +64,7 @@ const hasMultiple = galleryImages.length > 1;
 			/>
 		</div>
 
-		<!-- Hover Prev/Next Navigation Controls -->
+		{/* Hover Prev/Next Navigation Controls */}
 		{
 			hasMultiple && (
 				<>
@@ -89,7 +89,7 @@ const hasMultiple = galleryImages.length > 1;
 		}
 	</div>
 
-	<!-- Thumbnail Rail (shadcn Tabs / Selector Style) -->
+	{/* Thumbnail Rail (shadcn Tabs / Selector Style) */}
 	{
 		hasMultiple && (
 			<div
@@ -122,7 +122,7 @@ const hasMultiple = galleryImages.length > 1;
 		)
 	}
 
-	<!-- Lightbox Modal (shadcn Dialog style) -->
+	{/* Lightbox Modal (shadcn Dialog style) */}
 	<dialog
 		id="gallery-lightbox"
 		class="bg-background/90 backdrop:bg-background/90 animate-in fade-in-0 fixed inset-0 z-50 m-0 h-full max-h-none w-full max-w-none p-0 backdrop-blur-xl duration-200 open:flex open:flex-col open:items-center open:justify-center"
@@ -131,7 +131,7 @@ const hasMultiple = galleryImages.length > 1;
 		<div
 			class="relative flex h-full w-full max-w-6xl flex-col items-center justify-between p-4 md:p-6"
 		>
-			<!-- Lightbox Header -->
+			{/* Lightbox Header */}
 			<div class="border-border/40 flex w-full items-center justify-between border-b pb-4">
 				<div class="flex items-center gap-3">
 					<span class="font-heading text-foreground text-sm font-semibold md:text-base"
@@ -162,7 +162,7 @@ const hasMultiple = galleryImages.length > 1;
 				</div>
 			</div>
 
-			<!-- Main Lightbox Image Viewport -->
+			{/* Main Lightbox Image Viewport */}
 			<div class="relative flex max-h-[75vh] w-full flex-1 items-center justify-center p-4">
 				<img
 					id="lightbox-image"
@@ -171,7 +171,7 @@ const hasMultiple = galleryImages.length > 1;
 					class="max-h-[70vh] max-w-full object-contain drop-shadow-md transition-all duration-200"
 				/>
 
-				<!-- Navigation Buttons in Lightbox -->
+				{/* Navigation Buttons in Lightbox */}
 				{
 					hasMultiple && (
 						<>
@@ -196,7 +196,7 @@ const hasMultiple = galleryImages.length > 1;
 				}
 			</div>
 
-			<!-- Lightbox Bottom Thumbnail Bar -->
+			{/* Lightbox Bottom Thumbnail Bar */}
 			{
 				hasMultiple && (
 					<div class="border-border/40 flex items-center gap-2 overflow-x-auto border-t pt-4 pb-2">
