@@ -302,9 +302,7 @@ async function extract() {
 		const poContent = updatePO(strings, existingPO, lang);
 		const poUpdated = writeIfChanged(poFile, poContent);
 		console.log(
-			poUpdated
-				? `[OK] Updated: locales/${lang}.po`
-				: `[OK] Up-to-date: locales/${lang}.po`
+			poUpdated ? `[OK] Updated: locales/${lang}.po` : `[OK] Up-to-date: locales/${lang}.po`
 		);
 	}
 
