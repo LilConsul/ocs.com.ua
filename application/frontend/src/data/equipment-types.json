@@ -1,0 +1,34 @@
+{
+  "en": {
+    "categories": [
+      {
+        "slug": "checkweighers",
+        "title": "Checkweighers",
+        "description": "High-performance checkweighers for inline weight verification and quality control. Reliable detection of underweight and overweight products in food, pharmaceutical, cosmetics, and industrial production lines at speeds up to 600 products per minute.",
+        "icon": "scale"
+      },
+      {
+        "slug": "catchweighers",
+        "title": "Catchweighers & DWS",
+        "description": "Industrial scales and DWS systems for logistics and e-commerce applications. High-speed solutions for parcel weighing up to 60 kg at 3.4 m/s with exceptional accuracy. Optimized for CEP organizations, warehouses, and distribution centers with throughput up to 11,000 parcels per hour.",
+        "icon": "inventory_2"
+      }
+    ]
+  },
+  "ua": {
+    "categories": [
+      {
+        "slug": "checkweighers",
+        "title": "Контрольні ваги",
+        "description": "Високопродуктивні контрольні ваги для вбудованої перевірки маси та контролю якості. Надійне виявлення недовкладень та перевантажень у харчовій, фармацевтичній, косметичній та промисловій галузях зі швидкістю до 600 продуктів за хвилину.",
+        "icon": "scale"
+      },
+      {
+        "slug": "catchweighers",
+        "title": "Кетчвейєри & DWS",
+        "description": "Промислові ваги та системи DWS для логістики та електронної комерції. Високошвидкісні рішення для зважування посилок до 60 кг при швидкості 3.4 м/с з винятковою точністю. Оптимізовано для CEP-організацій, складів та розподільчих центрів з продуктивністю до 11,000 посилок на годину.",
+        "icon": "inventory_2"
+      }
+    ]
+  }
+}
