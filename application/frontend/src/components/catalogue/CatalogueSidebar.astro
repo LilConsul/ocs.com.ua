@@ -72,7 +72,7 @@ const sortedCategories = allCategories.sort(
 					// Extract category slug from entry ID (handles locale suffix)
 					const catSlug = getCategory(cat);
 					const isActive = catSlug === currentCategory;
-					const label = cat.data.label; // Clean field name!
+					const label = cat.data.title;
 					const icon = cat.data.icon || "category";
 
 					return (
