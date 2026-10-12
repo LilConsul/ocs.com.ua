@@ -161,6 +161,12 @@
 			}
 		},
 		{
+			"includes": ["src/i18n/ui.ts"],
+			"formatter": {
+				"enabled": false
+			}
+		},
+		{
 			"includes": ["public/**/*.svg"],
 			"linter": {
 				"rules": {
