@@ -1,0 +1,72 @@
+---
+import { Badge } from "@/components/ui/badge";
+import companyData from "@/data/company.json";
+import { getInlineTranslations, type Lang } from "@/i18n";
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const _ = getInlineTranslations(lang);
+const partners = companyData.partners;
+---
+
+<section class="relative w-full overflow-hidden pt-12 pb-16">
+	<div
+		class="pointer-events-none absolute inset-0 opacity-[0.03]"
+		style="background-image: radial-gradient(var(--color-foreground) 1px, transparent 1px); background-size: 24px 24px;"
+		aria-hidden="true"
+	>
+	</div>
+
+	<div class="relative mx-auto max-w-[1280px] px-8">
+		{/* Breadcrumb */}
+		<nav
+			aria-label={_("Breadcrumb")}
+			class="font-technical-data text-technical-data text-industrial-gray mb-8"
+		>
+			<ol class="flex items-center gap-2">
+				<li class="after:text-border after:ml-2 after:content-['/']">
+					<a href={`/${lang}`} class="hover:text-foreground transition-colors">{_("Home")}</a>
+				</li>
+				<li aria-current="page" class="text-foreground font-medium">{_("Contact Us")}</li>
+			</ol>
+		</nav>
+
+		{/* Headline block */}
+		<header class="space-y-6 lg:w-2/3">
+			<h1 class="font-display-lg text-display-lg text-foreground font-heading tracking-tight">
+				{_("Get in Touch")}
+			</h1>
+			<p class="text-industrial-gray max-w-2xl text-lg leading-relaxed">
+				{
+					_(
+						"Contact our engineering team to discuss equipment selection, request a quotation, or arrange a product demonstration."
+					)
+				}
+			</p>
+
+			{/* Partner badges */}
+			<ul class="flex flex-wrap gap-3">
+				{
+					partners.map((partner) => (
+						<li>
+							<Badge
+								variant="outline"
+								className="border-border bg-background inline-flex h-auto items-center gap-2 rounded-full px-4 py-1.5"
+							>
+								<span class="bg-primary h-2 w-2 animate-pulse rounded-full" aria-hidden="true" />
+								<span class="font-technical-data text-xs tracking-wider uppercase">
+									{lang === "en"
+										? `Official Partner of ${partner}`
+										: `Офіційний партнер ${partner}`}
+								</span>
+							</Badge>
+						</li>
+					))
+				}
+			</ul>
+		</header>
+	</div>
+</section>
