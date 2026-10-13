@@ -43,8 +43,8 @@ msgstr ""
 msgid "All rights reserved"
 msgstr ""
 
-#: src/components/ServerErrorContent.astro:36
-#: src/components/NotFoundContent.astro:37
+#: src/components/errors/ServerErrorContent.astro:36
+#: src/components/errors/NotFoundContent.astro:37
 msgid "Back to Home"
 msgstr ""
 
@@ -52,7 +52,7 @@ msgstr ""
 msgid "Breadcrumb"
 msgstr ""
 
-#: src/components/NotFoundContent.astro:44
+#: src/components/errors/NotFoundContent.astro:44
 msgid "Browse Catalogue"
 msgstr ""
 
@@ -98,10 +98,10 @@ msgstr ""
 msgid "Close preview"
 msgstr ""
 
-#: src/components/ServerErrorContent.astro:46
-#: src/components/NotFoundContent.astro:54
 #: src/components/homepage/HeroSection.astro:86
 #: src/components/catalogue/CatalogueSidebar.astro:95
+#: src/components/errors/ServerErrorContent.astro:46
+#: src/components/errors/NotFoundContent.astro:54
 msgid "Contact Us"
 msgstr ""
 
@@ -192,7 +192,7 @@ msgstr ""
 msgid "Long-term partnerships built on reliable support."
 msgstr ""
 
-#: src/components/NotFoundContent.astro:49
+#: src/components/errors/NotFoundContent.astro:49
 msgid "Need help finding equipment?"
 msgstr ""
 
@@ -236,7 +236,7 @@ msgstr ""
 
 #: src/pages/404.astro:9
 #: src/pages/404.astro:9
-#: src/components/NotFoundContent.astro:17
+#: src/components/errors/NotFoundContent.astro:17
 msgid "Page Not Found"
 msgstr ""
 
@@ -290,7 +290,7 @@ msgstr ""
 msgid "Request Consultation"
 msgstr ""
 
-#: src/components/NotFoundContent.astro:26
+#: src/components/errors/NotFoundContent.astro:26
 msgid "Requested path"
 msgstr ""
 
@@ -300,11 +300,11 @@ msgstr ""
 
 #: src/pages/50x.astro:9
 #: src/pages/50x.astro:9
-#: src/components/ServerErrorContent.astro:17
+#: src/components/errors/ServerErrorContent.astro:17
 msgid "Something Went Wrong"
 msgstr ""
 
-#: src/components/ServerErrorContent.astro:41
+#: src/components/errors/ServerErrorContent.astro:41
 msgid "Still having trouble?"
 msgstr ""
 
@@ -345,11 +345,11 @@ msgstr ""
 msgid "Terms of Service"
 msgstr ""
 
-#: src/components/NotFoundContent.astro:18
+#: src/components/errors/NotFoundContent.astro:18
 msgid "The page you are looking for does not exist or has been moved. Explore our catalogue or return to the homepage."
 msgstr ""
 
-#: src/components/ServerErrorContent.astro:18
+#: src/components/errors/ServerErrorContent.astro:18
 msgid "The server is temporarily unavailable. Please try again in a few minutes or return to the homepage."
 msgstr ""
 
@@ -361,7 +361,7 @@ msgstr ""
 msgid "Trusted by Ukraine's Leading Manufacturers"
 msgstr ""
 
-#: src/components/ServerErrorContent.astro:29
+#: src/components/errors/ServerErrorContent.astro:29
 msgid "Try Again"
 msgstr ""
 

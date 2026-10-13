@@ -47,8 +47,8 @@ msgstr "Усі галузі"
 msgid "All rights reserved"
 msgstr "Усі права захищено"
 
-#: src/components/ServerErrorContent.astro:36
-#: src/components/NotFoundContent.astro:37
+#: src/components/errors/ServerErrorContent.astro:36
+#: src/components/errors/NotFoundContent.astro:37
 msgid "Back to Home"
 msgstr "На головну"
 
@@ -56,7 +56,7 @@ msgstr "На головну"
 msgid "Breadcrumb"
 msgstr "Навігація"
 
-#: src/components/NotFoundContent.astro:44
+#: src/components/errors/NotFoundContent.astro:44
 msgid "Browse Catalogue"
 msgstr "Каталог обладнання"
 
@@ -102,10 +102,10 @@ msgstr "Закрити сповіщення"
 msgid "Close preview"
 msgstr "Закрити попередній перегляд"
 
-#: src/components/ServerErrorContent.astro:46
-#: src/components/NotFoundContent.astro:54
 #: src/components/homepage/HeroSection.astro:86
 #: src/components/catalogue/CatalogueSidebar.astro:95
+#: src/components/errors/ServerErrorContent.astro:46
+#: src/components/errors/NotFoundContent.astro:54
 msgid "Contact Us"
 msgstr "Зв’язатися з нами"
 
@@ -196,7 +196,7 @@ msgstr "Логістика та дистрибуція"
 msgid "Long-term partnerships built on reliable support."
 msgstr "Довгострокове партнерство, засноване на надійній підтримці."
 
-#: src/components/NotFoundContent.astro:49
+#: src/components/errors/NotFoundContent.astro:49
 msgid "Need help finding equipment?"
 msgstr "Потрібна допомога з вибором обладнання?"
 
@@ -240,7 +240,7 @@ msgstr "Наша інженерна команда готова підібрат
 
 #: src/pages/404.astro:9
 #: src/pages/404.astro:9
-#: src/components/NotFoundContent.astro:17
+#: src/components/errors/NotFoundContent.astro:17
 msgid "Page Not Found"
 msgstr "Сторінку не знайдено"
 
@@ -294,7 +294,7 @@ msgstr "Схоже обладнання"
 msgid "Request Consultation"
 msgstr "Замовити консультацію"
 
-#: src/components/NotFoundContent.astro:26
+#: src/components/errors/NotFoundContent.astro:26
 msgid "Requested path"
 msgstr "Запитана адреса"
 
@@ -304,11 +304,11 @@ msgstr "Рішення для кожної галузі"
 
 #: src/pages/50x.astro:9
 #: src/pages/50x.astro:9
-#: src/components/ServerErrorContent.astro:17
+#: src/components/errors/ServerErrorContent.astro:17
 msgid "Something Went Wrong"
 msgstr "Щось пішло не так"
 
-#: src/components/ServerErrorContent.astro:41
+#: src/components/errors/ServerErrorContent.astro:41
 msgid "Still having trouble?"
 msgstr "Проблема не зникає?"
 
@@ -349,11 +349,11 @@ msgstr "Технічна експертиза та сервісна підтри
 msgid "Terms of Service"
 msgstr "Умови користування"
 
-#: src/components/NotFoundContent.astro:18
+#: src/components/errors/NotFoundContent.astro:18
 msgid "The page you are looking for does not exist or has been moved. Explore our catalogue or return to the homepage."
 msgstr "Сторінка, яку ви шукаєте, не існує або була переміщена. Перегляньте наш каталог або поверніться на головну сторінку."
 
-#: src/components/ServerErrorContent.astro:18
+#: src/components/errors/ServerErrorContent.astro:18
 msgid "The server is temporarily unavailable. Please try again in a few minutes or return to the homepage."
 msgstr "Сервер тимчасово недоступний. Спробуйте ще раз за кілька хвилин або поверніться на головну сторінку."
 
@@ -365,7 +365,7 @@ msgstr "Відкрити або закрити меню"
 msgid "Trusted by Ukraine's Leading Manufacturers"
 msgstr "Нам довіряють провідні виробники України"
 
-#: src/components/ServerErrorContent.astro:29
+#: src/components/errors/ServerErrorContent.astro:29
 msgid "Try Again"
 msgstr "Спробувати ще раз"
 
