@@ -110,15 +110,103 @@ messages, so the server never returns raw SMTP or Google errors.
 
 ### Environment (`astro.config.mjs` `env.schema` and `.env.example`)
 
-| Variable                                                          | Access        | Notes                                              |
-| ----------------------------------------------------------------- | ------------- | -------------------------------------------------- |
-| `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS` | server secret | `SMTP_USER`/`SMTP_PASS` optional for a local relay |
-| `CONTACT_TO`                                                      | server public | default `info@ocs.com.ua`                          |
-| `CONTACT_FROM`                                                    | server public | sender address, to be created                      |
-| `RECAPTCHA_SITE_KEY`                                              | client public |                                                    |
-| `RECAPTCHA_SECRET_KEY`                                            | server secret |                                                    |
+| Variable                                                          | Access        | Notes                                                                                             |
+| ----------------------------------------------------------------- | ------------- | ------------------------------------------------------------------------------------------------- |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS` | server secret | `SMTP_USER`/`SMTP_PASS` optional in the app schema (local relay); required by the deploy manifest |
+| `CONTACT_TO`                                                      | server public | default `info@ocs.com.ua`                                                                         |
+| `CONTACT_FROM`                                                    | server public | sender address, to be created                                                                     |
+| `RECAPTCHA_SITE_KEY`                                              | client public |                                                                                                   |
+| `RECAPTCHA_SECRET_KEY`                                            | server secret |                                                                                                   |
 
 New dependencies: `nodemailer`, `@types/nodemailer`.
+
+## Secret management
+
+All runtime secrets live in GitHub and are written to the server's env file by the deploy
+workflow. There is no manual SSH step to update a secret — the env file is a generated artifact.
+
+### `.github/secrets.dev.yaml` (committed, no values)
+
+A manifest committed to the repo that declares which GitHub secrets and variables map to which env
+var names on the server. It contains no values. Structure:
+
+```yaml
+# Maps GitHub repository secrets/variables to the server env file.
+# All values are injected by the deploy workflow; this file contains no secrets.
+env_file: /home/ocs/domains/dev.ocs.com.ua/ocs-dev.env
+
+secrets:
+  # key: GitHub secret name  →  value: env var name written to the env file
+  DEV_GITHUB_CLIENT_ID: GITHUB_CLIENT_ID
+  DEV_GITHUB_CLIENT_SECRET: GITHUB_CLIENT_SECRET
+  DEV_RECAPTCHA_SECRET_KEY: RECAPTCHA_SECRET_KEY
+  SMTP_USER: SMTP_USER
+  SMTP_PASS: SMTP_PASS
+
+variables:
+  # key: GitHub variable name  →  value: env var name written to the env file
+  DEV_CONTACT_TO: CONTACT_TO
+  DEV_RECAPTCHA_SITE_KEY: RECAPTCHA_SITE_KEY
+  CONTACT_FROM: CONTACT_FROM
+  SMTP_HOST: SMTP_HOST
+  SMTP_PORT: SMTP_PORT
+  SMTP_SECURE: SMTP_SECURE
+```
+
+Naming: values that differ per environment carry an environment prefix (`DEV_`, later `PROD_`),
+matching the existing `DEV_SSH_*` secrets: the GitHub OAuth app (one callback URL per app), the
+reCAPTCHA key pair, and `CONTACT_TO` (dev submissions go to a developer mailbox, not
+`info@ocs.com.ua`). Values shared by dev and prod have no prefix: the SMTP connection and
+`CONTACT_FROM`. The env var names on the server are always unprefixed, so the app code does not
+change. GitHub also forbids secret names starting with `GITHUB_`; the `DEV_` prefix avoids that for
+the OAuth pair.
+
+### Deploy step: "Sync env file"
+
+After the Upload step and before Restart, the workflow:
+
+1. Actions cannot look up a secret by a dynamic name, so the step passes the whole `secrets` and
+   `vars` contexts as JSON through its `env:` block (`${{ toJSON(secrets) }}`,
+   `${{ toJSON(vars) }}`). GitHub masks the values in logs.
+1. `scripts/render-env.mjs` (uses the `yaml` package) reads `.github/secrets.dev.yaml`, picks only the
+   listed names from those two JSON objects, and prints the env file content. It fails the job if
+   a listed name is missing or empty, so a typo or a forgotten secret stops the deploy before the
+   server file is touched.
+1. Each line is `NAME="value"` with `\` and `"` escaped (and newlines rejected) so systemd's
+   `EnvironmentFile` parses it safely.
+1. The content is streamed over SSH on stdin to `umask 077; cat > file.tmp && mv file.tmp file`,
+   so the file is replaced atomically with owner-only permissions and values never appear in a
+   command line.
+1. The existing Restart step re-reads the new env file.
+
+The renderer's pure logic (`renderEnv`) is covered by `bun test`.
+
+Public `astro:env` values are inlined at build time. Today the Build step passes only `SITE_URL`
+and `CMS_BASE_URL`; this change adds `RECAPTCHA_SITE_KEY` (`vars.DEV_RECAPTCHA_SITE_KEY`),
+`CONTACT_TO` (`vars.DEV_CONTACT_TO`) and `CONTACT_FROM` (`vars.CONTACT_FROM`) there too. They are
+also in the generated env file so the running server sees the
+same values. `package.json` gains `yaml` as a devDependency for `render-env.mjs` (it is installed
+only transitively today).
+
+### Migration note
+
+Before the first deploy with this change, add every name listed in the manifest to the GitHub
+repository settings (secrets under Secrets, the rest under Variables). The OAuth values currently
+only exist in the server's `ocs-dev.env`; copy them from there
+into `DEV_GITHUB_CLIENT_ID` / `DEV_GITHUB_CLIENT_SECRET`, otherwise the first sync overwrites the
+file without them and CMS login breaks.
+
+### Out of scope for now
+
+- The Apache vhost rule that proxies `/api/contact` to Node on the server is skipped for now.
+  Until it is added, the form works only where Node serves the request directly (local dev).
+
+### Future: production
+
+When a production server is added, create the `PROD_*` secrets and variables (the shared SMTP and
+`CONTACT_FROM` names are reused) and a second manifest, `.github/secrets.prod.yaml`, with its own
+`env_file` path. The workflow gains a `deploy-prod` job that points `render-env.mjs` at that
+manifest.
 
 ## Client behavior
 
