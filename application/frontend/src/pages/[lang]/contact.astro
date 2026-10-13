@@ -1,0 +1,106 @@
+---
+import ContactForm from "@/components/contact/ContactForm.astro";
+import ContactHero from "@/components/contact/ContactHero.astro";
+import ContactInfoCard from "@/components/contact/ContactInfoCard.astro";
+import DocumentsCard from "@/components/contact/DocumentsCard.astro";
+import OfficeLocation from "@/components/contact/OfficeLocation.astro";
+import companyData from "@/data/company.json";
+import { getInlineTranslations, isValidLang, type Lang } from "@/i18n";
+import { languages } from "@/i18n/ui";
+import Layout from "@/layouts/Layout.astro";
+
+export function getStaticPaths() {
+	return (Object.keys(languages) as Lang[]).map((lang) => ({ params: { lang } }));
+}
+
+const langParam = Astro.params.lang;
+if (!isValidLang(langParam)) {
+	return new Response(null, { status: 404 });
+}
+const lang: Lang = langParam;
+const _ = getInlineTranslations(lang);
+
+const siteUrl = Astro.site ?? "https://ocs.com.ua";
+const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
+const address = companyData.address[lang as "en" | "ua"] ?? companyData.address.en;
+
+const structuredData = [
+	{
+		"@context": "https://schema.org",
+		"@type": "ContactPage",
+		url: currentUrl,
+		inLanguage: lang,
+		name: lang === "en" ? "Contact OS-Technology Ukraine" : "Зв'яжіться з ОС-Технолоджи Україна",
+		breadcrumb: {
+			"@type": "BreadcrumbList",
+			itemListElement: [
+				{
+					"@type": "ListItem",
+					position: 1,
+					name: lang === "en" ? "Home" : "Головна",
+					item: new URL(`/${lang}`, siteUrl).href,
+				},
+				{
+					"@type": "ListItem",
+					position: 2,
+					name: lang === "en" ? "Contact Us" : "Зв'яжіться з нами",
+					item: currentUrl,
+				},
+			],
+		},
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "LocalBusiness",
+		name: lang === "en" ? "OS-Technology Ukraine" : "ОС-Технолоджи Україна",
+		url: new URL(`/${lang}`, siteUrl).href,
+		telephone: companyData.phone.href.replace("tel:", ""),
+		email: companyData.emails.info,
+		address: {
+			"@type": "PostalAddress",
+			streetAddress: address.street,
+			addressLocality: address.city,
+			postalCode: address.postalCode,
+			addressCountry: "UA",
+		},
+		openingHoursSpecification: {
+			"@type": "OpeningHoursSpecification",
+			dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+			opens: "09:00",
+			closes: "18:00",
+		},
+		areaServed: "UA",
+	},
+];
+---
+
+<Layout
+	title={_("Contact Us | OS-Technology Ukraine")}
+	description={_(
+		"Contact the OS-Technology Ukraine engineering team. Request a quotation, arrange a product demonstration, or get technical support."
+	)}
+>
+	{
+		structuredData.map((sd) => (
+			<script is:inline type="application/ld+json" set:html={JSON.stringify(sd)} />
+		))
+	}
+
+	<ContactHero lang={lang} />
+
+	<div class="mx-auto max-w-[1280px] space-y-16 px-8 pb-24">
+		{/* Main grid: form (8 cols) + sidebar (4 cols) */}
+		<div class="grid grid-cols-1 items-start gap-6 lg:grid-cols-12">
+			<div class="lg:col-span-8">
+				<ContactForm lang={lang} />
+			</div>
+			<aside class="space-y-6 lg:col-span-4">
+				<ContactInfoCard lang={lang} />
+				<DocumentsCard lang={lang} />
+			</aside>
+		</div>
+
+		{/* Office location with map */}
+		<OfficeLocation lang={lang} />
+	</div>
+</Layout>
