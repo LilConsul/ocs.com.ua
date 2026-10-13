@@ -18,5 +18,20 @@
 	"workingHours": {
 		"en": "Mon-Fri, 9:00 - 18:00 (Kyiv)",
 		"ua": "Пн-Пт, 9:00 - 18:00 (Київ)"
-	}
+	},
+	"address": {
+		"en": {
+			"street": "67 Beresteiskyi Ave",
+			"city": "Kyiv",
+			"postalCode": "03062",
+			"country": "Ukraine"
+		},
+		"ua": {
+			"street": "Берестейський просп., 67",
+			"city": "Київ",
+			"postalCode": "03062",
+			"country": "Україна"
+		}
+	},
+	"partners": ["Wipotec GmbH", "Mesutronic GmbH"]
 }
