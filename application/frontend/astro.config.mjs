@@ -70,9 +70,18 @@ export default defineConfig({
 				default: "info@ocs.com.ua",
 			}),
 			// Sender address created on the mail server
-			CONTACT_FROM: envField.string({ context: "server", access: "public" }),
-			// reCAPTCHA v3 (client public key inlined at build time)
-			RECAPTCHA_SITE_KEY: envField.string({ context: "client", access: "public" }),
+			CONTACT_FROM: envField.string({
+				context: "server",
+				access: "public",
+				default: "noreply@ocs.com.ua",
+			}),
+			// reCAPTCHA v3 (client public key inlined at build time). Optional so the site still
+			// starts without it; the form then can't pass the server-side reCAPTCHA check.
+			RECAPTCHA_SITE_KEY: envField.string({
+				context: "client",
+				access: "public",
+				optional: true,
+			}),
 			// reCAPTCHA v3 (server secret — never sent to browser)
 			RECAPTCHA_SECRET_KEY: envField.string({ context: "server", access: "secret" }),
 		},

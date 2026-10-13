@@ -12,10 +12,11 @@ export const SECTORS = [
 
 export type Sector = (typeof SECTORS)[number];
 
-// Equipment slugs from src/data/equipment-types.json
+// Equipment slugs from src/data/equipment-types.json.
+// "catchweigher" is intentionally omitted: the form offers a single combined
+// "checkweigher" option covering both checkweighers and catchweighers.
 export const EQUIPMENT_SLUGS = [
 	"checkweigher",
-	"catchweigher",
 	"track-and-trace",
 	"metal-detectors",
 	"x-ray-inspection",
