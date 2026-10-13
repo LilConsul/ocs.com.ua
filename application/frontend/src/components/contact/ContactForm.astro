@@ -1,0 +1,396 @@
+---
+import { RECAPTCHA_SITE_KEY } from "astro:env/client";
+import equipmentTypes from "@/data/equipment-types.json";
+import { getInlineTranslations, type Lang } from "@/i18n";
+import { EQUIPMENT_SLUGS, SECTORS } from "@/lib/contact/options";
+import CheckboxCard from "./CheckboxCard.astro";
+import FormField from "./FormField.astro";
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const _ = getInlineTranslations(lang);
+
+// Build equipment label map from equipment-types.json for the current language
+const equipmentCategories = equipmentTypes[lang as "en" | "ua"]?.categories ?? [];
+const equipmentLabelMap: Record<string, string> = Object.fromEntries(
+	equipmentCategories.map((c) => [c.slug, c.title])
+);
+
+// Server error / validation codes -> translated display strings, consumed by the client script
+const messages = {
+	required: _("This field is required."),
+	too_long: _("This value is too long."),
+	invalid_format: _("Please enter a valid email address."),
+	free_mail: _("Please use a company email address, not a personal one."),
+	invalid_sector: _("Please select a valid sector."),
+	invalid_equipment: _("One or more selected equipment types are invalid."),
+	rate_limited: _("Too many submissions. Please try again in 10 minutes."),
+	recaptcha_missing: _("Security check failed. Please refresh and try again."),
+	recaptcha_failed: _("Security check failed. Please refresh and try again."),
+	recaptcha_unavailable: _("Could not complete security check. Please try again later."),
+	smtp_error: _("Could not send your message. Please try again later or email us directly."),
+	validation_failed: _("Please correct the highlighted fields and try again."),
+	forbidden: _("Submission not allowed from this origin."),
+	default: _("An unexpected error occurred. Please try again."),
+	success: _("Your inquiry has been sent. We will contact you shortly."),
+};
+---
+
+<section class="bg-background rounded-xl p-8 shadow-md md:p-10" aria-labelledby="form-heading">
+	<header class="flex items-center justify-between pb-6">
+		<div>
+			<p class="font-label-caps text-label-caps text-secondary font-semibold uppercase">
+				{_("Engineering Inquiry")}
+			</p>
+			<h2 id="form-heading" class="font-heading text-foreground mt-1 text-2xl font-bold">
+				{_("Send Us a Message")}
+			</h2>
+		</div>
+		<span
+			class="material-symbols-outlined text-industrial-gray hidden text-3xl sm:block"
+			aria-hidden="true"
+		>
+			precision_manufacturing
+		</span>
+	</header>
+
+	{/* Status region for screen readers and inline feedback */}
+	<div
+		id="form-status"
+		role="status"
+		aria-live="polite"
+		aria-atomic="true"
+		class="font-technical-data text-technical-data mb-6 hidden rounded-lg p-4"
+	>
+	</div>
+
+	<form id="contact-form" novalidate class="space-y-6">
+		{/* Honeypot — must stay hidden and empty */}
+		<div class="hidden" aria-hidden="true">
+			<label for="website">Website</label>
+			<input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+		</div>
+
+		{/* Row 1: Name and Job Title */}
+		<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+			<FormField
+				id="name"
+				label={_("Full Name")}
+				required
+				placeholder={_("e.g. Oleksii Kovalenko")}
+			/>
+			<FormField
+				id="jobTitle"
+				label={_("Job Title")}
+				required
+				placeholder={_("e.g. Chief Engineer")}
+			/>
+		</div>
+
+		{/* Row 2: Company and Phone */}
+		<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+			<FormField id="company" label={_("Company")} required placeholder={_("e.g. Farmak PJSC")} />
+			<FormField
+				id="phone"
+				label={_("Phone")}
+				type="tel"
+				required
+				placeholder="+380 (50) 000-00-00"
+			/>
+		</div>
+
+		{/* Row 3: Email */}
+		<FormField
+			id="email"
+			label={_("Corporate Email")}
+			type="email"
+			required
+			placeholder="engineer@company.ua"
+			hint={_("Please use a company email address, not a personal one.")}
+		/>
+
+		{/* Row 4: Sector */}
+		<FormField id="sector" label={_("Industry Sector")} type="select" required>
+			<option value="" disabled selected>{_("Select sector…")}</option>
+			{SECTORS.map((sector) => <option value={sector}>{sector}</option>)}
+		</FormField>
+
+		{/* Row 5: Equipment (optional checkboxes) */}
+		<fieldset>
+			<legend class="font-technical-data text-technical-data text-foreground mb-3 font-medium">
+				{_("Equipment of Interest")}
+				<span class="text-industrial-gray ml-1 text-xs">({_("optional")})</span>
+			</legend>
+			<div class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
+				{
+					EQUIPMENT_SLUGS.map((slug) => (
+						<CheckboxCard name="equipment" value={slug} label={equipmentLabelMap[slug] ?? slug} />
+					))
+				}
+			</div>
+			<p
+				id="equipment-error"
+				role="alert"
+				class="text-destructive mt-2 hidden text-xs font-medium"
+				data-field-error="equipment"
+			>
+			</p>
+		</fieldset>
+
+		{/* Row 6: Message */}
+		<FormField
+			id="message"
+			label={_("Message")}
+			type="textarea"
+			required
+			rows={5}
+			placeholder={_("Describe your requirements…")}
+		/>
+
+		{/* reCAPTCHA notice (badge hidden via CSS below) */}
+		<p class="text-industrial-gray text-xs">
+			{_("This form is protected by reCAPTCHA.")}
+			{" "}
+			<a
+				href="https://policies.google.com/privacy"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="hover:text-foreground underline">{_("Privacy Policy")}</a
+			>
+			{" "}&amp;{" "}
+			<a
+				href="https://policies.google.com/terms"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="hover:text-foreground underline">{_("Terms of Service")}</a
+			>
+		</p>
+
+		{/* Submit */}
+		<button
+			type="submit"
+			id="form-submit"
+			class="bg-primary text-primary-foreground font-heading mt-2 inline-flex w-full items-center justify-center gap-2 rounded-lg px-8 py-4 text-base font-semibold transition-opacity hover:opacity-90 disabled:opacity-50 sm:w-auto"
+		>
+			{_("Submit Inquiry")}
+			<span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+		</button>
+	</form>
+</section>
+
+<style is:global>
+	/* Hide reCAPTCHA badge (Google's policy: the notice text above is shown instead) */
+	.grecaptcha-badge {
+		visibility: hidden;
+	}
+</style>
+
+<script is:inline define:vars={{ siteKey: RECAPTCHA_SITE_KEY, messages }}>
+	let recaptchaLoaded = false;
+
+	function loadRecaptcha() {
+		if (recaptchaLoaded || !siteKey) return;
+		recaptchaLoaded = true;
+		const script = document.createElement("script");
+		script.src = `https://www.google.com/recaptcha/api.js?render=${siteKey}`;
+		script.async = true;
+		document.head.appendChild(script);
+	}
+
+	function clearErrors(form) {
+		form.querySelectorAll("[data-field-error]").forEach((el) => {
+			el.textContent = "";
+			el.classList.add("hidden");
+		});
+		form.querySelectorAll("[aria-invalid]").forEach((el) => {
+			el.removeAttribute("aria-invalid");
+		});
+	}
+
+	function showFieldError(form, fieldId, message) {
+		const errorEl = form.querySelector(`[data-field-error="${fieldId}"]`);
+		const inputEl = form.querySelector(`#${fieldId}`);
+		if (errorEl) {
+			errorEl.textContent = message;
+			errorEl.classList.remove("hidden");
+		}
+		if (inputEl) {
+			inputEl.setAttribute("aria-invalid", "true");
+		}
+	}
+
+	function showStatus(message, isError) {
+		const statusEl = document.getElementById("form-status");
+		if (!statusEl) return;
+		statusEl.textContent = message;
+		statusEl.classList.remove(
+			"hidden",
+			"bg-destructive/10",
+			"text-destructive",
+			"bg-green-50",
+			"text-green-800"
+		);
+		if (isError) {
+			statusEl.classList.add("bg-destructive/10", "text-destructive");
+		} else {
+			statusEl.classList.add("bg-green-50", "text-green-800");
+		}
+	}
+
+	// Client-side validation mirrors server rules (server remains authoritative)
+	function validateClient(data) {
+		const errors = {};
+		const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		const FREE_MAIL = new Set([
+			"gmail.com",
+			"yahoo.com",
+			"hotmail.com",
+			"outlook.com",
+			"icloud.com",
+			"ukr.net",
+			"mail.ru",
+			"yandex.ru",
+			"yandex.ua",
+			"rambler.ru",
+			"meta.ua",
+			"i.ua",
+			"inbox.ru",
+			"me.com",
+			"mac.com",
+			"msn.com",
+			"live.com",
+			"yahoo.co.uk",
+			"hotmail.co.uk",
+		]);
+
+		if (!data.name.trim()) errors.name = "required";
+		else if (data.name.length > 200) errors.name = "too_long";
+
+		if (!data.jobTitle.trim()) errors.jobTitle = "required";
+		else if (data.jobTitle.length > 200) errors.jobTitle = "too_long";
+
+		if (!data.company.trim()) errors.company = "required";
+		else if (data.company.length > 200) errors.company = "too_long";
+
+		if (!data.phone.trim()) errors.phone = "required";
+		else if (data.phone.length > 30) errors.phone = "too_long";
+
+		if (!data.email.trim()) {
+			errors.email = "required";
+		} else if (!EMAIL_RE.test(data.email)) {
+			errors.email = "invalid_format";
+		} else {
+			const domain = data.email.split("@")[1]?.toLowerCase();
+			if (domain && FREE_MAIL.has(domain)) errors.email = "free_mail";
+		}
+
+		if (!data.sector) errors.sector = "required";
+
+		if (!data.message.trim()) errors.message = "required";
+		else if (data.message.length > 5000) errors.message = "too_long";
+
+		return errors;
+	}
+
+	function setupForm() {
+		const form = document.getElementById("contact-form");
+		if (!form || form.dataset.bound === "true") return;
+		form.dataset.bound = "true";
+
+		// Lazy-load reCAPTCHA on first field focus
+		form.querySelectorAll("input, select, textarea").forEach((el) => {
+			el.addEventListener("focus", loadRecaptcha, { once: true });
+		});
+
+		form.addEventListener("submit", async (e) => {
+			e.preventDefault();
+			clearErrors(form);
+
+			const submitBtn = document.getElementById("form-submit");
+			const formData = new FormData(form);
+
+			const data = {
+				name: formData.get("name") ?? "",
+				jobTitle: formData.get("jobTitle") ?? "",
+				company: formData.get("company") ?? "",
+				phone: formData.get("phone") ?? "",
+				email: formData.get("email") ?? "",
+				sector: formData.get("sector") ?? "",
+				equipment: formData.getAll("equipment"),
+				message: formData.get("message") ?? "",
+				website: formData.get("website") ?? "",
+			};
+
+			// Client-side validation
+			const clientErrors = validateClient(data);
+			if (Object.keys(clientErrors).length > 0) {
+				Object.entries(clientErrors).forEach(([field, code]) => {
+					showFieldError(form, field, messages[code] ?? messages.default);
+				});
+				showStatus(messages.validation_failed, true);
+				return;
+			}
+
+			// Get reCAPTCHA token
+			let recaptchaToken = "";
+			if (siteKey) {
+				// The script is normally loaded on first focus; load it now if the user never focused a field
+				loadRecaptcha();
+				try {
+					recaptchaToken = await new Promise((resolve, reject) => {
+						const started = Date.now();
+						const wait = () => {
+							if (typeof grecaptcha !== "undefined") {
+								grecaptcha.ready(() => {
+									grecaptcha.execute(siteKey, { action: "contact" }).then(resolve, reject);
+								});
+							} else if (Date.now() - started > 5000) {
+								reject(new Error("reCAPTCHA failed to load"));
+							} else {
+								setTimeout(wait, 100);
+							}
+						};
+						wait();
+					});
+				} catch {
+					showStatus(messages.recaptcha_missing, true);
+					return;
+				}
+			}
+
+			submitBtn?.setAttribute("disabled", "true");
+
+			try {
+				const res = await fetch("/api/contact", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ ...data, recaptchaToken }),
+				});
+
+				const json = await res.json();
+
+				if (json.ok) {
+					showStatus(messages.success, false);
+					form.reset();
+				} else if (json.fields) {
+					Object.entries(json.fields).forEach(([field, code]) => {
+						showFieldError(form, field, messages[code] ?? messages.default);
+					});
+					showStatus(messages.validation_failed, true);
+				} else {
+					showStatus(messages[json.error] ?? messages.default, true);
+				}
+			} catch {
+				showStatus(messages.smtp_error, true);
+			} finally {
+				submitBtn?.removeAttribute("disabled");
+			}
+		});
+	}
+
+	setupForm();
+	document.addEventListener("astro:page-load", setupForm);
+</script>
