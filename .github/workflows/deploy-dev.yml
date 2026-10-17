@@ -39,6 +39,10 @@ jobs:
 
       - run: bun install --frozen-lockfile
 
+      # A failing test stops the run before anything is built or uploaded
+      - name: Test
+        run: bun test
+
       # Public astro:env values are inlined at build time; secrets are read at runtime on the server
       - name: Build
         run: bun run build

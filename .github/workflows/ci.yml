@@ -1,0 +1,35 @@
+# Runs the frontend tests on pull requests and on pushes to other branches.
+# Pushes to main are covered by the Test step in deploy-dev.yml.
+
+name: CI
+
+on:
+  pull_request:
+    paths:
+      - "application/frontend/**"
+      - ".github/workflows/ci.yml"
+  push:
+    branches-ignore: [main]
+    paths:
+      - "application/frontend/**"
+      - ".github/workflows/ci.yml"
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: application/frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+
+      - run: bun install --frozen-lockfile
+
+      - name: Test
+        run: bun test
