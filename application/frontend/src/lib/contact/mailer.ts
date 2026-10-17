@@ -1,4 +1,9 @@
 import nodemailer from "nodemailer";
+import equipmentTypes from "../../data/equipment-types.json";
+import { getInlineTranslations } from "../../i18n/inline";
+import { render } from "./template";
+import CONTACT_HTML_TEMPLATE from "./templates/contact.html?raw";
+import CONTACT_TEXT_TEMPLATE from "./templates/contact.txt?raw";
 import { type ContactFormData, stripHeaderChars } from "./validate";
 
 export function htmlEscape(str: string): string {
@@ -10,39 +15,36 @@ export function htmlEscape(str: string): string {
 		.replace(/'/g, "&#039;");
 }
 
-export function buildEmailBody(data: ContactFormData): { text: string; html: string } {
-	const text = [
-		`Name: ${data.name}`,
-		`Job Title: ${data.jobTitle}`,
-		`Company: ${data.company}`,
-		`Phone: ${data.phone}`,
-		`Email: ${data.email}`,
-		`Sector: ${data.sector}`,
-		`Equipment: ${data.equipment.join(", ") || "(none)"}`,
-		``,
-		`Message:`,
-		data.message,
-	].join("\n");
+// Notification emails go to the Ukrainian-speaking sales team, so they are always in Ukrainian.
+const t = getInlineTranslations("ua");
 
-	const field = (label: string, value: string) =>
-		`<tr><td style="padding:4px 12px 4px 0;font-weight:600;white-space:nowrap;vertical-align:top">${label}</td><td style="padding:4px 0">${htmlEscape(value)}</td></tr>`;
+const equipmentLabels: Record<string, string> = {
+	...Object.fromEntries(equipmentTypes.ua.categories.map((c) => [c.slug, c.title])),
+	// Same combined option the web form offers for both dynamic weighing categories
+	checkweigher: t("Checkweighers & Catchweighers"),
+};
 
-	const html = `<!doctype html><html><body style="font-family:sans-serif;font-size:14px;color:#111">
-<h2 style="margin:0 0 16px">New Contact Form Submission</h2>
-<table style="border-collapse:collapse">
-${field("Name", data.name)}
-${field("Job Title", data.jobTitle)}
-${field("Company", data.company)}
-${field("Phone", data.phone)}
-${field("Email", data.email)}
-${field("Sector", data.sector)}
-${field("Equipment", data.equipment.join(", ") || "(none)")}
-</table>
-<h3 style="margin:20px 0 8px">Message</h3>
-<pre style="background:#f5f5f5;padding:12px;border-radius:4px;white-space:pre-wrap">${htmlEscape(data.message)}</pre>
-</body></html>`;
+export function buildEmailBody(
+	data: ContactFormData,
+	siteUrl: string
+): { text: string; html: string } {
+	const vars = {
+		site: new URL(siteUrl).host,
+		name: data.name,
+		jobTitle: data.jobTitle,
+		company: data.company,
+		phone: data.phone,
+		email: data.email,
+		sector: t(data.sector),
+		equipment:
+			data.equipment.map((slug) => equipmentLabels[slug] ?? slug).join(", ") || "не вказано",
+		message: data.message,
+	};
 
-	return { text, html };
+	return {
+		text: render(CONTACT_TEXT_TEMPLATE, vars),
+		html: render(CONTACT_HTML_TEMPLATE, vars, htmlEscape),
+	};
 }
 
 export interface MailerConfig {
@@ -53,6 +55,7 @@ export interface MailerConfig {
 	pass?: string;
 	to: string;
 	from: string;
+	siteUrl: string;
 }
 
 export async function sendContactEmail(data: ContactFormData, config: MailerConfig): Promise<void> {
@@ -63,13 +66,13 @@ export async function sendContactEmail(data: ContactFormData, config: MailerConf
 		...(config.user && config.pass ? { auth: { user: config.user, pass: config.pass } } : {}),
 	});
 
-	const { text, html } = buildEmailBody(data);
+	const { text, html } = buildEmailBody(data, config.siteUrl);
 
 	await transport.sendMail({
 		from: config.from,
 		to: config.to,
 		replyTo: stripHeaderChars(data.email),
-		subject: stripHeaderChars(`Contact inquiry from ${data.company} — ${data.name}`),
+		subject: stripHeaderChars(`Запит із сайту від ${data.company} — ${data.name}`),
 		text,
 		html,
 	});

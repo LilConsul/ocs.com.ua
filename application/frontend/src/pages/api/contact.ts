@@ -137,6 +137,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 			pass: SMTP_PASS,
 			to: CONTACT_TO,
 			from: CONTACT_FROM,
+			siteUrl: SITE_URL,
 		});
 	} catch (err) {
 		console.error("[contact] SMTP error:", err);
