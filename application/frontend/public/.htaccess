@@ -1,0 +1,8 @@
+ErrorDocument 404 /404.html
+ErrorDocument 403 /404.html
+# Astro emits 50x.astro as 50x/index.html. Name the file explicitly: a bare /50x would make
+# mod_dir answer with a 301 redirect instead of the error page.
+ErrorDocument 500 /50x/index.html
+ErrorDocument 502 /50x/index.html
+ErrorDocument 503 /50x/index.html
+ErrorDocument 504 /50x/index.html

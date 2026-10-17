@@ -54,6 +54,36 @@ export default defineConfig({
 			}),
 			// Decap entry search; off by default to avoid exhausting GitHub API rate limits
 			CMS_SEARCH: envField.boolean({ context: "server", access: "public", default: false }),
+
+			// === Contact form ===
+
+			// SMTP connection (no auth required for a local relay; user/pass optional)
+			SMTP_HOST: envField.string({ context: "server", access: "secret" }),
+			SMTP_PORT: envField.number({ context: "server", access: "secret", default: 587 }),
+			SMTP_SECURE: envField.boolean({ context: "server", access: "secret", default: false }),
+			SMTP_USER: envField.string({ context: "server", access: "secret", optional: true }),
+			SMTP_PASS: envField.string({ context: "server", access: "secret", optional: true }),
+			// Recipient for contact form submissions (default: production inbox)
+			CONTACT_TO: envField.string({
+				context: "server",
+				access: "public",
+				default: "info@ocs.com.ua",
+			}),
+			// Sender address created on the mail server
+			CONTACT_FROM: envField.string({
+				context: "server",
+				access: "public",
+				default: "noreply@ocs.com.ua",
+			}),
+			// reCAPTCHA v3 (client public key inlined at build time). Optional so the site still
+			// starts without it; the form then can't pass the server-side reCAPTCHA check.
+			RECAPTCHA_SITE_KEY: envField.string({
+				context: "client",
+				access: "public",
+				optional: true,
+			}),
+			// reCAPTCHA v3 (server secret — never sent to browser)
+			RECAPTCHA_SECRET_KEY: envField.string({ context: "server", access: "secret" }),
 		},
 	},
 	i18n: {

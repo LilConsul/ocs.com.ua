@@ -4,6 +4,7 @@
 	"exclude": ["dist"],
 	"compilerOptions": {
 		"ignoreDeprecations": "6.0",
+		"types": ["bun"],
 		"jsx": "react-jsx",
 		"jsxImportSource": "react",
 		"baseUrl": ".",
