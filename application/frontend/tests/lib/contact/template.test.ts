@@ -1,5 +1,5 @@
-import { describe, expect, it } from "bun:test";
-import { render } from "./template";
+﻿import { describe, expect, it } from "bun:test";
+import { render } from "@/lib/contact/template";
 
 describe("render", () => {
 	it("substitutes variables, tolerating whitespace inside braces", () => {

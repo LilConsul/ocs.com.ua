@@ -1,5 +1,5 @@
-import { describe, expect, it } from "bun:test";
-import { renderEnv } from "./render-env.mjs";
+﻿import { describe, expect, it } from "bun:test";
+import { renderEnv } from "../../scripts/render-env.mjs";
 
 const manifest = {
 	env_file: "/home/ocs/test.env",

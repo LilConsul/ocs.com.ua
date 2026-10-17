@@ -1,10 +1,10 @@
-import { describe, expect, it } from "bun:test";
+﻿import { describe, expect, it } from "bun:test";
 import {
 	type ContactFormData,
 	isFreeMail,
 	stripHeaderChars,
 	validateContactForm,
-} from "./validate";
+} from "@/lib/contact/validate";
 
 describe("stripHeaderChars", () => {
 	it("strips CR characters", () => {

@@ -1,5 +1,5 @@
-import { describe, expect, it } from "bun:test";
-import { createRateLimiter } from "./rateLimit";
+﻿import { describe, expect, it } from "bun:test";
+import { createRateLimiter } from "@/lib/contact/rateLimit";
 
 describe("createRateLimiter", () => {
 	it("allows the first request", () => {

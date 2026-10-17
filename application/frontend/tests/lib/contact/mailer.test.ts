@@ -1,6 +1,6 @@
 ﻿import { describe, expect, it } from "bun:test";
-import { buildEmailBody, htmlEscape } from "./mailer";
-import type { ContactFormData } from "./validate";
+import { buildEmailBody, htmlEscape } from "@/lib/contact/mailer";
+import type { ContactFormData } from "@/lib/contact/validate";
 
 const SITE_URL = "https://ocs.com.ua";
 
