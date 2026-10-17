@@ -88,35 +88,37 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 		return json({ ok: false, error: "rate_limited" }, 429);
 	}
 
-	// 5. reCAPTCHA v3
-	const recaptchaToken = (body as unknown as { recaptchaToken?: unknown }).recaptchaToken;
-	const token = typeof recaptchaToken === "string" ? recaptchaToken : "";
-	if (!token) {
-		return json({ ok: false, error: "recaptcha_missing" }, 400);
-	}
-	try {
-		const captchaRes = await fetch("https://www.google.com/recaptcha/api/siteverify", {
-			method: "POST",
-			headers: { "Content-Type": "application/x-www-form-urlencoded" },
-			body: new URLSearchParams({
-				secret: RECAPTCHA_SECRET_KEY,
-				response: token,
-			}),
-		});
-		const captchaJson = (await captchaRes.json()) as {
-			success: boolean;
-			action?: string;
-			score?: number;
-		};
-		if (
-			!captchaJson.success ||
-			captchaJson.action !== "contact" ||
-			(captchaJson.score ?? 0) < 0.5
-		) {
-			return json({ ok: false, error: "recaptcha_failed" }, 400);
+	// 5. reCAPTCHA v3 (skipped in `astro dev` only; production builds always verify)
+	if (!import.meta.env.DEV) {
+		const recaptchaToken = (body as unknown as { recaptchaToken?: unknown }).recaptchaToken;
+		const token = typeof recaptchaToken === "string" ? recaptchaToken : "";
+		if (!token) {
+			return json({ ok: false, error: "recaptcha_missing" }, 400);
 		}
-	} catch {
-		return json({ ok: false, error: "recaptcha_unavailable" }, 502);
+		try {
+			const captchaRes = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+				method: "POST",
+				headers: { "Content-Type": "application/x-www-form-urlencoded" },
+				body: new URLSearchParams({
+					secret: RECAPTCHA_SECRET_KEY,
+					response: token,
+				}),
+			});
+			const captchaJson = (await captchaRes.json()) as {
+				success: boolean;
+				action?: string;
+				score?: number;
+			};
+			if (
+				!captchaJson.success ||
+				captchaJson.action !== "contact" ||
+				(captchaJson.score ?? 0) < 0.5
+			) {
+				return json({ ok: false, error: "recaptcha_failed" }, 400);
+			}
+		} catch {
+			return json({ ok: false, error: "recaptcha_unavailable" }, 502);
+		}
 	}
 
 	// 6. Validate
