@@ -56,20 +56,18 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
           echo "${{ secrets.DEV_SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
 
-      # Runs before the production-only install below because render-env.mjs needs the `yaml` devDependency.
-      # Rendering to a file first means a render failure aborts before anything is sent, so the
-      # existing env file on the server is never overwritten with partial/empty content.
+      # Render the env file on the CI runner (devDependencies still installed at this point)
+      # and stream it directly to the server over the already-configured SSH connection.
+      # Writing via stdin + atomic rename means a render failure leaves the existing file intact.
       - name: Sync env file
         env:
           GH_SECRETS: ${{ toJSON(secrets) }}
           GH_VARS: ${{ toJSON(vars) }}
           ENV_FILE: /home/ocs/domains/dev.ocs.com.ua/ocs-dev.env
         run: |
-          node scripts/render-env.mjs ../../.github/secrets.dev.yaml > "$RUNNER_TEMP/ocs-dev.env"
-          ssh "${{ secrets.DEV_SSH_USER }}@${{ secrets.DEV_SSH_HOST }}" \
-            "umask 077; cat > '$ENV_FILE.tmp' && mv '$ENV_FILE.tmp' '$ENV_FILE'" \
-            < "$RUNNER_TEMP/ocs-dev.env"
-          rm -f "$RUNNER_TEMP/ocs-dev.env"
+          node scripts/render-env.mjs ../../.github/secrets.dev.yaml \
+            | ssh "${{ secrets.DEV_SSH_USER }}@${{ secrets.DEV_SSH_HOST }}" \
+              "umask 077; cat > \"\${ENV_FILE}.tmp\" && mv \"\${ENV_FILE}.tmp\" \"\$ENV_FILE\""
 
       # The server bundle imports runtime packages from node_modules, so ship production deps only
       - name: Install production dependencies
