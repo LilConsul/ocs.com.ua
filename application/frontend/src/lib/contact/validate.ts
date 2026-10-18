@@ -21,7 +21,13 @@ export function stripHeaderChars(value: string): string {
 	return value.replace(/[\r\n]/g, "");
 }
 
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Dot-atom local part, dotted domain labels, alphabetic TLD of 2+ chars, 254 chars max.
+// Exported so the browser script in ContactForm.astro validates with the same rules.
+export const EMAIL_REGEX =
+	/^(?=.{1,254}$)[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\.)+[A-Za-z]{2,}$/;
+
+// Digits plus common separators, optional leading "+", 7-15 digits in total (E.164 maximum).
+export const PHONE_REGEX = /^(?=(?:\D*\d){7,15}\D*$)\+?[\d\s().-]+$/;
 
 export function validateContactForm(data: ContactFormData): ValidationResult {
 	const errors: Partial<Record<keyof Omit<ContactFormData, "website">, string>> = {};
@@ -48,6 +54,8 @@ export function validateContactForm(data: ContactFormData): ValidationResult {
 		errors.phone = "required";
 	} else if (data.phone.length > 30) {
 		errors.phone = "too_long";
+	} else if (!PHONE_REGEX.test(data.phone.trim())) {
+		errors.phone = "invalid_phone";
 	}
 
 	if (!data.email.trim()) {

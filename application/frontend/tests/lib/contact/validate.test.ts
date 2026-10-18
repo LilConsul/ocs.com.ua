@@ -71,6 +71,57 @@ describe("validateContactForm", () => {
 		expect(result.errors?.email).toBeDefined();
 	});
 
+	it.each([
+		"a@b",
+		"a@b.",
+		"a@.com",
+		"a b@c.com",
+		"a@@b.com",
+		"a..b@c.com",
+		".a@c.com",
+		"a@c.c",
+		"a@-c.com",
+	])("rejects malformed email %p", (email) => {
+		const result = validateContactForm({ ...validForm, email });
+		expect(result.errors?.email).toBe("invalid_format");
+	});
+
+	it("rejects an email longer than 254 characters", () => {
+		const email = `${"a".repeat(250)}@b.com`;
+		const result = validateContactForm({ ...validForm, email });
+		expect(result.errors?.email).toBe("invalid_format");
+	});
+
+	it.each(["o.kovalenko+sales@farmak.com.ua", "ceo@factory.ua", "a_b-c@sub.domain.co"])(
+		"accepts valid email %p",
+		(email) => {
+			expect(validateContactForm({ ...validForm, email }).ok).toBe(true);
+		}
+	);
+
+	it.each([
+		"+380501234567",
+		"+38 (050) 123-45-67",
+		"050 123 45 67",
+		"0442345678",
+		"+1 202.555.0143",
+	])("accepts valid phone %p", (phone) => {
+		expect(validateContactForm({ ...validForm, phone }).ok).toBe(true);
+	});
+
+	it.each([
+		"abc",
+		"12345",
+		"+38050abc4567",
+		"050-123-45-67 ext 5",
+		"1234567890123456",
+		"++380501234567",
+		"380+501234567",
+	])("rejects invalid phone %p", (phone) => {
+		const result = validateContactForm({ ...validForm, phone });
+		expect(result.errors?.phone).toBe("invalid_phone");
+	});
+
 	it("accepts free-mail domain (client only shows a soft note)", () => {
 		const result = validateContactForm({ ...validForm, email: "user@gmail.com" });
 		expect(result.ok).toBe(true);

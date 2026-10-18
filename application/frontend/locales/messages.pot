@@ -48,7 +48,7 @@ msgstr ""
 msgid "All rights reserved"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:47
+#: src/components/contact/ContactForm.astro:50
 msgid "An unexpected error occurred. Please try again."
 msgstr ""
 
@@ -87,7 +87,7 @@ msgstr ""
 msgid "Category navigation"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:21
+#: src/components/contact/ContactForm.astro:22
 msgid "Checkweighers & Catchweighers"
 msgstr ""
 
@@ -120,7 +120,7 @@ msgstr ""
 msgid "Close preview"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:105
+#: src/components/contact/ContactForm.astro:108
 msgid "Company"
 msgstr ""
 
@@ -130,10 +130,10 @@ msgstr ""
 
 #: src/components/Header.astro:119
 #: src/components/Header.astro:185
-#: src/components/catalogue/CatalogueSidebar.astro:95
+#: src/components/homepage/HeroSection.astro:86
 #: src/components/errors/ServerErrorContent.astro:46
 #: src/components/errors/NotFoundContent.astro:54
-#: src/components/homepage/HeroSection.astro:86
+#: src/components/catalogue/CatalogueSidebar.astro:95
 msgid "Contact Us"
 msgstr ""
 
@@ -149,24 +149,24 @@ msgstr ""
 msgid "Contact the OS-Technology Ukraine engineering team. Request a quotation, arrange a product demonstration, or get technical support."
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:118
+#: src/components/contact/ContactForm.astro:121
 msgid "Corporate Email"
 msgstr ""
 
 #: src/components/homepage/IndustriesSection.astro:70
-#: src/components/contact/ContactForm.astro:28
+#: src/components/contact/ContactForm.astro:29
 msgid "Cosmetics"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:43
+#: src/components/contact/ContactForm.astro:46
 msgid "Could not complete security check. Please try again later."
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:44
+#: src/components/contact/ContactForm.astro:47
 msgid "Could not send your message. Please try again later or email us directly."
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:168
+#: src/components/contact/ContactForm.astro:171
 msgid "Describe your requirements…"
 msgstr ""
 
@@ -183,7 +183,7 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:56
+#: src/components/contact/ContactForm.astro:59
 msgid "Engineering Inquiry"
 msgstr ""
 
@@ -191,7 +191,7 @@ msgstr ""
 msgid "Equipment Categories"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:142
+#: src/components/contact/ContactForm.astro:145
 msgid "Equipment of Interest"
 msgstr ""
 
@@ -209,11 +209,11 @@ msgid "Filters"
 msgstr ""
 
 #: src/components/homepage/IndustriesSection.astro:46
-#: src/components/contact/ContactForm.astro:26
+#: src/components/contact/ContactForm.astro:27
 msgid "Food & Beverage"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:91
+#: src/components/contact/ContactForm.astro:94
 msgid "Full Name"
 msgstr ""
 
@@ -257,7 +257,7 @@ msgstr ""
 msgid "Industries We Serve"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:134
+#: src/components/contact/ContactForm.astro:137
 msgid "Industry Sector"
 msgstr ""
 
@@ -265,7 +265,7 @@ msgstr ""
 msgid "Installations"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:97
+#: src/components/contact/ContactForm.astro:100
 msgid "Job Title"
 msgstr ""
 
@@ -283,7 +283,7 @@ msgid "Learn More"
 msgstr ""
 
 #: src/components/homepage/IndustriesSection.astro:79
-#: src/components/contact/ContactForm.astro:29
+#: src/components/contact/ContactForm.astro:30
 msgid "Logistics & Distribution"
 msgstr ""
 
@@ -299,7 +299,7 @@ msgstr ""
 msgid "Map showing OS-Technology Ukraine office location"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:164
+#: src/components/contact/ContactForm.astro:167
 msgid "Message"
 msgstr ""
 
@@ -340,7 +340,7 @@ msgstr ""
 msgid "Official distributorship certificates."
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:39
+#: src/components/contact/ContactForm.astro:42
 msgid "One or more selected equipment types are invalid."
 msgstr ""
 
@@ -353,7 +353,7 @@ msgstr ""
 msgid "Open in Google Maps"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:30
+#: src/components/contact/ContactForm.astro:31
 msgid "Other"
 msgstr ""
 
@@ -373,12 +373,12 @@ msgid "Page Not Found"
 msgstr ""
 
 #: src/components/homepage/IndustriesSection.astro:58
-#: src/components/contact/ContactForm.astro:27
+#: src/components/contact/ContactForm.astro:28
 msgid "Pharmaceutical"
 msgstr ""
 
 #: src/components/contact/ContactInfoCard.astro:29
-#: src/components/contact/ContactForm.astro:108
+#: src/components/contact/ContactForm.astro:111
 msgid "Phone"
 msgstr ""
 
@@ -386,19 +386,23 @@ msgstr ""
 msgid "Planning to upgrade your production line?"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:45
+#: src/components/contact/ContactForm.astro:48
 msgid "Please correct the highlighted fields and try again."
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:37
+#: src/components/contact/ContactForm.astro:39
 msgid "Please enter a valid email address."
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:38
+#: src/components/contact/ContactForm.astro:40
+msgid "Please enter a valid phone number, e.g. +380 50 123 45 67."
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:41
 msgid "Please select a valid sector."
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:129
+#: src/components/contact/ContactForm.astro:132
 msgid "Please use your company email address if possible."
 msgstr ""
 
@@ -412,7 +416,7 @@ msgid "Previous image"
 msgstr ""
 
 #: src/components/Footer.astro:24
-#: src/components/contact/ContactForm.astro:179
+#: src/components/contact/ContactForm.astro:182
 msgid "Privacy Policy"
 msgstr ""
 
@@ -449,16 +453,16 @@ msgstr ""
 msgid "Requested path"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:41
-#: src/components/contact/ContactForm.astro:42
+#: src/components/contact/ContactForm.astro:44
+#: src/components/contact/ContactForm.astro:45
 msgid "Security check failed. Please refresh and try again."
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:135
+#: src/components/contact/ContactForm.astro:138
 msgid "Select sector…"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:59
+#: src/components/contact/ContactForm.astro:62
 msgid "Send Us a Message"
 msgstr ""
 
@@ -476,11 +480,11 @@ msgstr ""
 msgid "Still having trouble?"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:46
+#: src/components/contact/ContactForm.astro:49
 msgid "Submission not allowed from this origin."
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:196
+#: src/components/contact/ContactForm.astro:199
 msgid "Submit Inquiry"
 msgstr ""
 
@@ -518,7 +522,7 @@ msgid "Technical expertise and service support since 2013."
 msgstr ""
 
 #: src/components/Footer.astro:30
-#: src/components/contact/ContactForm.astro:186
+#: src/components/contact/ContactForm.astro:189
 msgid "Terms of Service"
 msgstr ""
 
@@ -530,15 +534,15 @@ msgstr ""
 msgid "The server is temporarily unavailable. Please try again in a few minutes or return to the homepage."
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:35
+#: src/components/contact/ContactForm.astro:37
 msgid "This field is required."
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:173
+#: src/components/contact/ContactForm.astro:176
 msgid "This form is protected by reCAPTCHA."
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:36
+#: src/components/contact/ContactForm.astro:38
 msgid "This value is too long."
 msgstr ""
 
@@ -546,7 +550,7 @@ msgstr ""
 msgid "Toggle menu"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:40
+#: src/components/contact/ContactForm.astro:43
 msgid "Too many submissions. Please try again in 10 minutes."
 msgstr ""
 
@@ -596,22 +600,22 @@ msgstr ""
 msgid "Years of Experience"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:48
+#: src/components/contact/ContactForm.astro:51
 msgid "Your inquiry has been sent. We will contact you shortly."
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:99
+#: src/components/contact/ContactForm.astro:102
 msgid "e.g. Chief Engineer"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:105
+#: src/components/contact/ContactForm.astro:108
 msgid "e.g. Farmak PJSC"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:93
+#: src/components/contact/ContactForm.astro:96
 msgid "e.g. Oleksii Kovalenko"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:143
+#: src/components/contact/ContactForm.astro:146
 msgid "optional"
 msgstr ""

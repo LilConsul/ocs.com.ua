@@ -3,6 +3,7 @@ import { RECAPTCHA_SITE_KEY } from "astro:env/client";
 import equipmentTypes from "@/data/equipment-types.json";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { EQUIPMENT_SLUGS, SECTORS } from "@/lib/contact/options";
+import { EMAIL_REGEX, PHONE_REGEX } from "@/lib/contact/validate";
 import CheckboxCard from "./CheckboxCard.astro";
 import FormField from "./FormField.astro";
 
@@ -36,6 +37,7 @@ const messages = {
 	required: _("This field is required."),
 	too_long: _("This value is too long."),
 	invalid_format: _("Please enter a valid email address."),
+	invalid_phone: _("Please enter a valid phone number, e.g. +380 50 123 45 67."),
 	invalid_sector: _("Please select a valid sector."),
 	invalid_equipment: _("One or more selected equipment types are invalid."),
 	rate_limited: _("Too many submissions. Please try again in 10 minutes."),
@@ -207,7 +209,15 @@ const messages = {
 	}
 </style>
 
-<script is:inline define:vars={{ siteKey: RECAPTCHA_SITE_KEY, messages }}>
+<script
+	is:inline
+	define:vars={{
+		siteKey: RECAPTCHA_SITE_KEY,
+		messages,
+		emailPattern: EMAIL_REGEX.source,
+		phonePattern: PHONE_REGEX.source,
+	}}
+>
 	let recaptchaLoaded = false;
 
 	function loadRecaptcha() {
@@ -293,7 +303,9 @@ const messages = {
 	// Client-side validation mirrors server rules (server remains authoritative)
 	function validateClient(data) {
 		const errors = {};
-		const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		// Same patterns as the server (src/lib/contact/validate.ts)
+		const EMAIL_RE = new RegExp(emailPattern);
+		const PHONE_RE = new RegExp(phonePattern);
 
 		if (!data.name.trim()) errors.name = "required";
 		else if (data.name.length > 200) errors.name = "too_long";
@@ -306,6 +318,7 @@ const messages = {
 
 		if (!data.phone.trim()) errors.phone = "required";
 		else if (data.phone.length > 30) errors.phone = "too_long";
+		else if (!PHONE_RE.test(data.phone.trim())) errors.phone = "invalid_phone";
 
 		if (!data.email.trim()) {
 			errors.email = "required";

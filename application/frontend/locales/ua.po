@@ -52,7 +52,7 @@ msgstr "Усі галузі"
 msgid "All rights reserved"
 msgstr "Усі права захищено"
 
-#: src/components/contact/ContactForm.astro:47
+#: src/components/contact/ContactForm.astro:50
 msgid "An unexpected error occurred. Please try again."
 msgstr "Сталася непередбачена помилка. Будь ласка, спробуйте ще раз."
 
@@ -91,7 +91,7 @@ msgstr "Фільтри каталогу"
 msgid "Category navigation"
 msgstr "Навігація за категоріями"
 
-#: src/components/contact/ContactForm.astro:21
+#: src/components/contact/ContactForm.astro:22
 msgid "Checkweighers & Catchweighers"
 msgstr "Контрольні ваги та кетчвейєри"
 
@@ -124,7 +124,7 @@ msgstr "Закрити сповіщення"
 msgid "Close preview"
 msgstr "Закрити попередній перегляд"
 
-#: src/components/contact/ContactForm.astro:105
+#: src/components/contact/ContactForm.astro:108
 msgid "Company"
 msgstr "Компанія"
 
@@ -134,10 +134,10 @@ msgstr "Контактна інформація"
 
 #: src/components/Header.astro:119
 #: src/components/Header.astro:185
-#: src/components/catalogue/CatalogueSidebar.astro:95
+#: src/components/homepage/HeroSection.astro:86
 #: src/components/errors/ServerErrorContent.astro:46
 #: src/components/errors/NotFoundContent.astro:54
-#: src/components/homepage/HeroSection.astro:86
+#: src/components/catalogue/CatalogueSidebar.astro:95
 msgid "Contact Us"
 msgstr "Зв’язатися з нами"
 
@@ -153,24 +153,24 @@ msgstr "Зверніться до нашої інженерної команди
 msgid "Contact the OS-Technology Ukraine engineering team. Request a quotation, arrange a product demonstration, or get technical support."
 msgstr "Зверніться до інженерної команди ОС-Технолоджи Україна. Запросіть комерційну пропозицію, домовтеся про демонстрацію обладнання або отримайте технічну підтримку."
 
-#: src/components/contact/ContactForm.astro:118
+#: src/components/contact/ContactForm.astro:121
 msgid "Corporate Email"
 msgstr "Корпоративний email"
 
 #: src/components/homepage/IndustriesSection.astro:70
-#: src/components/contact/ContactForm.astro:28
+#: src/components/contact/ContactForm.astro:29
 msgid "Cosmetics"
 msgstr "Косметична промисловість"
 
-#: src/components/contact/ContactForm.astro:43
+#: src/components/contact/ContactForm.astro:46
 msgid "Could not complete security check. Please try again later."
 msgstr "Не вдалося завершити перевірку безпеки. Будь ласка, спробуйте пізніше."
 
-#: src/components/contact/ContactForm.astro:44
+#: src/components/contact/ContactForm.astro:47
 msgid "Could not send your message. Please try again later or email us directly."
 msgstr "Не вдалося надіслати повідомлення. Спробуйте пізніше або напишіть нам на пошту."
 
-#: src/components/contact/ContactForm.astro:168
+#: src/components/contact/ContactForm.astro:171
 msgid "Describe your requirements…"
 msgstr "Опишіть свої потреби…"
 
@@ -187,7 +187,7 @@ msgstr "Контрольно динамічні ваги та системи Tra
 msgid "Email"
 msgstr "Email"
 
-#: src/components/contact/ContactForm.astro:56
+#: src/components/contact/ContactForm.astro:59
 msgid "Engineering Inquiry"
 msgstr "Технічний запит"
 
@@ -195,7 +195,7 @@ msgstr "Технічний запит"
 msgid "Equipment Categories"
 msgstr "Категорії обладнання"
 
-#: src/components/contact/ContactForm.astro:142
+#: src/components/contact/ContactForm.astro:145
 msgid "Equipment of Interest"
 msgstr "Обладнання, що цікавить"
 
@@ -213,11 +213,11 @@ msgid "Filters"
 msgstr "Фільтри"
 
 #: src/components/homepage/IndustriesSection.astro:46
-#: src/components/contact/ContactForm.astro:26
+#: src/components/contact/ContactForm.astro:27
 msgid "Food & Beverage"
 msgstr "Харчова промисловість і виробництво напоїв"
 
-#: src/components/contact/ContactForm.astro:91
+#: src/components/contact/ContactForm.astro:94
 msgid "Full Name"
 msgstr "Повне ім'я"
 
@@ -261,7 +261,7 @@ msgstr "Галузі"
 msgid "Industries We Serve"
 msgstr "Галузі, для яких ми працюємо"
 
-#: src/components/contact/ContactForm.astro:134
+#: src/components/contact/ContactForm.astro:137
 msgid "Industry Sector"
 msgstr "Галузь"
 
@@ -269,7 +269,7 @@ msgstr "Галузь"
 msgid "Installations"
 msgstr "Встановлених систем"
 
-#: src/components/contact/ContactForm.astro:97
+#: src/components/contact/ContactForm.astro:100
 msgid "Job Title"
 msgstr "Посада"
 
@@ -287,7 +287,7 @@ msgid "Learn More"
 msgstr "Дізнатися більше"
 
 #: src/components/homepage/IndustriesSection.astro:79
-#: src/components/contact/ContactForm.astro:29
+#: src/components/contact/ContactForm.astro:30
 msgid "Logistics & Distribution"
 msgstr "Логістика та дистрибуція"
 
@@ -303,7 +303,7 @@ msgstr "Головний офіс"
 msgid "Map showing OS-Technology Ukraine office location"
 msgstr "Карта з розташуванням офісу ОС-Технолоджи Україна"
 
-#: src/components/contact/ContactForm.astro:164
+#: src/components/contact/ContactForm.astro:167
 msgid "Message"
 msgstr "Повідомлення"
 
@@ -344,7 +344,7 @@ msgstr "Офіційний партнер Wipotec GmbH"
 msgid "Official distributorship certificates."
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:39
+#: src/components/contact/ContactForm.astro:42
 msgid "One or more selected equipment types are invalid."
 msgstr "Один або кілька обраних типів обладнання недійсні."
 
@@ -357,7 +357,7 @@ msgstr "Відкрити фільтри"
 msgid "Open in Google Maps"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:30
+#: src/components/contact/ContactForm.astro:31
 msgid "Other"
 msgstr "Інше"
 
@@ -377,12 +377,12 @@ msgid "Page Not Found"
 msgstr "Сторінку не знайдено"
 
 #: src/components/homepage/IndustriesSection.astro:58
-#: src/components/contact/ContactForm.astro:27
+#: src/components/contact/ContactForm.astro:28
 msgid "Pharmaceutical"
 msgstr "Фармацевтична промисловість"
 
 #: src/components/contact/ContactInfoCard.astro:29
-#: src/components/contact/ContactForm.astro:108
+#: src/components/contact/ContactForm.astro:111
 msgid "Phone"
 msgstr "Телефон"
 
@@ -390,19 +390,23 @@ msgstr "Телефон"
 msgid "Planning to upgrade your production line?"
 msgstr "Плануєте модернізувати виробничу лінію?"
 
-#: src/components/contact/ContactForm.astro:45
+#: src/components/contact/ContactForm.astro:48
 msgid "Please correct the highlighted fields and try again."
 msgstr "Будь ласка, виправте виділені поля та спробуйте ще раз."
 
-#: src/components/contact/ContactForm.astro:37
+#: src/components/contact/ContactForm.astro:39
 msgid "Please enter a valid email address."
 msgstr "Будь ласка, введіть коректну адресу електронної пошти."
 
-#: src/components/contact/ContactForm.astro:38
+#: src/components/contact/ContactForm.astro:40
+msgid "Please enter a valid phone number, e.g. +380 50 123 45 67."
+msgstr "Будь ласка, введіть коректний номер телефону, напр. +380 50 123 45 67."
+
+#: src/components/contact/ContactForm.astro:41
 msgid "Please select a valid sector."
 msgstr "Будь ласка, оберіть коректну галузь."
 
-#: src/components/contact/ContactForm.astro:129
+#: src/components/contact/ContactForm.astro:132
 msgid "Please use your company email address if possible."
 msgstr "Будь ласка, за можливості використовуйте корпоративну електронну адресу."
 
@@ -416,7 +420,7 @@ msgid "Previous image"
 msgstr "Попереднє зображення"
 
 #: src/components/Footer.astro:24
-#: src/components/contact/ContactForm.astro:179
+#: src/components/contact/ContactForm.astro:182
 msgid "Privacy Policy"
 msgstr "Політика конфіденційності"
 
@@ -453,16 +457,16 @@ msgstr "Замовити консультацію"
 msgid "Requested path"
 msgstr "Запитана адреса"
 
-#: src/components/contact/ContactForm.astro:41
-#: src/components/contact/ContactForm.astro:42
+#: src/components/contact/ContactForm.astro:44
+#: src/components/contact/ContactForm.astro:45
 msgid "Security check failed. Please refresh and try again."
 msgstr "Перевірку безпеки не пройдено. Оновіть сторінку та спробуйте ще раз."
 
-#: src/components/contact/ContactForm.astro:135
+#: src/components/contact/ContactForm.astro:138
 msgid "Select sector…"
 msgstr "Оберіть галузь…"
 
-#: src/components/contact/ContactForm.astro:59
+#: src/components/contact/ContactForm.astro:62
 msgid "Send Us a Message"
 msgstr "Надіслати повідомлення"
 
@@ -480,11 +484,11 @@ msgstr "Щось пішло не так"
 msgid "Still having trouble?"
 msgstr "Проблема не зникає?"
 
-#: src/components/contact/ContactForm.astro:46
+#: src/components/contact/ContactForm.astro:49
 msgid "Submission not allowed from this origin."
 msgstr "Відправлення з цього джерела заборонено."
 
-#: src/components/contact/ContactForm.astro:196
+#: src/components/contact/ContactForm.astro:199
 msgid "Submit Inquiry"
 msgstr "Надіслати запит"
 
@@ -522,7 +526,7 @@ msgid "Technical expertise and service support since 2013."
 msgstr "Технічна експертиза та сервісна підтримка з 2013 року."
 
 #: src/components/Footer.astro:30
-#: src/components/contact/ContactForm.astro:186
+#: src/components/contact/ContactForm.astro:189
 msgid "Terms of Service"
 msgstr "Умови користування"
 
@@ -534,15 +538,15 @@ msgstr "Сторінка, яку ви шукаєте, не існує або б�
 msgid "The server is temporarily unavailable. Please try again in a few minutes or return to the homepage."
 msgstr "Сервер тимчасово недоступний. Спробуйте ще раз за кілька хвилин або поверніться на головну сторінку."
 
-#: src/components/contact/ContactForm.astro:35
+#: src/components/contact/ContactForm.astro:37
 msgid "This field is required."
 msgstr "Це поле обов'язкове."
 
-#: src/components/contact/ContactForm.astro:173
+#: src/components/contact/ContactForm.astro:176
 msgid "This form is protected by reCAPTCHA."
 msgstr "Ця форма захищена reCAPTCHA."
 
-#: src/components/contact/ContactForm.astro:36
+#: src/components/contact/ContactForm.astro:38
 msgid "This value is too long."
 msgstr "Це значення занадто довге."
 
@@ -550,7 +554,7 @@ msgstr "Це значення занадто довге."
 msgid "Toggle menu"
 msgstr "Відкрити або закрити меню"
 
-#: src/components/contact/ContactForm.astro:40
+#: src/components/contact/ContactForm.astro:43
 msgid "Too many submissions. Please try again in 10 minutes."
 msgstr "Забагато відправлень. Будь ласка, спробуйте ще раз через 10 хвилин."
 
@@ -600,22 +604,22 @@ msgstr "Років роботи в Україні"
 msgid "Years of Experience"
 msgstr "Років досвіду"
 
-#: src/components/contact/ContactForm.astro:48
+#: src/components/contact/ContactForm.astro:51
 msgid "Your inquiry has been sent. We will contact you shortly."
 msgstr "Ваш запит надіслано. Ми зв'яжемося з вами найближчим часом."
 
-#: src/components/contact/ContactForm.astro:99
+#: src/components/contact/ContactForm.astro:102
 msgid "e.g. Chief Engineer"
 msgstr "напр., Головний інженер"
 
-#: src/components/contact/ContactForm.astro:105
+#: src/components/contact/ContactForm.astro:108
 msgid "e.g. Farmak PJSC"
 msgstr "напр., ПАТ «Фармак»"
 
-#: src/components/contact/ContactForm.astro:93
+#: src/components/contact/ContactForm.astro:96
 msgid "e.g. Oleksii Kovalenko"
 msgstr "напр., Олексій Коваленко"
 
-#: src/components/contact/ContactForm.astro:143
+#: src/components/contact/ContactForm.astro:146
 msgid "optional"
 msgstr "необов'язково"
