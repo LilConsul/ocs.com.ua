@@ -156,10 +156,10 @@ describe("POST /api/contact — reCAPTCHA", () => {
 
 describe("POST /api/contact — validation and sending", () => {
 	it("returns 422 with per-field codes for invalid data", async () => {
-		const res = await call({ body: { ...validBody(), email: "someone@gmail.com", name: " " } });
+		const res = await call({ body: { ...validBody(), email: "not-an-email", name: " " } });
 		expect(res.status).toBe(422);
 		expect(res.json.error).toBe("validation_failed");
-		expect(res.json.fields.email).toBe("free_mail");
+		expect(res.json.fields.email).toBe("invalid_format");
 		expect(res.json.fields.name).toBe("required");
 		expect(sentMails).toHaveLength(0);
 	});

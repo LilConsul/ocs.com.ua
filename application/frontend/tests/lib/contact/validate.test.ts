@@ -1,7 +1,6 @@
-﻿import { describe, expect, it } from "bun:test";
+import { describe, expect, it } from "bun:test";
 import {
 	type ContactFormData,
-	isFreeMail,
 	stripHeaderChars,
 	validateContactForm,
 } from "@/lib/contact/validate";
@@ -15,33 +14,6 @@ describe("stripHeaderChars", () => {
 	});
 	it("passes clean strings unchanged", () => {
 		expect(stripHeaderChars("hello world")).toBe("hello world");
-	});
-});
-
-describe("isFreeMail", () => {
-	it("flags gmail.com", () => {
-		expect(isFreeMail("user@gmail.com")).toBe(true);
-	});
-	it("flags ukr.net", () => {
-		expect(isFreeMail("user@ukr.net")).toBe(true);
-	});
-	it("flags yahoo.com", () => {
-		expect(isFreeMail("user@yahoo.com")).toBe(true);
-	});
-	it("flags outlook.com", () => {
-		expect(isFreeMail("user@outlook.com")).toBe(true);
-	});
-	it("flags hotmail.com", () => {
-		expect(isFreeMail("user@hotmail.com")).toBe(true);
-	});
-	it("flags icloud.com", () => {
-		expect(isFreeMail("user@icloud.com")).toBe(true);
-	});
-	it("flags mail.ru", () => {
-		expect(isFreeMail("user@mail.ru")).toBe(true);
-	});
-	it("allows corporate email", () => {
-		expect(isFreeMail("ceo@factory.ua")).toBe(false);
 	});
 });
 
@@ -99,10 +71,9 @@ describe("validateContactForm", () => {
 		expect(result.errors?.email).toBeDefined();
 	});
 
-	it("rejects free-mail domain", () => {
+	it("accepts free-mail domain (client only shows a soft note)", () => {
 		const result = validateContactForm({ ...validForm, email: "user@gmail.com" });
-		expect(result.ok).toBe(false);
-		expect(result.errors?.email).toBeDefined();
+		expect(result.ok).toBe(true);
 	});
 
 	it("rejects invalid sector", () => {

@@ -17,35 +17,8 @@ export interface ValidationResult {
 	errors?: Partial<Record<keyof Omit<ContactFormData, "website">, string>>;
 }
 
-const FREE_MAIL_DOMAINS = new Set([
-	"gmail.com",
-	"yahoo.com",
-	"yahoo.co.uk",
-	"hotmail.com",
-	"hotmail.co.uk",
-	"outlook.com",
-	"live.com",
-	"msn.com",
-	"icloud.com",
-	"me.com",
-	"mac.com",
-	"ukr.net",
-	"i.ua",
-	"meta.ua",
-	"mail.ru",
-	"yandex.ru",
-	"yandex.ua",
-	"rambler.ru",
-	"inbox.ru",
-]);
-
 export function stripHeaderChars(value: string): string {
 	return value.replace(/[\r\n]/g, "");
-}
-
-export function isFreeMail(email: string): boolean {
-	const domain = email.split("@")[1]?.toLowerCase();
-	return domain ? FREE_MAIL_DOMAINS.has(domain) : false;
 }
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -81,8 +54,6 @@ export function validateContactForm(data: ContactFormData): ValidationResult {
 		errors.email = "required";
 	} else if (!EMAIL_REGEX.test(data.email)) {
 		errors.email = "invalid_format";
-	} else if (isFreeMail(data.email)) {
-		errors.email = "free_mail";
 	}
 
 	if (!(SECTORS as readonly string[]).includes(data.sector)) {

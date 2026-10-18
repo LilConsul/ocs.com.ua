@@ -26,7 +26,6 @@ const messages = {
 	required: _("This field is required."),
 	too_long: _("This value is too long."),
 	invalid_format: _("Please enter a valid email address."),
-	free_mail: _("Requests from private email addresses will not be considered."),
 	invalid_sector: _("Please select a valid sector."),
 	invalid_equipment: _("One or more selected equipment types are invalid."),
 	rate_limited: _("Too many submissions. Please try again in 10 minutes."),
@@ -111,8 +110,16 @@ const messages = {
 			type="email"
 			required
 			placeholder="engineer@company.ua"
-			hint={_("Requests from private email addresses will not be considered.")}
-		/>
+		>
+			<p
+				id="email-note"
+				slot="note"
+				role="note"
+				class="hidden rounded-md border border-yellow-300 bg-yellow-50 px-3 py-2 text-xs font-medium text-yellow-800"
+			>
+				{_("Please use your company email address if possible.")}
+			</p>
+		</FormField>
 
 		{/* Row 4: Sector */}
 		<FormField id="sector" label={_("Industry Sector")} type="select" required>
@@ -242,31 +249,41 @@ const messages = {
 		}
 	}
 
+	// Personal-mail domains: only used to show a soft note, never blocks submission
+	const FREE_MAIL = new Set([
+		"gmail.com",
+		"yahoo.com",
+		"hotmail.com",
+		"outlook.com",
+		"icloud.com",
+		"ukr.net",
+		"mail.ru",
+		"yandex.ru",
+		"yandex.ua",
+		"rambler.ru",
+		"meta.ua",
+		"i.ua",
+		"inbox.ru",
+		"me.com",
+		"mac.com",
+		"msn.com",
+		"live.com",
+		"yahoo.co.uk",
+		"hotmail.co.uk",
+	]);
+
+	function updateEmailNote(form) {
+		const input = form.querySelector("#email");
+		const note = document.getElementById("email-note");
+		if (!input || !note) return;
+		const domain = input.value.split("@")[1]?.trim().toLowerCase();
+		note.classList.toggle("hidden", !(domain && FREE_MAIL.has(domain)));
+	}
+
 	// Client-side validation mirrors server rules (server remains authoritative)
 	function validateClient(data) {
 		const errors = {};
 		const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		const FREE_MAIL = new Set([
-			"gmail.com",
-			"yahoo.com",
-			"hotmail.com",
-			"outlook.com",
-			"icloud.com",
-			"ukr.net",
-			"mail.ru",
-			"yandex.ru",
-			"yandex.ua",
-			"rambler.ru",
-			"meta.ua",
-			"i.ua",
-			"inbox.ru",
-			"me.com",
-			"mac.com",
-			"msn.com",
-			"live.com",
-			"yahoo.co.uk",
-			"hotmail.co.uk",
-		]);
 
 		if (!data.name.trim()) errors.name = "required";
 		else if (data.name.length > 200) errors.name = "too_long";
@@ -284,9 +301,6 @@ const messages = {
 			errors.email = "required";
 		} else if (!EMAIL_RE.test(data.email)) {
 			errors.email = "invalid_format";
-		} else {
-			const domain = data.email.split("@")[1]?.toLowerCase();
-			if (domain && FREE_MAIL.has(domain)) errors.email = "free_mail";
 		}
 
 		if (!data.sector) errors.sector = "required";
@@ -301,6 +315,8 @@ const messages = {
 		const form = document.getElementById("contact-form");
 		if (!form || form.dataset.bound === "true") return;
 		form.dataset.bound = "true";
+
+		form.querySelector("#email")?.addEventListener("input", () => updateEmailNote(form));
 
 		// Lazy-load reCAPTCHA on first field focus
 		form.querySelectorAll("input, select, textarea").forEach((el) => {
@@ -377,6 +393,7 @@ const messages = {
 				if (json.ok) {
 					showStatus(messages.success, false);
 					form.reset();
+					updateEmailNote(form);
 				} else if (json.fields) {
 					Object.entries(json.fields).forEach(([field, code]) => {
 						showFieldError(form, field, messages[code] ?? messages.default);

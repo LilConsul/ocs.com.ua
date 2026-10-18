@@ -63,6 +63,8 @@ const { id, label, type = "text", required = false, placeholder, hint, rows = 4 
 		)
 	}
 
+	<slot name="note" />
+
 	<p
 		id={`${id}-error`}
 		role="alert"
