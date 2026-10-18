@@ -13,7 +13,7 @@ const address = companyData.address[lang as "en" | "ua"] ?? companyData.address.
 const workingHours = companyData.workingHours[lang as "en" | "ua"] ?? companyData.workingHours.en;
 const mapsQuery = encodeURIComponent("67 Beresteiskyi Ave, Kyiv, Ukraine 03062");
 const routeUrl = `https://www.google.com/maps/dir/?api=1&destination=${mapsQuery}`;
-// Keyless embed URL; no API key is configured for the Maps Embed API yet
+// Keyless embed — works without a Maps API key
 const embedUrl = `https://maps.google.com/maps?q=${mapsQuery}&output=embed`;
 ---
 
@@ -76,14 +76,15 @@ const embedUrl = `https://maps.google.com/maps?q=${mapsQuery}&output=embed`;
 		{/* Map */}
 		<figure class="relative m-0 min-h-[320px] lg:col-span-7 lg:min-h-[420px]">
 			<iframe
-				src={embedUrl}
-				title={_("Map showing OS-Technology Ukraine office location")}
-				width="100%"
-				height="100%"
-				class="absolute inset-0 h-full w-full"
-				style="border:0;"
-				loading="lazy"
-				referrerpolicy="no-referrer-when-downgrade"></iframe>
+					src={embedUrl}
+					title={_("Map showing OS-Technology Ukraine office location")}
+					width="100%"
+					height="100%"
+					class="absolute inset-0 h-full w-full"
+					style="border:0;"
+					loading="lazy"
+					referrerpolicy="no-referrer-when-downgrade"
+					allow="storage-access"></iframe>
 		</figure>
 	</div>
 </section>
