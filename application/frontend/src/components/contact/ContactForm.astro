@@ -93,24 +93,33 @@ const messages = {
 				id="name"
 				label={_("Full Name")}
 				required
+				autocomplete="name"
 				placeholder={_("e.g. Oleksii Kovalenko")}
 			/>
 			<FormField
 				id="jobTitle"
 				label={_("Job Title")}
 				required
+				autocomplete="organization-title"
 				placeholder={_("e.g. Chief Engineer")}
 			/>
 		</div>
 
 		{/* Row 2: Company and Phone */}
 		<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-			<FormField id="company" label={_("Company")} required placeholder={_("e.g. Farmak PJSC")} />
+			<FormField
+				id="company"
+				label={_("Company")}
+				required
+				autocomplete="organization"
+				placeholder={_("e.g. Farmak PJSC")}
+			/>
 			<FormField
 				id="phone"
 				label={_("Phone")}
 				type="tel"
 				required
+				autocomplete="tel"
 				placeholder="+380 (50) 000-00-00"
 			/>
 		</div>
@@ -121,6 +130,7 @@ const messages = {
 			label={_("Corporate Email")}
 			type="email"
 			required
+			autocomplete="email"
 			placeholder="engineer@company.ua"
 		>
 			<p
@@ -209,6 +219,18 @@ const messages = {
 	}
 </style>
 
+<script>
+	import { initContactForm } from "@/lib/contact/form-script";
+	// Config is injected by the inline bootstrap below; wait for it on the window object.
+	// astro:page-load fires after each navigation, so we check immediately too.
+	function tryInit() {
+		const cfg = (window as any).__contactFormConfig;
+		if (cfg) initContactForm(cfg);
+	}
+	tryInit();
+	document.addEventListener("astro:page-load", tryInit);
+</script>
+
 <script
 	is:inline
 	define:vars={{
@@ -218,283 +240,5 @@ const messages = {
 		phonePattern: PHONE_REGEX.source,
 	}}
 >
-	let recaptchaLoaded = false;
-
-	function loadRecaptcha() {
-		if (recaptchaLoaded || !siteKey) return;
-		recaptchaLoaded = true;
-		const script = document.createElement("script");
-		script.src = `https://www.google.com/recaptcha/api.js?render=${siteKey}`;
-		script.async = true;
-		document.head.appendChild(script);
-	}
-
-	function clearErrors(form) {
-		form.querySelectorAll("[data-field-error]").forEach((el) => {
-			el.textContent = "";
-			el.classList.add("hidden");
-		});
-		form.querySelectorAll("[aria-invalid]").forEach((el) => {
-			el.removeAttribute("aria-invalid");
-		});
-	}
-
-	function showFieldError(form, fieldId, message) {
-		const errorEl = form.querySelector(`[data-field-error="${fieldId}"]`);
-		const inputEl = form.querySelector(`#${fieldId}`);
-		if (errorEl) {
-			errorEl.textContent = message;
-			errorEl.classList.remove("hidden");
-		}
-		if (inputEl) {
-			inputEl.setAttribute("aria-invalid", "true");
-		}
-	}
-
-	function showStatus(message, isError) {
-		const statusEl = document.getElementById("form-status");
-		if (!statusEl) return;
-		statusEl.textContent = message;
-		statusEl.classList.remove(
-			"hidden",
-			"bg-destructive/10",
-			"text-destructive",
-			"bg-green-50",
-			"text-green-800"
-		);
-		if (isError) {
-			statusEl.classList.add("bg-destructive/10", "text-destructive");
-		} else {
-			statusEl.classList.add("bg-green-50", "text-green-800");
-		}
-	}
-
-	// Personal-mail domains: only used to show a soft note, never blocks submission
-	const FREE_MAIL = new Set([
-		"gmail.com",
-		"yahoo.com",
-		"hotmail.com",
-		"outlook.com",
-		"icloud.com",
-		"ukr.net",
-		"mail.ru",
-		"yandex.ru",
-		"yandex.ua",
-		"rambler.ru",
-		"meta.ua",
-		"i.ua",
-		"inbox.ru",
-		"me.com",
-		"mac.com",
-		"msn.com",
-		"live.com",
-		"yahoo.co.uk",
-		"hotmail.co.uk",
-	]);
-
-	function updateEmailNote(form) {
-		const input = form.querySelector("#email");
-		const note = document.getElementById("email-note");
-		if (!input || !note) return;
-		const domain = input.value.split("@")[1]?.trim().toLowerCase();
-		note.classList.toggle("hidden", !(domain && FREE_MAIL.has(domain)));
-	}
-
-	// Client-side validation mirrors server rules (server remains authoritative)
-	function validateClient(data) {
-		const errors = {};
-		// Same patterns as the server (src/lib/contact/validate.ts)
-		const EMAIL_RE = new RegExp(emailPattern);
-		const PHONE_RE = new RegExp(phonePattern);
-
-		if (!data.name.trim()) errors.name = "required";
-		else if (data.name.length > 200) errors.name = "too_long";
-
-		if (!data.jobTitle.trim()) errors.jobTitle = "required";
-		else if (data.jobTitle.length > 200) errors.jobTitle = "too_long";
-
-		if (!data.company.trim()) errors.company = "required";
-		else if (data.company.length > 200) errors.company = "too_long";
-
-		if (!data.phone.trim()) errors.phone = "required";
-		else if (data.phone.length > 30) errors.phone = "too_long";
-		else if (!PHONE_RE.test(data.phone.trim())) errors.phone = "invalid_phone";
-
-		if (!data.email.trim()) {
-			errors.email = "required";
-		} else if (!EMAIL_RE.test(data.email)) {
-			errors.email = "invalid_format";
-		}
-
-		if (!data.sector) errors.sector = "required";
-
-		if (!data.message.trim()) errors.message = "required";
-		else if (data.message.length > 5000) errors.message = "too_long";
-
-		return errors;
-	}
-
-	// Validate a single field by id; returns error code string or null
-	function validateField(fieldId, data) {
-		const EMAIL_RE = new RegExp(emailPattern);
-		const PHONE_RE = new RegExp(phonePattern);
-		switch (fieldId) {
-			case "name":
-				if (!data.name.trim()) return "required";
-				if (data.name.length > 200) return "too_long";
-				return null;
-			case "jobTitle":
-				if (!data.jobTitle.trim()) return "required";
-				if (data.jobTitle.length > 200) return "too_long";
-				return null;
-			case "company":
-				if (!data.company.trim()) return "required";
-				if (data.company.length > 200) return "too_long";
-				return null;
-			case "phone":
-				if (!data.phone.trim()) return "required";
-				if (data.phone.length > 30) return "too_long";
-				if (!PHONE_RE.test(data.phone.trim())) return "invalid_phone";
-				return null;
-			case "email":
-				if (!data.email.trim()) return "required";
-				if (!EMAIL_RE.test(data.email)) return "invalid_format";
-				return null;
-			case "sector":
-				if (!data.sector) return "required";
-				return null;
-			case "message":
-				if (!data.message.trim()) return "required";
-				if (data.message.length > 5000) return "too_long";
-				return null;
-			default:
-				return null;
-		}
-	}
-
-	function getFormData(form) {
-		const fd = new FormData(form);
-		return {
-			name: fd.get("name") ?? "",
-			jobTitle: fd.get("jobTitle") ?? "",
-			company: fd.get("company") ?? "",
-			phone: fd.get("phone") ?? "",
-			email: fd.get("email") ?? "",
-			sector: fd.get("sector") ?? "",
-			message: fd.get("message") ?? "",
-		};
-	}
-
-	function setupForm() {
-		const form = document.getElementById("contact-form");
-		if (!form || form.dataset.bound === "true") return;
-		form.dataset.bound = "true";
-
-		form.querySelector("#email")?.addEventListener("input", () => updateEmailNote(form));
-
-		// Validate each field on blur (unfocus)
-		["name", "jobTitle", "company", "phone", "email", "sector", "message"].forEach((fieldId) => {
-			form.querySelector(`#${fieldId}`)?.addEventListener("blur", () => {
-				const data = getFormData(form);
-				const code = validateField(fieldId, data);
-				if (code) {
-					showFieldError(form, fieldId, messages[code] ?? messages.default);
-				} else {
-					// Clear error if field is now valid
-					const errorEl = form.querySelector(`[data-field-error="${fieldId}"]`);
-					const inputEl = form.querySelector(`#${fieldId}`);
-					if (errorEl) { errorEl.textContent = ""; errorEl.classList.add("hidden"); }
-					if (inputEl) inputEl.removeAttribute("aria-invalid");
-				}
-			});
-		});
-
-		// Lazy-load reCAPTCHA on first field focus
-		form.querySelectorAll("input, select, textarea").forEach((el) => {
-			el.addEventListener("focus", loadRecaptcha, { once: true });
-		});
-
-		form.addEventListener("submit", async (e) => {
-			e.preventDefault();
-			clearErrors(form);
-
-			const submitBtn = document.getElementById("form-submit");
-			const formData = new FormData(form);
-
-			const data = {
-				...getFormData(form),
-				equipment: formData.getAll("equipment"),
-				website: formData.get("website") ?? "",
-			};
-
-			// Client-side validation
-			const clientErrors = validateClient(data);
-			if (Object.keys(clientErrors).length > 0) {
-				Object.entries(clientErrors).forEach(([field, code]) => {
-					showFieldError(form, field, messages[code] ?? messages.default);
-				});
-				showStatus(messages.validation_failed, true);
-				return;
-			}
-
-			// Get reCAPTCHA token
-			let recaptchaToken = "";
-			if (siteKey) {
-				// The script is normally loaded on first focus; load it now if the user never focused a field
-				loadRecaptcha();
-				try {
-					recaptchaToken = await new Promise((resolve, reject) => {
-						const started = Date.now();
-						const wait = () => {
-							if (typeof grecaptcha !== "undefined") {
-								grecaptcha.ready(() => {
-									grecaptcha.execute(siteKey, { action: "contact" }).then(resolve, reject);
-								});
-							} else if (Date.now() - started > 5000) {
-								reject(new Error("reCAPTCHA failed to load"));
-							} else {
-								setTimeout(wait, 100);
-							}
-						};
-						wait();
-					});
-				} catch {
-					showStatus(messages.recaptcha_missing, true);
-					return;
-				}
-			}
-
-			submitBtn?.setAttribute("disabled", "true");
-
-			try {
-				const res = await fetch("/api/contact", {
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ ...data, recaptchaToken }),
-				});
-
-				const json = await res.json();
-
-				if (json.ok) {
-					showStatus(messages.success, false);
-					form.reset();
-					updateEmailNote(form);
-				} else if (json.fields) {
-					Object.entries(json.fields).forEach(([field, code]) => {
-						showFieldError(form, field, messages[code] ?? messages.default);
-					});
-					showStatus(messages.validation_failed, true);
-				} else {
-					showStatus(messages[json.error] ?? messages.default, true);
-				}
-			} catch {
-				showStatus(messages.smtp_error, true);
-			} finally {
-				submitBtn?.removeAttribute("disabled");
-			}
-		});
-	}
-
-	setupForm();
-	document.addEventListener("astro:page-load", setupForm);
+	window.__contactFormConfig = { siteKey, messages, emailPattern, phonePattern };
 </script>
