@@ -19,6 +19,7 @@ const validBody = () => ({
 	message: "Need a quote.",
 	website: "",
 	recaptchaToken: "token",
+	loadedAt: Date.now() - 5000,
 });
 
 interface CallOptions {
@@ -102,6 +103,55 @@ describe("POST /api/contact — anti-abuse", () => {
 		expect(res.status).toBe(200);
 		expect(res.json.ok).toBe(true);
 		expect(sentMails).toHaveLength(0);
+	});
+
+	it("fakes success for submission faster than 3 seconds (time-trap)", async () => {
+		const res = await call({ body: { ...validBody(), loadedAt: Date.now() - 500 } });
+		expect(res.status).toBe(200);
+		expect(res.json.ok).toBe(true);
+		expect(sentMails).toHaveLength(0);
+	});
+
+	it("fakes success for disposable email addresses", async () => {
+		const res = await call({ body: { ...validBody(), email: "bot@mailinator.com" } });
+		expect(res.status).toBe(200);
+		expect(res.json.ok).toBe(true);
+		expect(sentMails).toHaveLength(0);
+	});
+
+	it("fakes success for messages with excessive links", async () => {
+		const res = await call({
+			body: { ...validBody(), message: "Visit https://1.com https://2.com https://3.com" },
+		});
+		expect(res.status).toBe(200);
+		expect(res.json.ok).toBe(true);
+		expect(sentMails).toHaveLength(0);
+	});
+
+	it("fakes success for messages with spam keywords", async () => {
+		const res = await call({
+			body: { ...validBody(), message: "Buy casino crypto backlinks now" },
+		});
+		expect(res.status).toBe(200);
+		expect(res.json.ok).toBe(true);
+		expect(sentMails).toHaveLength(0);
+	});
+
+	it("uses X-Forwarded-For IP for rate limiting behind reverse proxy", async () => {
+		const proxyIp = "198.51.100.99";
+		for (let i = 0; i < 5; i++) {
+			const res = await call({
+				headers: { "x-forwarded-for": `${proxyIp}, 10.0.0.1` },
+				ip: "127.0.0.1",
+			});
+			expect(res.status).toBe(200);
+		}
+		const res = await call({
+			headers: { "x-forwarded-for": `${proxyIp}, 10.0.0.1` },
+			ip: "127.0.0.1",
+		});
+		expect(res.status).toBe(429);
+		expect(res.json.error).toBe("rate_limited");
 	});
 
 	it("rate limits the sixth request from the same IP", async () => {

@@ -163,6 +163,7 @@ export function initContactForm(config: FormConfig) {
 		const form = document.getElementById("contact-form") as HTMLFormElement | null;
 		if (!form || form.dataset.bound === "true") return;
 		form.dataset.bound = "true";
+		const formLoadedAt = Date.now();
 
 		form.querySelector("#email")?.addEventListener("input", () => updateEmailNote(form));
 
@@ -194,6 +195,7 @@ export function initContactForm(config: FormConfig) {
 				...getFormData(form),
 				equipment: fd.getAll("equipment") as string[],
 				website: (fd.get("website") as string) ?? "",
+				loadedAt: formLoadedAt,
 			};
 
 			const clientErrors = validateAll(data, EMAIL_RE, PHONE_RE);

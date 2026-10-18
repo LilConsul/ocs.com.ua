@@ -12,6 +12,7 @@ import {
 import type { APIRoute } from "astro";
 import { sendContactEmail } from "@/lib/contact/mailer";
 import { createRateLimiter } from "@/lib/contact/rateLimit";
+import { getClientIp, isSpamSubmission } from "@/lib/contact/spam";
 import { type ContactFormData, validateContactForm } from "@/lib/contact/validate";
 
 export const prerender = false;
@@ -77,13 +78,13 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 	}
 	const data = body;
 
-	// 3. Honeypot: if the hidden "website" field is filled, silently fake success
-	if (data.website.trim() !== "") {
+	// 3. Anti-spam checks (honeypot, time-trap, disposable email, excessive links, spam keywords)
+	if (isSpamSubmission(data as any)) {
 		return json({ ok: true });
 	}
 
-	// 4. Rate limit
-	const ip = clientAddress ?? "unknown";
+	// 4. Rate limit (uses X-Forwarded-For client IP when behind reverse proxy)
+	const ip = getClientIp(request, clientAddress);
 	if (!rateLimiter.check(ip)) {
 		return json({ ok: false, error: "rate_limited" }, 429);
 	}
