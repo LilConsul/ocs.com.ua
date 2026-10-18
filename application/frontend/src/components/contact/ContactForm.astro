@@ -210,16 +210,9 @@ const messages = {
 <script is:inline define:vars={{ siteKey: RECAPTCHA_SITE_KEY, messages }}>
 	let recaptchaLoaded = false;
 
-	// Console diagnostics only on a local dev host
-	const DEBUG_RECAPTCHA = ["localhost", "127.0.0.1"].includes(location.hostname);
-	function rcLog(...args) {
-		if (DEBUG_RECAPTCHA) console.log("[recaptcha]", ...args);
-	}
-
 	function loadRecaptcha() {
 		if (recaptchaLoaded || !siteKey) return;
 		recaptchaLoaded = true;
-		rcLog("loading Google script for site key", `${siteKey.slice(0, 8)}…`);
 		const script = document.createElement("script");
 		script.src = `https://www.google.com/recaptcha/api.js?render=${siteKey}`;
 		script.async = true;
@@ -371,7 +364,6 @@ const messages = {
 
 			// Get reCAPTCHA token
 			let recaptchaToken = "";
-			if (!siteKey) rcLog("NO site key configured -> no token will be sent");
 			if (siteKey) {
 				// The script is normally loaded on first focus; load it now if the user never focused a field
 				loadRecaptcha();
@@ -391,9 +383,7 @@ const messages = {
 						};
 						wait();
 					});
-					rcLog("token received", `${recaptchaToken.slice(0, 16)}… (${recaptchaToken.length} chars)`);
-				} catch (err) {
-					rcLog("token request FAILED:", err);
+				} catch {
 					showStatus(messages.recaptcha_missing, true);
 					return;
 				}

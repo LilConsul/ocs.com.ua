@@ -92,11 +92,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 	const recaptchaToken = (body as unknown as { recaptchaToken?: unknown }).recaptchaToken;
 	const token = typeof recaptchaToken === "string" ? recaptchaToken : "";
 	if (!token) {
-		if (import.meta.env.DEV) console.warn("[recaptcha] no token in request -> rejected");
 		return json({ ok: false, error: "recaptcha_missing" }, 400);
 	}
-	if (import.meta.env.DEV)
-		console.log(`[recaptcha] verifying token (${token.length} chars) with Google...`);
 	try {
 		const captchaRes = await fetch("https://www.google.com/recaptcha/api/siteverify", {
 			method: "POST",
@@ -111,20 +108,14 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 			action?: string;
 			score?: number;
 		};
-		const passed =
-			captchaJson.success && captchaJson.action === "contact" && (captchaJson.score ?? 0) >= 0.5;
-		if (import.meta.env.DEV) {
-			console.log(
-				`[recaptcha] ${passed ? "PASSED" : "FAILED"} | success=${captchaJson.success} ` +
-					`score=${captchaJson.score} action=${captchaJson.action} ` +
-					`errors=${JSON.stringify((captchaJson as { "error-codes"?: string[] })["error-codes"] ?? [])}`
-			);
-		}
-		if (!passed) {
+		if (
+			!captchaJson.success ||
+			captchaJson.action !== "contact" ||
+			(captchaJson.score ?? 0) < 0.5
+		) {
 			return json({ ok: false, error: "recaptcha_failed" }, 400);
 		}
-	} catch (err) {
-		if (import.meta.env.DEV) console.error("[recaptcha] siteverify request failed:", err);
+	} catch {
 		return json({ ok: false, error: "recaptcha_unavailable" }, 502);
 	}
 
