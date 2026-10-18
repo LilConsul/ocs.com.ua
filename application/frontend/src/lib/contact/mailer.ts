@@ -24,12 +24,23 @@ const equipmentLabels: Record<string, string> = {
 	checkweigher: t("Checkweighers & Catchweighers"),
 };
 
+export function extractSiteHost(siteUrl?: string): string {
+	const raw = (siteUrl ?? "").trim();
+	if (!raw) return "ocs.com.ua";
+	try {
+		const withProtocol = /^[a-zA-Z][a-zA-Z\d+\-.]*:\/\//.test(raw) ? raw : `https://${raw}`;
+		return new URL(withProtocol).host || raw;
+	} catch {
+		return raw || "ocs.com.ua";
+	}
+}
+
 export function buildEmailBody(
 	data: ContactFormData,
 	siteUrl: string
 ): { text: string; html: string } {
 	const vars = {
-		site: new URL(siteUrl).host,
+		site: extractSiteHost(siteUrl),
 		name: data.name,
 		jobTitle: data.jobTitle,
 		company: data.company,

@@ -79,9 +79,23 @@ describe("buildEmailBody", () => {
 	});
 
 	it("takes the site hostname from the provided URL", () => {
-		const { html } = buildEmailBody(testData, "https://staging.example.com/");
-		expect(html).toContain("Сайт staging.example.com");
+		const { html, text } = buildEmailBody(testData, "https://staging.example.com/");
+		expect(html).toContain("staging.example.com");
+		expect(text).toContain("staging.example.com");
 		expect(html).not.toContain("ocs.com.ua");
+	});
+
+	it("handles siteUrl without protocol like localhost:4321", () => {
+		const { html, text } = buildEmailBody(testData, "localhost:4321");
+		expect(html).toContain("localhost:4321");
+		expect(text).toContain("localhost:4321");
+		expect(html).not.toContain("Нове звернення з сайту ()");
+	});
+
+	it("falls back to default when siteUrl is empty", () => {
+		const { html, text } = buildEmailBody(testData, "");
+		expect(html).toContain("ocs.com.ua");
+		expect(text).toContain("ocs.com.ua");
 	});
 
 	it("returns both text and html keys", () => {
