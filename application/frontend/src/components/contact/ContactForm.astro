@@ -21,6 +21,16 @@ const equipmentLabelMap: Record<string, string> = {
 	checkweigher: _("Checkweighers & Catchweighers"),
 };
 
+// Literal _() calls so the i18n extractor picks up every sector label
+const sectorLabels: Record<(typeof SECTORS)[number], string> = {
+	"Food & Beverage": _("Food & Beverage"),
+	Pharmaceutical: _("Pharmaceutical"),
+	Cosmetics: _("Cosmetics"),
+	"Logistics & Distribution": _("Logistics & Distribution"),
+	Other: _("Other"),
+};
+const sectorOptions = SECTORS.map((sector) => ({ value: sector, label: sectorLabels[sector] }));
+
 // Server error / validation codes -> translated display strings, consumed by the client script
 const messages = {
 	required: _("This field is required."),
@@ -124,7 +134,7 @@ const messages = {
 		{/* Row 4: Sector */}
 		<FormField id="sector" label={_("Industry Sector")} type="select" required>
 			<option value="" disabled selected>{_("Select sector…")}</option>
-			{SECTORS.map((sector) => <option value={sector}>{_(sector)}</option>)}
+			{sectorOptions.map(({ value, label }) => <option value={value}>{label}</option>)}
 		</FormField>
 
 		{/* Row 5: Equipment (optional checkboxes) */}
@@ -200,9 +210,16 @@ const messages = {
 <script is:inline define:vars={{ siteKey: RECAPTCHA_SITE_KEY, messages }}>
 	let recaptchaLoaded = false;
 
+	// Console diagnostics only on a local dev host
+	const DEBUG_RECAPTCHA = ["localhost", "127.0.0.1"].includes(location.hostname);
+	function rcLog(...args) {
+		if (DEBUG_RECAPTCHA) console.log("[recaptcha]", ...args);
+	}
+
 	function loadRecaptcha() {
 		if (recaptchaLoaded || !siteKey) return;
 		recaptchaLoaded = true;
+		rcLog("loading Google script for site key", `${siteKey.slice(0, 8)}…`);
 		const script = document.createElement("script");
 		script.src = `https://www.google.com/recaptcha/api.js?render=${siteKey}`;
 		script.async = true;
@@ -354,6 +371,7 @@ const messages = {
 
 			// Get reCAPTCHA token
 			let recaptchaToken = "";
+			if (!siteKey) rcLog("NO site key configured -> no token will be sent");
 			if (siteKey) {
 				// The script is normally loaded on first focus; load it now if the user never focused a field
 				loadRecaptcha();
@@ -373,7 +391,9 @@ const messages = {
 						};
 						wait();
 					});
-				} catch {
+					rcLog("token received", `${recaptchaToken.slice(0, 16)}… (${recaptchaToken.length} chars)`);
+				} catch (err) {
+					rcLog("token request FAILED:", err);
 					showStatus(messages.recaptcha_missing, true);
 					return;
 				}
