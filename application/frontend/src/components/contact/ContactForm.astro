@@ -334,12 +334,80 @@ const messages = {
 		return errors;
 	}
 
+	// Validate a single field by id; returns error code string or null
+	function validateField(fieldId, data) {
+		const EMAIL_RE = new RegExp(emailPattern);
+		const PHONE_RE = new RegExp(phonePattern);
+		switch (fieldId) {
+			case "name":
+				if (!data.name.trim()) return "required";
+				if (data.name.length > 200) return "too_long";
+				return null;
+			case "jobTitle":
+				if (!data.jobTitle.trim()) return "required";
+				if (data.jobTitle.length > 200) return "too_long";
+				return null;
+			case "company":
+				if (!data.company.trim()) return "required";
+				if (data.company.length > 200) return "too_long";
+				return null;
+			case "phone":
+				if (!data.phone.trim()) return "required";
+				if (data.phone.length > 30) return "too_long";
+				if (!PHONE_RE.test(data.phone.trim())) return "invalid_phone";
+				return null;
+			case "email":
+				if (!data.email.trim()) return "required";
+				if (!EMAIL_RE.test(data.email)) return "invalid_format";
+				return null;
+			case "sector":
+				if (!data.sector) return "required";
+				return null;
+			case "message":
+				if (!data.message.trim()) return "required";
+				if (data.message.length > 5000) return "too_long";
+				return null;
+			default:
+				return null;
+		}
+	}
+
+	function getFormData(form) {
+		const fd = new FormData(form);
+		return {
+			name: fd.get("name") ?? "",
+			jobTitle: fd.get("jobTitle") ?? "",
+			company: fd.get("company") ?? "",
+			phone: fd.get("phone") ?? "",
+			email: fd.get("email") ?? "",
+			sector: fd.get("sector") ?? "",
+			message: fd.get("message") ?? "",
+		};
+	}
+
 	function setupForm() {
 		const form = document.getElementById("contact-form");
 		if (!form || form.dataset.bound === "true") return;
 		form.dataset.bound = "true";
 
 		form.querySelector("#email")?.addEventListener("input", () => updateEmailNote(form));
+
+		// Validate each field on blur (unfocus)
+		["name", "jobTitle", "company", "phone", "email", "sector", "message"].forEach((fieldId) => {
+			form.querySelector(`#${fieldId}`)?.addEventListener("blur", () => {
+				const data = getFormData(form);
+				const code = validateField(fieldId, data);
+				if (code) {
+					showFieldError(form, fieldId, messages[code] ?? messages.default);
+				} else {
+					// Clear error if field is now valid
+					const errorEl = form.querySelector(`[data-field-error="${fieldId}"]`);
+					const inputEl = form.querySelector(`#${fieldId}`);
+					if (errorEl) { errorEl.textContent = ""; errorEl.classList.add("hidden"); }
+					if (inputEl) inputEl.removeAttribute("aria-invalid");
+				}
+			});
+		});
 
 		// Lazy-load reCAPTCHA on first field focus
 		form.querySelectorAll("input, select, textarea").forEach((el) => {
@@ -354,14 +422,8 @@ const messages = {
 			const formData = new FormData(form);
 
 			const data = {
-				name: formData.get("name") ?? "",
-				jobTitle: formData.get("jobTitle") ?? "",
-				company: formData.get("company") ?? "",
-				phone: formData.get("phone") ?? "",
-				email: formData.get("email") ?? "",
-				sector: formData.get("sector") ?? "",
+				...getFormData(form),
 				equipment: formData.getAll("equipment"),
-				message: formData.get("message") ?? "",
 				website: formData.get("website") ?? "",
 			};
 
