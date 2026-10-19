@@ -9,11 +9,13 @@ interface Props {
 const { title, description } = Astro.props;
 ---
 
-{/*
+{
+	/*
 	Shared shell for static error pages (404.html, 50x.html). Apache serves one file for every
 	failing URL, so both languages are rendered and the visible one is picked on the client
 	from the URL prefix.
-*/}
+*/
+}
 <Layout title={title} description={description}>
 	<script is:inline>
 		if (/^\/en(\/|$)/.test(window.location.pathname)) {

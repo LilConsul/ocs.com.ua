@@ -153,8 +153,12 @@ describe("decap cms documents collection", () => {
 		expect(documentsCollection).toBeDefined();
 		expect(documentsCollection.label).toBe("Documents");
 		expect(documentsCollection.files?.[0]?.name).toBe("authorization-letters");
-		expect(documentsCollection.files?.[0]?.file).toBe("application/frontend/src/data/documents.json");
-		expect(documentsCollection.files?.[0]?.media_folder).toBe("application/frontend/public/assets/documents");
+		expect(documentsCollection.files?.[0]?.file).toBe(
+			"application/frontend/src/data/documents.json"
+		);
+		expect(documentsCollection.files?.[0]?.media_folder).toBe(
+			"application/frontend/public/assets/documents"
+		);
 		expect(documentsCollection.files?.[0]?.public_folder).toBe("/assets/documents");
 	});
 });

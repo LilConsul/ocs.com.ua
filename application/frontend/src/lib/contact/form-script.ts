@@ -67,18 +67,18 @@ function showStatus(message: string, isError: boolean) {
 		"bg-destructive/10",
 		"text-destructive",
 		"bg-green-50",
-		"text-green-800",
+		"text-green-800"
 	);
 	statusEl.classList.add(
 		isError ? "bg-destructive/10" : "bg-green-50",
-		isError ? "text-destructive" : "text-green-800",
+		isError ? "text-destructive" : "text-green-800"
 	);
 }
 
 function updateEmailNote(form: HTMLFormElement) {
 	const input = form.querySelector<HTMLInputElement>("#email");
 	const note = document.getElementById("email-note");
-	if (!input || !note) return;
+	if (!(input && note)) return;
 	const domain = input.value.split("@")[1]?.trim().toLowerCase();
 	note.classList.toggle("hidden", !(domain && FREE_MAIL.has(domain)));
 }
@@ -98,7 +98,12 @@ function getFormData(form: HTMLFormElement) {
 
 type FormData = ReturnType<typeof getFormData>;
 
-function validateField(fieldId: string, data: FormData, EMAIL_RE: RegExp, PHONE_RE: RegExp): string | null {
+function validateField(
+	fieldId: string,
+	data: FormData,
+	EMAIL_RE: RegExp,
+	PHONE_RE: RegExp
+): string | null {
 	switch (fieldId) {
 		case "name":
 			if (!data.name.trim()) return "required";
@@ -250,7 +255,7 @@ export function initContactForm(config: FormConfig) {
 					updateEmailNote(form);
 				} else if (json.fields) {
 					Object.entries(json.fields).forEach(([field, code]) => {
-						showFieldError(form, field, messages[(code as string)] ?? messages.default);
+						showFieldError(form, field, messages[code as string] ?? messages.default);
 					});
 					showStatus(messages.validation_failed, true);
 				} else {
