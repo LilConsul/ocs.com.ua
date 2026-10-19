@@ -29,13 +29,11 @@ const INLINE_TRANSLATION_REGEX =
 /**
  * Extract all _("text") strings from source files
  */
-async function extractStrings() {
+export async function extractStrings(rootDir = ROOT_DIR) {
 	const patterns = ["src/**/*.astro", "src/**/*.tsx", "src/**/*.ts"];
 
-	console.log("[SCAN] Scanning files for _() calls...\n");
-
 	const files = await glob(patterns, {
-		cwd: ROOT_DIR,
+		cwd: rootDir,
 		ignore: ["**/node_modules/**", "**/dist/**", "**/*.d.ts"],
 		posix: true,
 	});
@@ -43,9 +41,8 @@ async function extractStrings() {
 	const extractedStrings = new Map(); // msgid -> [{ file, line }]
 
 	for (const file of files) {
-		const filePath = resolve(ROOT_DIR, file);
+		const filePath = resolve(rootDir, file);
 		const content = readFileSync(filePath, "utf-8");
-		const lines = content.split("\n");
 
 		let match = INLINE_TRANSLATION_REGEX.exec(content);
 		while (match !== null) {
@@ -69,7 +66,7 @@ async function extractStrings() {
 /**
  * Generate POT file (template)
  */
-function generatePOT(strings) {
+export function generatePOT(strings) {
 	let pot = `# AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
 #
 # This is the translation template file for OS-Technology Frontend.
@@ -122,39 +119,29 @@ msgstr ""
 /**
  * Parse existing PO file
  */
-function parsePO(content) {
-	const translations = new Map();
+export function parsePO(content) {
+	const translations = new Map(); // msgid -> msgstr
 	const lines = content.split("\n");
 	let currentMsgid = null;
 	let currentMsgstr = null;
-	let currentComments = [];
 
 	for (let i = 0; i < lines.length; i++) {
 		const line = lines[i].trim();
 
-		if (line.startsWith("#:")) {
-			currentComments.push(line);
-		} else if (line.startsWith("msgid ")) {
-			if (currentMsgid && currentMsgstr !== null) {
-				translations.set(currentMsgid, {
-					msgstr: currentMsgstr,
-					comments: currentComments,
-				});
+		if (line.startsWith("msgid ")) {
+			if (currentMsgid && currentMsgstr !== null && currentMsgid !== "") {
+				translations.set(currentMsgid, currentMsgstr);
 			}
 			currentMsgid = unescapePO(line.substring(7, line.length - 1));
 			currentMsgstr = null;
-			currentComments = [];
 		} else if (line.startsWith("msgstr ")) {
 			currentMsgstr = unescapePO(line.substring(8, line.length - 1));
 		}
 	}
 
 	// Add last entry
-	if (currentMsgid && currentMsgstr !== null) {
-		translations.set(currentMsgid, {
-			msgstr: currentMsgstr,
-			comments: currentComments,
-		});
+	if (currentMsgid && currentMsgstr !== null && currentMsgid !== "") {
+		translations.set(currentMsgid, currentMsgstr);
 	}
 
 	return translations;
@@ -163,7 +150,7 @@ function parsePO(content) {
 /**
  * Update PO file with new strings from POT
  */
-function updatePO(potStrings, existingPO, language) {
+export function updatePO(potStrings, existingPO, language) {
 	let po = `# EDIT THIS FILE TO ADD TRANSLATIONS
 #
 # ${language.toUpperCase()} translations for OS-Technology Frontend.
@@ -215,7 +202,8 @@ msgstr ""
 		// Add msgstr (preserve existing translation or leave empty)
 		// IMPORTANT: Only preserve non-empty translations to avoid overwriting
 		const existing = existingPO?.get(msgid);
-		const msgstr = existing?.msgstr && existing.msgstr.trim() !== "" ? existing.msgstr : "";
+		const rawMsgstr = typeof existing === "string" ? existing : existing?.msgstr;
+		const msgstr = rawMsgstr && rawMsgstr.trim() !== "" ? rawMsgstr : "";
 		po += `msgstr "${escapePO(msgstr)}"\n\n`;
 	}
 
@@ -225,7 +213,7 @@ msgstr ""
 /**
  * Escape string for PO format
  */
-function escapePO(str) {
+export function escapePO(str) {
 	return str
 		.replace(/\\/g, "\\\\")
 		.replace(/"/g, '\\"')
@@ -236,7 +224,7 @@ function escapePO(str) {
 /**
  * Unescape string from PO format
  */
-function unescapePO(str) {
+export function unescapePO(str) {
 	return str
 		.replace(/\\n/g, "\n")
 		.replace(/\\t/g, "\t")
@@ -247,7 +235,7 @@ function unescapePO(str) {
 /**
  * Write file only if content has changed
  */
-function writeIfChanged(filePath, content) {
+export function writeIfChanged(filePath, content) {
 	if (existsSync(filePath)) {
 		const current = readFileSync(filePath, "utf-8");
 		if (current === content) {
@@ -261,14 +249,18 @@ function writeIfChanged(filePath, content) {
 /**
  * Main extraction
  */
-async function extract() {
+export async function extract(rootDir = ROOT_DIR) {
+	const localesDir = resolve(rootDir, "locales");
+	const potFile = resolve(localesDir, "messages.pot");
+
 	// Ensure locales directory exists
-	if (!existsSync(LOCALES_DIR)) {
-		mkdirSync(LOCALES_DIR, { recursive: true });
+	if (!existsSync(localesDir)) {
+		mkdirSync(localesDir, { recursive: true });
 	}
 
+	console.log("[SCAN] Scanning files for _() calls...\n");
 	// Extract strings
-	const strings = await extractStrings();
+	const strings = await extractStrings(rootDir);
 
 	if (strings.size === 0) {
 		console.log("[INFO] No _() calls found in source files.");
@@ -279,7 +271,7 @@ async function extract() {
 
 	// Generate POT file
 	const potContent = generatePOT(strings);
-	const potUpdated = writeIfChanged(POT_FILE, potContent);
+	const potUpdated = writeIfChanged(potFile, potContent);
 	console.log(
 		potUpdated
 			? `[OK] Updated template file: locales/messages.pot`
@@ -287,11 +279,10 @@ async function extract() {
 	);
 
 	// Update existing PO files
-	// Note: English is the source language, so we only generate translations for other languages
 	const languages = ["ua"];
 
 	for (const lang of languages) {
-		const poFile = resolve(LOCALES_DIR, `${lang}.po`);
+		const poFile = resolve(localesDir, `${lang}.po`);
 		let existingPO = null;
 
 		if (existsSync(poFile)) {
@@ -314,20 +305,23 @@ async function extract() {
 /**
  * Initialize new language
  */
-async function initLanguage(lang) {
-	if (!existsSync(POT_FILE)) {
+export async function initLanguage(lang, rootDir = ROOT_DIR) {
+	const localesDir = resolve(rootDir, "locales");
+	const potFile = resolve(localesDir, "messages.pot");
+
+	if (!existsSync(potFile)) {
 		console.error("[ERROR] POT file not found. Run 'bun run i18n:extract' first to generate it.");
 		process.exit(1);
 	}
 
-	const poFile = resolve(LOCALES_DIR, `${lang}.po`);
+	const poFile = resolve(localesDir, `${lang}.po`);
 
 	if (existsSync(poFile)) {
 		console.error(`[ERROR] ${lang}.po already exists.`);
 		process.exit(1);
 	}
 
-	const potContent = readFileSync(POT_FILE, "utf-8");
+	const potContent = readFileSync(potFile, "utf-8");
 	const strings = new Map();
 
 	// Parse POT to get msgids
@@ -344,16 +338,18 @@ async function initLanguage(lang) {
 	console.log(`[OK] Created locales/${lang}.po`);
 }
 
-// Main
-const args = process.argv.slice(2);
+// CLI entry point
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+	const args = process.argv.slice(2);
 
-if (args.includes("--init")) {
-	const lang = args[args.indexOf("--init") + 1];
-	if (!lang) {
-		console.error("[ERROR] Usage: bun run i18n:extract -- --init <language>");
-		process.exit(1);
+	if (args.includes("--init")) {
+		const lang = args[args.indexOf("--init") + 1];
+		if (!lang) {
+			console.error("[ERROR] Usage: bun run i18n:extract -- --init <language>");
+			process.exit(1);
+		}
+		initLanguage(lang);
+	} else {
+		extract();
 	}
-	initLanguage(lang);
-} else {
-	extract();
 }
