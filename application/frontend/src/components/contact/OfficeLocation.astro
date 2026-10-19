@@ -11,7 +11,8 @@ const _ = getInlineTranslations(lang);
 
 const address = companyData.address[lang as "en" | "ua"] ?? companyData.address.en;
 const workingHours = companyData.workingHours[lang as "en" | "ua"] ?? companyData.workingHours.en;
-const mapsQuery = encodeURIComponent("67 Beresteiskyi Ave, Kyiv, Ukraine 03062");
+const { street, city, country, postalCode } = companyData.address.en;
+const mapsQuery = encodeURIComponent(`${street}, ${city}, ${country} ${postalCode}`);
 const routeUrl = `https://www.google.com/maps/dir/?api=1&destination=${mapsQuery}`;
 // Keyless embed — works without a Maps API key
 const embedUrl = `https://maps.google.com/maps?q=${mapsQuery}&output=embed`;

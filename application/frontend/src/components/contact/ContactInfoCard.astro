@@ -13,7 +13,8 @@ const address = companyData.address[lang as "en" | "ua"] ?? companyData.address.
 const contactPerson =
 	companyData.contactPerson[lang as "en" | "ua"] ?? companyData.contactPerson.en;
 const workingHours = companyData.workingHours[lang as "en" | "ua"] ?? companyData.workingHours.en;
-const mapsQuery = encodeURIComponent("67 Beresteiskyi Ave, Kyiv, Ukraine 03062");
+const { street, city, country, postalCode } = companyData.address.en;
+const mapsQuery = encodeURIComponent(`${street}, ${city}, ${country} ${postalCode}`);
 const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
 ---
 
