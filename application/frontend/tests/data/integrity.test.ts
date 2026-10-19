@@ -1,8 +1,9 @@
 import { describe, expect, it } from "bun:test";
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join, relative } from "node:path";
 import { parse } from "yaml";
 import { collections } from "@/content.config";
+import documentsData from "@/data/documents.json";
 import equipmentTypes from "@/data/equipment-types.json";
 import icons from "@/data/icons.json";
 import { getInlineTranslations } from "@/i18n/inline";
@@ -121,5 +122,23 @@ describe("contact form options", () => {
 		const t = getInlineTranslations("ua");
 		const untranslated = SECTORS.filter((s) => t(s) === s);
 		expect(untranslated).toEqual([]);
+	});
+});
+
+describe("authorization documents data", () => {
+	it("has wipotec and mesutronic string keys", () => {
+		expect(typeof documentsData.wipotec).toBe("string");
+		expect(typeof documentsData.mesutronic).toBe("string");
+	});
+
+	it("points to files that exist when path is non-empty", () => {
+		const publicDir = join(import.meta.dir, "../../public");
+		for (const [, path] of Object.entries(documentsData)) {
+			if (path) {
+				const filePath = join(publicDir, path);
+				const exists = existsSync(filePath);
+				expect(exists).toBe(true);
+			}
+		}
 	});
 });
