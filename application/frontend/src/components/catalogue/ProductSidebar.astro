@@ -65,7 +65,7 @@ const workingHours = companyData.workingHours[lang as "en" | "ua"] || companyDat
 			</p>
 			{contactPerson && <p class="text-foreground text-sm font-medium">{contactPerson.name}</p>}
 			<a
-				href={companyData.phone.href}
+				href={`tel:${companyData.phone.replace(/[^\d+]/g, "")}`}
 				class="text-foreground hover:text-secondary group flex items-center gap-2 transition-colors"
 			>
 				<span
@@ -74,19 +74,19 @@ const workingHours = companyData.workingHours[lang as "en" | "ua"] || companyDat
 					call
 				</span>
 				<span class="font-technical-data text-technical-data text-sm font-semibold">
-					{companyData.phone.display}
+					{companyData.phone}
 				</span>
 			</a>
 			{
-				companyData.emails?.sales && (
+				companyData.email && (
 					<a
-						href={`mailto:${companyData.emails.sales}`}
+						href={`mailto:${companyData.email}`}
 						class="text-muted-foreground hover:text-secondary group flex items-center gap-2 transition-colors"
 					>
 						<span class="material-symbols-outlined text-industrial-gray group-hover:text-secondary text-[20px]">
 							mail
 						</span>
-						<span class="font-mono text-xs font-medium">{companyData.emails.sales}</span>
+						<span class="font-mono text-xs font-medium">{companyData.email}</span>
 					</a>
 				)
 			}

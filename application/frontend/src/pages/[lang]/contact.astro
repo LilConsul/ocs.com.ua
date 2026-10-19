@@ -54,8 +54,8 @@ const structuredData = [
 		"@type": "LocalBusiness",
 		name: lang === "en" ? "OS-Technology Ukraine" : "ОС-Технолоджи Україна",
 		url: new URL(`/${lang}`, siteUrl).href,
-		telephone: companyData.phone.href.replace("tel:", ""),
-		email: companyData.emails.info,
+		telephone: companyData.phone,
+		email: companyData.email,
 		address: {
 			"@type": "PostalAddress",
 			streetAddress: address.street,

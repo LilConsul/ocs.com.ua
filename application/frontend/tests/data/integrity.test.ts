@@ -3,6 +3,7 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join, relative } from "node:path";
 import { parse } from "yaml";
 import { collections } from "@/content.config";
+import companyData from "@/data/company.json";
 import documentsData from "@/data/documents.json";
 import equipmentTypes from "@/data/equipment-types.json";
 import icons from "@/data/icons.json";
@@ -143,6 +144,38 @@ describe("authorization documents data", () => {
 	});
 });
 
+describe("company data", () => {
+	it("has phone number string", () => {
+		expect(typeof companyData.phone).toBe("string");
+		expect(companyData.phone.trim()).not.toBe("");
+	});
+
+	it("has email address string", () => {
+		expect(typeof companyData.email).toBe("string");
+		expect(companyData.email.trim()).not.toBe("");
+	});
+
+	it("has contactPerson names in en and ua", () => {
+		expect(companyData.contactPerson.en.name.trim()).not.toBe("");
+		expect(companyData.contactPerson.ua.name.trim()).not.toBe("");
+	});
+
+	it("has workingHours in en and ua", () => {
+		expect(companyData.workingHours.en.trim()).not.toBe("");
+		expect(companyData.workingHours.ua.trim()).not.toBe("");
+	});
+
+	it("has address in en and ua with all subfields", () => {
+		for (const lang of ["en", "ua"] as const) {
+			const addr = companyData.address[lang];
+			expect(addr.street.trim()).not.toBe("");
+			expect(addr.city.trim()).not.toBe("");
+			expect(addr.postalCode.trim()).not.toBe("");
+			expect(addr.country.trim()).not.toBe("");
+		}
+	});
+});
+
 describe("decap cms documents collection", () => {
 	it("configures documents file collection in _config.template.yml", () => {
 		const templatePath = join(import.meta.dir, "../../src/pages/admin/_config.template.yml");
@@ -156,9 +189,21 @@ describe("decap cms documents collection", () => {
 		expect(documentsCollection.files?.[0]?.file).toBe(
 			"application/frontend/src/data/documents.json"
 		);
-		expect(documentsCollection.files?.[0]?.media_folder).toBe(
-			"../../public/assets/documents"
-		);
+		expect(documentsCollection.files?.[0]?.media_folder).toBe("../../public/assets/documents");
 		expect(documentsCollection.files?.[0]?.public_folder).toBe("/assets/documents");
+	});
+});
+
+describe("decap cms company collection", () => {
+	it("configures company file collection in _config.template.yml", () => {
+		const templatePath = join(import.meta.dir, "../../src/pages/admin/_config.template.yml");
+		const raw = readFileSync(templatePath, "utf8");
+		const parsed = parse(raw.replace(/__[A-Z0-9_]+__/g, '""'));
+		const companyCollection = parsed.collections?.find((c: any) => c.name === "company");
+		expect(companyCollection).toBeDefined();
+		expect(companyCollection.label).toBe("Company");
+		expect(companyCollection.files?.[0]?.name).toBe("company-info");
+		expect(companyCollection.files?.[0]?.file).toBe("application/frontend/src/data/company.json");
+		expect(companyCollection.files?.[0]?.format).toBe("json");
 	});
 });

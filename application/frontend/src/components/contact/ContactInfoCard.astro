@@ -16,6 +16,7 @@ const workingHours = companyData.workingHours[lang as "en" | "ua"] ?? companyDat
 const { street, city, country, postalCode } = companyData.address.en;
 const mapsQuery = encodeURIComponent(`${street}, ${city}, ${country} ${postalCode}`);
 const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
+const phoneHref = `tel:${companyData.phone.replace(/[^\d+]/g, "")}`;
 ---
 
 <section class="bg-surface-container space-y-6 rounded-xl p-8 shadow-sm">
@@ -34,10 +35,10 @@ const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
 					{contactPerson.name}
 				</p>
 				<a
-					href={companyData.phone.href}
+					href={phoneHref}
 					class="font-headline-lg text-headline-lg text-foreground hover:text-secondary font-bold transition-colors"
 				>
-					{companyData.phone.display}
+					{companyData.phone}
 				</a>
 			</dd>
 		</div>
@@ -52,10 +53,10 @@ const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
 			</dt>
 			<dd>
 				<a
-					href={`mailto:${companyData.emails.info}`}
+					href={`mailto:${companyData.email}`}
 					class="font-technical-data text-technical-data text-foreground hover:text-secondary transition-colors"
 				>
-					{companyData.emails.info}
+					{companyData.email}
 				</a>
 			</dd>
 		</div>
