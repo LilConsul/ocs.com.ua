@@ -157,7 +157,7 @@ describe("decap cms documents collection", () => {
 			"application/frontend/src/data/documents.json"
 		);
 		expect(documentsCollection.files?.[0]?.media_folder).toBe(
-			"application/frontend/public/assets/documents"
+			"../../public/assets/documents"
 		);
 		expect(documentsCollection.files?.[0]?.public_folder).toBe("/assets/documents");
 	});

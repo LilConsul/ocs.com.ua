@@ -70,7 +70,7 @@ collections:
         label: "Authorization Letters"
         file: "application/frontend/src/data/documents.json"
         format: json
-        media_folder: "application/frontend/public/assets/documents"
+        media_folder: "../../public/assets/documents"
         public_folder: "/assets/documents"
         fields:
           - label: "Wipotec Authorization Letter (PDF)"
