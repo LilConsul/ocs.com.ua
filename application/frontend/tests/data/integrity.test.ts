@@ -114,7 +114,7 @@ describe("contact form options", () => {
 		const expected = equipmentTypes.en.categories
 			.map((c) => c.slug)
 			.filter((s) => s !== "catchweigher")
-			.sort();
+			.sort() as (typeof EQUIPMENT_SLUGS)[number][];
 		expect([...EQUIPMENT_SLUGS].sort()).toEqual(expected);
 	});
 
