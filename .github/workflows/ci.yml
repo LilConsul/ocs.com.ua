@@ -14,7 +14,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test:
+  fe-unit-test:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -23,5 +23,5 @@ jobs:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
       - run: bun install --frozen-lockfile
-      - name: Test
+      - name: "[FE] Unit Tests"
         run: bun test
