@@ -142,3 +142,19 @@ describe("authorization documents data", () => {
 		}
 	});
 });
+
+describe("decap cms documents collection", () => {
+	it("configures documents file collection in _config.template.yml", () => {
+		const templatePath = join(import.meta.dir, "../../src/pages/admin/_config.template.yml");
+		const raw = readFileSync(templatePath, "utf8");
+		// Replace template tokens with dummy values so it parses valid YAML
+		const parsed = parse(raw.replace(/__[A-Z0-9_]+__/g, '""'));
+		const documentsCollection = parsed.collections?.find((c: any) => c.name === "documents");
+		expect(documentsCollection).toBeDefined();
+		expect(documentsCollection.label).toBe("Documents");
+		expect(documentsCollection.files?.[0]?.name).toBe("authorization-letters");
+		expect(documentsCollection.files?.[0]?.file).toBe("application/frontend/src/data/documents.json");
+		expect(documentsCollection.files?.[0]?.media_folder).toBe("application/frontend/public/assets/documents");
+		expect(documentsCollection.files?.[0]?.public_folder).toBe("/assets/documents");
+	});
+});
