@@ -59,6 +59,31 @@ i18n:
   default_locale: en
 
 collections:
+  # ── Authorization Documents ───────────────────────────────────────────────
+  - name: "documents"
+    label: "Documents"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - name: "authorization-letters"
+        label: "Authorization Letters"
+        file: "application/frontend/src/data/documents.json"
+        format: json
+        media_folder: "application/frontend/public/assets/documents"
+        public_folder: "/assets/documents"
+        fields:
+          - label: "Wipotec Authorization Letter (PDF)"
+            name: "wipotec"
+            widget: "file"
+            required: false
+            hint: "Upload the official Wipotec Authorization Letter (PDF)"
+          - label: "Mesutronic Authorization Letter (PDF)"
+            name: "mesutronic"
+            widget: "file"
+            required: false
+            hint: "Upload the official Mesutronic Authorization Letter (PDF)"
+
   # ── Equipment Categories ────────────────────────────────────────────────────
   # File collection backed by JSON. Adding an entry creates a new category that
   # auto-appears in the site sidebar and the product category dropdown.

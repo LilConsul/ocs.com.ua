@@ -10,7 +10,16 @@ interface Props {
 	autocomplete?: string;
 }
 
-const { id, label, type = "text", required = false, placeholder, hint, rows = 4, autocomplete } = Astro.props;
+const {
+	id,
+	label,
+	type = "text",
+	required = false,
+	placeholder,
+	hint,
+	rows = 4,
+	autocomplete,
+} = Astro.props;
 ---
 
 <div class="space-y-1.5">

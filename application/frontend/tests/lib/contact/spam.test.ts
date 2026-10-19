@@ -95,9 +95,17 @@ describe("hasSpamKeywords", () => {
 	});
 
 	it("allows legitimate industrial inquiries in Ukrainian and English", () => {
-		expect(hasSpamKeywords("Потрібна комерційна пропозиція на чеквеєр HC-A для фарм лінії.")).toBe(false);
-		expect(hasSpamKeywords("We require checkweighers with 0.1g accuracy for pharmaceutical packaging.")).toBe(false);
-		expect(hasSpamKeywords("Цікавить система контролю ваги та металодетектор для кондитерського виробництва.")).toBe(false);
+		expect(hasSpamKeywords("Потрібна комерційна пропозиція на чеквеєр HC-A для фарм лінії.")).toBe(
+			false
+		);
+		expect(
+			hasSpamKeywords("We require checkweighers with 0.1g accuracy for pharmaceutical packaging.")
+		).toBe(false);
+		expect(
+			hasSpamKeywords(
+				"Цікавить система контролю ваги та металодетектор для кондитерського виробництва."
+			)
+		).toBe(false);
 	});
 });
 

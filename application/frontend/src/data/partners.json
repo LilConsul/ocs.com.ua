@@ -12,10 +12,7 @@
 				"cw": 41,
 				"tqs": 0
 			},
-			"adres": [
-				"Kyiv",
-				"Vinnytsia"
-			]
+			"adres": ["Kyiv", "Vinnytsia"]
 		},
 		{
 			"name": {
@@ -29,9 +26,7 @@
 				"cw": 4,
 				"tqs": 0
 			},
-			"adres": [
-				"Kyiv"
-			]
+			"adres": ["Kyiv"]
 		},
 		{
 			"name": {
@@ -61,9 +56,7 @@
 				"cw": 0,
 				"tqs": 0
 			},
-			"adres": [
-				"Kyiv"
-			]
+			"adres": ["Kyiv"]
 		},
 		{
 			"name": {
@@ -77,9 +70,7 @@
 				"cw": 9,
 				"tqs": 0
 			},
-			"adres": [
-				"Sumy"
-			]
+			"adres": ["Sumy"]
 		},
 		{
 			"name": {
@@ -93,9 +84,7 @@
 				"cw": 0,
 				"tqs": 0
 			},
-			"adres": [
-				"Lviv"
-			]
+			"adres": ["Lviv"]
 		},
 		{
 			"name": {
@@ -109,9 +98,7 @@
 				"cw": 4,
 				"tqs": 0
 			},
-			"adres": [
-				"Sumy"
-			]
+			"adres": ["Sumy"]
 		},
 		{
 			"name": {
@@ -133,9 +120,7 @@
 				"cw": 3,
 				"tqs": 0
 			},
-			"adres": [
-				"Kyiv"
-			]
+			"adres": ["Kyiv"]
 		},
 		{
 			"name": {
@@ -157,9 +142,7 @@
 				"cw": 1,
 				"tqs": 0
 			},
-			"adres": [
-				"Kyiv"
-			]
+			"adres": ["Kyiv"]
 		},
 		{
 			"name": {
@@ -173,9 +156,7 @@
 				"cw": 4,
 				"tqs": 0
 			},
-			"adres": [
-				"Cherkasy"
-			]
+			"adres": ["Cherkasy"]
 		},
 		{
 			"name": {
@@ -223,9 +204,7 @@
 				"cw": 4,
 				"tqs": 0
 			},
-			"adres": [
-				"Kyiv"
-			]
+			"adres": ["Kyiv"]
 		},
 		{
 			"name": {
@@ -247,11 +226,7 @@
 				"cw": 9,
 				"tqs": 0
 			},
-			"adres": [
-				"Kyiv",
-				"Odesa",
-				"Lviv"
-			]
+			"adres": ["Kyiv", "Odesa", "Lviv"]
 		},
 		{
 			"name": {
@@ -265,9 +240,7 @@
 				"cw": 13,
 				"tqs": 0
 			},
-			"adres": [
-				"Kyiv"
-			]
+			"adres": ["Kyiv"]
 		},
 		{
 			"name": {
@@ -291,9 +264,7 @@
 				"cw": 1,
 				"tqs": 0
 			},
-			"adres": [
-				"Kyiv"
-			]
+			"adres": ["Kyiv"]
 		},
 		{
 			"name": {
@@ -307,9 +278,7 @@
 				"cw": 1,
 				"tqs": 3
 			},
-			"adres": [
-				"Cherkasy"
-			]
+			"adres": ["Cherkasy"]
 		},
 		{
 			"name": {
@@ -323,9 +292,7 @@
 				"cw": 6,
 				"tqs": 1
 			},
-			"adres": [
-				"Kyiv"
-			]
+			"adres": ["Kyiv"]
 		},
 		{
 			"name": {
@@ -339,9 +306,7 @@
 				"cw": 5,
 				"tqs": 1
 			},
-			"adres": [
-				"Kyiv"
-			]
+			"adres": ["Kyiv"]
 		},
 		{
 			"name": {
@@ -371,12 +336,7 @@
 				"cw": 43,
 				"tqs": 0
 			},
-			"adres": [
-				"Kyiv",
-				"Zhytomyr",
-				"Lviv",
-				"Odesa"
-			]
+			"adres": ["Kyiv", "Zhytomyr", "Lviv", "Odesa"]
 		}
 	]
 }

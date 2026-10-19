@@ -86,9 +86,7 @@ export function hasSpamKeywords(text: string): boolean {
 /**
  * Unified spam assessment: checks honeypot, time-trap, disposable email, links, and keywords.
  */
-export function isSpamSubmission(
-	data: ContactFormData & { loadedAt?: number | string }
-): boolean {
+export function isSpamSubmission(data: ContactFormData & { loadedAt?: number | string }): boolean {
 	if (data.website && data.website.trim() !== "") {
 		return true;
 	}
@@ -101,7 +99,11 @@ export function isSpamSubmission(
 	if (hasExcessiveLinks(data.message)) {
 		return true;
 	}
-	if (hasSpamKeywords(data.message) || hasSpamKeywords(data.name) || hasSpamKeywords(data.company)) {
+	if (
+		hasSpamKeywords(data.message) ||
+		hasSpamKeywords(data.name) ||
+		hasSpamKeywords(data.company)
+	) {
 		return true;
 	}
 	return false;

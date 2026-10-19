@@ -6,7 +6,10 @@ import ErrorPageLayout from "@/layouts/ErrorPageLayout.astro";
 const _ = getInlineTranslations(defaultLang);
 ---
 
-<ErrorPageLayout title={`5xx | ${_("Something Went Wrong")}`} description={_("Something Went Wrong")}>
+<ErrorPageLayout
+	title={`5xx | ${_("Something Went Wrong")}`}
+	description={_("Something Went Wrong")}
+>
 	<ServerErrorContent lang="ua" />
 	<ServerErrorContent lang="en" />
 </ErrorPageLayout>

@@ -1,8 +1,9 @@
 import { describe, expect, it } from "bun:test";
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join, relative } from "node:path";
 import { parse } from "yaml";
 import { collections } from "@/content.config";
+import documentsData from "@/data/documents.json";
 import equipmentTypes from "@/data/equipment-types.json";
 import icons from "@/data/icons.json";
 import { getInlineTranslations } from "@/i18n/inline";
@@ -113,7 +114,7 @@ describe("contact form options", () => {
 		const expected = equipmentTypes.en.categories
 			.map((c) => c.slug)
 			.filter((s) => s !== "catchweigher")
-			.sort();
+			.sort() as (typeof EQUIPMENT_SLUGS)[number][];
 		expect([...EQUIPMENT_SLUGS].sort()).toEqual(expected);
 	});
 
@@ -121,5 +122,43 @@ describe("contact form options", () => {
 		const t = getInlineTranslations("ua");
 		const untranslated = SECTORS.filter((s) => t(s) === s);
 		expect(untranslated).toEqual([]);
+	});
+});
+
+describe("authorization documents data", () => {
+	it("has wipotec and mesutronic string keys", () => {
+		expect(typeof documentsData.wipotec).toBe("string");
+		expect(typeof documentsData.mesutronic).toBe("string");
+	});
+
+	it("points to files that exist when path is non-empty", () => {
+		const publicDir = join(import.meta.dir, "../../public");
+		for (const [, path] of Object.entries(documentsData)) {
+			if (path) {
+				const filePath = join(publicDir, path);
+				const exists = existsSync(filePath);
+				expect(exists).toBe(true);
+			}
+		}
+	});
+});
+
+describe("decap cms documents collection", () => {
+	it("configures documents file collection in _config.template.yml", () => {
+		const templatePath = join(import.meta.dir, "../../src/pages/admin/_config.template.yml");
+		const raw = readFileSync(templatePath, "utf8");
+		// Replace template tokens with dummy values so it parses valid YAML
+		const parsed = parse(raw.replace(/__[A-Z0-9_]+__/g, '""'));
+		const documentsCollection = parsed.collections?.find((c: any) => c.name === "documents");
+		expect(documentsCollection).toBeDefined();
+		expect(documentsCollection.label).toBe("Documents");
+		expect(documentsCollection.files?.[0]?.name).toBe("authorization-letters");
+		expect(documentsCollection.files?.[0]?.file).toBe(
+			"application/frontend/src/data/documents.json"
+		);
+		expect(documentsCollection.files?.[0]?.media_folder).toBe(
+			"application/frontend/public/assets/documents"
+		);
+		expect(documentsCollection.files?.[0]?.public_folder).toBe("/assets/documents");
 	});
 });
