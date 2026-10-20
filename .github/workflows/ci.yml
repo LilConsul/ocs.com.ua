@@ -1,5 +1,5 @@
-# Runs the frontend tests on pull requests.
-# Pushes to main are covered by the Test step in deploy-dev.yml.
+# Runs tests on pull requests.
+# Pushes to main are covered by the test steps in deploy-dev.yml.
 
 name: CI
 
@@ -7,6 +7,7 @@ on:
   pull_request:
     paths:
       - "application/frontend/**"
+      - "application/infra/**"
       - ".github/workflows/ci.yml"
 
 concurrency:
@@ -25,3 +26,13 @@ jobs:
       - run: bun install --frozen-lockfile
       - name: "[FE] Unit Tests"
         run: bun test
+
+  infra-unit-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: application/infra
+    steps:
+      - uses: actions/checkout@v4
+      - name: "[Infra] Unit Tests"
+        run: uv run pytest tests/ -v
