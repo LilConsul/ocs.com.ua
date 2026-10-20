@@ -1,0 +1,35 @@
+---
+import { getInlineTranslations, type Lang } from "@/i18n";
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const _ = getInlineTranslations(lang);
+---
+
+<section class="relative w-full overflow-hidden pt-12 pb-16">
+	<div
+		class="pointer-events-none absolute inset-0 opacity-[0.03]"
+		style="background-image: radial-gradient(var(--color-foreground) 1px, transparent 1px); background-size: 24px 24px;"
+		aria-hidden="true"
+	>
+	</div>
+
+	<div class="relative mx-auto max-w-[1280px] px-8">
+		{/* Headline block */}
+		<header class="space-y-6 lg:w-2/3">
+			<h1 class="font-display-lg text-display-lg text-foreground font-heading tracking-tight">
+				{_("Get in Touch")}
+			</h1>
+			<p class="text-industrial-gray max-w-2xl text-lg leading-relaxed">
+				{
+					_(
+						"Contact our engineering team to discuss equipment selection, request a quotation, or arrange a product demonstration."
+					)
+				}
+			</p>
+		</header>
+	</div>
+</section>

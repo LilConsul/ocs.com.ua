@@ -6,7 +6,13 @@
 				"ua": "Рошен"
 			},
 			"website": "https://roshen.com",
-			"logo": "/assets/partners/roshen.webp"
+			"logo": "/assets/partners/roshen.webp",
+			"equipment": {
+				"md": 51,
+				"cw": 41,
+				"tqs": 0
+			},
+			"adres": ["Kyiv", "Vinnytsia"]
 		},
 		{
 			"name": {
@@ -14,7 +20,13 @@
 				"ua": "Grona"
 			},
 			"website": "https://grona.ua",
-			"logo": "/assets/partners/grona.webp"
+			"logo": "/assets/partners/grona.webp",
+			"equipment": {
+				"md": 8,
+				"cw": 4,
+				"tqs": 0
+			},
+			"adres": ["Kyiv"]
 		},
 		{
 			"name": {
@@ -38,7 +50,13 @@
 				"ua": "Легко!"
 			},
 			"website": "https://legko.ua",
-			"logo": "/assets/partners/legko.webp"
+			"logo": "/assets/partners/legko.webp",
+			"equipment": {
+				"md": 1,
+				"cw": 0,
+				"tqs": 0
+			},
+			"adres": ["Kyiv"]
 		},
 		{
 			"name": {
@@ -46,7 +64,13 @@
 				"ua": "Mondelez International"
 			},
 			"website": "https://mondelezinternational.com",
-			"logo": "/assets/partners/mondelez.webp"
+			"logo": "/assets/partners/mondelez.webp",
+			"equipment": {
+				"md": 2,
+				"cw": 9,
+				"tqs": 0
+			},
+			"adres": ["Sumy"]
 		},
 		{
 			"name": {
@@ -54,7 +78,13 @@
 				"ua": "Галка"
 			},
 			"website": "https://galca.com.ua/",
-			"logo": "/assets/partners/halka.webp"
+			"logo": "/assets/partners/halka.webp",
+			"equipment": {
+				"md": 1,
+				"cw": 0,
+				"tqs": 0
+			},
+			"adres": ["Lviv"]
 		},
 		{
 			"name": {
@@ -62,7 +92,13 @@
 				"ua": "Jacobs"
 			},
 			"website": "https://jacobs.ua",
-			"logo": "/assets/partners/jacobs.webp"
+			"logo": "/assets/partners/jacobs.webp",
+			"equipment": {
+				"md": 8,
+				"cw": 4,
+				"tqs": 0
+			},
+			"adres": ["Sumy"]
 		},
 		{
 			"name": {
@@ -78,7 +114,13 @@
 				"ua": "Євро Фуд Сервіс (EFS)"
 			},
 			"website": "https://www.eufservice.com/",
-			"logo": "/assets/partners/euro-food-service.webp"
+			"logo": "/assets/partners/euro-food-service.webp",
+			"equipment": {
+				"md": 0,
+				"cw": 3,
+				"tqs": 0
+			},
+			"adres": ["Kyiv"]
 		},
 		{
 			"name": {
@@ -94,7 +136,13 @@
 				"ua": "Lantmännen"
 			},
 			"website": "https://lantmannen.ua",
-			"logo": "/assets/partners/lantmannen.webp"
+			"logo": "/assets/partners/lantmannen.webp",
+			"equipment": {
+				"md": 2,
+				"cw": 1,
+				"tqs": 0
+			},
+			"adres": ["Kyiv"]
 		},
 		{
 			"name": {
@@ -102,7 +150,13 @@
 				"ua": "Борисфен Трейд"
 			},
 			"website": "https://www.borysfentrade.com.ua/",
-			"logo": "/assets/partners/borysfen.webp"
+			"logo": "/assets/partners/borysfen.webp",
+			"equipment": {
+				"md": 3,
+				"cw": 4,
+				"tqs": 0
+			},
+			"adres": ["Cherkasy"]
 		},
 		{
 			"name": {
@@ -144,7 +198,13 @@
 				"ua": "Розетка"
 			},
 			"website": "https://rozetka.com.ua",
-			"logo": "/assets/partners/rozetka.webp"
+			"logo": "/assets/partners/rozetka.webp",
+			"equipment": {
+				"md": 0,
+				"cw": 4,
+				"tqs": 0
+			},
+			"adres": ["Kyiv"]
 		},
 		{
 			"name": {
@@ -160,7 +220,13 @@
 				"ua": "Eva"
 			},
 			"website": "https://eva.ua",
-			"logo": "/assets/partners/eva.webp"
+			"logo": "/assets/partners/eva.webp",
+			"equipment": {
+				"md": 0,
+				"cw": 9,
+				"tqs": 0
+			},
+			"adres": ["Kyiv", "Odesa", "Lviv"]
 		},
 		{
 			"name": {
@@ -168,7 +234,13 @@
 				"ua": "P&G"
 			},
 			"website": "https://pg.com.ua",
-			"logo": "/assets/partners/P&G.webp"
+			"logo": "/assets/partners/P&G.webp",
+			"equipment": {
+				"md": 0,
+				"cw": 13,
+				"tqs": 0
+			},
+			"adres": ["Kyiv"]
 		},
 		{
 			"name": {
@@ -186,7 +258,13 @@
 				"ua": "БаДМ"
 			},
 			"website": "https://www.badm.ua",
-			"logo": "/assets/partners/badm.webp"
+			"logo": "/assets/partners/badm.webp",
+			"equipment": {
+				"md": 0,
+				"cw": 1,
+				"tqs": 0
+			},
+			"adres": ["Kyiv"]
 		},
 		{
 			"name": {
@@ -194,7 +272,13 @@
 				"ua": "Юрія-Фарм"
 			},
 			"website": "https://www.uf.ua",
-			"logo": "/assets/partners/yuria-pharm.webp"
+			"logo": "/assets/partners/yuria-pharm.webp",
+			"equipment": {
+				"md": 0,
+				"cw": 1,
+				"tqs": 3
+			},
+			"adres": ["Cherkasy"]
 		},
 		{
 			"name": {
@@ -202,7 +286,13 @@
 				"ua": "Фармак"
 			},
 			"website": "https://farmak.ua",
-			"logo": "/assets/partners/farmak.webp"
+			"logo": "/assets/partners/farmak.webp",
+			"equipment": {
+				"md": 0,
+				"cw": 6,
+				"tqs": 1
+			},
+			"adres": ["Kyiv"]
 		},
 		{
 			"name": {
@@ -210,7 +300,13 @@
 				"ua": "Дарниця"
 			},
 			"website": "https://darnitsa.ua",
-			"logo": "/assets/partners/DARNYTSIA.webp"
+			"logo": "/assets/partners/DARNYTSIA.webp",
+			"equipment": {
+				"md": 0,
+				"cw": 5,
+				"tqs": 1
+			},
+			"adres": ["Kyiv"]
 		},
 		{
 			"name": {
@@ -234,7 +330,13 @@
 				"ua": "Оптіма Фарм"
 			},
 			"website": "https://optimapharm.ua",
-			"logo": "/assets/partners/optimapharm.webp"
+			"logo": "/assets/partners/optimapharm.webp",
+			"equipment": {
+				"md": 0,
+				"cw": 43,
+				"tqs": 0
+			},
+			"adres": ["Kyiv", "Zhytomyr", "Lviv", "Odesa"]
 		}
 	]
 }

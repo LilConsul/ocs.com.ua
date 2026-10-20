@@ -1,0 +1,244 @@
+---
+import { RECAPTCHA_SITE_KEY } from "astro:env/client";
+import equipmentTypes from "@/data/equipment-types.json";
+import { getInlineTranslations, type Lang } from "@/i18n";
+import { EQUIPMENT_SLUGS, SECTORS } from "@/lib/contact/options";
+import { EMAIL_REGEX, PHONE_REGEX } from "@/lib/contact/validate";
+import CheckboxCard from "./CheckboxCard.astro";
+import FormField from "./FormField.astro";
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const _ = getInlineTranslations(lang);
+
+// Build equipment label map from equipment-types.json for the current language
+const equipmentCategories = equipmentTypes[lang as "en" | "ua"]?.categories ?? [];
+const equipmentLabelMap: Record<string, string> = {
+	...Object.fromEntries(equipmentCategories.map((c) => [c.slug, c.title])),
+	// One combined form option for both dynamic weighing categories
+	checkweigher: _("Checkweighers & Catchweighers"),
+};
+
+// Literal _() calls so the i18n extractor picks up every sector label
+const sectorLabels: Record<(typeof SECTORS)[number], string> = {
+	"Food & Beverage": _("Food & Beverage"),
+	Pharmaceutical: _("Pharmaceutical"),
+	Cosmetics: _("Cosmetics"),
+	"Logistics & Distribution": _("Logistics & Distribution"),
+	Other: _("Other"),
+};
+const sectorOptions = SECTORS.map((sector) => ({ value: sector, label: sectorLabels[sector] }));
+
+// Server error / validation codes -> translated display strings, consumed by the client script
+const messages = {
+	required: _("This field is required."),
+	too_long: _("This value is too long."),
+	invalid_format: _("Please enter a valid email address."),
+	invalid_phone: _("Please enter a valid phone number, e.g. +380 50 123 45 67."),
+	invalid_sector: _("Please select a valid sector."),
+	invalid_equipment: _("One or more selected equipment types are invalid."),
+	rate_limited: _("Too many submissions. Please try again in 10 minutes."),
+	recaptcha_missing: _("Security check failed. Please refresh and try again."),
+	recaptcha_failed: _("Security check failed. Please refresh and try again."),
+	recaptcha_unavailable: _("Could not complete security check. Please try again later."),
+	smtp_error: _("Could not send your message. Please try again later or email us directly."),
+	validation_failed: _("Please correct the highlighted fields and try again."),
+	forbidden: _("Submission not allowed from this origin."),
+	default: _("An unexpected error occurred. Please try again."),
+	success: _("Your inquiry has been sent. We will contact you shortly."),
+};
+---
+
+<section class="bg-background rounded-xl p-8 shadow-md md:p-10" aria-labelledby="form-heading">
+	<header class="flex items-center justify-between pb-6">
+		<div>
+			<p class="font-label-caps text-label-caps text-secondary font-semibold uppercase">
+				{_("Engineering Inquiry")}
+			</p>
+			<h2 id="form-heading" class="font-heading text-foreground mt-1 text-2xl font-bold">
+				{_("Send Us a Message")}
+			</h2>
+		</div>
+		<span
+			class="material-symbols-outlined text-industrial-gray hidden text-3xl sm:block"
+			aria-hidden="true"
+		>
+			precision_manufacturing
+		</span>
+	</header>
+
+	{/* Status region for screen readers and inline feedback */}
+	<div
+		id="form-status"
+		role="status"
+		aria-live="polite"
+		aria-atomic="true"
+		class="font-technical-data text-technical-data mb-6 hidden rounded-lg p-4"
+	>
+	</div>
+
+	<form id="contact-form" novalidate class="space-y-6">
+		{/* Honeypot — must stay hidden and empty */}
+		<div class="hidden" aria-hidden="true">
+			<label for="website">Website</label>
+			<input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+		</div>
+
+		{/* Row 1: Name and Job Title */}
+		<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+			<FormField
+				id="name"
+				label={_("Full Name")}
+				required
+				autocomplete="name"
+				placeholder={_("e.g. Oleksii Kovalenko")}
+			/>
+			<FormField
+				id="jobTitle"
+				label={_("Job Title")}
+				required
+				autocomplete="organization-title"
+				placeholder={_("e.g. Chief Engineer")}
+			/>
+		</div>
+
+		{/* Row 2: Company and Phone */}
+		<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+			<FormField
+				id="company"
+				label={_("Company")}
+				required
+				autocomplete="organization"
+				placeholder={_("e.g. Farmak PJSC")}
+			/>
+			<FormField
+				id="phone"
+				label={_("Phone")}
+				type="tel"
+				required
+				autocomplete="tel"
+				placeholder="+380 (50) 000-00-00"
+			/>
+		</div>
+
+		{/* Row 3: Email */}
+		<FormField
+			id="email"
+			label={_("Corporate Email")}
+			type="email"
+			required
+			autocomplete="email"
+			placeholder="engineer@company.ua"
+		>
+			<p
+				id="email-note"
+				slot="note"
+				role="note"
+				class="hidden rounded-md border border-yellow-300 bg-yellow-50 px-3 py-2 text-xs font-medium text-yellow-800"
+			>
+				{_("Please use your company email address if possible.")}
+			</p>
+		</FormField>
+
+		{/* Row 4: Sector */}
+		<FormField id="sector" label={_("Industry Sector")} type="select" required>
+			<option value="" disabled selected>{_("Select sector…")}</option>
+			{sectorOptions.map(({ value, label }) => <option value={value}>{label}</option>)}
+		</FormField>
+
+		{/* Row 5: Equipment (optional checkboxes) */}
+		<fieldset>
+			<legend class="font-technical-data text-technical-data text-foreground mb-3 font-medium">
+				{_("Equipment of Interest")}
+				<span class="text-industrial-gray ml-1 text-xs">({_("optional")})</span>
+			</legend>
+			<div class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
+				{
+					EQUIPMENT_SLUGS.map((slug) => (
+						<CheckboxCard name="equipment" value={slug} label={equipmentLabelMap[slug] ?? slug} />
+					))
+				}
+			</div>
+			<p
+				id="equipment-error"
+				role="alert"
+				class="text-destructive mt-2 hidden text-xs font-medium"
+				data-field-error="equipment"
+			>
+			</p>
+		</fieldset>
+
+		{/* Row 6: Message */}
+		<FormField
+			id="message"
+			label={_("Message")}
+			type="textarea"
+			required
+			rows={5}
+			placeholder={_("Describe your requirements…")}
+		/>
+
+		{/* reCAPTCHA notice (badge hidden via CSS below) */}
+		<p class="text-industrial-gray text-xs">
+			{_("This form is protected by reCAPTCHA.")}
+			{" "}
+			<a
+				href="https://policies.google.com/privacy"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="hover:text-foreground underline">{_("Privacy Policy")}</a
+			>
+			{" "}&amp;{" "}
+			<a
+				href="https://policies.google.com/terms"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="hover:text-foreground underline">{_("Terms of Service")}</a
+			>
+		</p>
+
+		{/* Submit */}
+		<button
+			type="submit"
+			id="form-submit"
+			class="bg-primary text-primary-foreground font-heading mt-2 inline-flex w-full items-center justify-center gap-2 rounded-lg px-8 py-4 text-base font-semibold transition-opacity hover:opacity-90 disabled:opacity-50 sm:w-auto"
+		>
+			{_("Submit Inquiry")}
+			<span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+		</button>
+	</form>
+</section>
+
+<style is:global>
+	/* Hide reCAPTCHA badge (Google's policy: the notice text above is shown instead) */
+	.grecaptcha-badge {
+		visibility: hidden;
+	}
+</style>
+
+<script>
+	import { initContactForm } from "@/lib/contact/form-script";
+	// Config is injected by the inline bootstrap below; wait for it on the window object.
+	// astro:page-load fires after each navigation, so we check immediately too.
+	function tryInit() {
+		const cfg = window.__contactFormConfig;
+		if (cfg) initContactForm(cfg);
+	}
+	tryInit();
+	document.addEventListener("astro:page-load", tryInit);
+</script>
+
+<script
+	is:inline
+	define:vars={{
+		siteKey: RECAPTCHA_SITE_KEY,
+		messages,
+		emailPattern: EMAIL_REGEX.source,
+		phonePattern: PHONE_REGEX.source,
+	}}
+>
+	window.__contactFormConfig = { siteKey, messages, emailPattern, phonePattern };
+</script>

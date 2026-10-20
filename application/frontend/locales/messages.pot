@@ -31,6 +31,11 @@ msgstr ""
 msgid "About Us"
 msgstr ""
 
+#: src/components/contact/OfficeLocation.astro:43
+#: src/components/contact/ContactInfoCard.astro:79
+msgid "Address"
+msgstr ""
+
 #: src/components/homepage/HeroSection.astro:74
 msgid "Advanced checkweighers and Track & Trace systems for food, pharma, and logistics. Trusted by 300+ Ukrainian manufacturers since 2013."
 msgstr ""
@@ -43,7 +48,21 @@ msgstr ""
 msgid "All rights reserved"
 msgstr ""
 
-#: src/components/NotFoundContent.astro:76
+#: src/components/contact/ContactForm.astro:50
+msgid "An unexpected error occurred. Please try again."
+msgstr ""
+
+#: src/components/contact/DocumentsCard.astro:16
+#: src/components/contact/DocumentsCard.astro:22
+msgid "Authorization Letter — PDF"
+msgstr ""
+
+#: src/components/contact/DocumentsCard.astro:30
+msgid "Authorized Documentation"
+msgstr ""
+
+#: src/components/errors/ServerErrorContent.astro:36
+#: src/components/errors/NotFoundContent.astro:37
 msgid "Back to Home"
 msgstr ""
 
@@ -51,7 +70,7 @@ msgstr ""
 msgid "Breadcrumb"
 msgstr ""
 
-#: src/components/NotFoundContent.astro:83
+#: src/components/errors/NotFoundContent.astro:44
 msgid "Browse Catalogue"
 msgstr ""
 
@@ -66,6 +85,10 @@ msgstr ""
 
 #: src/components/catalogue/CatalogueSidebar.astro:65
 msgid "Category navigation"
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:22
+msgid "Checkweighers & Catchweighers"
 msgstr ""
 
 #: src/components/homepage/IndustriesSection.astro:33
@@ -97,14 +120,54 @@ msgstr ""
 msgid "Close preview"
 msgstr ""
 
-#: src/components/NotFoundContent.astro:93
-#: src/components/catalogue/CatalogueSidebar.astro:95
+#: src/components/contact/ContactForm.astro:112
+msgid "Company"
+msgstr ""
+
+#: src/components/contact/ContactInfoCard.astro:24
+msgid "Contact Information"
+msgstr ""
+
+#: src/components/Header.astro:119
+#: src/components/Header.astro:185
 #: src/components/homepage/HeroSection.astro:86
+#: src/components/catalogue/CatalogueSidebar.astro:95
+#: src/components/errors/ServerErrorContent.astro:46
+#: src/components/errors/NotFoundContent.astro:54
 msgid "Contact Us"
 msgstr ""
 
+#: src/pages/[lang]/contact.astro:78
+msgid "Contact Us | OS-Technology Ukraine"
+msgstr ""
+
+#: src/components/contact/ContactHero.astro:28
+msgid "Contact our engineering team to discuss equipment selection, request a quotation, or arrange a product demonstration."
+msgstr ""
+
+#: src/pages/[lang]/contact.astro:79
+msgid "Contact the OS-Technology Ukraine engineering team. Request a quotation, arrange a product demonstration, or get technical support."
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:130
+msgid "Corporate Email"
+msgstr ""
+
 #: src/components/homepage/IndustriesSection.astro:70
+#: src/components/contact/ContactForm.astro:29
 msgid "Cosmetics"
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:46
+msgid "Could not complete security check. Please try again later."
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:47
+msgid "Could not send your message. Please try again later or email us directly."
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:181
+msgid "Describe your requirements…"
 msgstr ""
 
 #: src/components/catalogue/ProductSidebar.astro:64
@@ -116,8 +179,20 @@ msgstr ""
 msgid "Dynamic checkweighers and Track & Trace systems for food, pharmaceutical, and logistics industries in Ukraine. Official Wipotec partner."
 msgstr ""
 
+#: src/components/contact/ContactInfoCard.astro:52
+msgid "Email"
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:59
+msgid "Engineering Inquiry"
+msgstr ""
+
 #: src/components/catalogue/CatalogueSidebar.astro:61
 msgid "Equipment Categories"
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:155
+msgid "Equipment of Interest"
 msgstr ""
 
 #: src/components/catalogue/ProductGallery.astro:49
@@ -134,11 +209,24 @@ msgid "Filters"
 msgstr ""
 
 #: src/components/homepage/IndustriesSection.astro:46
+#: src/components/contact/ContactForm.astro:27
 msgid "Food & Beverage"
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:94
+msgid "Full Name"
 msgstr ""
 
 #: src/components/homepage/HeroSection.astro:65
 msgid "German Precision."
+msgstr ""
+
+#: src/components/contact/OfficeLocation.astro:73
+msgid "Get Route"
+msgstr ""
+
+#: src/components/contact/ContactHero.astro:24
+msgid "Get in Touch"
 msgstr ""
 
 #: src/i18n/inline.ts:6
@@ -169,11 +257,23 @@ msgstr ""
 msgid "Industries We Serve"
 msgstr ""
 
+#: src/components/contact/ContactForm.astro:147
+msgid "Industry Sector"
+msgstr ""
+
 #: src/components/homepage/PartnersSection.astro:135
 msgid "Installations"
 msgstr ""
 
-#: src/components/Header.astro:169
+#: src/components/contact/ContactForm.astro:101
+msgid "Job Title"
+msgstr ""
+
+#: src/components/contact/OfficeLocation.astro:28
+msgid "Kyiv Office"
+msgstr ""
+
+#: src/components/Header.astro:189
 msgid "Language"
 msgstr ""
 
@@ -183,6 +283,7 @@ msgid "Learn More"
 msgstr ""
 
 #: src/components/homepage/IndustriesSection.astro:79
+#: src/components/contact/ContactForm.astro:30
 msgid "Logistics & Distribution"
 msgstr ""
 
@@ -190,7 +291,23 @@ msgstr ""
 msgid "Long-term partnerships built on reliable support."
 msgstr ""
 
-#: src/components/NotFoundContent.astro:88
+#: src/components/contact/OfficeLocation.astro:31
+msgid "Main Office"
+msgstr ""
+
+#: src/components/contact/OfficeLocation.astro:81
+msgid "Map showing OS-Technology Ukraine office location"
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:177
+msgid "Message"
+msgstr ""
+
+#: src/components/contact/DocumentsCard.astro:21
+msgid "Mesutronic Authorization Letter"
+msgstr ""
+
+#: src/components/errors/NotFoundContent.astro:49
 msgid "Need help finding equipment?"
 msgstr ""
 
@@ -219,8 +336,25 @@ msgstr ""
 msgid "Official Partner of Wipotec GmbH"
 msgstr ""
 
+#: src/components/contact/DocumentsCard.astro:33
+msgid "Official distributorship certificates."
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:42
+msgid "One or more selected equipment types are invalid."
+msgstr ""
+
 #: src/components/catalogue/CatalogueSidebar.astro:19
 msgid "Open filters"
+msgstr ""
+
+#: src/components/contact/ContactInfoCard.astro:72
+#: src/components/contact/ContactInfoCard.astro:73
+msgid "Open in Google Maps"
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:31
+msgid "Other"
 msgstr ""
 
 #: src/components/homepage/PartnersSection.astro:55
@@ -232,19 +366,44 @@ msgstr ""
 msgid "Our engineering team is ready to configure this equipment for your specific production environment."
 msgstr ""
 
-#: src/pages/404.astro:11
-#: src/pages/404.astro:11
-#: src/components/NotFoundContent.astro:15
-#: src/components/NotFoundContent.astro:50
+#: src/pages/404.astro:9
+#: src/pages/404.astro:9
+#: src/components/errors/NotFoundContent.astro:17
 msgid "Page Not Found"
 msgstr ""
 
 #: src/components/homepage/IndustriesSection.astro:58
+#: src/components/contact/ContactForm.astro:28
 msgid "Pharmaceutical"
+msgstr ""
+
+#: src/components/contact/ContactInfoCard.astro:31
+#: src/components/contact/ContactForm.astro:119
+msgid "Phone"
 msgstr ""
 
 #: src/pages/[lang]/catalogue/[category]/[slug].astro:157
 msgid "Planning to upgrade your production line?"
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:48
+msgid "Please correct the highlighted fields and try again."
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:39
+msgid "Please enter a valid email address."
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:40
+msgid "Please enter a valid phone number, e.g. +380 50 123 45 67."
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:41
+msgid "Please select a valid sector."
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:142
+msgid "Please use your company email address if possible."
 msgstr ""
 
 #: src/components/homepage/IndustriesSection.astro:59
@@ -257,6 +416,7 @@ msgid "Previous image"
 msgstr ""
 
 #: src/components/Footer.astro:24
+#: src/components/contact/ContactForm.astro:192
 msgid "Privacy Policy"
 msgstr ""
 
@@ -289,12 +449,43 @@ msgstr ""
 msgid "Request Consultation"
 msgstr ""
 
-#: src/components/NotFoundContent.astro:65
+#: src/components/errors/NotFoundContent.astro:26
 msgid "Requested path"
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:44
+#: src/components/contact/ContactForm.astro:45
+msgid "Security check failed. Please refresh and try again."
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:148
+msgid "Select sector…"
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:62
+msgid "Send Us a Message"
 msgstr ""
 
 #: src/components/homepage/IndustriesSection.astro:29
 msgid "Solutions for Every Industry"
+msgstr ""
+
+#: src/pages/50x.astro:10
+#: src/pages/50x.astro:11
+#: src/components/errors/ServerErrorContent.astro:17
+msgid "Something Went Wrong"
+msgstr ""
+
+#: src/components/errors/ServerErrorContent.astro:41
+msgid "Still having trouble?"
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:49
+msgid "Submission not allowed from this origin."
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:209
+msgid "Submit Inquiry"
 msgstr ""
 
 #: src/components/homepage/PartnersSection.astro:64
@@ -331,19 +522,44 @@ msgid "Technical expertise and service support since 2013."
 msgstr ""
 
 #: src/components/Footer.astro:30
+#: src/components/contact/ContactForm.astro:199
 msgid "Terms of Service"
 msgstr ""
 
-#: src/components/NotFoundContent.astro:55
+#: src/components/errors/NotFoundContent.astro:18
 msgid "The page you are looking for does not exist or has been moved. Explore our catalogue or return to the homepage."
 msgstr ""
 
-#: src/components/Header.astro:139
+#: src/components/errors/ServerErrorContent.astro:18
+msgid "The server is temporarily unavailable. Please try again in a few minutes or return to the homepage."
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:37
+msgid "This field is required."
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:186
+msgid "This form is protected by reCAPTCHA."
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:38
+msgid "This value is too long."
+msgstr ""
+
+#: src/components/Header.astro:149
 msgid "Toggle menu"
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:43
+msgid "Too many submissions. Please try again in 10 minutes."
 msgstr ""
 
 #: src/components/homepage/PartnersSection.astro:60
 msgid "Trusted by Ukraine's Leading Manufacturers"
+msgstr ""
+
+#: src/components/errors/ServerErrorContent.astro:29
+msgid "Try Again"
 msgstr ""
 
 #: src/components/homepage/HeroSection.astro:67
@@ -367,10 +583,39 @@ msgstr ""
 msgid "Wiki"
 msgstr ""
 
+#: src/components/contact/DocumentsCard.astro:15
+msgid "Wipotec Authorization Letter"
+msgstr ""
+
+#: src/components/contact/OfficeLocation.astro:59
+#: src/components/contact/ContactInfoCard.astro:96
+msgid "Working Hours"
+msgstr ""
+
 #: src/components/homepage/StatsSection.astro:13
 msgid "Years in Ukraine"
 msgstr ""
 
 #: src/components/homepage/PartnersSection.astro:153
 msgid "Years of Experience"
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:51
+msgid "Your inquiry has been sent. We will contact you shortly."
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:104
+msgid "e.g. Chief Engineer"
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:115
+msgid "e.g. Farmak PJSC"
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:97
+msgid "e.g. Oleksii Kovalenko"
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:156
+msgid "optional"
 msgstr ""

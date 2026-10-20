@@ -1,0 +1,70 @@
+---
+import documentsData from "@/data/documents.json";
+import { getInlineTranslations, type Lang } from "@/i18n";
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const _ = getInlineTranslations(lang);
+
+const documents = [
+	{
+		icon: "verified_user",
+		title: _("Wipotec Authorization Letter"),
+		label: _("Authorization Letter — PDF"),
+		href: documentsData.wipotec || "#",
+	},
+	{
+		icon: "verified_user",
+		title: _("Mesutronic Authorization Letter"),
+		label: _("Authorization Letter — PDF"),
+		href: documentsData.mesutronic || "#",
+	},
+];
+---
+
+<section class="bg-surface-container space-y-4 rounded-xl p-8 shadow-sm">
+	<h2 class="font-headline-lg text-headline-lg text-foreground font-bold">
+		{_("Authorized Documentation")}
+	</h2>
+	<p class="font-body-md text-body-md text-industrial-gray">
+		{_("Official distributorship certificates.")}
+	</p>
+	<ul class="space-y-3 pt-2">
+		{
+			documents.map((doc) => (
+				<li>
+					<a
+						href={doc.href}
+						target={doc.href !== "#" ? "_blank" : undefined}
+						rel={doc.href !== "#" ? "noopener noreferrer" : undefined}
+						class="group bg-background flex items-center justify-between rounded-lg p-3.5 transition-all hover:shadow-sm"
+						aria-label={doc.title}
+					>
+						<span class="flex items-center gap-3">
+							<span class="material-symbols-outlined text-secondary" aria-hidden="true">
+								{doc.icon}
+							</span>
+							<span>
+								<span class="font-technical-data text-technical-data text-foreground group-hover:text-secondary block font-semibold transition-colors">
+									{doc.title}
+								</span>
+								<span class="font-label-caps text-label-caps text-industrial-gray uppercase">
+									{doc.label}
+								</span>
+							</span>
+						</span>
+						<span
+							class="material-symbols-outlined text-industrial-gray group-hover:text-foreground transition-colors"
+							aria-hidden="true"
+						>
+							download
+						</span>
+					</a>
+				</li>
+			))
+		}
+	</ul>
+</section>

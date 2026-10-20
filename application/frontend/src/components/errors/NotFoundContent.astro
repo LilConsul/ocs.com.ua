@@ -1,0 +1,61 @@
+---
+import { ArrowRight, House, LayoutGrid } from "lucide-react";
+import { getInlineTranslations, type Lang } from "@/i18n";
+import ErrorSection from "./ErrorSection.astro";
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const _ = getInlineTranslations(lang);
+---
+
+<ErrorSection
+	lang={lang}
+	code="404"
+	title={_("Page Not Found")}
+	description={_(
+		"The page you are looking for does not exist or has been moved. Explore our catalogue or return to the homepage."
+	)}
+>
+	<div
+		class="border-border-subtle bg-surface-muted inline-flex max-w-full items-center gap-3 rounded-lg border px-4 py-2"
+	>
+		<span class="text-industrial-gray shrink-0 font-mono text-[11px] tracking-[0.05em] uppercase">
+			{_("Requested path")}
+		</span>
+		<code data-requested-path class="text-foreground truncate font-mono text-[13px]">/</code>
+	</div>
+
+	<Fragment slot="actions">
+		<a
+			href={`/${lang}`}
+			class="bg-primary text-primary-foreground inline-flex items-center justify-center gap-2 rounded-lg px-7 py-3.5 text-[15px] leading-[22px] font-medium transition-opacity hover:opacity-90"
+		>
+			<House className="size-[18px]" strokeWidth={1.5} />
+			{_("Back to Home")}
+		</a>
+		<a
+			href={`/${lang}/catalogue/checkweigher`}
+			class="border-secondary text-secondary hover:bg-secondary/5 inline-flex items-center justify-center gap-2 rounded-lg border-2 px-7 py-3.5 text-[15px] leading-[22px] font-medium transition-colors"
+		>
+			<LayoutGrid className="size-[18px]" strokeWidth={1.5} />
+			{_("Browse Catalogue")}
+		</a>
+	</Fragment>
+
+	<Fragment slot="footer">
+		{_("Need help finding equipment?")}{" "}
+		<a
+			href={`/${lang}/contact`}
+			class="text-foreground group inline-flex items-center gap-1 font-medium underline-offset-4 hover:underline"
+		>
+			{_("Contact Us")}
+			<ArrowRight
+				className="size-4 transition-transform group-hover:translate-x-0.5"
+				strokeWidth={1.5}
+			/>
+		</a>
+	</Fragment>
+</ErrorSection>

@@ -59,6 +59,86 @@ i18n:
   default_locale: en
 
 collections:
+  # ── Authorization Documents ───────────────────────────────────────────────
+  - name: "documents"
+    label: "Documents"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - name: "authorization-letters"
+        label: "Authorization Letters"
+        file: "application/frontend/src/data/documents.json"
+        format: json
+        media_folder: "../../public/assets/documents"
+        public_folder: "/assets/documents"
+        fields:
+          - label: "Wipotec Authorization Letter (PDF)"
+            name: "wipotec"
+            widget: "file"
+            required: false
+            hint: "Upload the official Wipotec Authorization Letter (PDF)"
+          - label: "Mesutronic Authorization Letter (PDF)"
+            name: "mesutronic"
+            widget: "file"
+            required: false
+            hint: "Upload the official Mesutronic Authorization Letter (PDF)"
+
+  # ── Company Information ───────────────────────────────────────────────────
+  - name: "company"
+    label: "Company"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - name: "company-info"
+        label: "Company Information"
+        file: "application/frontend/src/data/company.json"
+        format: json
+        fields:
+          - { label: "Phone Number", name: "phone", widget: "string", hint: "e.g. +38 067 35 33 853" }
+          - { label: "Email Address", name: "email", widget: "string", hint: "e.g. info@ocs.com.ua" }
+          - label: "Contact Person"
+            name: "contactPerson"
+            widget: "object"
+            fields:
+              - label: "English"
+                name: "en"
+                widget: "object"
+                fields:
+                  - { label: "Name", name: "name", widget: "string" }
+              - label: "Ukrainian"
+                name: "ua"
+                widget: "object"
+                fields:
+                  - { label: "Name", name: "name", widget: "string" }
+          - label: "Working Hours"
+            name: "workingHours"
+            widget: "object"
+            fields:
+              - { label: "English", name: "en", widget: "string", hint: "e.g. Mon-Fri, 9:00 - 18:00 (Kyiv)" }
+              - { label: "Ukrainian", name: "ua", widget: "string", hint: "e.g. Пн-Пт, 9:00 - 18:00 (Київ)" }
+          - label: "Address"
+            name: "address"
+            widget: "object"
+            fields:
+              - label: "English"
+                name: "en"
+                widget: "object"
+                fields:
+                  - { label: "Street", name: "street", widget: "string" }
+                  - { label: "City", name: "city", widget: "string" }
+                  - { label: "Postal Code", name: "postalCode", widget: "string" }
+                  - { label: "Country", name: "country", widget: "string" }
+              - label: "Ukrainian"
+                name: "ua"
+                widget: "object"
+                fields:
+                  - { label: "Street", name: "street", widget: "string" }
+                  - { label: "City", name: "city", widget: "string" }
+                  - { label: "Postal Code", name: "postalCode", widget: "string" }
+                  - { label: "Country", name: "country", widget: "string" }
+
   # ── Equipment Categories ────────────────────────────────────────────────────
   # File collection backed by JSON. Adding an entry creates a new category that
   # auto-appears in the site sidebar and the product category dropdown.

@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en" style=""><head>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/></head><body class="bg-background text-on-background antialiased selection:bg-secondary selection:text-white"><svg aria-hidden="true" class="inline-defs-container" style="position:absolute;width:0;height:0;overflow:hidden"></svg><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">try{
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#fdf8f8",
+                        "secondary": "#b8006d",
+                        "on-error": "#ffffff",
+                        "border-subtle": "#E2E8F0",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#000000",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#e5e2e1",
+                        "on-tertiary-container": "#0c9488",
+                        "tertiary-fixed": "#89f5e7",
+                        "tertiary-container": "#00201d",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "industrial-gray": "#64748B",
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#747878",
+                        "surface-tint": "#5f5e5e",
+                        "tertiary-fixed-dim": "#6bd8cb",
+                        "on-tertiary-fixed-variant": "#005049",
+                        "on-surface": "#1c1b1b",
+                        "secondary-fixed": "#ffd9e4",
+                        "on-secondary-container": "#5c0034",
+                        "surface-container": "#f1edec",
+                        "surface-bright": "#fdf8f8",
+                        "outline-variant": "#c4c7c7",
+                        "inverse-on-surface": "#f4f0ef",
+                        "inverse-primary": "#c8c6c5",
+                        "on-secondary-fixed-variant": "#8d0052",
+                        "primary": "#000000",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed-dim": "#ffb0cd",
+                        "primary-container": "#1c1b1b",
+                        "on-secondary-fixed": "#3e0021",
+                        "secondary-container": "#ff4da3",
+                        "surface-dim": "#ddd9d8",
+                        "on-primary-container": "#858383",
+                        "surface-muted": "#F8FAFC",
+                        "background": "#fdf8f8",
+                        "on-tertiary-fixed": "#00201d",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#e5e2e1",
+                        "surface-variant": "#e5e2e1",
+                        "on-error-container": "#93000a",
+                        "on-background": "#1c1b1b",
+                        "on-primary-fixed": "#1c1b1b",
+                        "surface-container-low": "#f7f3f2",
+                        "surface-container-high": "#ebe7e6",
+                        "on-secondary": "#ffffff",
+                        "inverse-surface": "#313030",
+                        "on-surface-variant": "#444748",
+                        "on-primary-fixed-variant": "#474746"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "edge-margin": "2rem",
+                        "section-gap-sm": "4rem",
+                        "section-gap-lg": "8rem",
+                        "gutter": "1.5rem",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["IBM Plex Sans"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "technical-data": ["JetBrains Mono"],
+                        "headline-xl": ["IBM Plex Sans"],
+                        "label-caps": ["JetBrains Mono"],
+                        "display-lg-mobile": ["IBM Plex Sans"],
+                        "headline-lg": ["IBM Plex Sans"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["64px", { "lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "technical-data": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-xl": ["36px", { "lineHeight": "44px", "fontWeight": "500" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "display-lg-mobile": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    }catch(_e){}</script><meta charset="utf-8"/><meta content="web_standard" name="shell-type"/>
+<!-- Top Navigation -->
+<nav class="bg-white/70 dark:bg-on-background/70 backdrop-blur-xl docked full-width top-0 sticky z-50 border-b border-border-subtle/50 shadow-sm duration-300 ease-in-out">
+<div class="max-w-container-max mx-auto px-edge-margin flex justify-between items-center h-20">
+<a class="font-headline-lg text-headline-lg font-bold tracking-tighter text-primary dark:text-white hover:opacity-80 transition-opacity" href="#">
+                OS-Technology
+            </a>
+<div class="hidden md:flex items-center gap-8 font-body-md text-body-md">
+<a class="text-industrial-gray dark:text-primary-fixed-dim hover:text-primary dark:hover:text-white transition-colors hover:opacity-80 transition-opacity" href="#">Catalogue</a>
+<a class="text-industrial-gray dark:text-primary-fixed-dim hover:text-primary dark:hover:text-white transition-colors hover:opacity-80 transition-opacity" href="#">Solutions</a>
+<a class="text-industrial-gray dark:text-primary-fixed-dim hover:text-primary dark:hover:text-white transition-colors hover:opacity-80 transition-opacity" href="#">Industries</a>
+<a class="text-primary dark:text-white font-semibold border-b-2 border-secondary pb-1 hover:opacity-80 transition-opacity" href="#">About Us</a>
+</div>
+<div class="flex items-center gap-4 font-body-md text-body-md">
+<button class="text-industrial-gray hover:text-primary transition-colors hover:opacity-80 transition-opacity hidden sm:block">EN/UA</button>
+<button class="bg-primary text-white px-6 py-2 rounded font-medium hover:bg-surface-tint transition-colors hover:opacity-80 transition-opacity">
+                    Contact Sales
+                </button>
+</div>
+</div>
+</nav>
+<main><div class="flex flex-col w-full">
+<!-- Subtle Industrial Grid Accent Background (contained) -->
+<div class="relative w-full overflow-hidden">
+<div class="absolute inset-0 pointer-events-none opacity-[0.03]" style="background-image: radial-gradient(#000000 1px, transparent 1px); background-size: 24px 24px;"></div>
+<!-- 1. Hero & Strategic Breadcrumb Section -->
+<section class="max-w-container-max mx-auto px-edge-margin pt-12 pb-16 w-full relative">
+<!-- Breadcrumb & Status Pill -->
+<div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+<nav aria-label="Breadcrumb" class="flex items-center gap-2 font-technical-data text-technical-data text-industrial-gray">
+<a class="hover:text-primary transition-colors" href="#">Home</a>
+<span class="text-outline-variant">/</span>
+<span class="text-primary font-medium">Contact &amp; Engineering Consultation</span>
+</nav>
+<div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-label-caps text-label-caps uppercase tracking-wider shadow-sm">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span>Official Distributor Headquarters &amp; Service Centers • Est. 2015</span>
+</div>
+</div>
+<!-- Main Headline Block -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
+<div class="lg:col-span-8 space-y-4">
+<h1 class="font-display-lg text-display-lg tracking-tight text-primary">
+            Direct Engineering Consultation &amp; Certified Technical Support
+          </h1>
+<p class="font-body-lg text-body-lg text-industrial-gray max-w-3xl">
+            Connect directly with factory-certified German inspection systems engineers for turnkey line integration, metrological validation, equipment sizing, or 24/7 service across Ukraine.
+          </p>
+</div>
+<!-- Quick Response Telemetry Strip -->
+<div class="lg:col-span-4 bg-surface-container-low rounded-xl p-6 shadow-sm flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-industrial-gray uppercase">Field Protocol</span>
+<span class="inline-flex items-center text-secondary font-technical-data text-technical-data">
+<span class="material-symbols-outlined text-sm mr-1">verified</span> SLA Tier 1 Active
+            </span>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-2">
+<div>
+<div class="font-headline-lg text-headline-lg font-bold text-primary">&lt; 2h</div>
+<div class="font-technical-data text-technical-data text-industrial-gray">Target Response</div>
+</div>
+<div>
+<div class="font-headline-lg text-headline-lg font-bold text-primary">24/7</div>
+<div class="font-technical-data text-technical-data text-industrial-gray">Emergency Dispatch</div>
+</div>
+</div>
+<div class="pt-2 flex items-center gap-2 text-industrial-gray font-technical-data text-technical-data">
+<span class="material-symbols-outlined text-base text-secondary">location_on</span>
+<span>Mobile squads: Kyiv, Lviv, Dnipro, Odesa</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. Primary Consultation Engine (Form + Direct Comms Dock) -->
+<section class="max-w-container-max mx-auto px-edge-margin pb-20 w-full relative">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+<!-- Engineering Inquiry Form Side -->
+<div class="lg:col-span-8 bg-surface-container-lowest rounded-xl p-8 md:p-10 shadow-md">
+<div class="flex items-center justify-between pb-6">
+<div>
+<span class="font-label-caps text-label-caps uppercase text-secondary font-semibold">Form Ref: OS-ENG-2024</span>
+<h2 class="font-headline-xl text-headline-xl text-primary font-bold mt-1">Request Technical Sizing &amp; Line Audit</h2>
+</div>
+<span class="material-symbols-outlined text-industrial-gray text-3xl hidden sm:block">precision_manufacturing</span>
+</div>
+<form class="space-y-6 pt-4" id="engineeringForm" onsubmit="event.preventDefault(); handleConsultationSubmit();">
+<!-- Row 1: Personnel & Role -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="block font-technical-data text-technical-data text-on-surface font-medium" for="contactName">
+                  Full Name &amp; Academic/Engineering Title <span class="text-secondary">*</span>
+</label>
+<input class="w-full px-4 py-3 bg-surface-container-low rounded font-body-md text-body-md text-on-surface focus:outline-none focus:bg-surface-container-lowest transition-colors shadow-inner" id="contactName" placeholder="e.g., Dr. Oleksii Kovalenko, Chief Engineer" required="" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="block font-technical-data text-technical-data text-on-surface font-medium" for="companyName">
+                  Enterprise / Manufacturing Entity <span class="text-secondary">*</span>
+</label>
+<input class="w-full px-4 py-3 bg-surface-container-low rounded font-body-md text-body-md text-on-surface focus:outline-none focus:bg-surface-container-lowest transition-colors shadow-inner" id="companyName" placeholder="e.g., PJSC Farmak / Roshen Confectionery" required="" type="text"/>
+</div>
+</div>
+<!-- Row 2: Digital Reach -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="block font-technical-data text-technical-data text-on-surface font-medium" for="contactPhone">
+                  Direct Line / Operational Mobile <span class="text-secondary">*</span>
+</label>
+<input class="w-full px-4 py-3 bg-surface-container-low rounded font-technical-data text-technical-data text-on-surface focus:outline-none focus:bg-surface-container-lowest transition-colors shadow-inner" id="contactPhone" placeholder="+380 (50) 000-00-00" required="" type="tel"/>
+</div>
+<div class="space-y-2">
+<label class="block font-technical-data text-technical-data text-on-surface font-medium" for="contactEmail">
+                  Corporate / Engineering Email <span class="text-secondary">*</span>
+</label>
+<input class="w-full px-4 py-3 bg-surface-container-low rounded font-body-md text-body-md text-on-surface focus:outline-none focus:bg-surface-container-lowest transition-colors shadow-inner" id="contactEmail" placeholder="o.kovalenko@factory.ua" required="" type="email"/>
+</div>
+</div>
+<!-- Row 3: Industry Domain Selector -->
+<div class="space-y-2">
+<label class="block font-technical-data text-technical-data text-on-surface font-medium" for="industrySector">
+                Production Industry &amp; Regulatory Environment <span class="text-secondary">*</span>
+</label>
+<select class="w-full px-4 py-3 bg-surface-container-low rounded font-body-md text-body-md text-on-surface focus:outline-none focus:bg-surface-container-lowest transition-colors shadow-inner" id="industrySector" required="">
+<option disabled="" selected="" value="">Select operating sector...</option>
+<option value="pharma">Pharmaceutical &amp; Life Sciences (GMP / OIML R51 / 21 CFR Part 11)</option>
+<option value="food">Food &amp; Beverage Processing (HACCP / IFS / BRCGS)</option>
+<option value="meat-dairy">Meat, Poultry &amp; Dairy Processing (Wet / IP69K washdown)</option>
+<option value="agro">Agro-Commodities, Pet Food &amp; Bulk Grain Handling</option>
+<option value="chem">Chemical, Personal Care &amp; Flammable Packaging</option>
+<option value="logistics">High-Speed Logistics &amp; End-of-Line Intralogistics</option>
+</select>
+</div>
+<!-- Row 4: Technological Focus (Engineered Chips) -->
+<div class="space-y-2 pt-2">
+<span class="block font-technical-data text-technical-data text-on-surface font-medium">
+                Inspection Hardware &amp; Systems in Scope (Multi-select)
+              </span>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 pt-1">
+<label class="flex items-center gap-3 p-3 bg-surface-container-low rounded cursor-pointer hover:bg-surface-container transition-colors">
+<input class="rounded text-secondary focus:ring-0 w-4 h-4" name="tech_scope" type="checkbox" value="wipotec_cw"/>
+<span class="font-technical-data text-technical-data text-on-surface leading-tight">Wipotec EMFR Checkweighers</span>
+</label>
+<label class="flex items-center gap-3 p-3 bg-surface-container-low rounded cursor-pointer hover:bg-surface-container transition-colors">
+<input class="rounded text-secondary focus:ring-0 w-4 h-4" name="tech_scope" type="checkbox" value="mesutronic_metal"/>
+<span class="font-technical-data text-technical-data text-on-surface leading-tight">Mesutronic Metal Detectors</span>
+</label>
+<label class="flex items-center gap-3 p-3 bg-surface-container-low rounded cursor-pointer hover:bg-surface-container transition-colors">
+<input class="rounded text-secondary focus:ring-0 w-4 h-4" name="tech_scope" type="checkbox" value="wipotec_xray"/>
+<span class="font-technical-data text-technical-data text-on-surface leading-tight">Wipotec SC X-Ray Scanners</span>
+</label>
+<label class="flex items-center gap-3 p-3 bg-surface-container-low rounded cursor-pointer hover:bg-surface-container transition-colors">
+<input class="rounded text-secondary focus:ring-0 w-4 h-4" name="tech_scope" type="checkbox" value="track_trace"/>
+<span class="font-technical-data text-technical-data text-on-surface leading-tight">Track &amp; Trace Serialization</span>
+</label>
+<label class="flex items-center gap-3 p-3 bg-surface-container-low rounded cursor-pointer hover:bg-surface-container transition-colors">
+<input class="rounded text-secondary focus:ring-0 w-4 h-4" name="tech_scope" type="checkbox" value="oem_spares"/>
+<span class="font-technical-data text-technical-data text-on-surface leading-tight">Original Spares &amp; Weigh Cells</span>
+</label>
+<label class="flex items-center gap-3 p-3 bg-surface-container-low rounded cursor-pointer hover:bg-surface-container transition-colors">
+<input class="rounded text-secondary focus:ring-0 w-4 h-4" name="tech_scope" type="checkbox" value="line_audit"/>
+<span class="font-technical-data text-technical-data text-on-surface leading-tight">Metrological Calibration &amp; Audit</span>
+</label>
+</div>
+</div>
+<!-- Row 5: Parametric Line Constraints (Optional sizing telemetry) -->
+<div class="bg-surface-container-low rounded-xl p-5 space-y-4">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps uppercase text-industrial-gray font-medium">Preliminary Line Specifications (Optional)</span>
+<span class="font-technical-data text-technical-data text-secondary">Speeds &amp; Discreteness</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div>
+<label class="block font-technical-data text-technical-data text-industrial-gray mb-1">Target Speed</label>
+<input class="w-full px-3 py-2 bg-surface-container-lowest rounded font-technical-data text-technical-data text-on-surface focus:outline-none" placeholder="e.g. 240 pcs/min" type="text"/>
+</div>
+<div>
+<label class="block font-technical-data text-technical-data text-industrial-gray mb-1">Product Mass Range</label>
+<input class="w-full px-3 py-2 bg-surface-container-lowest rounded font-technical-data text-technical-data text-on-surface focus:outline-none" placeholder="e.g. 50g – 1200g" type="text"/>
+</div>
+<div>
+<label class="block font-technical-data text-technical-data text-industrial-gray mb-1">Required Accuracy</label>
+<input class="w-full px-3 py-2 bg-surface-container-lowest rounded font-technical-data text-technical-data text-on-surface focus:outline-none" placeholder="e.g. ±0.05 g / 0.4mm Fe" type="text"/>
+</div>
+</div>
+</div>
+<!-- Row 6: Project Narrative -->
+<div class="space-y-2">
+<label class="block font-technical-data text-technical-data text-on-surface font-medium" for="projectScope">
+                Application Brief, Challenge, or Operating Conditions <span class="text-secondary">*</span>
+</label>
+<textarea class="w-full px-4 py-3 bg-surface-container-low rounded font-body-md text-body-md text-on-surface focus:outline-none focus:bg-surface-container-lowest transition-colors shadow-inner" id="projectScope" placeholder="Describe product physical properties (dimensions, orientation, conductive foil packaging, wet surface, ambient temperature, conveyor height restrictions)..." required="" rows="4"></textarea>
+</div>
+<!-- Row 7: File Attachment Dropzone -->
+<div class="space-y-2">
+<label class="block font-technical-data text-technical-data text-on-surface font-medium">
+                Line Layout, Mechanical CAD, or Product Specification Sheet
+              </label>
+<div class="border-0 bg-surface-container-low rounded-xl p-6 text-center hover:bg-surface-container transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-industrial-gray group-hover:text-secondary text-3xl transition-colors">cloud_upload</span>
+<p class="font-body-md text-body-md text-primary font-medium mt-2">Click to select or drag and drop technical assets</p>
+<p class="font-technical-data text-technical-data text-industrial-gray mt-1">Accepts DWG, DXF, STEP, PDF, XLSX (Max 25MB). Protected under NDA.</p>
+<input class="hidden" id="fileAttach" type="file"/>
+</div>
+</div>
+<!-- Row 8: NDA & Consent -->
+<div class="flex items-start gap-3 pt-2">
+<input class="mt-1 rounded text-secondary focus:ring-0 w-4 h-4" id="ndaCheck" required="" type="checkbox"/>
+<label class="font-body-md text-body-md text-industrial-gray leading-normal" for="ndaCheck">
+                I require commercial non-disclosure (NDA) protection. OS-Technology Ukraine operates under strict non-disclosure compliance regarding factory layouts and proprietary formulations.
+              </label>
+</div>
+<!-- Submit Action -->
+<div class="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+<button class="w-full sm:w-auto px-8 py-4 bg-primary text-on-primary rounded font-headline-lg text-headline-lg font-semibold hover:bg-surface-tint transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-3" type="submit">
+<span>Submit Technical Inquiry</span>
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<div class="flex items-center gap-2 text-industrial-gray font-technical-data text-technical-data">
+<span class="material-symbols-outlined text-secondary text-base">timer</span>
+<span>Response SLA: Within 120 minutes</span>
+</div>
+</div>
+<div class="hidden p-4 rounded-xl bg-on-tertiary-container/10 text-on-tertiary-container font-technical-data text-technical-data flex items-center gap-3" id="formSuccessToast">
+<span class="material-symbols-outlined">check_circle</span>
+<span>Inquiry successfully registered into OS-Technology Engineering Dispatch. Ticket number generated. Our senior specialist will call you shortly.</span>
+</div>
+</form>
+</div>
+<!-- Right Side: Certified Contacts & Institutional Trust Cards -->
+<div class="lg:col-span-4 space-y-6">
+<!-- Primary Direct Hotline Hub -->
+<div class="bg-surface-container rounded-xl p-8 shadow-sm space-y-6">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps uppercase text-secondary font-bold">Fast Reach Hub</span>
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+</div>
+<div class="space-y-4">
+<div>
+<span class="font-label-caps text-label-caps uppercase text-industrial-gray">Primary Technical &amp; Sales Hotline</span>
+<a class="font-headline-lg text-headline-lg font-bold text-primary hover:text-secondary transition-colors block mt-1" href="tel:+380951061192">
+                  +38 (095) 106-11-92
+                </a>
+<p class="font-technical-data text-technical-data text-industrial-gray mt-0.5">Direct Line / Telegram / WhatsApp</p>
+</div>
+<div>
+<span class="font-label-caps text-label-caps uppercase text-industrial-gray">Central Engineering Office (Kyiv)</span>
+<a class="font-body-lg text-body-lg font-semibold text-primary hover:text-secondary transition-colors block mt-1" href="tel:+380441234567">
+                  +38 (044) 123-45-67
+                </a>
+</div>
+<div class="pt-2 space-y-2">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-industrial-gray text-xl">mail</span>
+<div>
+<span class="font-label-caps text-label-caps uppercase text-industrial-gray block">General Correspondence</span>
+<a class="font-technical-data text-technical-data text-primary hover:text-secondary transition-colors" href="mailto:info@ocs.com.ua">info@ocs.com.ua</a>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-industrial-gray text-xl">build_circle</span>
+<div>
+<span class="font-label-caps text-label-caps uppercase text-industrial-gray block">Spares &amp; Metrology Desk</span>
+<a class="font-technical-data text-technical-data text-primary hover:text-secondary transition-colors" href="mailto:service@ocs.com.ua">service@ocs.com.ua</a>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-high rounded-lg p-4 font-technical-data text-technical-data text-industrial-gray space-y-1">
+<div class="flex items-center justify-between text-on-surface font-medium">
+<span>Working Operations:</span>
+<span>09:00 – 18:00 (EET)</span>
+</div>
+<p>Monday through Friday. Emergency standby 24/7 for SLA contract holders.</p>
+</div>
+</div>
+<!-- Documentation & OEM Credentials Download Box -->
+<div class="bg-surface-container-low rounded-xl p-8 shadow-sm space-y-4">
+<h3 class="font-headline-lg text-headline-lg text-primary font-bold">Authorized Documentation</h3>
+<p class="font-body-md text-body-md text-industrial-gray">
+              Direct verification of German manufacturing distributorship and audit preparatory forms.
+            </p>
+<div class="space-y-3 pt-2">
+<a class="flex items-center justify-between p-3.5 bg-surface-container-lowest rounded-lg hover:shadow-sm transition-all group" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">verified_user</span>
+<div>
+<div class="font-technical-data text-technical-data font-semibold text-primary group-hover:text-secondary transition-colors">Wipotec &amp; Mesutronic Authorization</div>
+<div class="font-label-caps text-label-caps text-industrial-gray uppercase">Official Certificate 2024–2025 • PDF</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-industrial-gray group-hover:text-primary transition-colors">download</span>
+</a>
+<a class="flex items-center justify-between p-3.5 bg-surface-container-lowest rounded-lg hover:shadow-sm transition-all group" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">description</span>
+<div>
+<div class="font-technical-data text-technical-data font-semibold text-primary group-hover:text-secondary transition-colors">Line Sizing Questionnaire</div>
+<div class="font-label-caps text-label-caps text-industrial-gray uppercase">Technical Audit Form • XLSX</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-industrial-gray group-hover:text-primary transition-colors">download</span>
+</a>
+<a class="flex items-center justify-between p-3.5 bg-surface-container-lowest rounded-lg hover:shadow-sm transition-all group" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">menu_book</span>
+<div>
+<div class="font-technical-data text-technical-data font-semibold text-primary group-hover:text-secondary transition-colors">OS-Technology Capabilities</div>
+<div class="font-label-caps text-label-caps text-industrial-gray uppercase">Corporate Engineering Deck • 8.4MB</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-industrial-gray group-hover:text-primary transition-colors">download</span>
+</a>
+</div>
+</div>
+<!-- Rapid Visual Metric Card: Factory Quality -->
+<div class="bg-primary text-on-primary rounded-xl p-8 shadow-md relative overflow-hidden">
+<div class="space-y-3 relative z-10">
+<span class="font-label-caps text-label-caps uppercase text-secondary-fixed tracking-wider">Metrology Standards</span>
+<h4 class="font-headline-lg text-headline-lg font-bold">100% German OEM Calibrated Equipment</h4>
+<p class="font-body-md text-body-md text-primary-fixed-dim">
+                Every unit commissioned by OS-Technology is verified with certified class E2/F1 analytical weights and factory test cards.
+              </p>
+<div class="pt-2 flex items-center gap-4 font-technical-data text-technical-data text-white">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-secondary-container">task_alt</span>
+<span>ISO/IEC 17025</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-secondary-container">task_alt</span>
+<span>MID Certified</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. Nationwide Regional Service & Engineering Hubs -->
+<section class="max-w-container-max mx-auto px-edge-margin pb-20 w-full">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+<div>
+<span class="font-label-caps text-label-caps uppercase text-secondary font-semibold">Decentralized Logistics</span>
+<h2 class="font-headline-xl text-headline-xl text-primary font-bold mt-1">Regional Engineering Hubs &amp; Mobile Response</h2>
+</div>
+<p class="font-body-md text-body-md text-industrial-gray max-w-md">
+          Strategic inventory storage and certified calibration engineers distributed across four major industrial epicenters for rapid physical intervention.
+        </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Hub 1: Kyiv HQ -->
+<div class="bg-surface-container-low rounded-xl p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div>
+<div class="flex items-center justify-between mb-4">
+<span class="px-2.5 py-1 rounded bg-secondary text-on-secondary font-label-caps text-label-caps uppercase font-bold">Central Lab</span>
+<span class="font-technical-data text-technical-data text-industrial-gray">HUB-01</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg font-bold text-primary">Kyiv Headquarters</h3>
+<p class="font-technical-data text-technical-data text-secondary mt-1">Central Spares Depo &amp; Metrology Lab</p>
+<p class="font-body-md text-body-md text-industrial-gray mt-3">
+              Full inventory of WIPOTEC weigh cells, conveyor belts, rejectors, and MESUTRONIC search heads. Full-scale sample validation laboratory.
+            </p>
+</div>
+<div class="pt-6 border-t-0 space-y-2">
+<div class="font-technical-data text-technical-data text-primary font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-secondary">domain</span>
+<span>Central Technical Facility, Kyiv</span>
+</div>
+<div class="font-technical-data text-technical-data text-industrial-gray">
+              Readiness: On-site audit within 4 hours
+            </div>
+</div>
+</div>
+<!-- Hub 2: Lviv -->
+<div class="bg-surface-container-low rounded-xl p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div>
+<div class="flex items-center justify-between mb-4">
+<span class="px-2.5 py-1 rounded bg-surface-container-high text-on-surface font-label-caps text-label-caps uppercase font-bold">Western Cluster</span>
+<span class="font-technical-data text-technical-data text-industrial-gray">HUB-02</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg font-bold text-primary">Lviv Engineering Office</h3>
+<p class="font-technical-data text-technical-data text-secondary mt-1">Food &amp; Pharmaceutical Cluster</p>
+<p class="font-body-md text-body-md text-industrial-gray mt-3">
+              Rapid response unit covering Western Ukraine, servicing high-throughput FMCG, dairy processing, and confectionery plants.
+            </p>
+</div>
+<div class="pt-6 space-y-2">
+<div class="font-technical-data text-technical-data text-primary font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-secondary">commute</span>
+<span>Regional Mobile Service Fleet</span>
+</div>
+<div class="font-technical-data text-technical-data text-industrial-gray">
+              Territory: Lviv, Volyn, Rivne, Ivano-Frankivsk
+            </div>
+</div>
+</div>
+<!-- Hub 3: Dnipro -->
+<div class="bg-surface-container-low rounded-xl p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div>
+<div class="flex items-center justify-between mb-4">
+<span class="px-2.5 py-1 rounded bg-surface-container-high text-on-surface font-label-caps text-label-caps uppercase font-bold">Central-East</span>
+<span class="font-technical-data text-technical-data text-industrial-gray">HUB-03</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg font-bold text-primary">Dnipro Support Unit</h3>
+<p class="font-technical-data text-technical-data text-secondary mt-1">Heavy Industrial &amp; Agro Lines</p>
+<p class="font-body-md text-body-md text-industrial-gray mt-3">
+              Specialized technicians for heavy packaging, grain elevator metal detectors, and high-speed packaging bulk checkweighers.
+            </p>
+</div>
+<div class="pt-6 space-y-2">
+<div class="font-technical-data text-technical-data text-primary font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-secondary">precision_manufacturing</span>
+<span>Industrial Automation Division</span>
+</div>
+<div class="font-technical-data text-technical-data text-industrial-gray">
+              Territory: Dnipro, Poltava, Zaporizhzhia
+            </div>
+</div>
+</div>
+<!-- Hub 4: Odesa -->
+<div class="bg-surface-container-low rounded-xl p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div>
+<div class="flex items-center justify-between mb-4">
+<span class="px-2.5 py-1 rounded bg-surface-container-high text-on-surface font-label-caps text-label-caps uppercase font-bold">Southern Region</span>
+<span class="font-technical-data text-technical-data text-industrial-gray">HUB-04</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg font-bold text-primary">Odesa Regional Desk</h3>
+<p class="font-technical-data text-technical-data text-secondary mt-1">Terminal Logistics &amp; Bulk Edibles</p>
+<p class="font-body-md text-body-md text-industrial-gray mt-3">
+              Support for port export processing lines, edible oil bottling inspection, and pipeline metal separators in the maritime corridor.
+            </p>
+</div>
+<div class="pt-6 space-y-2">
+<div class="font-technical-data text-technical-data text-primary font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-secondary">anchor</span>
+<span>Port &amp; Processing Cluster</span>
+</div>
+<div class="font-technical-data text-technical-data text-industrial-gray">
+              Territory: Odesa, Mykolaiv, Danube Region
+            </div>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. Interactive Map Section / Kyiv Central Technical Center -->
+<section class="max-w-container-max mx-auto px-edge-margin pb-20 w-full">
+<div class="bg-surface-container-low rounded-xl overflow-hidden shadow-md">
+<div class="grid grid-cols-1 lg:grid-cols-12">
+<!-- Facility Details Panel -->
+<div class="lg:col-span-5 p-8 md:p-10 flex flex-col justify-between bg-surface-container">
+<div class="space-y-6">
+<div>
+<span class="font-label-caps text-label-caps uppercase text-secondary font-bold">Central Facility &amp; Demo Hall</span>
+<h3 class="font-headline-xl text-headline-xl font-bold text-primary mt-1">Kyiv Main Engineering Center</h3>
+<p class="font-body-md text-body-md text-industrial-gray mt-2">
+                  Visit our test lab for live dry-run inspection runs on your sample products before machine commissioning.
+                </p>
+</div>
+<div class="space-y-4">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary mt-1">pin_drop</span>
+<div>
+<span class="font-technical-data text-technical-data font-semibold text-primary block">Physical Address</span>
+<span class="font-body-md text-body-md text-on-surface">Kyiv, Ukraine (Industrial &amp; Logistics District)</span>
+<span class="font-technical-data text-technical-data text-industrial-gray block mt-0.5">Coordinates: 50.4501° N, 30.5234° E</span>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary mt-1">inventory_2</span>
+<div>
+<span class="font-technical-data text-technical-data font-semibold text-primary block">Warehouse &amp; Spares Receiving</span>
+<span class="font-body-md text-body-md text-industrial-gray">Ramp access for heavy transport freight. Calibration weight kits on-site.</span>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary mt-1">badge</span>
+<div>
+<span class="font-technical-data text-technical-data font-semibold text-primary block">Access Protocol</span>
+<span class="font-body-md text-body-md text-industrial-gray">Secure facility. Pre-registration required for sample delivery and engineering visits.</span>
+</div>
+</div>
+</div>
+</div>
+<div class="pt-8 flex flex-wrap gap-4 items-center">
+<a class="px-5 py-2.5 bg-primary text-on-primary rounded font-technical-data text-technical-data font-medium hover:bg-surface-tint transition-colors inline-flex items-center gap-2" href="https://maps.google.com" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-sm">directions</span>
+<span>Get Route in Google Maps</span>
+</a>
+<button class="px-4 py-2.5 bg-surface-container-lowest text-primary rounded font-technical-data text-technical-data hover:bg-surface transition-colors inline-flex items-center gap-1.5" onclick="navigator.clipboard.writeText('50.4501, 30.5234'); alert('Coordinates copied to clipboard.');">
+<span class="material-symbols-outlined text-sm">content_copy</span>
+<span>Copy GPS</span>
+</button>
+</div>
+</div>
+<!-- Embedded Location Map Canvas -->
+<div class="lg:col-span-7 h-96 lg:h-auto min-h-[380px] relative">
+<div class="w-full h-full bg-cover bg-center" data-location="Kyiv, Ukraine" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAOv1KcLhwzr7_GkEVkbm_uYVQe_2XkelD3t-Jp5-uP4QS5Dpw7WDjnqMWwZ3KEG48RAzFlLtXU5OyHhzpSel9fbWPLIh-w_OLf6kD6rzHPUdTzazMoly88PiN4J6JqPj989dobdHO6p0qe8vT9-r-n3U1Q0Ea8c8Q9pfEAxI5YrVm_IsTr-lfJRMJ7mT4KH9mP7VWolZKbYprUBGo6ORoTodnpLJokOtweYhoIJzhtElOSfleIY0eO')"></div>
+<!-- Glassmorphic Overlay Badge on Map -->
+<div class="absolute bottom-6 left-6 bg-surface-container-lowest/90 backdrop-blur-md p-4 rounded-xl shadow-md max-w-xs">
+<div class="flex items-center gap-2 text-secondary font-label-caps text-label-caps uppercase font-bold">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span>OS-Technology Service Depot</span>
+</div>
+<p class="font-technical-data text-technical-data text-primary font-medium mt-1">Authorized Service Lab #01</p>
+<p class="font-technical-data text-technical-data text-industrial-gray text-xs mt-0.5">Equipped with German calibration standards</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 5. Direct Downtime Escalation Hotline (Emergency Banner) -->
+<section class="max-w-container-max mx-auto px-edge-margin pb-20 w-full">
+<div class="bg-primary-container text-white rounded-xl p-8 md:p-12 shadow-xl relative overflow-hidden">
+<!-- Technical Accent Wireframe Decorator -->
+<div class="absolute right-0 top-0 bottom-0 w-1/3 opacity-10 pointer-events-none flex items-center justify-center">
+<span class="material-symbols-outlined text-[200px]">warning_amber</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+<div class="lg:col-span-8 space-y-3">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-secondary text-white font-label-caps text-label-caps uppercase tracking-wider font-semibold">
+<span class="material-symbols-outlined text-xs animate-ping">emergency</span>
+<span>Critical Line Emergency Protocol</span>
+</div>
+<h2 class="font-headline-xl text-headline-xl font-bold tracking-tight text-white">
+              Active Production Line Downtime?
+            </h2>
+<p class="font-body-lg text-body-lg text-primary-fixed-dim max-w-2xl">
+              Factory lines equipped with WIPOTEC or MESUTRONIC inspection hardware can initiate immediate emergency engineer dispatch and urgent spare parts shipping from Kyiv stocks.
+            </p>
+</div>
+<div class="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3 justify-end">
+<a class="px-6 py-4 bg-secondary text-white rounded font-headline-lg text-headline-lg font-bold hover:bg-secondary-container transition-all flex items-center justify-center gap-3 shadow-md" href="tel:+380951061192">
+<span class="material-symbols-outlined">call</span>
+<span>24/7 Rapid Hotline</span>
+</a>
+<div class="text-center font-technical-data text-technical-data text-primary-fixed-dim text-xs">
+              Direct escalation for Chief Engineers &amp; Plant Directors
+            </div>
+</div>
+</div>
+</div>
+</section>
+<!-- 6. FAQ & Technical Integration Specifics (Accordion) -->
+<section class="max-w-container-max mx-auto px-edge-margin pb-24 w-full">
+<div class="max-w-3xl mb-12">
+<span class="font-label-caps text-label-caps uppercase text-secondary font-semibold">Frequently Asked Questions</span>
+<h2 class="font-headline-xl text-headline-xl text-primary font-bold mt-1">Engineering Consultation &amp; OEM Standards</h2>
+<p class="font-body-md text-body-md text-industrial-gray mt-2">
+          Clear answers regarding compliance verification, trial product testing, spare parts lead times, and factory warranties.
+        </p>
+</div>
+<div class="space-y-4 max-w-4xl" id="faqAccordion">
+<!-- FAQ Item 1 -->
+<div class="bg-surface-container-low rounded-xl p-6 transition-colors cursor-pointer" onclick="toggleFaq(this)">
+<div class="flex items-center justify-between gap-4">
+<h3 class="font-headline-lg text-headline-lg font-bold text-primary">How quickly can certified engineers arrive on-site for a factory line audit?</h3>
+<span class="material-symbols-outlined text-industrial-gray transition-transform faq-icon">expand_more</span>
+</div>
+<div class="faq-content hidden pt-4 text-industrial-gray font-body-md text-body-md space-y-2">
+<p>
+              For industrial facilities in the Kyiv region, an application engineer can arrive on-site within 4 hours. For regional facilities across Western (Lviv, Rivne, Ivano-Frankivsk), Southern (Odesa, Mykolaiv), and Central/Eastern Ukraine (Dnipro, Poltava), planned engineering visits are scheduled within 24 to 48 hours depending on plant availability.
+            </p>
+</div>
+</div>
+<!-- FAQ Item 2 -->
+<div class="bg-surface-container-low rounded-xl p-6 transition-colors cursor-pointer" onclick="toggleFaq(this)">
+<div class="flex items-center justify-between gap-4">
+<h3 class="font-headline-lg text-headline-lg font-bold text-primary">How do you handle factory warranty and OEM spare parts from Germany?</h3>
+<span class="material-symbols-outlined text-industrial-gray transition-transform faq-icon">expand_more</span>
+</div>
+<div class="faq-content hidden pt-4 text-industrial-gray font-body-md text-body-md space-y-2">
+<p>
+              As the direct authorized distributor for WIPOTEC GmbH (Kaiserslautern) and MESUTRONIC Gerätebau GmbH (Kirchberg im Wald), OS-Technology Ukraine delivers 100% factory-original equipment, components, and EMFR weigh cells under official European warranty. We maintain a large strategic safety stock of belts, bearings, sensors, and electronic boards in our Kyiv warehouse for immediate domestic dispatch.
+            </p>
+</div>
+</div>
+<!-- FAQ Item 3 -->
+<div class="bg-surface-container-low rounded-xl p-6 transition-colors cursor-pointer" onclick="toggleFaq(this)">
+<div class="flex items-center justify-between gap-4">
+<h3 class="font-headline-lg text-headline-lg font-bold text-primary">Can we test sample products on Wipotec or Mesutronic machines before ordering?</h3>
+<span class="material-symbols-outlined text-industrial-gray transition-transform faq-icon">expand_more</span>
+</div>
+<div class="faq-content hidden pt-4 text-industrial-gray font-body-md text-body-md space-y-2">
+<p>
+              Yes. We strongly encourage pre-purchase product characterization. You can ship sample test batches (packaged goods, blisters, bags, foil packs) to our Kyiv testing facility. Our engineers will perform comprehensive dynamic speed tests, determine optimal rejector mechanics, and generate an official measurement report confirming achievable weighing discreteness and detection sensitivity (Fe, Non-Fe, SS316, ceramic, bone, or glass).
+            </p>
+</div>
+</div>
+<!-- FAQ Item 4 -->
+<div class="bg-surface-container-low rounded-xl p-6 transition-colors cursor-pointer" onclick="toggleFaq(this)">
+<div class="flex items-center justify-between gap-4">
+<h3 class="font-headline-lg text-headline-lg font-bold text-primary">What documentation is provided for pharmaceutical OIML and GMP compliance?</h3>
+<span class="material-symbols-outlined text-industrial-gray transition-transform faq-icon">expand_more</span>
+</div>
+<div class="faq-content hidden pt-4 text-industrial-gray font-body-md text-body-md space-y-2">
+<p>
+              We provide full qualification packages including Design Qualification (DQ), Installation Qualification (IQ), and Operational Qualification (OQ) protocols aligned with EU GMP Annex 11 and Annex 15. All dynamic scales are supplied with Ukrainian Module B &amp; F verification documentation according to Technical Regulations for non-automatic and automatic weighing instruments (OIML R51). Software complies with FDA 21 CFR Part 11 audit trails.
+            </p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+<script>
+  function handleConsultationSubmit() {
+    const toast = document.getElementById('formSuccessToast');
+    if (toast) {
+      toast.classList.remove('hidden');
+      toast.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
+
+  function toggleFaq(element) {
+    const content = element.querySelector('.faq-content');
+    const icon = element.querySelector('.faq-icon');
+
+    if (content.classList.contains('hidden')) {
+      content.classList.remove('hidden');
+      icon.textContent = 'expand_less';
+      element.classList.add('bg-surface-container');
+    } else {
+      content.classList.add('hidden');
+      icon.textContent = 'expand_more';
+      element.classList.remove('bg-surface-container');
+    }
+  }
+</script></main>
+<!-- Footer -->
+<footer class="bg-on-background dark:bg-black full-width mt-section-gap-lg border-t border-on-primary-fixed-variant">
+<div class="max-w-container-max mx-auto px-edge-margin py-section-gap-sm flex flex-col md:flex-row justify-between items-center gap-gutter">
+<div class="font-headline-lg text-headline-lg text-white">
+                OS-Technology
+            </div>
+<div class="flex flex-wrap gap-6 justify-center">
+<a class="font-technical-data text-technical-data text-primary-fixed-dim hover:text-white transition-colors hover:text-secondary" href="#">Privacy Policy</a>
+<a class="font-technical-data text-technical-data text-primary-fixed-dim hover:text-white transition-colors hover:text-secondary" href="#">Terms of Service</a>
+<a class="font-technical-data text-technical-data text-primary-fixed-dim hover:text-white transition-colors hover:text-secondary" href="#">Manufacturer Certifications</a>
+<a class="font-technical-data text-technical-data text-primary-fixed-dim hover:text-white transition-colors hover:text-secondary" href="#">Partner Portal</a>
+</div>
+<div class="font-technical-data text-technical-data text-primary-fixed-dim text-center md:text-right">
+                © 2024 OS-Technology Ukraine. Authorized WIPOTEC &amp; MESUTRONIC Integration Partner. All Rights Reserved.
+            </div>
+</div>
+</footer>
+</body></html>

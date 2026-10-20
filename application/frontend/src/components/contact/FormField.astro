@@ -1,0 +1,88 @@
+---
+interface Props {
+	id: string;
+	label: string;
+	type?: "text" | "tel" | "email" | "select" | "textarea";
+	required?: boolean;
+	placeholder?: string;
+	hint?: string;
+	rows?: number;
+	autocomplete?: string;
+}
+
+const {
+	id,
+	label,
+	type = "text",
+	required = false,
+	placeholder,
+	hint,
+	rows = 4,
+	autocomplete,
+} = Astro.props;
+---
+
+<div class="space-y-1.5">
+	<label for={id} class="font-technical-data text-technical-data text-foreground block font-medium">
+		{label}
+		{
+			required && (
+				<span class="text-secondary ml-0.5" aria-hidden="true">
+					*
+				</span>
+			)
+		}
+	</label>
+
+	{hint && <p class="text-industrial-gray text-xs">{hint}</p>}
+
+	{
+		type === "select" ? (
+			<select
+				id={id}
+				name={id}
+				required={required}
+				aria-required={required ? "true" : undefined}
+				aria-describedby={`${id}-error`}
+				autocomplete={autocomplete}
+				class="border-border bg-surface-muted text-foreground focus:border-primary w-full rounded-lg border px-4 py-3 font-sans text-sm transition-colors focus:outline-none"
+			>
+				<slot />
+			</select>
+		) : type === "textarea" ? (
+			<textarea
+				id={id}
+				name={id}
+				required={required}
+				aria-required={required ? "true" : undefined}
+				aria-describedby={`${id}-error`}
+				rows={rows}
+				placeholder={placeholder}
+				autocomplete={autocomplete}
+				class="border-border bg-surface-muted text-foreground focus:border-primary w-full resize-y rounded-lg border px-4 py-3 font-sans text-sm transition-colors focus:outline-none"
+			/>
+		) : (
+			<input
+				id={id}
+				name={id}
+				type={type}
+				required={required}
+				aria-required={required ? "true" : undefined}
+				aria-describedby={`${id}-error`}
+				placeholder={placeholder}
+				autocomplete={autocomplete}
+				class="border-border bg-surface-muted text-foreground focus:border-primary w-full rounded-lg border px-4 py-3 font-sans text-sm transition-colors focus:outline-none"
+			/>
+		)
+	}
+
+	<slot name="note" />
+
+	<p
+		id={`${id}-error`}
+		role="alert"
+		class="text-destructive hidden text-xs font-medium"
+		data-field-error={id}
+	>
+	</p>
+</div>

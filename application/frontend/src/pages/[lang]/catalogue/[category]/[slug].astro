@@ -180,21 +180,21 @@ const structuredData = {
 							<div class="flex items-center gap-2">
 								<span class="material-symbols-outlined text-primary text-[18px]">call</span>
 								<a
-									href={companyData.phone.href}
+									href={`tel:${companyData.phone.replace(/[^\d+]/g, "")}`}
 									class="text-foreground hover:text-primary font-mono text-sm font-semibold transition-colors"
 								>
-									{companyData.phone.display}
+									{companyData.phone}
 								</a>
 							</div>
 							{
-								companyData.emails?.sales && (
+								companyData.email && (
 									<div class="flex items-center gap-2">
 										<span class="material-symbols-outlined text-primary text-[18px]">mail</span>
 										<a
-											href={`mailto:${companyData.emails.sales}`}
+											href={`mailto:${companyData.email}`}
 											class="text-muted-foreground hover:text-primary font-mono text-xs font-medium transition-colors"
 										>
-											{companyData.emails.sales}
+											{companyData.email}
 										</a>
 									</div>
 								)
@@ -207,7 +207,7 @@ const structuredData = {
 						{/* Action CTAs */}
 						<div class="flex flex-col gap-2.5 pt-1">
 							<a
-								href={`/${lang}#contact`}
+								href={`/${lang}/contact`}
 								class="bg-primary text-primary-foreground inline-flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-medium shadow-xs transition-all hover:opacity-90 active:scale-95"
 							>
 								{_("Request Consultation")}
