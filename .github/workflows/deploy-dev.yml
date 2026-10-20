@@ -19,6 +19,10 @@ concurrency:
   group: deploy-dev
   cancel-in-progress: false
 
+env:
+  SSH_TARGET: ${{ secrets.DEV_SSH_USER }}@${{ secrets.DEV_SSH_HOST }}
+  DOMAIN_DIR: /home/ocs/domains/dev.ocs.com.ua
+
 jobs:
   # ── Job 1: test, build, upload artifact ─────────────────────────────────────
   build:
@@ -81,22 +85,19 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Configure SSH
-        run: |
-          install -m 700 -d ~/.ssh
-          echo "${{ secrets.DEV_SSH_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          echo "${{ secrets.DEV_SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+        uses: ./.github/actions/configure-ssh
+        with:
+          ssh-key: ${{ secrets.DEV_SSH_KEY }}
+          known-hosts: ${{ secrets.DEV_SSH_KNOWN_HOSTS }}
 
       # Atomically swap the Apache fragment, run configtest, reload on success,
       # or roll back to the previous file on failure — all in one SSH session.
       - name: Sync Apache config
-        env:
-          APACHE_CONF: /home/ocs/domains/dev.ocs.com.ua/ocs-apache.conf
         run: |
           rsync -az --no-owner --no-group \
             application/infra/apache/dev.ocs.com.ua.ocs.conf \
-            "${{ secrets.DEV_SSH_USER }}@${{ secrets.DEV_SSH_HOST }}:${APACHE_CONF}.tmp"
-          ssh "${{ secrets.DEV_SSH_USER }}@${{ secrets.DEV_SSH_HOST }}" bash -s << 'EOF'
+            "${SSH_TARGET}:${DOMAIN_DIR}/ocs-apache.conf.tmp"
+          ssh "$SSH_TARGET" bash -s << 'EOF'
             set -euo pipefail
             CONF="/home/ocs/domains/dev.ocs.com.ua/ocs-apache.conf"
             cp "$CONF" "$CONF.bak"
@@ -118,11 +119,10 @@ jobs:
         env:
           GH_SECRETS: ${{ toJSON(secrets) }}
           GH_VARS: ${{ toJSON(vars) }}
-          ENV_FILE: /home/ocs/domains/dev.ocs.com.ua/ocs-dev.env
         run: |
           uv run application/infra/scripts/render-env.py .github/secrets.dev.yaml \
-            | ssh "${{ secrets.DEV_SSH_USER }}@${{ secrets.DEV_SSH_HOST }}" \
-              "umask 077; cat > \"${ENV_FILE}.tmp\" && mv \"${ENV_FILE}.tmp\" \"${ENV_FILE}\""
+            | ssh "$SSH_TARGET" \
+              "umask 077; cat > \"${DOMAIN_DIR}/ocs-dev.env.tmp\" && mv \"${DOMAIN_DIR}/ocs-dev.env.tmp\" \"${DOMAIN_DIR}/ocs-dev.env\""
 
       - name: Download build artifact
         uses: actions/download-artifact@v4
@@ -137,7 +137,7 @@ jobs:
             application/frontend/dist \
             application/frontend/node_modules \
             application/frontend/package.json \
-            "${{ secrets.DEV_SSH_USER }}@${{ secrets.DEV_SSH_HOST }}:$APP_DIR/"
+            "${SSH_TARGET}:${APP_DIR}/"
 
       - name: Restart
-        run: ssh "${{ secrets.DEV_SSH_USER }}@${{ secrets.DEV_SSH_HOST }}" "sudo /usr/bin/systemctl restart ocs-dev"
+        run: ssh "$SSH_TARGET" "sudo /usr/bin/systemctl restart ocs-dev"

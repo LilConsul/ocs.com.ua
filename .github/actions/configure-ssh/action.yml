@@ -1,0 +1,21 @@
+name: Configure SSH
+description: Write the deploy SSH key and known_hosts to ~/.ssh
+
+inputs:
+  ssh-key:
+    description: Private key (PEM/OpenSSH)
+    required: true
+  known-hosts:
+    description: known_hosts content for the target server
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Write SSH credentials
+      shell: bash
+      run: |
+        install -m 700 -d ~/.ssh
+        echo "${{ inputs.ssh-key }}" > ~/.ssh/id_ed25519
+        chmod 600 ~/.ssh/id_ed25519
+        echo "${{ inputs.known-hosts }}" > ~/.ssh/known_hosts
