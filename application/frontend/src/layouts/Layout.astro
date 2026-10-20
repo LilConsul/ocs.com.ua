@@ -89,6 +89,8 @@ const defaultDescription =
 		<main class="pt-20">
 			<slot />
 		</main>
-		<Footer />
+		<Footer
+			share={isLocalized ? { title, description: description || defaultDescription } : undefined}
+		/>
 	</body>
 </html>

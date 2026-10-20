@@ -1,6 +1,13 @@
 ---
+import ShareButtons from "@/components/ShareButtons.astro";
 import { getInlineTranslations, getLangFromUrl } from "@/i18n";
 
+interface Props {
+	// Share links are shown only when the page provides what to share (not on error pages)
+	share?: { title: string; description: string };
+}
+
+const { share } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const _ = getInlineTranslations(lang);
 
@@ -12,6 +19,8 @@ const currentYear = new Date().getFullYear();
 		<div
 			class="text-industrial-gray flex flex-col items-center justify-between gap-4 py-8 text-sm md:flex-row md:py-6"
 		>
+			{share && <ShareButtons title={share.title} description={share.description} />}
+
 			<p class="font-sans">
 				&copy; {currentYear}{" "}{_("OS-Technology Ukraine")}. {_("All rights reserved")}.
 			</p>

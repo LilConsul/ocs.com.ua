@@ -48,7 +48,7 @@ msgstr "Сучасні контрольно динамічні ваги та с�
 msgid "All Industries"
 msgstr "Усі галузі"
 
-#: src/components/Footer.astro:16
+#: src/components/Footer.astro:25
 msgid "All rights reserved"
 msgstr "Усі права захищено"
 
@@ -134,9 +134,9 @@ msgstr "Контактна інформація"
 
 #: src/components/Header.astro:119
 #: src/components/Header.astro:185
+#: src/components/homepage/HeroSection.astro:86
 #: src/components/errors/ServerErrorContent.astro:46
 #: src/components/errors/NotFoundContent.astro:54
-#: src/components/homepage/HeroSection.astro:86
 #: src/components/catalogue/CatalogueSidebar.astro:95
 msgid "Contact Us"
 msgstr "Зв’язатися з нами"
@@ -228,7 +228,7 @@ msgstr "Повне ім'я"
 msgid "German Precision."
 msgstr "Німецька точність."
 
-#: src/components/contact/OfficeLocation.astro:73
+#: src/components/contact/OfficeLocation.astro:75
 msgid "Get Route"
 msgstr "Прокласти маршрут"
 
@@ -302,7 +302,7 @@ msgstr "Довгострокове партнерство, засноване н
 msgid "Main Office"
 msgstr "Головний офіс"
 
-#: src/components/contact/OfficeLocation.astro:81
+#: src/components/contact/OfficeLocation.astro:83
 msgid "Map showing OS-Technology Ukraine office location"
 msgstr "Карта з розташуванням офісу ОС-Технолоджи Україна"
 
@@ -327,7 +327,7 @@ msgstr "Наступне зображення"
 msgid "No products available in this category"
 msgstr "У цій категорії поки немає обладнання"
 
-#: src/components/Footer.astro:16
+#: src/components/Footer.astro:25
 msgid "OS-Technology Ukraine"
 msgstr "ОС-Технолоджи Україна"
 
@@ -422,7 +422,7 @@ msgstr "Високоточні контрольно динамічні ваги 
 msgid "Previous image"
 msgstr "Попереднє зображення"
 
-#: src/components/Footer.astro:24
+#: src/components/Footer.astro:33
 #: src/components/contact/ContactForm.astro:198
 msgid "Privacy Policy"
 msgstr "Політика конфіденційності"
@@ -472,6 +472,10 @@ msgstr "Оберіть галузь…"
 #: src/components/contact/ContactForm.astro:68
 msgid "Send Us a Message"
 msgstr "Надіслати повідомлення"
+
+#: src/components/ShareButtons.astro:26
+msgid "Share"
+msgstr "Поділитися"
 
 #: src/components/contact/ContactForm.astro:23
 msgid "Software"
@@ -536,7 +540,7 @@ msgstr "Технічні характеристики"
 msgid "Technical expertise and service support since 2013."
 msgstr "Технічна експертиза та сервісна підтримка з 2013 року."
 
-#: src/components/Footer.astro:30
+#: src/components/Footer.astro:39
 #: src/components/contact/ContactForm.astro:205
 msgid "Terms of Service"
 msgstr "Умови користування"
@@ -602,8 +606,8 @@ msgstr "База знань"
 msgid "Wipotec Authorization Letter"
 msgstr "Авторизаційний лист Wipotec"
 
-#: src/components/contact/OfficeLocation.astro:59
-#: src/components/contact/ContactInfoCard.astro:96
+#: src/components/contact/OfficeLocation.astro:61
+#: src/components/contact/ContactInfoCard.astro:98
 msgid "Working Hours"
 msgstr "Режим роботи"
 
