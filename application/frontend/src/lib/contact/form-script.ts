@@ -1,8 +1,20 @@
+import { MAX_MESSAGE_LENGTH, MAX_PHONE_LENGTH, MAX_SHORT_FIELD_LENGTH } from "./validate";
+
 export interface FormConfig {
 	siteKey: string;
 	messages: Record<string, string>;
 	emailPattern: string;
 	phonePattern: string;
+}
+
+declare global {
+	interface Window {
+		__contactFormConfig?: FormConfig;
+		grecaptcha?: {
+			ready(cb: () => void): void;
+			execute(siteKey: string, options: { action: string }): Promise<string>;
+		};
+	}
 }
 
 // Personal-mail domains — shows a soft note, never blocks submission
@@ -107,19 +119,19 @@ function validateField(
 	switch (fieldId) {
 		case "name":
 			if (!data.name.trim()) return "required";
-			if (data.name.length > 200) return "too_long";
+			if (data.name.length > MAX_SHORT_FIELD_LENGTH) return "too_long";
 			return null;
 		case "jobTitle":
 			if (!data.jobTitle.trim()) return "required";
-			if (data.jobTitle.length > 200) return "too_long";
+			if (data.jobTitle.length > MAX_SHORT_FIELD_LENGTH) return "too_long";
 			return null;
 		case "company":
 			if (!data.company.trim()) return "required";
-			if (data.company.length > 200) return "too_long";
+			if (data.company.length > MAX_SHORT_FIELD_LENGTH) return "too_long";
 			return null;
 		case "phone":
 			if (!data.phone.trim()) return "required";
-			if (data.phone.length > 30) return "too_long";
+			if (data.phone.length > MAX_PHONE_LENGTH) return "too_long";
 			if (!PHONE_RE.test(data.phone.trim())) return "invalid_phone";
 			return null;
 		case "email":
@@ -131,7 +143,7 @@ function validateField(
 			return null;
 		case "message":
 			if (!data.message.trim()) return "required";
-			if (data.message.length > 5000) return "too_long";
+			if (data.message.length > MAX_MESSAGE_LENGTH) return "too_long";
 			return null;
 		default:
 			return null;
@@ -219,9 +231,9 @@ export function initContactForm(config: FormConfig) {
 					recaptchaToken = await new Promise<string>((resolve, reject) => {
 						const started = Date.now();
 						const wait = () => {
-							if (typeof (window as any).grecaptcha !== "undefined") {
-								(window as any).grecaptcha.ready(() => {
-									(window as any).grecaptcha
+							if (window.grecaptcha !== undefined) {
+								window.grecaptcha.ready(() => {
+									window.grecaptcha!
 										.execute(siteKey, { action: "contact" })
 										.then(resolve, reject);
 								});

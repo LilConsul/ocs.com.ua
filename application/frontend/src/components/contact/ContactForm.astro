@@ -224,7 +224,7 @@ const messages = {
 	// Config is injected by the inline bootstrap below; wait for it on the window object.
 	// astro:page-load fires after each navigation, so we check immediately too.
 	function tryInit() {
-		const cfg = (window as any).__contactFormConfig;
+		const cfg = window.__contactFormConfig;
 		if (cfg) initContactForm(cfg);
 	}
 	tryInit();

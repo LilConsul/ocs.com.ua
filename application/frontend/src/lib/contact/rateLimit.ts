@@ -19,6 +19,20 @@ export interface RateLimiter {
 export function createRateLimiter({ max, windowMs }: RateLimiterOptions): RateLimiter {
 	const store = new Map<string, Entry>();
 
+	// Evict entries whose window has expired to prevent unbounded Map growth
+	// under a flood of unique IPs. Runs once per window duration.
+	const evict = () => {
+		const now = Date.now();
+		for (const [ip, entry] of store) {
+			if (now >= entry.resetAt) store.delete(ip);
+		}
+	};
+	const evictTimer = setInterval(evict, windowMs);
+	// Don't keep the Node process alive solely for cleanup
+	if (typeof evictTimer === "object" && evictTimer !== null && "unref" in evictTimer) {
+		(evictTimer as NodeJS.Timeout).unref();
+	}
+
 	return {
 		check(ip: string): boolean {
 			const now = Date.now();
