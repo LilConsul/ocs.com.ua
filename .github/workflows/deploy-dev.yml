@@ -44,7 +44,7 @@ jobs:
       - name: Test
         run: bun test
 
-      - uses: astral-sh/setup-uv@v10
+      - uses: astral-sh/setup-uv@v10.3.0
 
       - name: Test infra scripts
         working-directory: application/infra
@@ -85,7 +85,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - uses: astral-sh/setup-uv@v10
+      - uses: astral-sh/setup-uv@v10.3.0
 
       - name: Configure SSH
         uses: ./.github/actions/configure-ssh
@@ -128,7 +128,7 @@ jobs:
               "umask 077; cat > \"${DOMAIN_DIR}/ocs-dev.env.tmp\" && mv \"${DOMAIN_DIR}/ocs-dev.env.tmp\" \"${DOMAIN_DIR}/ocs-dev.env\""
 
       - name: Download build artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: frontend-build
           path: application/frontend
