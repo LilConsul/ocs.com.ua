@@ -1,3 +1,6 @@
+# Send "charset=UTF-8" in the Content-Type header of HTML responses (SEO checkers flag its absence)
+AddDefaultCharset UTF-8
+
 ErrorDocument 404 /404.html
 ErrorDocument 403 /404.html
 # Astro emits 50x.astro as 50x/index.html. Name the file explicitly: a bare /50x would make
