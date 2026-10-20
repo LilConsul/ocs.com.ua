@@ -40,8 +40,13 @@ const json = (body: unknown, status = 200) =>
 		headers: { "Content-Type": "application/json" },
 	});
 
+type ContactPayload = ContactFormData & {
+	loadedAt?: number | string;
+	recaptchaToken?: string;
+};
+
 // Rejects payloads whose fields are not the expected primitive types before validation runs
-function isContactPayload(value: unknown): value is ContactFormData {
+function isContactPayload(value: unknown): value is ContactPayload {
 	if (typeof value !== "object" || value === null) return false;
 	const record = value as Record<string, unknown>;
 	return (
@@ -79,7 +84,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 	const data = body;
 
 	// 3. Anti-spam checks (honeypot, time-trap, disposable email, excessive links, spam keywords)
-	if (isSpamSubmission(data as any)) {
+	if (isSpamSubmission(data)) {
 		return json({ ok: true });
 	}
 
@@ -90,8 +95,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 	}
 
 	// 5. reCAPTCHA v3
-	const recaptchaToken = (body as unknown as { recaptchaToken?: unknown }).recaptchaToken;
-	const token = typeof recaptchaToken === "string" ? recaptchaToken : "";
+	const token = typeof data.recaptchaToken === "string" ? data.recaptchaToken : "";
 	if (!token) {
 		return json({ ok: false, error: "recaptcha_missing" }, 400);
 	}
