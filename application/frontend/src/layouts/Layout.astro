@@ -3,7 +3,7 @@ import "../styles/global.css";
 import { SEO } from "astro-seo";
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
-import { getLangFromUrl } from "@/i18n";
+import { getIsoLang, getLangFromUrl } from "@/i18n";
 
 interface Props {
 	title: string;
@@ -15,6 +15,7 @@ interface Props {
 
 const { title, description, showHeader = true, image, article = false } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
+const isoLang = getIsoLang(lang);
 const currentPath = Astro.url.pathname;
 
 const siteUrl = Astro.site || "https://ocs.com.ua";
@@ -32,7 +33,7 @@ const defaultDescription =
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html lang={isoLang}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -73,11 +74,11 @@ const defaultDescription =
 			languageAlternates={[
 				{
 					href: canonicalUrl,
-					hrefLang: lang,
+					hrefLang: isoLang,
 				},
 				{
 					href: new URL(alternateUrl, siteUrl).href,
-					hrefLang: lang === "en" ? "ua" : "en",
+					hrefLang: lang === "en" ? "uk" : "en",
 				},
 				{
 					href: new URL(alternateUrl, siteUrl).href,

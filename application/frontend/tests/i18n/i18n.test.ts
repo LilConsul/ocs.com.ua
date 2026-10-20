@@ -1,6 +1,16 @@
 import { describe, expect, it } from "bun:test";
 import { getInlineTranslations, textToKey } from "@/i18n/inline";
-import { getLangFromUrl, getTranslations } from "@/i18n/utils";
+import { getIsoLang, getLangFromUrl, getTranslations } from "@/i18n/utils";
+
+describe("getIsoLang", () => {
+	it("maps the internal ua code to ISO 639-1 uk", () => {
+		expect(getIsoLang("ua")).toBe("uk");
+	});
+
+	it("passes en through unchanged", () => {
+		expect(getIsoLang("en")).toBe("en");
+	});
+});
 
 describe("getLangFromUrl", () => {
 	it("reads en and ua from the first path segment", () => {

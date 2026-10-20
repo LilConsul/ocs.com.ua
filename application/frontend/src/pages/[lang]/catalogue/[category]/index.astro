@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import CatalogueSidebar from "@/components/catalogue/CatalogueSidebar.astro";
 import CategoryHeader from "@/components/catalogue/CategoryHeader.astro";
 import ProductCard from "@/components/catalogue/ProductCard.astro";
-import { getInlineTranslations, type Lang } from "@/i18n";
+import { getInlineTranslations, getIsoLang, type Lang } from "@/i18n";
 import Layout from "@/layouts/Layout.astro";
 import {
 	type EquipmentType,
@@ -73,7 +73,7 @@ const structuredData = {
 	name: categoryData?.title || "Equipment",
 	description: categoryData?.description || "",
 	url: currentUrl,
-	inLanguage: lang,
+	inLanguage: getIsoLang(lang as Lang),
 	breadcrumb: {
 		"@type": "BreadcrumbList",
 		itemListElement: [

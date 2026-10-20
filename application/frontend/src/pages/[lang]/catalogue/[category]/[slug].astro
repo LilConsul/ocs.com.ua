@@ -6,7 +6,7 @@ import ProductGallery from "@/components/catalogue/ProductGallery.astro";
 import ProductSpecsTable from "@/components/catalogue/ProductSpecsTable.astro";
 import RelatedEquipment from "@/components/catalogue/RelatedEquipment.astro";
 import companyData from "@/data/company.json";
-import { getInlineTranslations, type Lang } from "@/i18n";
+import { getInlineTranslations, getIsoLang, type Lang } from "@/i18n";
 import Layout from "@/layouts/Layout.astro";
 import {
 	type EquipmentEntry,
@@ -81,7 +81,7 @@ const structuredData = {
 	name: title,
 	description,
 	url: currentUrl,
-	inLanguage: lang,
+	inLanguage: getIsoLang(lang as Lang),
 	image: product.data.gallery?.[0] ?? undefined,
 };
 ---
