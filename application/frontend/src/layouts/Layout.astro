@@ -3,7 +3,7 @@ import "../styles/global.css";
 import { SEO } from "astro-seo";
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
-import { getIsoLang, getLangFromUrl } from "@/i18n";
+import { defaultLang, getIsoLang, getLangFromUrl } from "@/i18n";
 
 interface Props {
 	title: string;
@@ -21,8 +21,10 @@ const currentPath = Astro.url.pathname;
 const siteUrl = Astro.site || "https://ocs.com.ua";
 const canonicalUrl = new URL(currentPath, siteUrl).href;
 
-const alternateUrl =
-	lang === "en" ? currentPath.replace("/en/", "/ua/") : currentPath.replace("/ua/", "/en/");
+// Language alternates only exist for pages under /en/ or /ua/ (not the 404/50x error pages)
+const isLocalized = /^\/(en|ua)(\/|$)/.test(currentPath);
+const pathFor = (target: "en" | "ua") => currentPath.replace(/^\/(en|ua)(?=\/|$)/, `/${target}`);
+const urlFor = (target: "en" | "ua") => new URL(pathFor(target), siteUrl).href;
 
 const ogImage = image || `${siteUrl}/assets/icons/wipotec-logo.svg`;
 
@@ -72,20 +74,14 @@ const defaultDescription =
 				image: ogImage,
 				imageAlt: title,
 			}}
-			languageAlternates={[
-				{
-					href: canonicalUrl,
-					hrefLang: isoLang,
-				},
-				{
-					href: new URL(alternateUrl, siteUrl).href,
-					hrefLang: lang === "en" ? "uk" : "en",
-				},
-				{
-					href: new URL(alternateUrl, siteUrl).href,
-					hrefLang: "x-default",
-				},
-			]}
+			languageAlternates={isLocalized
+				? [
+						{ href: urlFor("ua"), hrefLang: getIsoLang("ua") },
+						{ href: urlFor("en"), hrefLang: getIsoLang("en") },
+						// Same fallback on every page: the site's default language
+						{ href: urlFor(defaultLang), hrefLang: "x-default" },
+					]
+				: undefined}
 		/>
 	</head>
 	<body class="bg-background text-foreground min-h-screen antialiased">
