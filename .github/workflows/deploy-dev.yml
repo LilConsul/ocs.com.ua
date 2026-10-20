@@ -45,6 +45,8 @@ jobs:
       - name: Test
         run: bun test
 
+      - uses: astral-sh/setup-uv@v10
+
       - name: Test infra scripts
         working-directory: application/infra
         run: uv run pytest tests/ -v
@@ -83,6 +85,8 @@ jobs:
       APP_DIR: /home/ocs/domains/dev.ocs.com.ua/app
     steps:
       - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v10
 
       - name: Configure SSH
         uses: ./.github/actions/configure-ssh
