@@ -11,8 +11,8 @@ on:
     branches: [main]
     paths:
       - "application/frontend/**"
+      - "application/infra/**"
       - ".github/workflows/deploy-dev.yml"
-      - ".github/secrets.dev.yaml"
   workflow_dispatch:
 
 concurrency:
@@ -20,18 +20,19 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  APP_DIR: /home/ocs/domains/dev.ocs.com.ua/app
+  SSH_TARGET: ${{ secrets.DEV_SSH_USER }}@${{ secrets.DEV_SSH_HOST }}
+  DOMAIN_DIR: /home/ocs/domains/dev.ocs.com.ua
 
 jobs:
-  deploy:
+  # ── Job 1: test, build, upload artifact ─────────────────────────────────────
+  build:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: application/frontend
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
 
@@ -43,6 +44,12 @@ jobs:
       - name: Test
         run: bun test
 
+      - uses: astral-sh/setup-uv@v10.3.0
+
+      - name: Test infra scripts
+        working-directory: application/infra
+        run: uv run pytest tests/ -v
+
       # Public astro:env values are inlined at build time; secrets are read at runtime on the server
       - name: Build
         run: bun run build
@@ -53,38 +60,87 @@ jobs:
           CONTACT_TO: ${{ vars.DEV_CONTACT_TO }}
           CONTACT_FROM: ${{ vars.CONTACT_FROM }}
 
-      - name: Configure SSH
-        run: |
-          install -m 700 -d ~/.ssh
-          echo "${{ secrets.DEV_SSH_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          echo "${{ secrets.DEV_SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
-
-      # Render the env file on the CI runner (devDependencies still installed at this point)
-      # and stream it directly to the server over the already-configured SSH connection.
-      # Writing via stdin + atomic rename means a render failure leaves the existing file intact.
-      - name: Sync env file
-        env:
-          GH_SECRETS: ${{ toJSON(secrets) }}
-          GH_VARS: ${{ toJSON(vars) }}
-          ENV_FILE: /home/ocs/domains/dev.ocs.com.ua/ocs-dev.env
-        run: |
-          node scripts/render-env.mjs ../../.github/secrets.dev.yaml \
-            | ssh "${{ secrets.DEV_SSH_USER }}@${{ secrets.DEV_SSH_HOST }}" \
-              "umask 077; cat > \"\${ENV_FILE}.tmp\" && mv \"\${ENV_FILE}.tmp\" \"\$ENV_FILE\""
-
-      # The server bundle imports runtime packages from node_modules, so ship production deps only
+      # Install production-only deps before packaging — the server needs them at runtime
       - name: Install production dependencies
         run: |
           rm -rf node_modules
           bun install --frozen-lockfile --production
 
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: frontend-build
+          path: |
+            application/frontend/dist
+            application/frontend/node_modules
+            application/frontend/package.json
+          retention-days: 1
+
+  # ── Job 2: sync infra, upload app, restart ──────────────────────────────────
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    env:
+      APP_DIR: /home/ocs/domains/dev.ocs.com.ua/app
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: astral-sh/setup-uv@v10.3.0
+
+      - name: Configure SSH
+        uses: ./.github/actions/configure-ssh
+        with:
+          ssh-key: ${{ secrets.DEV_SSH_KEY }}
+          known-hosts: ${{ secrets.DEV_SSH_KNOWN_HOSTS }}
+
+      # Atomically swap the Apache fragment, run configtest, reload on success,
+      # or roll back to the previous file on failure — all in one SSH session.
+      - name: Sync Apache config
+        run: |
+          rsync -az --no-owner --no-group \
+            application/infra/apache/dev.ocs.com.ua.ocs.conf \
+            "${SSH_TARGET}:${DOMAIN_DIR}/ocs-apache.conf.tmp"
+          ssh "$SSH_TARGET" bash -s << 'EOF'
+            set -euo pipefail
+            CONF="/home/ocs/domains/dev.ocs.com.ua/ocs-apache.conf"
+            cp "$CONF" "$CONF.bak"
+            mv "$CONF.tmp" "$CONF"
+            if apache2ctl configtest 2>/dev/null; then
+              rm -f "$CONF.bak"
+              sudo /usr/bin/systemctl reload apache2
+            else
+              mv "$CONF.bak" "$CONF"
+              rm -f "$CONF.tmp"
+              apache2ctl configtest
+              exit 1
+            fi
+          EOF
+
+      # Render the env file on the CI runner and stream it to the server over SSH.
+      # Writing via stdin + atomic rename means a render failure leaves the existing file intact.
+      - name: Sync env file
+        env:
+          GH_SECRETS: ${{ toJSON(secrets) }}
+          GH_VARS: ${{ toJSON(vars) }}
+        run: |
+          uv run application/infra/scripts/render-env.py .github/secrets.dev.yaml \
+            | ssh "$SSH_TARGET" \
+              "umask 077; cat > \"${DOMAIN_DIR}/ocs-dev.env.tmp\" && mv \"${DOMAIN_DIR}/ocs-dev.env.tmp\" \"${DOMAIN_DIR}/ocs-dev.env\""
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: frontend-build
+          path: application/frontend
+
       # Files are owned by the SSH user on the server; don't try to copy the runner's owner/group
       - name: Upload
         run: |
           rsync -az --delete --no-owner --no-group \
-            dist node_modules package.json \
-            "${{ secrets.DEV_SSH_USER }}@${{ secrets.DEV_SSH_HOST }}:$APP_DIR/"
+            application/frontend/dist \
+            application/frontend/node_modules \
+            application/frontend/package.json \
+            "${SSH_TARGET}:${APP_DIR}/"
 
       - name: Restart
-        run: ssh "${{ secrets.DEV_SSH_USER }}@${{ secrets.DEV_SSH_HOST }}" "sudo /usr/bin/systemctl restart ocs-dev"
+        run: ssh "$SSH_TARGET" "sudo /usr/bin/systemctl restart ocs-dev"
