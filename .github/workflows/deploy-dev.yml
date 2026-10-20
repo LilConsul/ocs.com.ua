@@ -105,13 +105,13 @@ jobs:
             CONF="/home/ocs/domains/dev.ocs.com.ua/ocs-apache.conf"
             cp "$CONF" "$CONF.bak"
             mv "$CONF.tmp" "$CONF"
-            if /usr/sbin/apache2ctl configtest 2>/dev/null; then
+            if sudo /usr/sbin/apache2ctl configtest 2>/dev/null; then
               rm -f "$CONF.bak"
               sudo /usr/bin/systemctl reload apache2
             else
               mv "$CONF.bak" "$CONF"
               rm -f "$CONF.tmp"
-              /usr/sbin/apache2ctl configtest
+              sudo /usr/sbin/apache2ctl configtest
               exit 1
             fi
           '
