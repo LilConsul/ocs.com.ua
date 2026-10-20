@@ -1,4 +1,4 @@
-﻿import { describe, expect, it } from "bun:test";
+import { describe, expect, it } from "bun:test";
 import { buildEmailBody, htmlEscape } from "@/lib/contact/mailer";
 import type { ContactFormData } from "@/lib/contact/validate";
 
@@ -10,8 +10,8 @@ const testData: ContactFormData = {
 	company: "Farmak",
 	phone: "+380501234567",
 	email: "o.kovalenko@farmak.ua",
-	sector: "Pharmaceutical",
-	equipment: ["checkweigher", "track-and-trace"],
+	sector: "Food Industry",
+	equipment: ["checkweigher", "track-and-trace", "miscellaneous", "spare-parts"],
 	message: "Need a quote.\n<script>alert(1)</script>",
 	website: "",
 };
@@ -51,18 +51,24 @@ describe("buildEmailBody", () => {
 	it("renders equipment as Ukrainian labels, not slugs", () => {
 		const { html, text } = buildEmailBody(testData, SITE_URL);
 		for (const body of [html, text]) {
-			expect(body).toContain("Контрольні ваги та кетчвейєри");
+			expect(body).toContain("Контрольно динамічні ваги");
 			expect(body).toContain(
 				"Track & Trace — серіалізація та агрегація".replace("&", body === html ? "&amp;" : "&")
 			);
+			expect(body).toContain("Програмне забезпечення");
+			expect(body).toContain("Запасні частини");
 			expect(body).not.toContain("track-and-trace");
+			expect(body).not.toContain("miscellaneous");
+			expect(body).not.toContain("spare-parts");
 		}
 	});
 
 	it("translates the sector to Ukrainian", () => {
 		const { html, text } = buildEmailBody(testData, SITE_URL);
-		expect(html).toContain("Фармацевтична промисловість");
-		expect(text).toContain("Фармацевтична промисловість");
+		expect(html).toContain("Харчова промисловість");
+		expect(text).toContain("Харчова промисловість");
+		expect(html).not.toContain("виробництво напоїв");
+		expect(text).not.toContain("виробництво напоїв");
 	});
 
 	it("uses Ukrainian labels and document language", () => {

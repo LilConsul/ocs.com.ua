@@ -1,4 +1,4 @@
-import { afterAll, beforeEach, describe, expect, it } from "bun:test";
+import { afterAll, beforeEach, describe, expect, it, spyOn } from "bun:test";
 import { POST } from "@/pages/api/contact";
 import { mailState, resetMailMocks, sentMails } from "../../helpers/mocks";
 
@@ -14,7 +14,7 @@ const validBody = () => ({
 	company: "Farmak",
 	phone: "+380501234567",
 	email: "o.kovalenko@farmak.ua",
-	sector: "Pharmaceutical",
+	sector: "Food Industry",
 	equipment: ["checkweigher"],
 	message: "Need a quote.",
 	website: "",
@@ -216,9 +216,16 @@ describe("POST /api/contact — validation and sending", () => {
 
 	it("returns 502 when the SMTP server fails", async () => {
 		mailState.fail = true;
-		const res = await call();
-		expect(res.status).toBe(502);
-		expect(res.json.error).toBe("smtp_error");
+		// The route logs the SMTP error on purpose; keep the expected failure out of the test output
+		const consoleError = spyOn(console, "error").mockImplementation(() => undefined);
+		try {
+			const res = await call();
+			expect(res.status).toBe(502);
+			expect(res.json.error).toBe("smtp_error");
+			expect(consoleError).toHaveBeenCalledTimes(1);
+		} finally {
+			consoleError.mockRestore();
+		}
 	});
 
 	it("sends one email to the configured recipient on success", async () => {

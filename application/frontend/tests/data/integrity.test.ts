@@ -106,17 +106,29 @@ describe("equipment categories data", () => {
 });
 
 describe("contact form options", () => {
-	it("offers only equipment slugs that exist (checkweigher covers catchweigher)", () => {
+	it("offers only equipment slugs that exist, plus the form-only spare parts", () => {
 		const slugs = new Set(equipmentTypes.en.categories.map((c) => c.slug));
-		expect(EQUIPMENT_SLUGS.filter((s) => !slugs.has(s))).toEqual([]);
+		expect(EQUIPMENT_SLUGS.filter((s) => s !== "spare-parts" && !slugs.has(s))).toEqual([]);
+		expect(EQUIPMENT_SLUGS).toContain("spare-parts");
 	});
 
-	it("covers every category except the merged catchweigher", () => {
+	it("covers every category except catchweigher", () => {
 		const expected = equipmentTypes.en.categories
 			.map((c) => c.slug)
 			.filter((s) => s !== "catchweigher")
-			.sort() as (typeof EQUIPMENT_SLUGS)[number][];
-		expect([...EQUIPMENT_SLUGS].sort()).toEqual(expected);
+			.sort();
+		const actual = EQUIPMENT_SLUGS.filter((s) => s !== "spare-parts").sort();
+		expect(actual).toEqual(expected as typeof actual);
+	});
+
+	it("offers the food industry sector alongside the other sectors", () => {
+		expect([...SECTORS]).toEqual([
+			"Food Industry",
+			"Pharmaceutical",
+			"Cosmetics",
+			"Logistics & Distribution",
+			"Other",
+		]);
 	});
 
 	it("has a Ukrainian translation for every sector (used in the email)", () => {
