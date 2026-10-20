@@ -5,6 +5,7 @@ import CategoryHeader from "@/components/catalogue/CategoryHeader.astro";
 import ProductCard from "@/components/catalogue/ProductCard.astro";
 import { getInlineTranslations, getIsoLang, type Lang } from "@/i18n";
 import Layout from "@/layouts/Layout.astro";
+import { breadcrumbSchema } from "@/lib/structured-data";
 import {
 	type EquipmentType,
 	filterByCategory,
@@ -74,29 +75,11 @@ const structuredData = {
 	description: categoryData?.description || "",
 	url: currentUrl,
 	inLanguage: getIsoLang(lang as Lang),
-	breadcrumb: {
-		"@type": "BreadcrumbList",
-		itemListElement: [
-			{
-				"@type": "ListItem",
-				position: 1,
-				name: lang === "en" ? "Home" : "Головна",
-				item: `${siteUrl}/${lang}/`,
-			},
-			{
-				"@type": "ListItem",
-				position: 2,
-				name: lang === "en" ? "Catalogue" : "Каталог",
-				item: `${siteUrl}/${lang}/catalogue/`,
-			},
-			{
-				"@type": "ListItem",
-				position: 3,
-				name: categoryData?.title || categorySlug,
-				item: currentUrl,
-			},
-		],
-	},
+	// There is no /catalogue/ index page, so the trail goes straight from Home to the category
+	breadcrumb: breadcrumbSchema([
+		{ name: lang === "en" ? "Home" : "Головна", url: new URL(`/${lang}/`, siteUrl).href },
+		{ name: categoryData?.title || categorySlug, url: currentUrl },
+	]),
 	mainEntity: {
 		"@type": "ItemList",
 		numberOfItems: sortedProducts.length,
@@ -116,7 +99,7 @@ const structuredData = {
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
-	<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+	<script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
 	{/* Generous container with maximum width constraint */}
 	<div class="mx-auto flex max-w-[1600px] gap-8 px-8 py-16">

@@ -6,8 +6,9 @@ import ProductGallery from "@/components/catalogue/ProductGallery.astro";
 import ProductSpecsTable from "@/components/catalogue/ProductSpecsTable.astro";
 import RelatedEquipment from "@/components/catalogue/RelatedEquipment.astro";
 import companyData from "@/data/company.json";
-import { getInlineTranslations, getIsoLang, type Lang } from "@/i18n";
+import { getInlineTranslations, type Lang } from "@/i18n";
 import Layout from "@/layouts/Layout.astro";
+import { breadcrumbSchema, productSchema } from "@/lib/structured-data";
 import {
 	type EquipmentEntry,
 	filterByCategory,
@@ -75,23 +76,36 @@ const workingHours = companyData.workingHours[lang as "en" | "ua"] || companyDat
 const siteUrl = Astro.site || "https://ocs.com.ua";
 const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
 
-const structuredData = {
-	"@context": "https://schema.org",
-	"@type": "Product",
-	name: title,
-	description,
-	url: currentUrl,
-	inLanguage: getIsoLang(lang as Lang),
-	image: product.data.gallery?.[0] ?? undefined,
-};
+const structuredData = [
+	productSchema({
+		name: title,
+		description,
+		url: currentUrl,
+		lang: lang as Lang,
+		site: siteUrl,
+		category: categoryTitle,
+		images: product.data.gallery,
+		specs: product.data.specs,
+	}),
+	breadcrumbSchema([
+		{ name: lang === "en" ? "Home" : "Головна", url: new URL(`/${lang}/`, siteUrl).href },
+		// There is no /catalogue/ index page, so the trail goes straight from Home to the category
+		{ name: categoryTitle, url: new URL(`/${lang}/catalogue/${category}/`, siteUrl).href },
+		{ name: title, url: currentUrl },
+	]),
+];
+
+// Share previews use the product photo when there is one, else the default brand image
+const shareImage = product.data.gallery?.[0];
 ---
 
 <Layout
 	title={`${title} | ${lang === "en" ? "OS-Technology" : "ОС-Технолоджи"}`}
 	description={description}
+	image={shareImage}
 	article={true}
 >
-	<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+	<script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
 	<div class="mx-auto flex max-w-[1600px] gap-8 px-8 py-12">
 		{/* Left Catalogue Sidebar Navigation */}
