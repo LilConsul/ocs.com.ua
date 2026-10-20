@@ -11,3 +11,8 @@ docs/web
 # Stitch
 stitch-downloads/
 .env
+
+# Python virtual environments
+.venv/
+__pycache__/
+*.pyc
