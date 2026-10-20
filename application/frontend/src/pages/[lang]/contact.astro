@@ -58,7 +58,7 @@ const structuredData = [
 		email: companyData.email,
 		address: {
 			"@type": "PostalAddress",
-			streetAddress: address.street,
+			streetAddress: address.office ? `${address.street}, ${address.office}` : address.street,
 			addressLocality: address.city,
 			postalCode: address.postalCode,
 			addressCountry: "UA",

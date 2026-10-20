@@ -14,23 +14,29 @@ interface Props {
 const { lang } = Astro.props;
 const _ = getInlineTranslations(lang);
 
-// Build equipment label map from equipment-types.json for the current language
+// Labels come from equipment-types.json for the current language; the options whose
+// form label differs from the catalogue category are overridden with literal _() calls
 const equipmentCategories = equipmentTypes[lang as "en" | "ua"]?.categories ?? [];
 const equipmentLabelMap: Record<string, string> = {
 	...Object.fromEntries(equipmentCategories.map((c) => [c.slug, c.title])),
-	// One combined form option for both dynamic weighing categories
-	checkweigher: _("Checkweighers & Catchweighers"),
+	checkweigher: _("Checkweighers"),
+	miscellaneous: _("Software"),
+	"spare-parts": _("Spare Parts"),
 };
 
 // Literal _() calls so the i18n extractor picks up every sector label
 const sectorLabels: Record<(typeof SECTORS)[number], string> = {
-	"Food & Beverage": _("Food & Beverage"),
+	"Food Industry": _("Food Industry"),
 	Pharmaceutical: _("Pharmaceutical"),
 	Cosmetics: _("Cosmetics"),
 	"Logistics & Distribution": _("Logistics & Distribution"),
 	Other: _("Other"),
 };
 const sectorOptions = SECTORS.map((sector) => ({ value: sector, label: sectorLabels[sector] }));
+const equipmentOptions = EQUIPMENT_SLUGS.map((slug) => ({
+	value: slug,
+	label: equipmentLabelMap[slug] ?? slug,
+}));
 
 // Server error / validation codes -> translated display strings, consumed by the client script
 const messages = {
@@ -157,8 +163,8 @@ const messages = {
 			</legend>
 			<div class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
 				{
-					EQUIPMENT_SLUGS.map((slug) => (
-						<CheckboxCard name="equipment" value={slug} label={equipmentLabelMap[slug] ?? slug} />
+					equipmentOptions.map(({ value, label }) => (
+						<CheckboxCard name="equipment" value={value} label={label} />
 					))
 				}
 			</div>

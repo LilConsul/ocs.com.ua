@@ -43,7 +43,9 @@ const embedUrl = `https://maps.google.com/maps?q=${mapsQuery}&output=embed`;
 							<dt class="text-foreground mb-1 font-medium">{_("Address")}</dt>
 							<dd>
 								<address class="not-italic">
-									{address.street}<br />{address.city}, {address.postalCode}<br />{address.country}
+									{address.street}<br />
+									{address.office && <>{address.office}<br /></>}
+									{address.city}, {address.postalCode}<br />{address.country}
 								</address>
 							</dd>
 						</div>

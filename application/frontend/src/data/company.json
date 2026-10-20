@@ -16,12 +16,14 @@
 	"address": {
 		"en": {
 			"street": "67 Beresteiskyi Ave",
+			"office": "Office 9",
 			"city": "Kyiv",
 			"postalCode": "03062",
 			"country": "Ukraine"
 		},
 		"ua": {
 			"street": "Берестейський просп., 67",
+			"office": "Офіс 9",
 			"city": "Київ",
 			"postalCode": "03062",
 			"country": "Україна"

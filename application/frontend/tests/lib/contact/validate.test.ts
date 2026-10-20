@@ -23,7 +23,7 @@ const validForm: ContactFormData = {
 	company: "Farmak",
 	phone: "+380501234567",
 	email: "o.kovalenko@farmak.ua",
-	sector: "Pharmaceutical",
+	sector: "Food Industry",
 	equipment: ["checkweigher"],
 	message: "We need a checkweigher for our new line.",
 	website: "",

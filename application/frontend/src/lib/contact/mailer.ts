@@ -18,10 +18,12 @@ export function htmlEscape(str: string): string {
 // Notification emails go to the Ukrainian-speaking sales team, so they are always in Ukrainian.
 const t = getInlineTranslations("ua");
 
+// Same labels the web form offers
 const equipmentLabels: Record<string, string> = {
 	...Object.fromEntries(equipmentTypes.ua.categories.map((c) => [c.slug, c.title])),
-	// Same combined option the web form offers for both dynamic weighing categories
-	checkweigher: t("Checkweighers & Catchweighers"),
+	checkweigher: t("Checkweighers"),
+	miscellaneous: t("Software"),
+	"spare-parts": t("Spare Parts"),
 };
 
 export function extractSiteHost(siteUrl?: string): string {
