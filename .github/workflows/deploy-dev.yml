@@ -100,7 +100,7 @@ jobs:
           rsync -az --no-owner --no-group \
             application/infra/apache/dev.ocs.com.ua.ocs.conf \
             "${SSH_TARGET}:${DOMAIN_DIR}/ocs-apache.conf.tmp"
-          ssh "$SSH_TARGET" bash -s << 'EOF'
+          ssh "$SSH_TARGET" '
             set -euo pipefail
             CONF="/home/ocs/domains/dev.ocs.com.ua/ocs-apache.conf"
             cp "$CONF" "$CONF.bak"
@@ -114,7 +114,7 @@ jobs:
               apache2ctl configtest
               exit 1
             fi
-          EOF
+          '
 
       # Render the env file on the CI runner and stream it to the server over SSH.
       # Writing via stdin + atomic rename means a render failure leaves the existing file intact.
