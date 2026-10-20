@@ -31,9 +31,8 @@ jobs:
       run:
         working-directory: application/frontend
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
 
@@ -68,7 +67,7 @@ jobs:
           bun install --frozen-lockfile --production
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: frontend-build
           path: |
@@ -84,7 +83,7 @@ jobs:
     env:
       APP_DIR: /home/ocs/domains/dev.ocs.com.ua/app
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: astral-sh/setup-uv@v10
 
