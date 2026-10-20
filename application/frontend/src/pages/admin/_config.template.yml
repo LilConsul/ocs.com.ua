@@ -127,6 +127,7 @@ collections:
                 widget: "object"
                 fields:
                   - { label: "Street", name: "street", widget: "string" }
+                  - { label: "Office", name: "office", widget: "string", required: false, hint: "e.g. Office 9" }
                   - { label: "City", name: "city", widget: "string" }
                   - { label: "Postal Code", name: "postalCode", widget: "string" }
                   - { label: "Country", name: "country", widget: "string" }
@@ -135,6 +136,7 @@ collections:
                 widget: "object"
                 fields:
                   - { label: "Street", name: "street", widget: "string" }
+                  - { label: "Office", name: "office", widget: "string", required: false, hint: "e.g. Офіс 9" }
                   - { label: "City", name: "city", widget: "string" }
                   - { label: "Postal Code", name: "postalCode", widget: "string" }
                   - { label: "Country", name: "country", widget: "string" }
