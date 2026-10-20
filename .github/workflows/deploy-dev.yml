@@ -71,7 +71,7 @@ jobs:
         run: |
           node scripts/render-env.mjs ../../.github/secrets.dev.yaml \
             | ssh "${{ secrets.DEV_SSH_USER }}@${{ secrets.DEV_SSH_HOST }}" \
-              "umask 077; cat > \"\${ENV_FILE}.tmp\" && mv \"\${ENV_FILE}.tmp\" \"\$ENV_FILE\""
+              "umask 077; cat > \"${ENV_FILE}.tmp\" && mv \"${ENV_FILE}.tmp\" \"${ENV_FILE}\""
 
       # The server bundle imports runtime packages from node_modules, so ship production deps only
       - name: Install production dependencies
