@@ -2,14 +2,24 @@
 
 import node from "@astrojs/node";
 import react from "@astrojs/react";
+import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, envField } from "astro/config";
-
 // https://astro.build/config
 export default defineConfig({
+	// Absolute URLs for the sitemap, canonical and hreflang tags; CI sets SITE_URL per environment
+	site: process.env.SITE_URL || "https://ocs.com.ua",
 	output: "static",
 	adapter: node({ mode: "standalone" }),
-	integrations: [react()],
+	integrations: [
+		react(),
+		sitemap({
+			// Keep the CMS, the error pages and the "/" redirect to /ua out of the sitemap
+			filter: (page) => !/^\/((admin|404|50x)\/?)?$/.test(new URL(page).pathname),
+			// Emits <xhtml:link hreflang> alternates, matching the <link rel="alternate"> tags
+			i18n: { defaultLocale: "ua", locales: { ua: "uk", en: "en" } },
+		}),
+	],
 	vite: {
 		plugins: [tailwindcss()],
 		build: {
