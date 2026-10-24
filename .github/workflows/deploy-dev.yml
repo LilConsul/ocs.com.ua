@@ -66,10 +66,12 @@ jobs:
           rm -rf node_modules
           bun install --frozen-lockfile --production
 
+      # Hidden files are skipped by default; dist/client/.htaccess (ErrorDocument, charset) is one
       - name: Upload build artifact
         uses: actions/upload-artifact@v7
         with:
           name: frontend-build
+          include-hidden-files: true
           path: |
             application/frontend/dist
             application/frontend/node_modules

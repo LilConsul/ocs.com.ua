@@ -5,7 +5,7 @@ import ContactInfoCard from "@/components/contact/ContactInfoCard.astro";
 import DocumentsCard from "@/components/contact/DocumentsCard.astro";
 import OfficeLocation from "@/components/contact/OfficeLocation.astro";
 import companyData from "@/data/company.json";
-import { getInlineTranslations, isValidLang, type Lang } from "@/i18n";
+import { getInlineTranslations, getIsoLang, isValidLang, type Lang } from "@/i18n";
 import { languages } from "@/i18n/ui";
 import Layout from "@/layouts/Layout.astro";
 
@@ -29,7 +29,7 @@ const structuredData = [
 		"@context": "https://schema.org",
 		"@type": "ContactPage",
 		url: currentUrl,
-		inLanguage: lang,
+		inLanguage: getIsoLang(lang),
 		name: lang === "en" ? "Contact OS-Technology Ukraine" : "Зв'яжіться з ОС-Технолоджи Україна",
 		breadcrumb: {
 			"@type": "BreadcrumbList",

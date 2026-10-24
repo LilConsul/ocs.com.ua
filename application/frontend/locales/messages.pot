@@ -44,7 +44,7 @@ msgstr ""
 msgid "All Industries"
 msgstr ""
 
-#: src/components/Footer.astro:16
+#: src/components/Footer.astro:25
 msgid "All rights reserved"
 msgstr ""
 
@@ -130,9 +130,9 @@ msgstr ""
 
 #: src/components/Header.astro:119
 #: src/components/Header.astro:185
+#: src/components/homepage/HeroSection.astro:86
 #: src/components/errors/ServerErrorContent.astro:46
 #: src/components/errors/NotFoundContent.astro:54
-#: src/components/homepage/HeroSection.astro:86
 #: src/components/catalogue/CatalogueSidebar.astro:95
 msgid "Contact Us"
 msgstr ""
@@ -224,7 +224,7 @@ msgstr ""
 msgid "German Precision."
 msgstr ""
 
-#: src/components/contact/OfficeLocation.astro:73
+#: src/components/contact/OfficeLocation.astro:75
 msgid "Get Route"
 msgstr ""
 
@@ -298,7 +298,7 @@ msgstr ""
 msgid "Main Office"
 msgstr ""
 
-#: src/components/contact/OfficeLocation.astro:81
+#: src/components/contact/OfficeLocation.astro:83
 msgid "Map showing OS-Technology Ukraine office location"
 msgstr ""
 
@@ -323,7 +323,7 @@ msgstr ""
 msgid "No products available in this category"
 msgstr ""
 
-#: src/components/Footer.astro:16
+#: src/components/Footer.astro:25
 msgid "OS-Technology Ukraine"
 msgstr ""
 
@@ -418,7 +418,7 @@ msgstr ""
 msgid "Previous image"
 msgstr ""
 
-#: src/components/Footer.astro:24
+#: src/components/Footer.astro:33
 #: src/components/contact/ContactForm.astro:198
 msgid "Privacy Policy"
 msgstr ""
@@ -467,6 +467,10 @@ msgstr ""
 
 #: src/components/contact/ContactForm.astro:68
 msgid "Send Us a Message"
+msgstr ""
+
+#: src/components/ShareButtons.astro:26
+msgid "Share"
 msgstr ""
 
 #: src/components/contact/ContactForm.astro:23
@@ -532,7 +536,7 @@ msgstr ""
 msgid "Technical expertise and service support since 2013."
 msgstr ""
 
-#: src/components/Footer.astro:30
+#: src/components/Footer.astro:39
 #: src/components/contact/ContactForm.astro:205
 msgid "Terms of Service"
 msgstr ""
@@ -598,8 +602,8 @@ msgstr ""
 msgid "Wipotec Authorization Letter"
 msgstr ""
 
-#: src/components/contact/OfficeLocation.astro:59
-#: src/components/contact/ContactInfoCard.astro:96
+#: src/components/contact/OfficeLocation.astro:61
+#: src/components/contact/ContactInfoCard.astro:98
 msgid "Working Hours"
 msgstr ""
 

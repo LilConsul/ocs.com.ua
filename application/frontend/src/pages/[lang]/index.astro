@@ -7,6 +7,7 @@ import partnersData from "@/data/partners.json";
 import { getInlineTranslations, isValidLang, type Lang } from "@/i18n";
 import { languages } from "@/i18n/ui";
 import Layout from "@/layouts/Layout.astro";
+import { organizationSchema, websiteSchema } from "@/lib/structured-data";
 
 export function getStaticPaths() {
 	return (Object.keys(languages) as Lang[]).map((lang) => ({
@@ -21,6 +22,9 @@ if (!isValidLang(langParam)) {
 }
 const lang: Lang = langParam;
 const _ = getInlineTranslations(lang);
+
+const site = Astro.site ?? "https://ocs.com.ua";
+const structuredData = [organizationSchema(lang, site), websiteSchema(lang, site)];
 ---
 
 <Layout
@@ -29,6 +33,7 @@ const _ = getInlineTranslations(lang);
 		"Dynamic checkweighers and Track & Trace systems for food, pharmaceutical, and logistics industries in Ukraine. Official Wipotec partner."
 	)}
 >
+	<script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 	<HeroSection lang={lang} />
 	<StatsSection lang={lang} />
 	<IndustriesSection lang={lang} />

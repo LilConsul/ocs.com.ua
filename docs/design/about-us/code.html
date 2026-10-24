@@ -1,0 +1,993 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head></head><body class="bg-background text-on-background antialiased selection:bg-secondary selection:text-white"><svg class="inline-defs-container" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"></svg><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">try{
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#fdf8f8",
+                        "secondary": "#b8006d",
+                        "on-error": "#ffffff",
+                        "border-subtle": "#E2E8F0",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#000000",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#e5e2e1",
+                        "on-tertiary-container": "#0c9488",
+                        "tertiary-fixed": "#89f5e7",
+                        "tertiary-container": "#00201d",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "industrial-gray": "#64748B",
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#747878",
+                        "surface-tint": "#5f5e5e",
+                        "tertiary-fixed-dim": "#6bd8cb",
+                        "on-tertiary-fixed-variant": "#005049",
+                        "on-surface": "#1c1b1b",
+                        "secondary-fixed": "#ffd9e4",
+                        "on-secondary-container": "#5c0034",
+                        "surface-container": "#f1edec",
+                        "surface-bright": "#fdf8f8",
+                        "outline-variant": "#c4c7c7",
+                        "inverse-on-surface": "#f4f0ef",
+                        "inverse-primary": "#c8c6c5",
+                        "on-secondary-fixed-variant": "#8d0052",
+                        "primary": "#000000",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed-dim": "#ffb0cd",
+                        "primary-container": "#1c1b1b",
+                        "on-secondary-fixed": "#3e0021",
+                        "secondary-container": "#ff4da3",
+                        "surface-dim": "#ddd9d8",
+                        "on-primary-container": "#858383",
+                        "surface-muted": "#F8FAFC",
+                        "background": "#fdf8f8",
+                        "on-tertiary-fixed": "#00201d",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#e5e2e1",
+                        "surface-variant": "#e5e2e1",
+                        "on-error-container": "#93000a",
+                        "on-background": "#1c1b1b",
+                        "on-primary-fixed": "#1c1b1b",
+                        "surface-container-low": "#f7f3f2",
+                        "surface-container-high": "#ebe7e6",
+                        "on-secondary": "#ffffff",
+                        "inverse-surface": "#313030",
+                        "on-surface-variant": "#444748",
+                        "on-primary-fixed-variant": "#474746"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "edge-margin": "2rem",
+                        "section-gap-sm": "4rem",
+                        "section-gap-lg": "8rem",
+                        "gutter": "1.5rem",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["IBM Plex Sans"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "technical-data": ["JetBrains Mono"],
+                        "headline-xl": ["IBM Plex Sans"],
+                        "label-caps": ["JetBrains Mono"],
+                        "display-lg-mobile": ["IBM Plex Sans"],
+                        "headline-lg": ["IBM Plex Sans"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["64px", { "lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "technical-data": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-xl": ["36px", { "lineHeight": "44px", "fontWeight": "500" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "display-lg-mobile": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    }catch(_e){}</script><meta charset="utf-8"><meta content="web_standard" name="shell-type">
+<!-- Top Navigation -->
+<nav class="bg-white/70 dark:bg-on-background/70 backdrop-blur-xl docked full-width top-0 sticky z-50 border-b border-border-subtle/50 shadow-sm duration-300 ease-in-out">
+<div class="max-w-container-max mx-auto px-edge-margin flex justify-between items-center h-20">
+<a class="font-headline-lg text-headline-lg font-bold tracking-tighter text-primary dark:text-white hover:opacity-80 transition-opacity" href="#">
+                OS-Technology
+            </a>
+<div class="hidden md:flex items-center gap-8 font-body-md text-body-md">
+<a class="text-industrial-gray dark:text-primary-fixed-dim hover:text-primary dark:hover:text-white transition-colors hover:opacity-80 transition-opacity" href="#">Catalogue</a>
+<a class="text-industrial-gray dark:text-primary-fixed-dim hover:text-primary dark:hover:text-white transition-colors hover:opacity-80 transition-opacity" href="#">Solutions</a>
+<a class="text-industrial-gray dark:text-primary-fixed-dim hover:text-primary dark:hover:text-white transition-colors hover:opacity-80 transition-opacity" href="#">Industries</a>
+<a class="text-primary dark:text-white font-semibold border-b-2 border-secondary pb-1 hover:opacity-80 transition-opacity" href="#">About Us</a>
+</div>
+<div class="flex items-center gap-4 font-body-md text-body-md">
+<button class="text-industrial-gray hover:text-primary transition-colors hover:opacity-80 transition-opacity hidden sm:block">EN/UA</button>
+<button class="bg-primary text-white px-6 py-2 rounded font-medium hover:bg-surface-tint transition-colors hover:opacity-80 transition-opacity">
+                    Contact Sales
+                </button>
+</div>
+</div>
+</nav>
+<main><div class="flex flex-col w-full">
+<!-- Sub-Header / Breadcrumb Navigation Strip -->
+<section class="w-full bg-surface-container-low border-b border-border-subtle/40">
+
+</section>
+<!-- Hero Section -->
+<section class="w-full py-12 lg:py-20 bg-surface">
+<div class="max-w-container-max mx-auto px-edge-margin">
+<!-- Breadcrumb Context & Overline Tag -->
+<div class="flex flex-wrap items-center gap-3 mb-6">
+
+
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center">
+<!-- Hero Textual Content -->
+<div class="lg:col-span-7 flex flex-col justify-center">
+<h1 class="font-display-lg text-display-lg font-semibold tracking-tight text-primary mb-6">
+            German Precision Engineering. Official Ukrainian Distributor.
+          </h1>
+<p class="font-body-lg text-body-lg text-industrial-gray leading-relaxed mb-8 max-w-2xl">
+            OS-Technology Ukraine is the <strong class="text-primary font-semibold">exclusive authorized distributor and engineering integration partner</strong> of <strong class="text-primary font-semibold">WIPOTEC GmbH (Germany)</strong> and <strong class="text-primary font-semibold">MESUTRONIC Gerätebau GmbH (Germany)</strong>. We distribute world-class German dynamic checkweighers, industrial X-Ray scanners, and metal detectors — delivering comprehensive turnkey line integration, certified commissioning, and 24/7 technical support nationwide.
+          </p>
+<!-- Metric Badges Row -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+<div class="bg-surface-container-low p-4 rounded shadow-sm hover:shadow-md transition-shadow border border-border-subtle/50">
+<div class="font-technical-data text-headline-lg font-semibold text-primary">250+</div>
+<div class="font-label-caps text-label-caps text-industrial-gray uppercase mt-1">Installed Systems</div>
+</div>
+<div class="bg-surface-container-low p-4 rounded shadow-sm hover:shadow-md transition-shadow border border-border-subtle/50">
+<div class="font-technical-data text-headline-lg font-semibold text-secondary">100%</div>
+<div class="font-label-caps text-label-caps text-industrial-gray uppercase mt-1">German Hardware</div>
+</div>
+<div class="bg-surface-container-low p-4 rounded shadow-sm hover:shadow-md transition-shadow border border-border-subtle/50">
+<div class="font-technical-data text-headline-lg font-semibold text-primary">99.8%</div>
+<div class="font-label-caps text-label-caps text-industrial-gray uppercase mt-1">Line Uptime Ratio</div>
+</div>
+<div class="bg-surface-container-low p-4 rounded shadow-sm hover:shadow-md transition-shadow border border-border-subtle/50">
+<div class="font-technical-data text-headline-lg font-semibold text-primary">12+</div>
+<div class="font-label-caps text-label-caps text-industrial-gray uppercase mt-1">Years Tech Expertise</div>
+</div>
+</div>
+</div>
+<!-- Hero Visual Showcase -->
+<div class="lg:col-span-5 relative">
+
+</div>
+</div>
+</div>
+</section>
+<!-- Dual Official Partnership Credentials (Wipotec + Mesutronic) with Downloadable Certificates -->
+<section class="w-full py-16 lg:py-24 bg-surface-container-low border-y border-border-subtle/40">
+<div class="max-w-container-max mx-auto px-edge-margin">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+<div>
+<span class="font-label-caps text-label-caps text-secondary uppercase font-semibold tracking-wider">Manufacturer Alliances</span>
+<h2 class="font-headline-xl text-headline-xl font-semibold text-primary mt-2">Dual Official German Engineering Credentials</h2>
+</div>
+
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter mb-12">
+<!-- Wipotec Card -->
+<div class="bg-surface rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between border border-border-subtle/60">
+<div>
+<div class="flex items-center justify-between pb-6 mb-6 bg-surface-container-lowest p-4 rounded border border-border-subtle/40">
+<div>
+<span class="font-headline-lg text-headline-lg font-bold tracking-tight text-primary">WIPOTEC GmbH</span>
+<span class="block font-technical-data text-technical-data text-industrial-gray">Kaiserslautern, Germany</span>
+</div>
+<span class="px-3 py-1 bg-surface-container-high text-primary font-label-caps text-label-caps rounded font-medium border border-border-subtle">
+                Distributor Tier 1
+              </span>
+</div>
+<p class="font-body-md text-body-md text-industrial-gray mb-6 leading-relaxed">
+              Global innovation leader in high-speed Electro-Magnetic Force Restoration (EMFR) weighing cells, integrated pharmaceutical X-Ray scanners, and end-to-end Track &amp; Trace serialization systems. OS-Technology provides factory-certified system supply, commissioning, and integration across Ukraine.
+            </p>
+<div class="space-y-3 font-technical-data text-technical-data text-on-surface mb-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+<span class="">EMFR High-Precision Dynamic Weighing Cells</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+<span class="">Comprehensive SC Series Industrial X-Ray Scanners</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+<span class="">Pharma Serialization &amp; Aggregation (EU FMD, GS1)</span>
+</div>
+</div>
+<!-- Certificate Box: Wipotec -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-lg p-4 mb-4">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+<div class="flex items-start gap-3">
+<div class="p-2.5 bg-surface-container rounded text-secondary shrink-0">
+<span class="material-symbols-outlined text-xl">verified</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline-lg text-body-md font-semibold text-primary">Official Distributor Certificate</span>
+
+</div>
+<div class="font-technical-data text-[12px] text-industrial-gray mt-0.5">
+                  Ref: WIP-UA-AUTH-2024/09 • Direct Factory Endorsement
+                </div>
+</div>
+</div>
+<a class="inline-flex items-center justify-center gap-2 px-4 py-2 bg-primary text-white hover:bg-secondary transition-colors rounded font-technical-data text-technical-data whitespace-nowrap shadow-sm" href="#" onclick="alert('Downloading Wipotec Official Authorization Letter (PDF)...'); return false;">
+<span class="material-symbols-outlined text-sm">download</span>
+<span class="">Authorization Letter (PDF)</span>
+</a>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-border-subtle/50 flex items-center justify-between text-industrial-gray font-label-caps text-label-caps">
+<span class="">Service Range: Nationwide Ukraine</span>
+<span class="font-technical-data text-technical-data text-primary font-medium">Factory Certified Integration Hub</span>
+</div>
+</div>
+<!-- Mesutronic Card -->
+<div class="bg-surface rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between border border-border-subtle/60">
+<div>
+<div class="flex items-center justify-between pb-6 mb-6 bg-surface-container-lowest p-4 rounded border border-border-subtle/40">
+<div>
+<span class="font-headline-lg text-headline-lg font-bold tracking-tight text-primary">MESUTRONIC Gerätebau GmbH</span>
+<span class="block font-technical-data text-technical-data text-industrial-gray">Kirchberg im Wald, Germany</span>
+</div>
+<span class="px-3 py-1 bg-surface-container-high text-primary font-label-caps text-label-caps rounded font-medium border border-border-subtle">
+                Authorized Partner
+              </span>
+</div>
+<p class="font-body-md text-body-md text-industrial-gray mb-6 leading-relaxed">
+              Precision metal detection systems engineered for extreme industrial environments. Advanced multi-frequency coils capable of isolating ferrous, non-ferrous, and stainless steel contaminants. Official distribution, turnkey installation, and OEM parts warranty in Ukraine.
+            </p>
+<div class="space-y-3 font-technical-data text-technical-data text-on-surface mb-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+<span class="">Meatline &amp; Pipeline Inspection For Pumped Products</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+<span class="">Quicktron &amp; Freefall Gravity Contaminant Separators</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+<span class="">Metron FlatLine &amp; Transtron High-Sensitivity Conveyors</span>
+</div>
+</div>
+<!-- Certificate Box: Mesutronic -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-lg p-4 mb-4">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+<div class="flex items-start gap-3">
+<div class="p-2.5 bg-surface-container rounded text-secondary shrink-0">
+<span class="material-symbols-outlined text-xl">workspace_premium</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline-lg text-body-md font-semibold text-primary">Official Distributor Certificate</span>
+
+</div>
+<div class="font-technical-data text-[12px] text-industrial-gray mt-0.5">
+                  Ref: MES-UA-CERT-2024/03 • Direct German Factory Endorsement
+                </div>
+</div>
+</div>
+<a class="inline-flex items-center justify-center gap-2 px-4 py-2 bg-primary text-white hover:bg-secondary transition-colors rounded font-technical-data text-technical-data whitespace-nowrap shadow-sm" href="#" onclick="alert('Downloading Mesutronic Official Authorization Letter (PDF)...'); return false;">
+<span class="material-symbols-outlined text-sm">download</span>
+<span class="">Authorization Letter (PDF)</span>
+</a>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-border-subtle/50 flex items-center justify-between text-industrial-gray font-label-caps text-label-caps">
+<span class="">Quality Standard: HACCP / IFS Compliant</span>
+<span class="font-technical-data text-technical-data text-primary font-medium">Direct German Spare Parts Supply</span>
+</div>
+</div>
+</div>
+<!-- Local Engineering Infrastructure Highlight -->
+<div class="bg-surface rounded-xl p-8 shadow-sm border border-border-subtle/60">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="flex items-start gap-4">
+<div class="p-3 bg-surface-container-high rounded text-primary">
+<span class="material-symbols-outlined">engineering</span>
+</div>
+<div>
+<h3 class="font-headline-lg text-body-lg font-semibold text-primary">Certified Factory Engineers</h3>
+<p class="font-body-md text-body-md text-industrial-gray mt-1">Directly trained and certified at Kaiserslautern &amp; Kirchberg facilities for mechanical line integration and control software commissioning.</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="p-3 bg-surface-container-high rounded text-primary">
+<span class="material-symbols-outlined">verified</span>
+</div>
+<div>
+<h3 class="font-headline-lg text-body-lg font-semibold text-primary">Turnkey Line Commissioning</h3>
+<p class="font-body-md text-body-md text-industrial-gray mt-1">Full-scope integration, testing, and factory compliance handover conforming to international trade and IFS/GMP regulatory standards.</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="p-3 bg-surface-container-high rounded text-primary">
+<span class="material-symbols-outlined">support_agent</span>
+</div>
+<div>
+<h3 class="font-headline-lg text-body-lg font-semibold text-primary">24/7 Domestic Parts Warehouse</h3>
+<p class="font-body-md text-body-md text-industrial-gray mt-1">Strategic inventory of conveyor belts, load cells, search coils, and electronics maintained in Kyiv for instant dispatch across Ukraine.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Strategic Statistics & Interactive Vector Map Grid -->
+<section class="w-full py-16 lg:py-24 bg-surface">
+<div class="max-w-container-max mx-auto px-edge-margin">
+<div class="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-12">
+<div>
+<span class="font-label-caps text-label-caps text-secondary uppercase font-semibold tracking-wider">Deployment Breakdown</span>
+<h2 class="font-headline-xl text-headline-xl font-semibold text-primary mt-2">Verified Ukrainian Industrial Footprint</h2>
+</div>
+<div class="font-technical-data text-technical-data text-industrial-gray mt-4 lg:mt-0 flex items-center gap-2">
+
+
+</div>
+</div>
+<!-- Interactive Vector Map & Statistics Matrix -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center mb-12">
+<!-- SVG Vector Map Container -->
+<div class="lg:col-span-6">
+<div class="bg-surface-container rounded-xl p-5 shadow-lg border border-border-subtle relative overflow-hidden">
+<div class="flex items-center justify-between mb-3 pb-3 border-b border-border-subtle/60">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+<span class="font-headline-lg text-body-md font-semibold text-primary">Active Installation Map of Ukraine</span>
+</div>
+<span class="font-technical-data text-technical-data text-secondary font-medium">Interactive Regional Hubs</span>
+</div>
+<!-- High-fidelity real SVG map of Ukraine -->
+<div class="relative w-full aspect-[16/10] bg-[#eef1f4] rounded-lg p-2 overflow-hidden flex items-center justify-center border border-border-subtle/50">
+<!-- Vector Ukraine Silhouette -->
+<svg class="w-full h-full max-h-[380px] filter drop-shadow-sm select-none" viewBox="0 0 1000 640" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<radialGradient cx="50%" cy="50%" id="hubPulse" r="50%">
+<stop offset="0%" stop-color="#b8006d" stop-opacity="0.8"></stop>
+<stop offset="100%" stop-color="#b8006d" stop-opacity="0"></stop>
+</radialGradient>
+<filter height="130%" id="dropMap" width="130%">
+<feDropShadow dx="1" dy="2" flood-color="#000000" flood-opacity="0.1" stdDeviation="3"></feDropShadow>
+</filter>
+</defs>
+<!-- Grid Pattern Background Lines -->
+<path d="M 50,0 L 50,640 M 150,0 L 150,640 M 250,0 L 250,640 M 350,0 L 350,640 M 450,0 L 450,640 M 550,0 L 550,640 M 650,0 L 650,640 M 750,0 L 750,640 M 850,0 L 850,640 M 950,0 L 950,640" stroke="#000000" stroke-dasharray="2,6" stroke-opacity="0.05" stroke-width="1"></path>
+<path d="M 0,60 L 1000,60 M 0,160 L 1000,160 M 0,260 L 1000,260 M 0,360 L 1000,360 M 0,460 L 1000,460 M 0,560 L 1000,560" stroke="#000000" stroke-dasharray="2,6" stroke-opacity="0.05" stroke-width="1"></path>
+<!-- Ukraine Geographic Outline Polygon with administrative stylized flow -->
+<path class="transition-all duration-300" d="M 210,120
+                       L 310,105 L 430,95 L 485,75 L 535,65 L 565,110 L 610,100 L 655,130 L 750,140 L 815,130 L 890,175 L 965,225
+                       L 970,305 L 945,360 L 880,380 L 810,430 L 755,420 L 710,480 L 635,465 L 585,460 L 580,515 L 615,530 L 640,550
+                       L 615,605 L 555,595 L 525,530 L 480,485 L 465,490 L 430,555 L 400,545 L 380,470 L 320,445 L 290,465 L 250,440
+                       L 210,405 L 180,385 L 125,370 L 85,395 L 45,340 L 50,290 L 95,240 L 115,190 L 175,145 Z" fill="#d9dfdf" filter="url(#dropMap)" stroke="#94a3b8" stroke-linejoin="round" stroke-width="2.5"></path>
+<!-- Internal region lines / subtle borders -->
+<!-- Western Region -->
+<path d="M 220,130 L 230,260 L 180,385 M 230,260 L 330,300 L 320,445" fill="none" stroke="#b0bec5" stroke-dasharray="3,3" stroke-width="1.2"></path>
+<!-- Central / Kyiv Region -->
+<path d="M 430,95 L 455,270 L 550,290 M 455,270 L 410,410 L 480,485" fill="none" stroke="#b0bec5" stroke-dasharray="3,3" stroke-width="1.2"></path>
+<!-- Eastern / Dnipro Region -->
+<path d="M 550,290 L 670,260 L 755,420 M 670,260 L 815,130" fill="none" stroke="#b0bec5" stroke-dasharray="3,3" stroke-width="1.2"></path>
+<!-- Southern Region -->
+<path d="M 550,290 L 600,420 L 585,460 M 410,410 L 500,430 L 525,530" fill="none" stroke="#b0bec5" stroke-dasharray="3,3" stroke-width="1.2"></path>
+<!-- Interactive Markers: Kyiv (Cluster 1) -->
+<g class="cursor-pointer group" onclick="showHubDetails('kyiv')">
+<circle class="animate-ping" cx="460" cy="185" fill="none" r="28" stroke="#b8006d" stroke-opacity="0.6" stroke-width="2"></circle>
+<circle cx="460" cy="185" fill="#b8006d" r="11"></circle>
+<circle cx="460" cy="185" fill="#ffffff" r="4.5"></circle>
+<text fill="#1c1b1b" font-family="'IBM Plex Sans', sans-serif" font-size="16" font-weight="700" text-anchor="middle" x="460" y="160">Kyiv Hub</text>
+<text fill="#b8006d" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" text-anchor="middle" x="460" y="215">85+ Units</text>
+</g>
+<!-- Marker 2: Lviv / Western -->
+<g class="cursor-pointer group" onclick="showHubDetails('lviv')">
+<circle class="animate-ping" cx="155" cy="245" fill="none" r="22" stroke="#b8006d" stroke-opacity="0.5" stroke-width="2"></circle>
+<circle cx="155" cy="245" fill="#b8006d" r="9"></circle>
+<circle cx="155" cy="245" fill="#ffffff" r="3.5"></circle>
+<text fill="#1c1b1b" font-family="'IBM Plex Sans', sans-serif" font-size="14" font-weight="600" text-anchor="middle" x="155" y="225">Lviv &amp; West</text>
+<text fill="#b8006d" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="600" text-anchor="middle" x="155" y="270">48+ Units</text>
+</g>
+<!-- Marker 3: Dnipro & East Hub -->
+<g class="cursor-pointer group" onclick="showHubDetails('dnipro')">
+<circle class="animate-ping" cx="690" cy="315" fill="none" r="20" stroke="#b8006d" stroke-opacity="0.5" stroke-width="2"></circle>
+<circle cx="690" cy="315" fill="#b8006d" r="9"></circle>
+<circle cx="690" cy="315" fill="#ffffff" r="3.5"></circle>
+<text fill="#1c1b1b" font-family="'IBM Plex Sans', sans-serif" font-size="14" font-weight="600" text-anchor="middle" x="690" y="295">Dnipro Hub</text>
+<text fill="#b8006d" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="600" text-anchor="middle" x="690" y="340">38+ Units</text>
+</g>
+<!-- Marker 4: Vinnytsia -->
+<g class="cursor-pointer group" onclick="showHubDetails('vinnytsia')">
+<circle cx="340" cy="275" fill="#1c1b1b" r="7"></circle>
+<circle cx="340" cy="275" fill="#ffffff" r="2.5"></circle>
+<text fill="#1c1b1b" font-family="'IBM Plex Sans', sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="340" y="260">Vinnytsia</text>
+<text fill="#b8006d" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="600" text-anchor="middle" x="340" y="295">28 Units</text>
+</g>
+<!-- Marker 5: Cherkasy & Poltava -->
+<g class="cursor-pointer group" onclick="showHubDetails('poltava')">
+<circle cx="530" cy="265" fill="#1c1b1b" r="7"></circle>
+<circle cx="530" cy="265" fill="#ffffff" r="2.5"></circle>
+<text fill="#1c1b1b" font-family="'IBM Plex Sans', sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="530" y="250">Cherkasy / Poltava</text>
+<text fill="#b8006d" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="600" text-anchor="middle" x="530" y="285">30 Units</text>
+</g>
+<!-- Marker 6: Odesa & South -->
+<g class="cursor-pointer group" onclick="showHubDetails('odesa')">
+<circle cx="485" cy="450" fill="#1c1b1b" r="7"></circle>
+<circle cx="485" cy="450" fill="#ffffff" r="2.5"></circle>
+<text fill="#1c1b1b" font-family="'IBM Plex Sans', sans-serif" font-size="13" font-weight="600" text-anchor="middle" x="485" y="435">Odesa &amp; Ports</text>
+<text fill="#b8006d" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="600" text-anchor="middle" x="485" y="475">24 Units</text>
+</g>
+<!-- Marker 7: Kharkiv -->
+<g class="cursor-pointer group" onclick="showHubDetails('kharkiv')">
+<circle cx="780" cy="225" fill="#1c1b1b" r="6"></circle>
+<circle cx="780" cy="225" fill="#ffffff" r="2"></circle>
+<text fill="#1c1b1b" font-family="'IBM Plex Sans', sans-serif" font-size="12" font-weight="500" text-anchor="middle" x="780" y="212">Kharkiv</text>
+<text fill="#64748B" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="500" text-anchor="middle" x="780" y="242">12 Units</text>
+</g>
+</svg>
+</div>
+<!-- Interactive Dynamic Info Drawer for Selected Hub -->
+<div class="mt-4 p-3.5 bg-surface rounded-lg border border-border-subtle" id="hubDetailBox">
+<div class="flex items-center justify-between mb-1">
+<div class="flex items-center gap-2">
+<span class="font-headline-lg text-body-md font-semibold text-primary" id="hubTitle">Kyiv Industrial &amp; Pharma Cluster</span>
+<span class="px-2 py-0.5 rounded bg-secondary/10 text-secondary font-label-caps text-[11px] font-bold" id="hubBadge">85+ Units Active</span>
+</div>
+<span class="font-technical-data text-xs text-industrial-gray">Click pins on map to inspect</span>
+</div>
+<p class="font-body-md text-sm text-industrial-gray" id="hubDesc">
+              Kyiv, Brovary, Bila Tserkva: Flagship installations at Roshen, Darnitsa, Farmak, P&amp;G, and arterial food &amp; pharma packaging complexes.
+            </p>
+</div>
+<div class="mt-3 flex items-center justify-between font-label-caps text-label-caps text-industrial-gray px-1">
+<span class="">GEOGRAPHIC REGISTER: UKRAINIAN INDUSTRIAL HUBS</span>
+<span class="text-secondary font-semibold">250+ ACTIVE INSPECTION SYSTEMS</span>
+</div>
+</div>
+</div>
+<!-- Breakdown Matrix Right Column -->
+<div class="lg:col-span-6 flex flex-col gap-4">
+<!-- Food Industry -->
+<div class="bg-surface-container-low p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-border-subtle/50">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">restaurant</span>
+<h3 class="font-headline-lg text-body-lg font-semibold text-primary">Food &amp; Beverage Industry</h3>
+</div>
+<span class="font-technical-data text-technical-data px-2.5 py-0.5 rounded bg-surface-container-high text-primary font-semibold">148 Units</span>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-2">
+<div class="bg-surface p-3.5 rounded border border-border-subtle/40">
+<span class="font-technical-data text-headline-lg font-bold text-primary">54</span>
+<span class="block font-label-caps text-label-caps text-industrial-gray uppercase mt-1">Checkweighers (Wipotec)</span>
+</div>
+<div class="bg-surface p-3.5 rounded border border-border-subtle/40">
+<span class="font-technical-data text-headline-lg font-bold text-primary">94</span>
+<span class="block font-label-caps text-label-caps text-industrial-gray uppercase mt-1">Metal Detectors (Mesutronic)</span>
+</div>
+</div>
+</div>
+<!-- Pharmaceutical -->
+<div class="bg-surface-container-low p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-border-subtle/50">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">medication</span>
+<h3 class="font-headline-lg text-body-lg font-semibold text-primary">Pharmaceutical Industry</h3>
+</div>
+<span class="font-technical-data text-technical-data px-2.5 py-0.5 rounded bg-surface-container-high text-primary font-semibold">55 Units</span>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-2">
+<div class="bg-surface p-3.5 rounded border border-border-subtle/40">
+<span class="font-technical-data text-headline-lg font-bold text-primary">55</span>
+<span class="block font-label-caps text-label-caps text-industrial-gray uppercase mt-1">Precision Checkweighers</span>
+</div>
+<div class="bg-surface p-3.5 rounded border border-border-subtle/40">
+<span class="font-technical-data text-headline-lg font-bold text-industrial-gray">100%</span>
+<span class="block font-label-caps text-label-caps text-industrial-gray uppercase mt-1">EU Serialization Ready</span>
+</div>
+</div>
+</div>
+<!-- Household & Logistics -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="bg-surface-container-low p-5 rounded-lg shadow-sm border border-border-subtle/50">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-secondary text-base">cleaning_services</span>
+<h4 class="font-headline-lg text-body-md font-semibold text-primary">Household &amp; Packaging</h4>
+</div>
+<div class="font-technical-data text-body-md text-primary font-medium">30 Checkweighers</div>
+<div class="font-technical-data text-body-md text-industrial-gray">4 Metal Detectors</div>
+</div>
+<div class="bg-surface-container-low p-5 rounded-lg shadow-sm border border-border-subtle/50">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-secondary text-base">pets</span>
+<h4 class="font-headline-lg text-body-md font-semibold text-primary">Agro &amp; Pet Nutrition</h4>
+</div>
+<div class="font-technical-data text-body-md text-primary font-medium">5 Checkweighers</div>
+<div class="font-technical-data text-body-md text-industrial-gray">6 Metal Detectors</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Cumulative Metrological Bar -->
+
+</div>
+</section>
+<!-- Comprehensive Industry Client Portfolio with Concrete Equipment Counts -->
+<section class="w-full py-16 lg:py-24 bg-surface-container-low border-t border-border-subtle/40" id="clients">
+<div class="max-w-container-max mx-auto px-edge-margin">
+<div class="flex flex-col items-center text-center mb-12">
+<span class="font-label-caps text-label-caps text-secondary uppercase font-semibold tracking-wider">Enterprise Reference Directory</span>
+<h2 class="font-headline-xl text-headline-xl font-semibold text-primary mt-2">Trusted by Ukraine's Industrial Flagships</h2>
+<p class="font-body-md text-body-md text-industrial-gray max-w-2xl mt-3">
+          Explore concrete hardware installations, unit volumes, and integrated German technology across key manufacturing leaders in Ukraine.
+        </p>
+<!-- Interactive Sector Filter Tabs -->
+<div class="flex flex-wrap items-center justify-center gap-2 mt-8" id="clientFilterGroup">
+<button class="client-tab active px-5 py-2 rounded font-technical-data text-technical-data transition-all shadow-sm bg-primary text-white" data-filter="all" onclick="filterClients('all')">
+            All Sectors (250+)
+          </button>
+<button class="client-tab px-5 py-2 rounded font-technical-data text-technical-data transition-all hover:text-primary shadow-sm bg-surface text-industrial-gray" data-filter="food" onclick="filterClients('food')">
+            Food &amp; Beverage
+          </button>
+<button class="client-tab px-5 py-2 rounded font-technical-data text-technical-data transition-all hover:text-primary shadow-sm bg-surface text-industrial-gray" data-filter="pharma" onclick="filterClients('pharma')">
+            Pharmaceuticals
+          </button>
+<button class="client-tab px-5 py-2 rounded font-technical-data text-technical-data transition-all hover:text-primary shadow-sm bg-surface text-industrial-gray" data-filter="household" onclick="filterClients('household')">
+            Chemicals &amp; Packaging
+          </button>
+<button class="client-tab px-5 py-2 rounded font-technical-data text-technical-data transition-all hover:text-primary shadow-sm bg-surface text-industrial-gray" data-filter="agro" onclick="filterClients('agro')">
+            Agro &amp; Pet Food
+          </button>
+</div>
+</div>
+<!-- Client Grid Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="clientCardsContainer">
+<!-- Card 1: Roshen -->
+<div class="client-card bg-surface rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow flex-col justify-between border border-border-subtle/50 flex" data-category="food">
+<div>
+<div class="flex items-center justify-between pb-4 mb-4 bg-surface-container-low p-4 rounded border border-border-subtle/30">
+<div class="w-16 h-16 flex items-center justify-center bg-white rounded p-2 shadow-sm border border-border-subtle/40">
+<img alt="Roshen Confectionery Corporation Logo" class="max-h-full max-w-full object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XUPNv5Fkv1R6GrfBsL2tV0KhlUZXRQ_ksW2N_Y8RYSqkpPbxVxzTGbuTz40t6XdQcEXGPBhwrIea7vLuxUPNAJ_dU6akB0yEmRoqXAN5KNogdosM0lxxP-N4rSVzY3oz3IelDsFNEsX1KlsSNTUlfW-yJKy84O0bPBJv7SfAwA4F210x1trANT_8XvRP03sTlJtqjWBs3Q_uIo_248XKxkLlnUJ-xuC_p_EfPOOWdttAx5KfzyOc67ZZQ">
+</div>
+<span class="px-2.5 py-1 rounded bg-surface-container-high text-primary font-label-caps text-label-caps font-semibold">
+                Food &amp; Beverage
+              </span>
+</div>
+<div class="flex items-center justify-between mb-1">
+<h3 class="font-headline-lg text-headline-lg font-semibold text-primary">Roshen</h3>
+<span class="font-technical-data text-xs px-2 py-0.5 rounded bg-secondary/10 text-secondary font-bold">14 Units Total</span>
+</div>
+<p class="font-body-md text-sm text-industrial-gray mt-1">Confectionery manufacturing lines operating continuous high-speed weight validation and metal screening.</p>
+<!-- Concrete Installed Equipment Breakdown -->
+<div class="mt-4 pt-3 border-t border-border-subtle/50 space-y-2.5">
+<div class="p-2.5 bg-surface-container-lowest rounded border border-border-subtle/40">
+<div class="font-label-caps text-[11px] text-industrial-gray uppercase font-semibold">Verified Installation Count:</div>
+<div class="font-technical-data text-xs text-primary font-medium mt-0.5 leading-snug">
+                  14 Units Installed: 9x Wipotec HC-M Dynamic Checkweighers + 5x Mesutronic Transtron Metal Detectors (Kyiv &amp; Vinnytsia factories)
+                </div>
+</div>
+<div class="flex items-center justify-between font-technical-data text-xs text-industrial-gray">
+<span class="">Integration: Continuous Inline</span>
+<span class="text-secondary font-medium">IFS / HACCP / BRC Food</span>
+</div>
+</div>
+</div>
+<div class="mt-6 pt-3 bg-surface-container-lowest -mx-6 -mb-6 p-4 rounded-b-xl flex items-center justify-between font-label-caps text-label-caps text-industrial-gray border-t border-border-subtle/40">
+<span class="">Kyiv &amp; Vinnytsia Facilities</span>
+<span class="text-primary font-semibold">Active • 99.9% Uptime</span>
+</div>
+</div>
+<!-- Card 2: Coca-Cola HBC -->
+<div class="client-card bg-surface rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow flex-col justify-between border border-border-subtle/50 flex" data-category="food">
+<div>
+<div class="flex items-center justify-between pb-4 mb-4 bg-surface-container-low p-4 rounded border border-border-subtle/30">
+<div class="w-16 h-16 flex items-center justify-center bg-white rounded p-2 shadow-sm border border-border-subtle/40">
+<img alt="Coca-Cola HBC Ukraine Corporate Logo" class="max-h-full max-w-full object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VjileKwxjPqGbvHD5xzvDzvLVCyHRSqMUbLxssWP-piBAbKmJM5KqG-1jX4jp75I9yJiR-bEtWH4N9Ix7H-D_2Ebkhhr-9i5BgeM4sIUmDAVwNIfGLIih5o9NwFRR8wPGzPvzHagUq5NstBFIYrVKSB_Lrq0eUvGBMQ--SdwV0d7M_xMmG_KVEy9KdgHl-yWndlxi59dEU9Z0351Xy_ZNTomhWqC9ajBws_1PuwOm6_CyED3y_9Q1y6fk">
+</div>
+<span class="px-2.5 py-1 rounded bg-surface-container-high text-primary font-label-caps text-label-caps font-semibold">
+                Beverage Bottling
+              </span>
+</div>
+<div class="flex items-center justify-between mb-1">
+<h3 class="font-headline-lg text-headline-lg font-semibold text-primary">Coca-Cola HBC</h3>
+<span class="font-technical-data text-xs px-2 py-0.5 rounded bg-secondary/10 text-secondary font-bold">8 Units Total</span>
+</div>
+<p class="font-body-md text-sm text-industrial-gray mt-1">High-throughput bottling lines with inline checkweighing ensuring exact fill compliance and carton audit.</p>
+<!-- Concrete Installed Equipment Breakdown -->
+<div class="mt-4 pt-3 border-t border-border-subtle/50 space-y-2.5">
+<div class="p-2.5 bg-surface-container-lowest rounded border border-border-subtle/40">
+<div class="font-label-caps text-[11px] text-industrial-gray uppercase font-semibold">Verified Installation Count:</div>
+<div class="font-technical-data text-xs text-primary font-medium mt-0.5 leading-snug">
+                  8 Units Installed: 6x Wipotec High-Speed EMFR Checkweighers (up to 600 pcs/min) + 2x Line Rejector Systems
+                </div>
+</div>
+<div class="flex items-center justify-between font-technical-data text-xs text-industrial-gray">
+<span class="">Velocity: Up to 600 pcs/min</span>
+<span class="text-secondary font-medium">FSSC 22000 / ISO 9001</span>
+</div>
+</div>
+</div>
+<div class="mt-6 pt-3 bg-surface-container-lowest -mx-6 -mb-6 p-4 rounded-b-xl flex items-center justify-between font-label-caps text-label-caps text-industrial-gray border-t border-border-subtle/40">
+<span class="">Velyka Dymerka Plant</span>
+<span class="text-primary font-semibold">Active • 24/7 Operations</span>
+</div>
+</div>
+<!-- Card 3: Nestlé Ukraine -->
+<div class="client-card bg-surface rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow flex-col justify-between border border-border-subtle/50 flex" data-category="food">
+<div>
+<div class="flex items-center justify-between pb-4 mb-4 bg-surface-container-low p-4 rounded border border-border-subtle/30">
+<div class="w-16 h-16 flex items-center justify-center bg-white rounded p-2 shadow-sm border border-border-subtle/40">
+<img alt="Nestle Ukraine Logo" class="max-h-full max-w-full object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VtQ3aNyqae1MIA2U7cQ8D-wwQf6YQtXJAXqR_QKZihsX59mpuGeTrkRoTTIXok_HvJylqcjyzxTS_ggpi4UGkKqOZ_daHCAt6UC9rwqtR_2fXR4DSiHpiY56MzEoG_8lMLVmwH1dce3ZPj6eXnROewCVDDrzvnxAY40nYexjrS2EgWOIDQA0UHChUqcRW4bojoVVrgKAnUOQAIuVPaI0hBLA1kSZvopOHlhKRP8Ejz4Xxjr4lYbdT1vpE">
+</div>
+<span class="px-2.5 py-1 rounded bg-surface-container-high text-primary font-label-caps text-label-caps font-semibold">
+                Food Processing
+              </span>
+</div>
+<div class="flex items-center justify-between mb-1">
+<h3 class="font-headline-lg text-headline-lg font-semibold text-primary">Nestlé Ukraine</h3>
+<span class="font-technical-data text-xs px-2 py-0.5 rounded bg-secondary/10 text-secondary font-bold">12 Units Total</span>
+</div>
+<p class="font-body-md text-sm text-industrial-gray mt-1">Culinary and confectionery lines featuring Mesutronic contaminant rejection and Wipotec gross-tare checking.</p>
+<!-- Concrete Installed Equipment Breakdown -->
+<div class="mt-4 pt-3 border-t border-border-subtle/50 space-y-2.5">
+<div class="p-2.5 bg-surface-container-lowest rounded border border-border-subtle/40">
+<div class="font-label-caps text-[11px] text-industrial-gray uppercase font-semibold">Verified Installation Count:</div>
+<div class="font-technical-data text-xs text-primary font-medium mt-0.5 leading-snug">
+                  12 Units Installed: 7x Mesutronic Pipeline &amp; Tunnel Metal Detectors + 5x Wipotec SC X-Ray Scanners
+                </div>
+</div>
+<div class="flex items-center justify-between font-technical-data text-xs text-industrial-gray">
+<span class="">Sites: Torchyn &amp; Lviv Svitoch</span>
+<span class="text-secondary font-medium">HACCP / Global Food Safety</span>
+</div>
+</div>
+</div>
+<div class="mt-6 pt-3 bg-surface-container-lowest -mx-6 -mb-6 p-4 rounded-b-xl flex items-center justify-between font-label-caps text-label-caps text-industrial-gray border-t border-border-subtle/40">
+<span class="">Lviv &amp; Torchyn Production Sites</span>
+<span class="text-primary font-semibold">Active Handover</span>
+</div>
+</div>
+<!-- Card 4: Farmak -->
+<div class="client-card bg-surface rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow flex-col justify-between border border-border-subtle/50 flex" data-category="pharma">
+<div>
+<div class="flex items-center justify-between pb-4 mb-4 bg-surface-container-low p-4 rounded border border-border-subtle/30">
+<div class="w-16 h-16 flex items-center justify-center bg-white rounded p-2 shadow-sm border border-border-subtle/40">
+<img alt="Farmak Pharmaceutical Company Logo" class="max-h-full max-w-full object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1URp8qUk-RkL2aVI0s1RG7jPzjC_YntMGUMIYb2lh1PdCRyfVhxKjRyskmG_zoozV6HryypGuaZ-YxGalgiIgC8ckYvuQ8gY0ZQHKE_a-l6wLER63w5UGvycYW_cFso4sqcQvhhg-V-Z9T-AJuWjg9WB9N4C3vSFnl467Hv4HhN187LScW7zogHnJ4MvjfSMOX2C9KFPYk8fLyfBiBtV2vtUMeq4HcdxvIlsj-YFGPZ-BAlOyxFAsd9e48">
+</div>
+<span class="px-2.5 py-1 rounded bg-surface-container-high text-primary font-label-caps text-label-caps font-semibold">
+                Pharmaceuticals
+              </span>
+</div>
+<div class="flex items-center justify-between mb-1">
+<h3 class="font-headline-lg text-headline-lg font-semibold text-primary">Farmak</h3>
+<span class="font-technical-data text-xs px-2 py-0.5 rounded bg-secondary/10 text-secondary font-bold">18 Units Total</span>
+</div>
+<p class="font-body-md text-sm text-industrial-gray mt-1">High-speed pharmaceutical packaging lines requiring sub-milligram weight verification and leaflet presence checks.</p>
+<!-- Concrete Installed Equipment Breakdown -->
+<div class="mt-4 pt-3 border-t border-border-subtle/50 space-y-2.5">
+<div class="p-2.5 bg-surface-container-lowest rounded border border-border-subtle/40">
+<div class="font-label-caps text-[11px] text-industrial-gray uppercase font-semibold">Verified Installation Count:</div>
+<div class="font-technical-data text-xs text-primary font-medium mt-0.5 leading-snug">
+                  18 Units Installed: 11x Wipotec HC-A Micro-Checkweighers (0.001g precision) + 7x TQS Serialization Stations
+                </div>
+</div>
+<div class="flex items-center justify-between font-technical-data text-xs text-industrial-gray">
+<span class="">Precision: ±0.001g Resolution</span>
+<span class="text-secondary font-medium">GMP / 21 CFR Part 11</span>
+</div>
+</div>
+</div>
+<div class="mt-6 pt-3 bg-surface-container-lowest -mx-6 -mb-6 p-4 rounded-b-xl flex items-center justify-between font-label-caps text-label-caps text-industrial-gray border-t border-border-subtle/40">
+<span class="">Kyiv Production Facilities</span>
+<span class="text-primary font-semibold">Cleanroom Classified</span>
+</div>
+</div>
+<!-- Card 5: Darnitsa -->
+<div class="client-card bg-surface rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow flex-col justify-between border border-border-subtle/50 flex" data-category="pharma">
+<div>
+<div class="flex items-center justify-between pb-4 mb-4 bg-surface-container-low p-4 rounded border border-border-subtle/30">
+<div class="w-16 h-16 flex items-center justify-center bg-white rounded p-2 shadow-sm border border-border-subtle/40">
+<img alt="Darnitsa Pharmaceutical Company Logo" class="max-h-full max-w-full object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Vvmnzcyxu6kkSJP3tvG7D7W-0TRvbm7DCKRgJr3oBa1XEE5YqICHyC1yhf-9c-o6UYDnOrciNfhj-y1CtZY5n3DazM9jcXD-63BidwEaHVsOi1Vd42mjGkPnjesavucXNmE48GGLOKgf_JdQ8A8rk7VvkQ1bQPmPAxNSYCU_Ttni3aaFjFM25E24VO8CZClYmeudxWEkPgiQ477Dy-e0f9RCTmLP8WI-VdE6woX3e8xF9eE14FScWZog">
+</div>
+<span class="px-2.5 py-1 rounded bg-surface-container-high text-primary font-label-caps text-label-caps font-semibold">
+                Pharmaceuticals
+              </span>
+</div>
+<div class="flex items-center justify-between mb-1">
+<h3 class="font-headline-lg text-headline-lg font-semibold text-primary">Darnitsa</h3>
+<span class="font-technical-data text-xs px-2 py-0.5 rounded bg-secondary/10 text-secondary font-bold">15 Units Total</span>
+</div>
+<p class="font-body-md text-sm text-industrial-gray mt-1">End-to-end Track &amp; Trace serialization, tamper-evident labeling, and ultra-precise tablet blister verification.</p>
+<!-- Concrete Installed Equipment Breakdown -->
+<div class="mt-4 pt-3 border-t border-border-subtle/50 space-y-2.5">
+<div class="p-2.5 bg-surface-container-lowest rounded border border-border-subtle/40">
+<div class="font-label-caps text-[11px] text-industrial-gray uppercase font-semibold">Verified Installation Count:</div>
+<div class="font-technical-data text-xs text-primary font-medium mt-0.5 leading-snug">
+                  15 Units Installed: 9x Track &amp; Trace TQS Serialization &amp; Aggregation Units + 6x High-Speed Checkweighers
+                </div>
+</div>
+<div class="flex items-center justify-between font-technical-data text-xs text-industrial-gray">
+<span class="">Compliance: Full Traceability</span>
+<span class="text-secondary font-medium">GMP / EU FMD Serialization</span>
+</div>
+</div>
+</div>
+<div class="mt-6 pt-3 bg-surface-container-lowest -mx-6 -mb-6 p-4 rounded-b-xl flex items-center justify-between font-label-caps text-label-caps text-industrial-gray border-t border-border-subtle/40">
+<span class="">Kyiv Main Manufacturing Plant</span>
+<span class="text-primary font-semibold">Active Serialization Hub</span>
+</div>
+</div>
+<!-- Card 6: Kernel -->
+<div class="client-card bg-surface rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow flex-col justify-between border border-border-subtle/50 flex" data-category="agro">
+<div>
+<div class="flex items-center justify-between pb-4 mb-4 bg-surface-container-low p-4 rounded border border-border-subtle/30">
+<div class="w-16 h-16 flex items-center justify-center bg-white rounded p-2 shadow-sm border border-border-subtle/40">
+<img alt="Kernel Agro Holding Logo" class="max-h-full max-w-full object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1X8gf2n3Z9S-IwWY4alk8ZUHmsi2QygRwdxVBbxCcJ3Bowotxmo8YAcb2bAyBejyq6VMtP-RjxX3Uz4FfFzcJgz_LXm0KBC8d4QH6tLeHFEA7zp7NlErCTk5byQeB-JCh1l47O0wqBe-bbTPNWOSpy3rtiF5LwTvVwn2PnNBT_PGrlxIGAH9-aeZCoApPaMNv6Qk2QtQsyGbbg33FnM-qnwPR29LywB5122WphueNAR7YYHygc64wxWEsk">
+</div>
+<span class="px-2.5 py-1 rounded bg-surface-container-high text-primary font-label-caps text-label-caps font-semibold">
+                Agro &amp; Edible Oils
+              </span>
+</div>
+<div class="flex items-center justify-between mb-1">
+<h3 class="font-headline-lg text-headline-lg font-semibold text-primary">Kernel</h3>
+<span class="font-technical-data text-xs px-2 py-0.5 rounded bg-secondary/10 text-secondary font-bold">9 Units Total</span>
+</div>
+<p class="font-body-md text-sm text-industrial-gray mt-1">Sunflower oil bottling and bulk agro processing equipped with heavy-duty Mesutronic metal detectors and checkweighers.</p>
+<!-- Concrete Installed Equipment Breakdown -->
+<div class="mt-4 pt-3 border-t border-border-subtle/50 space-y-2.5">
+<div class="p-2.5 bg-surface-container-lowest rounded border border-border-subtle/40">
+<div class="font-label-caps text-[11px] text-industrial-gray uppercase font-semibold">Verified Installation Count:</div>
+<div class="font-technical-data text-xs text-primary font-medium mt-0.5 leading-snug">
+                  9 Units Installed: 6x Heavy-Duty Conveyor Checkweighers (up to 60kg) + 3x Bulk Gravity Metal Detectors
+                </div>
+</div>
+<div class="flex items-center justify-between font-technical-data text-xs text-industrial-gray">
+<span class="">Scope: Terminals &amp; Bottling</span>
+<span class="text-secondary font-medium">ISO 22000 / Export Grade</span>
+</div>
+</div>
+</div>
+<div class="mt-6 pt-3 bg-surface-container-lowest -mx-6 -mb-6 p-4 rounded-b-xl flex items-center justify-between font-label-caps text-label-caps text-industrial-gray border-t border-border-subtle/40">
+<span class="">Oil Extraction Plants Ukraine</span>
+<span class="text-primary font-semibold">Heavy Duty Industrial</span>
+</div>
+</div>
+<!-- Card 7: Yuria-Pharm -->
+<div class="client-card bg-surface rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow flex-col justify-between border border-border-subtle/50 flex" data-category="pharma">
+<div>
+<div class="flex items-center justify-between pb-4 mb-4 bg-surface-container-low p-4 rounded border border-border-subtle/30">
+<div class="w-16 h-16 flex items-center justify-center bg-surface-container-high text-primary font-bold text-headline-lg rounded shadow-sm border border-border-subtle/40">
+                ЮФ
+              </div>
+<span class="px-2.5 py-1 rounded bg-surface-container-high text-primary font-label-caps text-label-caps font-semibold">
+                Pharmaceuticals
+              </span>
+</div>
+<div class="flex items-center justify-between mb-1">
+<h3 class="font-headline-lg text-headline-lg font-semibold text-primary">Yuria-Pharm (Юрія-Фарм)</h3>
+<span class="font-technical-data text-xs px-2 py-0.5 rounded bg-secondary/10 text-secondary font-bold">10 Units Total</span>
+</div>
+<p class="font-body-md text-sm text-industrial-gray mt-1">Infusion and injectable medication lines utilizing certified dynamic weighing systems for fluid volume verification.</p>
+<!-- Concrete Installed Equipment Breakdown -->
+<div class="mt-4 pt-3 border-t border-border-subtle/50 space-y-2.5">
+<div class="p-2.5 bg-surface-container-lowest rounded border border-border-subtle/40">
+<div class="font-label-caps text-[11px] text-industrial-gray uppercase font-semibold">Verified Installation Count:</div>
+<div class="font-technical-data text-xs text-primary font-medium mt-0.5 leading-snug">
+                  10 Units Installed: 7x Wipotec HC-M-WD Washdown Checkweighers + 3x Metron Metal Detectors
+                </div>
+</div>
+<div class="flex items-center justify-between font-technical-data text-xs text-industrial-gray">
+<span class="">Protection: IP69K Stainless Steel</span>
+<span class="text-secondary font-medium">EU GMP / Sterile Standards</span>
+</div>
+</div>
+</div>
+<div class="mt-6 pt-3 bg-surface-container-lowest -mx-6 -mb-6 p-4 rounded-b-xl flex items-center justify-between font-label-caps text-label-caps text-industrial-gray border-t border-border-subtle/40">
+<span class="">Cherkasy Complex</span>
+<span class="text-primary font-semibold">Active • Cleanroom Verified</span>
+</div>
+</div>
+<!-- Card 8: Biosphere Corporation -->
+<div class="client-card bg-surface rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow flex-col justify-between border border-border-subtle/50 flex" data-category="household">
+<div>
+<div class="flex items-center justify-between pb-4 mb-4 bg-surface-container-low p-4 rounded border border-border-subtle/30">
+<div class="w-16 h-16 flex items-center justify-center bg-surface-container-high text-primary font-bold text-headline-lg rounded shadow-sm border border-border-subtle/40">
+                БІО
+              </div>
+<span class="px-2.5 py-1 rounded bg-surface-container-high text-primary font-label-caps text-label-caps font-semibold">
+                Household &amp; Packaging
+              </span>
+</div>
+<div class="flex items-center justify-between mb-1">
+<h3 class="font-headline-lg text-headline-lg font-semibold text-primary">Biosphere Corporation</h3>
+<span class="font-technical-data text-xs px-2 py-0.5 rounded bg-secondary/10 text-secondary font-bold">11 Units Total</span>
+</div>
+<p class="font-body-md text-sm text-industrial-gray mt-1">Automated hygiene and household goods lines with continuous integrity checking and carton completeness control.</p>
+<!-- Concrete Installed Equipment Breakdown -->
+<div class="mt-4 pt-3 border-t border-border-subtle/50 space-y-2.5">
+<div class="p-2.5 bg-surface-container-lowest rounded border border-border-subtle/40">
+<div class="font-label-caps text-[11px] text-industrial-gray uppercase font-semibold">Verified Installation Count:</div>
+<div class="font-technical-data text-xs text-primary font-medium mt-0.5 leading-snug">
+                  11 Units Installed: 8x Conveyor Checkweighers + 3x Metron FlatLine Contaminant Detectors
+                </div>
+</div>
+<div class="flex items-center justify-between font-technical-data text-xs text-industrial-gray">
+<span class="">Function: Missing Item Detection</span>
+<span class="text-secondary font-medium">ISO 9001 / High Speed</span>
+</div>
+</div>
+</div>
+<div class="mt-6 pt-3 bg-surface-container-lowest -mx-6 -mb-6 p-4 rounded-b-xl flex items-center justify-between font-label-caps text-label-caps text-industrial-gray border-t border-border-subtle/40">
+<span class="">Dnipro Production Complex</span>
+<span class="text-primary font-semibold">Continuous Integration</span>
+</div>
+</div>
+<!-- Card 9: Kormotech -->
+<div class="client-card bg-surface rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow flex-col justify-between border border-border-subtle/50 flex" data-category="agro">
+<div>
+<div class="flex items-center justify-between pb-4 mb-4 bg-surface-container-low p-4 rounded border border-border-subtle/30">
+<div class="w-16 h-16 flex items-center justify-center bg-surface-container-high text-primary font-bold text-headline-lg rounded shadow-sm border border-border-subtle/40">
+                KRM
+              </div>
+<span class="px-2.5 py-1 rounded bg-surface-container-high text-primary font-label-caps text-label-caps font-semibold">
+                Pet Food Manufacturing
+              </span>
+</div>
+<div class="flex items-center justify-between mb-1">
+<h3 class="font-headline-lg text-headline-lg font-semibold text-primary">Kormotech</h3>
+<span class="font-technical-data text-xs px-2 py-0.5 rounded bg-secondary/10 text-secondary font-bold">8 Units Total</span>
+</div>
+<p class="font-body-md text-sm text-industrial-gray mt-1">Pouch and dry pet nutrition lines fitted with high-throughput Mesutronic gravity detectors and Wipotec end-line checkweighers.</p>
+<!-- Concrete Installed Equipment Breakdown -->
+<div class="mt-4 pt-3 border-t border-border-subtle/50 space-y-2.5">
+<div class="p-2.5 bg-surface-container-lowest rounded border border-border-subtle/40">
+<div class="font-label-caps text-[11px] text-industrial-gray uppercase font-semibold">Verified Installation Count:</div>
+<div class="font-technical-data text-xs text-primary font-medium mt-0.5 leading-snug">
+                  8 Units Installed: 5x Wipotec High-Throughput Checkweighers + 3x Mesutronic Tunnel Metal Detectors
+                </div>
+</div>
+<div class="flex items-center justify-between font-technical-data text-xs text-industrial-gray">
+<span class="">Lines: High-Speed Pouching</span>
+<span class="text-secondary font-medium">FEDIAF / ISO 22000</span>
+</div>
+</div>
+</div>
+<div class="mt-6 pt-3 bg-surface-container-lowest -mx-6 -mb-6 p-4 rounded-b-xl flex items-center justify-between font-label-caps text-label-caps text-industrial-gray border-t border-border-subtle/40">
+<span class="">Lviv Region Production Plants</span>
+<span class="text-primary font-semibold">Export Certified Lines</span>
+</div>
+</div>
+</div>
+<!-- Additional Client Directory Ledger -->
+<div class="mt-12 bg-surface rounded-xl p-8 shadow-sm border border-border-subtle/60">
+<h4 class="font-headline-lg text-body-lg font-semibold text-primary mb-4">Additional Key Manufacturing References in Ukraine</h4>
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 font-technical-data text-technical-data text-industrial-gray">
+<div class="p-3 bg-surface-container-low rounded text-on-surface font-medium border border-border-subtle/30">• Arterium (Артеріум)</div>
+<div class="p-3 bg-surface-container-low rounded text-on-surface font-medium border border-border-subtle/30">• MHP (МХП)</div>
+<div class="p-3 bg-surface-container-low rounded text-on-surface font-medium border border-border-subtle/30">• Jacobs Douwe Egberts</div>
+<div class="p-3 bg-surface-container-low rounded text-on-surface font-medium border border-border-subtle/30">• Mondelez International</div>
+<div class="p-3 bg-surface-container-low rounded text-on-surface font-medium border border-border-subtle/30">• Zveni Gora (Звени Гора)</div>
+<div class="p-3 bg-surface-container-low rounded text-on-surface font-medium border border-border-subtle/30">• BaDM (БаДМ)</div>
+<div class="p-3 bg-surface-container-low rounded text-on-surface font-medium border border-border-subtle/30">• Grona Biscuits</div>
+<div class="p-3 bg-surface-container-low rounded text-on-surface font-medium border border-border-subtle/30">• Acino Pharma</div>
+<div class="p-3 bg-surface-container-low rounded text-on-surface font-medium border border-border-subtle/30">• Zolote Zerno (Золоте Зерно)</div>
+<div class="p-3 bg-surface-container-low rounded text-on-surface font-medium border border-border-subtle/30">• Lehko! (Легко!)</div>
+<div class="p-3 bg-surface-container-low rounded text-on-surface font-medium border border-border-subtle/30">• Skvyryanka (Сквирянка)</div>
+<div class="p-3 bg-surface-container-low rounded text-on-surface font-medium border border-border-subtle/30">• Galka (Галка)</div>
+<div class="p-3 bg-surface-container-low rounded text-on-surface font-medium border border-border-subtle/30">• MacCoffee</div>
+<div class="p-3 bg-surface-container-low rounded text-on-surface font-medium border border-border-subtle/30">• Lantmännen</div>
+<div class="p-3 bg-surface-container-low rounded text-on-surface font-medium border border-border-subtle/30">• Optima-Pharm</div>
+<div class="p-3 bg-surface-container-low rounded text-on-surface font-medium border border-border-subtle/30">• Rozetka Logistics</div>
+<div class="p-3 bg-surface-container-low rounded text-on-surface font-medium border border-border-subtle/30">• EVA Retail Hub</div>
+<div class="p-3 bg-surface-container-low rounded text-on-surface font-medium border border-border-subtle/30">• Procter &amp; Gamble (P&amp;G)</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Core Engineering & Service Capabilities -->
+
+<!-- Lead Generation CTA Banner -->
+
+<!-- Interactive Map and Filter Scripts -->
+<script>
+    const hubDatabase = {
+      kyiv: {
+        title: "Kyiv Industrial & Pharma Cluster",
+        badge: "85+ Units Active",
+        desc: "Kyiv, Brovary, Bila Tserkva: Flagship installations at Roshen, Darnitsa, Farmak, P&G, and arterial food & pharma packaging complexes."
+      },
+      lviv: {
+        title: "Lviv & Western Industrial Cluster",
+        badge: "48+ Units Active",
+        desc: "Lviv, Stryi, Torchyn: Major deployments at Kormotech pet nutrition, Nestlé Torchyn culinary line, and Halychyna dairy plants."
+      },
+      dnipro: {
+        title: "Dnipro & Central Industrial Hub",
+        badge: "38+ Units Active",
+        desc: "Dnipro, Kamianske: Large automated carton checkweighers at Biosphere Corporation, plus multiple agricultural edible oil lines."
+      },
+      vinnytsia: {
+        title: "Vinnytsia Confectionery & Dairy Hub",
+        badge: "28 Units Active",
+        desc: "Vinnytsia: High-speed EMFR checkweighers and Transtron metal detection across Roshen multi-plant confectionery facilities."
+      },
+      poltava: {
+        title: "Poltava & Cherkasy Cluster",
+        badge: "30 Units Active",
+        desc: "Cherkasy & Poltava: Precision washdown checkweighers at Yuria-Pharm sterile lines, together with major regional grains and dairy."
+      },
+      odesa: {
+        title: "Odesa & Southern Maritime Hub",
+        badge: "24 Units Active",
+        desc: "Odesa, Chornomorsk: Heavy-duty bulk conveyor checkweighers and gravity metal separators across Kernel oil terminals and port logistics."
+      },
+      kharkiv: {
+        title: "Kharkiv Industrial Node",
+        badge: "12 Units Active",
+        desc: "Kharkiv: Specialized food packaging and veterinary pharmaceutical inspection systems integrated with automated rejection."
+      }
+    };
+
+    function showHubDetails(hubKey) {
+      const data = hubDatabase[hubKey];
+      if (!data) return;
+      document.getElementById('hubTitle').innerText = data.title;
+      document.getElementById('hubBadge').innerText = data.badge;
+      document.getElementById('hubDesc').innerText = data.desc;
+    }
+
+    function filterClients(sector) {
+      const tabs = document.querySelectorAll('.client-tab');
+      tabs.forEach(tab => {
+        if (tab.getAttribute('data-filter') === sector) {
+          tab.classList.remove('bg-surface', 'text-industrial-gray');
+          tab.classList.add('bg-primary', 'text-white');
+        } else {
+          tab.classList.remove('bg-primary', 'text-white');
+          tab.classList.add('bg-surface', 'text-industrial-gray');
+        }
+      });
+
+      const cards = document.querySelectorAll('#clientCardsContainer .client-card');
+      cards.forEach(card => {
+        if (sector === 'all' || card.getAttribute('data-category') === sector) {
+          card.classList.remove('hidden');
+          card.classList.add('flex');
+        } else {
+          card.classList.add('hidden');
+          card.classList.remove('flex');
+        }
+      });
+    }
+  </script>
+</div></main>
+<!-- Footer -->
+<footer class="bg-on-background dark:bg-black full-width mt-section-gap-lg border-t border-on-primary-fixed-variant">
+<div class="max-w-container-max mx-auto px-edge-margin py-section-gap-sm flex flex-col md:flex-row justify-between items-center gap-gutter">
+<div class="font-headline-lg text-headline-lg text-white">
+                OS-Technology
+            </div>
+<div class="flex flex-wrap gap-6 justify-center">
+<a class="font-technical-data text-technical-data text-primary-fixed-dim hover:text-white transition-colors hover:text-secondary" href="#">Privacy Policy</a>
+<a class="font-technical-data text-technical-data text-primary-fixed-dim hover:text-white transition-colors hover:text-secondary" href="#">Terms of Service</a>
+<a class="font-technical-data text-technical-data text-primary-fixed-dim hover:text-white transition-colors hover:text-secondary" href="#">Manufacturer Certifications</a>
+<a class="font-technical-data text-technical-data text-primary-fixed-dim hover:text-white transition-colors hover:text-secondary" href="#">Partner Portal</a>
+</div>
+<div class="font-technical-data text-technical-data text-primary-fixed-dim text-center md:text-right">
+                © 2024 OS-Technology Ukraine. Authorized WIPOTEC &amp; MESUTRONIC Integration Partner. All Rights Reserved.
+            </div>
+</div>
+</footer>
+
+
+
+
+</body></html>

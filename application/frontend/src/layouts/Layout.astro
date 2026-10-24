@@ -3,7 +3,7 @@ import "../styles/global.css";
 import { SEO } from "astro-seo";
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
-import { getLangFromUrl } from "@/i18n";
+import { defaultLang, getIsoLang, getLangFromUrl } from "@/i18n";
 
 interface Props {
 	title: string;
@@ -15,15 +15,20 @@ interface Props {
 
 const { title, description, showHeader = true, image, article = false } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
+const isoLang = getIsoLang(lang);
 const currentPath = Astro.url.pathname;
 
 const siteUrl = Astro.site || "https://ocs.com.ua";
 const canonicalUrl = new URL(currentPath, siteUrl).href;
 
-const alternateUrl =
-	lang === "en" ? currentPath.replace("/en/", "/ua/") : currentPath.replace("/ua/", "/en/");
+// Language alternates only exist for pages under /en/ or /ua/ (not the 404/50x error pages)
+const isLocalized = /^\/(en|ua)(\/|$)/.test(currentPath);
+const pathFor = (target: "en" | "ua") => currentPath.replace(/^\/(en|ua)(?=\/|$)/, `/${target}`);
+const urlFor = (target: "en" | "ua") => new URL(pathFor(target), siteUrl).href;
 
-const ogImage = image || `${siteUrl}/assets/icons/wipotec-logo.svg`;
+// Social platforms don't render SVG, so the default share image is a 1200x630 PNG per language
+const ogImage = new URL(image || `/assets/og-${lang}.png`, siteUrl).href;
+const ogImageIsDefault = !image;
 
 const defaultDescription =
 	lang === "en"
@@ -32,15 +37,20 @@ const defaultDescription =
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html lang={isoLang}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg" />
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 		<link
-			rel="stylesheet"
-			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+			rel="preload"
+			href="/assets/fonts/material-symbols-outlined.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin
 		/>
+		<link rel="sitemap" href="/sitemap-index.xml" />
 		<meta name="generator" content={Astro.generator} />
 
 		<SEO
@@ -61,6 +71,7 @@ const defaultDescription =
 				},
 				image: {
 					alt: title,
+					...(ogImageIsDefault && { type: "image/png", width: 1200, height: 630 }),
 				},
 			}}
 			twitter={{
@@ -70,20 +81,14 @@ const defaultDescription =
 				image: ogImage,
 				imageAlt: title,
 			}}
-			languageAlternates={[
-				{
-					href: canonicalUrl,
-					hrefLang: lang,
-				},
-				{
-					href: new URL(alternateUrl, siteUrl).href,
-					hrefLang: lang === "en" ? "ua" : "en",
-				},
-				{
-					href: new URL(alternateUrl, siteUrl).href,
-					hrefLang: "x-default",
-				},
-			]}
+			languageAlternates={isLocalized
+				? [
+						{ href: urlFor("ua"), hrefLang: getIsoLang("ua") },
+						{ href: urlFor("en"), hrefLang: getIsoLang("en") },
+						// Same fallback on every page: the site's default language
+						{ href: urlFor(defaultLang), hrefLang: "x-default" },
+					]
+				: undefined}
 		/>
 	</head>
 	<body class="bg-background text-foreground min-h-screen antialiased">
@@ -91,6 +96,8 @@ const defaultDescription =
 		<main class="pt-20">
 			<slot />
 		</main>
-		<Footer />
+		<Footer
+			share={isLocalized ? { title, description: description || defaultDescription } : undefined}
+		/>
 	</body>
 </html>
