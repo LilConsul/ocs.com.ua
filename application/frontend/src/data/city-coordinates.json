@@ -1,0 +1,52 @@
+{
+	"Kyiv": {
+		"lat": 50.4501,
+		"lng": 30.5234,
+		"name": { "en": "Kyiv", "ua": "Київ" }
+	},
+	"Vinnytsia": {
+		"lat": 49.2331,
+		"lng": 28.4682,
+		"name": { "en": "Vinnytsia", "ua": "Вінниця" }
+	},
+	"Sumy": {
+		"lat": 50.9077,
+		"lng": 34.7981,
+		"name": { "en": "Sumy", "ua": "Суми" }
+	},
+	"Lviv": {
+		"lat": 49.8397,
+		"lng": 24.0297,
+		"name": { "en": "Lviv", "ua": "Львів" }
+	},
+	"Cherkasy": {
+		"lat": 49.4444,
+		"lng": 32.0598,
+		"name": { "en": "Cherkasy", "ua": "Черкаси" }
+	},
+	"Odesa": {
+		"lat": 46.4825,
+		"lng": 30.7233,
+		"name": { "en": "Odesa", "ua": "Одеса" }
+	},
+	"Zhytomyr": {
+		"lat": 50.2547,
+		"lng": 28.6587,
+		"name": { "en": "Zhytomyr", "ua": "Житомир" }
+	},
+	"Dnipro": {
+		"lat": 48.4647,
+		"lng": 35.0462,
+		"name": { "en": "Dnipro", "ua": "Дніпро" }
+	},
+	"Kharkiv": {
+		"lat": 49.9935,
+		"lng": 36.2304,
+		"name": { "en": "Kharkiv", "ua": "Харків" }
+	},
+	"Poltava": {
+		"lat": 49.5883,
+		"lng": 34.5514,
+		"name": { "en": "Poltava", "ua": "Полтава" }
+	}
+}
