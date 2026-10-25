@@ -1,5 +1,5 @@
 ---
-import { Menu, X } from "lucide-react";
+import { ArrowRight, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getInlineTranslations, type Lang } from "@/i18n";
 
@@ -112,11 +112,12 @@ const isActive = (pattern: string) => {
 			{/* Contact Us button — desktop */}
 			<a
 				href={`/${lang}/contact`}
-				class={`hidden items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-semibold transition-opacity hover:opacity-90 md:inline-flex ${
+				class={`hidden items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-medium transition-opacity hover:opacity-90 md:inline-flex ${
 					isActive("/contact") ? "bg-secondary text-white" : "bg-primary text-primary-foreground"
 				}`}
 			>
 				{_("Contact Us")}
+				<ArrowRight className="size-4" aria-hidden="true" />
 			</a>
 
 			{/* Language Switcher */}
@@ -178,11 +179,12 @@ const isActive = (pattern: string) => {
 			{/* Contact Us button — mobile */}
 			<a
 				href={`/${lang}/contact`}
-				class={`flex w-full items-center justify-center gap-2 rounded-lg px-4 py-3 text-sm font-semibold transition-opacity hover:opacity-90 ${
+				class={`flex w-full items-center justify-center gap-2 rounded-lg px-4 py-3 text-sm font-medium transition-opacity hover:opacity-90 ${
 					isActive("/contact") ? "bg-secondary text-white" : "bg-primary text-primary-foreground"
 				}`}
 			>
 				{_("Contact Us")}
+				<ArrowRight className="size-4" aria-hidden="true" />
 			</a>
 
 			<div class="border-border space-y-2 border-t pt-4">
