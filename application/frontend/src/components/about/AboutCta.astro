@@ -1,0 +1,134 @@
+---
+import { ArrowRight, PhoneCall } from "lucide-react";
+import companyData from "@/data/company.json";
+import { getInlineTranslations, type Lang } from "@/i18n";
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const _ = getInlineTranslations(lang);
+---
+
+<section
+	aria-labelledby="cta-heading"
+	class="from-background to-surface-container/60 relative w-full overflow-hidden bg-linear-to-b py-16 lg:py-24"
+	data-cta
+>
+	<div
+		class="cta-glow bg-secondary/10 pointer-events-none absolute -bottom-40 -left-24 size-[30rem] rounded-full blur-3xl"
+		aria-hidden="true"
+	>
+	</div>
+
+	<div class="px-edge-margin relative mx-auto max-w-[1280px]">
+		<div
+			class="cta-card bg-background border-border-subtle/70 rounded-xl border p-6 shadow-sm sm:p-10 lg:p-12"
+		>
+			<div class="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
+				<div class="max-w-2xl">
+					<span
+						class="cta-item font-label-caps text-secondary flex items-center gap-3 text-xs font-semibold tracking-widest uppercase"
+						style="--i:1"
+					>
+						<span class="cta-rule bg-secondary h-px w-8" aria-hidden="true"></span>
+						{_("Contact Us")}
+					</span>
+					<h2
+						id="cta-heading"
+						class="cta-item font-headline-lg text-foreground mt-3 text-2xl font-semibold tracking-tight text-balance sm:text-3xl lg:text-4xl"
+						style="--i:2"
+					>
+						{_("Let's Talk About Your Production Line")}
+					</h2>
+					<p
+						class="cta-item font-body-md text-industrial-gray mt-4 text-sm leading-relaxed sm:text-base"
+						style="--i:3"
+					>
+						{
+							_(
+								"Tell us what you produce and what you need to inspect. We will recommend suitable equipment and prepare a quote."
+							)
+						}
+					</p>
+				</div>
+
+				<div class="cta-item flex shrink-0 flex-col gap-3 sm:flex-row lg:flex-col" style="--i:4">
+					<a
+						href={`/${lang}/contact`}
+						class="group bg-primary text-primary-foreground focus-visible:outline-secondary inline-flex items-center justify-center gap-2 rounded-lg px-7 py-3.5 text-[15px] leading-[22px] font-medium shadow-xs transition-[opacity,box-shadow] hover:opacity-90 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2"
+					>
+						<span>{_("Request a quote")}</span>
+						<ArrowRight
+							className="size-[18px] transition-transform duration-200 group-hover:translate-x-1"
+							aria-hidden="true"
+						/>
+					</a>
+					<a
+						href={`tel:${companyData.phone.replace(/\s+/g, "")}`}
+						class="border-secondary text-secondary hover:bg-secondary/5 focus-visible:outline-secondary font-technical-data inline-flex items-center justify-center gap-2 rounded-lg border-2 px-7 py-3.5 text-[15px] leading-[22px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+					>
+						<PhoneCall className="size-[18px]" aria-hidden="true" />
+						<span>{companyData.phone}</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	@media (prefers-reduced-motion: no-preference) {
+		/* Hidden only once the script has confirmed the animation will run */
+		[data-anim="ready"] .cta-card,
+		[data-anim="ready"] .cta-item,
+		[data-anim="ready"] .cta-glow {
+			opacity: 0;
+		}
+		[data-anim="ready"] .cta-rule {
+			scale: 0 1;
+		}
+
+		[data-anim="in"] .cta-card {
+			animation: cta-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+		}
+		[data-anim="in"] .cta-item {
+			animation: cta-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+			animation-delay: calc(0.15s + var(--i, 0) * 90ms);
+		}
+		[data-anim="in"] .cta-rule {
+			transform-origin: left;
+			animation: cta-rule-draw 0.6s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+			animation-delay: 0.4s;
+		}
+		[data-anim="in"] .cta-glow {
+			animation: cta-glow-in 1.4s ease-out backwards;
+		}
+	}
+
+	@keyframes cta-rise {
+		from {
+			opacity: 0;
+			transform: translateY(18px);
+		}
+	}
+	@keyframes cta-rule-draw {
+		from {
+			scale: 0 1;
+		}
+	}
+	@keyframes cta-glow-in {
+		from {
+			opacity: 0;
+			transform: scale(0.7);
+		}
+	}
+</style>
+
+<script>
+	import { revealOnce } from "@/lib/anims/reveal-once";
+
+	const section = document.querySelector<HTMLElement>("[data-cta]");
+	if (section) revealOnce(section, 0.25);
+</script>

@@ -1,0 +1,36 @@
+---
+import {
+	EmailShareButton,
+	FacebookShareButton,
+	LinkedInShareButton,
+	TwitterShareButton,
+	WhatsAppShareButton,
+} from "astro-social-share";
+import { getInlineTranslations, getLangFromUrl } from "@/i18n";
+
+interface Props {
+	title: string;
+	description: string;
+}
+
+const { title, description } = Astro.props;
+const _ = getInlineTranslations(getLangFromUrl(Astro.url));
+
+// astro-social-share interpolates these into share URLs without encoding them
+const url = encodeURIComponent(new URL(Astro.url.pathname, Astro.site || "https://ocs.com.ua").href);
+const encodedTitle = encodeURIComponent(title);
+const encodedDescription = encodeURIComponent(description);
+---
+
+<div class="flex items-center gap-3">
+	<span class="font-sans">{_("Share")}:</span>
+	<div
+		class="text-industrial-gray flex items-center gap-3 [&_a]:transition-opacity [&_a:hover]:opacity-70 [&_svg]:h-5 [&_svg]:w-5 [&_svg]:fill-current"
+	>
+		<LinkedInShareButton url={url} title={encodedTitle} description={encodedDescription} />
+		<FacebookShareButton url={url} title={encodedTitle} description={encodedDescription} />
+		<TwitterShareButton url={url} title={encodedTitle} description={encodedDescription} />
+		<WhatsAppShareButton url={url} title={encodedTitle} description={encodedDescription} />
+		<EmailShareButton url={url} title={encodedTitle} description={encodedDescription} />
+	</div>
+</div>

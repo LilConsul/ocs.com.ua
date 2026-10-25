@@ -19,8 +19,10 @@ const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
 const phoneHref = `tel:${companyData.phone.replace(/[^\d+]/g, "")}`;
 ---
 
-<section class="bg-surface-container space-y-6 rounded-xl p-8 shadow-sm">
-	<h2 class="font-label-caps text-label-caps text-secondary font-bold uppercase">
+<section
+	class="bg-background border-border-subtle/70 hover:border-secondary/40 before:from-secondary relative space-y-6 overflow-hidden rounded-xl border p-6 shadow-xs transition-[box-shadow,border-color] duration-300 before:absolute before:inset-x-0 before:top-0 before:h-0.5 before:bg-linear-to-r before:to-transparent hover:shadow-lg sm:p-8"
+>
+	<h2 class="font-label-caps text-secondary text-xs font-semibold tracking-widest uppercase">
 		{_("Contact Information")}
 	</h2>
 
@@ -63,7 +65,7 @@ const phoneHref = `tel:${companyData.phone.replace(/[^\d+]/g, "")}`;
 
 		{/* Address */}
 		<div
-			class="bg-surface-container-high font-technical-data text-technical-data text-industrial-gray flex items-start gap-3 rounded-lg p-4"
+			class="bg-surface-container border-border-subtle/50 font-technical-data text-technical-data text-industrial-gray flex items-start gap-3 rounded-lg border p-4"
 		>
 			<a
 				href={mapsUrl}
@@ -89,7 +91,7 @@ const phoneHref = `tel:${companyData.phone.replace(/[^\d+]/g, "")}`;
 
 		{/* Working hours */}
 		<div
-			class="bg-surface-container-high font-technical-data text-technical-data text-industrial-gray flex items-start gap-3 rounded-lg p-4"
+			class="bg-surface-container border-border-subtle/50 font-technical-data text-technical-data text-industrial-gray flex items-start gap-3 rounded-lg border p-4"
 		>
 			<span class="material-symbols-outlined text-secondary shrink-0" aria-hidden="true"
 				>schedule</span

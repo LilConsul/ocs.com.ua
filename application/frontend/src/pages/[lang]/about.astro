@@ -1,0 +1,121 @@
+---
+import AboutCta from "@/components/about/AboutCta.astro";
+import AboutHero from "@/components/about/AboutHero.astro";
+import ClientDirectory from "@/components/about/ClientDirectory.astro";
+import InteractiveUkraineMap from "@/components/about/InteractiveUkraineMap.astro";
+import ManufacturerCredentials from "@/components/about/ManufacturerCredentials.astro";
+import companyData from "@/data/company.json";
+import documentsData from "@/data/documents.json";
+import partnersRaw from "@/data/partners.json";
+import { getInlineTranslations, getIsoLang, isValidLang, type Lang } from "@/i18n";
+import { languages } from "@/i18n/ui";
+import Layout from "@/layouts/Layout.astro";
+import {
+	aggregateCityHubs,
+	calculateGlobalStats,
+	getAllPartnersList,
+	getSectorBreakdowns,
+} from "@/lib/about/partners-data";
+import type { PartnersData } from "@/lib/about/types";
+
+export function getStaticPaths() {
+	return (Object.keys(languages) as Lang[]).map((lang) => ({ params: { lang } }));
+}
+
+const langParam = Astro.params.lang;
+if (!isValidLang(langParam)) {
+	return new Response(null, { status: 404 });
+}
+const lang: Lang = langParam;
+const _ = getInlineTranslations(lang);
+
+const partnersData = partnersRaw as PartnersData;
+const globalStats = calculateGlobalStats(partnersData);
+const cityHubs = aggregateCityHubs(partnersData);
+const sectorBreakdowns = getSectorBreakdowns(partnersData);
+const allPartners = getAllPartnersList(partnersData);
+
+const siteUrl = Astro.site ?? "https://ocs.com.ua";
+const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
+
+const structuredData = [
+	{
+		"@context": "https://schema.org",
+		"@type": "AboutPage",
+		url: currentUrl,
+		inLanguage: getIsoLang(lang),
+		name: lang === "en" ? "About OS-Technology Ukraine" : "Про компанію ОС-Технолоджи Україна",
+		description:
+			lang === "en"
+				? "Official exclusive distributor and certified integration partner of WIPOTEC GmbH and MESUTRONIC Gerätebau GmbH in Ukraine."
+				: "Офіційний ексклюзивний дистриб'ютор та сертифікований інтеграційний партнер WIPOTEC GmbH та MESUTRONIC Gerätebau GmbH в Україні.",
+		breadcrumb: {
+			"@type": "BreadcrumbList",
+			itemListElement: [
+				{
+					"@type": "ListItem",
+					position: 1,
+					name: lang === "en" ? "Home" : "Головна",
+					item: new URL(`/${lang}`, siteUrl).href,
+				},
+				{
+					"@type": "ListItem",
+					position: 2,
+					name: lang === "en" ? "About Us" : "Про нас",
+					item: currentUrl,
+				},
+			],
+		},
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "Organization",
+		name: lang === "en" ? "OS-Technology Ukraine" : "ОС-Технолоджи Україна",
+		url: new URL(`/${lang}`, siteUrl).href,
+		telephone: companyData.phone,
+		email: companyData.email,
+		knowsAbout: [
+			"WIPOTEC GmbH Dynamic Checkweighers",
+			"MESUTRONIC Gerätebau Metal Detectors",
+			"Industrial X-Ray Scanners",
+			"Pharmaceutical Track and Trace Serialization",
+			"HACCP and IFS Food Inspection Compliance",
+		],
+		hasCredential: [
+			{
+				"@type": "EducationalOccupationalCredential",
+				name: "WIPOTEC Official Distributor Authorization",
+				url: new URL(documentsData.wipotec, siteUrl).href,
+			},
+			{
+				"@type": "EducationalOccupationalCredential",
+				name: "MESUTRONIC Authorized Distributor Certificate",
+				url: new URL(documentsData.mesutronic, siteUrl).href,
+			},
+		],
+		areaServed: {
+			"@type": "Country",
+			name: "Ukraine",
+		},
+	},
+];
+---
+
+<Layout
+	title={_("About Us | OS-Technology Ukraine")}
+	description={_(
+		"Official exclusive distributor and certified engineering partner of WIPOTEC GmbH and MESUTRONIC Gerätebau GmbH in Ukraine. 200+ systems installed."
+	)}
+>
+	{
+		structuredData.map((sd) => (
+			<script is:inline type="application/ld+json" set:html={JSON.stringify(sd)} />
+		))
+	}
+
+	<AboutHero lang={lang} stats={globalStats} />
+	<ManufacturerCredentials lang={lang} />
+	<InteractiveUkraineMap lang={lang} cityHubs={cityHubs} sectors={sectorBreakdowns} />
+	<ClientDirectory lang={lang} partners={allPartners} />
+	<AboutCta lang={lang} />
+</Layout>

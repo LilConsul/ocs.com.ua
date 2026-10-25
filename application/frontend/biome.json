@@ -152,6 +152,12 @@
 			}
 		},
 		{
+			"includes": ["src/lib/about/ukraine-oblasts.topo.json"],
+			"formatter": {
+				"enabled": false
+			}
+		},
+		{
 			"includes": ["src/data/equipment-types.json"],
 			"json": {
 				"formatter": {

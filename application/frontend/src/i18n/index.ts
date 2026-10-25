@@ -1,7 +1,7 @@
 export { getInlineTranslations } from "./inline";
 export { defaultLang, languages, ui } from "./ui";
 export type { Lang } from "./utils";
-export { getLangFromUrl, getTranslations } from "./utils";
+export { getIsoLang, getLangFromUrl, getTranslations } from "./utils";
 
 // Helper to validate language code
 export function isValidLang(lang: unknown): lang is import("./utils").Lang {

@@ -1,0 +1,198 @@
+---
+import {
+	ArrowRight,
+	BadgeCheck,
+	Boxes,
+	CalendarDays,
+	Handshake,
+	QrCode,
+	Scale,
+	ScanLine,
+} from "lucide-react";
+import { getInlineTranslations, type Lang } from "@/i18n";
+import { formatApprox } from "@/lib/about/partners-data";
+import type { EquipmentStats } from "@/lib/about/types";
+
+interface Props {
+	lang: Lang;
+	stats: EquipmentStats;
+}
+
+const { lang, stats } = Astro.props;
+const _ = getInlineTranslations(lang);
+
+const highlights = [
+	{ Icon: CalendarDays, text: _("Serving Ukraine since 2013") },
+	{ Icon: Handshake, text: _("Trusted by 300+ factories across Ukraine") },
+];
+
+const kpis = [
+	{ Icon: Boxes, label: _("Installed Systems"), value: formatApprox(stats.total), featured: true },
+	{ Icon: Scale, label: _("Checkweighers"), value: formatApprox(stats.cw) },
+	{ Icon: ScanLine, label: _("Metal Detectors"), value: formatApprox(stats.md) },
+	stats.tqs > 0
+		? { Icon: QrCode, label: _("Serialization Stations"), value: formatApprox(stats.tqs) }
+		: { Icon: BadgeCheck, label: _("German Hardware"), value: "100%" },
+].map((kpi) => {
+	// "225+" / "100%" → count up to the number and keep the suffix; "<5" and "0" stay static
+	const match = kpi.value.match(/^(\d+)(\D*)$/);
+	const countTo = match && Number(match[1]) > 0 ? Number(match[1]) : undefined;
+	return { ...kpi, countTo, countSuffix: match?.[2] ?? "" };
+});
+---
+
+<header
+	class="from-surface-container/40 to-background border-border-subtle/60 relative w-full overflow-hidden border-b bg-linear-to-b py-12 lg:py-20"
+>
+	<div
+		class="bg-secondary/10 pointer-events-none absolute -top-32 -right-24 size-[30rem] rounded-full blur-3xl"
+		aria-hidden="true"
+	>
+	</div>
+
+	<div class="px-edge-margin relative mx-auto max-w-[1280px]">
+		<div class="gap-gutter grid grid-cols-1 items-center lg:grid-cols-12">
+			<div class="flex flex-col justify-center lg:col-span-7">
+				<p
+					class="hero-rise font-label-caps text-secondary mb-4 flex items-center gap-3 text-xs tracking-widest uppercase"
+					style="--d:0"
+				>
+					<span class="bg-secondary h-px w-8" aria-hidden="true"></span>
+					WIPOTEC · MESUTRONIC
+				</p>
+				<h1
+					class="hero-rise font-display-lg text-foreground mb-6 text-4xl tracking-tight text-balance lg:text-5xl"
+					style="--d:1"
+				>
+					{_("German Precision Engineering. Official Ukrainian Distributor.")}
+				</h1>
+				<p
+					class="hero-rise font-body-md text-industrial-gray max-w-prose text-base leading-relaxed lg:text-lg"
+					style="--d:2"
+				>
+					{
+						_(
+							"OS-Technology Ukraine is the exclusive authorized distributor and certified integration partner of WIPOTEC GmbH and MESUTRONIC Gerätebau GmbH in Ukraine. We deliver world-class dynamic checkweighers, industrial metal detectors, X-Ray scanners, and pharmaceutical Track & Trace serialization lines with turnkey commissioning and factory warranty."
+						)
+					}
+				</p>
+
+				<ul
+					class="hero-rise m-0 mt-8 grid list-none grid-cols-1 gap-4 p-0 sm:grid-cols-2"
+					style="--d:3"
+				>
+					{
+						highlights.map(({ Icon, text }) => (
+							<li class="flex items-center gap-3">
+								<span
+									class="bg-surface-container text-secondary border-border-subtle/50 shrink-0 rounded-lg border p-2"
+									aria-hidden="true"
+								>
+									<Icon className="h-5 w-5" />
+								</span>
+								<span class="font-body-md text-foreground text-sm font-semibold">{text}</span>
+							</li>
+						))
+					}
+				</ul>
+
+				<div class="hero-rise flex flex-col gap-3 pt-8 sm:flex-row" style="--d:4">
+					<a
+						href={`/${lang}/contact`}
+						class="group bg-primary text-primary-foreground focus-visible:outline-secondary inline-flex items-center justify-center gap-2 rounded-lg px-7 py-3.5 text-[15px] leading-[22px] font-medium shadow-xs transition-[opacity,box-shadow] hover:opacity-90 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2"
+					>
+						{_("Request a quote")}
+						<ArrowRight
+							className="size-[18px] transition-transform duration-200 group-hover:translate-x-1"
+							aria-hidden="true"
+						/>
+					</a>
+					<a
+						href={`/${lang}/catalogue/checkweigher`}
+						class="border-secondary text-secondary hover:bg-secondary/5 focus-visible:outline-secondary inline-flex items-center justify-center gap-2 rounded-lg border-2 px-7 py-3.5 text-[15px] leading-[22px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+					>
+						{_("View equipment")}
+					</a>
+				</div>
+			</div>
+
+			<div class="lg:col-span-5">
+				<dl class="m-0 grid grid-cols-1 gap-3 p-0 sm:grid-cols-2 sm:gap-4">
+					{
+						kpis.map(({ Icon, label, value, featured, countTo, countSuffix }, i) => (
+							<div
+								class:list={[
+									"hero-rise group/kpi border-border-subtle/60 hover:border-secondary/40 flex items-center gap-4 rounded-lg border p-4 shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-md motion-safe:hover:-translate-y-0.5",
+									featured
+										? "border-l-secondary from-secondary/10 to-surface-container border-l-4 bg-linear-to-br"
+										: "bg-surface-container",
+								]}
+								style={`--d:${3 + i}`}
+							>
+								<div
+									class="bg-background text-secondary border-border-subtle/50 group-hover/kpi:bg-secondary group-hover/kpi:text-background group-hover/kpi:border-secondary shrink-0 rounded-lg border p-3 transition-colors duration-300"
+									aria-hidden="true"
+								>
+									<Icon className="h-6 w-6" />
+								</div>
+								<div class="flex flex-col-reverse justify-end gap-1">
+									<dt class="font-label-caps text-industrial-gray text-xs uppercase">{label}</dt>
+									<dd
+										class:list={[
+											"font-technical-data m-0 text-2xl font-bold tabular-nums sm:text-3xl",
+											featured ? "text-secondary" : "text-foreground",
+										]}
+										data-count-to={countTo}
+										data-count-suffix={countSuffix}
+										data-count-delay={400 + i * 120}
+									>
+										{value}
+									</dd>
+								</div>
+							</div>
+						))
+					}
+				</dl>
+			</div>
+		</div>
+	</div>
+</header>
+
+<style>
+	@media (prefers-reduced-motion: no-preference) {
+		.hero-rise {
+			animation: hero-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+			animation-delay: calc(var(--d, 0) * 90ms);
+		}
+	}
+
+	@keyframes hero-rise {
+		from {
+			opacity: 0;
+			transform: translateY(18px);
+		}
+	}
+</style>
+
+<script>
+	// Count the KPI numbers up from 0; the server-rendered text is already the final value
+	if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+		const DURATION = 1200;
+		document.querySelectorAll<HTMLElement>("[data-count-to]").forEach((el) => {
+			const target = Number(el.dataset.countTo);
+			if (!Number.isFinite(target)) return;
+			const suffix = el.dataset.countSuffix ?? "";
+			const delay = Number(el.dataset.countDelay ?? 0);
+			const startedAt = performance.now();
+
+			el.textContent = `0${suffix}`;
+			const tick = (now: number) => {
+				const t = Math.min(1, Math.max(0, (now - startedAt - delay) / DURATION));
+				const eased = 1 - (1 - t) ** 3;
+				el.textContent = `${Math.round(target * eased)}${suffix}`;
+				if (t < 1) requestAnimationFrame(tick);
+			};
+			requestAnimationFrame(tick);
+		});
+	}
+</script>

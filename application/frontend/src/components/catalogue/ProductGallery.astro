@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import { getInlineTranslations, type Lang } from "@/i18n";
 
 interface Props {
@@ -20,7 +21,7 @@ const hasMultiple = galleryImages.length > 1;
 >
 	{/* Main Interactive Viewer Card */}
 	<div
-		class="group border-border/80 from-muted/50 via-muted/20 to-background hover:border-border relative aspect-[4/3] w-full overflow-hidden rounded-2xl border bg-gradient-to-b shadow-xs transition-all duration-300 md:aspect-[16/10]"
+		class="group border-border-subtle/70 hover:border-secondary/40 before:from-secondary relative aspect-[4/3] w-full overflow-hidden rounded-xl border bg-white shadow-xs transition-[box-shadow,border-color] duration-300 before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-0.5 before:bg-linear-to-r before:to-transparent hover:shadow-lg md:aspect-[16/10]"
 	>
 		{/* Top Badges Bar */}
 		<div
@@ -32,7 +33,7 @@ const hasMultiple = galleryImages.length > 1;
 						id="gallery-badge-counter"
 						class="border-border/60 bg-background/80 text-muted-foreground pointer-events-auto inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[11px] font-medium shadow-2xs backdrop-blur-md"
 					>
-						<span class="bg-primary inline-block h-1.5 w-1.5 rounded-full" />
+						<span class="bg-secondary inline-block h-1.5 w-1.5 rounded-full" />
 						<span id="gallery-badge-text">
 							01 / {galleryImages.length < 10 ? `0${galleryImages.length}` : galleryImages.length}
 						</span>
@@ -55,10 +56,12 @@ const hasMultiple = galleryImages.length > 1;
 
 		{/* Main Image Frame */}
 		<div class="flex h-full w-full items-center justify-center p-6 md:p-8">
-			<img
+			<Image
 				id="gallery-main-image"
 				src={galleryImages[0]}
 				alt={title}
+				width={800}
+				height={600}
 				class="max-h-full max-w-full cursor-zoom-in object-contain drop-shadow-sm transition-transform duration-300 ease-out group-hover:scale-[1.02]"
 				loading="eager"
 			/>
@@ -98,26 +101,28 @@ const hasMultiple = galleryImages.length > 1;
 				aria-label={_("Product image thumbnails")}
 			>
 				{galleryImages.map((img, idx) => (
-					<button
-						type="button"
-						class={`gallery-thumb group bg-muted/30 relative aspect-[4/3] h-18 shrink-0 cursor-pointer overflow-hidden rounded-xl border p-1.5 transition-all duration-200 ${
-							idx === 0
-								? "border-primary ring-primary/20 ring-offset-background opacity-100 shadow-xs ring-2 ring-offset-2"
-								: "border-border/60 hover:border-border opacity-60 hover:opacity-100"
-						}`}
-						data-index={idx}
-						aria-label={`${_("View image")} ${idx + 1}`}
-						role="tab"
-						aria-selected={idx === 0 ? "true" : "false"}
-					>
-						<img
-							src={img}
-							alt={`${title} - ${idx + 1}`}
-							class="h-full w-full object-contain transition-transform duration-200 group-hover:scale-105"
-							loading="lazy"
-						/>
-					</button>
-				))}
+						<button
+							type="button"
+							class={`gallery-thumb group bg-white relative aspect-[4/3] h-18 shrink-0 cursor-pointer overflow-hidden rounded-lg border p-1.5 transition-all duration-200 ${
+								idx === 0
+									? "border-secondary ring-secondary/20 ring-offset-background opacity-100 shadow-xs ring-2 ring-offset-2"
+									: "border-border/60 hover:border-border opacity-60 hover:opacity-100"
+							}`}
+							data-index={idx}
+							aria-label={`${_("View image")} ${idx + 1}`}
+							role="tab"
+							aria-selected={idx === 0 ? "true" : "false"}
+						>
+							<Image
+								src={img}
+								alt={`${title} - ${idx + 1}`}
+								width={160}
+								height={120}
+								class="h-full w-full object-contain transition-transform duration-200 group-hover:scale-105"
+								loading="eager"
+							/>
+						</button>
+					))}
 			</div>
 		)
 	}
@@ -164,11 +169,14 @@ const hasMultiple = galleryImages.length > 1;
 
 			{/* Main Lightbox Image Viewport */}
 			<div class="relative flex max-h-[75vh] w-full flex-1 items-center justify-center p-4">
-				<img
+				<Image
 					id="lightbox-image"
 					src={galleryImages[0]}
 					alt={title}
+					width={1200}
+					height={900}
 					class="max-h-[70vh] max-w-full object-contain drop-shadow-md transition-all duration-200"
+					loading="lazy"
 				/>
 
 				{/* Navigation Buttons in Lightbox */}
@@ -201,15 +209,21 @@ const hasMultiple = galleryImages.length > 1;
 				hasMultiple && (
 					<div class="border-border/40 flex items-center gap-2 overflow-x-auto border-t pt-4 pb-2">
 						{galleryImages.map((img, idx) => (
-							<button
-								type="button"
-								class="lightbox-thumb bg-muted/40 aspect-[4/3] h-14 shrink-0 cursor-pointer overflow-hidden rounded-lg border p-1 transition-all"
-								data-index={idx}
-								aria-label={`${_("View image")} ${idx + 1}`}
-							>
-								<img src={img} alt={`${title} - ${idx + 1}`} class="h-full w-full object-contain" />
-							</button>
-						))}
+								<button
+									type="button"
+									class="lightbox-thumb bg-muted/40 aspect-[4/3] h-14 shrink-0 cursor-pointer overflow-hidden rounded-lg border p-1 transition-all"
+									data-index={idx}
+									aria-label={`${_("View image")} ${idx + 1}`}
+								>
+									<Image
+										src={img}
+										alt={`${title} - ${idx + 1}`}
+										width={100}
+										height={75}
+										class="h-full w-full object-contain"
+									/>
+								</button>
+							))}
 					</div>
 				)
 			}
@@ -273,9 +287,9 @@ const hasMultiple = galleryImages.length > 1;
 				thumb.setAttribute("aria-selected", isCurrent ? "true" : "false");
 				if (isCurrent) {
 					thumb.classList.add(
-						"border-primary",
+						"border-secondary",
 						"ring-2",
-						"ring-primary/20",
+						"ring-secondary/20",
 						"ring-offset-2",
 						"opacity-100",
 						"shadow-xs"
@@ -283,9 +297,9 @@ const hasMultiple = galleryImages.length > 1;
 					thumb.classList.remove("border-border/60", "opacity-60");
 				} else {
 					thumb.classList.remove(
-						"border-primary",
+						"border-secondary",
 						"ring-2",
-						"ring-primary/20",
+						"ring-secondary/20",
 						"ring-offset-2",
 						"opacity-100",
 						"shadow-xs"
@@ -297,10 +311,10 @@ const hasMultiple = galleryImages.length > 1;
 			lightboxThumbs.forEach((thumb, i) => {
 				const isCurrent = i === activeIndex;
 				if (isCurrent) {
-					thumb.classList.add("border-primary", "ring-2", "ring-primary/20", "opacity-100");
+					thumb.classList.add("border-secondary", "ring-2", "ring-secondary/20", "opacity-100");
 					thumb.classList.remove("border-border/60", "opacity-50");
 				} else {
-					thumb.classList.remove("border-primary", "ring-2", "ring-primary/20", "opacity-100");
+					thumb.classList.remove("border-secondary", "ring-2", "ring-secondary/20", "opacity-100");
 					thumb.classList.add("border-border/60", "opacity-50");
 				}
 			});

@@ -9,21 +9,34 @@ const { lang } = Astro.props;
 const _ = getInlineTranslations(lang);
 ---
 
-<section class="relative w-full overflow-hidden pt-12 pb-16">
+<section
+	class="from-surface-container/40 to-background border-border-subtle/60 relative w-full overflow-hidden border-b bg-linear-to-b py-12 lg:py-20"
+>
 	<div
-		class="pointer-events-none absolute inset-0 opacity-[0.03]"
-		style="background-image: radial-gradient(var(--color-foreground) 1px, transparent 1px); background-size: 24px 24px;"
+		class="bg-secondary/10 pointer-events-none absolute -top-32 -right-24 size-[30rem] rounded-full blur-3xl"
 		aria-hidden="true"
 	>
 	</div>
 
-	<div class="relative mx-auto max-w-[1280px] px-8">
-		{/* Headline block */}
-		<header class="space-y-6 lg:w-2/3">
-			<h1 class="font-display-lg text-display-lg text-foreground font-heading tracking-tight">
+	<div class="px-edge-margin relative mx-auto max-w-[1280px]">
+		<header class="max-w-3xl">
+			<p
+				class="hero-rise font-label-caps text-secondary mb-4 flex items-center gap-3 text-xs tracking-widest uppercase"
+				style="--d:0"
+			>
+				<span class="bg-secondary h-px w-8" aria-hidden="true"></span>
+				{_("Contact Us")}
+			</p>
+			<h1
+				class="hero-rise font-display-lg text-foreground mb-6 text-4xl tracking-tight text-balance lg:text-5xl"
+				style="--d:1"
+			>
 				{_("Get in Touch")}
 			</h1>
-			<p class="text-industrial-gray max-w-2xl text-lg leading-relaxed">
+			<p
+				class="hero-rise font-body-md text-industrial-gray max-w-2xl text-base leading-relaxed lg:text-lg"
+				style="--d:2"
+			>
 				{
 					_(
 						"Contact our engineering team to discuss equipment selection, request a quotation, or arrange a product demonstration."
@@ -33,3 +46,19 @@ const _ = getInlineTranslations(lang);
 		</header>
 	</div>
 </section>
+
+<style>
+	@media (prefers-reduced-motion: no-preference) {
+		.hero-rise {
+			animation: hero-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+			animation-delay: calc(var(--d, 0) * 90ms);
+		}
+	}
+
+	@keyframes hero-rise {
+		from {
+			opacity: 0;
+			transform: translateY(18px);
+		}
+	}
+</style>

@@ -11,6 +11,11 @@ export function getLangFromUrl(url: URL): Lang {
 	return defaultLang;
 }
 
+/** Internal route code ("ua") -> ISO 639-1 code ("uk") for lang/hreflang/inLanguage. */
+export function getIsoLang(lang: Lang): string {
+	return lang === "ua" ? "uk" : lang;
+}
+
 export function getTranslations(lang: Lang) {
 	return function t(key: keyof (typeof ui)[typeof defaultLang]) {
 		return ui[lang][key] || ui[defaultLang][key];

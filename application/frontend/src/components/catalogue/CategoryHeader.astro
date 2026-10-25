@@ -1,5 +1,5 @@
 ---
-import type { Lang } from "@/i18n/utils";
+import { getInlineTranslations, type Lang } from "@/i18n";
 
 interface Props {
 	categoryData: {
@@ -10,17 +10,62 @@ interface Props {
 }
 
 const { categoryData, lang } = Astro.props;
+const _ = getInlineTranslations(lang);
 const title = categoryData.title;
 const description = categoryData.description;
 ---
 
-<header class="mb-12">
-	<h1
-		class="font-heading text-foreground mb-4 text-4xl leading-tight font-semibold tracking-tight md:text-5xl lg:text-6xl"
+<header
+	class="from-surface-container/40 to-background border-border-subtle/60 relative w-full overflow-hidden border-b bg-linear-to-b py-12 lg:py-20"
+	data-catalogue-hero
+>
+	<div
+		class="bg-secondary/10 pointer-events-none absolute -top-32 -right-24 size-[30rem] rounded-full blur-3xl"
+		aria-hidden="true"
 	>
-		{title}
-	</h1>
-	<p class="text-muted-foreground max-w-5xl text-sm leading-relaxed md:text-base">
-		{description}
-	</p>
+	</div>
+
+	<div class="px-edge-margin relative mx-auto max-w-[1600px]">
+		<div class="max-w-3xl">
+			<p
+				class="hero-rise font-label-caps text-secondary mb-4 flex items-center gap-3 text-xs tracking-widest uppercase"
+				style="--d:0"
+			>
+				<span class="bg-secondary h-px w-8" aria-hidden="true"></span>
+				{_("Catalogue")}
+			</p>
+			<h1
+				class="hero-rise font-display-lg text-foreground mb-6 text-4xl tracking-tight text-balance lg:text-5xl"
+				style="--d:1"
+			>
+				{title}
+			</h1>
+			{
+				description && (
+					<p
+						class="hero-rise font-body-md text-industrial-gray max-w-2xl text-base leading-relaxed lg:text-lg"
+						style="--d:2"
+					>
+						{description}
+					</p>
+				)
+			}
+		</div>
+	</div>
 </header>
+
+<style>
+	@media (prefers-reduced-motion: no-preference) {
+		.hero-rise {
+			animation: hero-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+			animation-delay: calc(var(--d, 0) * 90ms);
+		}
+	}
+
+	@keyframes hero-rise {
+		from {
+			opacity: 0;
+			transform: translateY(18px);
+		}
+	}
+</style>
