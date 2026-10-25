@@ -1,4 +1,14 @@
-﻿---
+---
+import {
+	ArrowRight,
+	BadgeCheck,
+	Boxes,
+	CalendarDays,
+	Handshake,
+	QrCode,
+	ScanLine,
+	Scale,
+} from "lucide-react";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import type { EquipmentStats } from "@/lib/about/types";
 
@@ -9,40 +19,39 @@ interface Props {
 
 const { lang, stats } = Astro.props;
 const _ = getInlineTranslations(lang);
+
+const highlights = [
+	{ Icon: CalendarDays, text: _("Serving Ukraine since 2013") },
+	{ Icon: Handshake, text: _("Trusted by 300+ factories across Ukraine") },
+];
+
+const kpis = [
+	{ Icon: Boxes, label: _("Installed Systems"), value: `${stats.total}+`, featured: true },
+	{ Icon: Scale, label: _("Checkweighers"), value: stats.cw },
+	{ Icon: ScanLine, label: _("Metal Detectors"), value: stats.md },
+	stats.tqs > 0
+		? { Icon: QrCode, label: _("Serialization Stations"), value: stats.tqs }
+		: { Icon: BadgeCheck, label: _("German Hardware"), value: "100%" },
+];
 ---
 
-<header class="bg-background w-full py-12 lg:py-20">
+<header
+	class="from-surface-container/40 to-background border-border-subtle/60 w-full border-b bg-linear-to-b py-12 lg:py-20"
+>
 	<div class="px-edge-margin mx-auto max-w-[1280px]">
-		{/* Semantic breadcrumb navigation */}
-		<nav aria-label={_("Breadcrumb")} class="mb-6">
-			<ol
-				class="font-technical-data text-industrial-gray m-0 flex list-none items-center gap-2 p-0 text-xs"
-			>
-				<li>
-					<a href={`/${lang}`} class="hover:text-primary transition-colors">{_("Home")}</a>
-				</li>
-				<li aria-hidden="true">/</li>
-				<li>
-					<span class="text-foreground font-medium" aria-current="page">{_("About Us")}</span>
-				</li>
-			</ol>
-		</nav>
-
 		<div class="gap-gutter grid grid-cols-1 items-center lg:grid-cols-12">
-			<div class="flex flex-col justify-center lg:col-span-8">
-				<p class="mb-4">
-					<span
-						class="bg-secondary/10 text-secondary font-label-caps inline-block rounded px-3 py-1 text-xs font-semibold tracking-wider uppercase"
-					>
-						{_("Official German Engineering Partner")}
-					</span>
+			<div class="flex flex-col justify-center lg:col-span-7">
+				<p class="font-label-caps text-secondary mb-4 text-xs tracking-widest uppercase">
+					WIPOTEC · MESUTRONIC
 				</p>
 				<h1
-					class="font-display-lg text-display-lg-mobile text-foreground mb-6 tracking-tight lg:text-5xl"
+					class="font-display-lg text-foreground mb-6 text-4xl tracking-tight text-balance lg:text-5xl"
 				>
 					{_("German Precision Engineering. Official Ukrainian Distributor.")}
 				</h1>
-				<p class="font-body-md text-industrial-gray mb-8 max-w-3xl text-base leading-relaxed">
+				<p
+					class="font-body-md text-industrial-gray max-w-prose text-base leading-relaxed lg:text-lg"
+				>
 					{
 						_(
 							"OS-Technology Ukraine is the exclusive authorized distributor and certified integration partner of WIPOTEC GmbH and MESUTRONIC Gerätebau GmbH in Ukraine. We deliver world-class dynamic checkweighers, industrial metal detectors, X-Ray scanners, and pharmaceutical Track & Trace serialization lines with turnkey commissioning and factory warranty."
@@ -50,80 +59,71 @@ const _ = getInlineTranslations(lang);
 					}
 				</p>
 
-				{/* Semantic definition list for key performance indicators */}
-				<dl class="m-0 grid grid-cols-2 gap-3 p-0 sm:grid-cols-4">
-					<div
-						class="bg-surface-container border-border-subtle/60 flex flex-col-reverse justify-end gap-1 rounded-lg border p-4 shadow-xs"
+				<ul class="m-0 mt-8 grid list-none grid-cols-1 gap-4 p-0 sm:grid-cols-2">
+					{
+						highlights.map(({ Icon, text }) => (
+							<li class="flex items-center gap-3">
+								<span
+									class="bg-surface-container text-secondary border-border-subtle/50 shrink-0 rounded-lg border p-2"
+									aria-hidden="true"
+								>
+									<Icon className="h-5 w-5" />
+								</span>
+								<span class="font-body-md text-foreground text-sm font-semibold">{text}</span>
+							</li>
+						))
+					}
+				</ul>
+
+				<div class="flex flex-col gap-3 pt-8 sm:flex-row">
+					<a
+						href={`/${lang}/contact`}
+						class="bg-primary text-primary-foreground inline-flex items-center justify-center gap-2 rounded-lg px-7 py-3.5 text-[15px] leading-[22px] font-medium transition-opacity hover:opacity-90"
 					>
-						<dt class="font-label-caps text-industrial-gray text-xs uppercase">
-							{_("Installed Systems")}
-						</dt>
-						<dd class="font-technical-data text-foreground m-0 text-2xl font-bold sm:text-3xl">
-							{stats.total}+
-						</dd>
-					</div>
-					<div
-						class="bg-surface-container border-border-subtle/60 flex flex-col-reverse justify-end gap-1 rounded-lg border p-4 shadow-xs"
+						{_("Request a quote")}
+						<ArrowRight className="size-[18px]" aria-hidden="true" />
+					</a>
+					<a
+						href={`/${lang}/catalogue/checkweigher`}
+						class="border-secondary text-secondary hover:bg-secondary/5 inline-flex items-center justify-center gap-2 rounded-lg border-2 px-7 py-3.5 text-[15px] leading-[22px] font-medium transition-colors"
 					>
-						<dt class="font-label-caps text-industrial-gray text-xs uppercase">
-							{_("Dynamic Checkweighers")}
-						</dt>
-						<dd class="font-technical-data text-secondary m-0 text-2xl font-bold sm:text-3xl">
-							{stats.cw}
-						</dd>
-					</div>
-					<div
-						class="bg-surface-container border-border-subtle/60 flex flex-col-reverse justify-end gap-1 rounded-lg border p-4 shadow-xs"
-					>
-						<dt class="font-label-caps text-industrial-gray text-xs uppercase">
-							{_("Metal Detectors")}
-						</dt>
-						<dd class="font-technical-data text-foreground m-0 text-2xl font-bold sm:text-3xl">
-							{stats.md}
-						</dd>
-					</div>
-					<div
-						class="bg-surface-container border-border-subtle/60 flex flex-col-reverse justify-end gap-1 rounded-lg border p-4 shadow-xs"
-					>
-						<dt class="font-label-caps text-industrial-gray text-xs uppercase">
-							{stats.tqs > 0 ? _("Serialization Stations") : _("German Hardware")}
-						</dt>
-						<dd class="font-technical-data text-foreground m-0 text-2xl font-bold sm:text-3xl">
-							{stats.tqs > 0 ? stats.tqs : "100%"}
-						</dd>
-					</div>
-				</dl>
+						{_("View equipment")}
+					</a>
+				</div>
 			</div>
 
-			<aside class="flex flex-col gap-4 lg:col-span-4">
-				<article
-					class="bg-surface-container border-border-subtle/80 rounded-xl border p-6 shadow-xs"
-				>
-					<header>
-						<span class="font-label-caps text-secondary mb-1 block text-xs font-semibold uppercase"
-							>{_("Direct Authorization")}</span
-						>
-						<h2 class="font-headline-lg text-foreground mb-2 text-lg font-semibold">
-							{_("Factory Endorsed Expertise")}
-						</h2>
-					</header>
-					<p class="font-body-md text-industrial-gray mb-4 text-sm leading-relaxed">
-						{
-							_(
-								"Direct factory supply lines from Kaiserslautern and Kirchberg ensure original German components, continuous software updates, and rapid spare parts availability nationwide."
-							)
-						}
-					</p>
-					<footer>
-						<a
-							href="#credentials"
-							class="font-technical-data text-secondary inline-flex items-center gap-1 text-xs font-semibold hover:underline"
-						>
-							{_("View Manufacturer Credentials")} →
-						</a>
-					</footer>
-				</article>
-			</aside>
+			<div class="lg:col-span-5">
+				<dl class="m-0 grid grid-cols-1 gap-3 p-0 sm:grid-cols-2 sm:gap-4">
+					{
+						kpis.map(({ Icon, label, value, featured }) => (
+							<div
+								class:list={[
+									"bg-surface-container border-border-subtle/60 flex items-center gap-4 rounded-lg border p-4 shadow-xs",
+									featured && "border-l-secondary border-l-4",
+								]}
+							>
+								<div
+									class="bg-background text-secondary border-border-subtle/50 shrink-0 rounded-lg border p-3"
+									aria-hidden="true"
+								>
+									<Icon className="h-6 w-6" />
+								</div>
+								<div class="flex flex-col-reverse justify-end gap-1">
+									<dt class="font-label-caps text-industrial-gray text-xs uppercase">{label}</dt>
+									<dd
+										class:list={[
+											"font-technical-data m-0 text-2xl font-bold tabular-nums sm:text-3xl",
+											featured ? "text-secondary" : "text-foreground",
+										]}
+									>
+										{value}
+									</dd>
+								</div>
+							</div>
+						))
+					}
+				</dl>
+			</div>
 		</div>
 	</div>
 </header>
