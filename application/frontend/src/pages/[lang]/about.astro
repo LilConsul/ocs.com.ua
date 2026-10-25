@@ -2,7 +2,6 @@
 import AboutCta from "@/components/about/AboutCta.astro";
 import AboutHero from "@/components/about/AboutHero.astro";
 import ClientDirectory from "@/components/about/ClientDirectory.astro";
-import InfrastructureHighlights from "@/components/about/InfrastructureHighlights.astro";
 import InteractiveUkraineMap from "@/components/about/InteractiveUkraineMap.astro";
 import ManufacturerCredentials from "@/components/about/ManufacturerCredentials.astro";
 import companyData from "@/data/company.json";
@@ -116,7 +115,6 @@ const structuredData = [
 
 	<AboutHero lang={lang} stats={globalStats} />
 	<ManufacturerCredentials lang={lang} />
-	<InfrastructureHighlights lang={lang} />
 	<InteractiveUkraineMap lang={lang} cityHubs={cityHubs} sectors={sectorBreakdowns} />
 	<ClientDirectory lang={lang} partners={allPartners} />
 	<AboutCta lang={lang} />
