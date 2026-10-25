@@ -2,11 +2,11 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use skills:subagent-driven-development (recommended) or skills:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build a bilingual (`/en/about`, `/ua/about`) About Us page featuring dynamic equipment calculations from `partners.json`, automated build-time geocoding, official WIPOTEC & MESUTRONIC credentials with PDF downloads, an interactive Leaflet Ukraine installation map with city hubs, and an SEO-optimized enterprise client directory.
+**Goal:** Build a semantic, bilingual (`/en/about`, `/ua/about`) About Us page featuring dynamic equipment calculations from `partners.json`, automated build-time geocoding, official WIPOTEC & MESUTRONIC credentials with PDF downloads, an interactive Leaflet Ukraine installation map with city hubs, and an SEO-optimized enterprise client directory.
 
-**Architecture:** Pure TypeScript calculation and geocoding modules parse `src/data/partners.json` and `src/data/documents.json`. Static Astro components render the Hero, Manufacturer Credentials, Infrastructure Highlights, and Client Directory. The Ukraine Map component lazy-loads a lightweight Leaflet instance with custom styled brand pins and an interactive city hub inspection drawer.
+**Architecture:** Pure TypeScript calculation and geocoding modules parse `src/data/partners.json` and `src/data/documents.json`. Static Astro components render semantic HTML5 elements (`<article>`, `<header>`, `<footer>`, `<figure>`, `<dl>`, `<dt>`, `<dd>`, `<address>`, `<ul>`, `<section aria-labelledby="...">`) for the Hero, Manufacturer Credentials, Infrastructure Highlights, and Client Directory. The Ukraine Map component lazy-loads a lightweight Leaflet instance with custom styled brand pins and an interactive city hub inspection drawer.
 
-**Tech Stack:** Astro, TypeScript, Tailwind CSS v4, Leaflet, JSON-LD Schema.org, Bun Test, Biome.
+**Tech Stack:** Astro, TypeScript, Semantic HTML5 (`<article>`, `<dl>`, `<figure>`, etc.), Tailwind CSS v4, Leaflet, JSON-LD Schema.org, Bun Test, Biome.
 
 ______________________________________________________________________
 
@@ -24,12 +24,12 @@ application/frontend/
 │   │       └── partners-data.ts            # Dynamic KPI calculation, city hub aggregation, client helpers
 │   ├── components/
 │   │   └── about/
-│   │       ├── AboutHero.astro             # Hero with breadcrumbs, H1, mission, and dynamic KPI grid
-│   │       ├── ManufacturerCredentials.astro # WIPOTEC & MESUTRONIC official partner cards & PDF links
-│   │       ├── InfrastructureHighlights.astro # Certified engineers, line commissioning, Kyiv warehouse
-│   │       ├── InteractiveUkraineMap.astro # Leaflet map, pulsing pins, city hub inspector, sector matrix
-│   │       ├── ClientDirectory.astro       # Filterable client grid (All/Food/Pharma/Household)
-│   │       └── AboutCta.astro              # High-conversion consultation CTA banner
+│   │       ├── AboutHero.astro             # Hero with semantic breadcrumbs, H1, mission, and definition list metrics
+│   │       ├── ManufacturerCredentials.astro # WIPOTEC & MESUTRONIC <article> credentials & PDF links
+│   │       ├── InfrastructureHighlights.astro # Certified engineers, line commissioning, Kyiv warehouse (<article>)
+│   │       ├── InteractiveUkraineMap.astro # Leaflet map <figure>, pulsing pins, city hub inspector <dl>, sector matrix
+│   │       ├── ClientDirectory.astro       # Filterable client grid (<article>, <figure>, <dl>, <address>)
+│   │       └── AboutCta.astro              # High-conversion consultation CTA banner (<section>)
 │   └── pages/
 │       └── [lang]/
 │           └── about.astro                 # Bilingual static route with JSON-LD structured data
@@ -546,7 +546,7 @@ Run: `bun add leaflet && bun add -d @types/leaflet` inside `application/frontend
 - [ ] **Step 2: Verify package.json and run existing test suite**
 
 Run: `bun test`
-Expected: All 192+ tests pass with zero errors.
+Expected: All tests pass with zero errors.
 
 - [ ] **Step 3: Commit Task 3**
 
@@ -557,7 +557,7 @@ git commit -m "build(about): add leaflet dependency for interactive map"
 
 ______________________________________________________________________
 
-### Task 4: Hero, Infrastructure & CTA Components
+### Task 4: Semantic Hero, Infrastructure & CTA Components
 
 **Files:**
 
@@ -567,7 +567,7 @@ ______________________________________________________________________
 
 - Create: `application/frontend/src/components/about/AboutCta.astro`
 
-- [ ] **Step 1: Create `AboutHero.astro`**
+- [ ] **Step 1: Create `AboutHero.astro` using semantic `<header>`, `<nav>`, `<ol>`, and `<dl>` elements**
 
 Create `application/frontend/src/components/about/AboutHero.astro`:
 
@@ -585,22 +585,28 @@ const { lang, stats } = Astro.props;
 const _ = getInlineTranslations(lang);
 ---
 
-<section class="w-full py-12 lg:py-20 bg-surface">
+<header class="w-full py-12 lg:py-20 bg-surface">
 	<div class="max-w-container-max mx-auto px-edge-margin">
-		<!-- Breadcrumbs -->
-		<nav aria-label={_("Breadcrumb")} class="mb-6 flex items-center gap-2 font-technical-data text-xs text-industrial-gray">
-			<a href={`/${lang}`} class="hover:text-primary transition-colors">{_("Home")}</a>
-			<span>/</span>
-			<span class="text-primary font-medium" aria-current="page">{_("About Us")}</span>
+		<!-- Semantic Breadcrumb Navigation -->
+		<nav aria-label={_("Breadcrumb")} class="mb-6">
+			<ol class="flex items-center gap-2 font-technical-data text-xs text-industrial-gray list-none p-0 m-0">
+				<li>
+					<a href={`/${lang}`} class="hover:text-primary transition-colors">{_("Home")}</a>
+				</li>
+				<li aria-hidden="true">/</li>
+				<li>
+					<span class="text-primary font-medium" aria-current="page">{_("About Us")}</span>
+				</li>
+			</ol>
 		</nav>
 
 		<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center">
 			<div class="lg:col-span-8 flex flex-col justify-center">
-				<div class="flex flex-wrap items-center gap-2 mb-4">
-					<span class="px-3 py-1 rounded bg-secondary/10 text-secondary font-label-caps text-xs font-semibold uppercase tracking-wider">
+				<p class="mb-4">
+					<span class="inline-block px-3 py-1 rounded bg-secondary/10 text-secondary font-label-caps text-xs font-semibold uppercase tracking-wider">
 						{_("Official German Engineering Partner")}
 					</span>
-				</div>
+				</p>
 				<h1 class="font-display-lg text-headline-xl sm:text-display-lg-mobile lg:text-display-lg font-semibold tracking-tight text-primary mb-6">
 					{_("German Precision Engineering. Official Ukrainian Distributor.")}
 				</h1>
@@ -608,45 +614,49 @@ const _ = getInlineTranslations(lang);
 					{_("OS-Technology Ukraine is the exclusive authorized distributor and certified integration partner of WIPOTEC GmbH and MESUTRONIC Gerätebau GmbH in Ukraine. We deliver world-class dynamic checkweighers, industrial metal detectors, X-Ray scanners, and pharmaceutical Track & Trace serialization lines with turnkey commissioning and factory warranty.")}
 				</p>
 
-				<!-- Dynamic Metric Counters Row -->
-				<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-					<div class="bg-surface-container-low p-4 rounded-lg border border-border-subtle/60 shadow-sm">
-						<div class="font-technical-data text-2xl sm:text-3xl font-bold text-primary">{stats.total}+</div>
-						<div class="font-label-caps text-xs text-industrial-gray uppercase mt-1">{_("Installed Systems")}</div>
+				<!-- Semantic Definition List for Key Performance Indicators -->
+				<dl class="grid grid-cols-2 sm:grid-cols-4 gap-3 m-0 p-0">
+					<div class="bg-surface-container-low p-4 rounded-lg border border-border-subtle/60 shadow-xs">
+						<dd class="font-technical-data text-2xl sm:text-3xl font-bold text-primary m-0">{stats.total}+</dd>
+						<dt class="font-label-caps text-xs text-industrial-gray uppercase mt-1">{_("Installed Systems")}</dt>
 					</div>
-					<div class="bg-surface-container-low p-4 rounded-lg border border-border-subtle/60 shadow-sm">
-						<div class="font-technical-data text-2xl sm:text-3xl font-bold text-secondary">{stats.cw}</div>
-						<div class="font-label-caps text-xs text-industrial-gray uppercase mt-1">{_("Dynamic Checkweighers")}</div>
+					<div class="bg-surface-container-low p-4 rounded-lg border border-border-subtle/60 shadow-xs">
+						<dd class="font-technical-data text-2xl sm:text-3xl font-bold text-secondary m-0">{stats.cw}</dd>
+						<dt class="font-label-caps text-xs text-industrial-gray uppercase mt-1">{_("Dynamic Checkweighers")}</dt>
 					</div>
-					<div class="bg-surface-container-low p-4 rounded-lg border border-border-subtle/60 shadow-sm">
-						<div class="font-technical-data text-2xl sm:text-3xl font-bold text-primary">{stats.md}</div>
-						<div class="font-label-caps text-xs text-industrial-gray uppercase mt-1">{_("Metal Detectors")}</div>
+					<div class="bg-surface-container-low p-4 rounded-lg border border-border-subtle/60 shadow-xs">
+						<dd class="font-technical-data text-2xl sm:text-3xl font-bold text-primary m-0">{stats.md}</dd>
+						<dt class="font-label-caps text-xs text-industrial-gray uppercase mt-1">{_("Metal Detectors")}</dt>
 					</div>
-					<div class="bg-surface-container-low p-4 rounded-lg border border-border-subtle/60 shadow-sm">
-						<div class="font-technical-data text-2xl sm:text-3xl font-bold text-primary">{stats.tqs > 0 ? stats.tqs : "100%"}</div>
-						<div class="font-label-caps text-xs text-industrial-gray uppercase mt-1">{stats.tqs > 0 ? _("Serialization Stations") : _("German Hardware")}</div>
+					<div class="bg-surface-container-low p-4 rounded-lg border border-border-subtle/60 shadow-xs">
+						<dd class="font-technical-data text-2xl sm:text-3xl font-bold text-primary m-0">{stats.tqs > 0 ? stats.tqs : "100%"}</dd>
+						<dt class="font-label-caps text-xs text-industrial-gray uppercase mt-1">{stats.tqs > 0 ? _("Serialization Stations") : _("German Hardware")}</dt>
 					</div>
-				</div>
+				</dl>
 			</div>
 
-			<div class="lg:col-span-4 flex flex-col gap-4">
-				<div class="p-6 bg-surface-container-low rounded-xl border border-border-subtle/80 shadow-sm">
-					<div class="font-label-caps text-xs text-secondary font-semibold uppercase mb-2">{_("Direct Authorization")}</div>
-					<h2 class="font-headline-lg text-lg font-semibold text-primary mb-2">{_("Factory Endorsed Expertise")}</h2>
+			<aside class="lg:col-span-4 flex flex-col gap-4">
+				<article class="p-6 bg-surface-container-low rounded-xl border border-border-subtle/80 shadow-xs">
+					<header>
+						<span class="font-label-caps text-xs text-secondary font-semibold uppercase block mb-1">{_("Direct Authorization")}</span>
+						<h2 class="font-headline-lg text-lg font-semibold text-primary mb-2">{_("Factory Endorsed Expertise")}</h2>
+					</header>
 					<p class="font-body-md text-sm text-industrial-gray leading-relaxed mb-4">
 						{_("Direct factory supply lines from Kaiserslautern and Kirchberg ensure original German components, continuous software updates, and rapid spare parts availability nationwide.")}
 					</p>
-					<a href="#credentials" class="inline-flex items-center gap-1 font-technical-data text-xs font-semibold text-secondary hover:underline">
-						{_("View Manufacturer Credentials")} →
-					</a>
-				</div>
-			</div>
+					<footer>
+						<a href="#credentials" class="inline-flex items-center gap-1 font-technical-data text-xs font-semibold text-secondary hover:underline">
+							{_("View Manufacturer Credentials")} →
+						</a>
+					</footer>
+				</article>
+			</aside>
 		</div>
 	</div>
-</section>
+</header>
 ```
 
-- [ ] **Step 2: Create `InfrastructureHighlights.astro`**
+- [ ] **Step 2: Create `InfrastructureHighlights.astro` using `<section aria-labelledby>`, `<article>`, and `<ul>`**
 
 Create `application/frontend/src/components/about/InfrastructureHighlights.astro`:
 
@@ -663,57 +673,65 @@ const { lang } = Astro.props;
 const _ = getInlineTranslations(lang);
 ---
 
-<section class="w-full py-12 lg:py-16 bg-surface border-t border-border-subtle/40">
+<section aria-labelledby="infrastructure-title" class="w-full py-12 lg:py-16 bg-surface border-t border-border-subtle/40">
 	<div class="max-w-container-max mx-auto px-edge-margin">
-		<div class="bg-surface-container-low rounded-2xl p-6 sm:p-10 border border-border-subtle/80 shadow-sm">
-			<div class="mb-8">
-				<span class="font-label-caps text-xs text-secondary font-semibold uppercase tracking-wider">{_("Technical Infrastructure")}</span>
-				<h2 class="font-headline-xl text-xl sm:text-2xl font-semibold text-primary mt-1">{_("Comprehensive Line Support & Domestic Service")}</h2>
-			</div>
+		<div class="bg-surface-container-low rounded-2xl p-6 sm:p-10 border border-border-subtle/80 shadow-xs">
+			<header class="mb-8">
+				<span class="font-label-caps text-xs text-secondary font-semibold uppercase tracking-wider block">{_("Technical Infrastructure")}</span>
+				<h2 id="infrastructure-title" class="font-headline-xl text-xl sm:text-2xl font-semibold text-primary mt-1">
+					{_("Comprehensive Line Support & Domestic Service")}
+				</h2>
+			</header>
 
-			<div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-				<div class="flex items-start gap-4">
-					<div class="p-3 bg-surface rounded-lg text-secondary border border-border-subtle/50 shrink-0">
-						<Wrench className="w-6 h-6" />
-					</div>
-					<div>
-						<h3 class="font-headline-lg text-base sm:text-lg font-semibold text-primary">{_("Certified Factory Engineers")}</h3>
-						<p class="font-body-md text-sm text-industrial-gray mt-1 leading-relaxed">
-							{_("Directly trained and certified at WIPOTEC & MESUTRONIC German production plants for mechanical assembly, weighing cell calibration, and PLC integration.")}
-						</p>
-					</div>
-				</div>
+			<ul class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 list-none p-0 m-0">
+				<li>
+					<article class="flex items-start gap-4">
+						<div class="p-3 bg-surface rounded-lg text-secondary border border-border-subtle/50 shrink-0" aria-hidden="true">
+							<Wrench className="w-6 h-6" />
+						</div>
+						<div>
+							<h3 class="font-headline-lg text-base sm:text-lg font-semibold text-primary">{_("Certified Factory Engineers")}</h3>
+							<p class="font-body-md text-sm text-industrial-gray mt-1 leading-relaxed">
+								{_("Directly trained and certified at WIPOTEC & MESUTRONIC German production plants for mechanical assembly, weighing cell calibration, and PLC integration.")}
+							</p>
+						</div>
+					</article>
+				</li>
 
-				<div class="flex items-start gap-4">
-					<div class="p-3 bg-surface rounded-lg text-secondary border border-border-subtle/50 shrink-0">
-						<CheckCircle2 className="w-6 h-6" />
-					</div>
-					<div>
-						<h3 class="font-headline-lg text-base sm:text-lg font-semibold text-primary">{_("Turnkey Line Commissioning")}</h3>
-						<p class="font-body-md text-sm text-industrial-gray mt-1 leading-relaxed">
-							{_("Complete turn-key commissioning, factory validation (IQ/OQ/PQ), and regulatory certification compliant with IFS Food, BRC, HACCP, and EU GMP standards.")}
-						</p>
-					</div>
-				</div>
+				<li>
+					<article class="flex items-start gap-4">
+						<div class="p-3 bg-surface rounded-lg text-secondary border border-border-subtle/50 shrink-0" aria-hidden="true">
+							<CheckCircle2 className="w-6 h-6" />
+						</div>
+						<div>
+							<h3 class="font-headline-lg text-base sm:text-lg font-semibold text-primary">{_("Turnkey Line Commissioning")}</h3>
+							<p class="font-body-md text-sm text-industrial-gray mt-1 leading-relaxed">
+								{_("Complete turn-key commissioning, factory validation (IQ/OQ/PQ), and regulatory certification compliant with IFS Food, BRC, HACCP, and EU GMP standards.")}
+							</p>
+						</div>
+					</article>
+				</li>
 
-				<div class="flex items-start gap-4">
-					<div class="p-3 bg-surface rounded-lg text-secondary border border-border-subtle/50 shrink-0">
-						<ShieldCheck className="w-6 h-6" />
-					</div>
-					<div>
-						<h3 class="font-headline-lg text-base sm:text-lg font-semibold text-primary">{_("24/7 Domestic Parts Warehouse")}</h3>
-						<p class="font-body-md text-sm text-industrial-gray mt-1 leading-relaxed">
-							{_("Centralized spare parts storage in Kyiv with essential belts, EMFR weigh cells, rejectors, and search coils ready for prompt deployment across Ukraine.")}
-						</p>
-					</div>
-				</div>
-			</div>
+				<li>
+					<article class="flex items-start gap-4">
+						<div class="p-3 bg-surface rounded-lg text-secondary border border-border-subtle/50 shrink-0" aria-hidden="true">
+							<ShieldCheck className="w-6 h-6" />
+						</div>
+						<div>
+							<h3 class="font-headline-lg text-base sm:text-lg font-semibold text-primary">{_("24/7 Domestic Parts Warehouse")}</h3>
+							<p class="font-body-md text-sm text-industrial-gray mt-1 leading-relaxed">
+								{_("Centralized spare parts storage in Kyiv with essential belts, EMFR weigh cells, rejectors, and search coils ready for prompt deployment across Ukraine.")}
+							</p>
+						</div>
+					</article>
+				</li>
+			</ul>
 		</div>
 	</div>
 </section>
 ```
 
-- [ ] **Step 3: Create `AboutCta.astro`**
+- [ ] **Step 3: Create `AboutCta.astro` using `<section aria-labelledby>` and semantic buttons/links**
 
 Create `application/frontend/src/components/about/AboutCta.astro`:
 
@@ -731,12 +749,12 @@ const { lang } = Astro.props;
 const _ = getInlineTranslations(lang);
 ---
 
-<section class="w-full py-16 lg:py-24 bg-surface-container-low border-t border-border-subtle/40">
+<section aria-labelledby="cta-heading" class="w-full py-16 lg:py-24 bg-surface-container-low border-t border-border-subtle/40">
 	<div class="max-w-container-max mx-auto px-edge-margin">
 		<div class="bg-primary text-white rounded-2xl p-8 sm:p-12 relative overflow-hidden shadow-xl">
 			<div class="relative z-10 max-w-2xl">
-				<span class="font-label-caps text-xs text-secondary-fixed font-semibold uppercase tracking-wider">{_("Engineering Consultation")}</span>
-				<h2 class="font-headline-xl text-2xl sm:text-3xl font-bold mt-2 mb-4 text-white">
+				<span class="font-label-caps text-xs text-secondary-fixed font-semibold uppercase tracking-wider block">{_("Engineering Consultation")}</span>
+				<h2 id="cta-heading" class="font-headline-xl text-2xl sm:text-3xl font-bold mt-2 mb-4 text-white">
 					{_("Upgrade Your Line with German Quality")}
 				</h2>
 				<p class="font-body-lg text-sm sm:text-base text-primary-fixed-dim leading-relaxed mb-8">
@@ -747,15 +765,15 @@ const _ = getInlineTranslations(lang);
 						href={`/${lang}/contact`}
 						class="inline-flex items-center gap-2 px-6 py-3.5 bg-secondary text-white font-technical-data text-sm font-semibold rounded-lg hover:bg-secondary/90 transition-colors shadow-md"
 					>
-						{_("Request Consultation")}
-						<ArrowRight className="w-4 h-4" />
+						<span>{_("Request Consultation")}</span>
+						<ArrowRight className="w-4 h-4" aria-hidden="true" />
 					</a>
 					<a
 						href={`tel:${companyData.phone.replace(/\s+/g, "")}`}
 						class="inline-flex items-center gap-2 px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white font-technical-data text-sm font-medium rounded-lg transition-colors border border-white/20"
 					>
-						<PhoneCall className="w-4 h-4" />
-						{companyData.phone}
+						<PhoneCall className="w-4 h-4" aria-hidden="true" />
+						<span>{companyData.phone}</span>
 					</a>
 				</div>
 			</div>
@@ -768,18 +786,18 @@ const _ = getInlineTranslations(lang);
 
 ```bash
 git add application/frontend/src/components/about/AboutHero.astro application/frontend/src/components/about/InfrastructureHighlights.astro application/frontend/src/components/about/AboutCta.astro
-git commit -m "feat(about): create hero, infrastructure, and CTA components"
+git commit -m "feat(about): create semantic hero, infrastructure, and CTA components"
 ```
 
 ______________________________________________________________________
 
-### Task 5: Official Manufacturer Credentials Component
+### Task 5: Semantic Manufacturer Credentials Component
 
 **Files:**
 
 - Create: `application/frontend/src/components/about/ManufacturerCredentials.astro`
 
-- [ ] **Step 1: Implement `ManufacturerCredentials.astro` with PDF download links from `documents.json`**
+- [ ] **Step 1: Implement `ManufacturerCredentials.astro` with data-driven `.map()` loop, `<section>`, `<article>`, `<header>`, `<footer>`, `<address>`, and `<ul>`**
 
 Create `application/frontend/src/components/about/ManufacturerCredentials.astro`:
 
@@ -787,7 +805,7 @@ Create `application/frontend/src/components/about/ManufacturerCredentials.astro`
 ---
 import documentsData from "@/data/documents.json";
 import { getInlineTranslations, type Lang } from "@/i18n";
-import { CheckCircle2, Download, FileCheck, ShieldAlert } from "lucide-react";
+import { CheckCircle2, Download, FileCheck } from "lucide-react";
 
 interface Props {
 	lang: Lang;
@@ -795,154 +813,123 @@ interface Props {
 
 const { lang } = Astro.props;
 const _ = getInlineTranslations(lang);
+
+const manufacturers = [
+	{
+		id: "wipotec",
+		name: "WIPOTEC GmbH",
+		location: "Kaiserslautern, Germany",
+		tier: _("Tier 1 Distributor"),
+		description: _(
+			"Global innovation leader in high-speed Electro-Magnetic Force Restoration (EMFR) dynamic weighing technology, industrial X-Ray scanners, and pharmaceutical Track & Trace serialization lines."
+		),
+		features: [
+			_("EMFR High-Precision Dynamic Weighing Cells (up to 600 pcs/min)"),
+			_("SC Series High-Resolution Industrial X-Ray Inspection Scanners"),
+			_("Pharma Serialization & Aggregation Systems (EU FMD, GS1)"),
+		],
+		documentTitle: _("Official Distributor Authorization"),
+		documentSub: _("Direct Factory Endorsement • Valid Nationwide"),
+		pdfUrl: documentsData.wipotec,
+		serviceLabel: _("Service: Nationwide Ukraine"),
+		hubLabel: _("Factory Certified Hub"),
+	},
+	{
+		id: "mesutronic",
+		name: "MESUTRONIC Gerätebau GmbH",
+		location: "Kirchberg im Wald, Germany",
+		tier: _("Authorized Partner"),
+		description: _(
+			"Pioneering German metal detection systems built for rigorous industrial environments. Multi-segment digital signal evaluation detecting ferrous, non-ferrous, and stainless steel contaminants."
+		),
+		features: [
+			_("Meatline & Pipeline Metal Inspection For Pumped Products"),
+			_("Quicktron & Pharma Freefall Gravity Contaminant Separators"),
+			_("Metron FlatLine & Transtron High-Sensitivity Conveyor Systems"),
+		],
+		documentTitle: _("Official Partner Certificate"),
+		documentSub: _("Direct Factory Authorization • Genuine OEM Parts"),
+		pdfUrl: documentsData.mesutronic,
+		serviceLabel: _("Standard: HACCP / IFS Compliant"),
+		hubLabel: _("Direct OEM Spare Parts"),
+	},
+];
 ---
 
-<section id="credentials" class="w-full py-16 lg:py-24 bg-surface-container-low border-y border-border-subtle/40">
+<section id="credentials" aria-labelledby="credentials-title" class="w-full py-16 lg:py-24 bg-surface-container-low border-y border-border-subtle/40">
 	<div class="max-w-container-max mx-auto px-edge-margin">
-		<div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+		<header class="flex flex-col md:flex-row md:items-end justify-between mb-12">
 			<div>
-				<span class="font-label-caps text-xs text-secondary uppercase font-semibold tracking-wider">{_("Manufacturer Alliances")}</span>
-				<h2 class="font-headline-xl text-2xl sm:text-3xl font-semibold text-primary mt-2">
+				<span class="font-label-caps text-xs text-secondary uppercase font-semibold tracking-wider block">{_("Manufacturer Alliances")}</span>
+				<h2 id="credentials-title" class="font-headline-xl text-2xl sm:text-3xl font-semibold text-primary mt-2">
 					{_("Official German Engineering Credentials")}
 				</h2>
 			</div>
 			<p class="font-technical-data text-xs text-industrial-gray mt-2 md:mt-0">
 				{_("Direct Factory Partnership & Certified Distribution")}
 			</p>
-		</div>
+		</header>
 
 		<div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter">
-			<!-- WIPOTEC Card -->
-			<div class="bg-surface rounded-xl p-6 sm:p-8 shadow-sm border border-border-subtle/80 flex flex-col justify-between">
-				<div>
-					<div class="flex items-center justify-between pb-4 mb-6 bg-surface-container-low p-4 rounded-lg border border-border-subtle/40">
-						<div>
-							<h3 class="font-headline-lg text-xl font-bold tracking-tight text-primary">WIPOTEC GmbH</h3>
-							<span class="block font-technical-data text-xs text-industrial-gray">Kaiserslautern, Germany</span>
-						</div>
-						<span class="px-3 py-1 bg-surface-container-high text-primary font-label-caps text-xs rounded font-medium border border-border-subtle">
-							{_("Tier 1 Distributor")}
-						</span>
+			{manufacturers.map((m) => (
+				<article class="bg-surface rounded-xl p-6 sm:p-8 shadow-xs border border-border-subtle/80 flex flex-col justify-between">
+					<div>
+						<header class="flex items-center justify-between pb-4 mb-6 bg-surface-container-low p-4 rounded-lg border border-border-subtle/40">
+							<div>
+								<h3 class="font-headline-lg text-xl font-bold tracking-tight text-primary">{m.name}</h3>
+								<address class="not-italic font-technical-data text-xs text-industrial-gray">{m.location}</address>
+							</div>
+							<span class="px-3 py-1 bg-surface-container-high text-primary font-label-caps text-xs rounded font-medium border border-border-subtle">
+								{m.tier}
+							</span>
+						</header>
+
+						<p class="font-body-md text-sm text-industrial-gray mb-6 leading-relaxed">
+							{m.description}
+						</p>
+
+						<ul class="space-y-3 font-technical-data text-xs text-on-surface mb-6 list-none p-0">
+							{m.features.map((feature) => (
+								<li class="flex items-center gap-2">
+									<CheckCircle2 className="w-4 h-4 text-secondary shrink-0" aria-hidden="true" />
+									<span>{feature}</span>
+								</li>
+							))}
+						</ul>
 					</div>
 
-					<p class="font-body-md text-sm text-industrial-gray mb-6 leading-relaxed">
-						{_("Global innovation leader in high-speed Electro-Magnetic Force Restoration (EMFR) dynamic weighing technology, industrial X-Ray scanners, and pharmaceutical Track & Trace serialization lines.")}
-					</p>
-
-					<div class="space-y-3 font-technical-data text-xs text-on-surface mb-6">
-						<div class="flex items-center gap-2">
-							<CheckCircle2 className="w-4 h-4 text-secondary shrink-0" />
-							<span>{_("EMFR High-Precision Dynamic Weighing Cells (up to 600 pcs/min)")}</span>
-						</div>
-						<div class="flex items-center gap-2">
-							<CheckCircle2 className="w-4 h-4 text-secondary shrink-0" />
-							<span>{_("SC Series High-Resolution Industrial X-Ray Inspection Scanners")}</span>
-						</div>
-						<div class="flex items-center gap-2">
-							<CheckCircle2 className="w-4 h-4 text-secondary shrink-0" />
-							<span>{_("Pharma Serialization & Aggregation Systems (EU FMD, GS1)")}</span>
-						</div>
-					</div>
-				</div>
-
-				<div>
-					<!-- Certificate Box -->
-					<div class="bg-surface-container-low border border-border-subtle rounded-lg p-4">
-						<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-							<div class="flex items-start gap-3">
-								<div class="p-2 bg-surface rounded text-secondary shrink-0 border border-border-subtle/40">
-									<FileCheck className="w-5 h-5" />
-								</div>
-								<div>
-									<div class="font-headline-lg text-sm font-semibold text-primary">{_("Official Distributor Authorization")}</div>
-									<div class="font-technical-data text-[11px] text-industrial-gray mt-0.5">
-										{_("Direct Factory Endorsement • Valid Nationwide")}
+					<footer>
+						<div class="bg-surface-container-low border border-border-subtle rounded-lg p-4">
+							<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+								<div class="flex items-start gap-3">
+									<div class="p-2 bg-surface rounded text-secondary shrink-0 border border-border-subtle/40" aria-hidden="true">
+										<FileCheck className="w-5 h-5" />
+									</div>
+									<div>
+										<h4 class="font-headline-lg text-sm font-semibold text-primary m-0">{m.documentTitle}</h4>
+										<p class="font-technical-data text-[11px] text-industrial-gray mt-0.5 m-0">
+											{m.documentSub}
+										</p>
 									</div>
 								</div>
+								<a
+									href={m.pdfUrl}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="inline-flex items-center justify-center gap-2 px-4 py-2 bg-primary text-white hover:bg-secondary transition-colors rounded-lg font-technical-data text-xs whitespace-nowrap shadow-xs"
+								>
+									<Download className="w-3.5 h-3.5" aria-hidden="true" />
+									<span>{_("Authorization Letter (PDF)")}</span>
+								</a>
 							</div>
-							<a
-								href={documentsData.wipotec}
-								target="_blank"
-								rel="noopener noreferrer"
-								class="inline-flex items-center justify-center gap-2 px-4 py-2 bg-primary text-white hover:bg-secondary transition-colors rounded-lg font-technical-data text-xs whitespace-nowrap shadow-sm"
-							>
-								<Download className="w-3.5 h-3.5" />
-								<span>{_("Authorization Letter (PDF)")}</span>
-							</a>
 						</div>
-					</div>
-					<div class="mt-4 pt-3 border-t border-border-subtle/50 flex items-center justify-between text-industrial-gray font-label-caps text-[11px]">
-						<span>{_("Service: Nationwide Ukraine")}</span>
-						<span class="font-technical-data text-primary font-medium">{_("Factory Certified Hub")}</span>
-					</div>
-				</div>
-			</div>
-
-			<!-- MESUTRONIC Card -->
-			<div class="bg-surface rounded-xl p-6 sm:p-8 shadow-sm border border-border-subtle/80 flex flex-col justify-between">
-				<div>
-					<div class="flex items-center justify-between pb-4 mb-6 bg-surface-container-low p-4 rounded-lg border border-border-subtle/40">
-						<div>
-							<h3 class="font-headline-lg text-xl font-bold tracking-tight text-primary">MESUTRONIC Gerätebau GmbH</h3>
-							<span class="block font-technical-data text-xs text-industrial-gray">Kirchberg im Wald, Germany</span>
+						<div class="mt-4 pt-3 border-t border-border-subtle/50 flex items-center justify-between text-industrial-gray font-label-caps text-[11px]">
+							<span>{m.serviceLabel}</span>
+							<span class="font-technical-data text-primary font-medium">{m.hubLabel}</span>
 						</div>
-						<span class="px-3 py-1 bg-surface-container-high text-primary font-label-caps text-xs rounded font-medium border border-border-subtle">
-							{_("Authorized Partner")}
-						</span>
-					</div>
-
-					<p class="font-body-md text-sm text-industrial-gray mb-6 leading-relaxed">
-						{_("Pioneering German metal detection systems built for rigorous industrial environments. Multi-segment digital signal evaluation detecting ferrous, non-ferrous, and stainless steel contaminants.")}
-					</p>
-
-					<div class="space-y-3 font-technical-data text-xs text-on-surface mb-6">
-						<div class="flex items-center gap-2">
-							<CheckCircle2 className="w-4 h-4 text-secondary shrink-0" />
-							<span>{_("Meatline & Pipeline Metal Inspection For Pumped Products")}</span>
-						</div>
-						<div class="flex items-center gap-2">
-							<CheckCircle2 className="w-4 h-4 text-secondary shrink-0" />
-							<span>{_("Quicktron & Pharma Freefall Gravity Contaminant Separators")}</span>
-						</div>
-						<div class="flex items-center gap-2">
-							<CheckCircle2 className="w-4 h-4 text-secondary shrink-0" />
-							<span>{_("Metron FlatLine & Transtron High-Sensitivity Conveyor Systems")}</span>
-						</div>
-					</div>
-				</div>
-
-				<div>
-					<!-- Certificate Box -->
-					<div class="bg-surface-container-low border border-border-subtle rounded-lg p-4">
-						<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-							<div class="flex items-start gap-3">
-								<div class="p-2 bg-surface rounded text-secondary shrink-0 border border-border-subtle/40">
-									<FileCheck className="w-5 h-5" />
-								</div>
-								<div>
-									<div class="font-headline-lg text-sm font-semibold text-primary">{_("Official Partner Certificate")}</div>
-									<div class="font-technical-data text-[11px] text-industrial-gray mt-0.5">
-										{_("Direct Factory Authorization • Genuine OEM Parts")}
-									</div>
-								</div>
-							</div>
-							<a
-								href={documentsData.mesutronic}
-								target="_blank"
-								rel="noopener noreferrer"
-								class="inline-flex items-center justify-center gap-2 px-4 py-2 bg-primary text-white hover:bg-secondary transition-colors rounded-lg font-technical-data text-xs whitespace-nowrap shadow-sm"
-							>
-								<Download className="w-3.5 h-3.5" />
-								<span>{_("Authorization Letter (PDF)")}</span>
-							</a>
-						</div>
-					</div>
-					<div class="mt-4 pt-3 border-t border-border-subtle/50 flex items-center justify-between text-industrial-gray font-label-caps text-[11px]">
-						<span>{_("Standard: HACCP / IFS Compliant")}</span>
-						<span class="font-technical-data text-primary font-medium">{_("Direct OEM Spare Parts")}</span>
-					</div>
-				</div>
-			</div>
+					</footer>
+				</article>
+			))}
 		</div>
 	</div>
 </section>
@@ -952,18 +939,18 @@ const _ = getInlineTranslations(lang);
 
 ```bash
 git add application/frontend/src/components/about/ManufacturerCredentials.astro
-git commit -m "feat(about): create official manufacturer credentials component"
+git commit -m "feat(about): create semantic official manufacturer credentials component"
 ```
 
 ______________________________________________________________________
 
-### Task 6: Interactive Leaflet Ukraine Map Component
+### Task 6: Semantic Interactive Leaflet Ukraine Map Component
 
 **Files:**
 
 - Create: `application/frontend/src/components/about/InteractiveUkraineMap.astro`
 
-- [ ] **Step 1: Implement `InteractiveUkraineMap.astro` with lazy Leaflet initialization and pulsing pins**
+- [ ] **Step 1: Implement `InteractiveUkraineMap.astro` with `<figure>`, `<figcaption>`, `<dl>`, `<dd>`, `<dt>`, `<header>`, and `<article>`**
 
 Create `application/frontend/src/components/about/InteractiveUkraineMap.astro`:
 
@@ -971,7 +958,7 @@ Create `application/frontend/src/components/about/InteractiveUkraineMap.astro`:
 ---
 import type { CityHub, SectorBreakdown } from "@/lib/about/types";
 import { getInlineTranslations, type Lang } from "@/i18n";
-import { Factory, MapPin, Layers, CheckCircle } from "lucide-react";
+import { Factory, MapPin } from "lucide-react";
 
 interface Props {
 	lang: Lang;
@@ -990,119 +977,121 @@ const primaryHub = cityHubs[0] ?? {
 };
 ---
 
-<section class="w-full py-16 lg:py-24 bg-surface" id="installation-map">
+<section id="installation-map" aria-labelledby="map-section-title" class="w-full py-16 lg:py-24 bg-surface">
 	<div class="max-w-container-max mx-auto px-edge-margin">
-		<div class="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-12">
+		<header class="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-12">
 			<div>
-				<span class="font-label-caps text-xs text-secondary uppercase font-semibold tracking-wider">
+				<span class="font-label-caps text-xs text-secondary uppercase font-semibold tracking-wider block">
 					{_("Deployment Breakdown")}
 				</span>
-				<h2 class="font-headline-xl text-2xl sm:text-3xl font-semibold text-primary mt-2">
+				<h2 id="map-section-title" class="font-headline-xl text-2xl sm:text-3xl font-semibold text-primary mt-2">
 					{_("Verified Ukrainian Industrial Footprint")}
 				</h2>
 			</div>
-			<div class="font-technical-data text-xs text-industrial-gray mt-4 lg:mt-0 flex items-center gap-2">
-				<MapPin className="w-4 h-4 text-secondary" />
+			<p class="font-technical-data text-xs text-industrial-gray mt-4 lg:mt-0 flex items-center gap-2 m-0">
+				<MapPin className="w-4 h-4 text-secondary" aria-hidden="true" />
 				<span>{_("Active Factory Installations Across Regional Hubs")}</span>
-			</div>
-		</div>
+			</p>
+		</header>
 
 		<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start mb-12">
-			<!-- Leaflet Map Container -->
-			<div class="lg:col-span-7 flex flex-col gap-4">
-				<div class="bg-surface-container-low rounded-xl p-4 sm:p-5 shadow-sm border border-border-subtle">
-					<div class="flex items-center justify-between mb-3 pb-3 border-b border-border-subtle/60">
+			<!-- Leaflet Map Container as Semantic Figure -->
+			<figure class="lg:col-span-7 flex flex-col gap-4 m-0">
+				<div class="bg-surface-container-low rounded-xl p-4 sm:p-5 shadow-xs border border-border-subtle">
+					<header class="flex items-center justify-between mb-3 pb-3 border-b border-border-subtle/60">
 						<div class="flex items-center gap-2">
-							<span class="w-2.5 h-2.5 rounded-full bg-secondary animate-pulse"></span>
-							<span class="font-headline-lg text-sm font-semibold text-primary">{_("Installation Map of Ukraine")}</span>
+							<span class="w-2.5 h-2.5 rounded-full bg-secondary animate-pulse" aria-hidden="true"></span>
+							<h3 class="font-headline-lg text-sm font-semibold text-primary m-0">{_("Installation Map of Ukraine")}</h3>
 						</div>
 						<span class="font-technical-data text-xs text-secondary font-medium">{_("Interactive Regional Hubs")}</span>
-					</div>
+					</header>
 
 					<!-- Map viewport -->
 					<div
 						id="ukraine-leaflet-map"
 						class="w-full aspect-[16/10] min-h-[340px] rounded-lg border border-border-subtle/80 overflow-hidden bg-surface relative z-0"
 						data-lang={lang}
+						role="region"
+						aria-label={_("Interactive Map of Ukraine Installations")}
 					>
 						<div class="absolute inset-0 flex items-center justify-center text-industrial-gray font-technical-data text-xs">
 							{_("Loading interactive map...")}
 						</div>
 					</div>
 
-					<!-- Interactive Hub Details Drawer -->
-					<div class="mt-4 p-4 bg-surface rounded-lg border border-border-subtle/80 shadow-xs" id="hubDetailBox">
-						<div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+					<!-- Interactive Hub Details Drawer with Semantic Definition List -->
+					<figcaption class="mt-4 p-4 bg-surface rounded-lg border border-border-subtle/80 shadow-xs" id="hubDetailBox">
+						<header class="flex flex-wrap items-center justify-between gap-2 mb-2">
 							<div class="flex items-center gap-2">
-								<h3 class="font-headline-lg text-base font-semibold text-primary" id="hubTitle">
+								<h4 class="font-headline-lg text-base font-semibold text-primary m-0" id="hubTitle">
 									{primaryHub.name[lang as "en" | "ua"] ?? primaryHub.name.en} {_("Industrial Hub")}
-								</h3>
+								</h4>
 								<span class="px-2 py-0.5 rounded bg-secondary/10 text-secondary font-label-caps text-xs font-bold" id="hubBadge">
 									{primaryHub.stats.total}+ {_("Units")}
 								</span>
 							</div>
 							<span class="font-technical-data text-[11px] text-industrial-gray">{_("Click pins to inspect")}</span>
-						</div>
+						</header>
 
-						<!-- Equipment breakdown line -->
-						<div class="grid grid-cols-3 gap-2 py-2 border-y border-border-subtle/40 mb-2 font-technical-data text-xs">
+						<!-- Equipment breakdown definition list -->
+						<dl class="grid grid-cols-3 gap-2 py-2 border-y border-border-subtle/40 mb-2 font-technical-data text-xs m-0">
 							<div>
-								<span class="text-industrial-gray block text-[10px] uppercase">{_("Checkweighers")}:</span>
-								<span class="font-bold text-primary" id="hubCw">{primaryHub.stats.cw}</span>
+								<dt class="text-industrial-gray text-[10px] uppercase">{_("Checkweighers")}:</dt>
+								<dd class="font-bold text-primary text-sm m-0" id="hubCw">{primaryHub.stats.cw}</dd>
 							</div>
 							<div>
-								<span class="text-industrial-gray block text-[10px] uppercase">{_("Metal Detectors")}:</span>
-								<span class="font-bold text-primary" id="hubMd">{primaryHub.stats.md}</span>
+								<dt class="text-industrial-gray text-[10px] uppercase">{_("Metal Detectors")}:</dt>
+								<dd class="font-bold text-primary text-sm m-0" id="hubMd">{primaryHub.stats.md}</dd>
 							</div>
 							<div>
-								<span class="text-industrial-gray block text-[10px] uppercase">{_("Serialization")}:</span>
-								<span class="font-bold text-primary" id="hubTqs">{primaryHub.stats.tqs}</span>
+								<dt class="text-industrial-gray text-[10px] uppercase">{_("Serialization")}:</dt>
+								<dd class="font-bold text-primary text-sm m-0" id="hubTqs">{primaryHub.stats.tqs}</dd>
 							</div>
-						</div>
+						</dl>
 
-						<p class="font-body-md text-xs text-industrial-gray leading-relaxed" id="hubClients">
+						<p class="font-body-md text-xs text-industrial-gray leading-relaxed m-0" id="hubClients">
 							<strong class="text-primary font-medium">{_("Active Client Facilities:")}</strong>{" "}
 							<span id="hubClientsList">
 								{primaryHub.clients.map((c) => c[lang as "en" | "ua"] ?? c.en).join(", ") || _("Multiple facilities active")}
 							</span>
 						</p>
-					</div>
+					</figcaption>
 				</div>
-			</div>
+			</figure>
 
 			<!-- Sector Breakdown Column -->
 			<div class="lg:col-span-5 flex flex-col gap-4">
 				{sectors.map((sector) => (
-					<div class="bg-surface-container-low p-5 sm:p-6 rounded-xl shadow-xs border border-border-subtle/70">
-						<div class="flex items-center justify-between mb-3">
+					<article class="bg-surface-container-low p-5 sm:p-6 rounded-xl shadow-xs border border-border-subtle/70">
+						<header class="flex items-center justify-between mb-3">
 							<div class="flex items-center gap-2.5">
-								<div class="p-2 rounded bg-surface text-secondary border border-border-subtle/50">
+								<div class="p-2 rounded bg-surface text-secondary border border-border-subtle/50" aria-hidden="true">
 									<Factory className="w-4 h-4" />
 								</div>
-								<h3 class="font-headline-lg text-sm sm:text-base font-semibold text-primary">
+								<h3 class="font-headline-lg text-sm sm:text-base font-semibold text-primary m-0">
 									{sector.title[lang as "en" | "ua"] ?? sector.title.en}
 								</h3>
 							</div>
 							<span class="font-technical-data text-xs px-2.5 py-0.5 rounded bg-surface-container-high text-primary font-bold">
 								{sector.stats.total} {_("Units")}
 							</span>
-						</div>
+						</header>
 
-						<div class="grid grid-cols-3 gap-2 pt-2">
+						<dl class="grid grid-cols-3 gap-2 pt-2 m-0 p-0">
 							<div class="bg-surface p-2.5 rounded border border-border-subtle/40">
-								<span class="font-technical-data text-lg font-bold text-primary block">{sector.stats.cw}</span>
-								<span class="font-label-caps text-[10px] text-industrial-gray uppercase">{_("Checkweighers")}</span>
+								<dd class="font-technical-data text-lg font-bold text-primary block m-0">{sector.stats.cw}</dd>
+								<dt class="font-label-caps text-[10px] text-industrial-gray uppercase">{_("Checkweighers")}</dt>
 							</div>
 							<div class="bg-surface p-2.5 rounded border border-border-subtle/40">
-								<span class="font-technical-data text-lg font-bold text-primary block">{sector.stats.md}</span>
-								<span class="font-label-caps text-[10px] text-industrial-gray uppercase">{_("Metal Detectors")}</span>
+								<dd class="font-technical-data text-lg font-bold text-primary block m-0">{sector.stats.md}</dd>
+								<dt class="font-label-caps text-[10px] text-industrial-gray uppercase">{_("Metal Detectors")}</dt>
 							</div>
 							<div class="bg-surface p-2.5 rounded border border-border-subtle/40">
-								<span class="font-technical-data text-lg font-bold text-primary block">{sector.stats.tqs}</span>
-								<span class="font-label-caps text-[10px] text-industrial-gray uppercase">{_("Track & Trace")}</span>
+								<dd class="font-technical-data text-lg font-bold text-primary block m-0">{sector.stats.tqs}</dd>
+								<dt class="font-label-caps text-[10px] text-industrial-gray uppercase">{_("Track & Trace")}</dt>
 							</div>
-						</div>
-					</div>
+						</dl>
+					</article>
 				))}
 			</div>
 		</div>
@@ -1268,18 +1257,18 @@ const primaryHub = cityHubs[0] ?? {
 
 ```bash
 git add application/frontend/src/components/about/InteractiveUkraineMap.astro
-git commit -m "feat(about): create interactive Leaflet Ukraine installation map"
+git commit -m "feat(about): create semantic interactive Leaflet Ukraine installation map"
 ```
 
 ______________________________________________________________________
 
-### Task 7: Enterprise Client Directory Component
+### Task 7: Semantic Enterprise Client Directory Component
 
 **Files:**
 
 - Create: `application/frontend/src/components/about/ClientDirectory.astro`
 
-- [ ] **Step 1: Implement `ClientDirectory.astro` with sector tabs and client cards**
+- [ ] **Step 1: Implement `ClientDirectory.astro` using `<section aria-labelledby>`, `<article>`, `<header>`, `<footer>`, `<figure>`, `<dl>`, `<dt>`, `<dd>`, and `<address>`**
 
 Create `application/frontend/src/components/about/ClientDirectory.astro`:
 
@@ -1298,23 +1287,25 @@ const { lang, partners } = Astro.props;
 const _ = getInlineTranslations(lang);
 ---
 
-<section class="w-full py-16 lg:py-24 bg-surface-container-low border-t border-border-subtle/40" id="clients">
+<section id="clients" aria-labelledby="clients-heading" class="w-full py-16 lg:py-24 bg-surface-container-low border-t border-border-subtle/40">
 	<div class="max-w-container-max mx-auto px-edge-margin">
-		<div class="flex flex-col items-center text-center mb-12">
-			<span class="font-label-caps text-xs text-secondary uppercase font-semibold tracking-wider">
+		<header class="flex flex-col items-center text-center mb-12">
+			<span class="font-label-caps text-xs text-secondary uppercase font-semibold tracking-wider block">
 				{_("Enterprise Reference Directory")}
 			</span>
-			<h2 class="font-headline-xl text-2xl sm:text-3xl font-semibold text-primary mt-2">
+			<h2 id="clients-heading" class="font-headline-xl text-2xl sm:text-3xl font-semibold text-primary mt-2">
 				{_("Trusted by Ukraine's Industrial Flagships")}
 			</h2>
 			<p class="font-body-md text-sm sm:text-base text-industrial-gray max-w-2xl mt-3">
 				{_("Explore verified German inspection equipment installations across leading food, pharmaceutical, and consumer goods manufacturers in Ukraine.")}
 			</p>
 
-			<!-- Filter Tabs -->
-			<div class="flex flex-wrap items-center justify-center gap-2 mt-8" id="clientFilterGroup">
+			<!-- Filter Tabs with aria-controls -->
+			<div role="tablist" aria-label={_("Filter clients by sector")} class="flex flex-wrap items-center justify-center gap-2 mt-8" id="clientFilterGroup">
 				<button
 					type="button"
+					role="tab"
+					aria-selected="true"
 					class="client-tab active px-4 py-2 rounded-lg font-technical-data text-xs transition-all shadow-xs bg-primary text-white"
 					data-filter="all"
 				>
@@ -1322,6 +1313,8 @@ const _ = getInlineTranslations(lang);
 				</button>
 				<button
 					type="button"
+					role="tab"
+					aria-selected="false"
 					class="client-tab px-4 py-2 rounded-lg font-technical-data text-xs transition-all hover:text-primary shadow-xs bg-surface text-industrial-gray"
 					data-filter="food"
 				>
@@ -1329,6 +1322,8 @@ const _ = getInlineTranslations(lang);
 				</button>
 				<button
 					type="button"
+					role="tab"
+					aria-selected="false"
 					class="client-tab px-4 py-2 rounded-lg font-technical-data text-xs transition-all hover:text-primary shadow-xs bg-surface text-industrial-gray"
 					data-filter="pharma"
 				>
@@ -1336,13 +1331,15 @@ const _ = getInlineTranslations(lang);
 				</button>
 				<button
 					type="button"
+					role="tab"
+					aria-selected="false"
 					class="client-tab px-4 py-2 rounded-lg font-technical-data text-xs transition-all hover:text-primary shadow-xs bg-surface text-industrial-gray"
 					data-filter="household"
 				>
 					{_("Chemicals & Packaging")}
 				</button>
 			</div>
-		</div>
+		</header>
 
 		<!-- Client Grid Cards -->
 		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="clientCardsContainer">
@@ -1357,13 +1354,13 @@ const _ = getInlineTranslations(lang);
 				};
 
 				return (
-					<div
+					<article
 						class="client-card bg-surface rounded-xl p-6 shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between border border-border-subtle/70"
 						data-category={partner.category}
 					>
 						<div>
-							<div class="flex items-center justify-between pb-4 mb-4 bg-surface-container-low p-3.5 rounded-lg border border-border-subtle/30">
-								<div class="w-14 h-14 flex items-center justify-center bg-white rounded p-1.5 shadow-xs border border-border-subtle/40 shrink-0">
+							<header class="flex items-center justify-between pb-4 mb-4 bg-surface-container-low p-3.5 rounded-lg border border-border-subtle/30">
+								<figure class="w-14 h-14 flex items-center justify-center bg-white rounded p-1.5 shadow-xs border border-border-subtle/40 shrink-0 m-0">
 									{partner.logo ? (
 										<img
 											src={partner.logo}
@@ -1372,16 +1369,16 @@ const _ = getInlineTranslations(lang);
 											loading="lazy"
 										/>
 									) : (
-										<Building2 className="w-6 h-6 text-industrial-gray" />
+										<Building2 className="w-6 h-6 text-industrial-gray" aria-hidden="true" />
 									)}
-								</div>
+								</figure>
 								<span class="px-2.5 py-1 rounded bg-surface-container-high text-primary font-label-caps text-[11px] font-semibold">
 									{categoryLabels[partner.category]}
 								</span>
-							</div>
+							</header>
 
 							<div class="flex items-center justify-between mb-2">
-								<h3 class="font-headline-lg text-lg font-semibold text-primary">{clientName}</h3>
+								<h3 class="font-headline-lg text-lg font-semibold text-primary m-0">{clientName}</h3>
 								{totalUnits > 0 && (
 									<span class="font-technical-data text-xs px-2 py-0.5 rounded bg-secondary/10 text-secondary font-bold">
 										{totalUnits} {_("Units")}
@@ -1389,38 +1386,38 @@ const _ = getInlineTranslations(lang);
 								)}
 							</div>
 
-							{/* Equipment breakdown pill tags */}
+							{/* Equipment breakdown definition list */}
 							{eq && totalUnits > 0 && (
 								<div class="mt-3 pt-3 border-t border-border-subtle/50 space-y-1.5">
-									<div class="font-label-caps text-[10px] text-industrial-gray uppercase font-semibold">
+									<span class="font-label-caps text-[10px] text-industrial-gray uppercase font-semibold block">
 										{_("Installed Equipment:")}
-									</div>
-									<div class="flex flex-wrap gap-1.5 font-technical-data text-xs">
+									</span>
+									<ul class="flex flex-wrap gap-1.5 font-technical-data text-xs list-none p-0 m-0">
 										{eq.cw !== undefined && eq.cw > 0 && (
-											<span class="px-2 py-0.5 rounded bg-surface-container-low text-primary text-[11px] border border-border-subtle/50">
+											<li class="px-2 py-0.5 rounded bg-surface-container-low text-primary text-[11px] border border-border-subtle/50">
 												{eq.cw}x {_("Checkweighers")}
-											</span>
+											</li>
 										)}
 										{eq.md !== undefined && eq.md > 0 && (
-											<span class="px-2 py-0.5 rounded bg-surface-container-low text-primary text-[11px] border border-border-subtle/50">
+											<li class="px-2 py-0.5 rounded bg-surface-container-low text-primary text-[11px] border border-border-subtle/50">
 												{eq.md}x {_("Metal Detectors")}
-											</span>
+											</li>
 										)}
 										{eq.tqs !== undefined && eq.tqs > 0 && (
-											<span class="px-2 py-0.5 rounded bg-surface-container-low text-primary text-[11px] border border-border-subtle/50">
+											<li class="px-2 py-0.5 rounded bg-surface-container-low text-primary text-[11px] border border-border-subtle/50">
 												{eq.tqs}x {_("Track & Trace")}
-											</span>
+											</li>
 										)}
-									</div>
+									</ul>
 								</div>
 							)}
 						</div>
 
-						<div class="mt-6 pt-3 bg-surface-container-low -mx-6 -mb-6 px-6 py-3 rounded-b-xl flex items-center justify-between font-label-caps text-[11px] text-industrial-gray border-t border-border-subtle/40">
-							<div class="flex items-center gap-1">
-								<MapPin className="w-3.5 h-3.5 text-secondary shrink-0" />
+						<footer class="mt-6 pt-3 bg-surface-container-low -mx-6 -mb-6 px-6 py-3 rounded-b-xl flex items-center justify-between font-label-caps text-[11px] text-industrial-gray border-t border-border-subtle/40">
+							<address class="not-italic flex items-center gap-1">
+								<MapPin className="w-3.5 h-3.5 text-secondary shrink-0" aria-hidden="true" />
 								<span>{partner.adres && partner.adres.length > 0 ? partner.adres.join(", ") : _("Ukraine")}</span>
-							</div>
+							</address>
 							{partner.website && (
 								<a
 									href={partner.website}
@@ -1430,11 +1427,11 @@ const _ = getInlineTranslations(lang);
 									aria-label={`${clientName} Website`}
 								>
 									<span>{_("Site")}</span>
-									<ExternalLink className="w-3 h-3" />
+									<ExternalLink className="w-3 h-3" aria-hidden="true" />
 								</a>
 							)}
-						</div>
-					</div>
+						</footer>
+					</article>
 				);
 			})}
 		</div>
@@ -1454,9 +1451,11 @@ const _ = getInlineTranslations(lang);
 					if (t === tab) {
 						t.classList.remove("bg-surface", "text-industrial-gray");
 						t.classList.add("bg-primary", "text-white");
+						t.setAttribute("aria-selected", "true");
 					} else {
 						t.classList.remove("bg-primary", "text-white");
 						t.classList.add("bg-surface", "text-industrial-gray");
+						t.setAttribute("aria-selected", "false");
 					}
 				});
 
@@ -1484,7 +1483,7 @@ const _ = getInlineTranslations(lang);
 
 ```bash
 git add application/frontend/src/components/about/ClientDirectory.astro
-git commit -m "feat(about): create enterprise client directory with filtering"
+git commit -m "feat(about): create semantic enterprise client directory with filtering"
 ```
 
 ______________________________________________________________________
@@ -1733,3 +1732,4 @@ ______________________________________________________________________
   - Bilingual i18n and Schema.org JSON-LD? Yes (Task 8)
 - **Placeholders Scan:** No "TBD", "TODO", or vague requirements found.
 - **Type Consistency:** `EquipmentStats`, `CityHub`, `PartnerItem`, and `SectorBreakdown` match throughout all tasks.
+- **Semantic HTML:** `<header>`, `<nav>`, `<ol>`, `<li>`, `<article>`, `<section aria-labelledby>`, `<dl>`, `<dt>`, `<dd>`, `<figure>`, `<figcaption>`, `<address>`, `<ul>`, `<li>` used comprehensively instead of generic divs.
