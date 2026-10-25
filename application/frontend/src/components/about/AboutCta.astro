@@ -1,0 +1,59 @@
+---
+import { ArrowRight, PhoneCall } from "lucide-react";
+import companyData from "@/data/company.json";
+import { getInlineTranslations, type Lang } from "@/i18n";
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const _ = getInlineTranslations(lang);
+---
+
+<section
+	aria-labelledby="cta-heading"
+	class="bg-surface-container border-border-subtle/40 w-full border-t py-16 lg:py-24"
+>
+	<div class="px-edge-margin mx-auto max-w-[1280px]">
+		<div
+			class="bg-foreground relative overflow-hidden rounded-2xl p-8 text-white shadow-xl sm:p-12"
+		>
+			<div class="relative z-10 max-w-2xl">
+				<span
+					class="font-label-caps block text-xs font-semibold tracking-wider text-white/70 uppercase"
+					>{_("Engineering Consultation")}</span
+				>
+				<h2
+					id="cta-heading"
+					class="font-headline-lg mt-2 mb-4 text-2xl font-bold text-white sm:text-3xl"
+				>
+					{_("Upgrade Your Line with German Quality")}
+				</h2>
+				<p class="font-body-md mb-8 text-sm leading-relaxed text-white/80 sm:text-base">
+					{
+						_(
+							"Discuss your production inspection requirements with certified engineers. We provide comprehensive line audits, sensitivity tests, and tailored integration blueprints."
+						)
+					}
+				</p>
+				<div class="flex flex-wrap items-center gap-4">
+					<a
+						href={`/${lang}/contact`}
+						class="bg-primary font-technical-data hover:bg-primary/90 inline-flex items-center gap-2 rounded-lg px-6 py-3.5 text-sm font-semibold text-white shadow-md transition-colors"
+					>
+						<span>{_("Request Consultation")}</span>
+						<ArrowRight className="h-4 w-4" aria-hidden="true" />
+					</a>
+					<a
+						href={`tel:${companyData.phone.replace(/\s+/g, "")}`}
+						class="font-technical-data inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-6 py-3.5 text-sm font-medium text-white transition-colors hover:bg-white/20"
+					>
+						<PhoneCall className="h-4 w-4" aria-hidden="true" />
+						<span>{companyData.phone}</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

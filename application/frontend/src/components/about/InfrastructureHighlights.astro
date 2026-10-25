@@ -1,0 +1,106 @@
+---
+import { CheckCircle2, ShieldCheck, Wrench } from "lucide-react";
+import { getInlineTranslations, type Lang } from "@/i18n";
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const _ = getInlineTranslations(lang);
+---
+
+<section
+	aria-labelledby="infrastructure-title"
+	class="bg-background border-border-subtle/40 w-full border-t py-12 lg:py-16"
+>
+	<div class="px-edge-margin mx-auto max-w-[1280px]">
+		<div
+			class="bg-surface-container border-border-subtle/80 rounded-2xl border p-6 shadow-xs sm:p-10"
+		>
+			<header class="mb-8">
+				<span
+					class="font-label-caps text-secondary block text-xs font-semibold tracking-wider uppercase"
+					>{_("Technical Infrastructure")}</span
+				>
+				<h2
+					id="infrastructure-title"
+					class="font-headline-lg text-foreground mt-1 text-xl font-semibold sm:text-2xl"
+				>
+					{_("Comprehensive Line Support & Domestic Service")}
+				</h2>
+			</header>
+
+			<ul class="m-0 grid list-none grid-cols-1 gap-6 p-0 sm:gap-8 md:grid-cols-3">
+				<li>
+					<article class="flex items-start gap-4">
+						<div
+							class="bg-background text-secondary border-border-subtle/50 shrink-0 rounded-lg border p-3"
+							aria-hidden="true"
+						>
+							<Wrench className="h-6 w-6" />
+						</div>
+						<div>
+							<h3 class="font-headline-lg text-foreground text-base font-semibold sm:text-lg">
+								{_("Certified Factory Engineers")}
+							</h3>
+							<p class="font-body-md text-industrial-gray mt-1 text-sm leading-relaxed">
+								{
+									_(
+										"Directly trained and certified at WIPOTEC & MESUTRONIC German production plants for mechanical assembly, weighing cell calibration, and PLC integration."
+									)
+								}
+							</p>
+						</div>
+					</article>
+				</li>
+
+				<li>
+					<article class="flex items-start gap-4">
+						<div
+							class="bg-background text-secondary border-border-subtle/50 shrink-0 rounded-lg border p-3"
+							aria-hidden="true"
+						>
+							<CheckCircle2 className="h-6 w-6" />
+						</div>
+						<div>
+							<h3 class="font-headline-lg text-foreground text-base font-semibold sm:text-lg">
+								{_("Turnkey Line Commissioning")}
+							</h3>
+							<p class="font-body-md text-industrial-gray mt-1 text-sm leading-relaxed">
+								{
+									_(
+										"Complete turn-key commissioning, factory validation (IQ/OQ/PQ), and regulatory certification compliant with IFS Food, BRC, HACCP, and EU GMP standards."
+									)
+								}
+							</p>
+						</div>
+					</article>
+				</li>
+
+				<li>
+					<article class="flex items-start gap-4">
+						<div
+							class="bg-background text-secondary border-border-subtle/50 shrink-0 rounded-lg border p-3"
+							aria-hidden="true"
+						>
+							<ShieldCheck className="h-6 w-6" />
+						</div>
+						<div>
+							<h3 class="font-headline-lg text-foreground text-base font-semibold sm:text-lg">
+								{_("24/7 Domestic Parts Warehouse")}
+							</h3>
+							<p class="font-body-md text-industrial-gray mt-1 text-sm leading-relaxed">
+								{
+									_(
+										"Centralized spare parts storage in Kyiv with essential belts, EMFR weigh cells, rejectors, and search coils ready for prompt deployment across Ukraine."
+									)
+								}
+							</p>
+						</div>
+					</article>
+				</li>
+			</ul>
+		</div>
+	</div>
+</section>

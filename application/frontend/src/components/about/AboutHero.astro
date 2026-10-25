@@ -1,0 +1,129 @@
+﻿---
+import { getInlineTranslations, type Lang } from "@/i18n";
+import type { EquipmentStats } from "@/lib/about/types";
+
+interface Props {
+	lang: Lang;
+	stats: EquipmentStats;
+}
+
+const { lang, stats } = Astro.props;
+const _ = getInlineTranslations(lang);
+---
+
+<header class="bg-background w-full py-12 lg:py-20">
+	<div class="px-edge-margin mx-auto max-w-[1280px]">
+		{/* Semantic breadcrumb navigation */}
+		<nav aria-label={_("Breadcrumb")} class="mb-6">
+			<ol
+				class="font-technical-data text-industrial-gray m-0 flex list-none items-center gap-2 p-0 text-xs"
+			>
+				<li>
+					<a href={`/${lang}`} class="hover:text-primary transition-colors">{_("Home")}</a>
+				</li>
+				<li aria-hidden="true">/</li>
+				<li>
+					<span class="text-foreground font-medium" aria-current="page">{_("About Us")}</span>
+				</li>
+			</ol>
+		</nav>
+
+		<div class="gap-gutter grid grid-cols-1 items-center lg:grid-cols-12">
+			<div class="flex flex-col justify-center lg:col-span-8">
+				<p class="mb-4">
+					<span
+						class="bg-secondary/10 text-secondary font-label-caps inline-block rounded px-3 py-1 text-xs font-semibold tracking-wider uppercase"
+					>
+						{_("Official German Engineering Partner")}
+					</span>
+				</p>
+				<h1
+					class="font-display-lg text-display-lg-mobile text-foreground mb-6 tracking-tight lg:text-5xl"
+				>
+					{_("German Precision Engineering. Official Ukrainian Distributor.")}
+				</h1>
+				<p class="font-body-md text-industrial-gray mb-8 max-w-3xl text-base leading-relaxed">
+					{
+						_(
+							"OS-Technology Ukraine is the exclusive authorized distributor and certified integration partner of WIPOTEC GmbH and MESUTRONIC Gerätebau GmbH in Ukraine. We deliver world-class dynamic checkweighers, industrial metal detectors, X-Ray scanners, and pharmaceutical Track & Trace serialization lines with turnkey commissioning and factory warranty."
+						)
+					}
+				</p>
+
+				{/* Semantic definition list for key performance indicators */}
+				<dl class="m-0 grid grid-cols-2 gap-3 p-0 sm:grid-cols-4">
+					<div
+						class="bg-surface-container border-border-subtle/60 flex flex-col-reverse justify-end gap-1 rounded-lg border p-4 shadow-xs"
+					>
+						<dt class="font-label-caps text-industrial-gray text-xs uppercase">
+							{_("Installed Systems")}
+						</dt>
+						<dd class="font-technical-data text-foreground m-0 text-2xl font-bold sm:text-3xl">
+							{stats.total}+
+						</dd>
+					</div>
+					<div
+						class="bg-surface-container border-border-subtle/60 flex flex-col-reverse justify-end gap-1 rounded-lg border p-4 shadow-xs"
+					>
+						<dt class="font-label-caps text-industrial-gray text-xs uppercase">
+							{_("Dynamic Checkweighers")}
+						</dt>
+						<dd class="font-technical-data text-secondary m-0 text-2xl font-bold sm:text-3xl">
+							{stats.cw}
+						</dd>
+					</div>
+					<div
+						class="bg-surface-container border-border-subtle/60 flex flex-col-reverse justify-end gap-1 rounded-lg border p-4 shadow-xs"
+					>
+						<dt class="font-label-caps text-industrial-gray text-xs uppercase">
+							{_("Metal Detectors")}
+						</dt>
+						<dd class="font-technical-data text-foreground m-0 text-2xl font-bold sm:text-3xl">
+							{stats.md}
+						</dd>
+					</div>
+					<div
+						class="bg-surface-container border-border-subtle/60 flex flex-col-reverse justify-end gap-1 rounded-lg border p-4 shadow-xs"
+					>
+						<dt class="font-label-caps text-industrial-gray text-xs uppercase">
+							{stats.tqs > 0 ? _("Serialization Stations") : _("German Hardware")}
+						</dt>
+						<dd class="font-technical-data text-foreground m-0 text-2xl font-bold sm:text-3xl">
+							{stats.tqs > 0 ? stats.tqs : "100%"}
+						</dd>
+					</div>
+				</dl>
+			</div>
+
+			<aside class="flex flex-col gap-4 lg:col-span-4">
+				<article
+					class="bg-surface-container border-border-subtle/80 rounded-xl border p-6 shadow-xs"
+				>
+					<header>
+						<span class="font-label-caps text-secondary mb-1 block text-xs font-semibold uppercase"
+							>{_("Direct Authorization")}</span
+						>
+						<h2 class="font-headline-lg text-foreground mb-2 text-lg font-semibold">
+							{_("Factory Endorsed Expertise")}
+						</h2>
+					</header>
+					<p class="font-body-md text-industrial-gray mb-4 text-sm leading-relaxed">
+						{
+							_(
+								"Direct factory supply lines from Kaiserslautern and Kirchberg ensure original German components, continuous software updates, and rapid spare parts availability nationwide."
+							)
+						}
+					</p>
+					<footer>
+						<a
+							href="#credentials"
+							class="font-technical-data text-secondary inline-flex items-center gap-1 text-xs font-semibold hover:underline"
+						>
+							{_("View Manufacturer Credentials")} →
+						</a>
+					</footer>
+				</article>
+			</aside>
+		</div>
+	</div>
+</header>
