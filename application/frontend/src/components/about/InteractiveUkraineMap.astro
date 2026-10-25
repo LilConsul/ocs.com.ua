@@ -1,9 +1,10 @@
 ---
-import { geoMercator, geoPath } from "d3-geo";
-import { Factory, MapPin } from "lucide-react";
+import { geoContains, geoMercator, geoPath } from "d3-geo";
+import { type LucideIcon, MapPin, Pill, SprayCan, Utensils } from "lucide-react";
 import { feature, mesh } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
 import { getInlineTranslations, type Lang } from "@/i18n";
+import { formatApprox } from "@/lib/about/partners-data";
 import type { CityHub, SectorBreakdown } from "@/lib/about/types";
 import oblastsTopo from "@/lib/about/ukraine-oblasts.topo.json";
 
@@ -21,6 +22,20 @@ const metrics = [
 	{ key: "md", label: _("Metal Detectors") },
 	{ key: "tqs", label: _("Track & Trace") },
 ] as const;
+
+const sectorIcons: Record<SectorBreakdown["category"], LucideIcon> = {
+	food: Utensils,
+	pharma: Pill,
+	household: SprayCan,
+};
+
+// Shared by the hub card and the sector cards so both read as one family
+const tileClass =
+	"bg-background border-border-subtle/50 flex flex-col-reverse justify-end gap-1 rounded-lg border px-3 py-2.5 transition-colors duration-300";
+const badgeClass =
+	"font-technical-data bg-secondary/10 text-secondary shrink-0 rounded-full px-2.5 py-0.5 text-xs font-bold tabular-nums";
+const iconTileClass =
+	"bg-background text-secondary border-border-subtle/50 shrink-0 rounded-lg border p-2 transition-colors duration-300";
 
 const W = 800;
 const H = 520;
@@ -40,17 +55,43 @@ const projection = geoMercator().fitExtent(
 );
 const toPath = geoPath(projection);
 
-const oblastPaths = oblasts.features.map((f) => ({
-	id: String(f.id),
-	d: toPath(f) ?? "",
-}));
-const outlinePath = toPath(outline) ?? "";
+const nameKey = lang === "ua" ? "uk" : "en";
+
+const maxHubTotal = Math.max(1, ...cityHubs.map((h) => h.stats.total));
 
 const pins = cityHubs.flatMap((hub) => {
 	const point = projection([hub.coords[1], hub.coords[0]]);
 	if (!point) return [];
-	return [{ hub, left: (point[0] / W) * 100, top: (point[1] / H) * 100 }];
+	// hub.coords is [lat, lng]; geoContains expects [lng, lat]
+	const oblast = oblasts.features.find((f) => geoContains(f, [hub.coords[1], hub.coords[0]]));
+	return [
+		{
+			hub,
+			oblastId: oblast ? String(oblast.id) : undefined,
+			left: (point[0] / W) * 100,
+			top: (point[1] / H) * 100,
+			// 28px base up to 40px for the busiest hub; sqrt keeps area proportional to volume
+			size: Math.round(28 + 12 * Math.sqrt(hub.stats.total / maxHubTotal)),
+		},
+	];
 });
+
+const initialOblastId = pins[0]?.oblastId;
+
+// Clicking an oblast selects the first hub located inside it
+const hubByOblast = new Map<string, string>();
+for (const { hub, oblastId } of pins) {
+	if (oblastId && !hubByOblast.has(oblastId)) hubByOblast.set(oblastId, hub.id);
+}
+
+const oblastPaths = oblasts.features.map((f, i) => ({
+	id: String(f.id),
+	name: String((f.properties as Record<string, string> | null)?.[nameKey] ?? ""),
+	d: toPath(f) ?? "",
+	delay: i * 25,
+	hubId: hubByOblast.get(String(f.id)),
+}));
+const outlinePath = toPath(outline) ?? "";
 
 const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 ---
@@ -94,15 +135,11 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 							{_("Installation Map of Ukraine")}
 						</h3>
 						<span class="font-technical-data text-industrial-gray text-xs">
-							{_("Click pins to inspect")}
+							{_("Click a pin or region to inspect")}
 						</span>
 					</div>
 
-					<div
-						class="relative w-full"
-						style={`aspect-ratio: ${W} / ${H}`}
-						data-map-pins
-					>
+					<div class="relative w-full" style={`aspect-ratio: ${W} / ${H}`} data-map-pins>
 						<svg
 							viewBox={`0 0 ${W} ${H}`}
 							class="absolute inset-0 h-full w-full"
@@ -110,47 +147,58 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 							aria-label={_("Interactive Map of Ukraine Installations")}
 						>
 							{
-								oblastPaths.map(({ id, d }) => (
+								oblastPaths.map(({ id, name, d, delay, hubId }) => (
 									<path
 										d={d}
 										data-oblast={id}
-										class="fill-secondary/10 stroke-secondary/30"
+										data-hub-id={hubId}
+										data-active={id === initialOblastId ? "" : undefined}
+										class:list={[
+											"map-oblast fill-secondary/10 stroke-secondary/30 data-active:fill-secondary/35 motion-safe:transition-[fill] motion-safe:duration-300",
+											hubId && "hover:fill-secondary/25 cursor-pointer",
+										]}
+										style={`--delay:${delay}ms`}
 										stroke-width="0.75"
 										stroke-linejoin="round"
 										vector-effect="non-scaling-stroke"
-									/>
+									>
+										<title>{name}</title>
+									</path>
 								))
 							}
+							{/* pathLength=1 lets CSS draw the outline with a 0..1 dash offset */}
 							<path
 								d={outlinePath}
+								pathLength="1"
 								fill="none"
-								class="stroke-secondary/60"
+								class="map-outline stroke-secondary/60 pointer-events-none"
 								stroke-width="1.5"
 								stroke-linejoin="round"
-								vector-effect="non-scaling-stroke"
-							></path>
+								stroke-dasharray="1"></path>
 						</svg>
 
 						{
-							pins.map(({ hub, left, top }, i) => (
+							pins.map(({ hub, oblastId, left, top, size }, i) => (
 								<button
 									type="button"
 									data-hub={hub.id}
+									data-oblast-id={oblastId}
 									aria-pressed={i === 0 ? "true" : "false"}
 									aria-controls={`hub-panel-${hub.id}`}
-									aria-label={`${hub.name[lang]}: ${hub.stats.total} ${_("Units")}`}
-									class="group focus-visible:outline-secondary absolute flex size-11 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 aria-pressed:z-10"
-									style={`left:${left.toFixed(2)}%;top:${top.toFixed(2)}%`}
+									aria-label={`${hub.name[lang]}: ${formatApprox(hub.stats.total)} ${_("Units")}`}
+									class="map-pin group focus-visible:outline-secondary absolute flex size-11 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 aria-pressed:z-10"
+									style={`left:${left.toFixed(2)}%;top:${top.toFixed(2)}%;--i:${i}`}
 								>
 									<span
 										class="bg-secondary/40 absolute inset-1 rounded-full opacity-0 motion-safe:group-aria-pressed:animate-ping"
 										aria-hidden="true"
 									/>
 									<span
-										class="font-technical-data bg-secondary text-background border-background group-aria-pressed:bg-foreground relative flex h-7 min-w-7 items-center justify-center rounded-full border-2 px-1.5 text-[11px] font-bold tabular-nums shadow-md transition-transform group-hover:scale-110 group-aria-pressed:scale-110"
+										class="font-technical-data bg-secondary text-background border-background group-aria-pressed:bg-foreground relative flex h-(--pin-size) min-w-(--pin-size) items-center justify-center rounded-full border-2 px-1.5 text-[11px] font-bold tabular-nums shadow-md transition-transform group-hover:scale-110 group-aria-pressed:scale-110"
+										style={`--pin-size:${size}px`}
 										aria-hidden="true"
 									>
-										{hub.stats.total}
+										{formatApprox(hub.stats.total)}
 									</span>
 								</button>
 							))
@@ -162,37 +210,64 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 				{
 					cityHubs.length > 0 && (
 						<div
-							class="bg-background border-border-subtle/80 rounded-xl border p-5 shadow-xs"
+							class="bg-surface-container border-border-subtle/70 before:from-secondary relative overflow-hidden rounded-xl border p-5 shadow-xs before:absolute before:inset-x-0 before:top-0 before:h-0.5 before:bg-linear-to-r before:to-transparent sm:p-6"
 							aria-live="polite"
 						>
 							{cityHubs.map((hub, i) => (
-								<div id={`hub-panel-${hub.id}`} data-hub-panel={hub.id} hidden={i !== 0}>
-									<div class="flex flex-wrap items-center justify-between gap-2">
-										<h4 class="font-headline-lg text-foreground m-0 text-base font-semibold">
-											{hub.name[lang]}
-										</h4>
-										<span class="bg-secondary/10 text-secondary font-label-caps rounded px-2 py-0.5 text-xs font-bold tabular-nums">
-											{hub.stats.total}+ {_("Units")}
+								<div
+									id={`hub-panel-${hub.id}`}
+									data-hub-panel={hub.id}
+									class="hub-panel"
+									hidden={i !== 0}
+								>
+									<div class="flex items-center justify-between gap-3">
+										<div class="flex min-w-0 items-center gap-2.5">
+											<div class={iconTileClass} aria-hidden="true">
+												<MapPin className="h-4 w-4" />
+											</div>
+											<h4 class="font-headline-lg text-foreground m-0 text-base font-semibold">
+												{hub.name[lang]}
+											</h4>
+										</div>
+										<span class={badgeClass}>
+											{formatApprox(hub.stats.total)} {_("Units")}
 										</span>
 									</div>
 
-									<dl class="border-border-subtle/50 m-0 mt-4 grid grid-cols-3 gap-3 border-y py-3">
-										{metrics.map(({ key, label }) => (
-											<div class="flex flex-col-reverse justify-end gap-0.5">
+									<dl class="m-0 mt-5 grid grid-cols-3 gap-2 p-0">
+										{metrics.map(({ key, label }, mi) => (
+											<div
+												class:list={["hub-metric", tileClass, hub.stats[key] === 0 && "opacity-50"]}
+												style={`--mi:${mi}`}
+											>
 												<dt class="font-label-caps text-industrial-gray text-[11px] uppercase">
 													{label}
 												</dt>
-												<dd class="font-technical-data text-foreground m-0 text-xl font-bold tabular-nums">
-													{hub.stats[key]}
+												<dd class="font-technical-data text-foreground m-0 text-2xl leading-none font-bold tabular-nums">
+													{formatApprox(hub.stats[key])}
 												</dd>
 											</div>
 										))}
 									</dl>
 
-									<p class="font-body-md text-industrial-gray m-0 mt-3 text-sm leading-relaxed">
-										<strong class="text-foreground font-medium">{_("Active Client Facilities:")}</strong>{" "}
-										{hub.clients.map((c) => c[lang]).join(", ") || _("Multiple facilities active")}
-									</p>
+									<div class="border-border-subtle/50 mt-5 border-t pt-4">
+										<p class="font-label-caps text-industrial-gray m-0 text-[11px] uppercase">
+											{_("Active Client Facilities:")}
+										</p>
+										{hub.clients.length > 0 ? (
+											<ul class="m-0 mt-2 flex list-none flex-wrap gap-1.5 p-0">
+												{hub.clients.map((c) => (
+													<li class="font-body-md bg-background border-border-subtle/60 text-foreground rounded-full border px-2.5 py-0.5 text-xs">
+														{c[lang]}
+													</li>
+												))}
+											</ul>
+										) : (
+											<p class="font-body-md text-industrial-gray m-0 mt-2 text-sm">
+												{_("Multiple facilities active")}
+											</p>
+										)}
+									</div>
 								</div>
 							))}
 						</div>
@@ -201,66 +276,245 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 			</div>
 
 			{/* Sector breakdown */}
-			<div class="flex flex-col gap-4 lg:col-span-5">
+			<div class="flex flex-col gap-4 lg:col-span-5" data-sector-cards>
 				{
-					sectors.map((sector) => (
-						<article class="bg-surface-container border-border-subtle/70 rounded-xl border p-5 shadow-xs sm:p-6">
-							<header class="flex items-center justify-between gap-3">
-								<div class="flex min-w-0 items-center gap-2.5">
-									<div
-										class="bg-background text-secondary border-border-subtle/50 shrink-0 rounded-lg border p-2"
-										aria-hidden="true"
-									>
-										<Factory className="h-4 w-4" />
+					sectors.map((sector, si) => {
+						const SectorIcon = sectorIcons[sector.category];
+						return (
+							<article
+								class="sector-card group/card bg-surface-container border-border-subtle/70 hover:border-secondary/40 rounded-xl border p-5 shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-lg motion-safe:hover:-translate-y-0.5 sm:p-6"
+								style={`--i:${si}`}
+							>
+								<header class="flex items-center justify-between gap-3">
+									<div class="flex min-w-0 items-center gap-2.5">
+										<div
+											class:list={[
+												iconTileClass,
+												"group-hover/card:bg-secondary group-hover/card:text-background group-hover/card:border-secondary",
+											]}
+											aria-hidden="true"
+										>
+											<SectorIcon className="h-4 w-4" />
+										</div>
+										<h3 class="font-headline-lg text-foreground m-0 text-sm font-semibold sm:text-base">
+											{sector.title[lang]}
+										</h3>
 									</div>
-									<h3 class="font-headline-lg text-foreground m-0 text-sm font-semibold sm:text-base">
-										{sector.title[lang]}
-									</h3>
-								</div>
-								<span class="font-technical-data bg-surface-container-high text-foreground shrink-0 rounded px-2.5 py-0.5 text-xs font-bold tabular-nums">
-									{sector.stats.total} {_("Units")}
-								</span>
-							</header>
+									<span class={badgeClass}>
+										{formatApprox(sector.stats.total)} {_("Units")}
+									</span>
+								</header>
 
-							<div class="bg-border-subtle/50 mt-4 h-1 overflow-hidden rounded-full" aria-hidden="true">
 								<div
-									class="bg-secondary h-full rounded-full"
-									style={`width:${Math.round((sector.stats.total / maxSector) * 100)}%`}
-								/>
-							</div>
+									class="bg-border-subtle/50 mt-5 h-1.5 overflow-hidden rounded-full"
+									aria-hidden="true"
+								>
+									<div
+										class="sector-bar from-secondary/60 to-secondary h-full origin-left rounded-full bg-linear-to-r"
+										style={`width:${Math.round((sector.stats.total / maxSector) * 100)}%`}
+									/>
+								</div>
 
-							<dl class="m-0 mt-4 grid grid-cols-3 gap-2 p-0">
-								{metrics.map(({ key, label }) => (
-									<div class="bg-background border-border-subtle/40 flex flex-col-reverse justify-end gap-0.5 rounded-lg border p-2.5">
-										<dt class="font-label-caps text-industrial-gray text-[11px] uppercase">{label}</dt>
-										<dd class="font-technical-data text-foreground m-0 text-lg font-bold tabular-nums">
-											{sector.stats[key]}
-										</dd>
-									</div>
-								))}
-							</dl>
-						</article>
-					))
+								<dl class="m-0 mt-5 grid grid-cols-3 gap-2 p-0">
+									{metrics.map(({ key, label }) => (
+										<div
+											class:list={[
+												tileClass,
+												"group-hover/card:border-secondary/30",
+												sector.stats[key] === 0 && "opacity-50",
+											]}
+										>
+											<dt class="font-label-caps text-industrial-gray text-[11px] uppercase">
+												{label}
+											</dt>
+											<dd class="font-technical-data text-foreground m-0 text-2xl leading-none font-bold tabular-nums">
+												{formatApprox(sector.stats[key])}
+											</dd>
+										</div>
+									))}
+								</dl>
+							</article>
+						);
+					})
 				}
 			</div>
 		</div>
 	</div>
 </section>
 
+<style>
+	@media (prefers-reduced-motion: no-preference) {
+		/* Sector cards: staggered rise-in, then the share bar fills */
+		[data-sector-cards][data-anim="ready"] .sector-card {
+			opacity: 0;
+		}
+		[data-sector-cards][data-anim="in"] .sector-card {
+			animation: card-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+			animation-delay: calc(var(--i, 0) * 120ms);
+		}
+		[data-sector-cards][data-anim="ready"] .sector-bar {
+			scale: 0 1;
+		}
+		[data-sector-cards][data-anim="in"] .sector-bar {
+			animation: bar-fill 0.9s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+			animation-delay: calc(0.3s + var(--i, 0) * 120ms);
+		}
+
+		/* Hub card: metric tiles pop in each time a hub is selected */
+		.hub-panel:not([hidden]) .hub-metric {
+			animation: card-rise 0.4s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+			animation-delay: calc(0.05s + var(--mi, 0) * 60ms);
+		}
+
+		/* Initial state, applied by the script only when animation is going to run */
+		[data-anim="ready"] .map-oblast,
+		[data-anim="ready"] .map-pin {
+			opacity: 0;
+		}
+		[data-anim="ready"] .map-outline {
+			stroke-dashoffset: 1;
+		}
+
+		[data-anim="in"] .map-oblast {
+			animation: map-fade-in 0.7s ease-out both;
+			animation-delay: var(--delay, 0ms);
+		}
+		[data-anim="in"] .map-outline {
+			animation: map-draw 1.6s ease-in-out 0.2s both;
+		}
+		[data-anim="in"] .map-pin {
+			animation: map-pin-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+			animation-delay: calc(0.9s + var(--i, 0) * 90ms);
+		}
+
+		.hub-panel:not([hidden]) {
+			animation: hub-panel-in 0.3s ease-out;
+		}
+	}
+
+	@keyframes card-rise {
+		from {
+			opacity: 0;
+			transform: translateY(14px);
+		}
+	}
+	@keyframes bar-fill {
+		from {
+			scale: 0 1;
+		}
+	}
+	@keyframes map-fade-in {
+		from {
+			opacity: 0;
+		}
+	}
+	@keyframes map-draw {
+		from {
+			stroke-dashoffset: 1;
+		}
+		to {
+			stroke-dashoffset: 0;
+		}
+	}
+	@keyframes map-pin-pop {
+		from {
+			opacity: 0;
+			scale: 0.4;
+		}
+	}
+	@keyframes hub-panel-in {
+		from {
+			opacity: 0;
+			transform: translateY(6px);
+		}
+	}
+</style>
+
 <script>
 	const root = document.getElementById("installation-map");
 	if (root) {
 		const pins = root.querySelectorAll<HTMLButtonElement>("[data-hub]");
 		const panels = root.querySelectorAll<HTMLElement>("[data-hub-panel]");
+		const oblasts = root.querySelectorAll<SVGPathElement>("[data-oblast]");
+
+		const select = (hubId: string | undefined) => {
+			const pin = Array.from(pins).find((p) => p.dataset.hub === hubId);
+			if (!pin) return;
+			pins.forEach((p) => p.setAttribute("aria-pressed", String(p === pin)));
+			panels.forEach((panel) => {
+				panel.hidden = panel.dataset.hubPanel !== hubId;
+			});
+			oblasts.forEach((o) => {
+				o.toggleAttribute("data-active", o.dataset.oblast === pin.dataset.oblastId);
+			});
+		};
+
+		const directions: Record<string, [number, number]> = {
+			ArrowLeft: [-1, 0],
+			ArrowRight: [1, 0],
+			ArrowUp: [0, -1],
+			ArrowDown: [0, 1],
+		};
+		// Arrow keys move focus to the nearest pin in that direction (DOM order is by volume, not position)
+		const focusNeighbour = (from: HTMLButtonElement, [dx, dy]: [number, number]) => {
+			const origin = from.getBoundingClientRect();
+			const ox = origin.left + origin.width / 2;
+			const oy = origin.top + origin.height / 2;
+			let best: HTMLButtonElement | undefined;
+			let bestDistance = Number.POSITIVE_INFINITY;
+			pins.forEach((candidate) => {
+				if (candidate === from) return;
+				const r = candidate.getBoundingClientRect();
+				const vx = r.left + r.width / 2 - ox;
+				const vy = r.top + r.height / 2 - oy;
+				const along = vx * dx + vy * dy;
+				if (along <= 0) return;
+				const across = Math.abs(vx * dy - vy * dx);
+				// Penalise sideways offset so the pin most in line with the direction wins
+				const distance = along + across * 2;
+				if (distance < bestDistance) {
+					bestDistance = distance;
+					best = candidate;
+				}
+			});
+			best?.focus();
+		};
 
 		pins.forEach((pin) => {
-			pin.addEventListener("click", () => {
-				const id = pin.dataset.hub;
-				pins.forEach((p) => p.setAttribute("aria-pressed", String(p === pin)));
-				panels.forEach((panel) => {
-					panel.hidden = panel.dataset.hubPanel !== id;
-				});
+			pin.addEventListener("click", () => select(pin.dataset.hub));
+			pin.addEventListener("keydown", (event) => {
+				const direction = directions[event.key];
+				if (!direction) return;
+				event.preventDefault();
+				focusNeighbour(pin, direction);
 			});
 		});
+		// Oblasts without a hub have no data-hub-id and stay inert
+		oblasts.forEach((oblast) => {
+			if (oblast.dataset.hubId) {
+				oblast.addEventListener("click", () => select(oblast.dataset.hubId));
+			}
+		});
+
+		// Play the intro animations the first time each block scrolls into view
+		const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+		if (!reduceMotion && "IntersectionObserver" in window) {
+			const revealOnce = (el: HTMLElement, threshold: number) => {
+				el.dataset.anim = "ready";
+				const observer = new IntersectionObserver(
+					([entry]) => {
+						if (!entry?.isIntersecting) return;
+						el.dataset.anim = "in";
+						observer.disconnect();
+					},
+					{ threshold }
+				);
+				observer.observe(el);
+			};
+			const stage = root.querySelector<HTMLElement>("[data-map-pins]");
+			const cards = root.querySelector<HTMLElement>("[data-sector-cards]");
+			if (stage) revealOnce(stage, 0.35);
+			if (cards) revealOnce(cards, 0.15);
+		}
 	}
 </script>

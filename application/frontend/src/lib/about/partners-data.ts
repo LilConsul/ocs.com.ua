@@ -1,6 +1,17 @@
 import { getCityCoordinates } from "./geocoding";
 import type { CityHub, EquipmentStats, PartnerItem, PartnersData, SectorBreakdown } from "./types";
 
+/**
+ * Display-friendly approximation of an exact count: floors to a multiple of 5 and
+ * appends "+" (229 → "225+"). Zero stays "0" and 1–4 become "<5", so we never
+ * claim equipment that isn't there.
+ */
+export function formatApprox(n: number): string {
+	if (n <= 0) return "0";
+	if (n < 5) return "<5";
+	return `${Math.floor(n / 5) * 5}+`;
+}
+
 export function calculateGlobalStats(data: PartnersData): EquipmentStats {
 	let md = 0;
 	let cw = 0;
@@ -60,11 +71,12 @@ export function aggregateCityHubs(data: PartnersData): CityHub[] {
 	const cityHubs: CityHub[] = [];
 
 	for (const [cityName, hubData] of hubsMap.entries()) {
-		const coord = getCityCoordinates(cityName) ?? {
-			lat: 49.0384,
-			lng: 31.4513,
-			name: { en: cityName, ua: cityName },
-		};
+		const coord = getCityCoordinates(cityName);
+		if (!coord) {
+			// A made-up fallback position would put a pin on the wrong city, so skip the hub
+			console.warn(`[about] No coordinates for "${cityName}" in city-coordinates.json; hub skipped`);
+			continue;
+		}
 
 		cityHubs.push({
 			id: cityName,

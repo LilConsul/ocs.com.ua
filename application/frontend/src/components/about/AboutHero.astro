@@ -6,10 +6,11 @@ import {
 	CalendarDays,
 	Handshake,
 	QrCode,
-	ScanLine,
 	Scale,
+	ScanLine,
 } from "lucide-react";
 import { getInlineTranslations, type Lang } from "@/i18n";
+import { formatApprox } from "@/lib/about/partners-data";
 import type { EquipmentStats } from "@/lib/about/types";
 
 interface Props {
@@ -26,11 +27,11 @@ const highlights = [
 ];
 
 const kpis = [
-	{ Icon: Boxes, label: _("Installed Systems"), value: `${stats.total}+`, featured: true },
-	{ Icon: Scale, label: _("Checkweighers"), value: stats.cw },
-	{ Icon: ScanLine, label: _("Metal Detectors"), value: stats.md },
+	{ Icon: Boxes, label: _("Installed Systems"), value: formatApprox(stats.total), featured: true },
+	{ Icon: Scale, label: _("Checkweighers"), value: formatApprox(stats.cw) },
+	{ Icon: ScanLine, label: _("Metal Detectors"), value: formatApprox(stats.md) },
 	stats.tqs > 0
-		? { Icon: QrCode, label: _("Serialization Stations"), value: stats.tqs }
+		? { Icon: QrCode, label: _("Serialization Stations"), value: formatApprox(stats.tqs) }
 		: { Icon: BadgeCheck, label: _("German Hardware"), value: "100%" },
 ];
 ---
