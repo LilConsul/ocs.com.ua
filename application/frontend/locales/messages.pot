@@ -86,16 +86,13 @@ msgstr ""
 msgid "Back to Home"
 msgstr ""
 
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:122
-msgid "Breadcrumb"
-msgstr ""
-
 #: src/components/errors/NotFoundContent.astro:44
 msgid "Browse Catalogue"
 msgstr ""
 
 #: src/components/Header.astro:22
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:126
+#: src/components/catalogue/RelatedEquipment.astro:31
+#: src/components/catalogue/CategoryHeader.astro:34
 msgid "Catalogue"
 msgstr ""
 
@@ -103,7 +100,7 @@ msgstr ""
 msgid "Catalogue Filters"
 msgstr ""
 
-#: src/components/catalogue/CatalogueSidebar.astro:65
+#: src/components/catalogue/CatalogueSidebar.astro:68
 msgid "Category navigation"
 msgstr ""
 
@@ -161,11 +158,11 @@ msgstr ""
 
 #: src/components/Header.astro:119
 #: src/components/Header.astro:186
+#: src/components/contact/ContactHero.astro:28
 #: src/components/homepage/HeroSection.astro:86
 #: src/components/errors/ServerErrorContent.astro:46
 #: src/components/errors/NotFoundContent.astro:54
-#: src/components/contact/ContactHero.astro:28
-#: src/components/catalogue/CatalogueSidebar.astro:95
+#: src/components/catalogue/CatalogueSidebar.astro:99
 #: src/components/about/AboutCta.astro:36
 msgid "Contact Us"
 msgstr ""
@@ -186,8 +183,8 @@ msgstr ""
 msgid "Corporate Email"
 msgstr ""
 
-#: src/components/homepage/IndustriesSection.astro:70
 #: src/components/contact/ContactForm.astro:31
+#: src/components/homepage/IndustriesSection.astro:70
 msgid "Cosmetics"
 msgstr ""
 
@@ -212,7 +209,7 @@ msgid "Direct Factory Partnership & Certified Distribution"
 msgstr ""
 
 #: src/components/catalogue/ProductSidebar.astro:64
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:187
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:196
 msgid "Direct Technical Sales"
 msgstr ""
 
@@ -245,7 +242,7 @@ msgstr ""
 msgid "Enterprise Reference Directory"
 msgstr ""
 
-#: src/components/catalogue/CatalogueSidebar.astro:61
+#: src/components/catalogue/CatalogueSidebar.astro:64
 msgid "Equipment Categories"
 msgstr ""
 
@@ -380,8 +377,8 @@ msgstr ""
 msgid "Let's Talk About Your Production Line"
 msgstr ""
 
-#: src/components/homepage/IndustriesSection.astro:79
 #: src/components/contact/ContactForm.astro:32
+#: src/components/homepage/IndustriesSection.astro:79
 msgid "Logistics & Distribution"
 msgstr ""
 
@@ -445,7 +442,7 @@ msgstr ""
 msgid "Next image"
 msgstr ""
 
-#: src/pages/[lang]/catalogue/[category]/index.astro:126
+#: src/pages/[lang]/catalogue/[category]/index.astro:130
 msgid "No products available in this category"
 msgstr ""
 
@@ -504,7 +501,7 @@ msgid "Our Clients"
 msgstr ""
 
 #: src/components/catalogue/ProductSidebar.astro:29
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:175
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:184
 msgid "Our engineering team is ready to configure this equipment for your specific production environment."
 msgstr ""
 
@@ -522,8 +519,8 @@ msgstr ""
 msgid "Pharma Serialization & Aggregation Systems (EU FMD, GS1)"
 msgstr ""
 
-#: src/components/homepage/IndustriesSection.astro:58
 #: src/components/contact/ContactForm.astro:30
+#: src/components/homepage/IndustriesSection.astro:58
 msgid "Pharmaceutical"
 msgstr ""
 
@@ -536,7 +533,7 @@ msgstr ""
 msgid "Phone"
 msgstr ""
 
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:171
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:180
 msgid "Planning to upgrade your production line?"
 msgstr ""
 
@@ -574,7 +571,7 @@ msgstr ""
 msgid "Privacy Policy"
 msgstr ""
 
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:148
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:153
 msgid "Product Overview"
 msgstr ""
 
@@ -582,7 +579,7 @@ msgstr ""
 msgid "Product image thumbnails"
 msgstr ""
 
-#: src/pages/[lang]/catalogue/[category]/index.astro:116
+#: src/pages/[lang]/catalogue/[category]/index.astro:117
 msgid "Products"
 msgstr ""
 
@@ -598,12 +595,12 @@ msgstr ""
 msgid "Ready to upgrade your line?"
 msgstr ""
 
-#: src/components/catalogue/RelatedEquipment.astro:19
+#: src/components/catalogue/RelatedEquipment.astro:37
 msgid "Related Equipment"
 msgstr ""
 
 #: src/components/catalogue/ProductSidebar.astro:41
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:227
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:244
 msgid "Request Consultation"
 msgstr ""
 
@@ -693,15 +690,15 @@ msgid "Systems operating across Ukrainian manufacturing facilities."
 msgstr ""
 
 #: src/components/catalogue/ProductSidebar.astro:54
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:240
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:262
 msgid "Technical Datasheet"
 msgstr ""
 
-#: src/components/catalogue/ProductCard.astro:72
+#: src/components/catalogue/ProductCard.astro:76
 msgid "Technical Details"
 msgstr ""
 
-#: src/components/catalogue/ProductSpecsTable.astro:17
+#: src/components/catalogue/ProductSpecsTable.astro:23
 msgid "Technical Specifications"
 msgstr ""
 

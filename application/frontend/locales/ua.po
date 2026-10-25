@@ -90,16 +90,13 @@ msgstr "Авторизована документація"
 msgid "Back to Home"
 msgstr "На головну"
 
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:122
-msgid "Breadcrumb"
-msgstr "Навігація"
-
 #: src/components/errors/NotFoundContent.astro:44
 msgid "Browse Catalogue"
 msgstr "Каталог обладнання"
 
 #: src/components/Header.astro:22
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:126
+#: src/components/catalogue/RelatedEquipment.astro:31
+#: src/components/catalogue/CategoryHeader.astro:34
 msgid "Catalogue"
 msgstr "Каталог"
 
@@ -107,7 +104,7 @@ msgstr "Каталог"
 msgid "Catalogue Filters"
 msgstr "Фільтри каталогу"
 
-#: src/components/catalogue/CatalogueSidebar.astro:65
+#: src/components/catalogue/CatalogueSidebar.astro:68
 msgid "Category navigation"
 msgstr "Навігація за категоріями"
 
@@ -165,11 +162,11 @@ msgstr "Контактна інформація"
 
 #: src/components/Header.astro:119
 #: src/components/Header.astro:186
+#: src/components/contact/ContactHero.astro:28
 #: src/components/homepage/HeroSection.astro:86
 #: src/components/errors/ServerErrorContent.astro:46
 #: src/components/errors/NotFoundContent.astro:54
-#: src/components/contact/ContactHero.astro:28
-#: src/components/catalogue/CatalogueSidebar.astro:95
+#: src/components/catalogue/CatalogueSidebar.astro:99
 #: src/components/about/AboutCta.astro:36
 msgid "Contact Us"
 msgstr "Зв’язатися з нами"
@@ -190,8 +187,8 @@ msgstr "Зверніться до інженерної команди ОС-Те�
 msgid "Corporate Email"
 msgstr "Корпоративний email"
 
-#: src/components/homepage/IndustriesSection.astro:70
 #: src/components/contact/ContactForm.astro:31
+#: src/components/homepage/IndustriesSection.astro:70
 msgid "Cosmetics"
 msgstr "Косметична промисловість"
 
@@ -216,7 +213,7 @@ msgid "Direct Factory Partnership & Certified Distribution"
 msgstr "Пряме партнерство із заводами та сертифікована дистрибуція"
 
 #: src/components/catalogue/ProductSidebar.astro:64
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:187
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:196
 msgid "Direct Technical Sales"
 msgstr "Прямі продажі технічного обладнання"
 
@@ -249,7 +246,7 @@ msgstr "Технічний запит"
 msgid "Enterprise Reference Directory"
 msgstr "Довідник підприємств-клієнтів"
 
-#: src/components/catalogue/CatalogueSidebar.astro:61
+#: src/components/catalogue/CatalogueSidebar.astro:64
 msgid "Equipment Categories"
 msgstr "Категорії обладнання"
 
@@ -384,8 +381,8 @@ msgstr "Дізнатися більше"
 msgid "Let's Talk About Your Production Line"
 msgstr "Обговоримо вашу виробничу лінію"
 
-#: src/components/homepage/IndustriesSection.astro:79
 #: src/components/contact/ContactForm.astro:32
+#: src/components/homepage/IndustriesSection.astro:79
 msgid "Logistics & Distribution"
 msgstr "Логістика та дистрибуція"
 
@@ -449,7 +446,7 @@ msgstr "Потрібна допомога з вибором обладнання
 msgid "Next image"
 msgstr "Наступне зображення"
 
-#: src/pages/[lang]/catalogue/[category]/index.astro:126
+#: src/pages/[lang]/catalogue/[category]/index.astro:130
 msgid "No products available in this category"
 msgstr "У цій категорії поки немає обладнання"
 
@@ -508,7 +505,7 @@ msgid "Our Clients"
 msgstr "Наші клієнти"
 
 #: src/components/catalogue/ProductSidebar.astro:29
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:175
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:184
 msgid "Our engineering team is ready to configure this equipment for your specific production environment."
 msgstr "Наша інженерна команда готова підібрати конфігурацію обладнання відповідно до потреб вашого виробництва."
 
@@ -526,8 +523,8 @@ msgstr "Сторінку не знайдено"
 msgid "Pharma Serialization & Aggregation Systems (EU FMD, GS1)"
 msgstr "Системи фармацевтичної серіалізації та агрегації (EU FMD, GS1)"
 
-#: src/components/homepage/IndustriesSection.astro:58
 #: src/components/contact/ContactForm.astro:30
+#: src/components/homepage/IndustriesSection.astro:58
 msgid "Pharmaceutical"
 msgstr "Фармацевтична промисловість"
 
@@ -540,7 +537,7 @@ msgstr "Фармацевтика"
 msgid "Phone"
 msgstr "Телефон"
 
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:171
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:180
 msgid "Planning to upgrade your production line?"
 msgstr "Плануєте модернізувати виробничу лінію?"
 
@@ -578,7 +575,7 @@ msgstr "Попереднє зображення"
 msgid "Privacy Policy"
 msgstr "Політика конфіденційності"
 
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:148
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:153
 msgid "Product Overview"
 msgstr "Огляд обладнання"
 
@@ -586,7 +583,7 @@ msgstr "Огляд обладнання"
 msgid "Product image thumbnails"
 msgstr "Мініатюри зображень обладнання"
 
-#: src/pages/[lang]/catalogue/[category]/index.astro:116
+#: src/pages/[lang]/catalogue/[category]/index.astro:117
 msgid "Products"
 msgstr "Обладнання"
 
@@ -602,12 +599,12 @@ msgstr "Гравітаційні сепаратори домішок Quicktron �
 msgid "Ready to upgrade your line?"
 msgstr "Плануєте модернізувати виробничу лінію?"
 
-#: src/components/catalogue/RelatedEquipment.astro:19
+#: src/components/catalogue/RelatedEquipment.astro:37
 msgid "Related Equipment"
 msgstr "Схоже обладнання"
 
 #: src/components/catalogue/ProductSidebar.astro:41
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:227
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:244
 msgid "Request Consultation"
 msgstr "Замовити консультацію"
 
@@ -697,15 +694,15 @@ msgid "Systems operating across Ukrainian manufacturing facilities."
 msgstr "Наше обладнання працює на виробничих підприємствах по всій Україні."
 
 #: src/components/catalogue/ProductSidebar.astro:54
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:240
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:262
 msgid "Technical Datasheet"
 msgstr "Технічна специфікація"
 
-#: src/components/catalogue/ProductCard.astro:72
+#: src/components/catalogue/ProductCard.astro:76
 msgid "Technical Details"
 msgstr "Технічні деталі"
 
-#: src/components/catalogue/ProductSpecsTable.astro:17
+#: src/components/catalogue/ProductSpecsTable.astro:23
 msgid "Technical Specifications"
 msgstr "Технічні характеристики"
 
