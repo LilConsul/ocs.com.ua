@@ -53,21 +53,17 @@ ______________________________________________________________________
 
 ## 3. Architecture & Data Flow
 
-### 3.1 Data Module (`src/lib/about/partners-data.ts`)
+### 3.1 Data Module (`src/lib/about/partners-data.ts`) & Automated Geocoding
 
 Pure TypeScript helper module parsing and aggregating `partners.json`:
 
 - **`EquipmentStats` interface:** `{ md: number; cw: number; tqs: number; total: number }`
 - **`CityHub` interface:** `{ id: string; name: { en: string; ua: string }; coords: [number, number]; stats: EquipmentStats; clients: string[] }`
 - **`calculateGlobalStats(partnersData)`:** Computes aggregate sums across all sectors (`food`, `household`, `pharma`).
-- **`aggregateCityHubs(partnersData)`:** Aggregates equipment counts and partner client names per Ukrainian city with verified GPS coordinates:
-  - Kyiv: `[50.4501, 30.5234]`
-  - Lviv: `[49.8397, 24.0297]`
-  - Odesa: `[46.4825, 30.7233]`
-  - Sumy: `[50.9077, 34.7981]`
-  - Cherkasy: `[49.4444, 32.0598]`
-  - Vinnytsia: `[49.2331, 28.4682]`
-  - Zhytomyr: `[50.2547, 28.6587]`
+- **`getCityCoordinates(city)` & Automated Geocoding Resolver (`src/lib/about/geocoding.ts`):**
+  - Resolves city coordinates and localized names using a local cache in `src/data/city-coordinates.json`.
+  - Automatically fetches coordinates via OpenStreetMap Nominatim / Geocoding API if a new city is added to `partners.json` and updates the cache, ensuring zero runtime latency, no API key exposure, and 100% build-time reliability.
+- **`aggregateCityHubs(partnersData, coordinatesMap)`:** Dynamically aggregates equipment counts, partner client names, and coordinates per Ukrainian city discovered in `partners.json`.
 - **`getSectorBreakdowns(partnersData)`:** Returns categorized statistics for Food, Pharma, and Household sectors.
 
 ### 3.2 Page Routing & Template (`src/pages/[lang]/about.astro`)
