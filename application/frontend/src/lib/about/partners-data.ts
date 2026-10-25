@@ -74,7 +74,9 @@ export function aggregateCityHubs(data: PartnersData): CityHub[] {
 		const coord = getCityCoordinates(cityName);
 		if (!coord) {
 			// A made-up fallback position would put a pin on the wrong city, so skip the hub
-			console.warn(`[about] No coordinates for "${cityName}" in city-coordinates.json; hub skipped`);
+			console.warn(
+				`[about] No coordinates for "${cityName}" in city-coordinates.json; hub skipped`
+			);
 			continue;
 		}
 

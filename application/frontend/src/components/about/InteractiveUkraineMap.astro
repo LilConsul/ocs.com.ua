@@ -431,6 +431,8 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 </style>
 
 <script>
+	import { revealOnce } from "@/lib/about/reveal-once";
+
 	const root = document.getElementById("installation-map");
 	if (root) {
 		const pins = root.querySelectorAll<HTMLButtonElement>("[data-hub]");
@@ -497,24 +499,9 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 		});
 
 		// Play the intro animations the first time each block scrolls into view
-		const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-		if (!reduceMotion && "IntersectionObserver" in window) {
-			const revealOnce = (el: HTMLElement, threshold: number) => {
-				el.dataset.anim = "ready";
-				const observer = new IntersectionObserver(
-					([entry]) => {
-						if (!entry?.isIntersecting) return;
-						el.dataset.anim = "in";
-						observer.disconnect();
-					},
-					{ threshold }
-				);
-				observer.observe(el);
-			};
-			const stage = root.querySelector<HTMLElement>("[data-map-pins]");
-			const cards = root.querySelector<HTMLElement>("[data-sector-cards]");
-			if (stage) revealOnce(stage, 0.35);
-			if (cards) revealOnce(cards, 0.15);
-		}
+		const stage = root.querySelector<HTMLElement>("[data-map-pins]");
+		const cards = root.querySelector<HTMLElement>("[data-sector-cards]");
+		if (stage) revealOnce(stage, 0.35);
+		if (cards) revealOnce(cards, 0.15);
 	}
 </script>
