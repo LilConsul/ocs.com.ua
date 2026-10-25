@@ -1,7 +1,11 @@
 ---
+import { geoMercator, geoPath } from "d3-geo";
 import { Factory, MapPin } from "lucide-react";
+import { feature, mesh } from "topojson-client";
+import type { GeometryCollection, Topology } from "topojson-specification";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import type { CityHub, SectorBreakdown } from "@/lib/about/types";
+import oblastsTopo from "@/lib/about/ukraine-oblasts.topo.json";
 
 interface Props {
 	lang: Lang;
@@ -12,158 +16,199 @@ interface Props {
 const { lang, cityHubs, sectors } = Astro.props;
 const _ = getInlineTranslations(lang);
 
-const primaryHub = cityHubs[0] ?? {
-	id: "Kyiv",
-	name: { en: "Kyiv", ua: "Київ" },
-	stats: { md: 0, cw: 0, tqs: 0, total: 0 },
-	clients: [],
-};
+const metrics = [
+	{ key: "cw", label: _("Checkweighers") },
+	{ key: "md", label: _("Metal Detectors") },
+	{ key: "tqs", label: _("Track & Trace") },
+] as const;
+
+const W = 800;
+const H = 520;
+// 24 oblasts + Crimea, built by src/lib/about/build-ukraine-topo.ts
+const topology = oblastsTopo as unknown as Topology;
+const oblastsObject = topology.objects.oblasts as GeometryCollection;
+const oblasts = feature(topology, oblastsObject);
+// Outer border only (shared arcs between neighbouring oblasts are excluded)
+const outline = mesh(topology, oblastsObject, (a, b) => a === b);
+
+const projection = geoMercator().fitExtent(
+	[
+		[24, 24],
+		[W - 24, H - 24],
+	],
+	oblasts
+);
+const toPath = geoPath(projection);
+
+const oblastPaths = oblasts.features.map((f) => ({
+	id: String(f.id),
+	d: toPath(f) ?? "",
+}));
+const outlinePath = toPath(outline) ?? "";
+
+const pins = cityHubs.flatMap((hub) => {
+	const point = projection([hub.coords[1], hub.coords[0]]);
+	if (!point) return [];
+	return [{ hub, left: (point[0] / W) * 100, top: (point[1] / H) * 100 }];
+});
+
+const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 ---
 
 <section
 	id="installation-map"
 	aria-labelledby="map-section-title"
-	class="bg-background w-full py-16 lg:py-24"
+	class="bg-background w-full scroll-mt-24 py-16 lg:py-24"
 >
 	<div class="px-edge-margin mx-auto max-w-[1280px]">
-		<header class="mb-12 flex flex-col items-start justify-between lg:flex-row lg:items-center">
+		<header class="mb-12 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
 			<div>
 				<span
-					class="font-label-caps text-secondary block text-xs font-semibold tracking-wider uppercase"
+					class="font-label-caps text-secondary block text-xs font-semibold tracking-widest uppercase"
 				>
 					{_("Deployment Breakdown")}
 				</span>
 				<h2
 					id="map-section-title"
-					class="font-headline-lg text-foreground mt-2 text-2xl font-semibold sm:text-3xl"
+					class="font-headline-lg text-foreground mt-2 text-2xl font-semibold tracking-tight text-balance sm:text-3xl lg:text-4xl"
 				>
 					{_("Verified Ukrainian Industrial Footprint")}
 				</h2>
 			</div>
-			<p
-				class="font-technical-data text-industrial-gray m-0 mt-4 flex items-center gap-2 text-xs lg:mt-0"
-			>
-				<MapPin className="text-secondary h-4 w-4" aria-hidden="true" />
+			<p class="font-technical-data text-industrial-gray m-0 flex items-center gap-2 text-sm">
+				<MapPin className="text-secondary h-4 w-4 shrink-0" aria-hidden="true" />
 				<span>{_("Active Factory Installations Across Regional Hubs")}</span>
 			</p>
 		</header>
 
-		<div class="gap-gutter mb-12 grid grid-cols-1 items-start lg:grid-cols-12">
-			{/* Leaflet map container as semantic figure */}
-			<figure class="m-0 flex flex-col gap-4 lg:col-span-7">
-				<div
-					class="bg-surface-container border-border-subtle rounded-xl border p-4 shadow-xs sm:p-5"
+		<div class="gap-gutter grid grid-cols-1 items-start lg:grid-cols-12">
+			<div class="flex flex-col gap-4 lg:col-span-7">
+				{/* Map */}
+				<figure
+					class="bg-surface-container border-border-subtle m-0 overflow-hidden rounded-xl border shadow-xs"
 				>
-					<header
-						class="border-border-subtle/60 mb-3 flex items-center justify-between border-b pb-3"
-					>
-						<div class="flex items-center gap-2">
-							<span class="bg-secondary h-2.5 w-2.5 animate-pulse rounded-full" aria-hidden="true"
-							></span>
-							<h3 class="font-headline-lg text-foreground m-0 text-sm font-semibold">
-								{_("Installation Map of Ukraine")}
-							</h3>
-						</div>
-						<span class="font-technical-data text-secondary text-xs font-medium">
-							{_("Interactive Regional Hubs")}
-						</span>
-					</header>
-
-					{/* Map viewport */}
 					<div
-						id="ukraine-leaflet-map"
-						class="bg-background border-border-subtle/80 relative z-0 aspect-[16/10] min-h-[340px] w-full overflow-hidden rounded-lg border"
-						data-lang={lang}
-						data-units-label={_("Units")}
-						data-hub-suffix={_("Industrial Hub")}
-						data-fallback-clients={_("Multiple facilities active")}
-						role="region"
-						aria-label={_("Interactive Map of Ukraine Installations")}
+						class="border-border-subtle/60 flex items-center justify-between gap-3 border-b px-4 py-3 sm:px-5"
 					>
-						<div
-							class="text-industrial-gray font-technical-data absolute inset-0 flex items-center justify-center text-xs"
-						>
-							{_("Loading interactive map...")}
-						</div>
+						<h3 class="font-headline-lg text-foreground m-0 text-sm font-semibold">
+							{_("Installation Map of Ukraine")}
+						</h3>
+						<span class="font-technical-data text-industrial-gray text-xs">
+							{_("Click pins to inspect")}
+						</span>
 					</div>
 
-					{/* Interactive hub details drawer with semantic definition list */}
-					<figcaption
-						class="bg-background border-border-subtle/80 mt-4 rounded-lg border p-4 shadow-xs"
-						id="hubDetailBox"
+					<div
+						class="relative w-full"
+						style={`aspect-ratio: ${W} / ${H}`}
+						data-map-pins
 					>
-						<header class="mb-2 flex flex-wrap items-center justify-between gap-2">
-							<div class="flex items-center gap-2">
-								<h4
-									class="font-headline-lg text-foreground m-0 text-base font-semibold"
-									id="hubTitle"
-								>
-									{primaryHub.name[lang]}
-									{_("Industrial Hub")}
-								</h4>
-								<span
-									class="bg-secondary/10 text-secondary font-label-caps rounded px-2 py-0.5 text-xs font-bold"
-									id="hubBadge"
-								>
-									{primaryHub.stats.total}+ {_("Units")}
-								</span>
-							</div>
-							<span class="font-technical-data text-industrial-gray text-[11px]"
-								>{_("Click pins to inspect")}</span
-							>
-						</header>
-
-						{/* Equipment breakdown definition list */}
-						<dl
-							class="border-border-subtle/40 font-technical-data m-0 mb-2 grid grid-cols-3 gap-2 border-y py-2 text-xs"
+						<svg
+							viewBox={`0 0 ${W} ${H}`}
+							class="absolute inset-0 h-full w-full"
+							role="img"
+							aria-label={_("Interactive Map of Ukraine Installations")}
 						>
-							<div class="flex flex-col-reverse justify-end">
-								<dt class="text-industrial-gray text-[10px] uppercase">{_("Checkweighers")}</dt>
-								<dd class="text-foreground m-0 text-sm font-bold" id="hubCw">
-									{primaryHub.stats.cw}
-								</dd>
-							</div>
-							<div class="flex flex-col-reverse justify-end">
-								<dt class="text-industrial-gray text-[10px] uppercase">{_("Metal Detectors")}</dt>
-								<dd class="text-foreground m-0 text-sm font-bold" id="hubMd">
-									{primaryHub.stats.md}
-								</dd>
-							</div>
-							<div class="flex flex-col-reverse justify-end">
-								<dt class="text-industrial-gray text-[10px] uppercase">{_("Serialization")}</dt>
-								<dd class="text-foreground m-0 text-sm font-bold" id="hubTqs">
-									{primaryHub.stats.tqs}
-								</dd>
-							</div>
-						</dl>
-
-						<p
-							class="font-body-md text-industrial-gray m-0 text-xs leading-relaxed"
-							id="hubClients"
-						>
-							<strong class="text-foreground font-medium">{_("Active Client Facilities:")}</strong>{
-								" "
+							{
+								oblastPaths.map(({ id, d }) => (
+									<path
+										d={d}
+										data-oblast={id}
+										class="fill-secondary/10 stroke-secondary/30"
+										stroke-width="0.75"
+										stroke-linejoin="round"
+										vector-effect="non-scaling-stroke"
+									/>
+								))
 							}
-							<span id="hubClientsList">
-								{
-									primaryHub.clients.map((c) => c[lang]).join(", ") ||
-										_("Multiple facilities active")
-								}
-							</span>
-						</p>
-					</figcaption>
-				</div>
-			</figure>
+							<path
+								d={outlinePath}
+								fill="none"
+								class="stroke-secondary/60"
+								stroke-width="1.5"
+								stroke-linejoin="round"
+								vector-effect="non-scaling-stroke"
+							></path>
+						</svg>
 
-			{/* Sector breakdown column */}
+						{
+							pins.map(({ hub, left, top }, i) => (
+								<button
+									type="button"
+									data-hub={hub.id}
+									aria-pressed={i === 0 ? "true" : "false"}
+									aria-controls={`hub-panel-${hub.id}`}
+									aria-label={`${hub.name[lang]}: ${hub.stats.total} ${_("Units")}`}
+									class="group focus-visible:outline-secondary absolute flex size-11 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 aria-pressed:z-10"
+									style={`left:${left.toFixed(2)}%;top:${top.toFixed(2)}%`}
+								>
+									<span
+										class="bg-secondary/40 absolute inset-1 rounded-full opacity-0 motion-safe:group-aria-pressed:animate-ping"
+										aria-hidden="true"
+									/>
+									<span
+										class="font-technical-data bg-secondary text-background border-background group-aria-pressed:bg-foreground relative flex h-7 min-w-7 items-center justify-center rounded-full border-2 px-1.5 text-[11px] font-bold tabular-nums shadow-md transition-transform group-hover:scale-110 group-aria-pressed:scale-110"
+										aria-hidden="true"
+									>
+										{hub.stats.total}
+									</span>
+								</button>
+							))
+						}
+					</div>
+				</figure>
+
+				{/* Selected hub details */}
+				{
+					cityHubs.length > 0 && (
+						<div
+							class="bg-background border-border-subtle/80 rounded-xl border p-5 shadow-xs"
+							aria-live="polite"
+						>
+							{cityHubs.map((hub, i) => (
+								<div id={`hub-panel-${hub.id}`} data-hub-panel={hub.id} hidden={i !== 0}>
+									<div class="flex flex-wrap items-center justify-between gap-2">
+										<h4 class="font-headline-lg text-foreground m-0 text-base font-semibold">
+											{hub.name[lang]}
+										</h4>
+										<span class="bg-secondary/10 text-secondary font-label-caps rounded px-2 py-0.5 text-xs font-bold tabular-nums">
+											{hub.stats.total}+ {_("Units")}
+										</span>
+									</div>
+
+									<dl class="border-border-subtle/50 m-0 mt-4 grid grid-cols-3 gap-3 border-y py-3">
+										{metrics.map(({ key, label }) => (
+											<div class="flex flex-col-reverse justify-end gap-0.5">
+												<dt class="font-label-caps text-industrial-gray text-[11px] uppercase">
+													{label}
+												</dt>
+												<dd class="font-technical-data text-foreground m-0 text-xl font-bold tabular-nums">
+													{hub.stats[key]}
+												</dd>
+											</div>
+										))}
+									</dl>
+
+									<p class="font-body-md text-industrial-gray m-0 mt-3 text-sm leading-relaxed">
+										<strong class="text-foreground font-medium">{_("Active Client Facilities:")}</strong>{" "}
+										{hub.clients.map((c) => c[lang]).join(", ") || _("Multiple facilities active")}
+									</p>
+								</div>
+							))}
+						</div>
+					)
+				}
+			</div>
+
+			{/* Sector breakdown */}
 			<div class="flex flex-col gap-4 lg:col-span-5">
 				{
 					sectors.map((sector) => (
 						<article class="bg-surface-container border-border-subtle/70 rounded-xl border p-5 shadow-xs sm:p-6">
-							<header class="mb-3 flex items-center justify-between">
-								<div class="flex items-center gap-2.5">
+							<header class="flex items-center justify-between gap-3">
+								<div class="flex min-w-0 items-center gap-2.5">
 									<div
-										class="bg-background text-secondary border-border-subtle/50 rounded border p-2"
+										class="bg-background text-secondary border-border-subtle/50 shrink-0 rounded-lg border p-2"
 										aria-hidden="true"
 									>
 										<Factory className="h-4 w-4" />
@@ -172,36 +217,27 @@ const primaryHub = cityHubs[0] ?? {
 										{sector.title[lang]}
 									</h3>
 								</div>
-								<span class="font-technical-data bg-surface-container-high text-foreground rounded px-2.5 py-0.5 text-xs font-bold">
+								<span class="font-technical-data bg-surface-container-high text-foreground shrink-0 rounded px-2.5 py-0.5 text-xs font-bold tabular-nums">
 									{sector.stats.total} {_("Units")}
 								</span>
 							</header>
 
-							<dl class="m-0 grid grid-cols-3 gap-2 p-0 pt-2">
-								<div class="bg-background border-border-subtle/40 flex flex-col-reverse justify-end rounded border p-2.5">
-									<dt class="font-label-caps text-industrial-gray text-[10px] uppercase">
-										{_("Checkweighers")}
-									</dt>
-									<dd class="font-technical-data text-foreground m-0 block text-lg font-bold">
-										{sector.stats.cw}
-									</dd>
-								</div>
-								<div class="bg-background border-border-subtle/40 flex flex-col-reverse justify-end rounded border p-2.5">
-									<dt class="font-label-caps text-industrial-gray text-[10px] uppercase">
-										{_("Metal Detectors")}
-									</dt>
-									<dd class="font-technical-data text-foreground m-0 block text-lg font-bold">
-										{sector.stats.md}
-									</dd>
-								</div>
-								<div class="bg-background border-border-subtle/40 flex flex-col-reverse justify-end rounded border p-2.5">
-									<dt class="font-label-caps text-industrial-gray text-[10px] uppercase">
-										{_("Track & Trace")}
-									</dt>
-									<dd class="font-technical-data text-foreground m-0 block text-lg font-bold">
-										{sector.stats.tqs}
-									</dd>
-								</div>
+							<div class="bg-border-subtle/50 mt-4 h-1 overflow-hidden rounded-full" aria-hidden="true">
+								<div
+									class="bg-secondary h-full rounded-full"
+									style={`width:${Math.round((sector.stats.total / maxSector) * 100)}%`}
+								/>
+							</div>
+
+							<dl class="m-0 mt-4 grid grid-cols-3 gap-2 p-0">
+								{metrics.map(({ key, label }) => (
+									<div class="bg-background border-border-subtle/40 flex flex-col-reverse justify-end gap-0.5 rounded-lg border p-2.5">
+										<dt class="font-label-caps text-industrial-gray text-[11px] uppercase">{label}</dt>
+										<dd class="font-technical-data text-foreground m-0 text-lg font-bold tabular-nums">
+											{sector.stats[key]}
+										</dd>
+									</div>
+								))}
 							</dl>
 						</article>
 					))
@@ -209,181 +245,22 @@ const primaryHub = cityHubs[0] ?? {
 			</div>
 		</div>
 	</div>
-
-	{/* Pass JSON data to the client script */}
-	<script type="application/json" id="city-hubs-json" set:html={JSON.stringify(cityHubs)} />
 </section>
 
-<style is:global>
-	.custom-pin-marker {
-		background: transparent;
-		border: none;
-	}
-	.pin-container {
-		position: relative;
-		width: 36px;
-		height: 36px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		cursor: pointer;
-	}
-	.pin-pulse {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		border-radius: 50%;
-		background-color: color-mix(in oklab, var(--color-secondary) 40%, transparent);
-		animation: pinPulse 2s cubic-bezier(0, 0, 0.2, 1) infinite;
-	}
-	.pin-dot {
-		position: relative;
-		width: 24px;
-		height: 24px;
-		border-radius: 50%;
-		background-color: var(--color-secondary);
-		color: #ffffff;
-		font-family: "JetBrains Mono", monospace;
-		font-size: 11px;
-		font-weight: 700;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-		border: 2px solid #ffffff;
-		transition: transform 0.2s ease;
-	}
-	.pin-container:hover .pin-dot {
-		transform: scale(1.2);
-		background-color: #000000;
-	}
-	@keyframes pinPulse {
-		0% {
-			transform: scale(0.6);
-			opacity: 1;
-		}
-		100% {
-			transform: scale(1.6);
-			opacity: 0;
-		}
-	}
-	@media (prefers-reduced-motion: reduce) {
-		.pin-pulse {
-			animation: none;
-		}
-	}
-</style>
-
 <script>
-	interface Hub {
-		id: string;
-		name: Record<string, string>;
-		coords: [number, number];
-		stats: { md: number; cw: number; tqs: number; total: number };
-		clients: Record<string, string>[];
-	}
+	const root = document.getElementById("installation-map");
+	if (root) {
+		const pins = root.querySelectorAll<HTMLButtonElement>("[data-hub]");
+		const panels = root.querySelectorAll<HTMLElement>("[data-hub-panel]");
 
-	let mapInitialized = false;
-
-	async function initMap() {
-		if (mapInitialized) return;
-		const container = document.getElementById("ukraine-leaflet-map");
-		const hubsDataEl = document.getElementById("city-hubs-json");
-		if (!container || !hubsDataEl) return;
-
-		mapInitialized = true;
-		const lang = container.dataset.lang || "en";
-		const unitsLabel = container.dataset.unitsLabel || "Units";
-		const hubSuffix = container.dataset.hubSuffix || "Industrial Hub";
-		const fallbackClients = container.dataset.fallbackClients || "";
-		const hubs: Hub[] = JSON.parse(hubsDataEl.textContent || "[]");
-
-		// Load Leaflet and its stylesheet lazily
-		const [leafletModule] = await Promise.all([
-			import("leaflet"),
-			import("leaflet/dist/leaflet.css"),
-		]);
-		const L = leafletModule.default;
-
-		container.replaceChildren();
-
-		// Initialize map centered on Ukraine
-		const map = L.map(container, {
-			center: [48.8, 31.4],
-			zoom: 6,
-			minZoom: 5,
-			maxZoom: 10,
-			scrollWheelZoom: false,
-		});
-
-		// CartoDB Positron clean map tiles
-		L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-			attribution:
-				'&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>',
-			subdomains: "abcd",
-			maxZoom: 19,
-		}).addTo(map);
-
-		function updateHubDrawer(hub: Hub) {
-			const titleEl = document.getElementById("hubTitle");
-			const badgeEl = document.getElementById("hubBadge");
-			const cwEl = document.getElementById("hubCw");
-			const mdEl = document.getElementById("hubMd");
-			const tqsEl = document.getElementById("hubTqs");
-			const clientsListEl = document.getElementById("hubClientsList");
-
-			const localizedName = hub.name[lang] || hub.name.en;
-
-			if (titleEl) titleEl.textContent = `${localizedName} ${hubSuffix}`;
-			if (badgeEl) badgeEl.textContent = `${hub.stats.total}+ ${unitsLabel}`;
-			if (cwEl) cwEl.textContent = String(hub.stats.cw);
-			if (mdEl) mdEl.textContent = String(hub.stats.md);
-			if (tqsEl) tqsEl.textContent = String(hub.stats.tqs);
-			if (clientsListEl) {
-				const clientNames = hub.clients.map((c) => c[lang] || c.en).join(", ");
-				clientsListEl.textContent = clientNames || fallbackClients;
-			}
-		}
-
-		for (const hub of hubs) {
-			const hubName = hub.name[lang] || hub.name.en;
-			const total = hub.stats.total;
-
-			const pinContainer = document.createElement("div");
-			pinContainer.className = "pin-container";
-			pinContainer.title = `${hubName}: ${total} ${unitsLabel}`;
-			const pulse = document.createElement("div");
-			pulse.className = "pin-pulse";
-			const dot = document.createElement("div");
-			dot.className = "pin-dot";
-			dot.textContent = String(total);
-			pinContainer.append(pulse, dot);
-
-			const icon = L.divIcon({
-				className: "custom-pin-marker",
-				html: pinContainer,
-				iconSize: [36, 36],
-				iconAnchor: [18, 18],
+		pins.forEach((pin) => {
+			pin.addEventListener("click", () => {
+				const id = pin.dataset.hub;
+				pins.forEach((p) => p.setAttribute("aria-pressed", String(p === pin)));
+				panels.forEach((panel) => {
+					panel.hidden = panel.dataset.hubPanel !== id;
+				});
 			});
-
-			L.marker(hub.coords, { icon, alt: hubName })
-				.addTo(map)
-				.on("click", () => updateHubDrawer(hub));
-		}
-	}
-
-	// Lazy load using IntersectionObserver
-	const mapContainer = document.getElementById("ukraine-leaflet-map");
-	if (mapContainer) {
-		const observer = new IntersectionObserver(
-			(entries) => {
-				if (entries[0].isIntersecting) {
-					initMap();
-					observer.disconnect();
-				}
-			},
-			{ rootMargin: "200px" }
-		);
-		observer.observe(mapContainer);
+		});
 	}
 </script>
