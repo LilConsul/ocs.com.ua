@@ -8,8 +8,8 @@ import { getInlineTranslations, type Lang } from "@/i18n";
 
 interface Partner {
 	name: { en: string; ua: string };
-	website: string;
-	logo: string;
+	website?: string;
+	logo?: string;
 }
 
 interface PartnersByCategory {
@@ -39,10 +39,13 @@ function getImageDimensions(logoPath: string) {
 	}
 }
 
+// Only partners with a logo and website belong in the carousel
+const withLogo = (partners: Partner[]) => partners.filter((p) => p.logo && p.website);
+
 const carouselRows = [
-	{ partners: partnersByCategory.food, animation: "scrolling-reverse", duration: 80 },
-	{ partners: partnersByCategory.household, animation: "scrolling-normal", duration: 50 }, // I have adjusted values to look a bit ore same speed of animation.
-	{ partners: partnersByCategory.pharma, animation: "scrolling-reverse", duration: 50 }, // TODO: Automatically adjust them with some math
+	{ partners: withLogo(partnersByCategory.food), animation: "scrolling-reverse", duration: 80 },
+	{ partners: withLogo(partnersByCategory.household), animation: "scrolling-normal", duration: 50 }, // I have adjusted values to look a bit ore same speed of animation.
+	{ partners: withLogo(partnersByCategory.pharma), animation: "scrolling-reverse", duration: 50 }, // TODO: Automatically adjust them with some math
 ];
 ---
 
