@@ -18,13 +18,13 @@ const workingHours = companyData.workingHours[lang as "en" | "ua"] || companyDat
 
 <aside class="relative lg:col-span-4">
 	<div
-		class="border-border-subtle bg-card/80 sticky top-28 flex w-full flex-col gap-6 rounded-xl border p-8 shadow-sm backdrop-blur-xl"
+		class="border-border-subtle bg-card/80 sticky top-28 flex w-full flex-col gap-6 rounded-xl border p-5 sm:p-8 shadow-sm backdrop-blur-xl"
 	>
 		<div>
-			<h3 class="font-heading text-headline-lg text-foreground mb-2 font-semibold">
+			<h3 class="font-heading text-foreground mb-2 text-xl font-semibold break-words sm:text-2xl">
 				{_("Ready to upgrade your line?")}
 			</h3>
-			<p class="text-on-surface-variant text-sm leading-relaxed">
+			<p class="text-on-surface-variant text-sm leading-relaxed break-words">
 				{
 					_(
 						"Our engineering team is ready to configure this equipment for your specific production environment."
@@ -73,7 +73,7 @@ const workingHours = companyData.workingHours[lang as "en" | "ua"] || companyDat
 				>
 					call
 				</span>
-				<span class="font-technical-data text-technical-data text-sm font-semibold">
+				<span class="font-technical-data text-technical-data text-sm font-semibold break-words">
 					{companyData.phone}
 				</span>
 			</a>
@@ -83,10 +83,10 @@ const workingHours = companyData.workingHours[lang as "en" | "ua"] || companyDat
 						href={`mailto:${companyData.email}`}
 						class="text-muted-foreground hover:text-secondary group flex items-center gap-2 transition-colors"
 					>
-						<span class="material-symbols-outlined text-industrial-gray group-hover:text-secondary text-[20px]">
+						<span class="material-symbols-outlined text-industrial-gray group-hover:text-secondary shrink-0 text-[20px]">
 							mail
 						</span>
-						<span class="font-mono text-xs font-medium">{companyData.email}</span>
+						<span class="font-mono text-xs font-medium break-all sm:break-normal">{companyData.email}</span>
 					</a>
 				)
 			}

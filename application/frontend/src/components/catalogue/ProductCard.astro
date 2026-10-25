@@ -43,11 +43,11 @@ const productUrl = `/${lang}/catalogue/${categorySlug}/${productSlug}`;
 
 	<div class="flex flex-1 flex-col p-5 sm:p-6">
 		<h3
-			class="font-headline-lg text-foreground m-0 mb-2 text-lg leading-snug font-semibold text-balance"
+			class="font-headline-lg text-foreground m-0 mb-2 text-lg leading-snug font-semibold text-balance break-words"
 		>
 			{title}
 		</h3>
-		<p class="font-body-md text-industrial-gray m-0 mb-5 line-clamp-2 text-sm leading-relaxed">
+		<p class="font-body-md text-industrial-gray m-0 mb-5 line-clamp-2 text-sm leading-relaxed break-words">
 			{description}
 		</p>
 
@@ -56,11 +56,11 @@ const productUrl = `/${lang}/catalogue/${categorySlug}/${productSlug}`;
 				specs.length > 0 && (
 					<dl class="m-0 mb-5 grid grid-cols-2 gap-2 p-0">
 						{specs.map((spec: { label: string; value: string }) => (
-							<div class="bg-surface-container border-border-subtle/50 min-w-0 rounded-lg border px-3 py-2">
+							<div class="bg-surface-container border-border-subtle/50 min-w-0 rounded-lg border px-2.5 sm:px-3 py-2">
 								<dt class="font-label-caps text-industrial-gray mb-0.5 truncate text-[10px] uppercase">
 									{spec.label}
 								</dt>
-								<dd class="font-technical-data text-foreground m-0 text-sm font-bold">
+								<dd class="font-technical-data text-foreground m-0 text-xs sm:text-sm font-bold truncate">
 									{spec.value}
 								</dd>
 							</div>

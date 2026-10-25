@@ -31,9 +31,9 @@ const sectorIcons: Record<SectorBreakdown["category"], LucideIcon> = {
 
 // Shared by the hub card and the sector cards so both read as one family
 const tileClass =
-	"bg-background border-border-subtle/50 flex flex-col-reverse justify-end gap-1 rounded-lg border px-3 py-2.5 transition-colors duration-300";
+	"bg-background border-border-subtle/50 flex min-w-0 flex-col-reverse justify-end gap-1 rounded-lg border p-2 sm:px-3 sm:py-2.5 transition-colors duration-300";
 const badgeClass =
-	"font-technical-data bg-secondary/10 text-secondary shrink-0 rounded-full px-2.5 py-0.5 text-xs font-bold tabular-nums";
+	"font-technical-data bg-secondary/10 text-secondary shrink-0 rounded-full px-2 py-0.5 text-[11px] sm:px-2.5 sm:text-xs font-bold tabular-nums";
 const iconTileClass =
 	"bg-background text-secondary border-border-subtle/50 shrink-0 rounded-lg border p-2 transition-colors duration-300";
 
@@ -111,7 +111,7 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 				</span>
 				<h2
 					id="map-section-title"
-					class="font-headline-lg text-foreground mt-2 text-2xl font-semibold tracking-tight text-balance sm:text-3xl lg:text-4xl"
+					class="font-headline-lg text-foreground mt-2 text-2xl font-semibold tracking-tight text-balance break-words sm:text-3xl lg:text-4xl"
 				>
 					{_("Verified Ukrainian Industrial Footprint")}
 				</h2>
@@ -210,7 +210,7 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 				{
 					cityHubs.length > 0 && (
 						<div
-							class="bg-surface-container border-border-subtle/70 before:from-secondary relative overflow-hidden rounded-xl border p-5 shadow-xs before:absolute before:inset-x-0 before:top-0 before:h-0.5 before:bg-linear-to-r before:to-transparent sm:p-6"
+							class="bg-surface-container border-border-subtle/70 before:from-secondary relative overflow-hidden rounded-xl border p-4 shadow-xs before:absolute before:inset-x-0 before:top-0 before:h-0.5 before:bg-linear-to-r before:to-transparent sm:p-6"
 							aria-live="polite"
 						>
 							{cityHubs.map((hub, i) => (
@@ -220,12 +220,12 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 									class="hub-panel"
 									hidden={i !== 0}
 								>
-									<div class="flex items-center justify-between gap-3">
-										<div class="flex min-w-0 items-center gap-2.5">
+									<div class="flex items-center justify-between gap-2 sm:gap-3">
+										<div class="flex min-w-0 items-center gap-2 sm:gap-2.5">
 											<div class={iconTileClass} aria-hidden="true">
 												<MapPin className="h-4 w-4" />
 											</div>
-											<h4 class="font-headline-lg text-foreground m-0 text-base font-semibold">
+											<h4 class="font-headline-lg text-foreground m-0 text-sm font-semibold break-words sm:text-base">
 												{hub.name[lang]}
 											</h4>
 										</div>
@@ -234,30 +234,30 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 										</span>
 									</div>
 
-									<dl class="m-0 mt-5 grid grid-cols-3 gap-2 p-0">
+									<dl class="m-0 mt-4 grid grid-cols-3 gap-1.5 p-0 sm:mt-5 sm:gap-2">
 										{metrics.map(({ key, label }, mi) => (
 											<div
 												class:list={["hub-metric", tileClass, hub.stats[key] === 0 && "opacity-50"]}
 												style={`--mi:${mi}`}
 											>
-												<dt class="font-label-caps text-industrial-gray text-[11px] uppercase">
+												<dt class="font-label-caps text-industrial-gray text-[10px] leading-tight uppercase sm:text-[11px]" title={label}>
 													{label}
 												</dt>
-												<dd class="font-technical-data text-foreground m-0 text-2xl leading-none font-bold tabular-nums">
+												<dd class="font-technical-data text-foreground m-0 text-lg leading-none font-bold tabular-nums sm:text-2xl">
 													{formatApprox(hub.stats[key])}
 												</dd>
 											</div>
 										))}
 									</dl>
 
-									<div class="border-border-subtle/50 mt-5 border-t pt-4">
+									<div class="border-border-subtle/50 mt-4 border-t pt-4 sm:mt-5">
 										<p class="font-label-caps text-industrial-gray m-0 text-[11px] uppercase">
 											{_("Active Client Facilities:")}
 										</p>
 										{hub.clients.length > 0 ? (
 											<ul class="m-0 mt-2 flex list-none flex-wrap gap-1.5 p-0">
 												{hub.clients.map((c) => (
-													<li class="font-body-md bg-background border-border-subtle/60 text-foreground rounded-full border px-2.5 py-0.5 text-xs">
+													<li class="font-body-md bg-background border-border-subtle/60 text-foreground max-w-full rounded-full border px-2.5 py-0.5 text-xs break-words">
 														{c[lang]}
 													</li>
 												))}
@@ -282,11 +282,11 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 						const SectorIcon = sectorIcons[sector.category];
 						return (
 							<article
-								class="sector-card group/card bg-surface-container border-border-subtle/70 hover:border-secondary/40 rounded-xl border p-5 shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-lg motion-safe:hover:-translate-y-0.5 sm:p-6"
+								class="sector-card group/card bg-surface-container border-border-subtle/70 hover:border-secondary/40 rounded-xl border p-4 shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-lg motion-safe:hover:-translate-y-0.5 sm:p-6"
 								style={`--i:${si}`}
 							>
-								<header class="flex items-center justify-between gap-3">
-									<div class="flex min-w-0 items-center gap-2.5">
+								<header class="flex items-center justify-between gap-2 sm:gap-3">
+									<div class="flex min-w-0 items-center gap-2 sm:gap-2.5">
 										<div
 											class:list={[
 												iconTileClass,
@@ -296,7 +296,7 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 										>
 											<SectorIcon className="h-4 w-4" />
 										</div>
-										<h3 class="font-headline-lg text-foreground m-0 text-sm font-semibold sm:text-base">
+										<h3 class="font-headline-lg text-foreground m-0 text-sm font-semibold break-words sm:text-base">
 											{sector.title[lang]}
 										</h3>
 									</div>
@@ -306,7 +306,7 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 								</header>
 
 								<div
-									class="bg-border-subtle/50 mt-5 h-1.5 overflow-hidden rounded-full"
+									class="bg-border-subtle/50 mt-4 h-1.5 overflow-hidden rounded-full sm:mt-5"
 									aria-hidden="true"
 								>
 									<div
@@ -315,7 +315,7 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 									/>
 								</div>
 
-								<dl class="m-0 mt-5 grid grid-cols-3 gap-2 p-0">
+								<dl class="m-0 mt-4 grid grid-cols-3 gap-1.5 p-0 sm:mt-5 sm:gap-2">
 									{metrics.map(({ key, label }) => (
 										<div
 											class:list={[
@@ -324,10 +324,10 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 												sector.stats[key] === 0 && "opacity-50",
 											]}
 										>
-											<dt class="font-label-caps text-industrial-gray text-[11px] uppercase">
+											<dt class="font-label-caps text-industrial-gray text-[10px] leading-tight uppercase sm:text-[11px]" title={label}>
 												{label}
 											</dt>
-											<dd class="font-technical-data text-foreground m-0 text-2xl leading-none font-bold tabular-nums">
+											<dd class="font-technical-data text-foreground m-0 text-lg leading-none font-bold tabular-nums sm:text-2xl">
 												{formatApprox(sector.stats[key])}
 											</dd>
 										</div>

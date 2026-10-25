@@ -312,7 +312,7 @@ export const ui = {
 		"inline.message": "Повідомлення",
 		"inline.mesutronic_authorization_letter": "Авторизаційний лист Mesutronic",
 		"inline.mesutronic_ger_tebau_gmbh_develops_and_builds_its_metal_detectors_and_contaminan": "MESUTRONIC Gerätebau GmbH розробляє та виготовляє металодетектори й сепаратори забруднень у місті Кірхберг-ім-Вальд, Німеччина.",
-		"inline.metal_detectors": "Металодетектори",
+		"inline.metal_detectors": "Метало­детектори",
 		"inline.metal_detectors_for_food_and_pharmaceutical_production_lines_they_detect_ferrous": "Металодетектори для виробничих ліній харчової та фармацевтичної галузей. Виявляють чорні, кольорові метали та нержавіючу сталь.",
 		"inline.metron_flatline_transtron_high_sensitivity_conveyor_systems": "Конвеєрні системи високої чутливості Metron FlatLine та Transtron",
 		"inline.multiple_facilities_active": "Діє кілька підприємств",

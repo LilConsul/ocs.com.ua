@@ -32,7 +32,7 @@ const _ = getInlineTranslations(lang);
 					</span>
 					<h2
 						id="related-heading"
-						class="font-headline-lg text-foreground mt-2 text-2xl font-semibold tracking-tight text-balance sm:text-3xl lg:text-4xl"
+						class="font-headline-lg text-foreground mt-2 text-2xl font-semibold tracking-tight text-balance break-words sm:text-3xl lg:text-4xl"
 					>
 						{_("Related Equipment")}
 					</h2>
@@ -62,15 +62,15 @@ const _ = getInlineTranslations(lang);
 										loading="lazy"
 									/>
 								</div>
-								<div class="p-5">
+								<div class="p-4 sm:p-5">
 									<p class="font-label-caps text-secondary mb-1 text-[11px] font-semibold tracking-wider uppercase">
 										{itemCategory}
 									</p>
-									<h3 class="font-headline-lg text-foreground group-hover:text-secondary m-0 mb-2 text-base font-semibold transition-colors">
+									<h3 class="font-headline-lg text-foreground group-hover:text-secondary m-0 mb-2 text-base font-semibold transition-colors break-words">
 										{item.data.title}
 									</h3>
 									{itemSpec && (
-										<p class="font-technical-data text-industrial-gray m-0 text-xs">
+										<p class="font-technical-data text-industrial-gray m-0 text-xs break-words">
 											{itemSpec.label}:{" "}
 											<span class="text-foreground font-semibold">{itemSpec.value}</span>
 										</p>

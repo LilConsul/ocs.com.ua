@@ -423,7 +423,7 @@ msgstr "Авторизаційний лист Mesutronic"
 #: src/components/about/ClientDirectory.astro:41
 #: src/components/about/AboutHero.astro:32
 msgid "Metal Detectors"
-msgstr "Металодетектори"
+msgstr "Метало­детектори"
 
 #: src/components/about/ManufacturerCredentials.astro:41
 msgid "Metal detectors for food and pharmaceutical production lines. They detect ferrous, non-ferrous and stainless steel contaminants."
