@@ -118,6 +118,8 @@ const _ = getInlineTranslations(lang);
 </aside>
 
 <script>
+	import { revealOnce } from "@/lib/anims/reveal-once";
+
 	const toggleBtn = document.getElementById("mobile-filter-toggle");
 	const closeBtn = document.getElementById("mobile-filter-close");
 	const overlay = document.getElementById("mobile-filter-overlay");
@@ -139,12 +141,120 @@ const _ = getInlineTranslations(lang);
 	closeBtn?.addEventListener("click", closeFilters);
 	overlay?.addEventListener("click", closeFilters);
 
-	const categoryLinks = sidebar?.querySelectorAll("a");
-	categoryLinks?.forEach((link) => {
-		link.addEventListener("click", () => {
-			if (window.innerWidth < 1024) {
-				closeFilters();
-			}
+	/*
+	 * In-place category switching. On a category page the sidebar swaps the hero and the product
+	 * grid instead of reloading, so scroll position and keyboard focus survive. Product pages have
+	 * no results container, so their sidebar links navigate normally. Any failure falls back to a
+	 * regular navigation.
+	 */
+	const trimSlash = (path: string) => path.replace(/\/+$/, "");
+	const getResults = () => document.querySelector<HTMLElement>("[data-catalogue-results]");
+	const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+	let shownPath = trimSlash(location.pathname);
+	let inflight: AbortController | undefined;
+
+	function syncChrome(next: Document) {
+		// Sidebar: copy the active-state classes onto the existing links so focus is not lost
+		const nextLinks = Array.from(next.querySelectorAll<HTMLAnchorElement>("#catalogue-sidebar nav a"));
+		sidebar?.querySelectorAll<HTMLAnchorElement>("nav a").forEach((link) => {
+			const match = nextLinks.find((n) => n.getAttribute("href") === link.getAttribute("href"));
+			if (!match) return;
+			link.className = match.className;
+			const current = match.getAttribute("aria-current");
+			if (current) link.setAttribute("aria-current", current);
+			else link.removeAttribute("aria-current");
 		});
+
+		// Header language switcher links depend on the current path
+		const headerLinks = document.querySelectorAll<HTMLAnchorElement>("#main-header a");
+		const nextHeaderLinks = next.querySelectorAll<HTMLAnchorElement>("#main-header a");
+		if (headerLinks.length === nextHeaderLinks.length) {
+			headerLinks.forEach((link, i) => {
+				const href = nextHeaderLinks[i]?.getAttribute("href");
+				if (href) link.setAttribute("href", href);
+			});
+		}
+
+		// Footer share links point at the current page
+		const nextFooter = next.querySelector("footer");
+		if (nextFooter) document.querySelector("footer")?.replaceWith(nextFooter);
+
+		document.title = next.title;
+	}
+
+	async function swapCategory(href: string, push: boolean) {
+		const results = getResults();
+		if (!results) {
+			location.assign(href);
+			return;
+		}
+
+		inflight?.abort();
+		const controller = new AbortController();
+		inflight = controller;
+		results.setAttribute("aria-busy", "true");
+
+		try {
+			const response = await fetch(href, { signal: controller.signal });
+			if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+			const next = new DOMParser().parseFromString(await response.text(), "text/html");
+			const nextResults = next.querySelector("[data-catalogue-results]");
+			const nextHero = next.querySelector("[data-catalogue-hero]");
+			const hero = document.querySelector<HTMLElement>("[data-catalogue-hero]");
+			if (!nextResults || !nextHero || !hero) throw new Error("Unexpected page");
+
+			hero.innerHTML = nextHero.innerHTML;
+			// The hero is usually off screen after a click, so do not replay its intro animation
+			hero.querySelectorAll<HTMLElement>(".hero-rise").forEach((el) => {
+				el.style.animation = "none";
+			});
+
+			results.innerHTML = nextResults.innerHTML;
+			const grid = document.getElementById("productGrid");
+			if (grid) revealOnce(grid, 0.1);
+
+			syncChrome(next);
+
+			const url = new URL(href, location.href);
+			if (push) history.pushState({ catalogue: true }, "", url);
+			shownPath = trimSlash(url.pathname);
+
+			// Keep the scroll position, unless the new list starts above the viewport
+			const band = document.querySelector<HTMLElement>("[data-catalogue-band]");
+			if (push && band && band.getBoundingClientRect().top < 0) {
+				band.scrollIntoView({ block: "start", behavior: prefersReducedMotion() ? "auto" : "smooth" });
+			}
+
+			results.removeAttribute("aria-busy");
+		} catch (error) {
+			if ((error as Error).name === "AbortError") return;
+			location.assign(href);
+		}
+	}
+
+	sidebar?.addEventListener("click", (event) => {
+		const link = (event.target as Element).closest<HTMLAnchorElement>("nav a");
+		if (!link) return;
+
+		if (window.innerWidth < 1024) closeFilters();
+
+		// Product pages and modified clicks (new tab, etc.) navigate normally
+		if (!getResults()) return;
+		if (event.defaultPrevented || event.button !== 0) return;
+		if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+		const url = new URL(link.href, location.href);
+		if (url.origin !== location.origin) return;
+
+		event.preventDefault();
+		if (trimSlash(url.pathname) === shownPath) return;
+		swapCategory(url.href, true);
+	});
+
+	window.addEventListener("popstate", () => {
+		if (!getResults() || trimSlash(location.pathname) === shownPath) return;
+		swapCategory(location.href, false);
 	});
 </script>
