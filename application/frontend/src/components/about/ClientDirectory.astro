@@ -1,0 +1,208 @@
+---
+import { Building2, ExternalLink, MapPin } from "lucide-react";
+import { getInlineTranslations, type Lang } from "@/i18n";
+import type { PartnerItem } from "@/lib/about/types";
+
+interface Props {
+	lang: Lang;
+	partners: PartnerItem[];
+}
+
+const { lang, partners } = Astro.props;
+const _ = getInlineTranslations(lang);
+
+const categoryLabels: Record<PartnerItem["category"], string> = {
+	food: _("Food & Beverage"),
+	pharma: _("Pharmaceuticals"),
+	household: _("Chemicals & Packaging"),
+};
+
+const tabBase =
+	"client-tab px-4 py-2 rounded-lg font-technical-data text-xs transition-all shadow-xs";
+const tabActive = "bg-foreground text-white";
+const tabIdle = "bg-background text-industrial-gray hover:text-foreground";
+
+const tabs = [
+	{ filter: "all", label: `${_("All Sectors")} (${partners.length})` },
+	{ filter: "food", label: categoryLabels.food },
+	{ filter: "pharma", label: categoryLabels.pharma },
+	{ filter: "household", label: categoryLabels.household },
+];
+---
+
+<section
+	id="clients"
+	aria-labelledby="clients-heading"
+	class="bg-surface-container border-border-subtle/40 w-full border-t py-16 lg:py-24"
+>
+	<div class="px-edge-margin mx-auto max-w-[1280px]">
+		<header class="mb-12 flex flex-col items-center text-center">
+			<span
+				class="font-label-caps text-secondary block text-xs font-semibold tracking-wider uppercase"
+			>
+				{_("Enterprise Reference Directory")}
+			</span>
+			<h2
+				id="clients-heading"
+				class="font-headline-lg text-foreground mt-2 text-2xl font-semibold sm:text-3xl"
+			>
+				{_("Trusted by Ukraine's Industrial Flagships")}
+			</h2>
+			<p class="font-body-md text-industrial-gray mt-3 max-w-2xl text-sm sm:text-base">
+				{
+					_(
+						"Explore verified German inspection equipment installations across leading food, pharmaceutical, and consumer goods manufacturers in Ukraine."
+					)
+				}
+			</p>
+
+			{/* Filter buttons: they toggle a filter, they do not switch tab panels */}
+			<div
+				role="group"
+				aria-label={_("Filter clients by sector")}
+				class="mt-8 flex flex-wrap items-center justify-center gap-2"
+				id="clientFilterGroup"
+			>
+				{
+					tabs.map((tab, index) => (
+						<button
+							type="button"
+							aria-pressed={index === 0 ? "true" : "false"}
+							class:list={[tabBase, index === 0 ? tabActive : tabIdle]}
+							data-filter={tab.filter}
+						>
+							{tab.label}
+						</button>
+					))
+				}
+			</div>
+		</header>
+
+		{/* Client grid cards */}
+		<div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" id="clientCardsContainer">
+			{
+				partners.map((partner) => {
+					const clientName = partner.name[lang];
+					const eq = partner.equipment;
+					const totalUnits = (eq?.md ?? 0) + (eq?.cw ?? 0) + (eq?.tqs ?? 0);
+
+					return (
+						<article
+							class="client-card bg-background border-border-subtle/70 flex flex-col justify-between rounded-xl border p-6 shadow-xs transition-shadow hover:shadow-md"
+							data-category={partner.category}
+						>
+							<div>
+								<header class="bg-surface-container border-border-subtle/30 mb-4 flex items-center justify-between rounded-lg border p-3.5 pb-4">
+									<figure class="border-border-subtle/40 m-0 flex h-14 w-14 shrink-0 items-center justify-center rounded border bg-white p-1.5 shadow-xs">
+										{partner.logo ? (
+											<img
+												src={partner.logo}
+												alt={`${clientName} Logo`}
+												class="max-h-full max-w-full object-contain"
+												loading="lazy"
+											/>
+										) : (
+											<Building2 className="text-industrial-gray h-6 w-6" aria-hidden="true" />
+										)}
+									</figure>
+									<span class="bg-surface-container-high text-foreground font-label-caps rounded px-2.5 py-1 text-[11px] font-semibold">
+										{categoryLabels[partner.category]}
+									</span>
+								</header>
+
+								<div class="mb-2 flex items-center justify-between">
+									<h3 class="font-headline-lg text-foreground m-0 text-lg font-semibold">
+										{clientName}
+									</h3>
+									{totalUnits > 0 && (
+										<span class="font-technical-data bg-secondary/10 text-secondary rounded px-2 py-0.5 text-xs font-bold">
+											{totalUnits} {_("Units")}
+										</span>
+									)}
+								</div>
+
+								{eq && totalUnits > 0 && (
+									<div class="border-border-subtle/50 mt-3 space-y-1.5 border-t pt-3">
+										<span class="font-label-caps text-industrial-gray block text-[10px] font-semibold uppercase">
+											{_("Installed Equipment:")}
+										</span>
+										<ul class="font-technical-data m-0 flex list-none flex-wrap gap-1.5 p-0 text-xs">
+											{eq.cw !== undefined && eq.cw > 0 && (
+												<li class="bg-surface-container text-foreground border-border-subtle/50 rounded border px-2 py-0.5 text-[11px]">
+													{eq.cw}x {_("Checkweighers")}
+												</li>
+											)}
+											{eq.md !== undefined && eq.md > 0 && (
+												<li class="bg-surface-container text-foreground border-border-subtle/50 rounded border px-2 py-0.5 text-[11px]">
+													{eq.md}x {_("Metal Detectors")}
+												</li>
+											)}
+											{eq.tqs !== undefined && eq.tqs > 0 && (
+												<li class="bg-surface-container text-foreground border-border-subtle/50 rounded border px-2 py-0.5 text-[11px]">
+													{eq.tqs}x {_("Track & Trace")}
+												</li>
+											)}
+										</ul>
+									</div>
+								)}
+							</div>
+
+							<footer class="bg-surface-container font-label-caps text-industrial-gray border-border-subtle/40 -mx-6 mt-6 -mb-6 flex items-center justify-between rounded-b-xl border-t px-6 py-3 text-[11px]">
+								<address class="flex items-center gap-1 not-italic">
+									<MapPin className="text-secondary h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+									<span>
+										{partner.adres && partner.adres.length > 0
+											? partner.adres.join(", ")
+											: _("Ukraine")}
+									</span>
+								</address>
+								{partner.website && (
+									<a
+										href={partner.website}
+										target="_blank"
+										rel="noopener noreferrer"
+										class="text-foreground hover:text-secondary font-technical-data inline-flex items-center gap-0.5 font-medium"
+										aria-label={`${clientName} Website`}
+									>
+										<span>{_("Site")}</span>
+										<ExternalLink className="h-3 w-3" aria-hidden="true" />
+									</a>
+								)}
+							</footer>
+						</article>
+					);
+				})
+			}
+		</div>
+	</div>
+</section>
+
+<script>
+	function setupClientFilters() {
+		const buttons = document.querySelectorAll<HTMLButtonElement>(
+			"#clientFilterGroup [data-filter]"
+		);
+		const cards = document.querySelectorAll<HTMLElement>("#clientCardsContainer .client-card");
+		const active = ["bg-foreground", "text-white"];
+		const idle = ["bg-background", "text-industrial-gray", "hover:text-foreground"];
+
+		for (const button of buttons) {
+			button.addEventListener("click", () => {
+				const filter = button.dataset.filter;
+
+				for (const other of buttons) {
+					const isActive = other === button;
+					other.classList.remove(...(isActive ? idle : active));
+					other.classList.add(...(isActive ? active : idle));
+					other.setAttribute("aria-pressed", String(isActive));
+				}
+
+				for (const card of cards) {
+					card.hidden = !(filter === "all" || card.dataset.category === filter);
+				}
+			});
+		}
+	}
+
+	setupClientFilters();
+</script>
