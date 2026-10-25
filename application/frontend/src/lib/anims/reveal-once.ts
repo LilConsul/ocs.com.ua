@@ -6,7 +6,7 @@
  * Does nothing when the user prefers reduced motion or IntersectionObserver is missing,
  * so the content simply renders in its final state.
  */
-export function revealOnce(el: HTMLElement, threshold = 0.2): void {
+export function revealOnce(el: HTMLElement, threshold = 0): void {
 	const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 	if (reduceMotion || !("IntersectionObserver" in window)) return;
 
