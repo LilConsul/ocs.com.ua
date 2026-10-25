@@ -6,9 +6,10 @@ import { type EquipmentEntry, getCategory, getSlug } from "@/lib/content-utils";
 interface Props {
 	product: EquipmentEntry;
 	lang: Lang;
+	index?: number;
 }
 
-const { product, lang } = Astro.props;
+const { product, lang, index = 0 } = Astro.props;
 const _ = getInlineTranslations(lang);
 
 // Extract fields using clean names (no prefixes!)
@@ -24,10 +25,11 @@ const productUrl = `/${lang}/catalogue/${categorySlug}/${productSlug}`;
 ---
 
 <article
-	class="bg-card border-border group flex flex-col overflow-hidden rounded-lg border transition-all duration-300 hover:shadow-md"
+	class="product-card group bg-background border-border-subtle/70 hover:border-secondary/40 flex flex-col overflow-hidden rounded-xl border shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-lg motion-safe:hover:-translate-y-0.5"
+	style={`--i:${index % 3}`}
 >
 	<div
-		class="bg-background border-border relative flex aspect-[4/3] items-center justify-center border-b p-4"
+		class="border-border-subtle/40 relative flex aspect-[4/3] items-center justify-center border-b bg-white p-4"
 	>
 		<Image
 			src={firstImage}
@@ -39,41 +41,64 @@ const productUrl = `/${lang}/catalogue/${categorySlug}/${productSlug}`;
 		/>
 	</div>
 
-	{/* Content - Compact spacing, clear hierarchy */}
-	<div class="flex flex-1 flex-col p-4">
-		<h3 class="font-heading text-foreground mb-2 text-xl leading-tight font-medium">
+	<div class="flex flex-1 flex-col p-5 sm:p-6">
+		<h3
+			class="font-headline-lg text-foreground m-0 mb-2 text-lg leading-snug font-semibold text-balance"
+		>
 			{title}
 		</h3>
-		<p class="text-muted-foreground mb-4 line-clamp-2 text-sm leading-relaxed">
+		<p class="font-body-md text-industrial-gray m-0 mb-5 line-clamp-2 text-sm leading-relaxed">
 			{description}
 		</p>
 
-		{/* Specs grid - Technical precision aesthetic */}
-		{
-			specs.length > 0 && (
-				<div class="border-border mt-auto mb-4 grid grid-cols-2 gap-4 border-t pt-3">
-					{specs.map((spec: { label: string; value: string }) => (
-						<div>
-							<p class="text-muted-foreground mb-1 font-mono text-[10px] tracking-[0.05em] uppercase">
-								{spec.label}
-							</p>
-							<p class="text-foreground font-mono text-sm font-medium">{spec.value}</p>
-						</div>
-					))}
-				</div>
-			)
-		}
+		<div class="mt-auto">
+			{
+				specs.length > 0 && (
+					<dl class="m-0 mb-5 grid grid-cols-2 gap-2 p-0">
+						{specs.map((spec: { label: string; value: string }) => (
+							<div class="bg-surface-container border-border-subtle/50 min-w-0 rounded-lg border px-3 py-2">
+								<dt class="font-label-caps text-industrial-gray mb-0.5 truncate text-[10px] uppercase">
+									{spec.label}
+								</dt>
+								<dd class="font-technical-data text-foreground m-0 text-sm font-bold">
+									{spec.value}
+								</dd>
+							</div>
+						))}
+					</dl>
+				)
+			}
 
-		{/* CTA - Reserved accent color */}
-		<a
-			href={productUrl}
-			class="bg-background border-border text-foreground hover:bg-muted group-hover:border-primary flex w-full items-center justify-center gap-2 rounded border py-2.5 text-sm font-medium transition-colors"
-		>
-			{_("Technical Details")}
-			<span
-				class="material-symbols-outlined text-[16px] transition-transform group-hover:translate-x-1"
-				>arrow_forward</span
+			<a
+				href={productUrl}
+				class="border-secondary/40 text-secondary group-hover:border-secondary group-hover:bg-secondary/5 focus-visible:outline-secondary font-technical-data flex w-full items-center justify-center gap-2 rounded-lg border py-2.5 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
 			>
-		</a>
+				{_("Technical Details")}
+				<span
+					class="material-symbols-outlined text-[16px] transition-transform group-hover:translate-x-1"
+					>arrow_forward</span
+				>
+			</a>
+		</div>
 	</div>
 </article>
+
+<style>
+	@media (prefers-reduced-motion: no-preference) {
+		/* The ancestor lives in the page, so it must be matched globally */
+		:global([data-anim="ready"]) .product-card {
+			opacity: 0;
+		}
+		:global([data-anim="in"]) .product-card {
+			animation: product-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+			animation-delay: calc(var(--i, 0) * 100ms);
+		}
+	}
+
+	@keyframes product-rise {
+		from {
+			opacity: 0;
+			transform: translateY(14px);
+		}
+	}
+</style>

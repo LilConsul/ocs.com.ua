@@ -12,21 +12,27 @@ const _ = getInlineTranslations(lang);
 
 {
 	specs && specs.length > 0 && (
-		<section class="space-y-4">
-			<h2 class="font-heading text-headline-xl text-foreground font-semibold">
+		<section
+			class="bg-background border-border-subtle/70 before:from-secondary relative overflow-hidden rounded-xl border shadow-xs before:absolute before:inset-x-0 before:top-0 before:h-0.5 before:bg-linear-to-r before:to-transparent"
+			aria-labelledby="specs-heading"
+		>
+			<h2
+				id="specs-heading"
+				class="font-headline-lg text-foreground m-0 px-6 pt-7 pb-5 text-xl font-semibold tracking-tight sm:px-8 sm:text-2xl"
+			>
 				{_("Technical Specifications")}
 			</h2>
-			<div class="border-border-subtle bg-card overflow-hidden rounded-lg border">
+			<div class="border-border-subtle/60 border-t">
 				<table class="w-full border-collapse text-left">
 					<tbody class="font-technical-data text-technical-data">
 						{specs.map((spec, index) => (
 							<tr
-								class={`border-border-subtle hover:bg-surface-muted border-b transition-colors last:border-b-0 ${
-									index % 2 === 1 ? "bg-surface-muted/50" : "bg-card"
+								class={`border-border-subtle/60 hover:bg-secondary/5 border-b transition-colors last:border-b-0 ${
+									index % 2 === 1 ? "bg-surface-container/60" : "bg-background"
 								}`}
 							>
-								<th class="text-industrial-gray w-1/3 px-6 py-4 font-medium">{spec.label}</th>
-								<td class="text-foreground px-6 py-4 font-medium">{spec.value}</td>
+								<th class="text-industrial-gray w-1/3 px-6 py-4 font-medium sm:px-8">{spec.label}</th>
+								<td class="text-foreground px-6 py-4 font-semibold sm:px-8">{spec.value}</td>
 							</tr>
 						))}
 					</tbody>

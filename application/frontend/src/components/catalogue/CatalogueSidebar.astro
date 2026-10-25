@@ -15,7 +15,7 @@ const _ = getInlineTranslations(lang);
 {/* Mobile Filter Button */}
 <button
 	id="mobile-filter-toggle"
-	class="bg-card border-border text-foreground fixed right-6 bottom-6 z-40 flex items-center gap-2 rounded-full border px-6 py-3 shadow-lg transition-all hover:shadow-xl lg:hidden"
+	class="bg-background border-border-subtle text-foreground hover:border-secondary/40 focus-visible:outline-secondary fixed right-6 bottom-6 z-40 flex items-center gap-2 rounded-full border px-6 py-3 shadow-lg transition-all hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-2 lg:hidden"
 	aria-label={_("Open filters")}
 >
 	<span class="material-symbols-outlined text-[20px]">filter_list</span>
@@ -36,7 +36,7 @@ const _ = getInlineTranslations(lang);
 	class="fixed inset-y-0 left-0 z-50 w-80 -translate-x-full transition-transform duration-300 lg:sticky lg:top-24 lg:z-10 lg:h-fit lg:w-72 lg:flex-shrink-0 lg:translate-x-0"
 >
 	<div
-		class="bg-card border-border h-full w-full overflow-y-auto rounded-none border-r px-6 py-8 shadow-sm lg:rounded-lg lg:border"
+		class="bg-background border-border-subtle/70 before:from-secondary relative h-full w-full overflow-y-auto rounded-none border-r px-5 py-8 shadow-xs before:absolute before:inset-x-0 before:top-0 before:h-0.5 before:bg-linear-to-r before:to-transparent lg:rounded-xl lg:border lg:px-6"
 	>
 		{/* Close button (mobile only) */}
 		<button
@@ -48,21 +48,24 @@ const _ = getInlineTranslations(lang);
 		</button>
 		{/* Header with generous spacing */}
 		<div class="mb-6 px-2">
-			<h2 class="font-heading text-foreground mb-1 text-2xl font-semibold">
+			<h2 class="font-headline-lg text-foreground mb-1 text-xl font-semibold tracking-tight">
 				{_("Catalogue Filters")}
 			</h2>
-			<p class="text-muted-foreground font-mono text-xs tracking-wide">
+			<p class="font-technical-data text-industrial-gray text-xs tracking-wide">
 				{_("Technical Specs")}
 			</p>
 		</div>
 
 		{/* Category label */}
-		<p class="text-muted-foreground mb-3 px-2 font-mono text-[10px] tracking-[0.05em] uppercase">
+		<p
+			class="font-label-caps text-secondary mb-3 flex items-center gap-3 px-2 text-xs font-semibold tracking-widest uppercase"
+		>
+			<span class="bg-secondary h-px w-6" aria-hidden="true"></span>
 			{_("Equipment Categories")}
 		</p>
 
 		{/* Navigation with precise spacing */}
-		<nav aria-label={_("Category navigation")} class="space-y-2">
+		<nav aria-label={_("Category navigation")} class="space-y-1.5">
 			{
 				allCategories.map((cat) => {
 					const isActive = cat.slug === currentCategory;
@@ -72,14 +75,15 @@ const _ = getInlineTranslations(lang);
 					return (
 						<a
 							href={`/${lang}/catalogue/${cat.slug}`}
-							class={`flex cursor-pointer items-center gap-3 rounded-lg px-4 py-3 transition-all ${
+							aria-current={isActive ? "page" : undefined}
+							class={`focus-visible:outline-secondary flex cursor-pointer items-center gap-3 rounded-lg border px-4 py-3 transition-all focus-visible:outline-2 focus-visible:outline-offset-2 ${
 								isActive
-									? "bg-accent text-secondary font-bold"
-									: "text-muted-foreground hover:bg-muted hover:translate-x-1"
+									? "border-secondary/30 bg-secondary/10 text-secondary font-bold"
+									: "text-industrial-gray hover:bg-surface-container hover:border-border-subtle/60 border-transparent hover:translate-x-1"
 							}`}
 						>
 							<span class="material-symbols-outlined text-[20px]">{icon}</span>
-							<span class="font-mono text-xs tracking-wider uppercase">{label}</span>
+							<span class="font-technical-data text-xs tracking-wider uppercase">{label}</span>
 						</a>
 					);
 				})
@@ -87,10 +91,10 @@ const _ = getInlineTranslations(lang);
 		</nav>
 
 		{/* CTA button */}
-		<div class="border-border mt-8 border-t px-2 pt-6">
+		<div class="border-border-subtle/60 mt-8 border-t px-2 pt-6">
 			<a
 				href={`/${lang}/contact`}
-				class="bg-primary text-primary-foreground flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-opacity hover:opacity-90"
+				class="group bg-primary text-primary-foreground focus-visible:outline-secondary flex w-full items-center justify-center gap-2 rounded-lg px-4 py-3 text-[15px] font-medium shadow-xs transition-[opacity,box-shadow] hover:opacity-90 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2"
 			>
 				{_("Contact Us")}
 				<svg
@@ -103,7 +107,7 @@ const _ = getInlineTranslations(lang);
 					stroke-width="2"
 					stroke-linecap="round"
 					stroke-linejoin="round"
-					class="lucide lucide-arrow-right"
+					class="lucide lucide-arrow-right transition-transform duration-200 group-hover:translate-x-1"
 				>
 					<path d="M5 12h14"></path>
 					<path d="m12 5 7 7-7 7"></path>

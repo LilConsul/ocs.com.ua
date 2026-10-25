@@ -101,35 +101,45 @@ const structuredData = {
 <Layout title={pageTitle} description={pageDescription}>
 	<script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
-	{/* Generous container with maximum width constraint */}
-	<div class="mx-auto flex max-w-[1600px] gap-8 px-8 py-16">
-		{/* Sidebar Navigation */}
-		<CatalogueSidebar
-			allCategories={sortedCategories}
-			currentCategory={categorySlug}
-			lang={lang as Lang}
-		/>
+	<CategoryHeader categoryData={categoryData} lang={lang as Lang} />
 
-		<main class="min-w-0 flex-1">
-			<CategoryHeader categoryData={categoryData} lang={lang as Lang} />
+	{/* Muted band: white sidebar and product cards stand out against it */}
+	<section class="bg-surface-container w-full py-12 lg:py-20">
+		<div class="px-edge-margin mx-auto flex max-w-[1600px] gap-8">
+			{/* Sidebar Navigation */}
+			<CatalogueSidebar
+				allCategories={sortedCategories}
+				currentCategory={categorySlug}
+				lang={lang as Lang}
+			/>
 
-			<section aria-label={_("Products")}>
-				{
-					sortedProducts.length > 0 ? (
-						<div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-							{sortedProducts.map((product) => (
-								<ProductCard product={product} lang={lang as Lang} />
-							))}
-						</div>
-					) : (
-						<div class="text-muted-foreground py-24 text-center">
-							<p class="text-lg">{_("No products available in this category")}</p>
-						</div>
-					)
-				}
-			</section>
-
-			<div class="h-32"></div>
-		</main>
-	</div>
+			<div class="min-w-0 flex-1">
+				<section aria-label={_("Products")}>
+					{
+						sortedProducts.length > 0 ? (
+							<div
+								id="productGrid"
+								class="gap-gutter grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
+							>
+								{sortedProducts.map((product, index) => (
+									<ProductCard product={product} lang={lang as Lang} index={index} />
+								))}
+							</div>
+						) : (
+							<div class="text-industrial-gray py-24 text-center">
+								<p class="text-lg">{_("No products available in this category")}</p>
+							</div>
+						)
+					}
+				</section>
+			</div>
+		</div>
+	</section>
 </Layout>
+
+<script>
+	import { revealOnce } from "@/lib/anims/reveal-once";
+
+	const grid = document.getElementById("productGrid");
+	if (grid) revealOnce(grid, 0.1);
+</script>
