@@ -43,8 +43,8 @@ msgstr ""
 msgid "Active Factory Installations Across Regional Hubs"
 msgstr ""
 
-#: src/components/contact/OfficeLocation.astro:43
-#: src/components/contact/ContactInfoCard.astro:79
+#: src/components/contact/OfficeLocation.astro:47
+#: src/components/contact/ContactInfoCard.astro:81
 msgid "Address"
 msgstr ""
 
@@ -77,7 +77,7 @@ msgstr ""
 msgid "Authorization Letter — PDF"
 msgstr ""
 
-#: src/components/contact/DocumentsCard.astro:30
+#: src/components/contact/DocumentsCard.astro:32
 msgid "Authorized Documentation"
 msgstr ""
 
@@ -151,21 +151,22 @@ msgstr ""
 msgid "Close preview"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:118
+#: src/components/contact/ContactForm.astro:124
 msgid "Company"
 msgstr ""
 
-#: src/components/contact/ContactInfoCard.astro:24
+#: src/components/contact/ContactInfoCard.astro:26
 msgid "Contact Information"
 msgstr ""
 
 #: src/components/Header.astro:119
 #: src/components/Header.astro:186
+#: src/components/homepage/HeroSection.astro:86
 #: src/components/errors/ServerErrorContent.astro:46
 #: src/components/errors/NotFoundContent.astro:54
-#: src/components/homepage/HeroSection.astro:86
+#: src/components/contact/ContactHero.astro:28
 #: src/components/catalogue/CatalogueSidebar.astro:95
-#: src/components/about/AboutCta.astro:33
+#: src/components/about/AboutCta.astro:36
 msgid "Contact Us"
 msgstr ""
 
@@ -173,7 +174,7 @@ msgstr ""
 msgid "Contact Us | OS-Technology Ukraine"
 msgstr ""
 
-#: src/components/contact/ContactHero.astro:28
+#: src/components/contact/ContactHero.astro:41
 msgid "Contact our engineering team to discuss equipment selection, request a quotation, or arrange a product demonstration."
 msgstr ""
 
@@ -181,7 +182,7 @@ msgstr ""
 msgid "Contact the OS-Technology Ukraine engineering team. Request a quotation, arrange a product demonstration, or get technical support."
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:136
+#: src/components/contact/ContactForm.astro:142
 msgid "Corporate Email"
 msgstr ""
 
@@ -202,7 +203,7 @@ msgstr ""
 msgid "Deployment Breakdown"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:187
+#: src/components/contact/ContactForm.astro:193
 msgid "Describe your requirements…"
 msgstr ""
 
@@ -232,11 +233,11 @@ msgstr ""
 msgid "EMFR High-Precision Dynamic Weighing Cells (up to 600 pcs/min)"
 msgstr ""
 
-#: src/components/contact/ContactInfoCard.astro:52
+#: src/components/contact/ContactInfoCard.astro:54
 msgid "Email"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:65
+#: src/components/contact/ContactForm.astro:68
 msgid "Engineering Inquiry"
 msgstr ""
 
@@ -248,7 +249,7 @@ msgstr ""
 msgid "Equipment Categories"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:161
+#: src/components/contact/ContactForm.astro:167
 msgid "Equipment of Interest"
 msgstr ""
 
@@ -282,7 +283,7 @@ msgstr ""
 msgid "Food Industry"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:100
+#: src/components/contact/ContactForm.astro:106
 msgid "Full Name"
 msgstr ""
 
@@ -298,11 +299,11 @@ msgstr ""
 msgid "German Precision."
 msgstr ""
 
-#: src/components/contact/OfficeLocation.astro:75
+#: src/components/contact/OfficeLocation.astro:79
 msgid "Get Route"
 msgstr ""
 
-#: src/components/contact/ContactHero.astro:24
+#: src/components/contact/ContactHero.astro:34
 msgid "Get in Touch"
 msgstr ""
 
@@ -334,7 +335,7 @@ msgstr ""
 msgid "Industries We Serve"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:153
+#: src/components/contact/ContactForm.astro:159
 msgid "Industry Sector"
 msgstr ""
 
@@ -358,11 +359,11 @@ msgstr ""
 msgid "Interactive Map of Ukraine Installations"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:107
+#: src/components/contact/ContactForm.astro:113
 msgid "Job Title"
 msgstr ""
 
-#: src/components/contact/OfficeLocation.astro:28
+#: src/components/contact/OfficeLocation.astro:30
 msgid "Kyiv Office"
 msgstr ""
 
@@ -375,7 +376,7 @@ msgstr ""
 msgid "Learn More"
 msgstr ""
 
-#: src/components/about/AboutCta.astro:39
+#: src/components/about/AboutCta.astro:43
 msgid "Let's Talk About Your Production Line"
 msgstr ""
 
@@ -392,7 +393,8 @@ msgstr ""
 msgid "MESUTRONIC Gerätebau GmbH develops and builds its metal detectors and contaminant separators in Kirchberg im Wald, Germany."
 msgstr ""
 
-#: src/components/contact/OfficeLocation.astro:31
+#: src/pages/[lang]/contact.astro:117
+#: src/components/contact/OfficeLocation.astro:35
 msgid "Main Office"
 msgstr ""
 
@@ -400,7 +402,7 @@ msgstr ""
 msgid "Manufacturers"
 msgstr ""
 
-#: src/components/contact/OfficeLocation.astro:83
+#: src/components/contact/OfficeLocation.astro:89
 msgid "Map showing OS-Technology Ukraine office location"
 msgstr ""
 
@@ -408,7 +410,7 @@ msgstr ""
 msgid "Meatline & Pipeline Metal Inspection For Pumped Products"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:183
+#: src/components/contact/ContactForm.astro:189
 msgid "Message"
 msgstr ""
 
@@ -471,7 +473,7 @@ msgstr ""
 msgid "Official Partner of Wipotec GmbH"
 msgstr ""
 
-#: src/components/contact/DocumentsCard.astro:33
+#: src/components/contact/DocumentsCard.astro:35
 msgid "Official distributorship certificates."
 msgstr ""
 
@@ -487,8 +489,8 @@ msgstr ""
 msgid "Open filters"
 msgstr ""
 
-#: src/components/contact/ContactInfoCard.astro:72
-#: src/components/contact/ContactInfoCard.astro:73
+#: src/components/contact/ContactInfoCard.astro:74
+#: src/components/contact/ContactInfoCard.astro:75
 #: src/components/about/ManufacturerCredentials.astro:98
 msgid "Open in Google Maps"
 msgstr ""
@@ -529,8 +531,8 @@ msgstr ""
 msgid "Pharmaceuticals"
 msgstr ""
 
-#: src/components/contact/ContactInfoCard.astro:31
-#: src/components/contact/ContactForm.astro:125
+#: src/components/contact/ContactInfoCard.astro:33
+#: src/components/contact/ContactForm.astro:131
 msgid "Phone"
 msgstr ""
 
@@ -554,7 +556,7 @@ msgstr ""
 msgid "Please select a valid sector."
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:148
+#: src/components/contact/ContactForm.astro:154
 msgid "Please use your company email address if possible."
 msgstr ""
 
@@ -568,7 +570,7 @@ msgid "Previous image"
 msgstr ""
 
 #: src/components/Footer.astro:30
-#: src/components/contact/ContactForm.astro:198
+#: src/components/contact/ContactForm.astro:204
 msgid "Privacy Policy"
 msgstr ""
 
@@ -606,7 +608,7 @@ msgid "Request Consultation"
 msgstr ""
 
 #: src/components/about/AboutHero.astro:104
-#: src/components/about/AboutCta.astro:55
+#: src/components/about/AboutCta.astro:62
 msgid "Request a quote"
 msgstr ""
 
@@ -623,11 +625,12 @@ msgstr ""
 msgid "Security check failed. Please refresh and try again."
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:154
+#: src/components/contact/ContactForm.astro:160
 msgid "Select sector…"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:68
+#: src/pages/[lang]/contact.astro:94
+#: src/components/contact/ContactForm.astro:74
 msgid "Send Us a Message"
 msgstr ""
 
@@ -673,7 +676,7 @@ msgstr ""
 msgid "Submission not allowed from this origin."
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:215
+#: src/components/contact/ContactForm.astro:221
 msgid "Submit Inquiry"
 msgstr ""
 
@@ -710,12 +713,12 @@ msgstr ""
 msgid "Technical expertise and service support since 2013."
 msgstr ""
 
-#: src/components/about/AboutCta.astro:43
+#: src/components/about/AboutCta.astro:50
 msgid "Tell us what you produce and what you need to inspect. We will recommend suitable equipment and prepare a quote."
 msgstr ""
 
 #: src/components/Footer.astro:33
-#: src/components/contact/ContactForm.astro:205
+#: src/components/contact/ContactForm.astro:211
 msgid "Terms of Service"
 msgstr ""
 
@@ -731,7 +734,7 @@ msgstr ""
 msgid "This field is required."
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:192
+#: src/components/contact/ContactForm.astro:198
 msgid "This form is protected by reCAPTCHA."
 msgstr ""
 
@@ -816,8 +819,8 @@ msgstr ""
 msgid "Wipotec Authorization Letter"
 msgstr ""
 
-#: src/components/contact/OfficeLocation.astro:61
-#: src/components/contact/ContactInfoCard.astro:98
+#: src/components/contact/OfficeLocation.astro:65
+#: src/components/contact/ContactInfoCard.astro:100
 msgid "Working Hours"
 msgstr ""
 
@@ -833,18 +836,18 @@ msgstr ""
 msgid "Your inquiry has been sent. We will contact you shortly."
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:110
+#: src/components/contact/ContactForm.astro:116
 msgid "e.g. Chief Engineer"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:121
+#: src/components/contact/ContactForm.astro:127
 msgid "e.g. Farmak PJSC"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:103
+#: src/components/contact/ContactForm.astro:109
 msgid "e.g. Oleksii Kovalenko"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:162
+#: src/components/contact/ContactForm.astro:168
 msgid "optional"
 msgstr ""

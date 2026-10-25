@@ -47,8 +47,8 @@ msgstr "Діючі підприємства клієнтів:"
 msgid "Active Factory Installations Across Regional Hubs"
 msgstr "Діючі заводські установки в регіональних хабах"
 
-#: src/components/contact/OfficeLocation.astro:43
-#: src/components/contact/ContactInfoCard.astro:79
+#: src/components/contact/OfficeLocation.astro:47
+#: src/components/contact/ContactInfoCard.astro:81
 msgid "Address"
 msgstr "Адреса"
 
@@ -81,7 +81,7 @@ msgstr "Авторизаційний лист"
 msgid "Authorization Letter — PDF"
 msgstr "Авторизаційний лист — PDF"
 
-#: src/components/contact/DocumentsCard.astro:30
+#: src/components/contact/DocumentsCard.astro:32
 msgid "Authorized Documentation"
 msgstr "Авторизована документація"
 
@@ -155,21 +155,22 @@ msgstr "Закрити сповіщення"
 msgid "Close preview"
 msgstr "Закрити попередній перегляд"
 
-#: src/components/contact/ContactForm.astro:118
+#: src/components/contact/ContactForm.astro:124
 msgid "Company"
 msgstr "Компанія"
 
-#: src/components/contact/ContactInfoCard.astro:24
+#: src/components/contact/ContactInfoCard.astro:26
 msgid "Contact Information"
 msgstr "Контактна інформація"
 
 #: src/components/Header.astro:119
 #: src/components/Header.astro:186
+#: src/components/homepage/HeroSection.astro:86
 #: src/components/errors/ServerErrorContent.astro:46
 #: src/components/errors/NotFoundContent.astro:54
-#: src/components/homepage/HeroSection.astro:86
+#: src/components/contact/ContactHero.astro:28
 #: src/components/catalogue/CatalogueSidebar.astro:95
-#: src/components/about/AboutCta.astro:33
+#: src/components/about/AboutCta.astro:36
 msgid "Contact Us"
 msgstr "Зв’язатися з нами"
 
@@ -177,7 +178,7 @@ msgstr "Зв’язатися з нами"
 msgid "Contact Us | OS-Technology Ukraine"
 msgstr "Зв'яжіться з нами | ОС-Технолоджи Україна"
 
-#: src/components/contact/ContactHero.astro:28
+#: src/components/contact/ContactHero.astro:41
 msgid "Contact our engineering team to discuss equipment selection, request a quotation, or arrange a product demonstration."
 msgstr "Зверніться до нашої інженерної команди для обговорення вибору обладнання, запиту комерційної пропозиції або організації демонстрації."
 
@@ -185,7 +186,7 @@ msgstr "Зверніться до нашої інженерної команди
 msgid "Contact the OS-Technology Ukraine engineering team. Request a quotation, arrange a product demonstration, or get technical support."
 msgstr "Зверніться до інженерної команди ОС-Технолоджи Україна. Запросіть комерційну пропозицію, домовтеся про демонстрацію обладнання або отримайте технічну підтримку."
 
-#: src/components/contact/ContactForm.astro:136
+#: src/components/contact/ContactForm.astro:142
 msgid "Corporate Email"
 msgstr "Корпоративний email"
 
@@ -206,7 +207,7 @@ msgstr "Не вдалося надіслати повідомлення. Спр�
 msgid "Deployment Breakdown"
 msgstr "Географія впроваджень"
 
-#: src/components/contact/ContactForm.astro:187
+#: src/components/contact/ContactForm.astro:193
 msgid "Describe your requirements…"
 msgstr "Опишіть свої потреби…"
 
@@ -236,11 +237,11 @@ msgstr "Динамічні контрольні ваги з технологіє
 msgid "EMFR High-Precision Dynamic Weighing Cells (up to 600 pcs/min)"
 msgstr "Високоточні динамічні вагові комірки EMFR (до 600 шт/хв)"
 
-#: src/components/contact/ContactInfoCard.astro:52
+#: src/components/contact/ContactInfoCard.astro:54
 msgid "Email"
 msgstr "Email"
 
-#: src/components/contact/ContactForm.astro:65
+#: src/components/contact/ContactForm.astro:68
 msgid "Engineering Inquiry"
 msgstr "Технічний запит"
 
@@ -252,7 +253,7 @@ msgstr "Довідник підприємств-клієнтів"
 msgid "Equipment Categories"
 msgstr "Категорії обладнання"
 
-#: src/components/contact/ContactForm.astro:161
+#: src/components/contact/ContactForm.astro:167
 msgid "Equipment of Interest"
 msgstr "Обладнання, що цікавить"
 
@@ -286,7 +287,7 @@ msgstr "Харчова промисловість і виробництво на
 msgid "Food Industry"
 msgstr "Харчова промисловість"
 
-#: src/components/contact/ContactForm.astro:100
+#: src/components/contact/ContactForm.astro:106
 msgid "Full Name"
 msgstr "Повне ім'я"
 
@@ -302,11 +303,11 @@ msgstr "Німецька точність. Офіційний дистриб'ю�
 msgid "German Precision."
 msgstr "Німецька точність."
 
-#: src/components/contact/OfficeLocation.astro:75
+#: src/components/contact/OfficeLocation.astro:79
 msgid "Get Route"
 msgstr "Прокласти маршрут"
 
-#: src/components/contact/ContactHero.astro:24
+#: src/components/contact/ContactHero.astro:34
 msgid "Get in Touch"
 msgstr "Зв'яжіться з нами"
 
@@ -338,7 +339,7 @@ msgstr "Галузі"
 msgid "Industries We Serve"
 msgstr "Галузі, для яких ми працюємо"
 
-#: src/components/contact/ContactForm.astro:153
+#: src/components/contact/ContactForm.astro:159
 msgid "Industry Sector"
 msgstr "Галузь"
 
@@ -362,11 +363,11 @@ msgstr "Встановлених систем"
 msgid "Interactive Map of Ukraine Installations"
 msgstr "Інтерактивна карта установок в Україні"
 
-#: src/components/contact/ContactForm.astro:107
+#: src/components/contact/ContactForm.astro:113
 msgid "Job Title"
 msgstr "Посада"
 
-#: src/components/contact/OfficeLocation.astro:28
+#: src/components/contact/OfficeLocation.astro:30
 msgid "Kyiv Office"
 msgstr "Київський офіс"
 
@@ -379,7 +380,7 @@ msgstr "Мова"
 msgid "Learn More"
 msgstr "Дізнатися більше"
 
-#: src/components/about/AboutCta.astro:39
+#: src/components/about/AboutCta.astro:43
 msgid "Let's Talk About Your Production Line"
 msgstr "Обговоримо вашу виробничу лінію"
 
@@ -396,7 +397,8 @@ msgstr "Довгострокове партнерство, засноване н
 msgid "MESUTRONIC Gerätebau GmbH develops and builds its metal detectors and contaminant separators in Kirchberg im Wald, Germany."
 msgstr "MESUTRONIC Gerätebau GmbH розробляє та виготовляє металодетектори й сепаратори забруднень у місті Кірхберг-ім-Вальд, Німеччина."
 
-#: src/components/contact/OfficeLocation.astro:31
+#: src/pages/[lang]/contact.astro:117
+#: src/components/contact/OfficeLocation.astro:35
 msgid "Main Office"
 msgstr "Головний офіс"
 
@@ -404,7 +406,7 @@ msgstr "Головний офіс"
 msgid "Manufacturers"
 msgstr "Виробники"
 
-#: src/components/contact/OfficeLocation.astro:83
+#: src/components/contact/OfficeLocation.astro:89
 msgid "Map showing OS-Technology Ukraine office location"
 msgstr "Карта з розташуванням офісу ОС-Технолоджи Україна"
 
@@ -412,7 +414,7 @@ msgstr "Карта з розташуванням офісу ОС-Техноло�
 msgid "Meatline & Pipeline Metal Inspection For Pumped Products"
 msgstr "Meatline та трубопровідний контроль металу для рідких і пастоподібних продуктів"
 
-#: src/components/contact/ContactForm.astro:183
+#: src/components/contact/ContactForm.astro:189
 msgid "Message"
 msgstr "Повідомлення"
 
@@ -475,7 +477,7 @@ msgstr "Офіційний партнер Mesutronic GmbH"
 msgid "Official Partner of Wipotec GmbH"
 msgstr "Офіційний партнер Wipotec GmbH"
 
-#: src/components/contact/DocumentsCard.astro:33
+#: src/components/contact/DocumentsCard.astro:35
 msgid "Official distributorship certificates."
 msgstr "Офіційні сертифікати дистриб'ютора."
 
@@ -491,8 +493,8 @@ msgstr "Один або кілька обраних типів обладнан�
 msgid "Open filters"
 msgstr "Відкрити фільтри"
 
-#: src/components/contact/ContactInfoCard.astro:72
-#: src/components/contact/ContactInfoCard.astro:73
+#: src/components/contact/ContactInfoCard.astro:74
+#: src/components/contact/ContactInfoCard.astro:75
 #: src/components/about/ManufacturerCredentials.astro:98
 msgid "Open in Google Maps"
 msgstr "Відкрити в Google Maps"
@@ -533,8 +535,8 @@ msgstr "Фармацевтична промисловість"
 msgid "Pharmaceuticals"
 msgstr "Фармацевтика"
 
-#: src/components/contact/ContactInfoCard.astro:31
-#: src/components/contact/ContactForm.astro:125
+#: src/components/contact/ContactInfoCard.astro:33
+#: src/components/contact/ContactForm.astro:131
 msgid "Phone"
 msgstr "Телефон"
 
@@ -558,7 +560,7 @@ msgstr "Будь ласка, введіть коректний номер тел
 msgid "Please select a valid sector."
 msgstr "Будь ласка, оберіть коректну галузь."
 
-#: src/components/contact/ContactForm.astro:148
+#: src/components/contact/ContactForm.astro:154
 msgid "Please use your company email address if possible."
 msgstr "Будь ласка, за можливості використовуйте корпоративну електронну адресу."
 
@@ -572,7 +574,7 @@ msgid "Previous image"
 msgstr "Попереднє зображення"
 
 #: src/components/Footer.astro:30
-#: src/components/contact/ContactForm.astro:198
+#: src/components/contact/ContactForm.astro:204
 msgid "Privacy Policy"
 msgstr "Політика конфіденційності"
 
@@ -610,7 +612,7 @@ msgid "Request Consultation"
 msgstr "Замовити консультацію"
 
 #: src/components/about/AboutHero.astro:104
-#: src/components/about/AboutCta.astro:55
+#: src/components/about/AboutCta.astro:62
 msgid "Request a quote"
 msgstr "Запросити пропозицію"
 
@@ -627,11 +629,12 @@ msgstr "Промислові рентген-сканери високої роз
 msgid "Security check failed. Please refresh and try again."
 msgstr "Перевірку безпеки не пройдено. Оновіть сторінку та спробуйте ще раз."
 
-#: src/components/contact/ContactForm.astro:154
+#: src/components/contact/ContactForm.astro:160
 msgid "Select sector…"
 msgstr "Оберіть галузь…"
 
-#: src/components/contact/ContactForm.astro:68
+#: src/pages/[lang]/contact.astro:94
+#: src/components/contact/ContactForm.astro:74
 msgid "Send Us a Message"
 msgstr "Надіслати повідомлення"
 
@@ -677,7 +680,7 @@ msgstr "Проблема не зникає?"
 msgid "Submission not allowed from this origin."
 msgstr "Відправлення з цього джерела заборонено."
 
-#: src/components/contact/ContactForm.astro:215
+#: src/components/contact/ContactForm.astro:221
 msgid "Submit Inquiry"
 msgstr "Надіслати запит"
 
@@ -714,12 +717,12 @@ msgstr "Технічні характеристики"
 msgid "Technical expertise and service support since 2013."
 msgstr "Технічна експертиза та сервісна підтримка з 2013 року."
 
-#: src/components/about/AboutCta.astro:43
+#: src/components/about/AboutCta.astro:50
 msgid "Tell us what you produce and what you need to inspect. We will recommend suitable equipment and prepare a quote."
 msgstr "Розкажіть, що ви виробляєте і що потрібно контролювати. Ми підберемо відповідне обладнання та підготуємо комерційну пропозицію."
 
 #: src/components/Footer.astro:33
-#: src/components/contact/ContactForm.astro:205
+#: src/components/contact/ContactForm.astro:211
 msgid "Terms of Service"
 msgstr "Умови користування"
 
@@ -735,7 +738,7 @@ msgstr "Сервер тимчасово недоступний. Спробуйт
 msgid "This field is required."
 msgstr "Це поле обов'язкове."
 
-#: src/components/contact/ContactForm.astro:192
+#: src/components/contact/ContactForm.astro:198
 msgid "This form is protected by reCAPTCHA."
 msgstr "Ця форма захищена reCAPTCHA."
 
@@ -820,8 +823,8 @@ msgstr "База знань"
 msgid "Wipotec Authorization Letter"
 msgstr "Авторизаційний лист Wipotec"
 
-#: src/components/contact/OfficeLocation.astro:61
-#: src/components/contact/ContactInfoCard.astro:98
+#: src/components/contact/OfficeLocation.astro:65
+#: src/components/contact/ContactInfoCard.astro:100
 msgid "Working Hours"
 msgstr "Режим роботи"
 
@@ -837,18 +840,18 @@ msgstr "Років досвіду"
 msgid "Your inquiry has been sent. We will contact you shortly."
 msgstr "Ваш запит надіслано. Ми зв'яжемося з вами найближчим часом."
 
-#: src/components/contact/ContactForm.astro:110
+#: src/components/contact/ContactForm.astro:116
 msgid "e.g. Chief Engineer"
 msgstr "напр., Головний інженер"
 
-#: src/components/contact/ContactForm.astro:121
+#: src/components/contact/ContactForm.astro:127
 msgid "e.g. Farmak PJSC"
 msgstr "напр., ПАТ «Фармак»"
 
-#: src/components/contact/ContactForm.astro:103
+#: src/components/contact/ContactForm.astro:109
 msgid "e.g. Oleksii Kovalenko"
 msgstr "напр., Олексій Коваленко"
 
-#: src/components/contact/ContactForm.astro:162
+#: src/components/contact/ContactForm.astro:168
 msgid "optional"
 msgstr "необов'язково"

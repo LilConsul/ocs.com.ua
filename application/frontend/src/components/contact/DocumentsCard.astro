@@ -25,8 +25,10 @@ const documents = [
 ];
 ---
 
-<section class="bg-surface-container space-y-4 rounded-xl p-8 shadow-sm">
-	<h2 class="font-headline-lg text-headline-lg text-foreground font-bold">
+<section
+	class="bg-background border-border-subtle/70 hover:border-secondary/40 before:from-secondary relative space-y-4 overflow-hidden rounded-xl border p-6 shadow-xs transition-[box-shadow,border-color] duration-300 before:absolute before:inset-x-0 before:top-0 before:h-0.5 before:bg-linear-to-r before:to-transparent hover:shadow-lg sm:p-8"
+>
+	<h2 class="font-headline-lg text-foreground text-xl font-semibold tracking-tight">
 		{_("Authorized Documentation")}
 	</h2>
 	<p class="font-body-md text-body-md text-industrial-gray">
@@ -40,7 +42,7 @@ const documents = [
 						href={doc.href}
 						target={doc.href !== "#" ? "_blank" : undefined}
 						rel={doc.href !== "#" ? "noopener noreferrer" : undefined}
-						class="group bg-background flex items-center justify-between rounded-lg p-3.5 transition-all hover:shadow-sm"
+						class="group bg-surface-container border-border-subtle/50 hover:border-secondary/40 hover:bg-background focus-visible:outline-secondary flex items-center justify-between rounded-lg border p-3.5 transition-[border-color,background-color,box-shadow] hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2"
 						aria-label={doc.title}
 					>
 						<span class="flex items-center gap-3">

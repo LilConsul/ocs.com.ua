@@ -58,21 +58,27 @@ const messages = {
 };
 ---
 
-<section class="bg-background rounded-xl p-8 shadow-md md:p-10" aria-labelledby="form-heading">
+<section
+	class="bg-background border-border-subtle/70 before:from-secondary relative overflow-hidden rounded-xl border p-6 shadow-sm before:absolute before:inset-x-0 before:top-0 before:h-0.5 before:bg-linear-to-r before:to-transparent sm:p-8 md:p-10"
+	aria-labelledby="form-heading"
+>
 	<header class="flex items-center justify-between pb-6">
 		<div>
-			<p class="font-label-caps text-label-caps text-secondary font-semibold uppercase">
+			<p class="font-label-caps text-secondary text-xs font-semibold tracking-widest uppercase">
 				{_("Engineering Inquiry")}
 			</p>
-			<h2 id="form-heading" class="font-heading text-foreground mt-1 text-2xl font-bold">
+			<h2
+				id="form-heading"
+				class="font-headline-lg text-foreground mt-2 text-2xl font-semibold tracking-tight sm:text-3xl"
+			>
 				{_("Send Us a Message")}
 			</h2>
 		</div>
 		<span
-			class="material-symbols-outlined text-industrial-gray hidden text-3xl sm:block"
+			class="bg-surface-container text-secondary border-border-subtle/50 hidden shrink-0 rounded-lg border p-2.5 sm:block"
 			aria-hidden="true"
 		>
-			precision_manufacturing
+			<span class="material-symbols-outlined block text-3xl">precision_manufacturing</span>
 		</span>
 	</header>
 
@@ -210,10 +216,13 @@ const messages = {
 		<button
 			type="submit"
 			id="form-submit"
-			class="bg-primary text-primary-foreground font-heading mt-2 inline-flex w-full items-center justify-center gap-2 rounded-lg px-8 py-4 text-base font-semibold transition-opacity hover:opacity-90 disabled:opacity-50 sm:w-auto"
+			class="group bg-primary text-primary-foreground focus-visible:outline-secondary mt-2 inline-flex w-full items-center justify-center gap-2 rounded-lg px-7 py-3.5 text-[15px] leading-[22px] font-medium shadow-xs transition-[opacity,box-shadow] hover:opacity-90 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50 sm:w-auto"
 		>
 			{_("Submit Inquiry")}
-			<span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+			<span
+				class="material-symbols-outlined transition-transform duration-200 group-hover:translate-x-1"
+				aria-hidden="true">arrow_forward</span
+			>
 		</button>
 	</form>
 </section>

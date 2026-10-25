@@ -45,7 +45,7 @@ const {
 				aria-required={required ? "true" : undefined}
 				aria-describedby={`${id}-error`}
 				autocomplete={autocomplete}
-				class="border-border bg-surface-muted text-foreground focus:border-primary w-full rounded-lg border px-4 py-3 font-sans text-sm transition-colors focus:outline-none"
+				class="border-border-subtle bg-surface-muted text-foreground focus:border-secondary focus:ring-secondary/20 w-full rounded-lg border px-4 py-3 font-sans text-sm transition-[border-color,box-shadow] focus:ring-4 focus:outline-none"
 			>
 				<slot />
 			</select>
@@ -59,7 +59,7 @@ const {
 				rows={rows}
 				placeholder={placeholder}
 				autocomplete={autocomplete}
-				class="border-border bg-surface-muted text-foreground focus:border-primary w-full resize-y rounded-lg border px-4 py-3 font-sans text-sm transition-colors focus:outline-none"
+				class="border-border-subtle bg-surface-muted text-foreground focus:border-secondary focus:ring-secondary/20 w-full resize-y rounded-lg border px-4 py-3 font-sans text-sm transition-[border-color,box-shadow] focus:ring-4 focus:outline-none"
 			/>
 		) : (
 			<input
@@ -71,7 +71,7 @@ const {
 				aria-describedby={`${id}-error`}
 				placeholder={placeholder}
 				autocomplete={autocomplete}
-				class="border-border bg-surface-muted text-foreground focus:border-primary w-full rounded-lg border px-4 py-3 font-sans text-sm transition-colors focus:outline-none"
+				class="border-border-subtle bg-surface-muted text-foreground focus:border-secondary focus:ring-secondary/20 w-full rounded-lg border px-4 py-3 font-sans text-sm transition-[border-color,box-shadow] focus:ring-4 focus:outline-none"
 			/>
 		)
 	}

@@ -88,19 +88,70 @@ const structuredData = [
 
 	<ContactHero lang={lang} />
 
-	<div class="mx-auto max-w-[1280px] space-y-16 px-8 pb-24">
-		{/* Main grid: form (8 cols) + sidebar (4 cols) */}
-		<div class="grid grid-cols-1 items-start gap-6 lg:grid-cols-12">
-			<div class="lg:col-span-8">
-				<ContactForm lang={lang} />
+	{/* Muted band: white form and info cards stand out against it */}
+	<section
+		class="bg-surface-container border-border-subtle/40 w-full border-b py-16 lg:py-24"
+		aria-label={_("Send Us a Message")}
+	>
+		<div class="px-edge-margin mx-auto max-w-[1280px]">
+			{/* Main grid: form (8 cols) + sidebar (4 cols) */}
+			<div class="gap-gutter grid grid-cols-1 items-start lg:grid-cols-12">
+				<div class="contact-reveal lg:col-span-8" style="--i:0">
+					<ContactForm lang={lang} />
+				</div>
+				<aside class="gap-gutter flex flex-col lg:col-span-4">
+					<div class="contact-reveal" style="--i:1">
+						<ContactInfoCard lang={lang} />
+					</div>
+					<div class="contact-reveal" style="--i:2">
+						<DocumentsCard lang={lang} />
+					</div>
+				</aside>
 			</div>
-			<aside class="space-y-6 lg:col-span-4">
-				<ContactInfoCard lang={lang} />
-				<DocumentsCard lang={lang} />
-			</aside>
+		</div>
+	</section>
+
+	{/* White band: office card with map, glow in the corner like the About CTA */}
+	<section
+		class="bg-background relative w-full overflow-hidden py-16 lg:py-24"
+		aria-label={_("Main Office")}
+	>
+		<div
+			class="bg-secondary/10 pointer-events-none absolute -bottom-40 -left-24 size-[30rem] rounded-full blur-3xl"
+			aria-hidden="true"
+		>
 		</div>
 
-		{/* Office location with map */}
-		<OfficeLocation lang={lang} />
-	</div>
+		<div class="px-edge-margin relative mx-auto max-w-[1280px]">
+			<div class="contact-reveal" style="--i:0">
+				<OfficeLocation lang={lang} />
+			</div>
+		</div>
+	</section>
 </Layout>
+
+<style>
+	@media (prefers-reduced-motion: no-preference) {
+		/* Hidden only once the script has confirmed the animation will run */
+		.contact-reveal[data-anim="ready"] {
+			opacity: 0;
+		}
+		.contact-reveal[data-anim="in"] {
+			animation: contact-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+			animation-delay: calc(var(--i, 0) * 120ms);
+		}
+	}
+
+	@keyframes contact-rise {
+		from {
+			opacity: 0;
+			transform: translateY(22px);
+		}
+	}
+</style>
+
+<script>
+	import { revealOnce } from "@/lib/anims/reveal-once";
+
+	document.querySelectorAll<HTMLElement>(".contact-reveal").forEach((el) => revealOnce(el, 0.1));
+</script>
