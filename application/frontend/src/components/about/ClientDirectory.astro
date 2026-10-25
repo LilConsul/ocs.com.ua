@@ -45,16 +45,16 @@ const metrics = [
 
 // Badge recipe shared with the map and hero; equipment uses full-width rows so long labels never overflow
 const rowClass =
-	"bg-background border-border-subtle/50 flex h-10 items-center justify-between gap-3 rounded-lg border px-3 transition-colors duration-300";
+	"bg-background border-border-subtle/50 flex h-10 items-center justify-between gap-2 rounded-lg border px-2.5 transition-colors duration-300 sm:gap-3 sm:px-3";
 const badgeClass =
-	"font-technical-data bg-secondary/10 text-secondary shrink-0 rounded-full px-2.5 py-0.5 text-xs font-bold tabular-nums";
+	"font-technical-data bg-secondary/10 text-secondary shrink-0 rounded-full px-2 py-0.5 text-[11px] font-bold tabular-nums sm:px-2.5 sm:text-xs";
 
 const countBy = (category: PartnerItem["category"]) =>
 	partners.filter((p) => p.category === category).length;
 
 // Pressed state is styled purely through aria-pressed:, so the script only flips the attribute
 const tabClass =
-	"client-tab font-technical-data border-border-subtle/60 bg-background text-industrial-gray hover:text-foreground hover:border-secondary/40 focus-visible:outline-secondary aria-pressed:bg-foreground aria-pressed:text-background aria-pressed:border-foreground inline-flex cursor-pointer items-center gap-2 rounded-full border px-4 py-2 text-xs shadow-xs transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2";
+	"client-tab font-technical-data border-border-subtle/60 bg-background text-industrial-gray hover:text-foreground hover:border-secondary/40 focus-visible:outline-secondary aria-pressed:bg-foreground aria-pressed:text-background aria-pressed:border-foreground inline-flex max-w-full cursor-pointer items-center gap-2 rounded-full border px-3.5 py-2 text-xs shadow-xs transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 sm:px-4";
 
 const tabs = [
 	{ filter: "all", label: _("All Sectors"), count: partners.length },
@@ -87,7 +87,7 @@ const orderedPartners = [...partners].sort(
 				</span>
 				<h2
 					id="clients-heading"
-					class="font-headline-lg text-foreground mt-2 text-2xl font-semibold tracking-tight text-balance sm:text-3xl lg:text-4xl"
+					class="font-headline-lg text-foreground mt-2 text-2xl font-semibold tracking-tight text-balance break-words sm:text-3xl lg:text-4xl"
 				>
 					{_("Trusted by Ukraine's Industrial Flagships")}
 				</h2>
@@ -163,15 +163,15 @@ const orderedPartners = [...partners].sort(
 								)}
 							</figure>
 
-							<div class="flex flex-1 flex-col p-5 sm:p-6">
-								<header class="flex items-start justify-between gap-3">
+							<div class="flex flex-1 flex-col p-4 sm:p-6">
+								<header class="flex items-start justify-between gap-2.5 sm:gap-3">
 									<div class="min-w-0">
-										<h3 class="font-headline-lg text-foreground m-0 text-base leading-snug font-semibold text-balance sm:text-lg">
+										<h3 class="font-headline-lg text-foreground m-0 text-base leading-snug font-semibold text-balance break-words sm:text-lg">
 											{clientName}
 										</h3>
 										<p class="font-technical-data text-industrial-gray m-0 mt-1.5 flex items-center gap-1.5 text-xs">
 											<CategoryIcon className="text-secondary h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-											<span>{categoryLabels[partner.category]}</span>
+											<span class="truncate">{categoryLabels[partner.category]}</span>
 										</p>
 									</div>
 									{hasData && (
@@ -183,7 +183,7 @@ const orderedPartners = [...partners].sort(
 
 								{/* Clients without unit counts simply have no equipment block */}
 								{hasData && (
-									<div class="mt-auto pt-5">
+									<div class="mt-auto pt-4 sm:pt-5">
 										<div
 											class="bg-border-subtle/50 h-1.5 overflow-hidden rounded-full"
 											aria-hidden="true"
@@ -194,7 +194,7 @@ const orderedPartners = [...partners].sort(
 											/>
 										</div>
 
-										<p class="font-label-caps text-industrial-gray m-0 mt-4 text-[11px] uppercase">
+										<p class="font-label-caps text-industrial-gray m-0 mt-3 sm:mt-4 text-[11px] uppercase">
 											{_("Installed Equipment:")}
 										</p>
 
@@ -213,7 +213,7 @@ const orderedPartners = [...partners].sort(
 															<Icon className="text-secondary h-4 w-4 shrink-0" aria-hidden="true" />
 															<span class="truncate">{label}</span>
 														</dt>
-														<dd class="font-technical-data text-foreground m-0 shrink-0 text-lg leading-none font-bold tabular-nums">
+														<dd class="font-technical-data text-foreground m-0 shrink-0 text-base sm:text-lg leading-none font-bold tabular-nums">
 															{formatApprox(value)}
 														</dd>
 													</div>
@@ -224,7 +224,7 @@ const orderedPartners = [...partners].sort(
 								)}
 							</div>
 
-							<footer class="bg-surface-container border-border-subtle/40 font-technical-data text-industrial-gray flex items-center justify-between gap-3 border-t px-5 py-3 text-xs sm:px-6">
+							<footer class="bg-surface-container border-border-subtle/40 font-technical-data text-industrial-gray flex items-center justify-between gap-3 border-t px-4 py-3 text-xs sm:px-6">
 								<address class="flex min-w-0 items-center gap-1.5 not-italic">
 									<MapPin className="text-secondary h-3.5 w-3.5 shrink-0" aria-hidden="true" />
 									<span class="truncate">
@@ -256,33 +256,32 @@ const orderedPartners = [...partners].sort(
 
 <style>
 	@media (prefers-reduced-motion: no-preference) {
-		/* Hidden only once the script has confirmed the animation will run */
-		[data-anim="ready"] .client-card {
-			opacity: 0;
-		}
-		[data-anim="ready"] .client-bar {
-			scale: 0 1;
-		}
-
 		[data-anim="in"] .client-card {
-			animation: client-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) backwards;
-			animation-delay: calc(var(--i, 0) * 100ms);
+			animation: client-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+			animation-delay: calc(var(--i, 0) * 80ms);
 		}
 		[data-anim="in"] .client-bar {
-			animation: client-bar-fill 0.9s cubic-bezier(0.22, 1, 0.36, 1) backwards;
-			animation-delay: calc(0.3s + var(--i, 0) * 100ms);
+			animation: client-bar-fill 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+			animation-delay: calc(0.2s + var(--i, 0) * 80ms);
 		}
 	}
 
 	@keyframes client-rise {
 		from {
 			opacity: 0;
-			transform: translateY(14px);
+			transform: translateY(12px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
 		}
 	}
 	@keyframes client-bar-fill {
 		from {
-			scale: 0 1;
+			transform: scaleX(0);
+		}
+		to {
+			transform: scaleX(1);
 		}
 	}
 </style>

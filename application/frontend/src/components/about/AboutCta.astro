@@ -24,10 +24,10 @@ const _ = getInlineTranslations(lang);
 
 	<div class="px-edge-margin relative mx-auto max-w-[1280px]">
 		<div
-			class="cta-card bg-background border-border-subtle/70 rounded-xl border p-6 shadow-sm sm:p-10 lg:p-12"
+			class="cta-card bg-background border-border-subtle/70 rounded-xl border p-5 shadow-sm sm:p-10 lg:p-12"
 		>
 			<div class="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
-				<div class="max-w-2xl">
+				<div class="max-w-2xl min-w-0">
 					<span
 						class="cta-item font-label-caps text-secondary flex items-center gap-3 text-xs font-semibold tracking-widest uppercase"
 						style="--i:1"
@@ -37,13 +37,13 @@ const _ = getInlineTranslations(lang);
 					</span>
 					<h2
 						id="cta-heading"
-						class="cta-item font-headline-lg text-foreground mt-3 text-2xl font-semibold tracking-tight text-balance sm:text-3xl lg:text-4xl"
+						class="cta-item font-headline-lg text-foreground mt-3 text-2xl font-semibold tracking-tight text-balance break-words sm:text-3xl lg:text-4xl"
 						style="--i:2"
 					>
 						{_("Let's Talk About Your Production Line")}
 					</h2>
 					<p
-						class="cta-item font-body-md text-industrial-gray mt-4 text-sm leading-relaxed sm:text-base"
+						class="cta-item font-body-md text-industrial-gray mt-4 text-sm leading-relaxed break-words sm:text-base"
 						style="--i:3"
 					>
 						{
@@ -57,7 +57,7 @@ const _ = getInlineTranslations(lang);
 				<div class="cta-item flex shrink-0 flex-col gap-3 sm:flex-row lg:flex-col" style="--i:4">
 					<a
 						href={`/${lang}/contact`}
-						class="group bg-primary text-primary-foreground focus-visible:outline-secondary inline-flex items-center justify-center gap-2 rounded-lg px-7 py-3.5 text-[15px] leading-[22px] font-medium shadow-xs transition-[opacity,box-shadow] hover:opacity-90 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2"
+						class="group bg-primary text-primary-foreground focus-visible:outline-secondary inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg px-5 py-3.5 text-sm sm:px-7 sm:text-[15px] leading-[22px] font-medium shadow-xs transition-[opacity,box-shadow] hover:opacity-90 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2"
 					>
 						<span>{_("Request a quote")}</span>
 						<ArrowRight
@@ -67,7 +67,7 @@ const _ = getInlineTranslations(lang);
 					</a>
 					<a
 						href={`tel:${companyData.phone.replace(/\s+/g, "")}`}
-						class="border-secondary text-secondary hover:bg-secondary/5 focus-visible:outline-secondary font-technical-data inline-flex items-center justify-center gap-2 rounded-lg border-2 px-7 py-3.5 text-[15px] leading-[22px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+						class="border-secondary text-secondary hover:bg-secondary/5 focus-visible:outline-secondary font-technical-data inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg border-2 px-5 py-3.5 text-sm sm:px-7 sm:text-[15px] leading-[22px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
 					>
 						<PhoneCall className="size-[18px]" aria-hidden="true" />
 						<span>{companyData.phone}</span>

@@ -20,7 +20,7 @@ const phoneHref = `tel:${companyData.phone.replace(/[^\d+]/g, "")}`;
 ---
 
 <section
-	class="bg-background border-border-subtle/70 hover:border-secondary/40 before:from-secondary relative space-y-6 overflow-hidden rounded-xl border p-6 shadow-xs transition-[box-shadow,border-color] duration-300 before:absolute before:inset-x-0 before:top-0 before:h-0.5 before:bg-linear-to-r before:to-transparent hover:shadow-lg sm:p-8"
+	class="bg-background border-border-subtle/70 hover:border-secondary/40 before:from-secondary relative space-y-6 overflow-hidden rounded-xl border p-5 shadow-xs transition-[box-shadow,border-color] duration-300 before:absolute before:inset-x-0 before:top-0 before:h-0.5 before:bg-linear-to-r before:to-transparent hover:shadow-lg sm:p-8"
 >
 	<h2 class="font-label-caps text-secondary text-xs font-semibold tracking-widest uppercase">
 		{_("Contact Information")}
@@ -33,12 +33,12 @@ const phoneHref = `tel:${companyData.phone.replace(/[^\d+]/g, "")}`;
 				{_("Phone")}
 			</dt>
 			<dd class="space-y-1">
-				<p class="font-technical-data text-technical-data text-foreground font-semibold">
+				<p class="font-technical-data text-technical-data text-foreground font-semibold break-words">
 					{contactPerson.name}
 				</p>
 				<a
 					href={phoneHref}
-					class="font-headline-lg text-headline-lg text-foreground hover:text-secondary font-bold transition-colors"
+					class="font-headline-lg text-foreground hover:text-secondary text-lg sm:text-2xl font-bold transition-colors break-words"
 				>
 					{companyData.phone}
 				</a>
@@ -56,7 +56,7 @@ const phoneHref = `tel:${companyData.phone.replace(/[^\d+]/g, "")}`;
 			<dd>
 				<a
 					href={`mailto:${companyData.email}`}
-					class="font-technical-data text-technical-data text-foreground hover:text-secondary transition-colors"
+					class="font-technical-data text-technical-data text-foreground hover:text-secondary transition-colors break-all sm:break-normal"
 				>
 					{companyData.email}
 				</a>

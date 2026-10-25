@@ -168,19 +168,63 @@
 	--radius-3xl: calc(var(--radius) * 2.2);
 	--radius-4xl: calc(var(--radius) * 2.6);
 	--spacing-section-gap-lg: 8rem;
-	--spacing-edge-margin: 2rem;
+	--spacing-edge-margin: clamp(1rem, 4vw, 2rem);
 	--spacing-gutter: 1.5rem;
 }
 
 @layer base {
-	* {
+	*,
+	*::before,
+	*::after {
 		@apply border-border outline-ring/50;
-	}
-	body {
-		@apply bg-background text-foreground;
+		box-sizing: border-box;
 	}
 	html {
 		@apply font-sans;
+		-webkit-text-size-adjust: 100%;
+	}
+	body {
+		@apply bg-background text-foreground;
+		overflow-wrap: break-word;
+	}
+	p,
+	article p,
+	.prose p,
+	.font-body-md {
+		overflow-wrap: break-word;
+		hyphens: auto;
+		-webkit-hyphens: auto;
+		hyphenate-limit-chars: 6 3 3;
+	}
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		overflow-wrap: break-word;
+		text-wrap: balance;
+	}
+	/* UI elements, badges, metrics, data tags, and navigation should never auto-hyphenate */
+	dt,
+	dd,
+	th,
+	button,
+	nav,
+	.font-label-caps,
+	.font-technical-data {
+		hyphens: manual;
+		-webkit-hyphens: manual;
+	}
+	img,
+	svg,
+	video,
+	canvas,
+	audio,
+	iframe,
+	embed,
+	object {
+		max-width: 100%;
 	}
 }
 

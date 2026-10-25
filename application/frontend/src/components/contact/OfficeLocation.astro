@@ -23,14 +23,14 @@ const embedUrl = `https://maps.google.com/maps?q=${mapsQuery}&output=embed`;
 >
 	<div class="grid grid-cols-1 lg:grid-cols-12">
 		{/* Address panel */}
-		<div class="flex flex-col justify-between gap-8 p-6 sm:p-8 lg:col-span-5">
+		<div class="flex flex-col justify-between gap-8 p-5 sm:p-8 lg:col-span-5">
 			<div class="space-y-6">
 				<header>
 					<p class="font-label-caps text-secondary text-xs font-semibold tracking-widest uppercase">
 						{_("Kyiv Office")}
 					</p>
 					<h2
-						class="font-headline-lg text-foreground mt-2 text-2xl font-semibold tracking-tight sm:text-3xl"
+						class="font-headline-lg text-foreground mt-2 text-2xl font-semibold tracking-tight break-words sm:text-3xl"
 					>
 						{_("Main Office")}
 					</h2>
@@ -73,7 +73,7 @@ const embedUrl = `https://maps.google.com/maps?q=${mapsQuery}&output=embed`;
 				href={routeUrl}
 				target="_blank"
 				rel="noopener noreferrer"
-				class="border-secondary text-secondary hover:bg-secondary/5 focus-visible:outline-secondary font-technical-data inline-flex items-center justify-center gap-2 self-start rounded-lg border-2 px-6 py-3 text-[15px] leading-[22px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+				class="border-secondary text-secondary hover:bg-secondary/5 focus-visible:outline-secondary font-technical-data inline-flex w-full sm:w-auto items-center justify-center gap-2 self-start rounded-lg border-2 px-6 py-3 text-[15px] leading-[22px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
 			>
 				<span class="material-symbols-outlined text-base" aria-hidden="true">directions</span>
 				{_("Get Route")}
