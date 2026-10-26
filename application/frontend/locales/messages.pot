@@ -35,11 +35,11 @@ msgstr ""
 msgid "About Us | OS-Technology Ukraine"
 msgstr ""
 
-#: src/components/about/InteractiveUkraineMap.astro:255
+#: src/components/about/InteractiveUkraineMap.astro:258
 msgid "Active Client Facilities:"
 msgstr ""
 
-#: src/components/about/InteractiveUkraineMap.astro:121
+#: src/components/about/InteractiveUkraineMap.astro:122
 msgid "Active Factory Installations Across Regional Hubs"
 msgstr ""
 
@@ -56,7 +56,7 @@ msgstr ""
 msgid "All Industries"
 msgstr ""
 
-#: src/components/about/ClientDirectory.astro:59
+#: src/components/about/ClientDirectory.astro:62
 msgid "All Sectors"
 msgstr ""
 
@@ -92,7 +92,7 @@ msgstr ""
 
 #: src/components/Header.astro:22
 #: src/components/catalogue/RelatedEquipment.astro:31
-#: src/components/catalogue/CategoryHeader.astro:34
+#: src/components/catalogue/CategoryHeader.astro:35
 msgid "Catalogue"
 msgstr ""
 
@@ -105,8 +105,8 @@ msgid "Category navigation"
 msgstr ""
 
 #: src/components/contact/ContactForm.astro:22
-#: src/components/about/InteractiveUkraineMap.astro:21
-#: src/components/about/ClientDirectory.astro:40
+#: src/components/about/InteractiveUkraineMap.astro:22
+#: src/components/about/ClientDirectory.astro:43
 #: src/components/about/AboutHero.astro:31
 msgid "Checkweighers"
 msgstr ""
@@ -119,15 +119,15 @@ msgstr ""
 msgid "Checkweighers, Metal Detectors, Serialization & Aggregation Systems"
 msgstr ""
 
-#: src/components/about/ClientDirectory.astro:30
+#: src/components/about/ClientDirectory.astro:33
 msgid "Chemicals & Packaging"
 msgstr ""
 
-#: src/components/about/InteractiveUkraineMap.astro:138
+#: src/components/about/InteractiveUkraineMap.astro:139
 msgid "Click a pin or region to inspect"
 msgstr ""
 
-#: src/components/homepage/PartnersSection.astro:171
+#: src/components/homepage/PartnersSection.astro:174
 msgid "Client Retention"
 msgstr ""
 
@@ -158,8 +158,8 @@ msgstr ""
 
 #: src/components/Header.astro:119
 #: src/components/Header.astro:186
-#: src/components/contact/ContactHero.astro:28
 #: src/components/homepage/HeroSection.astro:86
+#: src/components/contact/ContactHero.astro:28
 #: src/components/errors/ServerErrorContent.astro:46
 #: src/components/errors/NotFoundContent.astro:54
 #: src/components/catalogue/CatalogueSidebar.astro:99
@@ -183,8 +183,8 @@ msgstr ""
 msgid "Corporate Email"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:31
 #: src/components/homepage/IndustriesSection.astro:70
+#: src/components/contact/ContactForm.astro:31
 msgid "Cosmetics"
 msgstr ""
 
@@ -196,7 +196,7 @@ msgstr ""
 msgid "Could not send your message. Please try again later or email us directly."
 msgstr ""
 
-#: src/components/about/InteractiveUkraineMap.astro:110
+#: src/components/about/InteractiveUkraineMap.astro:111
 msgid "Deployment Breakdown"
 msgstr ""
 
@@ -238,7 +238,7 @@ msgstr ""
 msgid "Engineering Inquiry"
 msgstr ""
 
-#: src/components/about/ClientDirectory.astro:85
+#: src/components/about/ClientDirectory.astro:89
 msgid "Enterprise Reference Directory"
 msgstr ""
 
@@ -259,11 +259,15 @@ msgstr ""
 msgid "Explore industry-specific solutions"
 msgstr ""
 
-#: src/components/about/ClientDirectory.astro:95
+#: src/components/about/ClientDirectory.astro:99
 msgid "Explore verified German inspection equipment installations across leading food, pharmaceutical, and consumer goods manufacturers in Ukraine."
 msgstr ""
 
-#: src/components/about/ClientDirectory.astro:105
+#: src/components/about/InteractiveUkraineMap.astro:353
+msgid "Figures are approximate and may not reflect exact numbers. Not all clients are shown on this page."
+msgstr ""
+
+#: src/components/about/ClientDirectory.astro:109
 msgid "Filter clients by sector"
 msgstr ""
 
@@ -272,7 +276,7 @@ msgid "Filters"
 msgstr ""
 
 #: src/components/homepage/IndustriesSection.astro:46
-#: src/components/about/ClientDirectory.astro:28
+#: src/components/about/ClientDirectory.astro:31
 msgid "Food & Beverage"
 msgstr ""
 
@@ -336,15 +340,15 @@ msgstr ""
 msgid "Industry Sector"
 msgstr ""
 
-#: src/components/about/InteractiveUkraineMap.astro:135
+#: src/components/about/InteractiveUkraineMap.astro:136
 msgid "Installation Map of Ukraine"
 msgstr ""
 
-#: src/components/homepage/PartnersSection.astro:135
+#: src/components/homepage/PartnersSection.astro:138
 msgid "Installations"
 msgstr ""
 
-#: src/components/about/ClientDirectory.astro:194
+#: src/components/about/ClientDirectory.astro:201
 msgid "Installed Equipment:"
 msgstr ""
 
@@ -352,7 +356,7 @@ msgstr ""
 msgid "Installed Systems"
 msgstr ""
 
-#: src/components/about/InteractiveUkraineMap.astro:147
+#: src/components/about/InteractiveUkraineMap.astro:148
 msgid "Interactive Map of Ukraine Installations"
 msgstr ""
 
@@ -377,12 +381,12 @@ msgstr ""
 msgid "Let's Talk About Your Production Line"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:32
 #: src/components/homepage/IndustriesSection.astro:79
+#: src/components/contact/ContactForm.astro:32
 msgid "Logistics & Distribution"
 msgstr ""
 
-#: src/components/homepage/PartnersSection.astro:174
+#: src/components/homepage/PartnersSection.astro:177
 msgid "Long-term partnerships built on reliable support."
 msgstr ""
 
@@ -415,8 +419,8 @@ msgstr ""
 msgid "Mesutronic Authorization Letter"
 msgstr ""
 
-#: src/components/about/InteractiveUkraineMap.astro:22
-#: src/components/about/ClientDirectory.astro:41
+#: src/components/about/InteractiveUkraineMap.astro:23
+#: src/components/about/ClientDirectory.astro:44
 #: src/components/about/AboutHero.astro:32
 msgid "Metal Detectors"
 msgstr ""
@@ -429,7 +433,7 @@ msgstr ""
 msgid "Metron FlatLine & Transtron High-Sensitivity Conveyor Systems"
 msgstr ""
 
-#: src/components/about/InteractiveUkraineMap.astro:267
+#: src/components/about/InteractiveUkraineMap.astro:270
 msgid "Multiple facilities active"
 msgstr ""
 
@@ -442,7 +446,7 @@ msgstr ""
 msgid "Next image"
 msgstr ""
 
-#: src/pages/[lang]/catalogue/[category]/index.astro:130
+#: src/pages/[lang]/catalogue/[category]/index.astro:131
 msgid "No products available in this category"
 msgstr ""
 
@@ -496,7 +500,7 @@ msgstr ""
 msgid "Other"
 msgstr ""
 
-#: src/components/homepage/PartnersSection.astro:55
+#: src/components/homepage/PartnersSection.astro:58
 msgid "Our Clients"
 msgstr ""
 
@@ -519,12 +523,12 @@ msgstr ""
 msgid "Pharma Serialization & Aggregation Systems (EU FMD, GS1)"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:30
 #: src/components/homepage/IndustriesSection.astro:58
+#: src/components/contact/ContactForm.astro:30
 msgid "Pharmaceutical"
 msgstr ""
 
-#: src/components/about/ClientDirectory.astro:29
+#: src/components/about/ClientDirectory.astro:32
 msgid "Pharmaceuticals"
 msgstr ""
 
@@ -579,7 +583,7 @@ msgstr ""
 msgid "Product image thumbnails"
 msgstr ""
 
-#: src/pages/[lang]/catalogue/[category]/index.astro:117
+#: src/pages/[lang]/catalogue/[category]/index.astro:118
 msgid "Products"
 msgstr ""
 
@@ -643,7 +647,7 @@ msgstr ""
 msgid "Share"
 msgstr ""
 
-#: src/components/about/ClientDirectory.astro:240
+#: src/components/about/ClientDirectory.astro:247
 msgid "Site"
 msgstr ""
 
@@ -677,7 +681,7 @@ msgstr ""
 msgid "Submit Inquiry"
 msgstr ""
 
-#: src/components/homepage/PartnersSection.astro:64
+#: src/components/homepage/PartnersSection.astro:67
 msgid "Supplying and servicing precision weighing equipment for major food, pharmaceutical, and chemical companies since 2013."
 msgstr ""
 
@@ -685,7 +689,7 @@ msgstr ""
 msgid "Systems Installed"
 msgstr ""
 
-#: src/components/homepage/PartnersSection.astro:138
+#: src/components/homepage/PartnersSection.astro:141
 msgid "Systems operating across Ukrainian manufacturing facilities."
 msgstr ""
 
@@ -706,7 +710,7 @@ msgstr ""
 msgid "Technical Specs"
 msgstr ""
 
-#: src/components/homepage/PartnersSection.astro:156
+#: src/components/homepage/PartnersSection.astro:159
 msgid "Technical expertise and service support since 2013."
 msgstr ""
 
@@ -735,6 +739,10 @@ msgstr ""
 msgid "This form is protected by reCAPTCHA."
 msgstr ""
 
+#: src/components/about/ClientDirectory.astro:264
+msgid "This list is not exhaustive: not all of our clients are shown here."
+msgstr ""
+
 #: src/components/contact/ContactForm.astro:44
 msgid "This value is too long."
 msgstr ""
@@ -747,8 +755,8 @@ msgstr ""
 msgid "Too many submissions. Please try again in 10 minutes."
 msgstr ""
 
-#: src/components/about/InteractiveUkraineMap.astro:23
-#: src/components/about/ClientDirectory.astro:42
+#: src/components/about/InteractiveUkraineMap.astro:24
+#: src/components/about/ClientDirectory.astro:45
 msgid "Track & Trace"
 msgstr ""
 
@@ -756,11 +764,11 @@ msgstr ""
 msgid "Trusted by 300+ factories across Ukraine"
 msgstr ""
 
-#: src/components/about/ClientDirectory.astro:91
+#: src/components/about/ClientDirectory.astro:95
 msgid "Trusted by Ukraine's Industrial Flagships"
 msgstr ""
 
-#: src/components/homepage/PartnersSection.astro:60
+#: src/components/homepage/PartnersSection.astro:63
 msgid "Trusted by Ukraine's Leading Manufacturers"
 msgstr ""
 
@@ -768,7 +776,7 @@ msgstr ""
 msgid "Try Again"
 msgstr ""
 
-#: src/components/about/ClientDirectory.astro:229
+#: src/components/about/ClientDirectory.astro:236
 msgid "Ukraine"
 msgstr ""
 
@@ -776,14 +784,14 @@ msgstr ""
 msgid "Ukrainian Support."
 msgstr ""
 
-#: src/components/about/InteractiveUkraineMap.astro:188
-#: src/components/about/InteractiveUkraineMap.astro:233
-#: src/components/about/InteractiveUkraineMap.astro:304
-#: src/components/about/ClientDirectory.astro:175
+#: src/components/about/InteractiveUkraineMap.astro:189
+#: src/components/about/InteractiveUkraineMap.astro:234
+#: src/components/about/InteractiveUkraineMap.astro:308
+#: src/components/about/ClientDirectory.astro:182
 msgid "Units"
 msgstr ""
 
-#: src/components/about/InteractiveUkraineMap.astro:116
+#: src/components/about/InteractiveUkraineMap.astro:117
 msgid "Verified Ukrainian Industrial Footprint"
 msgstr ""
 
@@ -825,7 +833,7 @@ msgstr ""
 msgid "Years in Ukraine"
 msgstr ""
 
-#: src/components/homepage/PartnersSection.astro:153
+#: src/components/homepage/PartnersSection.astro:156
 msgid "Years of Experience"
 msgstr ""
 

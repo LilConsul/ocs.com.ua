@@ -1,7 +1,7 @@
 ---
 import { SHOW_CLIENT_EQUIPMENT } from "astro:env/server";
 import { geoContains, geoMercator, geoPath } from "d3-geo";
-import { type LucideIcon, MapPin, Pill, SprayCan, Utensils } from "lucide-react";
+import { Info, type LucideIcon, MapPin, Pill, SprayCan, Utensils } from "lucide-react";
 import { feature, mesh } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
 import { getInlineTranslations, type Lang } from "@/i18n";
@@ -343,6 +343,19 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 				}
 			</div>
 		</div>
+
+		<p
+			class="font-body-md text-industrial-gray m-0 mt-8 flex items-start gap-2 text-xs leading-relaxed sm:text-sm"
+		>
+			<Info className="text-secondary mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+			<span>
+				{
+					_(
+						"Figures are approximate and may not reflect exact numbers. Not all clients are shown on this page."
+					)
+				}
+			</span>
+		</p>
 	</div>
 </section>
 

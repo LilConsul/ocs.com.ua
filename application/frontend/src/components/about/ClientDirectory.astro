@@ -4,6 +4,7 @@ import { SHOW_CLIENT_EQUIPMENT } from "astro:env/server";
 import {
 	Building2,
 	ExternalLink,
+	Info,
 	type LucideIcon,
 	MapPin,
 	Pill,
@@ -253,6 +254,19 @@ const orderedPartners = SHOW_CLIENT_EQUIPMENT
 				})
 			}
 		</div>
+
+		<p
+			class="font-body-md text-industrial-gray m-0 mt-8 flex items-start gap-2 text-xs leading-relaxed sm:text-sm"
+		>
+			<Info className="text-secondary mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+			<span>
+				{
+					_(
+						"This list is not exhaustive: not all of our clients are shown here."
+					)
+				}
+			</span>
+		</p>
 	</div>
 </section>
 
