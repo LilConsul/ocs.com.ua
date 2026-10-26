@@ -1,40 +1,51 @@
 ---
-import type { LucideIcon } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { ArrowRight, type LucideIcon } from "lucide-react";
 
 interface Props {
 	title: string;
 	description: string;
 	icon: LucideIcon;
 	ctaText: string;
+	href?: string;
 }
 
-const { title, description, icon: Icon, ctaText } = Astro.props;
+const { title, description, icon: Icon, ctaText, href } = Astro.props;
+// Renders as a link when an href is given, otherwise a plain card
+const Tag = href ? "a" : "article";
 ---
 
-<Card
-	className="bg-card/80 border-border hover:border-primary/50 group relative min-h-[320px] overflow-hidden rounded-xl border p-5 sm:p-8 backdrop-blur-xl transition-all duration-500 hover:shadow-xl"
+<Tag
+	href={href}
+	class="group/card bg-surface-container border-border-subtle/70 hover:border-secondary/40 focus-visible:outline-secondary before:from-secondary relative flex h-full min-h-64 flex-col overflow-hidden rounded-xl border p-6 shadow-xs transition-[translate,box-shadow,border-color] duration-300 before:absolute before:inset-x-0 before:top-0 before:h-0.5 before:bg-linear-to-r before:to-transparent hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 motion-safe:hover:-translate-y-0.5 sm:p-8"
 >
-	<CardContent className="relative z-10 flex h-full flex-col justify-between p-0">
-		<div>
-			<div
-				class="bg-primary/10 group-hover:bg-primary mb-6 sm:mb-8 flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-lg transition-colors duration-300"
-			>
-				<div class="text-primary group-hover:text-primary-foreground h-8 w-8 sm:h-10 sm:w-10 transition-colors">
-					<Icon className="h-8 w-8 sm:h-10 sm:w-10" />
-				</div>
-			</div>
-			<h3 class="font-heading text-foreground mb-3 text-[18px] sm:text-[20px] leading-[26px] sm:leading-[28px] font-medium break-words">
-				{title}
-			</h3>
-			<p class="text-muted-foreground max-w-md text-[14px] leading-[20px] break-words">
-				{description}
-			</p>
-		</div>
+	{/* Oversized watermark icon, purely decorative */}
+	<Icon
+		className="text-secondary/5 pointer-events-none absolute -right-8 -bottom-8 size-48 transition-transform duration-500 group-hover/card:scale-110"
+		strokeWidth={1}
+		aria-hidden="true"
+	/>
+
+	<div class="relative z-10 flex flex-1 flex-col">
 		<div
-			class="text-primary mt-6 flex items-center gap-2 font-mono text-[12px] leading-[16px] font-medium tracking-[0.05em] uppercase opacity-0 transition-opacity group-hover:opacity-100"
+			class="bg-background text-secondary border-border-subtle/50 group-hover/card:bg-secondary group-hover/card:text-background group-hover/card:border-secondary w-fit shrink-0 rounded-lg border p-3 shadow-xs transition-colors duration-300"
+			aria-hidden="true"
 		>
-			{ctaText}
+			<Icon className="h-6 w-6" />
 		</div>
-	</CardContent>
-</Card>
+
+		<h3 class="font-headline-lg text-foreground m-0 mt-6 text-xl font-semibold tracking-tight sm:text-2xl">
+			{title}
+		</h3>
+		<p class="font-body-md text-industrial-gray m-0 mt-3 max-w-md text-sm leading-relaxed sm:text-base">
+			{description}
+		</p>
+
+		<span class="text-secondary font-technical-data mt-auto inline-flex items-center gap-2 pt-8 text-sm font-medium">
+			{ctaText}
+			<ArrowRight
+				className="size-4 transition-transform duration-200 group-hover/card:translate-x-1"
+				aria-hidden="true"
+			/>
+		</span>
+	</div>
+</Tag>
