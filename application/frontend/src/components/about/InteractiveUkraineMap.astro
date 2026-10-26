@@ -518,7 +518,7 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 		// Play the intro animations the first time each block scrolls into view
 		const stage = root.querySelector<HTMLElement>("[data-map-pins]");
 		const cards = root.querySelector<HTMLElement>("[data-sector-cards]");
-		if (stage) revealOnce(stage);
-		if (cards) revealOnce(cards);
+		if (stage) revealOnce(stage, 0.35);
+		if (cards) revealOnce(cards, 0.15);
 	}
 </script>
