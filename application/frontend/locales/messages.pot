@@ -56,7 +56,7 @@ msgstr ""
 msgid "All Industries"
 msgstr ""
 
-#: src/components/about/ClientDirectory.astro:62
+#: src/components/about/ClientDirectory.astro:71
 msgid "All Sectors"
 msgstr ""
 
@@ -106,7 +106,7 @@ msgstr ""
 
 #: src/components/contact/ContactForm.astro:22
 #: src/components/about/InteractiveUkraineMap.astro:22
-#: src/components/about/ClientDirectory.astro:43
+#: src/components/about/ClientDirectory.astro:45
 #: src/components/about/AboutHero.astro:31
 msgid "Checkweighers"
 msgstr ""
@@ -119,7 +119,7 @@ msgstr ""
 msgid "Checkweighers, Metal Detectors, Serialization & Aggregation Systems"
 msgstr ""
 
-#: src/components/about/ClientDirectory.astro:33
+#: src/components/about/ClientDirectory.astro:35
 msgid "Chemicals & Packaging"
 msgstr ""
 
@@ -133,6 +133,10 @@ msgstr ""
 
 #: src/components/homepage/StatsSection.astro:12
 msgid "Clients"
+msgstr ""
+
+#: src/components/about/ClientDirectory.astro:270
+msgid "Clients pagination"
 msgstr ""
 
 #: src/components/catalogue/CatalogueSidebar.astro:45
@@ -158,10 +162,10 @@ msgstr ""
 
 #: src/components/Header.astro:119
 #: src/components/Header.astro:186
-#: src/components/homepage/HeroSection.astro:86
-#: src/components/contact/ContactHero.astro:28
 #: src/components/errors/ServerErrorContent.astro:46
 #: src/components/errors/NotFoundContent.astro:54
+#: src/components/homepage/HeroSection.astro:86
+#: src/components/contact/ContactHero.astro:28
 #: src/components/catalogue/CatalogueSidebar.astro:99
 #: src/components/about/AboutCta.astro:36
 msgid "Contact Us"
@@ -238,7 +242,7 @@ msgstr ""
 msgid "Engineering Inquiry"
 msgstr ""
 
-#: src/components/about/ClientDirectory.astro:89
+#: src/components/about/ClientDirectory.astro:98
 msgid "Enterprise Reference Directory"
 msgstr ""
 
@@ -259,7 +263,7 @@ msgstr ""
 msgid "Explore industry-specific solutions"
 msgstr ""
 
-#: src/components/about/ClientDirectory.astro:99
+#: src/components/about/ClientDirectory.astro:108
 msgid "Explore verified German inspection equipment installations across leading food, pharmaceutical, and consumer goods manufacturers in Ukraine."
 msgstr ""
 
@@ -267,7 +271,7 @@ msgstr ""
 msgid "Figures are approximate and may not reflect exact numbers. Not all clients are shown on this page."
 msgstr ""
 
-#: src/components/about/ClientDirectory.astro:109
+#: src/components/about/ClientDirectory.astro:118
 msgid "Filter clients by sector"
 msgstr ""
 
@@ -276,7 +280,7 @@ msgid "Filters"
 msgstr ""
 
 #: src/components/homepage/IndustriesSection.astro:46
-#: src/components/about/ClientDirectory.astro:31
+#: src/components/about/ClientDirectory.astro:33
 msgid "Food & Beverage"
 msgstr ""
 
@@ -348,7 +352,7 @@ msgstr ""
 msgid "Installations"
 msgstr ""
 
-#: src/components/about/ClientDirectory.astro:201
+#: src/components/about/ClientDirectory.astro:210
 msgid "Installed Equipment:"
 msgstr ""
 
@@ -420,7 +424,7 @@ msgid "Mesutronic Authorization Letter"
 msgstr ""
 
 #: src/components/about/InteractiveUkraineMap.astro:23
-#: src/components/about/ClientDirectory.astro:44
+#: src/components/about/ClientDirectory.astro:46
 #: src/components/about/AboutHero.astro:32
 msgid "Metal Detectors"
 msgstr ""
@@ -444,6 +448,10 @@ msgstr ""
 #: src/components/catalogue/ProductGallery.astro:86
 #: src/components/catalogue/ProductGallery.astro:198
 msgid "Next image"
+msgstr ""
+
+#: src/components/about/ClientDirectory.astro:281
+msgid "Next page"
 msgstr ""
 
 #: src/pages/[lang]/catalogue/[category]/index.astro:131
@@ -513,6 +521,10 @@ msgstr ""
 msgid "Our partner WIPOTEC-OCS GmbH is a subsidiary of WIPOTEC GmbH. Its weighing and inspection systems have been a quality standard for over 30 years, and all key components are developed and built in-house in Kaiserslautern."
 msgstr ""
 
+#: src/components/about/ClientDirectory.astro:273
+msgid "Page"
+msgstr ""
+
 #: src/pages/404.astro:9
 #: src/pages/404.astro:9
 #: src/components/errors/NotFoundContent.astro:17
@@ -528,7 +540,7 @@ msgstr ""
 msgid "Pharmaceutical"
 msgstr ""
 
-#: src/components/about/ClientDirectory.astro:32
+#: src/components/about/ClientDirectory.astro:34
 msgid "Pharmaceuticals"
 msgstr ""
 
@@ -568,6 +580,10 @@ msgstr ""
 #: src/components/catalogue/ProductGallery.astro:78
 #: src/components/catalogue/ProductGallery.astro:190
 msgid "Previous image"
+msgstr ""
+
+#: src/components/about/ClientDirectory.astro:277
+msgid "Previous page"
 msgstr ""
 
 #: src/components/Footer.astro:30
@@ -647,7 +663,7 @@ msgstr ""
 msgid "Share"
 msgstr ""
 
-#: src/components/about/ClientDirectory.astro:247
+#: src/components/about/ClientDirectory.astro:256
 msgid "Site"
 msgstr ""
 
@@ -739,7 +755,7 @@ msgstr ""
 msgid "This form is protected by reCAPTCHA."
 msgstr ""
 
-#: src/components/about/ClientDirectory.astro:264
+#: src/components/about/ClientDirectory.astro:292
 msgid "This list is not exhaustive: not all of our clients are shown here."
 msgstr ""
 
@@ -756,7 +772,7 @@ msgid "Too many submissions. Please try again in 10 minutes."
 msgstr ""
 
 #: src/components/about/InteractiveUkraineMap.astro:24
-#: src/components/about/ClientDirectory.astro:45
+#: src/components/about/ClientDirectory.astro:47
 msgid "Track & Trace"
 msgstr ""
 
@@ -764,7 +780,7 @@ msgstr ""
 msgid "Trusted by 300+ factories across Ukraine"
 msgstr ""
 
-#: src/components/about/ClientDirectory.astro:95
+#: src/components/about/ClientDirectory.astro:104
 msgid "Trusted by Ukraine's Industrial Flagships"
 msgstr ""
 
@@ -776,7 +792,7 @@ msgstr ""
 msgid "Try Again"
 msgstr ""
 
-#: src/components/about/ClientDirectory.astro:236
+#: src/components/about/ClientDirectory.astro:245
 msgid "Ukraine"
 msgstr ""
 
@@ -787,7 +803,7 @@ msgstr ""
 #: src/components/about/InteractiveUkraineMap.astro:189
 #: src/components/about/InteractiveUkraineMap.astro:234
 #: src/components/about/InteractiveUkraineMap.astro:308
-#: src/components/about/ClientDirectory.astro:182
+#: src/components/about/ClientDirectory.astro:191
 msgid "Units"
 msgstr ""
 
