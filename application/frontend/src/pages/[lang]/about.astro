@@ -13,8 +13,10 @@ import Layout from "@/layouts/Layout.astro";
 import {
 	aggregateCityHubs,
 	calculateGlobalStats,
+	formatApprox,
 	getAllPartnersList,
 	getSectorBreakdowns,
+	getSiteStats,
 } from "@/lib/about/partners-data";
 import type { PartnersData } from "@/lib/about/types";
 
@@ -34,6 +36,7 @@ const globalStats = calculateGlobalStats(partnersData);
 const cityHubs = aggregateCityHubs(partnersData);
 const sectorBreakdowns = getSectorBreakdowns(partnersData);
 const allPartners = getAllPartnersList(partnersData);
+const siteStats = getSiteStats(partnersData);
 
 const siteUrl = Astro.site ?? "https://ocs.com.ua";
 const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
@@ -104,8 +107,8 @@ const structuredData = [
 <Layout
 	title={_("About Us | OS-Technology Ukraine")}
 	description={_(
-		"Official exclusive distributor and certified engineering partner of WIPOTEC GmbH and MESUTRONIC Gerätebau GmbH in Ukraine. 200+ systems installed."
-	)}
+		"Official exclusive distributor and certified engineering partner of WIPOTEC GmbH and MESUTRONIC Gerätebau GmbH in Ukraine. {systems} systems installed."
+	).replace("{systems}", formatApprox(siteStats.systems))}
 >
 	{
 		structuredData.map((sd) => (
@@ -113,7 +116,7 @@ const structuredData = [
 		))
 	}
 
-	<AboutHero lang={lang} stats={globalStats} />
+	<AboutHero lang={lang} stats={globalStats} siteStats={siteStats} />
 	<ManufacturerCredentials lang={lang} />
 	<InteractiveUkraineMap lang={lang} cityHubs={cityHubs} sectors={sectorBreakdowns} />
 	<ClientDirectory lang={lang} partners={allPartners} />

@@ -2,12 +2,14 @@
 import { Image } from "astro:assets";
 import { Badge } from "@/components/ui/badge";
 import { getInlineTranslations, type Lang } from "@/i18n";
+import { formatApprox, type SiteStats } from "@/lib/about/partners-data";
 
 interface Props {
 	lang: Lang;
+	siteStats: SiteStats;
 }
 
-const { lang } = Astro.props;
+const { lang, siteStats } = Astro.props;
 const _ = getInlineTranslations(lang);
 ---
 
@@ -72,8 +74,8 @@ const _ = getInlineTranslations(lang);
 			<p class="text-muted-foreground max-w-xl text-[15px] leading-[22px]">
 				{
 					_(
-						"Advanced checkweighers and Track & Trace systems for food, pharma, and logistics. Trusted by 300+ Ukrainian manufacturers since 2013."
-					)
+						"Advanced checkweighers and Track & Trace systems for food, pharma, and logistics. Trusted by {clients} Ukrainian manufacturers since 2013."
+					).replace("{clients}", formatApprox(siteStats.clients))
 				}
 			</p>
 

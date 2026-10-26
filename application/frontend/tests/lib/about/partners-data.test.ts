@@ -5,6 +5,7 @@ import {
 	calculateGlobalStats,
 	getAllPartnersList,
 	getSectorBreakdowns,
+	getSiteStats,
 } from "@/lib/about/partners-data";
 import type { PartnersData } from "@/lib/about/types";
 
@@ -49,6 +50,18 @@ describe("partners data processing", () => {
 		expect(food?.clientCount).toBe(data.food.length);
 		expect(pharma?.clientCount).toBe(data.pharma.length);
 		expect(household?.clientCount).toBe(data.household.length);
+	});
+
+	it("derives site-wide headline stats from the partner data", () => {
+		const site = getSiteStats(data, new Date("2026-06-01"));
+		expect(site.clients).toBe(getAllPartnersList(data).length);
+		expect(site.systems).toBe(calculateGlobalStats(data).total);
+		expect(site.years).toBe(13);
+	});
+
+	it("counts years from the founding year, so they grow on later builds", () => {
+		expect(getSiteStats(data, new Date("2013-03-01")).years).toBe(0);
+		expect(getSiteStats(data, new Date("2033-03-01")).years).toBe(20);
 	});
 
 	it("formats flattened partner client list with sector tag", () => {

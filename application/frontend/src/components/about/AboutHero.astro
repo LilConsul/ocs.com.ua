@@ -10,20 +10,27 @@ import {
 	ScanLine,
 } from "lucide-react";
 import { getInlineTranslations, type Lang } from "@/i18n";
-import { formatApprox } from "@/lib/about/partners-data";
+import { formatApprox, type SiteStats } from "@/lib/about/partners-data";
 import type { EquipmentStats } from "@/lib/about/types";
 
 interface Props {
 	lang: Lang;
 	stats: EquipmentStats;
+	siteStats: SiteStats;
 }
 
-const { lang, stats } = Astro.props;
+const { lang, stats, siteStats } = Astro.props;
 const _ = getInlineTranslations(lang);
 
 const highlights = [
 	{ Icon: CalendarDays, text: _("Serving Ukraine since 2013") },
-	{ Icon: Handshake, text: _("Trusted by 300+ factories across Ukraine") },
+	{
+		Icon: Handshake,
+		text: _("Trusted by {clients} factories across Ukraine").replace(
+			"{clients}",
+			formatApprox(siteStats.clients)
+		),
+	},
 ];
 
 const kpis = [

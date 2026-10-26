@@ -31,7 +31,7 @@ msgstr ""
 msgid "About Us"
 msgstr ""
 
-#: src/pages/[lang]/about.astro:105
+#: src/pages/[lang]/about.astro:108
 msgid "About Us | OS-Technology Ukraine"
 msgstr ""
 
@@ -48,8 +48,8 @@ msgstr ""
 msgid "Address"
 msgstr ""
 
-#: src/components/homepage/HeroSection.astro:74
-msgid "Advanced checkweighers and Track & Trace systems for food, pharma, and logistics. Trusted by 300+ Ukrainian manufacturers since 2013."
+#: src/components/homepage/HeroSection.astro:76
+msgid "Advanced checkweighers and Track & Trace systems for food, pharma, and logistics. Trusted by {clients} Ukrainian manufacturers since 2013."
 msgstr ""
 
 #: src/components/homepage/IndustriesSection.astro:88
@@ -107,7 +107,7 @@ msgstr ""
 #: src/components/contact/ContactForm.astro:22
 #: src/components/about/InteractiveUkraineMap.astro:22
 #: src/components/about/ClientDirectory.astro:45
-#: src/components/about/AboutHero.astro:31
+#: src/components/about/AboutHero.astro:38
 msgid "Checkweighers"
 msgstr ""
 
@@ -115,7 +115,7 @@ msgstr ""
 msgid "Checkweighers and inspection systems meeting FDA, IFS, BRC, and GMP standards — engineered for Ukrainian manufacturers."
 msgstr ""
 
-#: src/components/homepage/HeroSection.astro:62
+#: src/components/homepage/HeroSection.astro:64
 msgid "Checkweighers, Metal Detectors, Serialization & Aggregation Systems"
 msgstr ""
 
@@ -127,11 +127,11 @@ msgstr ""
 msgid "Click a pin or region to inspect"
 msgstr ""
 
-#: src/components/homepage/PartnersSection.astro:174
+#: src/components/homepage/PartnersSection.astro:176
 msgid "Client Retention"
 msgstr ""
 
-#: src/components/homepage/StatsSection.astro:12
+#: src/components/homepage/StatsSection.astro:14
 msgid "Clients"
 msgstr ""
 
@@ -162,12 +162,12 @@ msgstr ""
 
 #: src/components/Header.astro:119
 #: src/components/Header.astro:186
+#: src/components/homepage/HeroSection.astro:88
+#: src/components/contact/ContactHero.astro:28
+#: src/components/about/AboutCta.astro:36
 #: src/components/errors/ServerErrorContent.astro:46
 #: src/components/errors/NotFoundContent.astro:54
-#: src/components/homepage/HeroSection.astro:86
-#: src/components/contact/ContactHero.astro:28
 #: src/components/catalogue/CatalogueSidebar.astro:99
-#: src/components/about/AboutCta.astro:36
 msgid "Contact Us"
 msgstr ""
 
@@ -222,7 +222,7 @@ msgstr ""
 msgid "Download PDF"
 msgstr ""
 
-#: src/pages/[lang]/index.astro:32
+#: src/pages/[lang]/index.astro:35
 msgid "Dynamic checkweighers and Track & Trace systems for food, pharmaceutical, and logistics industries in Ukraine. Official Wipotec partner."
 msgstr ""
 
@@ -292,15 +292,15 @@ msgstr ""
 msgid "Full Name"
 msgstr ""
 
-#: src/components/about/AboutHero.astro:35
+#: src/components/about/AboutHero.astro:42
 msgid "German Hardware"
 msgstr ""
 
-#: src/components/about/AboutHero.astro:67
+#: src/components/about/AboutHero.astro:74
 msgid "German Precision Engineering. Official Ukrainian Distributor."
 msgstr ""
 
-#: src/components/homepage/HeroSection.astro:65
+#: src/components/homepage/HeroSection.astro:67
 msgid "German Precision."
 msgstr ""
 
@@ -328,7 +328,7 @@ msgstr ""
 msgid "Image lightbox"
 msgstr ""
 
-#: src/components/homepage/HeroSection.astro:21
+#: src/components/homepage/HeroSection.astro:23
 msgid "Industrial Checkweigher Systems"
 msgstr ""
 
@@ -348,7 +348,7 @@ msgstr ""
 msgid "Installation Map of Ukraine"
 msgstr ""
 
-#: src/components/homepage/PartnersSection.astro:138
+#: src/components/homepage/PartnersSection.astro:140
 msgid "Installations"
 msgstr ""
 
@@ -356,7 +356,7 @@ msgstr ""
 msgid "Installed Equipment:"
 msgstr ""
 
-#: src/components/about/AboutHero.astro:30
+#: src/components/about/AboutHero.astro:37
 msgid "Installed Systems"
 msgstr ""
 
@@ -390,7 +390,7 @@ msgstr ""
 msgid "Logistics & Distribution"
 msgstr ""
 
-#: src/components/homepage/PartnersSection.astro:177
+#: src/components/homepage/PartnersSection.astro:179
 msgid "Long-term partnerships built on reliable support."
 msgstr ""
 
@@ -425,7 +425,7 @@ msgstr ""
 
 #: src/components/about/InteractiveUkraineMap.astro:23
 #: src/components/about/ClientDirectory.astro:46
-#: src/components/about/AboutHero.astro:32
+#: src/components/about/AboutHero.astro:39
 msgid "Metal Detectors"
 msgstr ""
 
@@ -462,11 +462,11 @@ msgstr ""
 msgid "OS-Technology Ukraine"
 msgstr ""
 
-#: src/components/about/AboutHero.astro:74
+#: src/components/about/AboutHero.astro:81
 msgid "OS-Technology Ukraine is the exclusive authorized distributor and certified integration partner of WIPOTEC GmbH and MESUTRONIC Gerätebau GmbH in Ukraine. We deliver world-class dynamic checkweighers, industrial metal detectors, X-Ray scanners, and pharmaceutical Track & Trace serialization lines with turnkey commissioning and factory warranty."
 msgstr ""
 
-#: src/pages/[lang]/index.astro:31
+#: src/pages/[lang]/index.astro:34
 msgid "OS-Technology Ukraine | Checkweighers & Inspection Systems"
 msgstr ""
 
@@ -474,11 +474,11 @@ msgstr ""
 msgid "Official German Engineering Credentials"
 msgstr ""
 
-#: src/components/homepage/HeroSection.astro:53
+#: src/components/homepage/HeroSection.astro:55
 msgid "Official Partner of Mesutronic GmbH"
 msgstr ""
 
-#: src/components/homepage/HeroSection.astro:42
+#: src/components/homepage/HeroSection.astro:44
 msgid "Official Partner of Wipotec GmbH"
 msgstr ""
 
@@ -486,8 +486,8 @@ msgstr ""
 msgid "Official distributorship certificates."
 msgstr ""
 
-#: src/pages/[lang]/about.astro:106
-msgid "Official exclusive distributor and certified engineering partner of WIPOTEC GmbH and MESUTRONIC Gerätebau GmbH in Ukraine. 200+ systems installed."
+#: src/pages/[lang]/about.astro:109
+msgid "Official exclusive distributor and certified engineering partner of WIPOTEC GmbH and MESUTRONIC Gerätebau GmbH in Ukraine. {systems} systems installed."
 msgstr ""
 
 #: src/components/contact/ContactForm.astro:48
@@ -508,7 +508,7 @@ msgstr ""
 msgid "Other"
 msgstr ""
 
-#: src/components/homepage/PartnersSection.astro:58
+#: src/components/homepage/PartnersSection.astro:60
 msgid "Our Clients"
 msgstr ""
 
@@ -624,7 +624,7 @@ msgstr ""
 msgid "Request Consultation"
 msgstr ""
 
-#: src/components/about/AboutHero.astro:104
+#: src/components/about/AboutHero.astro:111
 #: src/components/about/AboutCta.astro:62
 msgid "Request a quote"
 msgstr ""
@@ -651,11 +651,11 @@ msgstr ""
 msgid "Send Us a Message"
 msgstr ""
 
-#: src/components/about/AboutHero.astro:34
+#: src/components/about/AboutHero.astro:41
 msgid "Serialization Stations"
 msgstr ""
 
-#: src/components/about/AboutHero.astro:25
+#: src/components/about/AboutHero.astro:26
 msgid "Serving Ukraine since 2013"
 msgstr ""
 
@@ -697,15 +697,15 @@ msgstr ""
 msgid "Submit Inquiry"
 msgstr ""
 
-#: src/components/homepage/PartnersSection.astro:67
+#: src/components/homepage/PartnersSection.astro:69
 msgid "Supplying and servicing precision weighing equipment for major food, pharmaceutical, and chemical companies since 2013."
 msgstr ""
 
-#: src/components/homepage/StatsSection.astro:14
+#: src/components/homepage/StatsSection.astro:16
 msgid "Systems Installed"
 msgstr ""
 
-#: src/components/homepage/PartnersSection.astro:141
+#: src/components/homepage/PartnersSection.astro:143
 msgid "Systems operating across Ukrainian manufacturing facilities."
 msgstr ""
 
@@ -726,7 +726,7 @@ msgstr ""
 msgid "Technical Specs"
 msgstr ""
 
-#: src/components/homepage/PartnersSection.astro:159
+#: src/components/homepage/PartnersSection.astro:161
 msgid "Technical expertise and service support since 2013."
 msgstr ""
 
@@ -776,16 +776,16 @@ msgstr ""
 msgid "Track & Trace"
 msgstr ""
 
-#: src/components/about/AboutHero.astro:26
-msgid "Trusted by 300+ factories across Ukraine"
-msgstr ""
-
 #: src/components/about/ClientDirectory.astro:104
 msgid "Trusted by Ukraine's Industrial Flagships"
 msgstr ""
 
-#: src/components/homepage/PartnersSection.astro:63
+#: src/components/homepage/PartnersSection.astro:65
 msgid "Trusted by Ukraine's Leading Manufacturers"
+msgstr ""
+
+#: src/components/about/AboutHero.astro:29
+msgid "Trusted by {clients} factories across Ukraine"
 msgstr ""
 
 #: src/components/errors/ServerErrorContent.astro:29
@@ -796,7 +796,7 @@ msgstr ""
 msgid "Ukraine"
 msgstr ""
 
-#: src/components/homepage/HeroSection.astro:67
+#: src/components/homepage/HeroSection.astro:69
 msgid "Ukrainian Support."
 msgstr ""
 
@@ -811,11 +811,11 @@ msgstr ""
 msgid "Verified Ukrainian Industrial Footprint"
 msgstr ""
 
-#: src/components/homepage/HeroSection.astro:107
+#: src/components/homepage/HeroSection.astro:109
 msgid "View Products"
 msgstr ""
 
-#: src/components/about/AboutHero.astro:114
+#: src/components/about/AboutHero.astro:121
 msgid "View equipment"
 msgstr ""
 
@@ -845,11 +845,11 @@ msgstr ""
 msgid "Working Hours"
 msgstr ""
 
-#: src/components/homepage/StatsSection.astro:13
+#: src/components/homepage/StatsSection.astro:15
 msgid "Years in Ukraine"
 msgstr ""
 
-#: src/components/homepage/PartnersSection.astro:156
+#: src/components/homepage/PartnersSection.astro:158
 msgid "Years of Experience"
 msgstr ""
 

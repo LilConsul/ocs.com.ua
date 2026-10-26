@@ -5,6 +5,7 @@ import { resolve } from "node:path";
 import sizeOf from "image-size";
 import { Card, CardContent } from "@/components/ui/card";
 import { getInlineTranslations, type Lang } from "@/i18n";
+import { formatApprox, type SiteStats } from "@/lib/about/partners-data";
 
 interface Partner {
 	name: { en: string; ua: string };
@@ -20,10 +21,11 @@ interface PartnersByCategory {
 
 interface Props {
 	partnersByCategory: PartnersByCategory;
+	siteStats: SiteStats;
 	lang: Lang;
 }
 
-const { partnersByCategory, lang } = Astro.props;
+const { partnersByCategory, siteStats, lang } = Astro.props;
 const _ = getInlineTranslations(lang);
 
 // Helper to get image dimensions from public folder
@@ -130,7 +132,7 @@ const carouselRows = [
 					<div
 						class="font-heading text-primary mb-2 text-[36px] sm:text-[48px] leading-12 sm:leading-14 font-semibold tracking-[-0.02em]"
 					>
-						300+
+						{formatApprox(siteStats.systems)}
 					</div>
 					<div
 						class="text-muted-foreground mb-4 font-mono text-[12px] leading-4 font-medium tracking-wider uppercase"
@@ -148,7 +150,7 @@ const carouselRows = [
 					<div
 						class="font-heading text-primary mb-2 text-[36px] sm:text-[48px] leading-12 sm:leading-14 font-semibold tracking-[-0.02em]"
 					>
-						10+
+						{siteStats.years}+
 					</div>
 					<div
 						class="text-muted-foreground mb-4 font-mono text-[12px] leading-4 font-medium tracking-wider uppercase"

@@ -12,6 +12,27 @@ export function formatApprox(n: number): string {
 	return `${Math.floor(n / 5) * 5}+`;
 }
 
+/** Year the company started operating in Ukraine. */
+export const FOUNDING_YEAR = 2013;
+
+export interface SiteStats {
+	clients: number;
+	systems: number;
+	years: number;
+}
+
+/**
+ * Headline numbers shown across the site, derived from the partner data so the home
+ * and About pages always agree. Years are counted from the build date.
+ */
+export function getSiteStats(data: PartnersData, now: Date = new Date()): SiteStats {
+	return {
+		clients: getAllPartnersList(data).length,
+		systems: calculateGlobalStats(data).total,
+		years: now.getFullYear() - FOUNDING_YEAR,
+	};
+}
+
 export function calculateGlobalStats(data: PartnersData): EquipmentStats {
 	let md = 0;
 	let cw = 0;

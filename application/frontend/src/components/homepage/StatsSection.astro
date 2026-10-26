@@ -1,17 +1,19 @@
 ---
 import { getInlineTranslations, type Lang } from "@/i18n";
+import { formatApprox, type SiteStats } from "@/lib/about/partners-data";
 
 interface Props {
 	lang: Lang;
+	siteStats: SiteStats;
 }
 
-const { lang } = Astro.props;
+const { lang, siteStats } = Astro.props;
 const _ = getInlineTranslations(lang);
 
 const stats = [
-	{ value: "50+", label: _("Clients") },
-	{ value: "10+", label: _("Years in Ukraine") },
-	{ value: "300+", label: _("Systems Installed") },
+	{ value: formatApprox(siteStats.clients), label: _("Clients") },
+	{ value: `${siteStats.years}+`, label: _("Years in Ukraine") },
+	{ value: formatApprox(siteStats.systems), label: _("Systems Installed") },
 ];
 ---
 
