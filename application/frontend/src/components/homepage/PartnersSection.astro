@@ -106,7 +106,7 @@ const stats = [
 <section
 	id="partners"
 	aria-labelledby="partners-heading"
-	class="bg-background border-border-subtle/40 w-full scroll-mt-24 border-y py-16 lg:py-24"
+	class="bg-surface-container border-border-subtle/40 w-full scroll-mt-24 border-y py-16 lg:py-24"
 >
 	<div class="px-edge-margin mx-auto max-w-[1280px]">
 		<header class="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
@@ -197,8 +197,8 @@ const stats = [
 						class:list={[
 							"group/stat border-border-subtle/70 hover:border-secondary/40 flex flex-col-reverse justify-end gap-1 rounded-xl border p-5 shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-lg motion-safe:hover:-translate-y-0.5 sm:p-6",
 							featured
-								? "border-l-secondary from-secondary/10 to-surface-container border-l-4 bg-linear-to-br"
-								: "bg-surface-container",
+								? "border-l-secondary from-secondary/10 to-background border-l-4 bg-linear-to-br"
+								: "bg-background",
 						]}
 					>
 						<p class="font-body-md text-industrial-gray m-0 mt-3 text-sm leading-relaxed">{text}</p>
@@ -213,7 +213,7 @@ const stats = [
 								{value}
 							</span>
 							<span
-								class="bg-background text-secondary border-border-subtle/50 group-hover/stat:bg-secondary group-hover/stat:text-background group-hover/stat:border-secondary shrink-0 rounded-lg border p-3 transition-colors duration-300"
+								class="bg-surface-container text-secondary border-border-subtle/50 group-hover/stat:bg-secondary group-hover/stat:text-background group-hover/stat:border-secondary shrink-0 rounded-lg border p-3 transition-colors duration-300"
 								aria-hidden="true"
 							>
 								<Icon className="h-6 w-6" />
