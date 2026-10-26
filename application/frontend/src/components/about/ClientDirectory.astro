@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import { SHOW_CLIENT_EQUIPMENT } from "astro:env/server";
 import {
 	Building2,
 	ExternalLink,
@@ -66,10 +67,11 @@ const tabs = [
 const unitsOf = (p: PartnerItem) => (p.equipment?.md ?? 0) + (p.equipment?.cw ?? 0) + (p.equipment?.tqs ?? 0);
 const maxUnits = Math.max(1, ...partners.map(unitsOf));
 
-// Clients without unit counts go last (stable sort keeps the original order within each group)
-const orderedPartners = [...partners].sort(
-	(a, b) => Number(unitsOf(b) > 0) - Number(unitsOf(a) > 0)
-);
+// Clients without unit counts go last (stable sort keeps the original order within each group).
+// Skipped when counts are hidden, since the order would reveal which clients have equipment.
+const orderedPartners = SHOW_CLIENT_EQUIPMENT
+	? [...partners].sort((a, b) => Number(unitsOf(b) > 0) - Number(unitsOf(a) > 0))
+	: partners;
 ---
 
 <section
@@ -137,7 +139,7 @@ const orderedPartners = [...partners].sort(
 					const clientName = partner.name[lang];
 					const eq = partner.equipment;
 					const totalUnits = unitsOf(partner);
-					const hasData = totalUnits > 0;
+					const hasData = SHOW_CLIENT_EQUIPMENT && totalUnits > 0;
 					const CategoryIcon = categoryIcons[partner.category];
 
 					return (

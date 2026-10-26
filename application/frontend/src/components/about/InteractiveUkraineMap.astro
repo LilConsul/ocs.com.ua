@@ -1,4 +1,5 @@
 ---
+import { SHOW_CLIENT_EQUIPMENT } from "astro:env/server";
 import { geoContains, geoMercator, geoPath } from "d3-geo";
 import { type LucideIcon, MapPin, Pill, SprayCan, Utensils } from "lucide-react";
 import { feature, mesh } from "topojson-client";
@@ -250,24 +251,27 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 										))}
 									</dl>
 
-									<div class="border-border-subtle/50 mt-4 border-t pt-4 sm:mt-5">
-										<p class="font-label-caps text-industrial-gray m-0 text-[11px] uppercase">
-											{_("Active Client Facilities:")}
-										</p>
-										{hub.clients.length > 0 ? (
-											<ul class="m-0 mt-2 flex list-none flex-wrap gap-1.5 p-0">
-												{hub.clients.map((c) => (
-													<li class="font-body-md bg-background border-border-subtle/60 text-foreground max-w-full rounded-full border px-2.5 py-0.5 text-xs break-words">
-														{c[lang]}
-													</li>
-												))}
-											</ul>
-										) : (
-											<p class="font-body-md text-industrial-gray m-0 mt-2 text-sm">
-												{_("Multiple facilities active")}
+									{/* Client names next to city totals would reveal per-client counts, so they share the flag */}
+									{SHOW_CLIENT_EQUIPMENT && (
+										<div class="border-border-subtle/50 mt-4 border-t pt-4 sm:mt-5">
+											<p class="font-label-caps text-industrial-gray m-0 text-[11px] uppercase">
+												{_("Active Client Facilities:")}
 											</p>
-										)}
-									</div>
+											{hub.clients.length > 0 ? (
+												<ul class="m-0 mt-2 flex list-none flex-wrap gap-1.5 p-0">
+													{hub.clients.map((c) => (
+														<li class="font-body-md bg-background border-border-subtle/60 text-foreground max-w-full rounded-full border px-2.5 py-0.5 text-xs break-words">
+															{c[lang]}
+														</li>
+													))}
+												</ul>
+											) : (
+												<p class="font-body-md text-industrial-gray m-0 mt-2 text-sm">
+													{_("Multiple facilities active")}
+												</p>
+											)}
+										</div>
+									)}
 								</div>
 							))}
 						</div>
