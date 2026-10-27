@@ -63,6 +63,8 @@ jobs:
           CONTACT_FROM: ${{ vars.CONTACT_FROM }}
           GITHUB_CLIENT_ID: ${{ secrets.DEV_GITHUB_CLIENT_ID }}
           GITHUB_CLIENT_SECRET: ${{ secrets.DEV_GITHUB_CLIENT_SECRET }}
+          SMTP_HOST: ${{ vars.SMTP_HOST }}
+          RECAPTCHA_SECRET_KEY: ${{ secrets.DEV_RECAPTCHA_SECRET_KEY }}
 
       # Install production-only deps before packaging — the server needs them at runtime
       - name: Install production dependencies
