@@ -50,7 +50,9 @@ jobs:
         working-directory: application/infra
         run: uv run pytest tests/ -v
 
-      # Public astro:env values are inlined at build time; secrets are read at runtime on the server
+      # Public astro:env values are inlined at build time; secrets are read at runtime on the server.
+      # Server-context secret vars must also be present at build time so Astro's env schema
+      # validation does not fail during static prerendering.
       - name: Build
         run: bun run build
         env:
@@ -59,6 +61,8 @@ jobs:
           RECAPTCHA_SITE_KEY: ${{ vars.DEV_RECAPTCHA_SITE_KEY }}
           CONTACT_TO: ${{ vars.DEV_CONTACT_TO }}
           CONTACT_FROM: ${{ vars.CONTACT_FROM }}
+          GITHUB_CLIENT_ID: ${{ secrets.DEV_GITHUB_CLIENT_ID }}
+          GITHUB_CLIENT_SECRET: ${{ secrets.DEV_GITHUB_CLIENT_SECRET }}
 
       # Install production-only deps before packaging — the server needs them at runtime
       - name: Install production dependencies
