@@ -60,14 +60,16 @@ describe("breadcrumbSchema", () => {
 	it("numbers the items from 1 in order", () => {
 		const crumbs = breadcrumbSchema([
 			{ name: "Home", url: "https://ocs.com.ua/en/" },
-			{ name: "Checkweighers", url: "https://ocs.com.ua/en/catalogue/checkweigher/" },
+			{ name: "Checkweighers", url: "https://ocs.com.ua/en/catalogue/equipment/checkweigher/" },
 		]);
 		expect(crumbs["@type"]).toBe("BreadcrumbList");
 		expect(crumbs.itemListElement.map((i) => [i.position, i.name])).toEqual([
 			[1, "Home"],
 			[2, "Checkweighers"],
 		]);
-		expect(crumbs.itemListElement[1].item).toBe("https://ocs.com.ua/en/catalogue/checkweigher/");
+		expect(crumbs.itemListElement[1].item).toBe(
+			"https://ocs.com.ua/en/catalogue/equipment/checkweigher/"
+		);
 	});
 });
 
@@ -75,7 +77,7 @@ describe("productSchema", () => {
 	const base = {
 		name: "HC-SL Catchweigher",
 		description: "High-accuracy catchweigher",
-		url: "https://ocs.com.ua/en/catalogue/catchweigher/hc-sl/",
+		url: "https://ocs.com.ua/en/catalogue/equipment/catchweigher/hc-sl/",
 		lang: "en" as const,
 		site: SITE,
 	};

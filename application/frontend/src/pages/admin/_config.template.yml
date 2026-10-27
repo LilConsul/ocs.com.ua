@@ -204,7 +204,7 @@ collections:
     create: true
     delete: false
     i18n: true
-    preview_path: "{{locale}}/catalogue/{{dirname}}/{{filename}}"
+    preview_path: "{{locale}}/catalogue/equipment/{{dirname}}/{{filename}}"
     preview_path_date_field: "date"
     summary: "{{title}} [{{dirname}}/{{filename}}]"
     sortable_fields: ["commit_date", "order", "title", "commit_author"]

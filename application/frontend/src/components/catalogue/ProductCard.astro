@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import { getInlineTranslations, type Lang } from "@/i18n";
+import { productUrl } from "@/lib/catalogue-urls";
 import { type EquipmentEntry, flattenSpecs, getCategory, getSlug } from "@/lib/content-utils";
 
 interface Props {
@@ -21,9 +22,7 @@ const specs = flattenSpecs(product.data.specs)
 const firstImage = product.data.gallery?.[0] || "/placeholder.svg";
 
 // Build product URL
-const categorySlug = getCategory(product);
-const productSlug = getSlug(product);
-const productUrl = `/${lang}/catalogue/${categorySlug}/${productSlug}`;
+const href = productUrl(lang, getCategory(product), getSlug(product));
 ---
 
 <article
@@ -72,7 +71,7 @@ const productUrl = `/${lang}/catalogue/${categorySlug}/${productSlug}`;
 			}
 
 			<a
-				href={productUrl}
+				href={href}
 				class="border-secondary/40 text-secondary group-hover:border-secondary group-hover:bg-secondary/5 focus-visible:outline-secondary font-technical-data flex w-full items-center justify-center gap-2 rounded-lg border py-2.5 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
 			>
 				{_("Technical Details")}

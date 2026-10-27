@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import { getInlineTranslations, type Lang } from "@/i18n";
+import { productUrl } from "@/lib/catalogue-urls";
 import { type EquipmentEntry, flattenSpecs, getCategory, getSlug } from "@/lib/content-utils";
 
 interface Props {
@@ -42,7 +43,7 @@ const _ = getInlineTranslations(lang);
 					{products.map((item, index) => {
 						const itemCategory = getCategory(item);
 						const itemSlug = getSlug(item);
-						const itemUrl = `/${lang}/catalogue/${itemCategory}/${itemSlug}`;
+						const itemUrl = productUrl(lang, itemCategory, itemSlug);
 						const itemImg = item.data.gallery?.[0] || "/placeholder.svg";
 						const itemSpec = flattenSpecs(item.data.specs)[0];
 

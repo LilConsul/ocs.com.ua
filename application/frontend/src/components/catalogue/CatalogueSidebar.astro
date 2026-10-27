@@ -1,5 +1,6 @@
 ---
 import { getInlineTranslations, type Lang } from "@/i18n";
+import { categoryUrl } from "@/lib/catalogue-urls";
 import type { EquipmentType } from "@/lib/content-utils";
 
 interface Props {
@@ -74,7 +75,7 @@ const _ = getInlineTranslations(lang);
 
 					return (
 						<a
-							href={`/${lang}/catalogue/${cat.slug}`}
+							href={categoryUrl(lang, cat.slug)}
 							aria-current={isActive ? "page" : undefined}
 							class={`focus-visible:outline-secondary flex cursor-pointer items-center gap-3 rounded-lg border px-4 py-3 transition-all focus-visible:outline-2 focus-visible:outline-offset-2 ${
 								isActive

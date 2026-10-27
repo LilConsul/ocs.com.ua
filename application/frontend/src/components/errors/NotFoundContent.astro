@@ -1,6 +1,7 @@
 ---
 import { ArrowRight, House, LayoutGrid } from "lucide-react";
 import { getInlineTranslations, type Lang } from "@/i18n";
+import { categoryUrl } from "@/lib/catalogue-urls";
 import ErrorSection from "./ErrorSection.astro";
 
 interface Props {
@@ -37,7 +38,7 @@ const _ = getInlineTranslations(lang);
 			{_("Back to Home")}
 		</a>
 		<a
-			href={`/${lang}/catalogue/checkweigher`}
+			href={categoryUrl(lang, "checkweigher")}
 			class="border-secondary text-secondary hover:bg-secondary/5 inline-flex items-center justify-center gap-2 rounded-lg border-2 px-7 py-3.5 text-[15px] leading-[22px] font-medium transition-colors"
 		>
 			<LayoutGrid className="size-[18px]" strokeWidth={1.5} />

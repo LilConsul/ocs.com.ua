@@ -2,6 +2,7 @@
 import { ArrowRight, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getInlineTranslations, type Lang } from "@/i18n";
+import { categoryUrl } from "@/lib/catalogue-urls";
 
 interface Props {
 	currentLang: Lang;
@@ -19,7 +20,11 @@ const getLanguagePath = (targetLang: string) => {
 };
 
 const navLinks = [
-	{ href: `/${lang}/catalogue/checkweigher`, label: _("Catalogue"), pattern: "/catalogue" },
+	{
+		href: categoryUrl(lang, "checkweigher"),
+		label: _("Catalogue"),
+		pattern: "/catalogue/equipment",
+	},
 	{ href: `/${lang}/catalogue`, label: _("Industries"), pattern: "/industries" },
 	{ href: `/${lang}/wiki`, label: _("Wiki"), pattern: "/wiki" },
 	{ href: `/${lang}/about`, label: _("About Us"), pattern: "/about" },
