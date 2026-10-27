@@ -10,20 +10,27 @@ import {
 	ScanLine,
 } from "lucide-react";
 import { getInlineTranslations, type Lang } from "@/i18n";
-import { formatApprox } from "@/lib/about/partners-data";
+import { formatApprox, type SiteStats } from "@/lib/about/partners-data";
 import type { EquipmentStats } from "@/lib/about/types";
 
 interface Props {
 	lang: Lang;
 	stats: EquipmentStats;
+	siteStats: SiteStats;
 }
 
-const { lang, stats } = Astro.props;
+const { lang, stats, siteStats } = Astro.props;
 const _ = getInlineTranslations(lang);
 
 const highlights = [
 	{ Icon: CalendarDays, text: _("Serving Ukraine since 2013") },
-	{ Icon: Handshake, text: _("Trusted by 300+ factories across Ukraine") },
+	{
+		Icon: Handshake,
+		text: _("Trusted by {clients} factories across Ukraine").replace(
+			"{clients}",
+			formatApprox(siteStats.clients)
+		),
+	},
 ];
 
 const kpis = [
@@ -57,7 +64,7 @@ const kpis = [
 					class="hero-rise font-label-caps text-secondary mb-4 flex items-center gap-3 text-xs tracking-widest uppercase"
 					style="--d:0"
 				>
-					<span class="bg-secondary h-px w-8" aria-hidden="true"></span>
+					<span class="eyebrow-rule bg-secondary h-px w-8" aria-hidden="true"></span>
 					WIPOTEC · MESUTRONIC
 				</p>
 				<h1
@@ -72,7 +79,7 @@ const kpis = [
 				>
 					{
 						_(
-							"OS-Technology Ukraine is the exclusive authorized distributor and certified integration partner of WIPOTEC GmbH and MESUTRONIC Gerätebau GmbH in Ukraine. We deliver world-class dynamic checkweighers, industrial metal detectors, X-Ray scanners, and pharmaceutical Track & Trace serialization lines with turnkey commissioning and factory warranty."
+							"OS-Technology Ukraine is the exclusive authorized distributor and certified integration partner of WIPOTEC GmbH and MESUTRONIC Gerätebau GmbH in Ukraine. We supply dynamic checkweighers, industrial metal detectors, X-Ray scanners, and Track & Trace serialization and aggregation systems for the pharmaceutical industry with turnkey commissioning and factory warranty."
 						)
 					}
 				</p>

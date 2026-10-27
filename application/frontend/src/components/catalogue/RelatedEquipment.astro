@@ -27,7 +27,7 @@ const _ = getInlineTranslations(lang);
 			<div class="px-edge-margin relative mx-auto max-w-[1600px]">
 				<header class="mb-12">
 					<span class="font-label-caps text-secondary flex items-center gap-3 text-xs font-semibold tracking-widest uppercase">
-						<span class="bg-secondary h-px w-8" aria-hidden="true" />
+						<span class="eyebrow-rule bg-secondary h-px w-8" aria-hidden="true" />
 						{_("Catalogue")}
 					</span>
 					<h2
@@ -120,5 +120,5 @@ const _ = getInlineTranslations(lang);
 	import { revealOnce } from "@/lib/anims/reveal-once";
 
 	const section = document.querySelector<HTMLElement>("[data-related]");
-	if (section) revealOnce(section);
+	if (section) revealOnce(section, 0.15);
 </script>

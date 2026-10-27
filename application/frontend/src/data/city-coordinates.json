@@ -48,5 +48,20 @@
 		"lat": 49.5883,
 		"lng": 34.5514,
 		"name": { "en": "Poltava", "ua": "Полтава" }
+	},
+	"Rivne": {
+		"lat": 50.6199,
+		"lng": 26.2516,
+		"name": { "en": "Rivne", "ua": "Рівне" }
+	},
+	"Kryvyi Rih": {
+		"lat": 47.9105,
+		"lng": 33.3918,
+		"name": { "en": "Kryvyi Rih", "ua": "Кривий Ріг" }
+	},
+	"Zakarpattia": {
+		"lat": 48.4439,
+		"lng": 22.7178,
+		"name": { "en": "Zakarpattia", "ua": "Закарпаття" }
 	}
 }

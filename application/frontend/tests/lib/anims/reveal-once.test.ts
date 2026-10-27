@@ -9,7 +9,12 @@ describe("revealOnce animation helper", () => {
 	let observedElements: unknown[];
 	let observerOptions: IntersectionObserverInit | undefined;
 
+	// Which media queries currently match; everything else reports false
+	let matching: string[];
+	const matches = (query: string) => matching.includes(query);
+
 	beforeEach(() => {
+		matching = [];
 		originalWindow = globalThis.window;
 		originalIntersectionObserver = globalThis.IntersectionObserver;
 		disconnectCalled = false;
@@ -46,7 +51,7 @@ describe("revealOnce animation helper", () => {
 
 		const mockWin = {
 			matchMedia: mock((query: string) => ({
-				matches: false,
+				matches: matches(query),
 				media: query,
 				onchange: null,
 				addListener: () => {},
@@ -71,9 +76,21 @@ describe("revealOnce animation helper", () => {
 		return { dataset: {} } as unknown as HTMLElement;
 	};
 
-	it("uses threshold 0 so tall elements trigger reliably on mobile viewports", () => {
-		const el = createElement();
-		revealOnce(el);
+	it("uses the requested threshold on larger screens", () => {
+		revealOnce(createElement(), 0.35);
+
+		expect(observerOptions?.threshold).toBe(0.35);
+	});
+
+	it("defaults to a 0.2 threshold on larger screens", () => {
+		revealOnce(createElement());
+
+		expect(observerOptions?.threshold).toBe(0.2);
+	});
+
+	it("forces threshold 0 on mobile so tall elements trigger reliably", () => {
+		matching = ["(max-width: 767px)"];
+		revealOnce(createElement(), 0.35);
 
 		expect(observerOptions?.threshold).toBe(0);
 	});

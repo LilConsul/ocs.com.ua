@@ -1,39 +1,128 @@
 ---
+import { Boxes, CalendarDays, Handshake } from "lucide-react";
 import { getInlineTranslations, type Lang } from "@/i18n";
+import { formatApprox, type SiteStats } from "@/lib/about/partners-data";
 
 interface Props {
 	lang: Lang;
+	siteStats: SiteStats;
 }
 
-const { lang } = Astro.props;
+const { lang, siteStats } = Astro.props;
 const _ = getInlineTranslations(lang);
 
 const stats = [
-	{ value: "50+", label: _("Clients") },
-	{ value: "10+", label: _("Years in Ukraine") },
-	{ value: "300+", label: _("Systems Installed") },
-];
+	{ Icon: Handshake, value: formatApprox(siteStats.clients), label: _("Clients") },
+	{ Icon: CalendarDays, value: `${siteStats.years}+`, label: _("Years in Ukraine") },
+	{ Icon: Boxes, value: formatApprox(siteStats.systems), label: _("Systems Installed") },
+].map((stat) => {
+	// "225+" / "12+" → count up to the number and keep the suffix; "<5" and "0" stay static
+	const match = stat.value.match(/^(\d+)(\D*)$/);
+	const countTo = match && Number(match[1]) > 0 ? Number(match[1]) : undefined;
+	return { ...stat, countTo, countSuffix: match?.[2] ?? "" };
+});
 ---
 
-<section class="border-border bg-muted/30 border-y py-24">
-	<div class="mx-auto max-w-7xl px-8">
-		<div
-			class="divide-border grid grid-cols-1 gap-12 divide-y md:grid-cols-3 md:divide-x md:divide-y-0"
+<section
+	class="bg-surface-container border-border-subtle/40 relative w-full overflow-hidden border-b py-12 lg:py-16"
+	data-stats-strip
+>
+	<div class="px-edge-margin relative mx-auto max-w-[1280px]">
+		<dl
+			class="divide-border-subtle/60 m-0 mx-auto grid max-w-sm grid-cols-1 divide-y p-0 md:max-w-none md:grid-cols-3 md:divide-x md:divide-y-0"
 		>
 			{
-				stats.map((stat, index) => (
+				stats.map(({ Icon, value, label, countTo, countSuffix }, i) => (
 					<div
-						class={`flex flex-col items-center text-center ${index === 0 ? "pt-8 first:pt-0 md:pt-0" : "pt-8 md:pt-0"}`}
+						class="group/stat stat-cell flex items-center justify-start gap-5 py-6 first:pt-0 last:pb-0 md:justify-center md:px-8 md:py-0"
+						style={`--i:${i}`}
 					>
-						<span class="font-heading text-primary mb-2 text-[36px] leading-[44px] font-bold">
-							{stat.value}
-						</span>
-						<span class="text-muted-foreground font-mono text-[12px] leading-[16px] font-medium tracking-widest uppercase">
-							{stat.label}
-						</span>
+						<div
+							class="bg-background text-secondary border-border-subtle/50 group-hover/stat:bg-secondary group-hover/stat:text-background group-hover/stat:border-secondary shrink-0 rounded-lg border p-3 shadow-xs transition-colors duration-300"
+							aria-hidden="true"
+						>
+							<Icon className="h-6 w-6" />
+						</div>
+						<div class="flex flex-col-reverse justify-end gap-1">
+							<dt class="font-label-caps text-industrial-gray text-xs tracking-widest uppercase">
+								{label}
+							</dt>
+							<dd
+								class="font-technical-data text-foreground m-0 text-3xl leading-none font-bold tabular-nums sm:text-4xl"
+								data-count-to={countTo}
+								data-count-suffix={countSuffix}
+								data-count-delay={i * 120}
+							>
+								{value}
+							</dd>
+						</div>
 					</div>
 				))
 			}
-		</div>
+		</dl>
 	</div>
 </section>
+
+<style>
+	@media (prefers-reduced-motion: no-preference) {
+		/* Hidden only once the script has confirmed the animation will run */
+		[data-stats-strip][data-anim="ready"] .stat-cell {
+			opacity: 0;
+		}
+		[data-stats-strip][data-anim="in"] .stat-cell {
+			animation: stat-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+			animation-delay: calc(var(--i, 0) * 100ms);
+		}
+	}
+
+	@keyframes stat-rise {
+		from {
+			opacity: 0;
+			transform: translateY(14px);
+		}
+	}
+</style>
+
+<script>
+	// Count the numbers up when the strip first scrolls into view; the server-rendered text is already the final value
+	const strip = document.querySelector<HTMLElement>("[data-stats-strip]");
+
+	if (strip && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+		const DURATION = 1200;
+		const counters = strip.querySelectorAll<HTMLElement>("[data-count-to]");
+		const prepared = Array.from(counters).map((el) => ({
+			el,
+			target: Number(el.dataset.countTo),
+			suffix: el.dataset.countSuffix ?? "",
+			delay: Number(el.dataset.countDelay ?? 0),
+		}));
+
+		strip.dataset.anim = "ready";
+		for (const { el, suffix } of prepared) el.textContent = `0${suffix}`;
+
+		const run = () => {
+			strip.dataset.anim = "in";
+			for (const { el, target, suffix, delay } of prepared) {
+				if (!Number.isFinite(target)) continue;
+				const startedAt = performance.now();
+				const tick = (now: number) => {
+					const t = Math.min(1, Math.max(0, (now - startedAt - delay) / DURATION));
+					const eased = 1 - (1 - t) ** 3;
+					el.textContent = `${Math.round(target * eased)}${suffix}`;
+					if (t < 1) requestAnimationFrame(tick);
+				};
+				requestAnimationFrame(tick);
+			}
+		};
+
+		const observer = new IntersectionObserver(
+			([entry]) => {
+				if (!entry?.isIntersecting) return;
+				observer.disconnect();
+				run();
+			},
+			{ threshold: 0.4 }
+		);
+		observer.observe(strip);
+	}
+</script>

@@ -1,6 +1,7 @@
 ---
+import { SHOW_CLIENT_EQUIPMENT } from "astro:env/server";
 import { geoContains, geoMercator, geoPath } from "d3-geo";
-import { type LucideIcon, MapPin, Pill, SprayCan, Utensils } from "lucide-react";
+import { Info, type LucideIcon, MapPin, Pill, SprayCan, Utensils } from "lucide-react";
 import { feature, mesh } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
 import { getInlineTranslations, type Lang } from "@/i18n";
@@ -104,11 +105,12 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 	<div class="px-edge-margin mx-auto max-w-[1280px]">
 		<header class="mb-12 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
 			<div>
-				<span
-					class="font-label-caps text-secondary block text-xs font-semibold tracking-widest uppercase"
+				<p
+					class="font-label-caps text-secondary m-0 flex items-center gap-3 text-xs font-semibold tracking-widest uppercase"
 				>
+					<span class="eyebrow-rule bg-secondary h-px w-8" aria-hidden="true"></span>
 					{_("Deployment Breakdown")}
-				</span>
+				</p>
 				<h2
 					id="map-section-title"
 					class="font-headline-lg text-foreground mt-2 text-2xl font-semibold tracking-tight text-balance break-words sm:text-3xl lg:text-4xl"
@@ -250,24 +252,27 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 										))}
 									</dl>
 
-									<div class="border-border-subtle/50 mt-4 border-t pt-4 sm:mt-5">
-										<p class="font-label-caps text-industrial-gray m-0 text-[11px] uppercase">
-											{_("Active Client Facilities:")}
-										</p>
-										{hub.clients.length > 0 ? (
-											<ul class="m-0 mt-2 flex list-none flex-wrap gap-1.5 p-0">
-												{hub.clients.map((c) => (
-													<li class="font-body-md bg-background border-border-subtle/60 text-foreground max-w-full rounded-full border px-2.5 py-0.5 text-xs break-words">
-														{c[lang]}
-													</li>
-												))}
-											</ul>
-										) : (
-											<p class="font-body-md text-industrial-gray m-0 mt-2 text-sm">
-												{_("Multiple facilities active")}
+									{/* Client names next to city totals would reveal per-client counts, so they share the flag */}
+									{SHOW_CLIENT_EQUIPMENT && (
+										<div class="border-border-subtle/50 mt-4 border-t pt-4 sm:mt-5">
+											<p class="font-label-caps text-industrial-gray m-0 text-[11px] uppercase">
+												{_("Active Client Facilities:")}
 											</p>
-										)}
-									</div>
+											{hub.clients.length > 0 ? (
+												<ul class="m-0 mt-2 flex list-none flex-wrap gap-1.5 p-0">
+													{hub.clients.map((c) => (
+														<li class="font-body-md bg-background border-border-subtle/60 text-foreground max-w-full rounded-full border px-2.5 py-0.5 text-xs break-words">
+															{c[lang]}
+														</li>
+													))}
+												</ul>
+											) : (
+												<p class="font-body-md text-industrial-gray m-0 mt-2 text-sm">
+													{_("Multiple facilities active")}
+												</p>
+											)}
+										</div>
+									)}
 								</div>
 							))}
 						</div>
@@ -339,6 +344,19 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 				}
 			</div>
 		</div>
+
+		<p
+			class="font-body-md text-industrial-gray m-0 mt-8 flex items-start gap-2 text-xs leading-relaxed sm:text-sm"
+		>
+			<Info className="text-secondary mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+			<span>
+				{
+					_(
+						"Figures are approximate and may not reflect exact numbers. Not all clients are shown on this page."
+					)
+				}
+			</span>
+		</p>
 	</div>
 </section>
 
@@ -501,7 +519,7 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 		// Play the intro animations the first time each block scrolls into view
 		const stage = root.querySelector<HTMLElement>("[data-map-pins]");
 		const cards = root.querySelector<HTMLElement>("[data-sector-cards]");
-		if (stage) revealOnce(stage);
-		if (cards) revealOnce(cards);
+		if (stage) revealOnce(stage, 0.35);
+		if (cards) revealOnce(cards, 0.15);
 	}
 </script>

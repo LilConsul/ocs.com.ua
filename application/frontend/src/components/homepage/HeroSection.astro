@@ -1,108 +1,109 @@
 ---
 import { Image } from "astro:assets";
-import { Badge } from "@/components/ui/badge";
+import { ArrowRight } from "lucide-react";
 import { getInlineTranslations, type Lang } from "@/i18n";
+import { formatApprox, type SiteStats } from "@/lib/about/partners-data";
 
 interface Props {
 	lang: Lang;
+	siteStats: SiteStats;
 }
 
-const { lang } = Astro.props;
+const { lang, siteStats } = Astro.props;
 const _ = getInlineTranslations(lang);
+
+const partners = [_("Official Partner of Wipotec GmbH"), _("Official Partner of Mesutronic GmbH")];
 ---
 
-<section class="relative flex min-h-180 items-center overflow-hidden pt-20">
-	{/* Background Image */}
+<section
+	class="border-border-subtle/60 relative flex min-h-[34rem] w-full items-center overflow-hidden border-b pt-20 pb-16 md:min-h-180"
+>
+	{/* Background image + readability overlay */}
 	<div class="absolute inset-0 z-0">
-		<div class="from-background via-background absolute inset-0 z-10 bg-linear-to-r to-transparent">
-		</div>
 		<Image
 			src="/images/main_page.webp"
 			alt={_("Industrial Checkweigher Systems")}
-			class="ml-8 h-full w-full object-cover object-right"
+			class="h-full w-full object-cover object-right"
 			loading="eager"
 			width={1920}
 			height={1080}
 		/>
+		{/* Top-to-bottom on phones (text sits over the photo), left-to-right from md up */}
+		<div
+			class="from-background via-background/90 to-background/50 md:via-background/85 absolute inset-0 bg-linear-to-b md:bg-linear-to-r md:to-transparent"
+			aria-hidden="true"
+		>
+		</div>
+		{/* Soft fade into the next section */}
+		<div
+			class="to-background absolute inset-x-0 bottom-0 h-24 bg-linear-to-b from-transparent"
+			aria-hidden="true"
+		>
+		</div>
+		<div
+			class="bg-secondary/10 pointer-events-none absolute -top-32 -left-24 size-[28rem] rounded-full blur-3xl"
+			aria-hidden="true"
+		>
+		</div>
 	</div>
 
 	{/* Content */}
-	<div class="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-12 gap-6 px-4 sm:px-8">
-		<div class="col-span-12 flex flex-col gap-6 md:col-span-8 lg:col-span-7">
-			{/* Badges */}
-			<div class="inline-flex w-fit max-w-full flex-col items-start gap-2.5">
-				<Badge
-					variant="outline"
-					className="border-border bg-background/90 inline-flex max-w-full items-center gap-2 rounded-full border px-4 py-1.5 backdrop-blur-sm"
-				>
-					<span class="bg-primary h-2 w-2 shrink-0 animate-pulse rounded-full"></span>
-					<span
-						class="text-muted-foreground font-mono text-[12px] leading-[16px] font-medium tracking-[0.05em] uppercase break-words"
-					>
-						{_("Official Partner of Wipotec GmbH")}
-					</span>
-				</Badge>
-				<Badge
-					variant="outline"
-					className="border-border bg-background/90 inline-flex max-w-full items-center gap-2 rounded-full border px-4 py-1.5 backdrop-blur-sm"
-				>
-					<span class="bg-primary h-2 w-2 shrink-0 animate-pulse rounded-full"></span>
-					<span
-						class="text-muted-foreground font-mono text-[12px] leading-[16px] font-medium tracking-[0.05em] uppercase break-words"
-					>
-						{_("Official Partner of Mesutronic GmbH")}
-					</span>
-				</Badge>
-			</div>
+	<div class="px-edge-margin relative z-10 mx-auto w-full max-w-[1280px]">
+		<div class="flex max-w-3xl flex-col gap-6">
+			{/* Partner badges */}
+			<ul class="hero-rise m-0 flex list-none flex-col items-start gap-2 p-0" style="--d:0">
+				{
+					partners.map((label) => (
+						<li class="bg-background/80 border-border-subtle/60 font-label-caps text-industrial-gray inline-flex max-w-full items-center gap-2.5 rounded-full border px-4 py-1.5 text-[11px] tracking-widest uppercase shadow-xs backdrop-blur-sm">
+							<span class="relative flex size-2 shrink-0" aria-hidden="true">
+								<span class="bg-secondary/50 absolute inset-0 rounded-full motion-safe:animate-ping" />
+								<span class="bg-secondary relative size-2 rounded-full" />
+							</span>
+							<span class="text-balance">{label}</span>
+						</li>
+					))
+				}
+			</ul>
 
 			{/* Title */}
 			<h1
-				class="font-heading text-foreground text-[28px] leading-[36px] font-semibold tracking-[-0.02em] break-words md:text-[42px] md:leading-[50px]"
+				class="hero-rise font-display-lg text-foreground m-0 text-3xl tracking-tight text-balance sm:text-4xl lg:text-5xl"
+				style="--d:1"
 			>
 				{_("Checkweighers, Metal Detectors, Serialization & Aggregation Systems")}
-				<br />
-				<span class="text-muted-foreground">
+				<span class="text-secondary mt-2 block">
 					{_("German Precision.")}
-					<br />
 					{_("Ukrainian Support.")}
 				</span>
 			</h1>
 
 			{/* Description */}
-			<p class="text-muted-foreground max-w-xl text-[15px] leading-[22px]">
+			<p
+				class="hero-rise font-body-md text-industrial-gray m-0 max-w-xl text-base leading-relaxed lg:text-lg"
+				style="--d:2"
+			>
 				{
 					_(
-						"Advanced checkweighers and Track & Trace systems for food, pharma, and logistics. Trusted by 300+ Ukrainian manufacturers since 2013."
-					)
+						"Advanced checkweighers and Track & Trace systems for food, pharma, and logistics. Trusted by {clients} Ukrainian manufacturers since 2013."
+					).replace("{clients}", formatApprox(siteStats.clients))
 				}
 			</p>
 
-			{/* CTA Buttons */}
-			<div class="flex flex-col gap-3 pt-2 sm:flex-row">
+			{/* CTA buttons */}
+			<div class="hero-rise flex flex-col gap-3 pt-2 sm:flex-row" style="--d:3">
 				<a
 					href={`/${lang}/contact`}
-					class="bg-primary text-primary-foreground inline-flex items-center justify-center gap-2 rounded-lg px-7 py-3.5 text-[15px] leading-[22px] font-medium transition-opacity hover:opacity-90"
+					class="group bg-primary text-primary-foreground focus-visible:outline-secondary inline-flex items-center justify-center gap-2 rounded-lg px-7 py-3.5 text-[15px] leading-[22px] font-medium shadow-xs transition-[opacity,box-shadow] hover:opacity-90 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2"
 				>
 					{_("Contact Us")}
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="18"
-						height="18"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						class="lucide lucide-arrow-right"
-					>
-						<path d="M5 12h14"></path>
-						<path d="m12 5 7 7-7 7"></path>
-					</svg>
+					<ArrowRight
+						className="size-[18px] transition-transform duration-200 group-hover:translate-x-1"
+						aria-hidden="true"
+					/>
 				</a>
 				<a
 					href={`/${lang}#catalogue`}
-					class="border-secondary text-secondary hover:bg-secondary/5 inline-flex items-center justify-center gap-2 rounded-lg border-2 px-7 py-3.5 text-[15px] leading-[22px] font-medium transition-colors"
+					class="border-secondary text-secondary hover:bg-secondary/5 focus-visible:outline-secondary inline-flex items-center justify-center gap-2 rounded-lg border-2 px-7 py-3.5 text-[15px] leading-[22px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
 				>
 					{_("View Products")}
 				</a>
@@ -110,3 +111,19 @@ const _ = getInlineTranslations(lang);
 		</div>
 	</div>
 </section>
+
+<style>
+	@media (prefers-reduced-motion: no-preference) {
+		.hero-rise {
+			animation: hero-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+			animation-delay: calc(var(--d, 0) * 90ms);
+		}
+	}
+
+	@keyframes hero-rise {
+		from {
+			opacity: 0;
+			transform: translateY(18px);
+		}
+	}
+</style>

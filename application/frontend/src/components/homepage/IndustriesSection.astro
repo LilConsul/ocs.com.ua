@@ -13,81 +13,108 @@ const { lang } = Astro.props;
 const _ = getInlineTranslations(lang);
 ---
 
-<section class="relative mx-auto max-w-7xl overflow-hidden px-4 py-24 sm:px-8 md:py-32">
-	<div class="relative z-10 mb-16">
-		<div
-			class="text-primary mb-4 flex items-center gap-2 font-mono text-[12px] leading-[16px] font-medium tracking-[0.05em] uppercase"
-		>
-			<span class="bg-primary h-[1px] w-8"></span>
-			{_("Industries We Serve")}
-		</div>
-		<div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
-			<div class="max-w-2xl">
+<section
+	id="industries"
+	aria-labelledby="industries-heading"
+	class="bg-background w-full scroll-mt-24 py-16 lg:py-24"
+>
+	<div class="px-edge-margin mx-auto max-w-[1280px]">
+		<header class="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+			<div>
+				<p
+					class="font-label-caps text-secondary m-0 flex items-center gap-3 text-xs font-semibold tracking-widest uppercase"
+				>
+					<span class="eyebrow-rule bg-secondary h-px w-8" aria-hidden="true"></span>
+					{_("Industries We Serve")}
+				</p>
 				<h2
-					class="font-heading text-foreground mb-4 text-[28px] leading-[36px] font-semibold tracking-tight break-words sm:text-[32px] sm:leading-[40px] md:text-[48px] md:leading-[56px] md:tracking-[-0.02em]"
+					id="industries-heading"
+					class="font-headline-lg text-foreground mt-2 text-2xl font-semibold tracking-tight text-balance sm:text-3xl lg:text-4xl"
 				>
 					{_("Solutions for Every Industry")}
 				</h2>
-				<p class="text-muted-foreground text-[14px] leading-[22px]">
-					{
-						_(
-							"Checkweighers and inspection systems meeting FDA, IFS, BRC, and GMP standards — engineered for Ukrainian manufacturers."
-						)
-					}
-				</p>
+			</div>
+			<p class="font-body-md text-industrial-gray max-w-lg lg:max-w-xl text-sm leading-relaxed md:text-right">
+				{
+					_(
+						"Checkweighers and inspection systems meeting FDA, IFS, BRC, and GMP standards — engineered for Ukrainian manufacturers."
+					)
+				}
+			</p>
+		</header>
+
+		<div class="gap-gutter grid grid-cols-1 md:grid-cols-12" data-bento>
+			<div class="bento-item md:col-span-6" style="--i:0">
+				<IndustryCard
+					title={_("Food & Beverage")}
+					description={_(
+						"Hygienic checkweighers meeting food safety standards (FDA, IFS, BRC). Built for production lines."
+					)}
+					icon={Utensils}
+					ctaText={_("Learn More")}
+				/>
+			</div>
+
+			<div class="bento-item md:col-span-6" style="--i:1">
+				<IndustryCard
+					title={_("Pharmaceutical")}
+					description={_(
+						"Precision checkweighers with Track & Trace serialization. GMP-compliant and audit-ready."
+					)}
+					icon={Pill}
+					ctaText={_("Learn More")}
+				/>
+			</div>
+
+			<div class="bento-item md:col-span-4" style="--i:2">
+				<IndustryCardSmall
+					title={_("Cosmetics")}
+					description={_("Quality control and filling inspection systems.")}
+					icon={Sparkles}
+				/>
+			</div>
+
+			<div class="bento-item md:col-span-4" style="--i:3">
+				<IndustryCardSmall
+					title={_("Logistics & Distribution")}
+					description={_("High-speed checkweighers for warehouses and fulfillment centers.")}
+					icon={Warehouse}
+				/>
+			</div>
+
+			<div class="bento-item md:col-span-4" style="--i:4">
+				<IndustryCardCTA
+					title={_("All Industries")}
+					subtitle={_("Explore industry-specific solutions")}
+				/>
 			</div>
 		</div>
 	</div>
-
-	<div class="bento-grid grid grid-cols-1 gap-6 md:grid-cols-12">
-		{/* Food - Large Card (6 cols) */}
-		<div class="md:col-span-6">
-			<IndustryCard
-				title={_("Food & Beverage")}
-				description={_(
-					"Hygienic checkweighers meeting food safety standards (FDA, IFS, BRC). Built for production lines."
-				)}
-				icon={Utensils}
-				ctaText={_("Learn More")}
-			/>
-		</div>
-
-		{/* Pharma - Large Card (6 cols) */}
-		<div class="md:col-span-6">
-			<IndustryCard
-				title={_("Pharmaceutical")}
-				description={_(
-					"Precision checkweighers with Track & Trace serialization. GMP-compliant and audit-ready."
-				)}
-				icon={Pill}
-				ctaText={_("Learn More")}
-			/>
-		</div>
-
-		{/* Cosmetics - Small Card (4 cols) */}
-		<div class="md:col-span-4">
-			<IndustryCardSmall
-				title={_("Cosmetics")}
-				description={_("Quality control and filling inspection systems.")}
-				icon={Sparkles}
-			/>
-		</div>
-
-		{/* Logistics - Small Card (4 cols) */}
-		<div class="md:col-span-4">
-			<IndustryCardSmall
-				title={_("Logistics & Distribution")}
-				description={_("High-speed checkweighers for warehouses and fulfillment centers.")}
-				icon={Warehouse}
-			/>
-		</div>
-
-		{/* View All CTA - Small Card (4 cols) */}
-		<div class="md:col-span-4">
-			<IndustryCardCTA
-				title={_("All Industries")}
-				subtitle={_("Explore industry-specific solutions")}
-			/>
-		</div>
-	</div>
 </section>
+
+<style>
+	@media (prefers-reduced-motion: no-preference) {
+		/* Hidden only once the script has confirmed the animation will run */
+		[data-bento][data-anim="ready"] .bento-item {
+			opacity: 0;
+		}
+		[data-bento][data-anim="in"] .bento-item {
+			animation: bento-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+			animation-delay: calc(var(--i, 0) * 100ms);
+		}
+	}
+
+	@keyframes bento-rise {
+		from {
+			opacity: 0;
+			transform: translateY(14px);
+		}
+	}
+</style>
+
+<script>
+	import { revealOnce } from "@/lib/anims/reveal-once";
+
+	const grid = document.querySelector<HTMLElement>("[data-bento]");
+	if (grid) revealOnce(grid, 0.15);
+</script>

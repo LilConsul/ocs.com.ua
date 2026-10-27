@@ -7,6 +7,8 @@ import partnersData from "@/data/partners.json";
 import { getInlineTranslations, isValidLang, type Lang } from "@/i18n";
 import { languages } from "@/i18n/ui";
 import Layout from "@/layouts/Layout.astro";
+import { getSiteStats } from "@/lib/about/partners-data";
+import type { PartnersData } from "@/lib/about/types";
 import { organizationSchema, websiteSchema } from "@/lib/structured-data";
 
 export function getStaticPaths() {
@@ -25,6 +27,7 @@ const _ = getInlineTranslations(lang);
 
 const site = Astro.site ?? "https://ocs.com.ua";
 const structuredData = [organizationSchema(lang, site), websiteSchema(lang, site)];
+const siteStats = getSiteStats(partnersData as PartnersData);
 ---
 
 <Layout
@@ -34,8 +37,8 @@ const structuredData = [organizationSchema(lang, site), websiteSchema(lang, site
 	)}
 >
 	<script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
-	<HeroSection lang={lang} />
-	<StatsSection lang={lang} />
+	<HeroSection lang={lang} siteStats={siteStats} />
+	<StatsSection lang={lang} siteStats={siteStats} />
 	<IndustriesSection lang={lang} />
-	<PartnersSection partnersByCategory={partnersData} lang={lang} />
+	<PartnersSection partnersByCategory={partnersData} siteStats={siteStats} lang={lang} />
 </Layout>

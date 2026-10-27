@@ -1,8 +1,12 @@
 ---
 import { Image } from "astro:assets";
+import { SHOW_CLIENT_EQUIPMENT } from "astro:env/server";
 import {
 	Building2,
+	ChevronLeft,
+	ChevronRight,
 	ExternalLink,
+	Info,
 	type LucideIcon,
 	MapPin,
 	Pill,
@@ -56,6 +60,13 @@ const countBy = (category: PartnerItem["category"]) =>
 const tabClass =
 	"client-tab font-technical-data border-border-subtle/60 bg-background text-industrial-gray hover:text-foreground hover:border-secondary/40 focus-visible:outline-secondary aria-pressed:bg-foreground aria-pressed:text-background aria-pressed:border-foreground inline-flex max-w-full cursor-pointer items-center gap-2 rounded-full border px-3.5 py-2 text-xs shadow-xs transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 sm:px-4";
 
+// 3 columns on desktop, so a page is three full rows
+const PAGE_SIZE = 9;
+
+// Same recipe as the sector tabs; the script reuses it for the numbered buttons
+const pageButtonClass =
+	"font-technical-data border-border-subtle/60 bg-background text-industrial-gray hover:text-foreground hover:border-secondary/40 focus-visible:outline-secondary aria-[current=page]:bg-foreground aria-[current=page]:text-background aria-[current=page]:border-foreground disabled:pointer-events-none disabled:opacity-40 inline-flex size-9 cursor-pointer items-center justify-center rounded-full border text-xs tabular-nums shadow-xs transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2";
+
 const tabs = [
 	{ filter: "all", label: _("All Sectors"), count: partners.length },
 	{ filter: "food", label: categoryLabels.food, count: countBy("food") },
@@ -66,10 +77,11 @@ const tabs = [
 const unitsOf = (p: PartnerItem) => (p.equipment?.md ?? 0) + (p.equipment?.cw ?? 0) + (p.equipment?.tqs ?? 0);
 const maxUnits = Math.max(1, ...partners.map(unitsOf));
 
-// Clients without unit counts go last (stable sort keeps the original order within each group)
-const orderedPartners = [...partners].sort(
-	(a, b) => Number(unitsOf(b) > 0) - Number(unitsOf(a) > 0)
-);
+// Clients without unit counts go last (stable sort keeps the original order within each group).
+// Skipped when counts are hidden, since the order would reveal which clients have equipment.
+const orderedPartners = SHOW_CLIENT_EQUIPMENT
+	? [...partners].sort((a, b) => Number(unitsOf(b) > 0) - Number(unitsOf(a) > 0))
+	: partners;
 ---
 
 <section
@@ -80,11 +92,12 @@ const orderedPartners = [...partners].sort(
 	<div class="px-edge-margin mx-auto max-w-[1280px]">
 		<header class="mb-12 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
 			<div class="max-w-2xl">
-				<span
-					class="font-label-caps text-secondary block text-xs font-semibold tracking-widest uppercase"
+				<p
+					class="font-label-caps text-secondary m-0 flex items-center gap-3 text-xs font-semibold tracking-widest uppercase"
 				>
+					<span class="eyebrow-rule bg-secondary h-px w-8" aria-hidden="true"></span>
 					{_("Enterprise Reference Directory")}
-				</span>
+				</p>
 				<h2
 					id="clients-heading"
 					class="font-headline-lg text-foreground mt-2 text-2xl font-semibold tracking-tight text-balance break-words sm:text-3xl lg:text-4xl"
@@ -137,7 +150,7 @@ const orderedPartners = [...partners].sort(
 					const clientName = partner.name[lang];
 					const eq = partner.equipment;
 					const totalUnits = unitsOf(partner);
-					const hasData = totalUnits > 0;
+					const hasData = SHOW_CLIENT_EQUIPMENT && totalUnits > 0;
 					const CategoryIcon = categoryIcons[partner.category];
 
 					return (
@@ -251,6 +264,38 @@ const orderedPartners = [...partners].sort(
 				})
 			}
 		</div>
+
+		{/* Revealed by the script only when the current filter has more than one page */}
+		<nav
+			id="clientPagination"
+			aria-label={_("Clients pagination")}
+			class="mt-10 flex flex-wrap items-center justify-center gap-2"
+			data-page-size={PAGE_SIZE}
+			data-page-label={_("Page")}
+			data-btn-class={pageButtonClass}
+			hidden
+		>
+			<button type="button" data-page-prev aria-label={_("Previous page")} class={pageButtonClass}>
+				<ChevronLeft className="h-4 w-4" aria-hidden="true" />
+			</button>
+			<span id="clientPageButtons" class="flex flex-wrap items-center justify-center gap-2"></span>
+			<button type="button" data-page-next aria-label={_("Next page")} class={pageButtonClass}>
+				<ChevronRight className="h-4 w-4" aria-hidden="true" />
+			</button>
+		</nav>
+
+		<p
+			class="font-body-md text-industrial-gray m-0 mt-8 flex items-start gap-2 text-xs leading-relaxed sm:text-sm"
+		>
+			<Info className="text-secondary mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+			<span>
+				{
+					_(
+						"This list is not exhaustive: not all of our clients are shown here."
+					)
+				}
+			</span>
+		</p>
 	</div>
 </section>
 
@@ -288,28 +333,78 @@ const orderedPartners = [...partners].sort(
 
 <script>
 	import { revealOnce } from "@/lib/anims/reveal-once";
+	import { paginate } from "@/lib/about/pagination";
 
 	function setupClientFilters() {
 		const buttons = document.querySelectorAll<HTMLButtonElement>(
 			"#clientFilterGroup [data-filter]"
 		);
-		const cards = document.querySelectorAll<HTMLElement>("#clientCardsContainer .client-card");
+		const grid = document.getElementById("clientCardsContainer");
+		const cards = Array.from(
+			document.querySelectorAll<HTMLElement>("#clientCardsContainer .client-card")
+		);
+		const nav = document.getElementById("clientPagination");
+		const pageButtons = document.getElementById("clientPageButtons");
+		const prev = nav?.querySelector<HTMLButtonElement>("[data-page-prev]");
+		const next = nav?.querySelector<HTMLButtonElement>("[data-page-next]");
+
+		const pageSize = Number(nav?.dataset.pageSize) || 9;
+		let filter = "all";
+		let page = 1;
+
+		const render = () => {
+			const matching = cards.filter((c) => filter === "all" || c.dataset.category === filter);
+			const view = paginate(matching, page, pageSize);
+			page = view.page;
+
+			const visible = new Set(view.items);
+			for (const card of cards) card.hidden = !visible.has(card);
+
+			if (!nav || !pageButtons || !prev || !next) return;
+			nav.hidden = view.pageCount <= 1;
+			prev.disabled = page === 1;
+			next.disabled = page === view.pageCount;
+
+			pageButtons.replaceChildren(
+				...Array.from({ length: view.pageCount }, (_, i) => {
+					const n = i + 1;
+					const button = document.createElement("button");
+					button.type = "button";
+					button.className = nav.dataset.btnClass ?? "";
+					button.textContent = String(n);
+					button.setAttribute("aria-label", `${nav.dataset.pageLabel} ${n}`);
+					if (n === page) button.setAttribute("aria-current", "page");
+					button.addEventListener("click", () => goTo(n));
+					return button;
+				})
+			);
+		};
+
+		// Keep the top of the grid in view when the page changes below the fold
+		const goTo = (n: number) => {
+			page = n;
+			render();
+			if (grid && grid.getBoundingClientRect().top < 0) {
+				grid.scrollIntoView({ behavior: "smooth", block: "start" });
+			}
+		};
+
+		prev?.addEventListener("click", () => goTo(page - 1));
+		next?.addEventListener("click", () => goTo(page + 1));
 
 		for (const button of buttons) {
 			button.addEventListener("click", () => {
-				const filter = button.dataset.filter;
-
+				filter = button.dataset.filter ?? "all";
+				page = 1;
 				for (const other of buttons) {
 					other.setAttribute("aria-pressed", String(other === button));
 				}
-				for (const card of cards) {
-					card.hidden = !(filter === "all" || card.dataset.category === filter);
-				}
+				render();
 			});
 		}
 
-		const grid = document.getElementById("clientCardsContainer");
-		if (grid) revealOnce(grid);
+		render();
+		if (grid) revealOnce(grid, 0.1);
 	}
 
 	setupClientFilters();

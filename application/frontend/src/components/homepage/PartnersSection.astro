@@ -3,13 +3,14 @@ import { Image } from "astro:assets";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import sizeOf from "image-size";
-import { Card, CardContent } from "@/components/ui/card";
+import { Boxes, CalendarDays, Handshake } from "lucide-react";
 import { getInlineTranslations, type Lang } from "@/i18n";
+import { formatApprox, type SiteStats } from "@/lib/about/partners-data";
 
 interface Partner {
 	name: { en: string; ua: string };
-	website: string;
-	logo: string;
+	website?: string;
+	logo?: string;
 }
 
 interface PartnersByCategory {
@@ -20,10 +21,11 @@ interface PartnersByCategory {
 
 interface Props {
 	partnersByCategory: PartnersByCategory;
+	siteStats: SiteStats;
 	lang: Lang;
 }
 
-const { partnersByCategory, lang } = Astro.props;
+const { partnersByCategory, siteStats, lang } = Astro.props;
 const _ = getInlineTranslations(lang);
 
 // Helper to get image dimensions from public folder
@@ -33,182 +35,403 @@ function getImageDimensions(logoPath: string) {
 		const buffer = readFileSync(publicPath);
 		const dimensions = sizeOf(buffer);
 		return { width: dimensions.width || 150, height: dimensions.height || 48 };
-	} catch (error) {
+	} catch {
 		// Fallback dimensions if image not found
 		return { width: 150, height: 48 };
 	}
 }
 
+// Only partners with a logo and website belong in the carousel
+const withLogo = (partners: Partner[]) => partners.filter((p) => p.logo && p.website);
+
+// --- Marquee maths -----------------------------------------------------------
+// Every item carries its own trailing margin, so one "group" is exactly
+// n * STEP wide and the track can loop by translating -50% (two identical groups).
+// Spacing via `gap` on the track was what caused the visible jump before: the gap
+// between the two groups was never part of the -100% travel distance.
+const ITEM_W = 176; // w-44
+const ITEM_GAP = 48; // mr-12
+const STEP = ITEM_W + ITEM_GAP;
+const MIN_GROUP_W = 2560; // a group must be wider than any realistic viewport
+const SPEED = 40; // px per second of auto-scroll, shared by every row so they all feel the same
+
+const buildRow = (
+	label: string,
+	partners: Partner[],
+	direction: "normal" | "reverse"
+) => {
+	const items = withLogo(partners).map((p) => ({
+		partner: p,
+		dims: getImageDimensions(p.logo as string),
+	}));
+	if (items.length === 0) return null;
+	const repeats = Math.max(1, Math.ceil(MIN_GROUP_W / (items.length * STEP)));
+	return {
+		label,
+		items,
+		repeats,
+		direction,
+	};
+};
+
 const carouselRows = [
-	{ partners: partnersByCategory.food, animation: "scrolling-reverse", duration: 80 },
-	{ partners: partnersByCategory.household, animation: "scrolling-normal", duration: 50 }, // I have adjusted values to look a bit ore same speed of animation.
-	{ partners: partnersByCategory.pharma, animation: "scrolling-reverse", duration: 50 }, // TODO: Automatically adjust them with some math
+	buildRow(_("Food & Beverage"), partnersByCategory.food, "reverse"),
+	buildRow(_("Chemicals & Packaging"), partnersByCategory.household, "normal"),
+	buildRow(_("Pharmaceuticals"), partnersByCategory.pharma, "reverse"),
+].filter((row): row is NonNullable<typeof row> => row !== null);
+
+const stats = [
+	{
+		Icon: Boxes,
+		value: formatApprox(siteStats.systems),
+		label: _("Installations"),
+		text: _("Systems operating across Ukrainian manufacturing facilities."),
+		featured: true,
+	},
+	{
+		Icon: CalendarDays,
+		value: `${siteStats.years}+`,
+		label: _("Years of Experience"),
+		text: _("Technical expertise and service support since 2013."),
+	},
+	{
+		Icon: Handshake,
+		value: "98%",
+		label: _("Client Retention"),
+		text: _("Long-term partnerships built on reliable support."),
+	},
 ];
 ---
 
-<section class="bg-muted/50 relative overflow-hidden py-24 md:py-32">
-	<div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-8">
-		<div class="mb-16 text-center">
-			<div
-				class="text-primary mb-4 font-mono text-[12px] leading-4 font-medium tracking-wider uppercase"
-			>
-				{_("Our Clients")}
+<section
+	id="partners"
+	aria-labelledby="partners-heading"
+	class="bg-surface-container border-border-subtle/40 w-full scroll-mt-24 border-y py-16 lg:py-24"
+>
+	<div class="px-edge-margin mx-auto max-w-[1280px]">
+		<header class="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+			<div>
+				<p
+					class="font-label-caps text-secondary m-0 flex items-center gap-3 text-xs font-semibold tracking-widest uppercase"
+				>
+					<span class="eyebrow-rule bg-secondary h-px w-8" aria-hidden="true"></span>
+					{_("Our Clients")}
+				</p>
+				<h2
+					id="partners-heading"
+					class="font-headline-lg text-foreground mt-2 text-2xl font-semibold tracking-tight text-balance sm:text-3xl lg:text-4xl"
+				>
+					{_("Trusted by Ukraine's Leading Manufacturers")}
+				</h2>
 			</div>
-			<h2
-				class="font-heading text-foreground mb-6 text-[28px] leading-9 font-semibold tracking-tight break-words sm:text-[32px] sm:leading-10 md:text-[48px] md:leading-14 md:tracking-[-0.02em]"
-			>
-				{_("Trusted by Ukraine's Leading Manufacturers")}
-			</h2>
-			<p class="text-muted-foreground mx-auto max-w-2xl text-[14px] leading-6 break-words">
+			<p class="font-body-md text-industrial-gray max-w-md text-sm leading-relaxed md:text-right">
 				{
 					_(
 						"Supplying and servicing precision weighing equipment for major food, pharmaceutical, and chemical companies since 2013."
 					)
 				}
 			</p>
-		</div>
+		</header>
 
-		<div class="mb-16 space-y-0">
+		{/* Logo marquee */}
+		<div
+			class="border-border-subtle/60 divide-border-subtle/50 divide-y border-y"
+		>
 			{
-				carouselRows.map(({ partners, animation, duration }) => (
-					<div
-						class="partner-carousel border-border/50 relative w-full overflow-hidden border-y py-8"
-						style={{
-							WebkitMaskImage:
-								"linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
-							maskImage: "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
-						}}
-					>
-						<div class="partner-carousel-track flex gap-12">
-							{[false, true].map((isDuplicate) => (
-								<div
-									class="partner-group flex shrink-0 gap-12"
-									aria-hidden={isDuplicate}
-									style={`will-change: transform; animation: ${animation} ${duration}s linear infinite;`}
-								>
-									{partners.map((partner) => {
-										const dimensions = partner.logo ? getImageDimensions(partner.logo) : null;
-										return (
-											<a
-												href={partner.website}
-												target="_blank"
-												rel="noopener noreferrer"
-												class="group flex h-12 w-37.5 shrink-0 items-center justify-center opacity-70 grayscale transition-[opacity,filter,transform] duration-300 ease-out hover:-translate-y-0.5 hover:opacity-100 hover:drop-shadow-md hover:grayscale-0"
-												tabindex={isDuplicate ? -1 : undefined}
-											>
-												{partner.logo && dimensions ? (
-													<Image
-														src={partner.logo}
-														alt={partner.name[lang]}
-														width={dimensions.width}
-														height={dimensions.height}
-														class="h-12 max-w-full object-contain"
-														loading="lazy"
-													/>
-												) : (
-													<span class="text-foreground/60 px-4 text-sm font-medium">
-														{partner.name[lang]}
-													</span>
-												)}
-											</a>
-										);
-									})}
-								</div>
-							))}
+				carouselRows.map(({ label, items, repeats, direction }) => (
+					<div class="marquee py-6" data-marquee>
+						<p class="font-label-caps text-industrial-gray m-0 mb-4 flex items-center gap-3 text-[11px] uppercase">
+							<span class="eyebrow-rule bg-secondary h-px w-6" aria-hidden="true" />
+							{label}
+						</p>
+
+						<div
+							class="marquee-mask marquee-viewport relative w-full cursor-grab touch-pan-y overflow-hidden select-none"
+							data-marquee-viewport
+						>
+							<div
+								class="marquee-track flex w-max"
+								data-speed={SPEED}
+								data-direction={direction}
+							>
+								{[0, 1].map((copy) => (
+									<div class="marquee-group flex shrink-0" aria-hidden={copy === 1 ? "true" : undefined}>
+										{Array.from({ length: repeats }).flatMap((_r, ri) =>
+											items.map(({ partner, dims }) => {
+												// Only the very first logo of each row is exposed to assistive tech and the keyboard
+												const hidden = copy === 1 || ri > 0;
+												return (
+													<a
+														href={partner.website}
+														target="_blank"
+														rel="noopener noreferrer"
+														aria-label={hidden ? undefined : partner.name[lang]}
+														aria-hidden={hidden ? "true" : undefined}
+														tabindex={hidden ? -1 : undefined}
+														class="marquee-logo focus-visible:outline-secondary mr-12 flex h-16 w-44 shrink-0 items-center justify-center opacity-60 mix-blend-multiply grayscale transition-[opacity,filter,scale] duration-300 ease-out hover:opacity-100 hover:grayscale-0 focus-visible:opacity-100 focus-visible:grayscale-0 focus-visible:outline-2 focus-visible:outline-offset-4 motion-safe:hover:scale-105">
+														<Image
+															src={partner.logo as string}
+															alt={hidden ? "" : partner.name[lang]}
+															width={dims.width}
+															height={dims.height}
+															class="max-h-12 max-w-full object-contain"
+															loading="lazy"
+														/>
+													</a>
+												);
+											})
+										)}
+									</div>
+								))}
+							</div>
 						</div>
 					</div>
 				))
 			}
 		</div>
 
-		<div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-			<Card className="border-border/50 bg-card rounded-xl border p-5 sm:p-8 shadow-sm">
-				<CardContent className="p-0">
+		{/* Stats */}
+		<div class="gap-gutter mt-12 grid grid-cols-1 md:grid-cols-3">
+			{
+				stats.map(({ Icon, value, label, text, featured }) => (
 					<div
-						class="font-heading text-primary mb-2 text-[36px] sm:text-[48px] leading-12 sm:leading-14 font-semibold tracking-[-0.02em]"
+						class:list={[
+							"group/stat border-border-subtle/70 hover:border-secondary/40 flex flex-col-reverse justify-end gap-1 rounded-xl border p-5 shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-lg motion-safe:hover:-translate-y-0.5 sm:p-6",
+							featured
+								? "border-l-secondary from-secondary/10 to-background border-l-4 bg-linear-to-br"
+								: "bg-background",
+						]}
 					>
-						300+
+						<p class="font-body-md text-industrial-gray m-0 mt-3 text-sm leading-relaxed">{text}</p>
+						<p class="font-label-caps text-industrial-gray m-0 text-[11px] uppercase">{label}</p>
+						<div class="mb-1 flex items-center justify-between gap-3">
+							<span
+								class:list={[
+									"font-technical-data text-4xl leading-none font-bold tabular-nums sm:text-5xl",
+									featured ? "text-secondary" : "text-foreground",
+								]}
+							>
+								{value}
+							</span>
+							<span
+								class="bg-surface-container text-secondary border-border-subtle/50 group-hover/stat:bg-secondary group-hover/stat:text-background group-hover/stat:border-secondary shrink-0 rounded-lg border p-3 transition-colors duration-300"
+								aria-hidden="true"
+							>
+								<Icon className="h-6 w-6" />
+							</span>
+						</div>
 					</div>
-					<div
-						class="text-muted-foreground mb-4 font-mono text-[12px] leading-4 font-medium tracking-wider uppercase"
-					>
-						{_("Installations")}
-					</div>
-					<p class="text-muted-foreground text-[14px] leading-5 break-words">
-						{_("Systems operating across Ukrainian manufacturing facilities.")}
-					</p>
-				</CardContent>
-			</Card>
-
-			<Card className="border-border/50 bg-card rounded-xl border p-5 sm:p-8 shadow-sm">
-				<CardContent className="p-0">
-					<div
-						class="font-heading text-primary mb-2 text-[36px] sm:text-[48px] leading-12 sm:leading-14 font-semibold tracking-[-0.02em]"
-					>
-						10+
-					</div>
-					<div
-						class="text-muted-foreground mb-4 font-mono text-[12px] leading-4 font-medium tracking-wider uppercase"
-					>
-						{_("Years of Experience")}
-					</div>
-					<p class="text-muted-foreground text-[14px] leading-5 break-words">
-						{_("Technical expertise and service support since 2013.")}
-					</p>
-				</CardContent>
-			</Card>
-
-			<Card className="border-border/50 bg-card rounded-xl border p-5 sm:p-8 shadow-sm">
-				<CardContent className="p-0">
-					<div
-						class="font-heading text-primary mb-2 text-[36px] sm:text-[48px] leading-12 sm:leading-14 font-semibold tracking-[-0.02em]"
-					>
-						98%
-					</div>
-					<div
-						class="text-muted-foreground mb-4 font-mono text-[12px] leading-4 font-medium tracking-wider uppercase"
-					>
-						{_("Client Retention")}
-					</div>
-					<p class="text-muted-foreground text-[14px] leading-5 break-words">
-						{_("Long-term partnerships built on reliable support.")}
-					</p>
-				</CardContent>
-			</Card>
+				))
+			}
 		</div>
 	</div>
 </section>
 
 <style>
-	@keyframes scrolling-normal {
-		0% {
-			transform: translateX(0);
-		}
-		100% {
-			transform: translateX(-100%);
-		}
+	.marquee-mask {
+		-webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+		mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
 	}
 
-	@keyframes scrolling-reverse {
-		0% {
-			transform: translateX(-100%);
-		}
-		100% {
-			transform: translateX(0);
-		}
+	/* Position is driven by the script (auto-scroll, drag, wheel); two identical groups make the wrap invisible */
+	.marquee-track {
+		will-change: transform;
 	}
 
-	.partner-carousel:hover .partner-group {
-		animation-play-state: paused;
+	.is-dragging,
+	.is-dragging * {
+		cursor: grabbing !important;
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.partner-group {
-			animation: none !important;
+		.marquee-track {
+			transform: none !important;
+			width: auto;
+			flex-wrap: wrap;
+			justify-content: center;
+			padding-inline: 1.25rem;
 		}
-		.partner-carousel-track {
+		/* Static layout: show one copy of each logo only */
+		.marquee-group[aria-hidden="true"] {
+			display: none;
+		}
+		.marquee-group {
 			flex-wrap: wrap;
 			justify-content: center;
 		}
+		.marquee-logo[aria-hidden="true"] {
+			display: none;
+		}
+		.marquee-viewport {
+			cursor: auto;
+		}
+		.marquee-mask {
+			-webkit-mask-image: none;
+			mask-image: none;
+		}
 	}
 </style>
+
+<script>
+	function initMarquee(root: HTMLElement) {
+		const viewport = root.querySelector<HTMLElement>("[data-marquee-viewport]");
+		const track = root.querySelector<HTMLElement>(".marquee-track");
+		const group = root.querySelector<HTMLElement>(".marquee-group");
+		if (!viewport || !track || !group) return;
+
+		const speed = Number(track.dataset.speed) || 40;
+		// "reverse" rows drift to the right, the others to the left
+		const direction = track.dataset.direction === "reverse" ? 1 : -1;
+
+		let x = 0; // current offset, kept in (-groupWidth, 0]
+		let velocity = 0; // inertia after a drag, px/s
+		let groupWidth = 0;
+		let hovered = false;
+		let focused = false;
+		let dragging = false;
+		let suppressClick = false;
+		let rafId = 0;
+		let last = 0;
+
+		const wrap = () => {
+			if (groupWidth <= 0) return;
+			x %= groupWidth;
+			if (x > 0) x -= groupWidth;
+		};
+		const render = () => {
+			track.style.transform = `translate3d(${x}px,0,0)`;
+		};
+
+		const tick = (now: number) => {
+			const dt = Math.min(0.05, (now - last) / 1000);
+			last = now;
+			if (!dragging) {
+				x += velocity * dt;
+				velocity *= Math.exp(-dt * 3);
+				if (Math.abs(velocity) < 1) velocity = 0;
+				if (!hovered && !focused) x += direction * speed * dt;
+			}
+			wrap();
+			render();
+			rafId = requestAnimationFrame(tick);
+		};
+		const start = () => {
+			if (rafId) return;
+			last = performance.now();
+			rafId = requestAnimationFrame(tick);
+		};
+		const stop = () => {
+			cancelAnimationFrame(rafId);
+			rafId = 0;
+		};
+
+		// Only animate while the row is on screen
+		new IntersectionObserver(([entry]) => (entry?.isIntersecting ? start() : stop()), {
+			rootMargin: "100px",
+		}).observe(root);
+		new ResizeObserver(() => {
+			groupWidth = group.offsetWidth;
+			wrap();
+		}).observe(group);
+
+		// Pause while the mouse is over the row or a logo has keyboard focus
+		root.addEventListener("pointerenter", (e) => {
+			if (e.pointerType === "mouse") hovered = true;
+		});
+		root.addEventListener("pointerleave", () => {
+			hovered = false;
+		});
+		root.addEventListener("focusin", () => {
+			focused = true;
+		});
+		root.addEventListener("focusout", () => {
+			focused = false;
+		});
+		// Focusing an off-screen link would otherwise scroll the overflow container natively
+		viewport.addEventListener("scroll", () => {
+			viewport.scrollLeft = 0;
+		});
+
+		// Drag / swipe
+		let startPointerX = 0;
+		let startX = 0;
+		let lastPointerX = 0;
+		let lastTime = 0;
+		let releaseVelocity = 0;
+		let moved = false;
+
+		viewport.addEventListener("pointerdown", (e) => {
+			if (e.pointerType === "mouse" && e.button !== 0) return;
+			dragging = true;
+			moved = false;
+			velocity = 0;
+			releaseVelocity = 0;
+			startPointerX = lastPointerX = e.clientX;
+			startX = x;
+			lastTime = e.timeStamp;
+		});
+
+		viewport.addEventListener("pointermove", (e) => {
+			if (!dragging) return;
+			const dx = e.clientX - startPointerX;
+			if (!moved && Math.abs(dx) > 5) {
+				moved = true;
+				viewport.setPointerCapture(e.pointerId);
+				viewport.classList.add("is-dragging");
+			}
+			if (!moved) return;
+			x = startX + dx;
+			const dt = (e.timeStamp - lastTime) / 1000;
+			if (dt > 0) {
+				releaseVelocity = releaseVelocity * 0.6 + ((e.clientX - lastPointerX) / dt) * 0.4;
+			}
+			lastPointerX = e.clientX;
+			lastTime = e.timeStamp;
+		});
+
+		const endDrag = (e: PointerEvent) => {
+			if (!dragging) return;
+			dragging = false;
+			viewport.classList.remove("is-dragging");
+			if (moved) {
+				velocity = Math.max(-3000, Math.min(3000, releaseVelocity));
+				suppressClick = true;
+				setTimeout(() => {
+					suppressClick = false;
+				}, 50);
+				if (viewport.hasPointerCapture(e.pointerId)) viewport.releasePointerCapture(e.pointerId);
+			}
+		};
+		viewport.addEventListener("pointerup", endDrag);
+		viewport.addEventListener("pointercancel", endDrag);
+
+		// A drag must not open the logo it ended on
+		viewport.addEventListener(
+			"click",
+			(e) => {
+				if (suppressClick) {
+					e.preventDefault();
+					e.stopPropagation();
+				}
+			},
+			true
+		);
+		viewport.addEventListener("dragstart", (e) => e.preventDefault());
+
+		// Horizontal trackpad swipes / tilt wheels; plain vertical wheel keeps scrolling the page
+		viewport.addEventListener(
+			"wheel",
+			(e) => {
+				if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+					e.preventDefault();
+					x -= e.deltaX;
+				}
+			},
+			{ passive: false }
+		);
+	}
+
+	if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+		document.querySelectorAll<HTMLElement>("[data-marquee]").forEach(initMarquee);
+	}
+</script>

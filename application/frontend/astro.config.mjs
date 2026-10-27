@@ -65,6 +65,15 @@ export default defineConfig({
 			// Decap entry search; off by default to avoid exhausting GitHub API rate limits
 			CMS_SEARCH: envField.boolean({ context: "server", access: "public", default: false }),
 
+			// === About page ===
+
+			// Show per-client equipment counts on the client cards (build-time; hidden by default)
+			SHOW_CLIENT_EQUIPMENT: envField.boolean({
+				context: "server",
+				access: "public",
+				default: false,
+			}),
+
 			// === Contact form ===
 
 			// SMTP connection (no auth required for a local relay; user/pass optional)
