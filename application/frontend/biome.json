@@ -158,7 +158,7 @@
 			}
 		},
 		{
-			"includes": ["src/data/equipment-types.json"],
+			"includes": ["src/data/equipment-types.json", "src/data/industries.json"],
 			"json": {
 				"formatter": {
 					"indentStyle": "space",
