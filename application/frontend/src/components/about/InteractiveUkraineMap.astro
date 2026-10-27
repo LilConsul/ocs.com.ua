@@ -105,11 +105,12 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 	<div class="px-edge-margin mx-auto max-w-[1280px]">
 		<header class="mb-12 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
 			<div>
-				<span
-					class="font-label-caps text-secondary block text-xs font-semibold tracking-widest uppercase"
+				<p
+					class="font-label-caps text-secondary m-0 flex items-center gap-3 text-xs font-semibold tracking-widest uppercase"
 				>
+					<span class="eyebrow-rule bg-secondary h-px w-8" aria-hidden="true"></span>
 					{_("Deployment Breakdown")}
-				</span>
+				</p>
 				<h2
 					id="map-section-title"
 					class="font-headline-lg text-foreground mt-2 text-2xl font-semibold tracking-tight text-balance break-words sm:text-3xl lg:text-4xl"

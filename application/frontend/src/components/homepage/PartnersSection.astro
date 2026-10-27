@@ -111,11 +111,12 @@ const stats = [
 	<div class="px-edge-margin mx-auto max-w-[1280px]">
 		<header class="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
 			<div>
-				<span
-					class="font-label-caps text-secondary block text-xs font-semibold tracking-widest uppercase"
+				<p
+					class="font-label-caps text-secondary m-0 flex items-center gap-3 text-xs font-semibold tracking-widest uppercase"
 				>
+					<span class="eyebrow-rule bg-secondary h-px w-8" aria-hidden="true"></span>
 					{_("Our Clients")}
-				</span>
+				</p>
 				<h2
 					id="partners-heading"
 					class="font-headline-lg text-foreground mt-2 text-2xl font-semibold tracking-tight text-balance sm:text-3xl lg:text-4xl"
@@ -140,7 +141,7 @@ const stats = [
 				carouselRows.map(({ label, items, repeats, direction }) => (
 					<div class="marquee py-6" data-marquee>
 						<p class="font-label-caps text-industrial-gray m-0 mb-4 flex items-center gap-3 text-[11px] uppercase">
-							<span class="bg-secondary h-px w-6" aria-hidden="true" />
+							<span class="eyebrow-rule bg-secondary h-px w-6" aria-hidden="true" />
 							{label}
 						</p>
 

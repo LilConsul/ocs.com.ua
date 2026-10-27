@@ -32,7 +32,7 @@ const _ = getInlineTranslations(lang);
 						class="cta-item font-label-caps text-secondary flex items-center gap-3 text-xs font-semibold tracking-widest uppercase"
 						style="--i:1"
 					>
-						<span class="cta-rule bg-secondary h-px w-8" aria-hidden="true"></span>
+						<span class="eyebrow-rule bg-secondary h-px w-8" aria-hidden="true"></span>
 						{_("Contact Us")}
 					</span>
 					<h2
@@ -86,21 +86,12 @@ const _ = getInlineTranslations(lang);
 		[data-anim="ready"] .cta-glow {
 			opacity: 0;
 		}
-		[data-anim="ready"] .cta-rule {
-			scale: 0 1;
-		}
-
 		[data-anim="in"] .cta-card {
 			animation: cta-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
 		}
 		[data-anim="in"] .cta-item {
 			animation: cta-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) backwards;
 			animation-delay: calc(0.15s + var(--i, 0) * 90ms);
-		}
-		[data-anim="in"] .cta-rule {
-			transform-origin: left;
-			animation: cta-rule-draw 0.6s cubic-bezier(0.22, 1, 0.36, 1) backwards;
-			animation-delay: 0.4s;
 		}
 		[data-anim="in"] .cta-glow {
 			animation: cta-glow-in 1.4s ease-out backwards;
@@ -111,11 +102,6 @@ const _ = getInlineTranslations(lang);
 		from {
 			opacity: 0;
 			transform: translateY(18px);
-		}
-	}
-	@keyframes cta-rule-draw {
-		from {
-			scale: 0 1;
 		}
 	}
 	@keyframes cta-glow-in {
