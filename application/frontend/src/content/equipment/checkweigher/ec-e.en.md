@@ -4,7 +4,6 @@ title: EC-E Checkweigher
 order: 3
 industries:
   - food-beverage
-  - general
 description: >-
   Reliable checkweigher for fully automatic weight control and data acquisition.
   Capable of 150 weight values per minute with intuitive 8-inch touchscreen

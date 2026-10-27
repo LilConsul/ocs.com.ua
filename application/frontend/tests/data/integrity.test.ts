@@ -7,6 +7,7 @@ import companyData from "@/data/company.json";
 import documentsData from "@/data/documents.json";
 import equipmentTypes from "@/data/equipment-types.json";
 import icons from "@/data/icons.json";
+import industries from "@/data/industries.json";
 import { getInlineTranslations } from "@/i18n/inline";
 import { EQUIPMENT_SLUGS, SECTORS } from "@/lib/contact/options";
 
@@ -101,6 +102,58 @@ describe("equipment categories data", () => {
 		for (const c of [...equipmentTypes.en.categories, ...equipmentTypes.ua.categories]) {
 			expect(c.title.trim()).not.toBe("");
 			expect(c.description.trim()).not.toBe("");
+		}
+	});
+});
+
+describe("industries data", () => {
+	it("has the same slugs in the same order in en and ua", () => {
+		expect(industries.ua.industries.map((i) => i.slug)).toEqual(
+			industries.en.industries.map((i) => i.slug)
+		);
+	});
+
+	it("has unique slugs", () => {
+		const slugs = industries.en.industries.map((i) => i.slug);
+		expect(new Set(slugs).size).toBe(slugs.length);
+	});
+
+	it("only references icons that exist in icons.json", () => {
+		const known = new Set(icons.map((i) => i.value));
+		const unknown = [...industries.en.industries, ...industries.ua.industries]
+			.map((i) => i.icon)
+			.filter((icon) => !known.has(icon));
+		expect(unknown).toEqual([]);
+	});
+
+	it("has a title and description for every industry", () => {
+		for (const i of [...industries.en.industries, ...industries.ua.industries]) {
+			expect(i.title.trim()).not.toBe("");
+			expect(i.description.trim()).not.toBe("");
+		}
+	});
+});
+
+describe("product industries", () => {
+	it("tags products only with industries listed in industries.json", () => {
+		const known = new Set(industries.en.industries.map((i) => i.slug));
+		const unknown = files.flatMap((f) =>
+			((frontmatter(f).industries ?? []) as string[])
+				.filter((slug) => !known.has(slug))
+				.map((slug) => `${f}: ${slug}`)
+		);
+		expect(unknown).toEqual([]);
+	});
+
+	it("has at least one product for every listed industry in each locale", () => {
+		for (const locale of ["en", "ua"] as const) {
+			const used = new Set(
+				files
+					.filter((f) => f.endsWith(`.${locale}.md`))
+					.flatMap((f) => (frontmatter(f).industries ?? []) as string[])
+			);
+			const empty = industries[locale].industries.map((i) => i.slug).filter((s) => !used.has(s));
+			expect(empty).toEqual([]);
 		}
 	});
 });

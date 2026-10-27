@@ -1,0 +1,58 @@
+{
+  "en": {
+    "industries": [
+      {
+        "slug": "food-beverage",
+        "title": "Food & Beverage",
+        "description": "Inline weight control, metal detection and X-ray inspection for food and beverage production lines. Equipment that protects product safety, keeps giveaway under control and supports traceability requirements.",
+        "icon": "lunch_dining"
+      },
+      {
+        "slug": "pharmaceutical",
+        "title": "Pharmaceutical",
+        "description": "Weight verification, serialization and aggregation for pharmaceutical and healthcare packaging lines. Systems that support strict quality documentation and track-and-trace requirements.",
+        "icon": "medication"
+      },
+      {
+        "slug": "cosmetics",
+        "title": "Cosmetics",
+        "description": "Precise weight control and inspection for cosmetics and personal care production. Solutions for filling, packaging and final-check stages where consistent fill weight and presentation matter.",
+        "icon": "spa"
+      },
+      {
+        "slug": "logistics",
+        "title": "Logistics & Distribution",
+        "description": "High-speed dynamic weighing for warehouses, parcel handling and distribution centers. Systems that verify parcel weight on the move and keep sorting and shipping data accurate.",
+        "icon": "local_shipping"
+      }
+    ]
+  },
+  "ua": {
+    "industries": [
+      {
+        "slug": "food-beverage",
+        "title": "Харчова промисловість і виробництво напоїв",
+        "description": "Динамічний контроль маси, виявлення металевих забруднень і рентгенівська інспекція для ліній виробництва продуктів харчування та напоїв. Обладнання, що забезпечує безпечність продукції, контролює надлишок відважування та підтримує вимоги простежуваності.",
+        "icon": "lunch_dining"
+      },
+      {
+        "slug": "pharmaceutical",
+        "title": "Фармацевтична промисловість",
+        "description": "Перевірка маси, серіалізація та агрегація для фармацевтичних і медичних пакувальних ліній. Системи, що підтримують суворі вимоги до документування якості та простежуваності.",
+        "icon": "medication"
+      },
+      {
+        "slug": "cosmetics",
+        "title": "Косметична промисловість",
+        "description": "Точний контроль маси та інспекція у виробництві косметики й засобів особистого догляду. Рішення для етапів наповнення, пакування та фінального контролю, де важливі стабільна маса наповнення та якість подачі.",
+        "icon": "spa"
+      },
+      {
+        "slug": "logistics",
+        "title": "Логістика та дистрибуція",
+        "description": "Високошвидкісне динамічне зважування для складів, обробки посилок і розподільчих центрів. Системи, що перевіряють масу посилок на ходу та забезпечують точні дані для сортування й відправлення.",
+        "icon": "local_shipping"
+      }
+    ]
+  }
+}

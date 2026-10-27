@@ -10,6 +10,7 @@
 
 import type { CollectionEntry } from "astro:content";
 import equipmentTypes from "../data/equipment-types.json";
+import industriesData from "../data/industries.json";
 
 export type Locale = "en" | "ua";
 export type EquipmentEntry = CollectionEntry<"equipment">;
@@ -31,6 +32,25 @@ export function getCategoriesForLocale(locale: Locale): EquipmentType[] {
 		ua?: { categories: EquipmentType[] };
 	};
 	return data[locale]?.categories ?? [];
+}
+
+export interface Industry {
+	slug: string;
+	title: string;
+	description: string;
+	icon: string;
+}
+
+/**
+ * Get all industries for a given locale, in array order.
+ * Reads from src/data/industries.json (managed by CMS, drag to reorder).
+ */
+export function getIndustriesForLocale(locale: Locale): Industry[] {
+	const data = industriesData as {
+		en?: { industries: Industry[] };
+		ua?: { industries: Industry[] };
+	};
+	return data[locale]?.industries ?? [];
 }
 
 /**
@@ -95,6 +115,37 @@ export function filterByCategory(
 	categorySlug: string
 ): EquipmentEntry[] {
 	return entries.filter((entry) => getCategory(entry) === categorySlug);
+}
+
+/**
+ * Filter entries tagged with an industry
+ */
+export function filterByIndustry(
+	entries: EquipmentEntry[],
+	industrySlug: string
+): EquipmentEntry[] {
+	return entries.filter((entry) => entry.data.industries?.includes(industrySlug));
+}
+
+export interface CategoryGroup {
+	category: EquipmentType;
+	products: EquipmentEntry[];
+}
+
+/**
+ * Group entries under their category, in the order of `categories`.
+ * Products inside a group are sorted by order; categories without products are omitted.
+ */
+export function groupByCategory(
+	entries: EquipmentEntry[],
+	categories: EquipmentType[]
+): CategoryGroup[] {
+	return categories
+		.map((category) => ({
+			category,
+			products: sortByOrder(filterByCategory(entries, category.slug)),
+		}))
+		.filter((group) => group.products.length > 0);
 }
 
 /**
