@@ -24,12 +24,26 @@ env:
   DOMAIN_DIR: /home/ocs/domains/dev.ocs.com.ua
 
 jobs:
-  # ── Job 1: test, build, upload artifact ─────────────────────────────────────
   build:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: application/frontend
+    env:
+      SITE_URL: https://dev.ocs.com.ua
+      CMS_BASE_URL: https://dev.ocs.com.ua
+      RECAPTCHA_SITE_KEY: ${{ vars.DEV_RECAPTCHA_SITE_KEY }}
+      RECAPTCHA_SECRET_KEY: ${{ secrets.DEV_RECAPTCHA_SECRET_KEY }}
+      CONTACT_TO: ${{ vars.DEV_CONTACT_TO }}
+      CONTACT_FROM: ${{ vars.CONTACT_FROM }}
+      GITHUB_CLIENT_ID: ${{ secrets.DEV_GITHUB_CLIENT_ID }}
+      GITHUB_CLIENT_SECRET: ${{ secrets.DEV_GITHUB_CLIENT_SECRET }}
+      SMTP_HOST: ${{ vars.SMTP_HOST }}
+      SMTP_PORT: ${{ vars.SMTP_PORT }}
+      SMTP_SECURE: ${{ vars.SMTP_SECURE }}
+      SMTP_USER: ${{ secrets.SMTP_USER }}
+      SMTP_PASS: ${{ secrets.SMTP_PASS }}
+      SHOW_CLIENT_EQUIPMENT: ${{ vars.DEV_SHOW_CLIENT_EQUIPMENT }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -40,37 +54,33 @@ jobs:
 
       - run: bun install --frozen-lockfile
 
-      # A failing test stops the run before anything is built or uploaded
       - name: Test
         run: bun test
 
       - uses: astral-sh/setup-uv@v10.3.0
-
       - name: Test infra scripts
         working-directory: application/infra
         run: uv run pytest tests/ -v
 
-      # Public astro:env values are inlined at build time; secrets are read at runtime on the server.
-      # Server-context secret vars must also be present at build time so Astro's env schema
-      # validation does not fail during static prerendering.
       - name: Build
         run: bun run build
-        env:
-          SITE_URL: https://dev.ocs.com.ua
-          CMS_BASE_URL: https://dev.ocs.com.ua
-          RECAPTCHA_SITE_KEY: ${{ vars.DEV_RECAPTCHA_SITE_KEY }}
-          CONTACT_TO: ${{ vars.DEV_CONTACT_TO }}
-          CONTACT_FROM: ${{ vars.CONTACT_FROM }}
-          GITHUB_CLIENT_ID: ${{ secrets.DEV_GITHUB_CLIENT_ID }}
-          GITHUB_CLIENT_SECRET: ${{ secrets.DEV_GITHUB_CLIENT_SECRET }}
-          SMTP_HOST: ${{ vars.SMTP_HOST }}
-          RECAPTCHA_SECRET_KEY: ${{ secrets.DEV_RECAPTCHA_SECRET_KEY }}
 
       # Install production-only deps before packaging — the server needs them at runtime
       - name: Install production dependencies
         run: |
           rm -rf node_modules
           bun install --frozen-lockfile --production
+
+      - name: Verify production server bundle
+        run: |
+          node -e "
+            import('./dist/server/entry.mjs')
+              .then(() => process.exit(0))
+              .catch((err) => {
+                console.error('Failed to import server entry:', err);
+                process.exit(1);
+              });
+          "
 
       # Hidden files are skipped by default; dist/client/.htaccess (ErrorDocument, charset) is one
       - name: Upload build artifact
@@ -84,7 +94,6 @@ jobs:
             application/frontend/package.json
           retention-days: 1
 
-  # ── Job 2: sync infra, upload app, restart ──────────────────────────────────
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -152,3 +161,20 @@ jobs:
 
       - name: Restart
         run: ssh "$SSH_TARGET" "sudo /usr/bin/systemctl restart ocs-dev"
+
+      - name: Health check
+        run: |
+          ssh "$SSH_TARGET" '
+            for i in $(seq 1 10); do
+              if curl -fsS http://127.0.0.1:4321/admin/config.yml > /dev/null 2>&1; then
+                echo "Server is healthy and responding."
+                exit 0
+              fi
+              echo "Waiting for server to start ($i/10)..."
+              sleep 1
+            done
+            echo "Health check failed! Service status and logs:"
+            sudo systemctl status ocs-dev --no-pager || true
+            sudo journalctl -u ocs-dev -n 40 --no-pager || true
+            exit 1
+          '
