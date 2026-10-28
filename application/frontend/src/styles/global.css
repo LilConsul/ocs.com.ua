@@ -359,4 +359,218 @@
 		color: var(--color-foreground);
 		font-weight: 600;
 	}
+
+	/* Rich text from the CMS editor: every element it can produce */
+	.prose > :first-child {
+		margin-top: 0;
+	}
+	.prose > :last-child {
+		margin-bottom: 0;
+	}
+
+	/* Headings 1-6 (h2 and h3 are defined above) */
+	.prose h1 {
+		font-family: var(--font-heading);
+		font-size: 1.875rem;
+		font-weight: 700;
+		line-height: 1.2;
+		color: var(--color-foreground);
+		margin-top: 2.5rem;
+		margin-bottom: 1.25rem;
+		letter-spacing: -0.02em;
+	}
+	.prose h4,
+	.prose h5,
+	.prose h6 {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		line-height: 1.4;
+		color: var(--color-foreground);
+		margin-top: 1.5rem;
+		margin-bottom: 0.5rem;
+	}
+	.prose h4 {
+		font-size: 1.125rem;
+	}
+	.prose h5 {
+		font-size: 1rem;
+	}
+	.prose h6 {
+		font-size: 0.875rem;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		color: var(--color-industrial-gray);
+	}
+
+	/* Inline text: links, italic, strikethrough, inline code */
+	.prose a {
+		color: var(--color-secondary);
+		font-weight: 500;
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 3px;
+		transition: color 0.2s;
+	}
+	.prose a:hover {
+		color: var(--color-foreground);
+	}
+	.prose a:focus-visible {
+		outline: 2px solid var(--color-secondary);
+		outline-offset: 2px;
+		border-radius: 2px;
+	}
+	.prose em {
+		font-style: italic;
+	}
+	.prose del {
+		color: var(--color-industrial-gray);
+		text-decoration: line-through;
+	}
+	.prose code {
+		font-family: "JetBrains Mono", monospace;
+		font-size: 0.875em;
+		font-weight: 500;
+		color: var(--color-foreground);
+		background-color: var(--color-surface-container);
+		border: 1px solid var(--color-border-subtle);
+		border-radius: 0.375rem;
+		padding: 0.125rem 0.375rem;
+		hyphens: manual;
+		-webkit-hyphens: manual;
+	}
+	/* Typography plugin wraps inline code in backticks; the box already marks it */
+	.prose code::before,
+	.prose code::after {
+		content: none;
+	}
+
+	/* Code block */
+	.prose pre {
+		font-family: "JetBrains Mono", monospace;
+		font-size: 0.875rem;
+		line-height: 1.6;
+		color: var(--color-foreground);
+		background-color: var(--color-surface-container);
+		border: 1px solid var(--color-border-subtle);
+		border-radius: var(--radius-lg);
+		padding: 1rem 1.25rem;
+		margin-top: 1.5rem;
+		margin-bottom: 1.5rem;
+		overflow-x: auto;
+	}
+	.prose pre code {
+		font-size: inherit;
+		background: none;
+		border: 0;
+		border-radius: 0;
+		padding: 0;
+	}
+
+	/* Quote */
+	.prose blockquote {
+		color: var(--color-on-surface-variant);
+		font-style: normal;
+		font-weight: 400;
+		background-color: color-mix(in oklab, var(--color-secondary) 5%, transparent);
+		border-left: 3px solid var(--color-secondary);
+		border-radius: 0 var(--radius-md) var(--radius-md) 0;
+		padding: 0.75rem 1.25rem;
+		margin-top: 1.5rem;
+		margin-bottom: 1.5rem;
+	}
+	.prose blockquote p {
+		color: inherit;
+		margin-bottom: 0.75rem;
+	}
+	.prose blockquote > :last-child {
+		margin-bottom: 0;
+	}
+	/* Typography plugin adds typographic quote marks; the bar already marks it */
+	.prose blockquote p::before,
+	.prose blockquote p::after {
+		content: none;
+	}
+
+	/* Lists: bulleted (ul above), numbered, and nested */
+	.prose ol {
+		list-style-type: decimal;
+		padding-left: 1.5rem;
+		margin-bottom: 1.5rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+	.prose ul ul,
+	.prose ol ol,
+	.prose ul ol,
+	.prose ol ul {
+		margin-top: 0.5rem;
+		margin-bottom: 0;
+	}
+	.prose ul ul {
+		list-style-type: circle;
+	}
+	.prose ul ul ul {
+		list-style-type: square;
+	}
+	.prose ol ol {
+		list-style-type: lower-alpha;
+	}
+	.prose li::marker {
+		color: var(--color-secondary);
+	}
+	.prose li > p {
+		margin-bottom: 0.5rem;
+	}
+	.prose li > p:last-child {
+		margin-bottom: 0;
+	}
+
+	/* Images */
+	.prose img {
+		display: block;
+		max-width: 100%;
+		height: auto;
+		border: 1px solid var(--color-border-subtle);
+		border-radius: var(--radius-lg);
+		margin-top: 1.5rem;
+		margin-bottom: 1.5rem;
+	}
+
+	/* Horizontal rule and tables (from raw markdown mode) */
+	.prose hr {
+		border: 0;
+		border-top: 1px solid var(--color-border);
+		margin-top: 2.5rem;
+		margin-bottom: 2.5rem;
+	}
+	.prose table {
+		display: block;
+		width: max-content;
+		max-width: 100%;
+		overflow-x: auto;
+		border-collapse: collapse;
+		font-size: 0.875rem;
+		margin-top: 1.5rem;
+		margin-bottom: 1.5rem;
+	}
+	.prose th {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		text-align: left;
+		color: var(--color-foreground);
+		background-color: var(--color-surface-container);
+		border-bottom: 2px solid var(--color-border-subtle);
+		padding: 0.625rem 1rem;
+		hyphens: manual;
+	}
+	.prose td {
+		color: var(--color-muted-foreground);
+		border-bottom: 1px solid var(--color-border-subtle);
+		padding: 0.625rem 1rem;
+		vertical-align: top;
+	}
+	.prose tbody tr:last-child td {
+		border-bottom: 0;
+	}
 }
