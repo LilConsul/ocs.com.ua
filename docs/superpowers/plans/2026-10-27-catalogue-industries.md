@@ -894,26 +894,51 @@ export function buildCatalogueRedirects(root) {
 Run: `bun test tests/scripts/catalogue-redirects.test.ts`
 Expected: PASS, 4 tests.
 
-- [ ] **Step 5: Wire it into `astro.config.mjs`**
+- [ ] **Step 5: Serve the redirects as static pages (DEVIATION from the spec, user-approved)**
 
-Add imports after line 3 (keep existing imports; Biome will order them):
+The spec's `redirects` entry in `astro.config.mjs` does not work here: with the Node adapter (`output: "static"` plus `adapter: node(...)`), Astro does not write static files for config `redirects` (the build log says "file not created, response body was empty"), so the old URLs would 404 behind Apache. Instead, two static pages under the old route shape are driven by the same `buildCatalogueRedirects` data and call `Astro.redirect` (meta-refresh, as `src/pages/index.astro` does).
 
-```js
-import { fileURLToPath } from "node:url";
+Create `src/pages/[lang]/catalogue/[category]/index.astro`:
+
+```astro
+---
+import { buildCatalogueRedirects } from "../../../../../scripts/catalogue-redirects.mjs";
+
+// Old /{lang}/catalogue/{category} URL: a static meta-refresh page to the equipment scheme
+export function getStaticPaths() {
+	return Object.entries(buildCatalogueRedirects(process.cwd()))
+		.filter(([from]) => from.split("/").length === 4)
+		.map(([from, to]) => {
+			const [, lang, , category] = from.split("/");
+			return { params: { lang, category }, props: { to } };
+		});
+}
+
+return Astro.redirect(Astro.props.to);
+---
 ```
 
-and after the `defineConfig, envField` import (line 7):
+Create `src/pages/[lang]/catalogue/[category]/[slug].astro`:
 
-```js
-import { buildCatalogueRedirects } from "./scripts/catalogue-redirects.mjs";
+```astro
+---
+import { buildCatalogueRedirects } from "../../../../../scripts/catalogue-redirects.mjs";
+
+// Old /{lang}/catalogue/{category}/{product} URL: a static meta-refresh page to the equipment scheme
+export function getStaticPaths() {
+	return Object.entries(buildCatalogueRedirects(process.cwd()))
+		.filter(([from]) => from.split("/").length === 5)
+		.map(([from, to]) => {
+			const [, lang, , category, slug] = from.split("/");
+			return { params: { lang, category, slug }, props: { to } };
+		});
+}
+
+return Astro.redirect(Astro.props.to);
+---
 ```
 
-Inside `defineConfig({ ... })`, add after `output: "static",` (line 12):
-
-```js
-	// Old /catalogue/{category}[/{product}] URLs -> /catalogue/equipment/...; static output emits meta-refresh pages
-	redirects: buildCatalogueRedirects(fileURLToPath(new URL(".", import.meta.url))),
-```
+`astro.config.mjs` gets no `redirects` entry. The static `equipment/` segment wins over `[category]`, so the real pages are unaffected.
 
 - [ ] **Step 6: Verify in a real build**
 
@@ -926,12 +951,9 @@ Expected: contains `http-equiv="refresh"` and a target of `/en/catalogue/equipme
 Run: `Test-Path dist/client/ua/catalogue/checkweigher/hc-m/index.html`
 Expected: `True`.
 
-- [ ] **Step 7: Check the sitemap**
+- [ ] **Step 7: Keep the redirect stubs out of the sitemap**
 
-Run: `Select-String -Path "dist/client/sitemap-0.xml" -Pattern 'catalogue/checkweigher|catalogue/catchweigher'`
-Expected: no match (old redirect pages must not be listed).
-
-If there are matches, add this to the `sitemap({ filter })` in `astro.config.mjs` so redirect stubs stay out:
+The redirect pages are in the sitemap by default (verified: 22 old URLs listed). In `astro.config.mjs`, replace the `sitemap({ filter })` with:
 
 ```js
 filter: (page) => {
@@ -942,14 +964,16 @@ filter: (page) => {
 },
 ```
 
-and re-run the build and this check.
+Rebuild, then run:
+`$x = Get-Content dist/client/sitemap-0.xml -Raw; ([regex]::Matches($x, '<loc>[^<]*/catalogue/(?!equipment/|industry/)[^<]*</loc>')).Count`
+Expected: `0`.
 
 - [ ] **Step 8: Lint and commit**
 
-Run: `bunx biome check astro.config.mjs scripts/catalogue-redirects.mjs tests/scripts/catalogue-redirects.test.ts` (expect no diagnostics; use `--write` for import order).
+Run: `bunx biome check astro.config.mjs scripts/catalogue-redirects.mjs tests/scripts/catalogue-redirects.test.ts "src/pages/[lang]/catalogue/[category]"` (expect no diagnostics).
 
 ```bash
-git add astro.config.mjs scripts/catalogue-redirects.mjs tests/scripts/catalogue-redirects.test.ts
+git add astro.config.mjs scripts/catalogue-redirects.mjs tests/scripts/catalogue-redirects.test.ts "src/pages/[lang]/catalogue/[category]"
 git commit -m "feat(frontend): redirect old catalogue URLs to the equipment scheme"
 ```
 

@@ -14,8 +14,13 @@ export default defineConfig({
 	integrations: [
 		react(),
 		sitemap({
-			// Keep the CMS, the error pages and the "/" redirect to /ua out of the sitemap
-			filter: (page) => !/^\/((admin|404|50x)\/?)?$/.test(new URL(page).pathname),
+			// Keep the CMS, the error pages, the "/" redirect to /ua and the old catalogue
+			// redirect stubs (anything under /catalogue/ except equipment/ and industry/) out
+			filter: (page) => {
+				const path = new URL(page).pathname;
+				if (/^\/((admin|404|50x)\/?)?$/.test(path)) return false;
+				return !/^\/(en|ua)\/catalogue\/(?!equipment\/|industry\/)/.test(path);
+			},
 			// Emits <xhtml:link hreflang> alternates, matching the <link rel="alternate"> tags
 			i18n: { defaultLocale: "ua", locales: { ua: "uk", en: "en" } },
 		}),
