@@ -16,10 +16,11 @@ gallery:
   - /assets/equipment/hc-a/csm_checkweigher-hc-a-left_777170ec62.webp
 datasheet: /assets/equipment/hc-a/datasheet.pdf
 specs:
-  - label: Max Speed
-    value: 600 ppm
-  - label: Display Value
-    value: TODO
+  - items:
+      - label: Max Speed
+        value: 600 ppm
+      - label: Display Value
+        value: TODO
 ---
 
 ## High Speed Checkweighers for Maximum Performance

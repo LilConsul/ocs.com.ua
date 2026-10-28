@@ -16,8 +16,8 @@ export function patchGithubRecursiveMedia(cms: typeof CMS) {
 	if (!github) return;
 
 	const originalInit = github.init;
-	github.init = (args) => {
-		const backend = originalInit(args);
+	github.init = (...args) => {
+		const backend = originalInit(...args);
 		backend.getMedia = async (mediaFolder?: string) => {
 			const folder = mediaFolder || backend.mediaFolder;
 			const files: ListedFile[] = await backend.api.listFiles(folder, { depth: 100 });

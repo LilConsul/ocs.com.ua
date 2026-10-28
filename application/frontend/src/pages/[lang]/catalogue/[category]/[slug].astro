@@ -13,6 +13,7 @@ import {
 	type EquipmentEntry,
 	filterByCategory,
 	filterByLocale,
+	flattenSpecs,
 	getCategoriesForLocale,
 	getCategory,
 	getLocale,
@@ -85,7 +86,7 @@ const structuredData = [
 		site: siteUrl,
 		category: categoryTitle,
 		images: product.data.gallery,
-		specs: product.data.specs,
+		specs: flattenSpecs(product.data.specs),
 	}),
 	breadcrumbSchema([
 		{ name: lang === "en" ? "Home" : "Головна", url: new URL(`/${lang}/`, siteUrl).href },

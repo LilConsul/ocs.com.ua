@@ -14,12 +14,13 @@ gallery:
   - /assets/equipment/hc-sl/csm_catchweigher-hc-sl-right_f0a1215e7f.webp
 datasheet: /assets/equipment/hc-sl/datasheet.pdf
 specs:
-  - label: Max Speed
-    value: 2.9 m/s
-  - label: Weighing Range
-    value: up to 60 kg
-  - label: Accuracy
-    value: ±5g
+  - items:
+      - label: Max Speed
+        value: 2.9 m/s
+      - label: Weighing Range
+        value: up to 60 kg
+      - label: Accuracy
+        value: ±5g
 ---
 
 ## High Weighing Accuracy and Throughput of Parcels

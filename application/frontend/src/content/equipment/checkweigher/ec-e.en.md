@@ -15,10 +15,11 @@ gallery:
   - /assets/equipment/ec-e/csm_checkweigher-ec-e-right_40e479f487.webp
 datasheet: /assets/equipment/ec-e/datasheet.pdf
 specs:
-  - label: Max Speed
-    value: 150 ppm
-  - label: Display Value
-    value: TODO
+  - items:
+      - label: Max Speed
+        value: 150 ppm
+      - label: Display Value
+        value: TODO
 ---
 
 ## Precise Checkweighers: Fully Automatic Weight Control & Data Acquisition

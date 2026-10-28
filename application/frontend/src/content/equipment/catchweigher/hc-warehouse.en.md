@@ -17,10 +17,11 @@ gallery:
     /assets/equipment/hc-warehouse/csm_catchweigher-hc-warehouse-right-72105245_0bd99e6e16.webp
 datasheet: /assets/equipment/hc-warehouse/datasheet.pdf
 specs:
-  - label: Max Speed
-    value: 1.2 m/s
-  - label: Display Value
-    value: TODO
+  - items:
+      - label: Max Speed
+        value: 1.2 m/s
+      - label: Display Value
+        value: TODO
 ---
 
 ## Attractively Priced Catchweigher for Warehouse and Intralogistics Sector

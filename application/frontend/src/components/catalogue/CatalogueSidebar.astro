@@ -205,6 +205,11 @@ const _ = getInlineTranslations(lang);
 			const hero = document.querySelector<HTMLElement>("[data-catalogue-hero]");
 			if (!nextResults || !nextHero || !hero) throw new Error("Unexpected page");
 
+			// The hero height depends on the description length; remember where the band sits so
+			// the sidebar and grid can be kept in place after the swap
+			const band = document.querySelector<HTMLElement>("[data-catalogue-band]");
+			const bandTopBefore = band?.getBoundingClientRect().top ?? 0;
+
 			hero.innerHTML = nextHero.innerHTML;
 			// The hero is usually off screen after a click, so do not replay its intro animation
 			hero.querySelectorAll<HTMLElement>(".hero-rise").forEach((el) => {
@@ -221,10 +226,13 @@ const _ = getInlineTranslations(lang);
 			if (push) history.pushState({ catalogue: true }, "", url);
 			shownPath = trimSlash(url.pathname);
 
-			// Keep the scroll position, unless the new list starts above the viewport
-			const band = document.querySelector<HTMLElement>("[data-catalogue-band]");
-			if (push && band && band.getBoundingClientRect().top < 0) {
-				band.scrollIntoView({ block: "start", behavior: prefersReducedMotion() ? "auto" : "smooth" });
+			if (band) {
+				const bandTopAfter = band.getBoundingClientRect().top;
+				if (push && bandTopAfter < 0) {
+					band.scrollIntoView({ block: "start", behavior: prefersReducedMotion() ? "auto" : "smooth" });
+				} else if (window.scrollY > 0 && bandTopAfter !== bandTopBefore) {
+					window.scrollBy({ top: bandTopAfter - bandTopBefore, behavior: "instant" });
+				}
 			}
 
 			results.removeAttribute("aria-busy");

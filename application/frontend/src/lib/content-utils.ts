@@ -153,6 +153,20 @@ export function isCategoryEntry(entry: EquipmentEntry): entry is EquipmentEntry 
 }
 
 /**
+ * Flatten product specs (flat rows or groups of rows) into plain label/value rows.
+ */
+export function flattenSpecs(
+	specs: EquipmentEntry["data"]["specs"]
+): Array<{ label: string; value: string }> {
+	if (!specs) return [];
+	return (specs as Array<Record<string, unknown>>).flatMap((entry) =>
+		"items" in entry
+			? ((entry.items ?? []) as Array<{ label: string; value: string }>)
+			: [entry as { label: string; value: string }]
+	);
+}
+
+/**
  * Type guard for product entries
  */
 export function isProductEntry(entry: EquipmentEntry): entry is EquipmentEntry & {
@@ -162,7 +176,7 @@ export function isProductEntry(entry: EquipmentEntry): entry is EquipmentEntry &
 		gallery?: string[];
 		datasheet?: string;
 		industries?: string[];
-		specs?: Array<{ label: string; value: string }>;
+		specs?: EquipmentEntry["data"]["specs"];
 		order?: number;
 	};
 } {

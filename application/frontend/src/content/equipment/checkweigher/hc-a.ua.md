@@ -16,10 +16,20 @@ gallery:
   - /assets/equipment/hc-a/csm_checkweigher-hc-a-left_777170ec62.webp
 datasheet: /assets/equipment/hc-a/datasheet.pdf
 specs:
-  - label: Макс. швидкість
-    value: 600 уп/хв
-  - label: Дискретність
-    value: TODO
+  - title: Зважування
+    items:
+      - label: Макс. швидкість
+        value: 600 уп/хв
+      - label: Дискретність
+        value: 0.2 г, 0.5 г, 1.0 г
+      - label: Найбільша границя зважування
+        value: 1500 г, 3000 г, 6000 г
+  - title: Конвеєр
+    items:
+      - label: Довжина
+        value: 200 мм, 300 мм, 400 мм, 500 мм
+      - label: Ширина
+        value: 150 мм, 200 мм, 300 мм
 ---
 
 ## Високошвидкісні контрольно динамічні ваги для максимальної продуктивності

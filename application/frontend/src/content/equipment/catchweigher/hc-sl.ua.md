@@ -14,12 +14,13 @@ gallery:
   - /assets/equipment/hc-sl/csm_catchweigher-hc-sl-right_f0a1215e7f.webp
 datasheet: /assets/equipment/hc-sl/datasheet.pdf
 specs:
-  - label: Макс. швидкість
-    value: 2,9 м/с
-  - label: Діапазон зважування
-    value: до 60 кг
-  - label: Точність
-    value: ±5 г
+  - items:
+      - label: Макс. швидкість
+        value: 2,9 м/с
+      - label: Діапазон зважування
+        value: до 60 кг
+      - label: Точність
+        value: ±5 г
 ---
 
 ## Висока точність зважування та пропускна здатність посилок

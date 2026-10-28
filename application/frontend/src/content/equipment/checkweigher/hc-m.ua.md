@@ -16,10 +16,11 @@ gallery:
   - /assets/equipment/hc-m/csm_checkweigher-hc-m-right_efe164ce5c.webp
 datasheet: /assets/equipment/hc-m/datasheet.pdf
 specs:
-  - label: Макс. швидкість
-    value: 250 уп/хв
-  - label: Дискретність
-    value: TODO
+  - items:
+      - label: Макс. швидкість
+        value: 250 уп/хв
+      - label: Дискретність
+        value: TODO
 ---
 
 ## Гнучкі контрольно динамічні ваги для середніх діапазонів продуктивності
