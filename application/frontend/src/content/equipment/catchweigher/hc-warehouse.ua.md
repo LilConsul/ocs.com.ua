@@ -17,10 +17,11 @@ gallery:
     /assets/equipment/hc-warehouse/csm_catchweigher-hc-warehouse-right-72105245_0bd99e6e16.webp
 datasheet: /assets/equipment/hc-warehouse/datasheet.pdf
 specs:
-  - label: Макс. швидкість
-    value: 1,2 м/с
-  - label: Дискретність
-    value: TODO
+  - items:
+      - label: Макс. швидкість
+        value: 1,2 м/с
+      - label: Дискретність
+        value: TODO
 ---
 
 ## Вигідні за ціною динамічні ваги для складського та внутрішньологістичного сектору

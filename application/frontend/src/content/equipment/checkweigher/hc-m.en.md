@@ -16,10 +16,11 @@ gallery:
   - /assets/equipment/hc-m/csm_checkweigher-hc-m-right_efe164ce5c.webp
 datasheet: /assets/equipment/hc-m/datasheet.pdf
 specs:
-  - label: Max Speed
-    value: 250 ppm
-  - label: Display Value
-    value: TODO
+  - items:
+      - label: Max Speed
+        value: 250 ppm
+      - label: Display Value
+        value: TODO
 ---
 
 ## Flexible Checkweighers for Medium Performance Ranges

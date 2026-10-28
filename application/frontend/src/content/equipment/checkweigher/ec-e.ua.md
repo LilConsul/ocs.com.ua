@@ -15,10 +15,11 @@ gallery:
   - /assets/equipment/ec-e/csm_checkweigher-ec-e-right_40e479f487.webp
 datasheet: /assets/equipment/ec-e/datasheet.pdf
 specs:
-  - label: Макс. швидкість
-    value: 150 уп/хв
-  - label: Дискретність
-    value: TODO
+  - items:
+      - label: Макс. швидкість
+        value: 150 уп/хв
+      - label: Дискретність
+        value: TODO
 ---
 
 ## Точні контрольно динамічні ваги: повністю автоматичний контроль ваги та збір даних

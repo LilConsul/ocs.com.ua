@@ -285,8 +285,20 @@ collections:
         required: false
         i18n: true
         min: 0
-        hint: "No limit. The catalogue card shows only the first 2; the product page shows all of them in a table."
+        summary: "{{fields.title}}"
+        hint: >-
+          Groups of specification rows shown in a table on the product page. The catalogue card shows
+          only the first 2 rows (the first value of each, if you list several separated by commas).
         fields:
-          - { label: "Label", name: "label", widget: "string" }
-          - { label: "Value", name: "value", widget: "string" }
+          - { label: "Group title", name: "title", widget: "string", required: false, hint: "Heading above the rows, e.g. Conveyor. Leave empty for plain rows." }
+          - label: "Rows"
+            name: "items"
+            widget: "list"
+            required: false
+            min: 0
+            summary: "{{fields.label}}: {{fields.value}}"
+            hint: "Rows shown for the whole group. Separate several values with commas."
+            fields:
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "Value", name: "value", widget: "string" }
       - { label: "Body", name: "body", widget: "richtext", required: false, i18n: true }

@@ -1,17 +1,31 @@
 ---
 import { getInlineTranslations, type Lang } from "@/i18n";
 
+type Spec = { label: string; value: string };
+type SpecGroup = {
+	/** Optional group heading, e.g. "Conveyor". Without it the group renders as plain rows. */
+	title?: string;
+	items?: Spec[];
+};
+
 interface Props {
-	specs?: Array<{ label: string; value: string }>;
+	/** Either a flat list of rows or a list of groups */
+	specs?: Spec[] | SpecGroup[];
 	lang: Lang;
 }
 
 const { specs = [], lang } = Astro.props;
 const _ = getInlineTranslations(lang);
+
+// Normalise: a flat list of rows becomes a single untitled group
+const isGrouped = (s: Spec[] | SpecGroup[]): s is SpecGroup[] => s.length > 0 && "items" in s[0];
+
+const groups: SpecGroup[] = isGrouped(specs) ? specs : [{ items: specs as Spec[] }];
+const prepared = groups.filter((group) => (group.items?.length ?? 0) > 0);
 ---
 
 {
-	specs && specs.length > 0 && (
+	prepared.length > 0 && (
 		<section
 			class="bg-background border-border-subtle/70 before:from-secondary relative overflow-hidden rounded-xl border shadow-xs before:absolute before:inset-x-0 before:top-0 before:h-0.5 before:bg-linear-to-r before:to-transparent"
 			aria-labelledby="specs-heading"
@@ -22,22 +36,36 @@ const _ = getInlineTranslations(lang);
 			>
 				{_("Technical Specifications")}
 			</h2>
-			<div class="border-border-subtle/60 border-t overflow-x-auto">
-				<table class="w-full border-collapse text-left">
-					<tbody class="font-technical-data text-technical-data">
-						{specs.map((spec, index) => (
-							<tr
-								class={`border-border-subtle/60 hover:bg-secondary/5 border-b transition-colors last:border-b-0 ${
+
+			{prepared.map((group) => (
+				<div>
+					{group.title && (
+						<div class="bg-surface-container border-border-subtle/60 border-y px-4 py-3 sm:px-8">
+							<h3 class="font-label-caps text-industrial-gray m-0 flex items-center gap-3 text-xs font-semibold tracking-widest uppercase">
+								<span class="bg-secondary h-px w-6" aria-hidden="true" />
+								{group.title}
+							</h3>
+						</div>
+					)}
+
+					<dl class="m-0 p-0">
+						{group.items?.map((spec, index) => (
+							<div
+								class={`border-border-subtle/60 hover:bg-secondary/5 grid grid-cols-1 gap-1 border-b px-4 py-3 transition-colors last:border-b-0 sm:grid-cols-3 sm:gap-6 sm:px-8 sm:py-4 ${
 									index % 2 === 1 ? "bg-surface-container/60" : "bg-background"
 								}`}
 							>
-								<th class="text-industrial-gray w-1/3 px-4 py-3 font-medium break-words sm:px-8 sm:py-4">{spec.label}</th>
-								<td class="text-foreground px-4 py-3 font-semibold break-words sm:px-8 sm:py-4">{spec.value}</td>
-							</tr>
+								<dt class="font-technical-data text-industrial-gray m-0 text-sm font-medium break-words">
+									{spec.label}
+								</dt>
+								<dd class="font-technical-data text-foreground m-0 text-sm font-medium break-words sm:col-span-2">
+									{spec.value}
+								</dd>
+							</div>
 						))}
-					</tbody>
-				</table>
-			</div>
+					</dl>
+				</div>
+			))}
 		</section>
 	)
 }
