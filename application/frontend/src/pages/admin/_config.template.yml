@@ -285,7 +285,7 @@ collections:
         required: false
         i18n: true
         min: 0
-        max: 20
+        hint: "No limit. The catalogue card shows only the first 2; the product page shows all of them in a table."
         fields:
           - { label: "Label", name: "label", widget: "string" }
           - { label: "Value", name: "value", widget: "string" }
