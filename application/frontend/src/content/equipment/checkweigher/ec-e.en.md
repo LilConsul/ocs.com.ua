@@ -1,26 +1,24 @@
 ---
-type: product
-title: EC-E Checkweigher
 order: 3
-industries:
-  - food-beverage
-  - general
-description: >-
-  Reliable checkweigher for fully automatic weight control and data acquisition.
-  Capable of 150 weight values per minute with intuitive 8-inch touchscreen
-  operation.
 gallery:
   - /assets/equipment/ec-e/csm_checkweigher-ec-e-left_b64a401e9a.webp
   - /assets/equipment/ec-e/csm_checkweigher-ec-e-front_03ef4b6a1d.webp
   - /assets/equipment/ec-e/csm_checkweigher-ec-e-right_40e479f487.webp
 datasheet: /assets/equipment/ec-e/datasheet.pdf
+industries:
+  - food-beverage
+  - general
+title: EC-E Checkweigher
+description: Reliable checkweigher for fully automatic weight control and data
+  acquisition. Capable of 150 weight values per minute with intuitive 8-inch
+  touchscreen operation.
 specs:
   - label: Max Speed
     value: 150 ppm
   - label: Display Value
     value: TODO
+type: product
 ---
-
 ## Precise Checkweighers: Fully Automatic Weight Control & Data Acquisition
 
 Reliability and transparency of production data are the basis of all planning. The EC-E checkweigher from Wipotec guarantees 100% data capture in ongoing production.

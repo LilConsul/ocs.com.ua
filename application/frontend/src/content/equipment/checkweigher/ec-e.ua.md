@@ -1,26 +1,24 @@
 ---
-type: product
-title: Контрольно динамічні ваги EC-E
 order: 3
-industries:
-  - food-beverage
-  - general
-description: >-
-  Надійні контрольно динамічні ваги для повністю автоматичного контролю ваги та
-  збору даних. Здатні виконувати 150 вимірювань ваги на хвилину з інтуїтивним управлінням
-  через 8-дюймовий сенсорний екран.
 gallery:
   - /assets/equipment/ec-e/csm_checkweigher-ec-e-left_b64a401e9a.webp
   - /assets/equipment/ec-e/csm_checkweigher-ec-e-front_03ef4b6a1d.webp
   - /assets/equipment/ec-e/csm_checkweigher-ec-e-right_40e479f487.webp
 datasheet: /assets/equipment/ec-e/datasheet.pdf
+industries:
+  - food-beverage
+  - general
+title: Контрольно динамічні ваги EC-E
+description: Надійні контрольно динамічні ваги для повністю автоматичного
+  контролю ваги та збору даних. Здатні виконувати 150 вимірювань ваги на хвилину
+  з інтуїтивним управлінням через 8-дюймовий сенсорний екран.
 specs:
   - label: Макс. швидкість
-    value: 150 уп/хв
+    value: до 150 уп/хв
   - label: Дискретність
-    value: TODO
+    value: від 0,2 г
+type: product
 ---
-
 ## Точні контрольно динамічні ваги: повністю автоматичний контроль ваги та збір даних
 
 Надійність і прозорість виробничих даних є основою всього планування. Контрольно динамічні ваги EC-E від Wipotec гарантують 100% збір даних під час виробництва.
