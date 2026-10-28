@@ -1,0 +1,15 @@
+---
+import { buildCatalogueRedirects } from "../../../../../scripts/catalogue-redirects.mjs";
+
+// Old /{lang}/catalogue/{category} URL: a static meta-refresh page to the equipment scheme
+export function getStaticPaths() {
+	return Object.entries(buildCatalogueRedirects(process.cwd()))
+		.filter(([from]) => from.split("/").length === 4)
+		.map(([from, to]) => {
+			const [, lang, , category] = from.split("/");
+			return { params: { lang, category }, props: { to } };
+		});
+}
+
+return Astro.redirect(Astro.props.to);
+---
