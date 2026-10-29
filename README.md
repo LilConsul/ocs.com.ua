@@ -98,7 +98,7 @@ ______________________________________________________________________
 
 ## Deployment (dev.ocs.com.ua)
 
-Every push to `main` that touches `application/frontend/` (including CMS publishes) runs [`.github/workflows/deploy-dev.yml`](.github/workflows/deploy-dev.yml). It builds the site on GitHub, rsyncs `dist/`, production `node_modules` and `package.json` to the server, and restarts the service. It can also be run manually from the Actions tab.
+Every push to `main` that touches `application/frontend/` (including CMS publishes) runs [`.github/workflows/deploy-dev.yml`](.github/workflows/deploy-dev.yml). It builds the site on GitHub, rsyncs `dist/` and `package.json` to the server, and restarts the service. Server dependencies are bundled into `dist/server` (`vite.ssr.noExternal` in `astro.config.mjs`), so no `node_modules` is deployed. Only `sharp` stays external, and the server never loads it because all images are processed at build time. It can also be run manually from the Actions tab.
 
 Server layout (Debian 13, Virtualmin domain `dev.ocs.com.ua` owned by user `ocs`):
 
