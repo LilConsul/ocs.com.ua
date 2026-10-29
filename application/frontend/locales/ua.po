@@ -31,7 +31,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: i18n-extract\n"
 
-#: src/components/Header.astro:25
+#: src/components/Header.astro:30
 msgid "About Us"
 msgstr "Про нас"
 
@@ -86,32 +86,32 @@ msgid "Authorized Documentation"
 msgstr "Авторизована документація"
 
 #: src/components/errors/ServerErrorContent.astro:36
-#: src/components/errors/NotFoundContent.astro:37
+#: src/components/errors/NotFoundContent.astro:38
 msgid "Back to Home"
 msgstr "На головну"
 
-#: src/components/errors/NotFoundContent.astro:44
+#: src/components/errors/NotFoundContent.astro:45
 msgid "Browse Catalogue"
 msgstr "Каталог обладнання"
 
-#: src/components/Header.astro:22
-#: src/components/catalogue/RelatedEquipment.astro:31
+#: src/components/Header.astro:25
+#: src/components/catalogue/RelatedEquipment.astro:32
 #: src/components/catalogue/CategoryHeader.astro:35
 msgid "Catalogue"
 msgstr "Каталог"
 
-#: src/components/catalogue/CatalogueSidebar.astro:52
+#: src/components/catalogue/CatalogueSidebar.astro:75
 msgid "Catalogue Filters"
 msgstr "Фільтри каталогу"
 
-#: src/components/catalogue/CatalogueSidebar.astro:68
+#: src/components/catalogue/CatalogueSidebar.astro:24
 msgid "Category navigation"
 msgstr "Навігація за категоріями"
 
 #: src/components/contact/ContactForm.astro:22
 #: src/components/about/InteractiveUkraineMap.astro:22
 #: src/components/about/ClientDirectory.astro:45
-#: src/components/about/AboutHero.astro:38
+#: src/components/about/AboutHero.astro:39
 msgid "Checkweighers"
 msgstr "Контрольно динамічні ваги"
 
@@ -144,12 +144,12 @@ msgstr "Клієнтів"
 msgid "Clients pagination"
 msgstr "Сторінки списку клієнтів"
 
-#: src/components/catalogue/CatalogueSidebar.astro:45
+#: src/components/catalogue/CatalogueSidebar.astro:68
 msgid "Close filters"
 msgstr "Закрити фільтри"
 
-#: src/components/Header.astro:71
-#: src/components/Header.astro:72
+#: src/components/Header.astro:76
+#: src/components/Header.astro:77
 msgid "Close notification"
 msgstr "Закрити сповіщення"
 
@@ -165,14 +165,14 @@ msgstr "Компанія"
 msgid "Contact Information"
 msgstr "Контактна інформація"
 
-#: src/components/Header.astro:119
-#: src/components/Header.astro:186
-#: src/components/errors/ServerErrorContent.astro:46
-#: src/components/errors/NotFoundContent.astro:54
-#: src/components/homepage/HeroSection.astro:98
-#: src/components/catalogue/CatalogueSidebar.astro:99
+#: src/components/Header.astro:124
+#: src/components/Header.astro:191
 #: src/components/contact/ContactHero.astro:28
+#: src/components/homepage/HeroSection.astro:98
 #: src/components/about/AboutCta.astro:36
+#: src/components/catalogue/CatalogueSidebar.astro:165
+#: src/components/errors/ServerErrorContent.astro:46
+#: src/components/errors/NotFoundContent.astro:55
 msgid "Contact Us"
 msgstr "Зв’язатися з нами"
 
@@ -192,8 +192,8 @@ msgstr "Зверніться до інженерної команди ОС-Те�
 msgid "Corporate Email"
 msgstr "Корпоративний email"
 
-#: src/components/homepage/IndustriesSection.astro:71
 #: src/components/contact/ContactForm.astro:31
+#: src/components/homepage/IndustriesSection.astro:71
 msgid "Cosmetics"
 msgstr "Косметична промисловість"
 
@@ -218,7 +218,7 @@ msgid "Direct Factory Partnership & Certified Distribution"
 msgstr "Пряме партнерство із заводами та сертифікована дистрибуція"
 
 #: src/components/catalogue/ProductSidebar.astro:64
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:196
+#: src/pages/[lang]/catalogue/equipment/[category]/[slug].astro:202
 msgid "Direct Technical Sales"
 msgstr "Прямі продажі технічного обладнання"
 
@@ -247,7 +247,7 @@ msgstr "Технічний запит"
 msgid "Enterprise Reference Directory"
 msgstr "Довідник підприємств-клієнтів"
 
-#: src/components/catalogue/CatalogueSidebar.astro:64
+#: src/components/catalogue/CatalogueSidebar.astro:23
 msgid "Equipment Categories"
 msgstr "Категорії обладнання"
 
@@ -276,7 +276,7 @@ msgstr "Наведені цифри є орієнтовними та можут�
 msgid "Filter clients by sector"
 msgstr "Фільтр клієнтів за галуззю"
 
-#: src/components/catalogue/CatalogueSidebar.astro:22
+#: src/components/catalogue/CatalogueSidebar.astro:45
 msgid "Filters"
 msgstr "Фільтри"
 
@@ -294,11 +294,11 @@ msgstr "Харчова промисловість"
 msgid "Full Name"
 msgstr "Повне ім'я"
 
-#: src/components/about/AboutHero.astro:42
+#: src/components/about/AboutHero.astro:43
 msgid "German Hardware"
 msgstr "Німецьке обладнання"
 
-#: src/components/about/AboutHero.astro:74
+#: src/components/about/AboutHero.astro:75
 msgid "German Precision Engineering. Official Ukrainian Distributor."
 msgstr "Німецька точність. Офіційний дистриб'ютор в Україні."
 
@@ -342,7 +342,8 @@ msgstr "Перегляд зображення у збільшеному форм
 msgid "Industrial Checkweigher Systems"
 msgstr "Промислові системи контрольного зважування"
 
-#: src/components/Header.astro:23
+#: src/components/Header.astro:28
+#: src/components/catalogue/CatalogueSidebar.astro:30
 msgid "Industries"
 msgstr "Галузі"
 
@@ -353,6 +354,10 @@ msgstr "Галузі, для яких ми працюємо"
 #: src/components/contact/ContactForm.astro:160
 msgid "Industry Sector"
 msgstr "Галузь"
+
+#: src/components/catalogue/CatalogueSidebar.astro:31
+msgid "Industry navigation"
+msgstr "Навігація за галузями"
 
 #: src/components/about/InteractiveUkraineMap.astro:137
 msgid "Installation Map of Ukraine"
@@ -366,7 +371,7 @@ msgstr "Встановлених систем"
 msgid "Installed Equipment:"
 msgstr "Встановлене обладнання:"
 
-#: src/components/about/AboutHero.astro:37
+#: src/components/about/AboutHero.astro:38
 msgid "Installed Systems"
 msgstr "Встановлених систем"
 
@@ -382,7 +387,7 @@ msgstr "Посада"
 msgid "Kyiv Office"
 msgstr "Київський офіс"
 
-#: src/components/Header.astro:191
+#: src/components/Header.astro:196
 msgid "Language"
 msgstr "Мова"
 
@@ -395,8 +400,8 @@ msgstr "Дізнатися більше"
 msgid "Let's Talk About Your Production Line"
 msgstr "Обговоримо вашу виробничу лінію"
 
-#: src/components/homepage/IndustriesSection.astro:79
 #: src/components/contact/ContactForm.astro:32
+#: src/components/homepage/IndustriesSection.astro:79
 msgid "Logistics & Distribution"
 msgstr "Логістика та дистрибуція"
 
@@ -435,7 +440,7 @@ msgstr "Авторизаційний лист Mesutronic"
 
 #: src/components/about/InteractiveUkraineMap.astro:23
 #: src/components/about/ClientDirectory.astro:46
-#: src/components/about/AboutHero.astro:39
+#: src/components/about/AboutHero.astro:40
 msgid "Metal Detectors"
 msgstr "Метало­детектори"
 
@@ -451,7 +456,7 @@ msgstr "Конвеєрні системи високої чутливості Me
 msgid "Multiple facilities active"
 msgstr "Діє кілька підприємств"
 
-#: src/components/errors/NotFoundContent.astro:49
+#: src/components/errors/NotFoundContent.astro:50
 msgid "Need help finding equipment?"
 msgstr "Потрібна допомога з вибором обладнання?"
 
@@ -464,7 +469,7 @@ msgstr "Наступне зображення"
 msgid "Next page"
 msgstr "Наступна сторінка"
 
-#: src/pages/[lang]/catalogue/[category]/index.astro:131
+#: src/pages/[lang]/catalogue/equipment/[category]/index.astro:130
 msgid "No products available in this category"
 msgstr "У цій категорії поки немає обладнання"
 
@@ -472,7 +477,7 @@ msgstr "У цій категорії поки немає обладнання"
 msgid "OS-Technology Ukraine"
 msgstr "ОС-Технолоджи Україна"
 
-#: src/components/about/AboutHero.astro:81
+#: src/components/about/AboutHero.astro:82
 msgid "OS-Technology Ukraine is the exclusive authorized distributor and certified integration partner of WIPOTEC GmbH and MESUTRONIC Gerätebau GmbH in Ukraine. We supply dynamic checkweighers, industrial metal detectors, X-Ray scanners, and Track & Trace serialization and aggregation systems for the pharmaceutical industry with turnkey commissioning and factory warranty."
 msgstr "ОС-Технолоджи Україна — ексклюзивний авторизований дистриб'ютор та сертифікований інтеграційний партнер WIPOTEC GmbH і MESUTRONIC Gerätebau GmbH в Україні. Ми постачаємо контрольні динамічні ваги, промислові металодетектори, X-Ray сканери та системи серіалізації та агрегації Track & Trace для фармацевтичної промисловості із введенням в експлуатацію під ключ та заводською гарантією."
 
@@ -504,7 +509,7 @@ msgstr "Офіційний ексклюзивний дистриб'ютор та
 msgid "One or more selected equipment types are invalid."
 msgstr "Один або кілька обраних типів обладнання недійсні."
 
-#: src/components/catalogue/CatalogueSidebar.astro:19
+#: src/components/catalogue/CatalogueSidebar.astro:42
 msgid "Open filters"
 msgstr "Відкрити фільтри"
 
@@ -523,7 +528,7 @@ msgid "Our Clients"
 msgstr "Наші клієнти"
 
 #: src/components/catalogue/ProductSidebar.astro:29
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:184
+#: src/pages/[lang]/catalogue/equipment/[category]/[slug].astro:190
 msgid "Our engineering team is ready to configure this equipment for your specific production environment."
 msgstr "Наша інженерна команда готова підібрати конфігурацію обладнання відповідно до потреб вашого виробництва."
 
@@ -533,12 +538,12 @@ msgstr "Сторінка"
 
 #: src/pages/404.astro:9
 #: src/pages/404.astro:9
-#: src/components/errors/NotFoundContent.astro:17
+#: src/components/errors/NotFoundContent.astro:18
 msgid "Page Not Found"
 msgstr "Сторінку не знайдено"
 
-#: src/components/homepage/IndustriesSection.astro:60
 #: src/components/contact/ContactForm.astro:30
+#: src/components/homepage/IndustriesSection.astro:60
 msgid "Pharmaceutical"
 msgstr "Фармацевтична промисловість"
 
@@ -552,7 +557,7 @@ msgstr "Фармацевтика"
 msgid "Phone"
 msgstr "Телефон"
 
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:180
+#: src/pages/[lang]/catalogue/equipment/[category]/[slug].astro:186
 msgid "Planning to upgrade your production line?"
 msgstr "Плануєте модернізувати виробничу лінію?"
 
@@ -594,7 +599,7 @@ msgstr "Попередня сторінка"
 msgid "Privacy Policy"
 msgstr "Політика конфіденційності"
 
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:153
+#: src/pages/[lang]/catalogue/equipment/[category]/[slug].astro:159
 msgid "Product Overview"
 msgstr "Огляд обладнання"
 
@@ -602,7 +607,7 @@ msgstr "Огляд обладнання"
 msgid "Product image thumbnails"
 msgstr "Мініатюри зображень обладнання"
 
-#: src/pages/[lang]/catalogue/[category]/index.astro:118
+#: src/pages/[lang]/catalogue/equipment/[category]/index.astro:117
 msgid "Products"
 msgstr "Обладнання"
 
@@ -618,21 +623,21 @@ msgstr "Гравітаційні сепаратори домішок Quicktron �
 msgid "Ready to upgrade your line?"
 msgstr "Плануєте модернізувати виробничу лінію?"
 
-#: src/components/catalogue/RelatedEquipment.astro:37
+#: src/components/catalogue/RelatedEquipment.astro:38
 msgid "Related Equipment"
 msgstr "Схоже обладнання"
 
 #: src/components/catalogue/ProductSidebar.astro:41
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:244
+#: src/pages/[lang]/catalogue/equipment/[category]/[slug].astro:250
 msgid "Request Consultation"
 msgstr "Замовити консультацію"
 
-#: src/components/about/AboutHero.astro:111
+#: src/components/about/AboutHero.astro:112
 #: src/components/about/AboutCta.astro:62
 msgid "Request a quote"
 msgstr "Запросити пропозицію"
 
-#: src/components/errors/NotFoundContent.astro:26
+#: src/components/errors/NotFoundContent.astro:27
 msgid "Requested path"
 msgstr "Запитана адреса"
 
@@ -650,11 +655,11 @@ msgstr "Оберіть галузь…"
 msgid "Send Us a Message"
 msgstr "Надіслати повідомлення"
 
-#: src/components/about/AboutHero.astro:41
+#: src/components/about/AboutHero.astro:42
 msgid "Serialization Stations"
 msgstr "Станцій серіалізації"
 
-#: src/components/about/AboutHero.astro:26
+#: src/components/about/AboutHero.astro:27
 msgid "Serving Ukraine since 2013"
 msgstr "Працюємо в Україні з 2013 року"
 
@@ -709,11 +714,11 @@ msgid "Systems operating across Ukrainian manufacturing facilities."
 msgstr "Наше обладнання працює на виробничих підприємствах по всій Україні."
 
 #: src/components/catalogue/ProductSidebar.astro:54
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:262
+#: src/pages/[lang]/catalogue/equipment/[category]/[slug].astro:268
 msgid "Technical Datasheet"
 msgstr "Технічна специфікація"
 
-#: src/components/catalogue/ProductCard.astro:76
+#: src/components/catalogue/ProductCard.astro:75
 msgid "Technical Details"
 msgstr "Технічні деталі"
 
@@ -721,7 +726,7 @@ msgstr "Технічні деталі"
 msgid "Technical Specifications"
 msgstr "Технічні характеристики"
 
-#: src/components/catalogue/CatalogueSidebar.astro:55
+#: src/components/catalogue/CatalogueSidebar.astro:78
 msgid "Technical Specs"
 msgstr "Технічні характеристики"
 
@@ -738,7 +743,7 @@ msgstr "Розкажіть, що ви виробляєте і що потріб�
 msgid "Terms of Service"
 msgstr "Умови користування"
 
-#: src/components/errors/NotFoundContent.astro:18
+#: src/components/errors/NotFoundContent.astro:19
 msgid "The page you are looking for does not exist or has been moved. Explore our catalogue or return to the homepage."
 msgstr "Сторінка, яку ви шукаєте, не існує або була переміщена. Перегляньте наш каталог або поверніться на головну сторінку."
 
@@ -762,7 +767,7 @@ msgstr "Цей перелік не є вичерпним: тут показан�
 msgid "This value is too long."
 msgstr "Це значення занадто довге."
 
-#: src/components/Header.astro:150
+#: src/components/Header.astro:155
 msgid "Toggle menu"
 msgstr "Відкрити або закрити меню"
 
@@ -787,7 +792,7 @@ msgstr "Нам довіряють провідні підприємства Ук
 msgid "Trusted by Ukraine's Leading Manufacturers"
 msgstr "Нам довіряють провідні виробники України"
 
-#: src/components/about/AboutHero.astro:29
+#: src/components/about/AboutHero.astro:30
 msgid "Trusted by {clients} factories across Ukraine"
 msgstr "Нам довіряють {clients} підприємств по всій Україні"
 
@@ -818,7 +823,7 @@ msgstr "Підтверджена присутність на промислов�
 msgid "View Products"
 msgstr "Переглянути обладнання"
 
-#: src/components/about/AboutHero.astro:121
+#: src/components/about/AboutHero.astro:122
 msgid "View equipment"
 msgstr "Переглянути обладнання"
 
@@ -831,7 +836,7 @@ msgstr "Переглянути зображення"
 msgid "Visit website"
 msgstr "Перейти на сайт"
 
-#: src/components/Header.astro:60
+#: src/components/Header.astro:65
 msgid "Website in active development: Information and specifications may not be accurate, pages are still being completed, and all content is subject to change."
 msgstr "Сайт у процесі розробки: інформація та технічні дані можуть бути неточними, сторінки наповнюються та весь вміст може змінюватися."
 
@@ -839,7 +844,7 @@ msgstr "Сайт у процесі розробки: інформація та �
 msgid "Weighing and inspection systems have been a quality standard for over 30 years, and 95% of components are developed and manufactured in-house in one location in Kaiserslautern."
 msgstr "Системи зважування та контролю понад 30 років є стандартом якості, а 95% компоненти розробляються і виготовляються власними силами в одному місці в Кайзерслаутерні."
 
-#: src/components/Header.astro:24
+#: src/components/Header.astro:29
 msgid "Wiki"
 msgstr "База знань"
 

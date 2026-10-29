@@ -1,6 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import CatalogueSidebar from "@/components/catalogue/CatalogueSidebar.astro";
+import CatalogueBand from "@/components/catalogue/CatalogueBand.astro";
 import CategoryHeader from "@/components/catalogue/CategoryHeader.astro";
 import ProductCard from "@/components/catalogue/ProductCard.astro";
 import { getInlineTranslations, getIsoLang, type Lang } from "@/i18n";
@@ -10,6 +10,7 @@ import {
 	filterByCategory,
 	filterByLocale,
 	getCategoriesForLocale,
+	getIndustriesForLocale,
 	getProducts,
 	getSlug,
 	type Locale,
@@ -21,7 +22,7 @@ export async function getStaticPaths() {
 	const allEquipment = await getCollection("equipment");
 	const allProducts = getProducts(allEquipment);
 
-	// Categories are now sourced from JSON, not _index entries
+	// Categories are sourced from JSON, not _index entries
 	const enCategories = getCategoriesForLocale("en");
 	const uaCategories = getCategoriesForLocale("ua");
 
@@ -43,6 +44,7 @@ export async function getStaticPaths() {
 					categorySlug: cat.slug,
 					products: categoryProducts || [],
 					allCategories: localeCategories,
+					allIndustries: getIndustriesForLocale(lang),
 					lang,
 				},
 			});
@@ -52,14 +54,21 @@ export async function getStaticPaths() {
 	return paths;
 }
 
-const { categoryData, categorySlug, products = [], allCategories = [], lang } = Astro.props;
+const {
+	categoryData,
+	categorySlug,
+	products = [],
+	allCategories = [],
+	allIndustries = [],
+	lang,
+} = Astro.props;
 const _ = getInlineTranslations(lang as Lang);
 
 // Sort products by order field; categories keep their JSON array order
 const sortedProducts = Array.isArray(products) ? sortByOrder(products) : [];
 const sortedCategories = Array.isArray(allCategories) ? allCategories : [];
 
-// Page metadata (clean field names!) - with fallback for missing categoryData
+// Page metadata - with fallback for missing categoryData
 const pageTitle = `${categoryData?.title || "Equipment"} | ${lang === "en" ? "OS-Technology" : "ОС-Технолоджи"}`;
 const pageDescription = categoryData?.description || "";
 
@@ -98,44 +107,30 @@ const structuredData = {
 
 	<CategoryHeader categoryData={categoryData} lang={lang as Lang} />
 
-	{/* Muted band: white sidebar and product cards stand out against it */}
-	<section class="bg-surface-container w-full scroll-mt-32 py-12 lg:py-20" data-catalogue-band>
-		<div class="px-edge-margin mx-auto flex max-w-[1600px] gap-8">
-			{/* Sidebar Navigation */}
-			<CatalogueSidebar
-				allCategories={sortedCategories}
-				currentCategory={categorySlug}
-				lang={lang as Lang}
-			/>
-
-			{/* Swapped in place when the sidebar switches category (see the CatalogueSidebar script) */}
-			<div class="min-w-0 flex-1 transition-opacity duration-200 aria-busy:opacity-60" data-catalogue-results>
-				<section aria-label={_("Products")}>
-					{
-						sortedProducts.length > 0 ? (
-							<div
-								id="productGrid"
-								class="gap-gutter grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
-							>
-								{sortedProducts.map((product, index) => (
-									<ProductCard product={product} lang={lang as Lang} index={index} />
-								))}
-							</div>
-						) : (
-							<div class="text-industrial-gray py-24 text-center">
-								<p class="text-lg">{_("No products available in this category")}</p>
-							</div>
-						)
-					}
-				</section>
-			</div>
-		</div>
-	</section>
+	<CatalogueBand
+		allCategories={sortedCategories}
+		allIndustries={allIndustries}
+		section="equipment"
+		activeSlug={categorySlug}
+		lang={lang as Lang}
+	>
+		<section aria-label={_("Products")}>
+			{
+				sortedProducts.length > 0 ? (
+					<div
+						data-product-grid
+						class="gap-gutter grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
+					>
+						{sortedProducts.map((product, index) => (
+							<ProductCard product={product} lang={lang as Lang} index={index} />
+						))}
+					</div>
+				) : (
+					<div class="text-industrial-gray py-24 text-center">
+						<p class="text-lg">{_("No products available in this category")}</p>
+					</div>
+				)
+			}
+		</section>
+	</CatalogueBand>
 </Layout>
-
-<script>
-	import { revealOnce } from "@/lib/anims/reveal-once";
-
-	const grid = document.getElementById("productGrid");
-	if (grid) revealOnce(grid, 0.1);
-</script>

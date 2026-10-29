@@ -1,0 +1,36 @@
+---
+import type { Lang } from "@/i18n";
+import type { EquipmentType, Industry } from "@/lib/content-utils";
+import CatalogueSidebar from "./CatalogueSidebar.astro";
+
+interface Props {
+	allCategories: EquipmentType[];
+	allIndustries: Industry[];
+	section: "equipment" | "industry";
+	activeSlug: string;
+	lang: Lang;
+}
+---
+
+{/* Muted band: white sidebar and product cards stand out against it */}
+<section class="bg-surface-container w-full scroll-mt-32 py-12 lg:py-20" data-catalogue-band>
+	<div class="px-edge-margin mx-auto flex max-w-[1600px] gap-8">
+		<CatalogueSidebar {...Astro.props} />
+
+		{/* Swapped in place when the sidebar switches page (see the CatalogueSidebar script) */}
+		<div
+			class="min-w-0 flex-1 transition-opacity duration-200 aria-busy:opacity-60"
+			data-catalogue-results
+		>
+			<slot />
+		</div>
+	</div>
+</section>
+
+<script>
+	import { revealOnce } from "@/lib/anims/reveal-once";
+
+	document
+		.querySelectorAll<HTMLElement>("[data-product-grid]")
+		.forEach((grid) => revealOnce(grid, 0.1));
+</script>
