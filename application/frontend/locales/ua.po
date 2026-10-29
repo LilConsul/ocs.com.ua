@@ -153,7 +153,7 @@ msgstr "Закрити фільтри"
 msgid "Close notification"
 msgstr "Закрити сповіщення"
 
-#: src/components/catalogue/ProductGallery.astro:163
+#: src/components/catalogue/ProductGallery.astro:203
 msgid "Close preview"
 msgstr "Закрити попередній перегляд"
 
@@ -167,11 +167,11 @@ msgstr "Контактна інформація"
 
 #: src/components/Header.astro:119
 #: src/components/Header.astro:186
+#: src/components/homepage/HeroSection.astro:98
 #: src/components/errors/ServerErrorContent.astro:46
 #: src/components/errors/NotFoundContent.astro:54
-#: src/components/homepage/HeroSection.astro:98
-#: src/components/catalogue/CatalogueSidebar.astro:99
 #: src/components/contact/ContactHero.astro:28
+#: src/components/catalogue/CatalogueSidebar.astro:99
 #: src/components/about/AboutCta.astro:36
 msgid "Contact Us"
 msgstr "Зв’язатися з нами"
@@ -218,9 +218,13 @@ msgid "Direct Factory Partnership & Certified Distribution"
 msgstr "Пряме партнерство із заводами та сертифікована дистрибуція"
 
 #: src/components/catalogue/ProductSidebar.astro:64
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:196
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:197
 msgid "Direct Technical Sales"
 msgstr "Прямі продажі технічного обладнання"
+
+#: src/components/catalogue/ProductGallery.astro:195
+msgid "Double-click to toggle"
+msgstr "Подвійний клік — масштаб"
 
 #: src/components/about/ManufacturerCredentials.astro:165
 #: src/components/about/ManufacturerCredentials.astro:172
@@ -255,8 +259,8 @@ msgstr "Категорії обладнання"
 msgid "Equipment of Interest"
 msgstr "Обладнання, що цікавить"
 
-#: src/components/catalogue/ProductGallery.astro:50
-#: src/components/catalogue/ProductGallery.astro:51
+#: src/components/catalogue/ProductGallery.astro:79
+#: src/components/catalogue/ProductGallery.astro:80
 msgid "Expand image"
 msgstr "Збільшити зображення"
 
@@ -334,7 +338,11 @@ msgstr "Високошвидкісні контрольно динамічні �
 msgid "Hygienic checkweighers meeting food safety standards (FDA, IFS, BRC). Built for production lines."
 msgstr "Гігієнічні контрольно динамічні ваги, що відповідають вимогам харчової безпеки (FDA, IFS, BRC) та призначені для виробничих ліній."
 
-#: src/components/catalogue/ProductGallery.astro:134
+#: src/components/catalogue/ProductGallery.astro:66
+msgid "Image"
+msgstr "Зображення"
+
+#: src/components/catalogue/ProductGallery.astro:164
 msgid "Image lightbox"
 msgstr "Перегляд зображення у збільшеному форматі"
 
@@ -455,8 +463,8 @@ msgstr "Діє кілька підприємств"
 msgid "Need help finding equipment?"
 msgstr "Потрібна допомога з вибором обладнання?"
 
-#: src/components/catalogue/ProductGallery.astro:86
-#: src/components/catalogue/ProductGallery.astro:198
+#: src/components/catalogue/ProductGallery.astro:117
+#: src/components/catalogue/ProductGallery.astro:244
 msgid "Next image"
 msgstr "Наступне зображення"
 
@@ -523,7 +531,7 @@ msgid "Our Clients"
 msgstr "Наші клієнти"
 
 #: src/components/catalogue/ProductSidebar.astro:29
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:184
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:185
 msgid "Our engineering team is ready to configure this equipment for your specific production environment."
 msgstr "Наша інженерна команда готова підібрати конфігурацію обладнання відповідно до потреб вашого виробництва."
 
@@ -552,7 +560,7 @@ msgstr "Фармацевтика"
 msgid "Phone"
 msgstr "Телефон"
 
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:180
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:181
 msgid "Planning to upgrade your production line?"
 msgstr "Плануєте модернізувати виробничу лінію?"
 
@@ -580,8 +588,8 @@ msgstr "Будь ласка, за можливості використовуй�
 msgid "Precision checkweighers with Track & Trace serialization. GMP-compliant and audit-ready."
 msgstr "Високоточні контрольно динамічні ваги із системами серіалізації Track & Trace, що відповідають вимогам GMP та готові до аудиту."
 
-#: src/components/catalogue/ProductGallery.astro:78
-#: src/components/catalogue/ProductGallery.astro:190
+#: src/components/catalogue/ProductGallery.astro:109
+#: src/components/catalogue/ProductGallery.astro:236
 msgid "Previous image"
 msgstr "Попереднє зображення"
 
@@ -594,11 +602,12 @@ msgstr "Попередня сторінка"
 msgid "Privacy Policy"
 msgstr "Політика конфіденційності"
 
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:153
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:154
 msgid "Product Overview"
 msgstr "Огляд обладнання"
 
-#: src/components/catalogue/ProductGallery.astro:101
+#: src/components/catalogue/ProductGallery.astro:129
+#: src/components/catalogue/ProductGallery.astro:257
 msgid "Product image thumbnails"
 msgstr "Мініатюри зображень обладнання"
 
@@ -623,7 +632,7 @@ msgid "Related Equipment"
 msgstr "Схоже обладнання"
 
 #: src/components/catalogue/ProductSidebar.astro:41
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:244
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:245
 msgid "Request Consultation"
 msgstr "Замовити консультацію"
 
@@ -635,6 +644,10 @@ msgstr "Запросити пропозицію"
 #: src/components/errors/NotFoundContent.astro:26
 msgid "Requested path"
 msgstr "Запитана адреса"
+
+#: src/components/catalogue/ProductGallery.astro:191
+msgid "Scroll to zoom"
+msgstr "Прокрутка — масштаб"
 
 #: src/components/contact/ContactForm.astro:50
 #: src/components/contact/ContactForm.astro:51
@@ -709,15 +722,15 @@ msgid "Systems operating across Ukrainian manufacturing facilities."
 msgstr "Наше обладнання працює на виробничих підприємствах по всій Україні."
 
 #: src/components/catalogue/ProductSidebar.astro:54
-#: src/pages/[lang]/catalogue/[category]/[slug].astro:262
+#: src/pages/[lang]/catalogue/[category]/[slug].astro:263
 msgid "Technical Datasheet"
 msgstr "Технічна специфікація"
 
-#: src/components/catalogue/ProductCard.astro:76
+#: src/components/catalogue/ProductCard.astro:78
 msgid "Technical Details"
 msgstr "Технічні деталі"
 
-#: src/components/catalogue/ProductSpecsTable.astro:23
+#: src/components/catalogue/ProductSpecsTable.astro:37
 msgid "Technical Specifications"
 msgstr "Технічні характеристики"
 
@@ -822,8 +835,8 @@ msgstr "Переглянути обладнання"
 msgid "View equipment"
 msgstr "Переглянути обладнання"
 
-#: src/components/catalogue/ProductGallery.astro:112
-#: src/components/catalogue/ProductGallery.astro:216
+#: src/components/catalogue/ProductGallery.astro:140
+#: src/components/catalogue/ProductGallery.astro:264
 msgid "View image"
 msgstr "Переглянути зображення"
 

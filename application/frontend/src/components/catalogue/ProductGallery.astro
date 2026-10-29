@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import { ChevronLeft, ChevronRight, Maximize2, X } from "lucide-react";
 import { getInlineTranslations, type Lang } from "@/i18n";
 
 interface Props {
@@ -13,30 +14,58 @@ const _ = getInlineTranslations(lang);
 
 const galleryImages = images.length > 0 ? images : ["/placeholder.jpg"];
 const hasMultiple = galleryImages.length > 1;
+const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
+const counterText = `01 / ${pad(galleryImages.length)}`;
+
+// One button recipe for the card and the lightbox, so both read as the same family.
+// touch-manipulation turns off the browser's double-tap zoom on controls.
+const controlButton =
+	"border-border-subtle/60 bg-background/90 text-industrial-gray hover:bg-secondary hover:border-secondary hover:text-background focus-visible:outline-secondary inline-flex cursor-pointer touch-manipulation items-center justify-center border shadow-xs backdrop-blur-md transition-[background-color,color,border-color,scale] duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-95";
+
+// Thumbnail recipe shared by the rail and the lightbox strip
+const thumbBase =
+	"border-border-subtle/60 hover:border-secondary/40 focus-visible:outline-secondary aspect-[4/3] shrink-0 cursor-pointer touch-manipulation overflow-hidden rounded-lg border bg-white p-1.5 opacity-60 transition-[opacity,border-color,box-shadow] duration-200 hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2";
 ---
 
-<div
-	class="product-gallery-container w-full select-none"
+<figure
+	class="product-gallery-container m-0 w-full select-none"
 	data-images={JSON.stringify(galleryImages)}
+	itemscope
+	itemtype="https://schema.org/ImageGallery"
+	role="group"
+	aria-roledescription="gallery"
+	aria-label={title}
 >
-	{/* Main Interactive Viewer Card */}
+	<meta itemprop="name" content={title} />
+	<meta itemprop="numberOfItems" content={String(galleryImages.length)} />
+	{/* Structured data: one ImageObject per photo, independent of what is currently shown */}
+	{
+		galleryImages.map((img, idx) => (
+			<span hidden itemprop="associatedMedia" itemscope itemtype="https://schema.org/ImageObject">
+				<meta itemprop="contentUrl" content={img} />
+				<meta itemprop="name" content={`${title} - ${idx + 1}`} />
+				<meta itemprop="representativeOfPage" content={idx === 0 ? "true" : "false"} />
+			</span>
+		))
+	}
+
+	{/* Main viewer */}
 	<div
-		class="group border-border-subtle/70 hover:border-secondary/40 before:from-secondary relative aspect-[4/3] w-full overflow-hidden rounded-xl border bg-white shadow-xs transition-[box-shadow,border-color] duration-300 before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-0.5 before:bg-linear-to-r before:to-transparent hover:shadow-lg md:aspect-[16/10]"
+		data-main-card
+		class="group/card border-border-subtle/50 hover:border-secondary/40 before:from-secondary relative aspect-[4/3] w-full touch-pan-y overflow-hidden rounded-xl border bg-white shadow-xs transition-[box-shadow,border-color] duration-300 before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-0.5 before:bg-linear-to-r before:to-transparent hover:shadow-lg"
 	>
-		{/* Top Badges Bar */}
-		<div
-			class="pointer-events-none absolute inset-x-0 top-0 z-10 flex items-center justify-between p-4"
-		>
+		{/* Badge bar — floats over the image */}
+		<div class="absolute inset-x-0 top-0 z-10 flex items-center justify-between p-3 sm:p-4">
 			{
 				hasMultiple ? (
-					<span
-						id="gallery-badge-counter"
-						class="border-border/60 bg-background/80 text-muted-foreground pointer-events-auto inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[11px] font-medium shadow-2xs backdrop-blur-md"
-					>
-						<span class="bg-secondary inline-block h-1.5 w-1.5 rounded-full" />
-						<span id="gallery-badge-text">
-							01 / {galleryImages.length < 10 ? `0${galleryImages.length}` : galleryImages.length}
+					<span class="font-technical-data border-border-subtle/60 bg-background/90 text-industrial-gray inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[11px] tabular-nums shadow-xs backdrop-blur-md">
+						<span class="relative flex size-1.5" aria-hidden="true">
+							<span class="bg-secondary/50 absolute inset-0 rounded-full motion-safe:animate-ping" />
+							<span class="bg-secondary relative size-1.5 rounded-full" />
 						</span>
+						<output id="gallery-badge-text" aria-label={_("Image")}>
+							{counterText}
+						</output>
 					</span>
 				) : (
 					<span />
@@ -46,210 +75,250 @@ const hasMultiple = galleryImages.length > 1;
 			<button
 				type="button"
 				id="gallery-expand-btn"
-				class="border-border/60 bg-background/80 text-muted-foreground hover:bg-background hover:text-foreground pointer-events-auto inline-flex h-8 w-8 items-center justify-center rounded-lg border shadow-2xs backdrop-blur-md transition-all hover:scale-105 active:scale-95"
+				class={`${controlButton} size-9 rounded-lg`}
 				aria-label={_("Expand image")}
 				title={_("Expand image")}
+				aria-haspopup="dialog"
 			>
-				<span class="material-symbols-outlined text-[18px]">zoom_out_map</span>
+				<Maximize2 className="size-4" aria-hidden="true" />
 			</button>
 		</div>
 
-		{/* Main Image Frame */}
-		<div class="flex h-full w-full items-center justify-center p-6 md:p-8">
+		{/* Image area — full card, even padding on all sides */}
+		<div class="flex h-full w-full items-center justify-center p-4 md:p-6">
 			<Image
 				id="gallery-main-image"
 				src={galleryImages[0]}
 				alt={title}
 				width={800}
 				height={600}
-				class="max-h-full max-w-full cursor-zoom-in object-contain drop-shadow-sm transition-transform duration-300 ease-out group-hover:scale-[1.02]"
+				class="max-h-full max-w-full cursor-zoom-in object-contain drop-shadow-sm transition-transform duration-300 ease-out motion-safe:group-hover/card:scale-[1.02]"
 				loading="eager"
+				itemprop="image"
 			/>
 		</div>
 
-		{/* Hover Prev/Next Navigation Controls */}
+		{/* Prev / next: always visible on touch screens, revealed on hover for mouse users */}
 		{
 			hasMultiple && (
 				<>
 					<button
 						type="button"
 						id="gallery-card-prev"
-						class="border-border/70 bg-background/85 text-muted-foreground hover:bg-background hover:text-foreground absolute top-1/2 left-3 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border opacity-0 shadow-sm backdrop-blur-md transition-all duration-200 group-hover:opacity-100 hover:scale-105 active:scale-95"
+						class={`${controlButton} absolute top-1/2 left-3 z-10 size-10 -translate-y-1/2 rounded-full md:opacity-0 md:group-hover/card:opacity-100 md:focus-visible:opacity-100`}
 						aria-label={_("Previous image")}
 					>
-						<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+						<ChevronLeft className="size-5" aria-hidden="true" />
 					</button>
 					<button
 						type="button"
 						id="gallery-card-next"
-						class="border-border/70 bg-background/85 text-muted-foreground hover:bg-background hover:text-foreground absolute top-1/2 right-3 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border opacity-0 shadow-sm backdrop-blur-md transition-all duration-200 group-hover:opacity-100 hover:scale-105 active:scale-95"
+						class={`${controlButton} absolute top-1/2 right-3 z-10 size-10 -translate-y-1/2 rounded-full md:opacity-0 md:group-hover/card:opacity-100 md:focus-visible:opacity-100`}
 						aria-label={_("Next image")}
 					>
-						<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+						<ChevronRight className="size-5" aria-hidden="true" />
 					</button>
 				</>
 			)
 		}
 	</div>
 
-	{/* Thumbnail Rail (shadcn Tabs / Selector Style) */}
+	{/* Thumbnail rail */}
 	{
 		hasMultiple && (
-			<div
-				class="mt-3.5 flex items-center gap-2.5 overflow-x-auto p-1"
-				role="tablist"
-				aria-label={_("Product image thumbnails")}
-			>
-				{galleryImages.map((img, idx) => (
-						<button
-							type="button"
-							class={`gallery-thumb group bg-white relative aspect-[4/3] h-18 shrink-0 cursor-pointer overflow-hidden rounded-lg border p-1.5 transition-all duration-200 ${
-								idx === 0
-									? "border-secondary ring-secondary/20 ring-offset-background opacity-100 shadow-xs ring-2 ring-offset-2"
-									: "border-border/60 hover:border-border opacity-60 hover:opacity-100"
-							}`}
-							data-index={idx}
-							aria-label={`${_("View image")} ${idx + 1}`}
-							role="tab"
-							aria-selected={idx === 0 ? "true" : "false"}
-						>
-							<Image
-								src={img}
-								alt={`${title} - ${idx + 1}`}
-								width={160}
-								height={120}
-								class="h-full w-full object-contain transition-transform duration-200 group-hover:scale-105"
-								loading="eager"
-							/>
-						</button>
+			<nav class="mt-3" aria-label={_("Product image thumbnails")}>
+				<ul
+					class="thumb-rail m-0 flex list-none snap-x items-center gap-2.5 overflow-x-auto p-1"
+					role="tablist"
+				>
+					{galleryImages.map((img, idx) => (
+						<li role="presentation" class="shrink-0 snap-start">
+							<button
+								type="button"
+								class={`gallery-thumb group/thumb ${thumbBase} aria-selected:border-secondary aria-selected:ring-secondary/20 relative h-[4.5rem] aria-selected:opacity-100 aria-selected:shadow-xs aria-selected:ring-2`}
+								data-index={idx}
+								aria-label={`${_("View image")} ${idx + 1}`}
+								role="tab"
+								aria-selected={idx === 0 ? "true" : "false"}
+							>
+								<Image
+									src={img}
+									alt={`${title} - ${idx + 1}`}
+									width={160}
+									height={120}
+									class="h-full w-full object-contain transition-transform duration-200 motion-safe:group-hover/thumb:scale-105"
+									loading="eager"
+								/>
+							</button>
+						</li>
 					))}
-			</div>
+				</ul>
+			</nav>
 		)
 	}
 
-	{/* Lightbox Modal (shadcn Dialog style) */}
+	{/* Lightbox */}
 	<dialog
 		id="gallery-lightbox"
-		class="bg-background/90 backdrop:bg-background/90 animate-in fade-in-0 fixed inset-0 z-50 m-0 h-full max-h-none w-full max-w-none p-0 backdrop-blur-xl duration-200 open:flex open:flex-col open:items-center open:justify-center"
+		class="gallery-lightbox bg-background/50 text-foreground fixed inset-0 z-50 m-0 h-full max-h-none w-full max-w-none overscroll-contain p-0 backdrop-blur-2xl open:block"
 		aria-label={_("Image lightbox")}
 	>
-		<div
-			class="relative flex h-full w-full max-w-6xl flex-col items-center justify-between p-4 md:p-6"
+		<header
+			class="border-border-subtle/60 bg-background/40 absolute inset-x-0 top-0 z-20 flex items-center justify-between gap-4 border-b backdrop-blur-md px-4 py-3 sm:px-8 sm:py-4"
 		>
-			{/* Lightbox Header */}
-			<div class="border-border/40 flex w-full items-center justify-between border-b pb-4">
-				<div class="flex min-w-0 items-center gap-3">
-					<span class="font-heading text-foreground text-sm font-semibold truncate md:text-base"
-						>{title}</span
-					>
-					<span
-						id="lightbox-counter"
-						class="border-border/60 bg-muted/60 text-muted-foreground rounded-full border px-2.5 py-0.5 font-mono text-xs"
-					>
-						01 / {galleryImages.length < 10 ? `0${galleryImages.length}` : galleryImages.length}
-					</span>
-				</div>
-
-				<div class="flex items-center gap-2">
-					<kbd
-						class="border-border/60 bg-muted/50 text-muted-foreground hidden rounded border px-2 py-0.5 font-mono text-[11px] md:inline-block"
-					>
-						ESC
-					</kbd>
-					<button
-						type="button"
-						id="lightbox-close-btn"
-						class="border-border/60 bg-background text-muted-foreground hover:bg-muted hover:text-foreground flex h-9 w-9 items-center justify-center rounded-lg border transition-all active:scale-95"
-						aria-label={_("Close preview")}
-					>
-						<span class="material-symbols-outlined text-[20px]">close</span>
-					</button>
-				</div>
-			</div>
-
-			{/* Main Lightbox Image Viewport */}
-			<div class="relative flex max-h-[75vh] w-full flex-1 items-center justify-center p-4">
-				<Image
-					id="lightbox-image"
-					src={galleryImages[0]}
-					alt={title}
-					width={1200}
-					height={900}
-					class="max-h-[70vh] max-w-full object-contain drop-shadow-md transition-all duration-200"
-					loading="lazy"
-				/>
-
-				{/* Navigation Buttons in Lightbox */}
+			<div class="flex min-w-0 items-center gap-3">
+				<span class="bg-secondary h-4 w-0.5 shrink-0 rounded-full" aria-hidden="true"></span>
+				<h2
+					class="font-headline-lg text-foreground m-0 truncate text-sm font-semibold tracking-tight sm:text-base"
+				>
+					{title}
+				</h2>
 				{
 					hasMultiple && (
-						<>
-							<button
-								type="button"
-								id="lightbox-prev-btn"
-								class="border-border/80 bg-background/90 text-foreground hover:bg-background absolute top-1/2 left-2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border shadow-md backdrop-blur-md transition-all hover:scale-105 active:scale-95"
-								aria-label={_("Previous image")}
-							>
-								<span class="material-symbols-outlined text-[24px]">chevron_left</span>
-							</button>
-							<button
-								type="button"
-								id="lightbox-next-btn"
-								class="border-border/80 bg-background/90 text-foreground hover:bg-background absolute top-1/2 right-2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border shadow-md backdrop-blur-md transition-all hover:scale-105 active:scale-95"
-								aria-label={_("Next image")}
-							>
-								<span class="material-symbols-outlined text-[24px]">chevron_right</span>
-							</button>
-						</>
+						<output
+							id="lightbox-counter"
+							class="font-technical-data border-border-subtle/60 bg-background text-industrial-gray shrink-0 rounded-full border px-2.5 py-0.5 text-[11px] tabular-nums"
+						>
+							{counterText}
+						</output>
 					)
 				}
 			</div>
 
-			{/* Lightbox Bottom Thumbnail Bar */}
+			<div class="flex shrink-0 items-center gap-3">
+				<small class="font-technical-data text-industrial-gray hidden items-center gap-1.5 text-[11px] md:inline-flex">
+					<kbd class="border-border-subtle/60 bg-background rounded border px-1.5 py-0.5">
+						{_("Scroll to zoom")}
+					</kbd>
+					<span aria-hidden="true">·</span>
+					<kbd class="border-border-subtle/60 bg-background rounded border px-1.5 py-0.5">
+						{_("Double-click to toggle")}
+					</kbd>
+				</small>
+				<span class="bg-border-subtle/60 hidden h-4 w-px md:block" aria-hidden="true"></span>
+				<button
+					type="button"
+					id="lightbox-close-btn"
+					class={`${controlButton} size-10 rounded-lg`}
+					aria-label={_("Close preview")}
+				>
+					<X className="size-5" aria-hidden="true" />
+				</button>
+			</div>
+		</header>
+
+		{/* The stage fills the whole screen; header and thumbnails float over it. Clicking empty space closes. */}
+		<div
+			id="lightbox-viewport"
+			class:list={[
+				"absolute inset-0 flex touch-none items-center justify-center overflow-hidden px-16 data-dragging:cursor-grabbing data-zoomed:cursor-grab",
+				hasMultiple ? "pt-[3.5rem] pb-[5.5rem] sm:pt-[4rem] sm:pb-[6rem] md:pt-[4.5rem] md:pb-[6.5rem]" : "pt-[3.5rem] pb-4 sm:pt-[4rem]",
+			]}
+		>
+			<Image
+				id="lightbox-image"
+				src={galleryImages[0]}
+				alt={title}
+				width={1200}
+				height={900}
+				class="border-border-subtle/50 max-h-full max-w-full rounded-lg border bg-white object-contain shadow-lg select-none"
+				loading="lazy"
+				draggable="false"
+			/>
+
 			{
 				hasMultiple && (
-					<div class="border-border/40 flex items-center gap-2 overflow-x-auto border-t pt-4 pb-2">
-						{galleryImages.map((img, idx) => (
-								<button
-									type="button"
-									class="lightbox-thumb bg-muted/40 aspect-[4/3] h-14 shrink-0 cursor-pointer overflow-hidden rounded-lg border p-1 transition-all"
-									data-index={idx}
-									aria-label={`${_("View image")} ${idx + 1}`}
-								>
-									<Image
-										src={img}
-										alt={`${title} - ${idx + 1}`}
-										width={100}
-										height={75}
-										class="h-full w-full object-contain"
-									/>
-								</button>
-							))}
-					</div>
+					<>
+						<button
+							type="button"
+							id="lightbox-prev-btn"
+							class={`${controlButton} absolute bottom-[5.5rem] left-3 size-11 rounded-full md:top-1/2 md:bottom-auto md:left-8 md:size-12 md:-translate-y-1/2`}
+							aria-label={_("Previous image")}
+						>
+							<ChevronLeft className="size-5 md:size-6" aria-hidden="true" />
+						</button>
+						<button
+							type="button"
+							id="lightbox-next-btn"
+							class={`${controlButton} absolute bottom-[5.5rem] right-3 size-11 rounded-full md:top-1/2 md:bottom-auto md:right-8 md:size-12 md:-translate-y-1/2`}
+							aria-label={_("Next image")}
+						>
+							<ChevronRight className="size-5 md:size-6" aria-hidden="true" />
+						</button>
+					</>
 				)
 			}
 		</div>
+
+		{
+			hasMultiple && (
+				<nav
+					class="border-border-subtle/60 bg-background/40 absolute inset-x-0 bottom-0 z-20 flex items-center justify-start gap-2 overflow-x-auto border-t backdrop-blur-md px-4 py-3 sm:justify-center md:py-4"
+					aria-label={_("Product image thumbnails")}
+				>
+					{galleryImages.map((img, idx) => (
+						<button
+							type="button"
+							class={`lightbox-thumb ${thumbBase} aria-[current=true]:border-secondary aria-[current=true]:ring-secondary/20 h-14 aria-[current=true]:opacity-100 aria-[current=true]:ring-2 md:h-16`}
+							data-index={idx}
+							aria-label={`${_("View image")} ${idx + 1}`}
+							aria-current={idx === 0 ? "true" : "false"}
+						>
+							<Image
+								src={img}
+								alt={`${title} - ${idx + 1}`}
+								width={100}
+								height={75}
+								class="h-full w-full object-contain"
+							/>
+						</button>
+					))}
+				</nav>
+			)
+		}
 	</dialog>
-</div>
+
+	<figcaption class="sr-only">{title}</figcaption>
+</figure>
+
+<style>
+	.thumb-rail {
+		scrollbar-width: thin;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.gallery-lightbox[open] {
+			animation: lightbox-in 0.2s ease-out;
+		}
+	}
+
+	@keyframes lightbox-in {
+		from {
+			opacity: 0;
+		}
+	}
+</style>
 
 <script>
-	function setupGallery() {
-		const container = document.querySelector<HTMLElement>(".product-gallery-container");
-		if (!container) return;
+	const MIN_SCALE = 1;
+	const MAX_SCALE = 5;
+	const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
 
-		const imagesData = container.dataset.images;
-		if (!imagesData) return;
+	function setupGallery(container: HTMLElement) {
+		container.dataset.ready = "";
 
 		let images: string[] = [];
 		try {
-			images = JSON.parse(imagesData);
+			images = JSON.parse(container.dataset.images ?? "[]");
 		} catch {
 			return;
 		}
+		if (images.length === 0) return;
 
-		let activeIndex = 0;
 		const total = images.length;
-		const padNum = (num: number) => (num < 10 ? `0${num}` : `${num}`);
+		let activeIndex = 0;
 
+		const card = container.querySelector<HTMLElement>("[data-main-card]");
 		const mainImg = container.querySelector<HTMLImageElement>("#gallery-main-image");
 		const badgeText = container.querySelector<HTMLElement>("#gallery-badge-text");
 		const thumbs = container.querySelectorAll<HTMLButtonElement>(".gallery-thumb");
@@ -259,142 +328,265 @@ const hasMultiple = galleryImages.length > 1;
 
 		const lightbox = container.querySelector<HTMLDialogElement>("#gallery-lightbox");
 		const lightboxImg = container.querySelector<HTMLImageElement>("#lightbox-image");
+		const viewport = container.querySelector<HTMLElement>("#lightbox-viewport");
 		const lightboxCounter = container.querySelector<HTMLElement>("#lightbox-counter");
 		const lightboxClose = container.querySelector<HTMLButtonElement>("#lightbox-close-btn");
 		const lightboxPrev = container.querySelector<HTMLButtonElement>("#lightbox-prev-btn");
 		const lightboxNext = container.querySelector<HTMLButtonElement>("#lightbox-next-btn");
 		const lightboxThumbs = container.querySelectorAll<HTMLButtonElement>(".lightbox-thumb");
 
-		function setActiveImage(index: number) {
-			if (index < 0 || index >= images.length) return;
-			activeIndex = index;
+		const isControl = (target: EventTarget | null) =>
+			target instanceof Element && target.closest("button") !== null;
 
-			if (mainImg) {
-				mainImg.src = images[activeIndex];
+		// ── Zoom / pan state ──────────────────────────────────────────────
+		let scale = 1;
+		let translateX = 0;
+		let translateY = 0;
+
+		const applyTransform = () => {
+			if (!lightboxImg) return;
+			lightboxImg.style.transform =
+				scale === 1 && translateX === 0 && translateY === 0
+					? ""
+					: `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+			viewport?.toggleAttribute("data-zoomed", scale > 1);
+		};
+
+		const clampTranslation = () => {
+			if (!lightboxImg || !viewport) return;
+			const maxX = Math.max(0, (lightboxImg.clientWidth * scale - viewport.clientWidth) / 2);
+			const maxY = Math.max(0, (lightboxImg.clientHeight * scale - viewport.clientHeight) / 2);
+			translateX = Math.min(maxX, Math.max(-maxX, translateX));
+			translateY = Math.min(maxY, Math.max(-maxY, translateY));
+		};
+
+		const resetZoom = () => {
+			scale = 1;
+			translateX = 0;
+			translateY = 0;
+			applyTransform();
+		};
+
+		// Zoom towards a point given in client coordinates
+		const zoomAt = (clientX: number, clientY: number, next: number) => {
+			if (!viewport) return;
+			next = Math.min(MAX_SCALE, Math.max(MIN_SCALE, next));
+			if (next === scale) return;
+			const rect = viewport.getBoundingClientRect();
+			const ox = clientX - rect.left - rect.width / 2;
+			const oy = clientY - rect.top - rect.height / 2;
+			translateX = ox - (ox - translateX) * (next / scale);
+			translateY = oy - (oy - translateY) * (next / scale);
+			scale = next;
+			if (scale === 1) {
+				translateX = 0;
+				translateY = 0;
 			}
-			if (badgeText) {
-				badgeText.textContent = `${padNum(activeIndex + 1)} / ${padNum(total)}`;
-			}
-			if (lightboxImg) {
-				lightboxImg.src = images[activeIndex];
-			}
-			if (lightboxCounter) {
-				lightboxCounter.textContent = `${padNum(activeIndex + 1)} / ${padNum(total)}`;
-			}
+			clampTranslation();
+			applyTransform();
+		};
+
+		// ── Active image ──────────────────────────────────────────────────
+		const setActiveImage = (index: number, scrollThumb = true) => {
+			if (index < 0 || index >= total) return;
+			activeIndex = index;
+			const label = `${pad(activeIndex + 1)} / ${pad(total)}`;
+
+			if (mainImg) mainImg.src = images[activeIndex];
+			if (lightboxImg) lightboxImg.src = images[activeIndex];
+			if (badgeText) badgeText.textContent = label;
+			if (lightboxCounter) lightboxCounter.textContent = label;
 
 			thumbs.forEach((thumb, i) => {
-				const isCurrent = i === activeIndex;
-				thumb.setAttribute("aria-selected", isCurrent ? "true" : "false");
-				if (isCurrent) {
-					thumb.classList.add(
-						"border-secondary",
-						"ring-2",
-						"ring-secondary/20",
-						"ring-offset-2",
-						"opacity-100",
-						"shadow-xs"
-					);
-					thumb.classList.remove("border-border/60", "opacity-60");
-				} else {
-					thumb.classList.remove(
-						"border-secondary",
-						"ring-2",
-						"ring-secondary/20",
-						"ring-offset-2",
-						"opacity-100",
-						"shadow-xs"
-					);
-					thumb.classList.add("border-border/60", "opacity-60");
-				}
+				thumb.setAttribute("aria-selected", String(i === activeIndex));
+			});
+			lightboxThumbs.forEach((thumb, i) => {
+				thumb.setAttribute("aria-current", String(i === activeIndex));
 			});
 
-			lightboxThumbs.forEach((thumb, i) => {
-				const isCurrent = i === activeIndex;
-				if (isCurrent) {
-					thumb.classList.add("border-secondary", "ring-2", "ring-secondary/20", "opacity-100");
-					thumb.classList.remove("border-border/60", "opacity-50");
-				} else {
-					thumb.classList.remove("border-secondary", "ring-2", "ring-secondary/20", "opacity-100");
-					thumb.classList.add("border-border/60", "opacity-50");
+			if (scrollThumb) {
+				thumbs[activeIndex]?.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
+				lightboxThumbs[activeIndex]?.scrollIntoView({
+					block: "nearest",
+					inline: "nearest",
+					behavior: "smooth",
+				});
+			}
+		};
+
+		const step = (dir: 1 | -1) => {
+			resetZoom();
+			setActiveImage((activeIndex + dir + total) % total);
+		};
+
+		thumbs.forEach((thumb) =>
+			thumb.addEventListener("click", () =>
+				setActiveImage(Number.parseInt(thumb.dataset.index || "0", 10), false)
+			)
+		);
+		lightboxThumbs.forEach((thumb) =>
+			thumb.addEventListener("click", () => {
+				resetZoom();
+				setActiveImage(Number.parseInt(thumb.dataset.index || "0", 10));
+			})
+		);
+		cardPrev?.addEventListener("click", () => step(-1));
+		cardNext?.addEventListener("click", () => step(1));
+		lightboxPrev?.addEventListener("click", () => step(-1));
+		lightboxNext?.addEventListener("click", () => step(1));
+
+		// ── Swipe on the main card (touch and mouse) ──────────────────────
+		let swipeStart: { x: number; y: number } | null = null;
+		let swipedAt = 0;
+		if (card && total > 1) {
+			card.addEventListener("pointerdown", (e) => {
+				if (isControl(e.target)) return;
+				swipeStart = { x: e.clientX, y: e.clientY };
+			});
+			card.addEventListener("pointerup", (e) => {
+				if (!swipeStart) return;
+				const dx = e.clientX - swipeStart.x;
+				const dy = e.clientY - swipeStart.y;
+				swipeStart = null;
+				if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+					swipedAt = Date.now();
+					setActiveImage((activeIndex + (dx < 0 ? 1 : -1) + total) % total);
 				}
+			});
+			card.addEventListener("pointercancel", () => {
+				swipeStart = null;
 			});
 		}
 
-		thumbs.forEach((thumb) => {
-			thumb.addEventListener("click", () => {
-				const idx = Number.parseInt(thumb.dataset.index || "0", 10);
-				setActiveImage(idx);
-			});
-		});
-
-		lightboxThumbs.forEach((thumb) => {
-			thumb.addEventListener("click", () => {
-				const idx = Number.parseInt(thumb.dataset.index || "0", 10);
-				setActiveImage(idx);
-			});
-		});
-
-		cardPrev?.addEventListener("click", (e) => {
-			e.stopPropagation();
-			const prev = (activeIndex - 1 + total) % total;
-			setActiveImage(prev);
-		});
-
-		cardNext?.addEventListener("click", (e) => {
-			e.stopPropagation();
-			const next = (activeIndex + 1) % total;
-			setActiveImage(next);
-		});
-
-		function openLightbox() {
+		// ── Lightbox open / close ─────────────────────────────────────────
+		const openLightbox = () => {
 			if (!lightbox) return;
+			// A swipe must not open the lightbox
+			if (Date.now() - swipedAt < 300) return;
+			resetZoom();
 			setActiveImage(activeIndex);
 			lightbox.showModal();
 			document.body.style.overflow = "hidden";
-		}
-
-		function closeLightbox() {
-			if (!lightbox) return;
-			lightbox.close();
-			document.body.style.overflow = "";
-		}
+		};
 
 		mainImg?.addEventListener("click", openLightbox);
 		expandBtn?.addEventListener("click", openLightbox);
-		lightboxClose?.addEventListener("click", closeLightbox);
+		lightboxClose?.addEventListener("click", () => lightbox?.close());
 
-		lightbox?.addEventListener("click", (e) => {
-			if (e.target === lightbox) {
-				closeLightbox();
+		// Fires for the close button, the backdrop click and the native Escape key alike
+		lightbox?.addEventListener("close", () => {
+			resetZoom();
+			document.body.style.overflow = "";
+		});
+
+		lightbox?.addEventListener("keydown", (e) => {
+			if (total < 2) return;
+			if (e.key === "ArrowLeft") step(-1);
+			else if (e.key === "ArrowRight") step(1);
+		});
+
+		// ── Lightbox gestures: wheel, double-click, drag-pan, pinch, swipe ─
+		if (!viewport) return;
+
+		viewport.addEventListener(
+			"wheel",
+			(e) => {
+				e.preventDefault();
+				zoomAt(e.clientX, e.clientY, scale + (e.deltaY < 0 ? 0.15 : -0.15));
+			},
+			{ passive: false }
+		);
+
+		// Only a double-click on the picture itself toggles zoom. Clicking the arrows quickly
+		// also produces dblclick events, which used to bubble up here and zoom the image.
+		viewport.addEventListener("dblclick", (e) => {
+			if (isControl(e.target)) return;
+			if (scale > 1) resetZoom();
+			else zoomAt(e.clientX, e.clientY, 2.5);
+		});
+
+		const pointers = new Map<number, { x: number; y: number }>();
+		let pinchDistance = 0;
+		let panOrigin = { px: 0, py: 0, tx: 0, ty: 0 };
+		let gestureStart = { x: 0, y: 0 };
+		let wasPinching = false;
+		let downTarget: EventTarget | null = null;
+
+		const distance = () => {
+			const [a, b] = Array.from(pointers.values());
+			return Math.hypot(a.x - b.x, a.y - b.y);
+		};
+		const rememberPan = (x: number, y: number) => {
+			panOrigin = { px: x, py: y, tx: translateX, ty: translateY };
+		};
+
+		viewport.addEventListener("pointerdown", (e) => {
+			if (isControl(e.target)) return;
+			downTarget = e.target;
+			pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+			viewport.setPointerCapture(e.pointerId);
+			if (pointers.size === 1) {
+				gestureStart = { x: e.clientX, y: e.clientY };
+				wasPinching = false;
+				rememberPan(e.clientX, e.clientY);
+			} else if (pointers.size === 2) {
+				wasPinching = true;
+				pinchDistance = distance();
 			}
 		});
 
-		lightboxPrev?.addEventListener("click", (e) => {
-			e.stopPropagation();
-			const prev = (activeIndex - 1 + total) % total;
-			setActiveImage(prev);
-		});
+		viewport.addEventListener("pointermove", (e) => {
+			if (!pointers.has(e.pointerId)) return;
+			pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
 
-		lightboxNext?.addEventListener("click", (e) => {
-			e.stopPropagation();
-			const next = (activeIndex + 1) % total;
-			setActiveImage(next);
-		});
-
-		window.addEventListener("keydown", (e) => {
-			if (!lightbox || !lightbox.open) return;
-			if (e.key === "Escape") {
-				closeLightbox();
-			} else if (e.key === "ArrowLeft") {
-				const prev = (activeIndex - 1 + total) % total;
-				setActiveImage(prev);
-			} else if (e.key === "ArrowRight") {
-				const next = (activeIndex + 1) % total;
-				setActiveImage(next);
+			if (pointers.size === 2) {
+				const next = distance();
+				const [a, b] = Array.from(pointers.values());
+				if (pinchDistance > 0) {
+					zoomAt((a.x + b.x) / 2, (a.y + b.y) / 2, scale * (next / pinchDistance));
+				}
+				pinchDistance = next;
+			} else if (pointers.size === 1 && scale > 1) {
+				viewport.setAttribute("data-dragging", "");
+				translateX = panOrigin.tx + (e.clientX - panOrigin.px);
+				translateY = panOrigin.ty + (e.clientY - panOrigin.py);
+				clampTranslation();
+				applyTransform();
 			}
 		});
+
+		const endPointer = (e: PointerEvent) => {
+			if (!pointers.has(e.pointerId)) return;
+			const wasSingle = pointers.size === 1;
+			pointers.delete(e.pointerId);
+			viewport.removeAttribute("data-dragging");
+
+			if (wasSingle && !wasPinching && e.type === "pointerup") {
+				const dx = e.clientX - gestureStart.x;
+				const dy = e.clientY - gestureStart.y;
+				if (downTarget === viewport && Math.hypot(dx, dy) < 6) {
+					lightbox?.close();
+					return;
+				}
+				if (scale === 1 && total > 1 && Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+					step(dx < 0 ? 1 : -1);
+				}
+			}
+			if (pointers.size === 1) {
+				const [rest] = Array.from(pointers.values());
+				rememberPan(rest.x, rest.y);
+			}
+		};
+		viewport.addEventListener("pointerup", endPointer);
+		viewport.addEventListener("pointercancel", endPointer);
 	}
 
-	setupGallery();
-	document.addEventListener("astro:page-load", setupGallery);
+	function init() {
+		document
+			.querySelectorAll<HTMLElement>(".product-gallery-container:not([data-ready])")
+			.forEach(setupGallery);
+	}
+
+	init();
+	document.addEventListener("astro:page-load", init);
 </script>
