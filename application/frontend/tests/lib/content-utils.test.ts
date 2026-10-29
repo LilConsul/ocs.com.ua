@@ -1,15 +1,19 @@
 import { describe, expect, it } from "bun:test";
 import {
 	type EquipmentEntry,
+	type EquipmentType,
 	filterByCategory,
+	filterByIndustry,
 	filterByLocale,
 	findTranslation,
 	getCategories,
 	getCategoriesForLocale,
 	getCategory,
+	getIndustriesForLocale,
 	getLocale,
 	getProducts,
 	getSlug,
+	groupByCategory,
 	isCategory,
 	isProduct,
 	sortByOrder,
@@ -111,5 +115,71 @@ describe("getCategoriesForLocale", () => {
 				expect(c.title).toBeTruthy();
 			}
 		}
+	});
+});
+
+describe("getIndustriesForLocale", () => {
+	it("returns industries with slug, title and icon for both locales", () => {
+		for (const locale of ["en", "ua"] as const) {
+			const industries = getIndustriesForLocale(locale);
+			expect(industries.length).toBeGreaterThan(0);
+			for (const i of industries) {
+				expect(i.slug).toBeTruthy();
+				expect(i.title).toBeTruthy();
+				expect(i.icon).toBeTruthy();
+			}
+		}
+	});
+});
+
+describe("filterByIndustry", () => {
+	const tagged = (id: string, industries?: string[]) =>
+		({ id, data: { industries } }) as unknown as EquipmentEntry;
+
+	const list = [
+		tagged("checkweigher/hc-men", ["food-beverage", "pharmaceutical"]),
+		tagged("catchweigher/hc-slen", ["logistics"]),
+		tagged("checkweigher/ec-een"),
+	];
+
+	it("keeps products tagged with the industry, including multi-tagged ones", () => {
+		expect(filterByIndustry(list, "pharmaceutical").map((e) => e.id)).toEqual([
+			"checkweigher/hc-men",
+		]);
+		expect(filterByIndustry(list, "food-beverage")).toHaveLength(1);
+	});
+
+	it("ignores products without industries", () => {
+		expect(filterByIndustry(list, "logistics").map((e) => e.id)).toEqual(["catchweigher/hc-slen"]);
+	});
+
+	it("returns an empty array for an unknown industry", () => {
+		expect(filterByIndustry(list, "chemical")).toEqual([]);
+	});
+});
+
+describe("groupByCategory", () => {
+	const category = (slug: string): EquipmentType => ({
+		slug,
+		title: slug.toUpperCase(),
+		description: "",
+		icon: "category",
+	});
+	const categories = [category("checkweigher"), category("catchweigher"), category("metal")];
+
+	const products = [
+		entry("catchweigher/hc-slen", 2),
+		entry("checkweigher/a-en", 5),
+		entry("checkweigher/b-en", 1),
+	];
+
+	it("groups in category order and omits categories without products", () => {
+		const groups = groupByCategory(products, categories);
+		expect(groups.map((g) => g.category.slug)).toEqual(["checkweigher", "catchweigher"]);
+	});
+
+	it("sorts products inside a group by order", () => {
+		const groups = groupByCategory(products, categories);
+		expect(groups[0].products.map((e) => e.id)).toEqual(["checkweigher/b-en", "checkweigher/a-en"]);
 	});
 });

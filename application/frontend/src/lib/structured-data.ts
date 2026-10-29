@@ -67,7 +67,7 @@ interface ProductSchemaInput {
 	lang: Lang;
 	site: Site;
 	category?: string;
-	images?: string[];
+	images?: string[] | null;
 	specs?: { label: string; value: string }[];
 }
 

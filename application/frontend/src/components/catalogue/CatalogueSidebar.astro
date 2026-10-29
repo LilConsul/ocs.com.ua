@@ -1,15 +1,38 @@
 ---
 import { getInlineTranslations, type Lang } from "@/i18n";
-import type { EquipmentType } from "@/lib/content-utils";
+import { categoryUrl, industryUrl } from "@/lib/catalogue-urls";
+import type { EquipmentType, Industry } from "@/lib/content-utils";
 
 interface Props {
 	allCategories: EquipmentType[];
-	currentCategory: string;
+	allIndustries: Industry[];
+	/** Which accordion section renders open */
+	section: "equipment" | "industry";
+	/** Slug of the active category (equipment) or industry (industry) */
+	activeSlug: string;
 	lang: Lang;
 }
 
-const { allCategories, currentCategory, lang } = Astro.props;
+const { allCategories, allIndustries, section, activeSlug, lang } = Astro.props;
 const _ = getInlineTranslations(lang);
+
+// Array order is the display order
+const sections = [
+	{
+		id: "equipment",
+		label: _("Equipment Categories"),
+		navLabel: _("Category navigation"),
+		items: allCategories,
+		hrefFor: (slug: string) => categoryUrl(lang, slug),
+	},
+	{
+		id: "industry",
+		label: _("Industries"),
+		navLabel: _("Industry navigation"),
+		items: allIndustries,
+		hrefFor: (slug: string) => industryUrl(lang, slug),
+	},
+];
 ---
 
 {/* Mobile Filter Button */}
@@ -56,39 +79,82 @@ const _ = getInlineTranslations(lang);
 			</p>
 		</div>
 
-		{/* Category label */}
-		<p
-			class="font-label-caps text-secondary mb-3 flex items-center gap-3 px-2 text-xs font-semibold tracking-widest uppercase"
-		>
-			<span class="eyebrow-rule bg-secondary h-px w-6" aria-hidden="true"></span>
-			{_("Equipment Categories")}
-		</p>
-
-		{/* Navigation with precise spacing */}
-		<nav aria-label={_("Category navigation")} class="space-y-1.5">
+		{/* Exclusive accordion: opening one section closes the other */}
+		<div class="space-y-3">
 			{
-				allCategories.map((cat) => {
-					const isActive = cat.slug === currentCategory;
-					const label = cat.title;
-					const icon = cat.icon || "category";
+				sections.map((s) => {
+					const open = s.id === section;
 
 					return (
-						<a
-							href={`/${lang}/catalogue/${cat.slug}`}
-							aria-current={isActive ? "page" : undefined}
-							class={`focus-visible:outline-secondary flex cursor-pointer items-center gap-3 rounded-lg border px-4 py-3 transition-all focus-visible:outline-2 focus-visible:outline-offset-2 ${
-								isActive
-									? "border-secondary/30 bg-secondary/10 text-secondary font-bold"
-									: "text-industrial-gray hover:bg-surface-container hover:border-border-subtle/60 border-transparent hover:translate-x-1"
-							}`}
-						>
-							<span class="material-symbols-outlined text-[20px]">{icon}</span>
-							<span class="font-technical-data text-xs tracking-wider uppercase">{label}</span>
-						</a>
+						<div data-sidebar-section={s.id} data-open={open ? "true" : "false"}>
+							<h3 class="m-0">
+								<button
+									type="button"
+									id={`sidebar-trigger-${s.id}`}
+									data-sidebar-toggle
+									aria-expanded={open ? "true" : "false"}
+									aria-controls={`sidebar-body-${s.id}`}
+									class="font-label-caps text-secondary focus-visible:outline-secondary flex w-full cursor-pointer items-center gap-3 rounded-lg px-2 py-2 text-left text-xs font-semibold tracking-widest uppercase focus-visible:outline-2 focus-visible:outline-offset-2"
+								>
+									<span class="eyebrow-rule bg-secondary h-px w-6" aria-hidden="true" />
+									<span class="flex-1">{s.label}</span>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										width="16"
+										height="16"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										class="sidebar-chevron"
+										aria-hidden="true"
+									>
+										<path d="m6 9 6 6 6-6" />
+									</svg>
+								</button>
+							</h3>
+
+							{/* Grid-rows transition: 0fr (closed) to 1fr (open); the body is `hidden` when closed */}
+							<div class="sidebar-panel">
+								<div
+									id={`sidebar-body-${s.id}`}
+									data-sidebar-body
+									class="min-h-0 overflow-hidden"
+									hidden={!open}
+								>
+									<nav aria-label={s.navLabel} class="space-y-1.5 px-0.5 py-1">
+										{s.items.map((item) => {
+											const isActive = open && item.slug === activeSlug;
+
+											return (
+												<a
+													href={s.hrefFor(item.slug)}
+													aria-current={isActive ? "page" : undefined}
+													class={`focus-visible:outline-secondary flex cursor-pointer items-center gap-3 rounded-lg border px-4 py-3 transition-all focus-visible:outline-2 focus-visible:outline-offset-2 ${
+														isActive
+															? "border-secondary/30 bg-secondary/10 text-secondary font-bold"
+															: "text-industrial-gray hover:bg-surface-container hover:border-border-subtle/60 border-transparent hover:translate-x-1"
+													}`}
+												>
+													<span class="material-symbols-outlined text-[20px]">
+														{item.icon || "category"}
+													</span>
+													<span class="font-technical-data text-xs tracking-wider uppercase">
+														{item.title}
+													</span>
+												</a>
+											);
+										})}
+									</nav>
+								</div>
+							</div>
+						</div>
 					);
 				})
 			}
-		</nav>
+		</div>
 
 		{/* CTA button */}
 		<div class="border-border-subtle/60 mt-8 border-t px-2 pt-6">
@@ -117,6 +183,31 @@ const _ = getInlineTranslations(lang);
 	</div>
 </aside>
 
+<style>
+	.sidebar-panel {
+		display: grid;
+		grid-template-rows: 0fr;
+	}
+	[data-open="true"] > .sidebar-panel {
+		grid-template-rows: 1fr;
+	}
+	.sidebar-chevron {
+		transition: none;
+	}
+	[data-open="true"] .sidebar-chevron {
+		rotate: 180deg;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.sidebar-panel {
+			transition: grid-template-rows 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+		}
+		.sidebar-chevron {
+			transition: rotate 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+		}
+	}
+</style>
+
 <script>
 	import { revealOnce } from "@/lib/anims/reveal-once";
 
@@ -141,22 +232,71 @@ const _ = getInlineTranslations(lang);
 	closeBtn?.addEventListener("click", closeFilters);
 	overlay?.addEventListener("click", closeFilters);
 
-	/*
-	 * In-place category switching. On a category page the sidebar swaps the hero and the product
-	 * grid instead of reloading, so scroll position and keyboard focus survive. Product pages have
-	 * no results container, so their sidebar links navigate normally. Any failure falls back to a
-	 * regular navigation.
-	 */
 	const trimSlash = (path: string) => path.replace(/\/+$/, "");
 	const getResults = () => document.querySelector<HTMLElement>("[data-catalogue-results]");
 	const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+	const getSections = () =>
+		Array.from(sidebar?.querySelectorAll<HTMLElement>("[data-sidebar-section]") ?? []);
 
+	/*
+	 * Accordion. A section is open when data-open="true"; the CSS grid-rows transition animates
+	 * the height. The body keeps the `hidden` attribute while closed, so its links are not
+	 * reachable by keyboard or screen readers. It is removed before opening and set again once
+	 * the closing transition has finished.
+	 */
+	const hideTimers = new WeakMap<HTMLElement, number>();
+
+	function setSectionOpen(section: HTMLElement, open: boolean) {
+		if ((section.dataset.open === "true") === open) return;
+
+		const trigger = section.querySelector<HTMLElement>("[data-sidebar-toggle]");
+		const body = section.querySelector<HTMLElement>("[data-sidebar-body]");
+		if (!trigger || !body) return;
+
+		window.clearTimeout(hideTimers.get(body));
+		trigger.setAttribute("aria-expanded", String(open));
+
+		if (open) {
+			body.hidden = false;
+			// Flush styles so the 0fr to 1fr transition starts from the collapsed state
+			void body.offsetHeight;
+			section.dataset.open = "true";
+			return;
+		}
+
+		section.dataset.open = "false";
+		if (prefersReducedMotion()) {
+			body.hidden = true;
+			return;
+		}
+		hideTimers.set(
+			body,
+			window.setTimeout(() => {
+				body.hidden = true;
+			}, 320)
+		);
+	}
+
+	function revealGrids() {
+		document
+			.querySelectorAll<HTMLElement>("[data-product-grid]")
+			.forEach((grid) => revealOnce(grid, 0.1));
+	}
+
+	/*
+	 * In-place page switching. On a category or industry page the sidebar swaps the hero and the
+	 * results instead of reloading, so scroll position and keyboard focus survive. Product pages
+	 * have no results container, so their sidebar links navigate normally. Any failure falls back
+	 * to a regular navigation.
+	 */
 	let shownPath = trimSlash(location.pathname);
 	let inflight: AbortController | undefined;
 
 	function syncChrome(next: Document) {
 		// Sidebar: copy the active-state classes onto the existing links so focus is not lost
-		const nextLinks = Array.from(next.querySelectorAll<HTMLAnchorElement>("#catalogue-sidebar nav a"));
+		const nextLinks = Array.from(
+			next.querySelectorAll<HTMLAnchorElement>("#catalogue-sidebar nav a")
+		);
 		sidebar?.querySelectorAll<HTMLAnchorElement>("nav a").forEach((link) => {
 			const match = nextLinks.find((n) => n.getAttribute("href") === link.getAttribute("href"));
 			if (!match) return;
@@ -166,13 +306,24 @@ const _ = getInlineTranslations(lang);
 			else link.removeAttribute("aria-current");
 		});
 
-		// Header language switcher links depend on the current path
+		// Open section follows the fetched page, so back/forward always shows the right one
+		next.querySelectorAll<HTMLElement>("[data-sidebar-section]").forEach((nextSection) => {
+			const live = getSections().find(
+				(s) => s.dataset.sidebarSection === nextSection.dataset.sidebarSection
+			);
+			if (live) setSectionOpen(live, nextSection.dataset.open === "true");
+		});
+
+		// Header links: hrefs depend on the current path (language switcher), classes carry the
+		// active-page underline
 		const headerLinks = document.querySelectorAll<HTMLAnchorElement>("#main-header a");
 		const nextHeaderLinks = next.querySelectorAll<HTMLAnchorElement>("#main-header a");
 		if (headerLinks.length === nextHeaderLinks.length) {
 			headerLinks.forEach((link, i) => {
-				const href = nextHeaderLinks[i]?.getAttribute("href");
+				const nextLink = nextHeaderLinks[i];
+				const href = nextLink?.getAttribute("href");
 				if (href) link.setAttribute("href", href);
+				if (nextLink) link.className = nextLink.className;
 			});
 		}
 
@@ -183,7 +334,7 @@ const _ = getInlineTranslations(lang);
 		document.title = next.title;
 	}
 
-	async function swapCategory(href: string, push: boolean) {
+	async function swapPage(href: string, push: boolean) {
 		const results = getResults();
 		if (!results) {
 			location.assign(href);
@@ -217,8 +368,7 @@ const _ = getInlineTranslations(lang);
 			});
 
 			results.innerHTML = nextResults.innerHTML;
-			const grid = document.getElementById("productGrid");
-			if (grid) revealOnce(grid, 0.1);
+			revealGrids();
 
 			syncChrome(next);
 
@@ -243,7 +393,20 @@ const _ = getInlineTranslations(lang);
 	}
 
 	sidebar?.addEventListener("click", (event) => {
-		const link = (event.target as Element).closest<HTMLAnchorElement>("nav a");
+		const target = event.target as Element;
+
+		// Header buttons only toggle; they never navigate
+		const toggle = target.closest<HTMLElement>("[data-sidebar-toggle]");
+		if (toggle) {
+			const clicked = toggle.closest<HTMLElement>("[data-sidebar-section]");
+			const willOpen = clicked?.dataset.open !== "true";
+			getSections().forEach((s) => {
+				setSectionOpen(s, s === clicked && willOpen);
+			});
+			return;
+		}
+
+		const link = target.closest<HTMLAnchorElement>("nav a");
 		if (!link) return;
 
 		if (window.innerWidth < 1024) closeFilters();
@@ -258,11 +421,11 @@ const _ = getInlineTranslations(lang);
 
 		event.preventDefault();
 		if (trimSlash(url.pathname) === shownPath) return;
-		swapCategory(url.href, true);
+		swapPage(url.href, true);
 	});
 
 	window.addEventListener("popstate", () => {
 		if (!getResults() || trimSlash(location.pathname) === shownPath) return;
-		swapCategory(location.href, false);
+		swapPage(location.href, false);
 	});
 </script>

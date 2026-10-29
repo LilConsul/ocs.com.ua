@@ -7,6 +7,7 @@ import companyData from "@/data/company.json";
 import documentsData from "@/data/documents.json";
 import equipmentTypes from "@/data/equipment-types.json";
 import icons from "@/data/icons.json";
+import industries from "@/data/industries.json";
 import { getInlineTranslations } from "@/i18n/inline";
 import { EQUIPMENT_SLUGS, SECTORS } from "@/lib/contact/options";
 
@@ -101,6 +102,58 @@ describe("equipment categories data", () => {
 		for (const c of [...equipmentTypes.en.categories, ...equipmentTypes.ua.categories]) {
 			expect(c.title.trim()).not.toBe("");
 			expect(c.description.trim()).not.toBe("");
+		}
+	});
+});
+
+describe("industries data", () => {
+	it("has the same slugs in the same order in en and ua", () => {
+		expect(industries.ua.industries.map((i) => i.slug)).toEqual(
+			industries.en.industries.map((i) => i.slug)
+		);
+	});
+
+	it("has unique slugs", () => {
+		const slugs = industries.en.industries.map((i) => i.slug);
+		expect(new Set(slugs).size).toBe(slugs.length);
+	});
+
+	it("only references icons that exist in icons.json", () => {
+		const known = new Set(icons.map((i) => i.value));
+		const unknown = [...industries.en.industries, ...industries.ua.industries]
+			.map((i) => i.icon)
+			.filter((icon) => !known.has(icon));
+		expect(unknown).toEqual([]);
+	});
+
+	it("has a title and description for every industry", () => {
+		for (const i of [...industries.en.industries, ...industries.ua.industries]) {
+			expect(i.title.trim()).not.toBe("");
+			expect(i.description.trim()).not.toBe("");
+		}
+	});
+});
+
+describe("product industries", () => {
+	it("tags products only with industries listed in industries.json", () => {
+		const known = new Set(industries.en.industries.map((i) => i.slug));
+		const unknown = files.flatMap((f) =>
+			((frontmatter(f).industries ?? []) as string[])
+				.filter((slug) => !known.has(slug))
+				.map((slug) => `${f}: ${slug}`)
+		);
+		expect(unknown).toEqual([]);
+	});
+
+	it("has at least one product for every listed industry in each locale", () => {
+		for (const locale of ["en", "ua"] as const) {
+			const used = new Set(
+				files
+					.filter((f) => f.endsWith(`.${locale}.md`))
+					.flatMap((f) => (frontmatter(f).industries ?? []) as string[])
+			);
+			const empty = industries[locale].industries.map((i) => i.slug).filter((s) => !used.has(s));
+			expect(empty).toEqual([]);
 		}
 	});
 });
@@ -217,5 +270,29 @@ describe("decap cms company collection", () => {
 		expect(companyCollection.files?.[0]?.name).toBe("company-info");
 		expect(companyCollection.files?.[0]?.file).toBe("application/frontend/src/data/company.json");
 		expect(companyCollection.files?.[0]?.format).toBe("json");
+	});
+});
+
+describe("decap cms industries", () => {
+	const templatePath = join(import.meta.dir, "../../src/pages/admin/_config.template.yml");
+	const raw = readFileSync(templatePath, "utf8");
+	const parsed = parse(raw.replace(/__[A-Z0-9_]+__/g, '""'));
+
+	it("edits industries.json as a file entry beside the equipment types", () => {
+		const collection = parsed.collections?.find((c: any) => c.name === "equipment-categories");
+		const names = collection.files.map((f: any) => f.name);
+		expect(names).toEqual(["equipment-types", "industries"]);
+
+		const file = collection.files.find((f: any) => f.name === "industries");
+		expect(file.file).toBe("application/frontend/src/data/industries.json");
+		expect(file.format).toBe("json");
+		expect(file.fields[0].name).toBe("industries");
+	});
+
+	it("generates the product industry options and filters instead of hardcoding them", () => {
+		expect(raw).toContain("__INDUSTRY_OPTIONS__");
+		expect(raw).toContain("__INDUSTRY_FILTERS__");
+		expect(raw).not.toContain('value: "general"');
+		expect(raw).not.toContain('value: "chemical"');
 	});
 });

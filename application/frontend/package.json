@@ -67,6 +67,7 @@
 		"@types/topojson-specification": "^1.0.5",
 		"glob": "^13.0.6",
 		"image-size": "^2.0.2",
+		"immutable": "^5.1.9",
 		"prettier": "^3.9.6",
 		"prettier-plugin-astro": "^0.14.1",
 		"prettier-plugin-tailwindcss": "^0.8.1",

@@ -1,53 +1,90 @@
 ---
 order: 3
-gallery:
-  - /assets/equipment/ec-e/csm_checkweigher-ec-e-left_b64a401e9a.webp
-  - /assets/equipment/ec-e/csm_checkweigher-ec-e-front_03ef4b6a1d.webp
-  - /assets/equipment/ec-e/csm_checkweigher-ec-e-right_40e479f487.webp
 datasheet: /assets/equipment/ec-e/datasheet.pdf
 industries:
   - food-beverage
-  - general
 title: EC-E Checkweigher
 description: Reliable checkweigher for fully automatic weight control and data
-  acquisition. Capable of 150 weight values per minute with intuitive 8-inch
-  touchscreen operation.
+  acquisition. Capable of 150 weight measurements per minute with intuitive
+  control via an 8-inch touchscreen.
 specs:
   - items:
       - label: Max Speed
         value: 150 ppm
-      - label: Display Value
-        value: TODO
+      - label: Resolution
+        value: 0.2 - 1.0 g
+      - label: Maximum Weighing Capacity
+        value: 1500 g, 3000 g, 6000 g
+    title: Weighing
+  - title: Infeed and Outfeed Conveyors
+    items:
+      - label: Length
+        value: 300 mm, 400 mm, 500 mm, 600 mm
+      - label: Width
+        value: 150 mm, 200 mm, 300 mm
+  - title: Weighing Conveyor
+    items:
+      - label: Length
+        value: 200 mm, 300 mm, 400 mm, 500 mm
+      - label: Width
+        value: 150 mm, 200 mm, 300 mm
+  - title: General Information
+    items:
+      - label: Conveyor Working Height
+        value: 650 - 800 mm, 750 - 900 mm, 850 - 1000 mm, 950 - 1100 mm
+      - label: Ingress Protection Rating
+        value: IP54, IP65
+      - label: Operating Temperature Range
+        value: +5°C .... +40°C
+      - label: Touchscreen Diagonal
+        value: 8”
+      - label: Weigh Cell
+        value: Electromagnetic Force Restoration (EMFR)
+      - label: "Automatic rejection of products with incorrect weight:"
+        value: directed air blast, pneumatic pusher, rotary arm, etc.
 type: product
 ---
-## Precise Checkweighers: Fully Automatic Weight Control & Data Acquisition
 
-Reliability and transparency of production data are the basis of all planning. The EC-E checkweigher from Wipotec guarantees 100% data capture in ongoing production.
+## Entry-Level Checkweighers
 
-Capable of 150 weight values per minute, the EC-E is the right choice for you. The intuitive user interface ensures convenient operation via a clearly structured, 8-inch colour touchscreen.
-
-The EC-E checkweigher precisely weighs each individual product, records individual values, and ejects incorrect weight packages via the fully automated sorter. Your data is correctly and completely collected and you have the certainty that only factory compliant products leave your production halls.
-
-The checkweigher's ease of use virtually excludes all incorrect entries.
+EC-Essential is a cost-effective solution for dynamic weight control of products on lines with a throughput of up to 150 pcs/min. A variety of configuration options provides the flexibility to integrate the equipment into most production lines according to the customer's needs.
 
 ## Key Features
 
-* Stainless steel cabinet with integrated control system
-* Maintenance-free servo drives
-* Line synchronisation with potential-free switching contacts/binary signals
-* Extensive statistical functions/histograms
+* The weigh cell operates on the Electromagnetic Force Restoration (EMFR) principle
+* Flexible integration into production lines
+* Wide choice of individual options
 
-## Your Benefits
+## Weigh Cell
 
-* High throughput rate of up to 150 ppm
-* Precise and reliable weighing results to increase plant efficiency
-* Very good price-performance ratio
-* Requirements-based modularity for the greatest flexibility
+A high-precision industrial weigh cell, manufactured in-house, operates on the principle of electromagnetic force restoration. It is designed for high-performance dynamic weighing.
 
-## Quality Control of Catalan Sausages with Checkweighers
+**Key Characteristics**
 
-The introduction of the automated EC-E checkweighing systems played a key role in process optimization and set the quality to a new high.
+* High weighing accuracy.
+* Minimal settling time when weighing each product unit.
+* Stainless steel construction.
+* Stable weighing characteristics despite changes in humidity and room air temperature.
 
-## Modularity for Simple Applications
+**Durability and Reliability**
 
-The EC-E offers flexible configuration options designed specifically for straightforward checkweighing tasks while maintaining professional weighing accuracy.
+The weigh cell has no parts that create friction. This ensures its durability and reliability.
+
+## Housing and Frame
+
+**Design and Vibration Protection**
+
+The scale frame and the electrical cabinet with the control terminal are made of stainless steel in accordance with hygienic requirements. A massive, stable frame weighing about 150 kg provides additional vibration protection, which has a positive effect on weighing accuracy.
+
+**Ease of Maintenance**
+
+The conveyors are easy to remove, and the belts can be replaced without additional tools.
+
+**Drives and Speed Control**
+
+IMOT servo motors are maintenance-free and provide:
+
+* Smooth adjustment and maintenance of the set conveyor belt speed.
+* Vibration-free operation even at maximum speed.
+
+When the conveyor speed changes, weighing accuracy is maintained and the product rejection moment adapts automatically.

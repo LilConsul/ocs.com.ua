@@ -1,51 +1,94 @@
 ---
 order: 1
-gallery:
-  - /assets/equipment/hc-a/csm_checkweigher-hc-a-right_a7ab8c2ea6.webp
-  - /assets/equipment/hc-a/csm_checkweigher-hc-a-front_d6527f5b5a.webp
-  - /assets/equipment/hc-a/csm_checkweigher-hc-a-left_777170ec62.webp
 datasheet: /assets/equipment/hc-a/datasheet.pdf
 industries:
   - food-beverage
   - pharmaceutical
   - cosmetics
 title: HC-A Checkweigher
-description: High-speed checkweighers for maximum performance. Provides up to
-  600 weight values per minute with 100% product monitoring for demanding
-  high-speed weighing requirements.
+description: HC-A series checkweighers are high-performance, premium-class
+  equipment designed for 100% weight control of products directly on the
+  production line. The series is built for high speeds and heavy production
+  loads, delivering maximum weighing accuracy even with an intensive product
+  flow.
 specs:
-  - items:
+  - title: Weighing
+    items:
       - label: Max Speed
-        value: 600 ppm
-      - label: Display Value
-        value: TODO
+        value: 500 - 1000 ppm
+      - label: Resolution
+        value: 0.01 g - 0.1 g
+      - label: Maximum Weighing Capacity
+        value: 750 g - 7500 g
+  - title: Infeed and Outfeed Conveyors
+    items:
+      - label: Length
+        value: 200 mm, 300 mm, 400 mm, 500 mm, 600 mm
+      - label: Width
+        value: 120 mm, 150 mm, 200 mm, 300 mm, 400 mm
+  - title: Weighing Conveyor
+    items:
+      - label: Length
+        value: 200 mm, 250 mm, 300 mm, 400 mm, 500 mm, 600 mm
+      - label: Width
+        value: 120 mm, 150 mm, 200 mm, 300 mm, 400 mm
+  - items:
+      - label: Conveyor Working Height
+        value: 700 - 850 mm, 800 - 950 mm, 900 - 1050 mm
+      - label: Ingress Protection Rating
+        value: IP54, IP65, IP69k
+      - label: Operating Temperature Range
+        value: +5°C .... +40°C
+      - label: Touchscreen Diagonal
+        value: 15”
+      - label: Weigh Cell
+        value: Electromagnetic Force Restoration (EMFR)
+      - label: "Automatic rejection of products with incorrect weight:"
+        value: directed air blast, pneumatic pusher, rotary arm, etc.
+    title: General Information
 type: product
 ---
-## High Speed Checkweighers for Maximum Performance
 
-In terms of precision and throughput, HC-A checkweighers are an ideal choice to meet the demands of high speed, dynamic weighing requirements. The machines provide the controls and engineering to create the ideal platform for implementing complex regulation and control tasks. The HC-A is the basis for high end application-oriented systems that provide a maximum of 600 weight values per minute with 100% product monitoring.
+## High-Speed Checkweighers for Maximum Performance
+
+HC-A series checkweighers combine high weighing accuracy and throughput, meeting the demands of modern dynamic weighing technology in full compliance with GMP and HACCP requirements. Thanks to a well-thought-out design and advanced engineering solutions, the equipment provides an optimal basis for implementing complex tasks of automated control and regulation of production processes.
 
 ## Key Features
 
-* Wipotec EMFR Weigh Cells
-* Flexible integration in production lines
-* Available as multi-lane version
+* The weigh cell operates on the Electromagnetic Force Restoration (EMFR) principle
+* Flexible integration into production lines
+* Wide choice of individual options
 
-## Your Benefits
+## Weigh Cell
 
-* Max output 600 ppm
-* Exact fill results for highest productivity
+A high-precision industrial weigh cell, manufactured in-house, operates on the principle of electromagnetic force restoration. It is designed for high-performance dynamic weighing.
 
-## Flexible Checkweighers for Every Requirement
+**Key Characteristics**
 
-This model significantly extends the application possibilities of the Wipotec product line, especially for high-end applications. In particular, the advanced solid stainless steel, concrete-filled frame ensures machine stability while delivering extremely accurate weighing results at very high transport speeds and throughput rates. The modular checkweigher design facilitates the implementation of custom solutions for a variety of product geometries and form factors.
+* High weighing accuracy.
+* Minimal settling time when weighing each product unit.
+* Stainless steel construction.
+* Stable weighing characteristics despite changes in humidity and room air temperature.
 
-The sophisticated and wide selection of sorters (pusher, air blast, etc.) is designed to reliably eject products with incorrect package weights. The HC-A is characterized by its comprehensive product handling. For example, the top runner belts safely perform acceptance and acceleration of folded cartons just as the metering screw and lateral pressure belts safely separates and accelerates vials and bottles. The HC-A supports your efforts to minimize costly overfilling with a number of optional functions.
+**Durability and Reliability**
 
-## Modular Design of Checkweighers
+The weigh cell has no parts that create friction. This ensures its durability and reliability.
 
-The modular approach allows for customization to specific production requirements while maintaining high performance standards.
+## Housing and Frame
 
-## Modularity of Complex Applications
+**Design and Vibration Protection**
 
-Multi-lane configurations enable independent weighing and data processing for maximum flexibility in demanding production environments.
+The scale frame and the electrical cabinet with the control terminal are made of stainless steel in accordance with hygienic requirements. A massive, stable frame weighing about 150 kg provides additional vibration protection, which has a positive effect on weighing accuracy.
+
+**Ease of Maintenance**
+
+The conveyors are easy to remove, and the belts can be replaced without additional tools.
+
+**Drives and Speed Control**
+
+IMOT servo motors are maintenance-free and provide:
+
+* Smooth adjustment and maintenance of the set conveyor belt speed.
+* Vibration-free operation even at maximum speed.
+
+When the conveyor speed changes, weighing accuracy is maintained and the product rejection moment adapts automatically.

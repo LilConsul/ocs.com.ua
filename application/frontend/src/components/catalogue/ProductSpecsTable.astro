@@ -4,8 +4,8 @@ import { getInlineTranslations, type Lang } from "@/i18n";
 type Spec = { label: string; value: string };
 type SpecGroup = {
 	/** Optional group heading, e.g. "Conveyor". Without it the group renders as plain rows. */
-	title?: string;
-	items?: Spec[];
+	title?: string | null;
+	items?: Spec[] | null;
 };
 
 interface Props {

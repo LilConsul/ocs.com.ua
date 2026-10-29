@@ -8,10 +8,6 @@ description: >-
   High-accuracy catchweigher for parcels up to 60 kg. Achieves speeds up to 2.9
   m/s with ±5g accuracy in calibrated mode. Features sandwich construction for
   rigid platform and noise reduction below 65 dB.
-gallery:
-  - /assets/equipment/hc-sl/csm_catchweigher-hc-sl-left_b9e714b4cd.webp
-  - /assets/equipment/hc-sl/csm_catchweigher-hc-sl-front_0106966235.webp
-  - /assets/equipment/hc-sl/csm_catchweigher-hc-sl-right_f0a1215e7f.webp
 datasheet: /assets/equipment/hc-sl/datasheet.pdf
 specs:
   - items:

@@ -1,0 +1,142 @@
+---
+import { getCollection } from "astro:content";
+import CatalogueBand from "@/components/catalogue/CatalogueBand.astro";
+import CategoryHeader from "@/components/catalogue/CategoryHeader.astro";
+import ProductCard from "@/components/catalogue/ProductCard.astro";
+import { getInlineTranslations, getIsoLang, type Lang } from "@/i18n";
+import Layout from "@/layouts/Layout.astro";
+import { productUrl } from "@/lib/catalogue-urls";
+import {
+	filterByCategory,
+	filterByLocale,
+	getCategoriesForLocale,
+	getGallery,
+	getIndustriesForLocale,
+	getProducts,
+	getSlug,
+	type Locale,
+	sortByOrder,
+} from "@/lib/content-utils";
+import { breadcrumbSchema } from "@/lib/structured-data";
+
+export async function getStaticPaths() {
+	const allEquipment = await getCollection("equipment");
+	const allProducts = getProducts(allEquipment);
+
+	// Categories are sourced from JSON, not _index entries
+	const enCategories = getCategoriesForLocale("en");
+	const uaCategories = getCategoriesForLocale("ua");
+
+	const paths = [];
+
+	for (const cat of enCategories) {
+		for (const lang of ["en", "ua"] as Locale[]) {
+			const localeCategories = lang === "en" ? enCategories : uaCategories;
+			const categoryData = localeCategories.find((c) => c.slug === cat.slug);
+			if (!categoryData) continue;
+
+			const localeProducts = filterByLocale(allProducts, lang);
+			const categoryProducts = filterByCategory(localeProducts, cat.slug);
+			const galleries = Object.fromEntries(
+				(categoryProducts || []).map((p) => [p.id, getGallery(p, allProducts) ?? []])
+			);
+
+			paths.push({
+				params: { lang, category: cat.slug },
+				props: {
+					categoryData,
+					categorySlug: cat.slug,
+					products: categoryProducts || [],
+					allCategories: localeCategories,
+					allIndustries: getIndustriesForLocale(lang),
+					lang,
+					galleries,
+				},
+			});
+		}
+	}
+
+	return paths;
+}
+
+const {
+	categoryData,
+	categorySlug,
+	products = [],
+	allCategories = [],
+	allIndustries = [],
+	lang,
+	galleries = {},
+} = Astro.props;
+const _ = getInlineTranslations(lang as Lang);
+
+// Sort products by order field; categories keep their JSON array order
+const sortedProducts = Array.isArray(products) ? sortByOrder(products) : [];
+const sortedCategories = Array.isArray(allCategories) ? allCategories : [];
+
+// Page metadata - with fallback for missing categoryData
+const pageTitle = `${categoryData?.title || "Equipment"} | ${lang === "en" ? "OS-Technology" : "ОС-Технолоджи"}`;
+const pageDescription = categoryData?.description || "";
+
+// Structured data for SEO
+const siteUrl = Astro.site || "https://ocs.com.ua";
+const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
+
+const structuredData = {
+	"@context": "https://schema.org",
+	"@type": "CollectionPage",
+	name: categoryData?.title || "Equipment",
+	description: categoryData?.description || "",
+	url: currentUrl,
+	inLanguage: getIsoLang(lang as Lang),
+	// There is no /catalogue/ index page, so the trail goes straight from Home to the category
+	breadcrumb: breadcrumbSchema([
+		{ name: lang === "en" ? "Home" : "Головна", url: new URL(`/${lang}/`, siteUrl).href },
+		{ name: categoryData?.title || categorySlug, url: currentUrl },
+	]),
+	mainEntity: {
+		"@type": "ItemList",
+		numberOfItems: sortedProducts.length,
+		itemListElement: sortedProducts.map((product, index) => ({
+			"@type": "ListItem",
+			position: index + 1,
+			url: new URL(productUrl(lang as Lang, categorySlug, getSlug(product)), siteUrl).href,
+			name: product.data.title,
+			description: product.data.description,
+		})),
+	},
+};
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+	<script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+	<CategoryHeader categoryData={categoryData} lang={lang as Lang} />
+
+	<CatalogueBand
+		allCategories={sortedCategories}
+		allIndustries={allIndustries}
+		section="equipment"
+		activeSlug={categorySlug}
+		lang={lang as Lang}
+	>
+		<section aria-label={_("Products")}>
+			{
+				sortedProducts.length > 0 ? (
+					<div
+						data-product-grid
+						class="gap-gutter grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
+					>
+						{sortedProducts.map((product, index) => (
+							<ProductCard product={product} lang={lang as Lang} index={index} gallery={galleries[product.id]} />
+						))}
+					</div>
+				) : (
+					<div class="text-industrial-gray py-24 text-center">
+						<p class="text-lg">{_("No products available in this category")}</p>
+					</div>
+				)
+			}
+		</section>
+	</CatalogueBand>
+</Layout>

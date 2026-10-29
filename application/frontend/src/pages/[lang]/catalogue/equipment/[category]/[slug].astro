@@ -1,0 +1,338 @@
+---
+import { getCollection } from "astro:content";
+import { marked } from "marked";
+import CatalogueSidebar from "@/components/catalogue/CatalogueSidebar.astro";
+import ProductGallery from "@/components/catalogue/ProductGallery.astro";
+import ProductSpecsTable from "@/components/catalogue/ProductSpecsTable.astro";
+import RelatedEquipment from "@/components/catalogue/RelatedEquipment.astro";
+import companyData from "@/data/company.json";
+import { getInlineTranslations, type Lang } from "@/i18n";
+import Layout from "@/layouts/Layout.astro";
+import { categoryUrl } from "@/lib/catalogue-urls";
+import {
+	type EquipmentEntry,
+	filterByCategory,
+	filterByLocale,
+	flattenSpecs,
+	getCategoriesForLocale,
+	getCategory,
+	getGallery,
+	getIndustriesForLocale,
+	getLocale,
+	getProducts,
+	getSlug,
+	type Locale,
+	sortByOrder,
+} from "@/lib/content-utils";
+import { breadcrumbSchema, productSchema } from "@/lib/structured-data";
+
+export async function getStaticPaths() {
+	const allEquipment = await getCollection("equipment");
+	const allProducts = getProducts(allEquipment);
+
+	const paths = [];
+
+	for (const product of allProducts) {
+		const locale = getLocale(product);
+		const category = getCategory(product);
+		const slug = getSlug(product);
+		const allCategories = getCategoriesForLocale(locale);
+		const allIndustries = getIndustriesForLocale(locale);
+
+		const localeProducts = filterByLocale(allProducts, locale);
+		const categoryProducts = filterByCategory(localeProducts, category);
+		const relatedProducts = sortByOrder(categoryProducts.filter((p) => getSlug(p) !== slug)).slice(
+			0,
+			3
+		);
+		const gallery = getGallery(product, allProducts);
+		const relatedGalleries = Object.fromEntries(
+			relatedProducts.map((p) => [p.id, getGallery(p, allProducts) ?? []])
+		);
+
+		paths.push({
+			params: { lang: locale, category, slug },
+			props: { product, lang: locale, allCategories, allIndustries, relatedProducts, gallery, relatedGalleries },
+		});
+	}
+
+	return paths;
+}
+
+interface Props {
+	product: EquipmentEntry;
+	lang: Locale;
+	allCategories: ReturnType<typeof getCategoriesForLocale>;
+	allIndustries: ReturnType<typeof getIndustriesForLocale>;
+	relatedProducts: EquipmentEntry[];
+	gallery: string[] | undefined;
+	relatedGalleries: Record<string, string[]>;
+}
+
+const { product, lang, allCategories, allIndustries, relatedProducts = [], gallery, relatedGalleries = {} } = Astro.props;
+const _ = getInlineTranslations(lang as Lang);
+const category = getCategory(product);
+
+const title = product.data.title ?? "";
+const description = product.data.description ?? "";
+const bodyMarkdown = product.body ?? "";
+const body = await marked.parse(bodyMarkdown);
+
+const categoryObj = allCategories.find((c) => c.slug === category);
+const categoryTitle = categoryObj?.title ?? category;
+
+const contactPerson =
+	companyData.contactPerson[lang as "en" | "ua"] || companyData.contactPerson.en;
+const workingHours = companyData.workingHours[lang as "en" | "ua"] || companyData.workingHours.en;
+
+const siteUrl = Astro.site || "https://ocs.com.ua";
+const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
+
+const structuredData = [
+	productSchema({
+		name: title,
+		description,
+		url: currentUrl,
+		lang: lang as Lang,
+		site: siteUrl,
+		category: categoryTitle,
+		images: gallery,
+		specs: flattenSpecs(product.data.specs),
+	}),
+	breadcrumbSchema([
+		{ name: lang === "en" ? "Home" : "Головна", url: new URL(`/${lang}/`, siteUrl).href },
+		// There is no /catalogue/ index page, so the trail goes straight from Home to the category
+		{ name: categoryTitle, url: new URL(`${categoryUrl(lang, category)}/`, siteUrl).href },
+		{ name: title, url: currentUrl },
+	]),
+];
+
+// Share previews use the product photo when there is one, else the default brand image
+const shareImage = gallery?.[0];
+---
+
+<Layout
+	title={`${title} | ${lang === "en" ? "OS-Technology" : "ОС-Технолоджи"}`}
+	description={description}
+	image={shareImage}
+	article={true}
+>
+	<script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+
+	{/* Hero band: breadcrumb, eyebrow and title */}
+	<header
+		class="from-surface-container/40 to-background border-border-subtle/60 relative w-full overflow-hidden border-b bg-linear-to-b py-10 lg:py-16"
+	>
+		<div
+			class="bg-secondary/10 pointer-events-none absolute -top-32 -right-24 size-[30rem] rounded-full blur-3xl"
+			aria-hidden="true"
+		>
+		</div>
+
+		<div class="px-edge-margin relative mx-auto max-w-[1600px]">
+			<p
+				class="hero-rise font-label-caps text-secondary mb-4 flex items-center gap-3 text-xs tracking-widest uppercase"
+				style="--d:1"
+			>
+				<span class="eyebrow-rule bg-secondary h-px w-8" aria-hidden="true"></span>
+				{categoryTitle}
+			</p>
+			<h1
+				class="hero-rise font-display-lg text-foreground max-w-4xl text-4xl tracking-tight text-balance lg:text-5xl"
+				style="--d:2"
+			>
+				{title}
+			</h1>
+		</div>
+	</header>
+
+	{/* Muted band: white sidebar and cards stand out against it */}
+	<section class="bg-surface-container w-full py-12 lg:py-20">
+		<div class="px-edge-margin mx-auto flex max-w-[1600px] gap-8">
+			{/* Left Catalogue Sidebar Navigation */}
+			<CatalogueSidebar
+				allCategories={allCategories}
+				allIndustries={allIndustries}
+				section="equipment"
+				activeSlug={category}
+				lang={lang as Lang}
+			/>
+
+			{/* Right Product Detail Content */}
+			<div class="min-w-0 flex-1 space-y-12">
+				{/* Product Hero Grid: Gallery (7/12) + Description & Sales Card (5/12) */}
+				<section
+					class="gap-gutter grid grid-cols-1 items-start lg:grid-cols-12"
+					aria-label={_("Product Overview")}
+				>
+					<div class="reveal lg:col-span-7" style="--i:0">
+						<ProductGallery images={gallery} title={title} lang={lang as Lang} />
+					</div>
+
+					<div class="gap-gutter flex flex-col lg:col-span-5">
+						{
+							description && (
+								<p
+									class="reveal font-body-md text-industrial-gray text-sm leading-relaxed md:text-base"
+									style="--i:1"
+								>
+									{description}
+								</p>
+							)
+						}
+
+						{/* Consultation card */}
+						<div
+							class="reveal bg-background border-border-subtle/70 before:from-secondary relative space-y-5 overflow-hidden rounded-xl border p-6 shadow-xs before:absolute before:inset-x-0 before:top-0 before:h-0.5 before:bg-linear-to-r before:to-transparent"
+							style="--i:2"
+						>
+							<div>
+								<h3
+									class="font-headline-lg text-foreground mb-1.5 text-lg font-semibold tracking-tight"
+								>
+									{_("Planning to upgrade your production line?")}
+								</h3>
+								<p class="font-body-md text-industrial-gray text-xs leading-relaxed">
+									{
+										_(
+											"Our engineering team is ready to configure this equipment for your specific production environment."
+										)
+									}
+								</p>
+							</div>
+
+							{/* Direct Technical Sales Contact Info */}
+							<div class="border-border-subtle/60 space-y-2 border-t pt-4">
+								<p
+									class="font-label-caps text-industrial-gray text-[11px] font-semibold tracking-wider uppercase"
+								>
+									{_("Direct Technical Sales")}
+								</p>
+								{
+									contactPerson && (
+										<p class="text-foreground text-sm font-medium">{contactPerson.name}</p>
+									)
+								}
+								<div class="flex items-center gap-2">
+									<span
+										class="material-symbols-outlined text-secondary text-[18px]"
+										aria-hidden="true">call</span
+									>
+									<a
+										href={`tel:${companyData.phone.replace(/[^\d+]/g, "")}`}
+										class="font-technical-data text-foreground hover:text-secondary text-sm font-semibold transition-colors"
+									>
+										{companyData.phone}
+									</a>
+								</div>
+								{
+									companyData.email && (
+										<div class="flex items-center gap-2">
+											<span
+												class="material-symbols-outlined text-secondary text-[18px]"
+												aria-hidden="true"
+											>
+												mail
+											</span>
+											<a
+												href={`mailto:${companyData.email}`}
+												class="font-technical-data text-industrial-gray hover:text-secondary text-xs font-medium transition-colors"
+											>
+												{companyData.email}
+											</a>
+										</div>
+									)
+								}
+								<p class="text-industrial-gray text-[11px]">
+									{workingHours}
+								</p>
+							</div>
+
+							{/* Action CTAs */}
+							<div class="flex flex-col gap-2.5 pt-1">
+								<a
+									href={`/${lang}/contact`}
+									class="group bg-primary text-primary-foreground focus-visible:outline-secondary inline-flex w-full items-center justify-center gap-2 rounded-lg px-7 py-3.5 text-[15px] leading-[22px] font-medium shadow-xs transition-[opacity,box-shadow] hover:opacity-90 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2"
+								>
+									{_("Request Consultation")}
+									<span
+										class="material-symbols-outlined text-[18px] transition-transform duration-200 group-hover:translate-x-1"
+										aria-hidden="true">arrow_forward</span
+									>
+								</a>
+
+								{
+									product.data.datasheet && (
+										<a
+											href={product.data.datasheet}
+											target="_blank"
+											rel="noopener noreferrer"
+											class="border-secondary text-secondary hover:bg-secondary/5 focus-visible:outline-secondary font-technical-data inline-flex w-full items-center justify-center gap-2 rounded-lg border-2 px-7 py-3 text-[15px] leading-[22px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+										>
+											<span class="material-symbols-outlined text-[18px]" aria-hidden="true">
+												download
+											</span>
+											{_("Technical Datasheet")}
+										</a>
+									)
+								}
+							</div>
+						</div>
+					</div>
+				</section>
+
+				{/* Technical Specifications Table */}
+				<div class="reveal" style="--i:0">
+					<ProductSpecsTable specs={product.data.specs} lang={lang as Lang} />
+				</div>
+
+				{/* Markdown Documentation Body */}
+				{
+					body && (
+						<section
+							class="reveal bg-background border-border-subtle/70 rounded-xl border p-6 shadow-xs sm:p-8"
+							style="--i:0"
+						>
+							<div class="prose prose-neutral dark:prose-invert max-w-none" set:html={body} />
+						</section>
+					)
+				}
+			</div>
+		</div>
+	</section>
+
+	{/* White band: related equipment */}
+	<RelatedEquipment products={relatedProducts} lang={lang as Lang} galleries={relatedGalleries} />
+</Layout>
+
+<style>
+	@media (prefers-reduced-motion: no-preference) {
+		.hero-rise {
+			animation: hero-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+			animation-delay: calc(var(--d, 0) * 90ms);
+		}
+
+		/* Hidden only once the script has confirmed the animation will run */
+		.reveal[data-anim="ready"] {
+			opacity: 0;
+		}
+		.reveal[data-anim="in"] {
+			animation: hero-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+			animation-delay: calc(var(--i, 0) * 120ms);
+		}
+	}
+
+	@keyframes hero-rise {
+		from {
+			opacity: 0;
+			transform: translateY(18px);
+		}
+	}
+</style>
+
+<script>
+	import { revealOnce } from "@/lib/anims/reveal-once";
+
+	document.querySelectorAll<HTMLElement>(".reveal").forEach((el) => revealOnce(el, 0.1));
+</script>
