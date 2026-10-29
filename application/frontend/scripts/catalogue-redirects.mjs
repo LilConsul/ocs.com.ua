@@ -8,10 +8,13 @@ const LANGS = ["en", "ua"];
  *   /{lang}/catalogue/{category}           -> /{lang}/catalogue/equipment/{category}
  *   /{lang}/catalogue/{category}/{product} -> /{lang}/catalogue/equipment/{category}/{product}
  * Built from equipment-types.json and the content folders under `root` (the frontend folder).
+ * @param {string} root
+ * @returns {Record<string, string>}
  */
 export function buildCatalogueRedirects(root) {
 	const types = JSON.parse(readFileSync(join(root, "src/data/equipment-types.json"), "utf8"));
 	const contentDir = join(root, "src/content/equipment");
+	/** @type {Record<string, string>} */
 	const redirects = {};
 
 	for (const lang of LANGS) {
