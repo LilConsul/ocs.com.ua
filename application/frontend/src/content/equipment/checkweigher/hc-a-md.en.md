@@ -4,5 +4,5 @@ datasheet: /assets/image_409a1f1c.webp
 industries:
   - food-beverage
   - cosmetics
-title: HC-A-MD
+title: HC-A-MD Checkweigher with Metal Detector
 ---

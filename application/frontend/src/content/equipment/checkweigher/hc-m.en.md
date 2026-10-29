@@ -6,42 +6,87 @@ industries:
   - pharmaceutical
   - cosmetics
 title: HC-M Checkweigher
-description: Flexible checkweighers for medium performance ranges. The link
-  between EC-E and HC-A series, providing up to 250 weight values per minute for
-  mid-range checkweighing applications.
+description: HC-M series checkweighers for medium performance ranges. Positioned
+  between the EC-E and HC-A series, they provide up to 250 weight measurements
+  per minute.
 specs:
   - items:
       - label: Max Speed
-        value: 250 ppm
-      - label: Display Value
-        value: TODO
+        value: up to 250 ppm
+      - label: Resolution
+        value: from 0.1 g - 1.0 g
+      - label: Maximum Weighing Capacity
+        value: 750 g - 7500 g
+    title: Weighing
+  - title: Infeed and Outfeed Conveyors
+    items:
+      - label: Length
+        value: 200 mm, 300 mm, 400 mm, 500 mm, 600 mm
+      - label: Width
+        value: 120 mm, 150 mm, 200 mm, 300 mm, 400 mm
+  - title: Weighing Conveyor
+    items:
+      - label: Length
+        value: 200 mm, 250 mm, 300 mm, 400 mm, 500 mm
+      - label: Width
+        value: 120 mm, 150 mm, 200 mm, 300 mm, 400 mm
+  - title: General Information
+    items:
+      - label: Conveyor Working Height
+        value: 700 - 850 mm, 800 - 950 mm, 900 - 1050 mm
+      - label: Ingress Protection Rating
+        value: IP54, IP65, IP69k
+      - label: Operating Temperature Range
+        value: +5°C .... +40°C
+      - label: Touchscreen Diagonal
+        value: 10.4”
+      - label: Weigh Cell
+        value: Electromagnetic Force Restoration (EMFR)
+      - label: "Automatic rejection of products with incorrect weight:"
+        value: directed air blast, pneumatic pusher, rotary arm, etc.
 type: product
 ---
 
-## Flexible Checkweighers for Medium Performance Ranges
+## Checkweighers for Medium Performance Ranges
 
-The dynamic checkweighers of the HC-M series provide the perfect weighing technology for challenging mid-range checkweighing applications. They are the link between the EC-E and HC-A series of scales, and provide up to 250 weight values per minute for the complete medium range of checkweighers.
+HC-M series checkweighers provide the ideal weighing technology for demanding mid-range applications. They are the link between the EC-E and HC-A series of scales and provide up to 250 weight measurements per minute, covering the complete medium range of checkweighers.
 
 ## Key Features
 
-* Entire machine in stainless steel housing with infeed, weighing, and outfeed belts
-* Wipotec EMFR Weigh Cells
+* The weigh cell operates on the Electromagnetic Force Restoration (EMFR) principle
+* Flexible integration into production lines
+* Wide choice of individual options
 
-## Your Benefits
+## Weigh Cell
 
-* Max output 250 ppm
-* Exact fill results for higher productivity
+A high-precision industrial weigh cell, manufactured in-house, operates on the principle of electromagnetic force restoration. It is designed for high-performance dynamic weighing.
 
-## Checkweighers HC-M: Reliable, Precise, Versatile
+**Key Characteristics**
 
-The HC-M is the most convenient answer, whether you need to check the current actual weight or perform a completeness check, a sort, or a classification. The base frame is made of solid stainless steel. The checkweigher enables high precision weight determination at average to high conveyor speeds or throughput rates, and provides 100% product checks in accordance with national prepackage regulations.
+* High weighing accuracy.
+* Minimal settling time when weighing each product unit.
+* Stainless steel construction.
+* Stable weighing characteristics despite changes in humidity and room air temperature.
 
-The lightweight, patented conveyor system and carefully tuned drive concept ensure smooth, fast and safe product transport through the checkweigher. A sophisticated and wide range of sorters (pusher, air blast, etc.) is available for ejecting products having an incorrect weight, without interfering with the production flow.
+**Durability and Reliability**
 
-## Precise Checkweighing with a Small Footprint
+The weigh cell has no parts that create friction. This ensures its durability and reliability.
 
-The HC-M checkweigher, in double deck design, allows a complete weight check on two lanes with the space requirement of only one. The two systems weigh and process data independently. This customised machine is perfectly adapted to the needs of the customer.
+## Housing and Frame
 
-## Modularity for Mid-Range Applications
+**Design and Vibration Protection**
 
-The HC-M series offers flexible configuration options to meet specific production requirements while maintaining the compact footprint and reliability expected from Wipotec weighing technology.
+The scale frame and the electrical cabinet with the control terminal are made of stainless steel in accordance with hygienic requirements. A massive, stable frame weighing about 150 kg provides additional vibration protection, which has a positive effect on weighing accuracy.
+
+**Ease of Maintenance**
+
+The conveyors are easy to remove, and the belts can be replaced without additional tools.
+
+**Drives and Speed Control**
+
+IMOT servo motors are maintenance-free and provide:
+
+* Smooth adjustment and maintenance of the set conveyor belt speed.
+* Vibration-free operation even at maximum speed.
+
+When the conveyor speed changes, weighing accuracy is maintained and the product rejection moment adapts automatically.
