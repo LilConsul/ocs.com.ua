@@ -141,16 +141,17 @@ collections:
                   - { label: "Postal Code", name: "postalCode", widget: "string" }
                   - { label: "Country", name: "country", widget: "string" }
 
-  # ── Equipment Categories ────────────────────────────────────────────────────
-  # File collection backed by JSON. Adding an entry creates a new category that
-  # auto-appears in the site sidebar and the product category dropdown.
+  # ── Equipment Categories & Industries ───────────────────────────────────────
+  # File collection backed by JSON. Adding an entry creates a new category or
+  # industry that auto-appears in the site sidebar and the product dropdowns.
   - name: "equipment-categories"
-    label: "Equipment Categories"
-    label_singular: "Equipment Category"
+    label: "Categories & Industries"
+    label_singular: "Category or Industry"
     description: >-
-      Equipment type definitions. Each entry controls the sidebar label, icon
-      and description for one category; drag entries to reorder. Adding a new entry here
-      automatically populates the category dropdown in Products.
+      Catalogue taxonomy. "Equipment Types" controls the sidebar label, icon and
+      description of each equipment category; "Industries" does the same for each
+      industry. Drag entries to reorder. New entries automatically populate the
+      matching dropdown in Products.
     editor:
       preview: false
     i18n:
@@ -191,6 +192,39 @@ collections:
                 widget: "icon-select"
                 required: false
                 options: __ICON_OPTIONS__
+      - name: "industries"
+        label: "Industries"
+        file: "application/frontend/src/data/industries.json"
+        format: json
+        i18n: true
+        fields:
+          - label: "Industries"
+            name: "industries"
+            widget: list
+            i18n: true
+            hint: "Drag entries to reorder — the order here is the order in the sidebar."
+            fields:
+              - label: "Slug"
+                name: "slug"
+                widget: "hidden"
+                i18n: duplicate
+                required: false
+              - label: "Title"
+                name: "title"
+                widget: "string"
+                i18n: true
+                hint: "Industry name displayed in the sidebar, header, and product industries dropdown."
+              - label: "Description"
+                name: "description"
+                widget: "text"
+                required: false
+                i18n: true
+                hint: "Brief industry overview shown at the top of the industry page."
+              - label: "Icon"
+                name: "icon"
+                widget: "icon-select"
+                required: false
+                options: __ICON_OPTIONS__
 
   # ── Products ─────────────────────────────────────────────────────
   - name: "equipment"
@@ -208,19 +242,7 @@ collections:
     preview_path_date_field: "date"
     summary: "{{title}} [{{dirname}}/{{filename}}]"
     sortable_fields: ["commit_date", "order", "title", "commit_author"]
-    view_filters:
-      - label: "Food & Beverage"
-        field: industries
-        pattern: "food-beverage"
-      - label: "Pharmaceutical"
-        field: industries
-        pattern: "pharmaceutical"
-      - label: "Cosmetics"
-        field: industries
-        pattern: "cosmetics"
-      - label: "General / Industrial"
-        field: industries
-        pattern: "general"
+    view_filters: __INDUSTRY_FILTERS__
     view_groups:
       - label: "By Category"
         field: category
@@ -270,13 +292,7 @@ collections:
         i18n: true
         multiple: true
         min: 0
-        options:
-          - { label: "Food & Beverage", value: "food-beverage" }
-          - { label: "Pharmaceutical", value: "pharmaceutical" }
-          - { label: "Cosmetics", value: "cosmetics" }
-          - { label: "General / Industrial", value: "general" }
-          - { label: "Logistics & E-commerce", value: "logistics" }
-          - { label: "Chemical", value: "chemical" }
+        options: __INDUSTRY_OPTIONS__
       - { label: "Title", name: "title", widget: "string", i18n: true }
       - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
       - label: "Specifications"

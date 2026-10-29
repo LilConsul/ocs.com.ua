@@ -272,3 +272,27 @@ describe("decap cms company collection", () => {
 		expect(companyCollection.files?.[0]?.format).toBe("json");
 	});
 });
+
+describe("decap cms industries", () => {
+	const templatePath = join(import.meta.dir, "../../src/pages/admin/_config.template.yml");
+	const raw = readFileSync(templatePath, "utf8");
+	const parsed = parse(raw.replace(/__[A-Z0-9_]+__/g, '""'));
+
+	it("edits industries.json as a file entry beside the equipment types", () => {
+		const collection = parsed.collections?.find((c: any) => c.name === "equipment-categories");
+		const names = collection.files.map((f: any) => f.name);
+		expect(names).toEqual(["equipment-types", "industries"]);
+
+		const file = collection.files.find((f: any) => f.name === "industries");
+		expect(file.file).toBe("application/frontend/src/data/industries.json");
+		expect(file.format).toBe("json");
+		expect(file.fields[0].name).toBe("industries");
+	});
+
+	it("generates the product industry options and filters instead of hardcoding them", () => {
+		expect(raw).toContain("__INDUSTRY_OPTIONS__");
+		expect(raw).toContain("__INDUSTRY_FILTERS__");
+		expect(raw).not.toContain('value: "general"');
+		expect(raw).not.toContain('value: "chemical"');
+	});
+});

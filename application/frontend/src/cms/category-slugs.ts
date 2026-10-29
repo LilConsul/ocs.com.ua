@@ -21,14 +21,17 @@ interface EntryData {
 
 const COLLECTION = "equipment-categories";
 
+// Each file in the collection holds one list: equipment types or industries
+const LIST_KEYS = ["categories", "industries"] as const;
+
 function trimmedSlug(cat: Cat): string {
 	const slug = cat.get("slug");
 	return slug ? String(slug).trim() : "";
 }
 
 /**
- * Auto-generates hidden category slugs from the EN title on save. Existing slugs are
- * preserved, and the same slug is synced to the UA categories (matched by position).
+ * Auto-generates hidden slugs for categories and industries from the EN title on save.
+ * Existing slugs are preserved, and the same slug is synced to the UA list (matched by position).
  */
 export const categorySlugsListener: Listener = {
 	name: "preSave",
@@ -39,32 +42,29 @@ export const categorySlugsListener: Listener = {
 			let data = entry.get("data") as EntryData | undefined;
 			if (!data) return;
 
-			// 1. EN categories: keep an existing slug, otherwise generate one from the title
-			const enCats = (data.getIn(["en", "categories"]) ?? data.get("categories")) as
-				| CatList
-				| undefined;
-			enCats?.forEach((cat, idx) => {
-				const slug = trimmedSlug(cat) || slugify(cat.get("title"));
-				if (!(slug && data)) return;
-				if (data.hasIn(["en", "categories"])) {
-					data = data.setIn(["en", "categories", idx, "slug"], slug);
-				}
-				if (data.has("categories")) {
-					data = data.setIn(["categories", idx, "slug"], slug);
-				}
-			});
+			for (const key of LIST_KEYS) {
+				// 1. EN items: keep an existing slug, otherwise generate one from the title
+				const enItems = (data.getIn(["en", key]) ?? data.get(key)) as CatList | undefined;
+				enItems?.forEach((item, idx) => {
+					const slug = trimmedSlug(item) || slugify(item.get("title"));
+					if (!(slug && data)) return;
+					if (data.hasIn(["en", key])) {
+						data = data.setIn(["en", key, idx, "slug"], slug);
+					}
+					if (data.has(key)) {
+						data = data.setIn([key, idx, "slug"], slug);
+					}
+				});
 
-			// 2. UA categories: reuse the EN slug
-			const uaCats = data.getIn(["ua", "categories"]) as CatList | undefined;
-			if (uaCats) {
-				const finalEnCats = (data.getIn(["en", "categories"]) ?? data.get("categories")) as
-					| CatList
-					| undefined;
-				uaCats.forEach((cat, idx) => {
-					const enSlug = (finalEnCats?.get(idx)?.get("slug") as string | undefined) ?? "";
-					const slug = enSlug || trimmedSlug(cat) || slugify(cat.get("title"));
+				// 2. UA items: reuse the EN slug
+				const uaItems = data.getIn(["ua", key]) as CatList | undefined;
+				if (!uaItems) continue;
+				const finalEnItems = (data.getIn(["en", key]) ?? data.get(key)) as CatList | undefined;
+				uaItems.forEach((item, idx) => {
+					const enSlug = (finalEnItems?.get(idx)?.get("slug") as string | undefined) ?? "";
+					const slug = enSlug || trimmedSlug(item) || slugify(item.get("title"));
 					if (slug && data) {
-						data = data.setIn(["ua", "categories", idx, "slug"], slug);
+						data = data.setIn(["ua", key, idx, "slug"], slug);
 					}
 				});
 			}
@@ -72,7 +72,7 @@ export const categorySlugsListener: Listener = {
 			// Returning the data Map replaces the entry data in Decap
 			return data;
 		} catch (err) {
-			console.error("[preSave] category slug error:", err);
+			console.error("[preSave] slug error:", err);
 		}
 	},
 };
