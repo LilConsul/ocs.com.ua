@@ -78,6 +78,15 @@ repos:
         pass_filenames: false
         files: ^application/frontend/src/content/.*\.md$
 
+      # Re-encodes mislabeled (e.g. PNG data in .webp) or oversized images in place.
+      # pre-commit fails the commit when a hook modifies files, so re-stage and commit again.
+      - id: optimize-public-images
+        name: "[FE] Optimize public images"
+        entry: uv
+        args: ["run", "application/infra/scripts/check-images.py", "--fix"]
+        language: system
+        files: ^application/frontend/public/.*\.(webp|png|jpe?g)$
+
       - id: biome-ci-frontend
         name: "[FE] Biome CI"
         entry: bun
