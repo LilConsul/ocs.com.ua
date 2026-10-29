@@ -1,6 +1,6 @@
 ---
 order: 0
-datasheet: null
+datasheet: /assets/image_409a1f1c.webp
 industries:
   - food-beverage
   - cosmetics
