@@ -7,9 +7,11 @@ import { type EquipmentEntry, flattenSpecs, getCategory, getSlug } from "@/lib/c
 interface Props {
 	products: EquipmentEntry[];
 	lang: Lang;
+	/** Pre-resolved galleries keyed by entry id, used when gallery is not in the entry (i18n: false). */
+	galleries?: Record<string, string[]>;
 }
 
-const { products = [], lang } = Astro.props;
+const { products = [], lang, galleries = {} } = Astro.props;
 const _ = getInlineTranslations(lang);
 ---
 
@@ -44,7 +46,7 @@ const _ = getInlineTranslations(lang);
 						const itemCategory = getCategory(item);
 						const itemSlug = getSlug(item);
 						const itemUrl = productUrl(lang, itemCategory, itemSlug);
-						const itemImg = item.data.gallery?.[0] || "/placeholder.svg";
+						const itemImg = galleries[item.id]?.[0] || item.data.gallery?.[0] || "/placeholder.svg";
 						const itemSpec = flattenSpecs(item.data.specs)[0];
 
 						return (

@@ -56,7 +56,7 @@ media_processing:
 i18n:
   structure: multiple_files
   locales: [en, ua]
-  default_locale: en
+  default_locale: ua
 
 collections:
   # ── Authorization Documents ───────────────────────────────────────────────
@@ -267,7 +267,7 @@ collections:
         name: "gallery"
         widget: "list"
         required: false
-        i18n: true
+        i18n: false
         min: 0
         max: 3
         field:

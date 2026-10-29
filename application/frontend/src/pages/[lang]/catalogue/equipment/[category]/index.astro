@@ -10,6 +10,7 @@ import {
 	filterByCategory,
 	filterByLocale,
 	getCategoriesForLocale,
+	getGallery,
 	getIndustriesForLocale,
 	getProducts,
 	getSlug,
@@ -36,6 +37,9 @@ export async function getStaticPaths() {
 
 			const localeProducts = filterByLocale(allProducts, lang);
 			const categoryProducts = filterByCategory(localeProducts, cat.slug);
+			const galleries = Object.fromEntries(
+				(categoryProducts || []).map((p) => [p.id, getGallery(p, allProducts) ?? []])
+			);
 
 			paths.push({
 				params: { lang, category: cat.slug },
@@ -46,6 +50,7 @@ export async function getStaticPaths() {
 					allCategories: localeCategories,
 					allIndustries: getIndustriesForLocale(lang),
 					lang,
+					galleries,
 				},
 			});
 		}
@@ -61,6 +66,7 @@ const {
 	allCategories = [],
 	allIndustries = [],
 	lang,
+	galleries = {},
 } = Astro.props;
 const _ = getInlineTranslations(lang as Lang);
 
@@ -122,7 +128,7 @@ const structuredData = {
 						class="gap-gutter grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
 					>
 						{sortedProducts.map((product, index) => (
-							<ProductCard product={product} lang={lang as Lang} index={index} />
+							<ProductCard product={product} lang={lang as Lang} index={index} gallery={galleries[product.id]} />
 						))}
 					</div>
 				) : (

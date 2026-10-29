@@ -1,9 +1,5 @@
 ---
 order: 1
-gallery:
-  - /assets/equipment/hc-a/csm_checkweigher-hc-a-right_a7ab8c2ea6.webp
-  - /assets/equipment/hc-a/csm_checkweigher-hc-a-front_d6527f5b5a.webp
-  - /assets/equipment/hc-a/csm_checkweigher-hc-a-left_777170ec62.webp
 datasheet: /assets/equipment/hc-a/datasheet.pdf
 industries:
   - food-beverage

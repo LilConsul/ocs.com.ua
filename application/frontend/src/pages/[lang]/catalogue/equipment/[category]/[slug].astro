@@ -16,6 +16,7 @@ import {
 	flattenSpecs,
 	getCategoriesForLocale,
 	getCategory,
+	getGallery,
 	getIndustriesForLocale,
 	getLocale,
 	getProducts,
@@ -44,10 +45,14 @@ export async function getStaticPaths() {
 			0,
 			3
 		);
+		const gallery = getGallery(product, allProducts);
+		const relatedGalleries = Object.fromEntries(
+			relatedProducts.map((p) => [p.id, getGallery(p, allProducts) ?? []])
+		);
 
 		paths.push({
 			params: { lang: locale, category, slug },
-			props: { product, lang: locale, allCategories, allIndustries, relatedProducts },
+			props: { product, lang: locale, allCategories, allIndustries, relatedProducts, gallery, relatedGalleries },
 		});
 	}
 
@@ -60,9 +65,11 @@ interface Props {
 	allCategories: ReturnType<typeof getCategoriesForLocale>;
 	allIndustries: ReturnType<typeof getIndustriesForLocale>;
 	relatedProducts: EquipmentEntry[];
+	gallery: string[] | undefined;
+	relatedGalleries: Record<string, string[]>;
 }
 
-const { product, lang, allCategories, allIndustries, relatedProducts = [] } = Astro.props;
+const { product, lang, allCategories, allIndustries, relatedProducts = [], gallery, relatedGalleries = {} } = Astro.props;
 const _ = getInlineTranslations(lang as Lang);
 const category = getCategory(product);
 
@@ -89,7 +96,7 @@ const structuredData = [
 		lang: lang as Lang,
 		site: siteUrl,
 		category: categoryTitle,
-		images: product.data.gallery,
+		images: gallery,
 		specs: flattenSpecs(product.data.specs),
 	}),
 	breadcrumbSchema([
@@ -101,7 +108,7 @@ const structuredData = [
 ];
 
 // Share previews use the product photo when there is one, else the default brand image
-const shareImage = product.data.gallery?.[0];
+const shareImage = gallery?.[0];
 ---
 
 <Layout
@@ -160,7 +167,7 @@ const shareImage = product.data.gallery?.[0];
 					aria-label={_("Product Overview")}
 				>
 					<div class="reveal lg:col-span-7" style="--i:0">
-						<ProductGallery images={product.data.gallery} title={title} lang={lang as Lang} />
+						<ProductGallery images={gallery} title={title} lang={lang as Lang} />
 					</div>
 
 					<div class="gap-gutter flex flex-col lg:col-span-5">
@@ -296,7 +303,7 @@ const shareImage = product.data.gallery?.[0];
 	</section>
 
 	{/* White band: related equipment */}
-	<RelatedEquipment products={relatedProducts} lang={lang as Lang} />
+	<RelatedEquipment products={relatedProducts} lang={lang as Lang} galleries={relatedGalleries} />
 </Layout>
 
 <style>

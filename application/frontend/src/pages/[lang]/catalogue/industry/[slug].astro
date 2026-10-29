@@ -11,6 +11,7 @@ import {
 	filterByLocale,
 	getCategoriesForLocale,
 	getCategory,
+	getGallery,
 	getIndustriesForLocale,
 	getProducts,
 	getSlug,
@@ -32,6 +33,10 @@ export async function getStaticPaths() {
 			// No empty pages: an industry only gets a route when the locale has a product for it
 			if (products.length === 0) return [];
 
+			const galleries = Object.fromEntries(
+				products.map((p) => [p.id, getGallery(p, allProducts) ?? []])
+			);
+
 			return [
 				{
 					params: { lang, slug: industry.slug },
@@ -41,6 +46,7 @@ export async function getStaticPaths() {
 						allCategories,
 						allIndustries,
 						lang,
+						galleries,
 					},
 				},
 			];
@@ -48,7 +54,7 @@ export async function getStaticPaths() {
 	});
 }
 
-const { industry, groups, allCategories, allIndustries, lang } = Astro.props;
+const { industry, groups, allCategories, allIndustries, lang, galleries = {} } = Astro.props;
 const _ = getInlineTranslations(lang as Lang);
 
 const pageTitle = `${industry.title} | ${lang === "en" ? "OS-Technology" : "ОС-Технолоджи"}`;
@@ -115,7 +121,7 @@ const structuredData = {
 							class="gap-gutter grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
 						>
 							{products.map((product, index) => (
-								<ProductCard product={product} lang={lang as Lang} index={index} />
+								<ProductCard product={product} lang={lang as Lang} index={index} gallery={galleries[product.id]} />
 							))}
 						</div>
 					</section>

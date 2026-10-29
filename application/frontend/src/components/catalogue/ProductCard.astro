@@ -8,9 +8,10 @@ interface Props {
 	product: EquipmentEntry;
 	lang: Lang;
 	index?: number;
+	gallery?: string[];
 }
 
-const { product, lang, index = 0 } = Astro.props;
+const { product, lang, index = 0, gallery } = Astro.props;
 const _ = getInlineTranslations(lang);
 
 // Extract fields using clean names (no prefixes!)
@@ -19,7 +20,7 @@ const description = product.data.description;
 const specs = flattenSpecs(product.data.specs)
 	.slice(0, 2)
 	.map((spec) => ({ ...spec, value: spec.value.split(",")[0].trim() }));
-const firstImage = product.data.gallery?.[0] || "/placeholder.svg";
+const firstImage = gallery?.[0] || product.data.gallery?.[0] || "/placeholder.svg";
 
 // Build product URL
 const href = productUrl(lang, getCategory(product), getSlug(product));

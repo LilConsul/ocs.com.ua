@@ -178,6 +178,21 @@ export function findTranslation(
 }
 
 /**
+ * Get gallery images for an entry, falling back to the default-locale (ua) translation
+ * when the current locale's entry has no gallery (because gallery is i18n: false in the CMS,
+ * meaning it is only stored in the ua file).
+ */
+export function getGallery(
+	entry: EquipmentEntry,
+	allEntries: EquipmentEntry[]
+): string[] | undefined {
+	if (entry.data.gallery?.length) return entry.data.gallery;
+	const locale = getLocale(entry);
+	if (locale === "ua") return undefined;
+	return findTranslation(entry, "ua", allEntries)?.data.gallery ?? undefined;
+}
+
+/**
  * Sort entries by order field
  */
 export function sortByOrder(entries: EquipmentEntry[]): EquipmentEntry[] {
