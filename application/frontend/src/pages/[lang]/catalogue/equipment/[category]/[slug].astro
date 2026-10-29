@@ -16,6 +16,7 @@ import {
 	flattenSpecs,
 	getCategoriesForLocale,
 	getCategory,
+	getIndustriesForLocale,
 	getLocale,
 	getProducts,
 	getSlug,
@@ -35,6 +36,7 @@ export async function getStaticPaths() {
 		const category = getCategory(product);
 		const slug = getSlug(product);
 		const allCategories = getCategoriesForLocale(locale);
+		const allIndustries = getIndustriesForLocale(locale);
 
 		const localeProducts = filterByLocale(allProducts, locale);
 		const categoryProducts = filterByCategory(localeProducts, category);
@@ -45,7 +47,7 @@ export async function getStaticPaths() {
 
 		paths.push({
 			params: { lang: locale, category, slug },
-			props: { product, lang: locale, allCategories, relatedProducts },
+			props: { product, lang: locale, allCategories, allIndustries, relatedProducts },
 		});
 	}
 
@@ -56,10 +58,11 @@ interface Props {
 	product: EquipmentEntry;
 	lang: Locale;
 	allCategories: ReturnType<typeof getCategoriesForLocale>;
+	allIndustries: ReturnType<typeof getIndustriesForLocale>;
 	relatedProducts: EquipmentEntry[];
 }
 
-const { product, lang, allCategories, relatedProducts = [] } = Astro.props;
+const { product, lang, allCategories, allIndustries, relatedProducts = [] } = Astro.props;
 const _ = getInlineTranslations(lang as Lang);
 const category = getCategory(product);
 
@@ -143,7 +146,9 @@ const shareImage = product.data.gallery?.[0];
 			{/* Left Catalogue Sidebar Navigation */}
 			<CatalogueSidebar
 				allCategories={allCategories}
-				currentCategory={category}
+				allIndustries={allIndustries}
+				section="equipment"
+				activeSlug={category}
 				lang={lang as Lang}
 			/>
 

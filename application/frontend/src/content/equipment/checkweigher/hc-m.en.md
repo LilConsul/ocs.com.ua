@@ -21,6 +21,7 @@ specs:
         value: TODO
 type: product
 ---
+
 ## Flexible Checkweighers for Medium Performance Ranges
 
 The dynamic checkweighers of the HC-M series provide the perfect weighing technology for challenging mid-range checkweighing applications. They are the link between the EC-E and HC-A series of scales, and provide up to 250 weight values per minute for the complete medium range of checkweighers.

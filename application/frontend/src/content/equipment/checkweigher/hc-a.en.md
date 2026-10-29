@@ -21,6 +21,7 @@ specs:
         value: TODO
 type: product
 ---
+
 ## High Speed Checkweighers for Maximum Performance
 
 In terms of precision and throughput, HC-A checkweighers are an ideal choice to meet the demands of high speed, dynamic weighing requirements. The machines provide the controls and engineering to create the ideal platform for implementing complex regulation and control tasks. The HC-A is the basis for high end application-oriented systems that provide a maximum of 600 weight values per minute with 100% product monitoring.
