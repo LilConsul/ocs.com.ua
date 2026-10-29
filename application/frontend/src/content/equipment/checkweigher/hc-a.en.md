@@ -1,28 +1,26 @@
 ---
-type: product
-title: HC-A Checkweigher
 order: 1
-industries:
-  - food-beverage
-  - pharmaceutical
-  - cosmetics
-description: >-
-  High-speed checkweighers for maximum performance. Provides up to 600 weight
-  values per minute with 100% product monitoring for demanding high-speed
-  weighing requirements.
 gallery:
   - /assets/equipment/hc-a/csm_checkweigher-hc-a-right_a7ab8c2ea6.webp
   - /assets/equipment/hc-a/csm_checkweigher-hc-a-front_d6527f5b5a.webp
   - /assets/equipment/hc-a/csm_checkweigher-hc-a-left_777170ec62.webp
 datasheet: /assets/equipment/hc-a/datasheet.pdf
+industries:
+  - food-beverage
+  - pharmaceutical
+  - cosmetics
+title: HC-A Checkweigher
+description: High-speed checkweighers for maximum performance. Provides up to
+  600 weight values per minute with 100% product monitoring for demanding
+  high-speed weighing requirements.
 specs:
   - items:
       - label: Max Speed
         value: 600 ppm
       - label: Display Value
         value: TODO
+type: product
 ---
-
 ## High Speed Checkweighers for Maximum Performance
 
 In terms of precision and throughput, HC-A checkweighers are an ideal choice to meet the demands of high speed, dynamic weighing requirements. The machines provide the controls and engineering to create the ideal platform for implementing complex regulation and control tasks. The HC-A is the basis for high end application-oriented systems that provide a maximum of 600 weight values per minute with 100% product monitoring.
