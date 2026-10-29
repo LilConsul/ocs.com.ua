@@ -1,0 +1,126 @@
+---
+import { getCollection } from "astro:content";
+import CatalogueBand from "@/components/catalogue/CatalogueBand.astro";
+import CategoryHeader from "@/components/catalogue/CategoryHeader.astro";
+import ProductCard from "@/components/catalogue/ProductCard.astro";
+import { getInlineTranslations, getIsoLang, type Lang } from "@/i18n";
+import Layout from "@/layouts/Layout.astro";
+import { productUrl } from "@/lib/catalogue-urls";
+import {
+	filterByIndustry,
+	filterByLocale,
+	getCategoriesForLocale,
+	getCategory,
+	getIndustriesForLocale,
+	getProducts,
+	getSlug,
+	groupByCategory,
+	type Locale,
+} from "@/lib/content-utils";
+import { breadcrumbSchema } from "@/lib/structured-data";
+
+export async function getStaticPaths() {
+	const allProducts = getProducts(await getCollection("equipment"));
+
+	return (["en", "ua"] as Locale[]).flatMap((lang) => {
+		const allIndustries = getIndustriesForLocale(lang);
+		const allCategories = getCategoriesForLocale(lang);
+		const localeProducts = filterByLocale(allProducts, lang);
+
+		return allIndustries.flatMap((industry) => {
+			const products = filterByIndustry(localeProducts, industry.slug);
+			// No empty pages: an industry only gets a route when the locale has a product for it
+			if (products.length === 0) return [];
+
+			return [
+				{
+					params: { lang, slug: industry.slug },
+					props: {
+						industry,
+						groups: groupByCategory(products, allCategories),
+						allCategories,
+						allIndustries,
+						lang,
+					},
+				},
+			];
+		});
+	});
+}
+
+const { industry, groups, allCategories, allIndustries, lang } = Astro.props;
+const _ = getInlineTranslations(lang as Lang);
+
+const pageTitle = `${industry.title} | ${lang === "en" ? "OS-Technology" : "ОС-Технолоджи"}`;
+
+const siteUrl = Astro.site || "https://ocs.com.ua";
+const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
+
+// Flat list in the same order the groups are shown
+const listedProducts = groups.flatMap((group) => group.products);
+
+const structuredData = {
+	"@context": "https://schema.org",
+	"@type": "CollectionPage",
+	name: industry.title,
+	description: industry.description,
+	url: currentUrl,
+	inLanguage: getIsoLang(lang as Lang),
+	// There is no /catalogue/ index page, so the trail goes straight from Home to the industry
+	breadcrumb: breadcrumbSchema([
+		{ name: lang === "en" ? "Home" : "Головна", url: new URL(`/${lang}/`, siteUrl).href },
+		{ name: industry.title, url: currentUrl },
+	]),
+	mainEntity: {
+		"@type": "ItemList",
+		numberOfItems: listedProducts.length,
+		itemListElement: listedProducts.map((product, index) => ({
+			"@type": "ListItem",
+			position: index + 1,
+			url: new URL(productUrl(lang as Lang, getCategory(product), getSlug(product)), siteUrl).href,
+			name: product.data.title,
+			description: product.data.description,
+		})),
+	},
+};
+---
+
+<Layout title={pageTitle} description={industry.description}>
+	<script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+	<CategoryHeader categoryData={industry} lang={lang as Lang} />
+
+	<CatalogueBand
+		allCategories={allCategories}
+		allIndustries={allIndustries}
+		section="industry"
+		activeSlug={industry.slug}
+		lang={lang as Lang}
+	>
+		<section aria-label={_("Products")} class="space-y-12">
+			{
+				groups.map(({ category, products }) => (
+					<section aria-labelledby={`industry-group-${category.slug}`}>
+						<h2
+							id={`industry-group-${category.slug}`}
+							class="font-headline-lg text-foreground mb-6 flex items-center gap-3 text-xl font-semibold tracking-tight"
+						>
+							<span class="material-symbols-outlined text-secondary text-[22px]" aria-hidden="true">
+								{category.icon || "category"}
+							</span>
+							{category.title}
+						</h2>
+						<div
+							data-product-grid
+							class="gap-gutter grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
+						>
+							{products.map((product, index) => (
+								<ProductCard product={product} lang={lang as Lang} index={index} />
+							))}
+						</div>
+					</section>
+				))
+			}
+		</section>
+	</CatalogueBand>
+</Layout>
