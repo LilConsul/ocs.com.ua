@@ -1,28 +1,26 @@
 ---
-type: product
-title: HC-M Checkweigher
 order: 2
-industries:
-  - food-beverage
-  - pharmaceutical
-  - cosmetics
-description: >-
-  Flexible checkweighers for medium performance ranges. The link between EC-E
-  and HC-A series, providing up to 250 weight values per minute for mid-range
-  checkweighing applications.
 gallery:
   - /assets/equipment/hc-m/csm_checkweigher-hc-m-left_51bfea9ea2.webp
   - /assets/equipment/hc-m/csm_checkweigher-hc-m-front_aa34489ed7.webp
   - /assets/equipment/hc-m/csm_checkweigher-hc-m-right_efe164ce5c.webp
 datasheet: /assets/equipment/hc-m/datasheet.pdf
+industries:
+  - food-beverage
+  - pharmaceutical
+  - cosmetics
+title: HC-M Checkweigher
+description: Flexible checkweighers for medium performance ranges. The link
+  between EC-E and HC-A series, providing up to 250 weight values per minute for
+  mid-range checkweighing applications.
 specs:
   - items:
       - label: Max Speed
         value: 250 ppm
       - label: Display Value
         value: TODO
+type: product
 ---
-
 ## Flexible Checkweighers for Medium Performance Ranges
 
 The dynamic checkweighers of the HC-M series provide the perfect weighing technology for challenging mid-range checkweighing applications. They are the link between the EC-E and HC-A series of scales, and provide up to 250 weight values per minute for the complete medium range of checkweighers.
