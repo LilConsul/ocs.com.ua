@@ -21,9 +21,14 @@ export default defineConfig({
 		}),
 	],
 	vite: {
-		plugins: [tailwindcss()],
-		// Bundle server deps into dist/server so deploys ship no node_modules; sharp is native
-		ssr: { noExternal: true, external: ["sharp"] },
+		plugins: [
+			tailwindcss(),
+			{
+				name: "bundle-ssr-deps",
+				apply: "build",
+				config: () => ({ ssr: { noExternal: true, external: ["sharp"] } }),
+			},
+		],
 		build: {
 			// The /admin Decap CMS bundle is a single ~5 MB chunk; public pages stay small
 			chunkSizeWarningLimit: 6000,
