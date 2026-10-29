@@ -52,6 +52,12 @@ jobs:
 
       - uses: oven-sh/setup-bun@v2
 
+      - uses: actions/cache@v4
+        with:
+          path: ~/.bun/install/cache
+          key: bun-${{ runner.os }}-${{ hashFiles('application/frontend/bun.lock') }}
+          restore-keys: bun-${{ runner.os }}-
+
       - run: bun install --frozen-lockfile
 
       - name: Test
@@ -65,14 +71,9 @@ jobs:
       - name: Build
         run: bun run build
 
-      # Install production-only deps before packaging — the server needs them at runtime
-      - name: Install production dependencies
-        run: |
-          rm -rf node_modules
-          bun install --frozen-lockfile --production
-
       - name: Verify production server bundle
         run: |
+          rm -rf node_modules
           node -e "
             import('./dist/server/entry.mjs')
               .then(() => process.exit(0))
@@ -90,7 +91,6 @@ jobs:
           include-hidden-files: true
           path: |
             application/frontend/dist
-            application/frontend/node_modules
             application/frontend/package.json
           retention-days: 1
 
@@ -155,7 +155,6 @@ jobs:
         run: |
           rsync -az --delete --no-owner --no-group \
             application/frontend/dist \
-            application/frontend/node_modules \
             application/frontend/package.json \
             "${SSH_TARGET}:${APP_DIR}/"
 
