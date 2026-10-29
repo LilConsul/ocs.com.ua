@@ -9,8 +9,8 @@ const specRow = z.object({
 
 // A group of rows, optionally with a heading (e.g. "Conveyor")
 const specGroup = z.object({
-	title: z.string().optional(),
-	items: z.array(specRow).optional(),
+	title: z.string().nullish(),
+	items: z.array(specRow).nullish(),
 });
 
 const equipment = defineCollection({
@@ -19,16 +19,16 @@ const equipment = defineCollection({
 		base: "./src/content/equipment",
 	}),
 	schema: z.object({
-		type: z.enum(["category", "product"]).optional(),
-		title: z.string().optional(),
-		description: z.string().optional(),
-		icon: z.string().optional(),
-		order: z.number().optional(),
-		industries: z.array(z.string()).optional(),
-		gallery: z.array(z.string()).optional(),
-		datasheet: z.string().optional(),
+		type: z.enum(["category", "product"]).nullish(),
+		title: z.string().nullish(),
+		description: z.string().nullish(),
+		icon: z.string().nullish(),
+		order: z.number().nullish(),
+		industries: z.array(z.string()).nullish(),
+		gallery: z.array(z.string()).nullish(),
+		datasheet: z.string().nullish(),
 		// Either a flat list of rows or a list of groups
-		specs: z.union([z.array(specRow), z.array(specGroup)]).optional(),
+		specs: z.union([z.array(specRow), z.array(specGroup)]).nullish(),
 	}),
 });
 

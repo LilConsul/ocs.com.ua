@@ -10,17 +10,18 @@ type SpecGroup = {
 
 interface Props {
 	/** Either a flat list of rows or a list of groups */
-	specs?: Spec[] | SpecGroup[];
+	specs?: Spec[] | SpecGroup[] | null;
 	lang: Lang;
 }
 
 const { specs = [], lang } = Astro.props;
 const _ = getInlineTranslations(lang);
 
+const rawSpecs = specs ?? [];
 // Normalise: a flat list of rows becomes a single untitled group
 const isGrouped = (s: Spec[] | SpecGroup[]): s is SpecGroup[] => s.length > 0 && "items" in s[0];
 
-const groups: SpecGroup[] = isGrouped(specs) ? specs : [{ items: specs as Spec[] }];
+const groups: SpecGroup[] = isGrouped(rawSpecs) ? rawSpecs : [{ items: rawSpecs as Spec[] }];
 const prepared = groups.filter((group) => (group.items?.length ?? 0) > 0);
 ---
 

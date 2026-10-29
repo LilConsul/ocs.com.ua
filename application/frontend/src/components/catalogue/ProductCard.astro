@@ -18,7 +18,7 @@ const description = product.data.description;
 const specs = flattenSpecs(product.data.specs)
 	.slice(0, 2)
 	.map((spec) => ({ ...spec, value: spec.value.split(",")[0].trim() }));
-const firstImage = product.data.gallery?.[0] || "/placeholder.jpg";
+const firstImage = product.data.gallery?.[0] || "/placeholder.svg";
 
 // Build product URL
 const categorySlug = getCategory(product);

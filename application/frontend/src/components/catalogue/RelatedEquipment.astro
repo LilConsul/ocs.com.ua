@@ -43,7 +43,7 @@ const _ = getInlineTranslations(lang);
 						const itemCategory = getCategory(item);
 						const itemSlug = getSlug(item);
 						const itemUrl = `/${lang}/catalogue/${itemCategory}/${itemSlug}`;
-						const itemImg = item.data.gallery?.[0] || "/placeholder.jpg";
+						const itemImg = item.data.gallery?.[0] || "/placeholder.svg";
 						const itemSpec = flattenSpecs(item.data.specs)[0];
 
 						return (
