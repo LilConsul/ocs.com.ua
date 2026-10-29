@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight, Maximize2, X } from "lucide-react";
 import { getInlineTranslations, type Lang } from "@/i18n";
 
 interface Props {
-	images?: string[];
+	images?: string[] | null;
 	title: string;
 	lang: Lang;
 }
@@ -12,7 +12,7 @@ interface Props {
 const { images = [], title, lang } = Astro.props;
 const _ = getInlineTranslations(lang);
 
-const galleryImages = images.length > 0 ? images : ["/placeholder.jpg"];
+const galleryImages = images && images.length > 0 ? images : ["/placeholder.svg"];
 const hasMultiple = galleryImages.length > 1;
 const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
 const counterText = `01 / ${pad(galleryImages.length)}`;
