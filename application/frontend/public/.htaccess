@@ -9,3 +9,13 @@ ErrorDocument 500 /50x/index.html
 ErrorDocument 502 /50x/index.html
 ErrorDocument 503 /50x/index.html
 ErrorDocument 504 /50x/index.html
+
+# --- Permanent redirects (mod_alias; needs AllowOverride FileInfo, same as ErrorDocument) ---
+# RedirectMatch runs before Apache maps the URL to a file, so these win over any file in dist.
+# Targets end in "/" so mod_dir does not add a second 301.
+
+# /{lang}/catalogue has no page of its own: send it to the Header's "Catalogue" target
+RedirectMatch 301 ^/(en|ua)/catalogue/?$ /$1/catalogue/equipment/checkweigher/
+
+# Old scheme /{lang}/catalogue/{category}[/{product}] -> /{lang}/catalogue/equipment/...
+RedirectMatch 301 ^/(en|ua)/catalogue/(?!(?:equipment|industry)(?:/|$))([^/]+(?:/[^/]+)?)/?$ /$1/catalogue/equipment/$2/
