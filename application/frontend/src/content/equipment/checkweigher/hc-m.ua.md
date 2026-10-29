@@ -1,28 +1,26 @@
 ---
-type: product
-title: Контрольно динамічні ваги HC-M
 order: 2
-industries:
-  - food-beverage
-  - pharmaceutical
-  - cosmetics
-description: >-
-  Гнучкі контрольно динамічні ваги для середніх діапазонів продуктивності. Зв'язок між серіями
-  EC-E та HC-A, забезпечує до 250 вимірювань ваги на хвилину для застосувань
-  середнього діапазону.
 gallery:
   - /assets/equipment/hc-m/csm_checkweigher-hc-m-left_51bfea9ea2.webp
   - /assets/equipment/hc-m/csm_checkweigher-hc-m-front_aa34489ed7.webp
   - /assets/equipment/hc-m/csm_checkweigher-hc-m-right_efe164ce5c.webp
 datasheet: /assets/equipment/hc-m/datasheet.pdf
+industries:
+  - food-beverage
+  - pharmaceutical
+  - cosmetics
+title: Контрольно динамічні ваги HC-M
+description: Контрольно динамічні ваги серії HC-M для середніх діапазонів
+  продуктивності.  Зв'язок між серіями EC-E та HC-A, забезпечує до 250
+  вимірювань ваги на хвилину .
 specs:
   - items:
       - label: Макс. швидкість
         value: 250 уп/хв
       - label: Дискретність
         value: TODO
+type: product
 ---
-
 ## Гнучкі контрольно динамічні ваги для середніх діапазонів продуктивності
 
 Контрольно динамічні ваги серії HC-M забезпечують ідеальну технологію зважування для складних застосувань середнього діапазону. Вони є зв'язком між серіями ваг EC-E та HC-A і забезпечують до 250 вимірювань ваги на хвилину для повного середнього діапазону контрольно динамічних ваг.
