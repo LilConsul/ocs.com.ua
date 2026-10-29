@@ -21,7 +21,14 @@ export default defineConfig({
 		}),
 	],
 	vite: {
-		plugins: [tailwindcss()],
+		plugins: [
+			tailwindcss(),
+			{
+				name: "bundle-ssr-deps",
+				apply: "build",
+				config: () => ({ ssr: { noExternal: true, external: ["sharp"] } }),
+			},
+		],
 		build: {
 			// The /admin Decap CMS bundle is a single ~5 MB chunk; public pages stay small
 			chunkSizeWarningLimit: 6000,
