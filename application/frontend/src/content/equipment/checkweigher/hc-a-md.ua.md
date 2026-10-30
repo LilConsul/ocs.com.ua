@@ -1,6 +1,6 @@
 ---
 file_name: hc-a-md
-order: 0
+order: 4
 gallery:
   - /assets/image_409a1f1c.webp
   - /assets/image_63300955.webp
@@ -35,7 +35,7 @@ specs:
         value: 600 мм, 700 мм, 800 мм, 900 мм
       - label: Ширина
         value: 120 мм, 150 мм, 200 мм, 250 мм
-  - title: Відвідний конвеєри
+  - title: Відвідний конвеєр
     items:
       - label: Довжина
         value: 500 мм, 600 мм
@@ -52,7 +52,7 @@ specs:
       - label: Робоча висота конвеєрів
         value: 700 - 850 мм, 800 - 950 мм, 900 - 1050 мм
       - label: Клас промислового захисту
-        value: IP54, IP65, IP69k
+        value: IP54
       - label: Діапазон робочих температур
         value: +5°С .... +40°С
       - label: Діагональ сенсорного дисплея

@@ -12,7 +12,7 @@ specs:
   - items:
       - label: Max Speed
         value: 1.2 m/s
-      - label: Display Value
+      - label: Resolution
         value: TODO
 ---
 
