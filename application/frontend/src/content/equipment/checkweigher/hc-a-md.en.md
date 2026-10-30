@@ -8,5 +8,7 @@ datasheet: /assets/image_409a1f1c.webp
 industries:
   - food-beverage
   - cosmetics
-title: HC-A-MD
+  - pharmaceutical
+title: Контрольно динамічні ваги з інтегрованим металодетектором HC-A-MD
+description: ""
 ---
