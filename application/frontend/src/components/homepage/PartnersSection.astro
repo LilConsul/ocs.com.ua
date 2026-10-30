@@ -55,11 +55,7 @@ const STEP = ITEM_W + ITEM_GAP;
 const MIN_GROUP_W = 2560; // a group must be wider than any realistic viewport
 const SPEED = 40; // px per second of auto-scroll, shared by every row so they all feel the same
 
-const buildRow = (
-	label: string,
-	partners: Partner[],
-	direction: "normal" | "reverse"
-) => {
+const buildRow = (label: string, partners: Partner[], direction: "normal" | "reverse") => {
 	const items = withLogo(partners).map((p) => ({
 		partner: p,
 		dims: getImageDimensions(p.logo as string),
