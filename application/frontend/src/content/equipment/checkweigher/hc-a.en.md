@@ -44,7 +44,6 @@ specs:
     title: General Information
 type: product
 ---
-
 ## High-Speed Checkweighers for Maximum Performance
 
 HC-A series checkweighers combine high weighing accuracy and throughput, meeting the demands of modern dynamic weighing technology in full compliance with GMP and HACCP requirements. Thanks to a well-thought-out design and advanced engineering solutions, the equipment provides an optimal basis for implementing complex tasks of automated control and regulation of production processes.
