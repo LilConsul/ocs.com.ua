@@ -95,14 +95,23 @@ describe("decap cms equipment collection", () => {
 		(c: any) => c.name === "equipment"
 	);
 
-	it("names new files from the latin-only file_name field, not the title", () => {
-		expect(collection.slug).toBe("{{fields.file_name}}");
+	it("keeps the Category dropdown as meta.path so products can move between categories", () => {
+		expect(collection.meta?.path?.widget).toBe("select");
+	});
+
+	it("has a required, Latin-only file_name field shared by both locales", () => {
 		const field = collection.fields.find((f: any) => f.name === "file_name");
+		expect(field.widget).toBe("string");
+		expect(field.required).not.toBe(false);
 		expect(field.i18n).toBe("duplicate");
 		const [regex] = field.pattern;
 		expect(new RegExp(regex).test("hc-a-md")).toBe(true);
 		expect(new RegExp(regex).test("контрольно-ваги")).toBe(false);
 		expect(new RegExp(regex).test("HC A")).toBe(false);
+	});
+
+	it("does not rely on a slug template (ignored when meta.path is set)", () => {
+		expect(collection.slug).toBeUndefined();
 	});
 });
 
