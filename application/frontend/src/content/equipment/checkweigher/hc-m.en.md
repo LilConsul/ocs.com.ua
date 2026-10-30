@@ -42,7 +42,6 @@ specs:
         value: directed air blast, pneumatic pusher, rotary arm, etc.
 type: product
 ---
-
 ## Checkweighers for Medium Performance Ranges
 
 HC-M series checkweighers provide the ideal weighing technology for demanding mid-range applications. They are the link between the EC-E and HC-A series of scales and provide up to 250 weight measurements per minute, covering the complete medium range of checkweighers.
