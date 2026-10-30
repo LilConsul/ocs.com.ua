@@ -63,18 +63,22 @@ describe("equipment content", () => {
 		expect(failures).toEqual([]);
 	});
 
-	it("uses the same order and industries in both languages of a product", () => {
+	it("uses the same order in both languages of a product", () => {
 		const mismatched = files
 			.filter((f) => f.endsWith(".en.md"))
 			.filter((f) => {
 				const en = frontmatter(f);
 				const ua = frontmatter(f.replace(".en.md", ".ua.md"));
-				return (
-					en.order !== ua.order ||
-					JSON.stringify(en.industries ?? []) !== JSON.stringify(ua.industries ?? [])
-				);
+				return en.order !== ua.order;
 			});
 		expect(mismatched).toEqual([]);
+	});
+
+	it("stores industries only in the ua file (industries is not i18n)", () => {
+		const withIndustries = files
+			.filter((f) => f.endsWith(".en.md"))
+			.filter((f) => (frontmatter(f).industries ?? []).length > 0);
+		expect(withIndustries).toEqual([]);
 	});
 });
 
@@ -145,16 +149,14 @@ describe("product industries", () => {
 		expect(unknown).toEqual([]);
 	});
 
-	it("has at least one product for every listed industry in each locale", () => {
-		for (const locale of ["en", "ua"] as const) {
-			const used = new Set(
-				files
-					.filter((f) => f.endsWith(`.${locale}.md`))
-					.flatMap((f) => (frontmatter(f).industries ?? []) as string[])
-			);
-			const empty = industries[locale].industries.map((i) => i.slug).filter((s) => !used.has(s));
-			expect(empty).toEqual([]);
-		}
+	it("has at least one product for every listed industry (read from ua files)", () => {
+		const used = new Set(
+			files
+				.filter((f) => f.endsWith(".ua.md"))
+				.flatMap((f) => (frontmatter(f).industries ?? []) as string[])
+		);
+		const empty = industries.ua.industries.map((i) => i.slug).filter((s) => !used.has(s));
+		expect(empty).toEqual([]);
 	});
 });
 

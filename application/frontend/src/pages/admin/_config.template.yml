@@ -289,7 +289,7 @@ collections:
         name: "industries"
         widget: "select"
         required: false
-        i18n: true
+        i18n: false
         multiple: true
         min: 0
         options: __INDUSTRY_OPTIONS__

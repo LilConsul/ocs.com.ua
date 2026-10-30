@@ -2,8 +2,6 @@
 type: product
 title: HC-Warehouse Catchweigher
 order: 1
-industries:
-  - logistics
 description: >-
   Attractively priced catchweigher for warehouse and intralogistics. Weighing
   range up to 50 kg with transport speeds up to 1.2 m/s. Features predictive
