@@ -1,0 +1,66 @@
+---
+import { ArrowRight, Clock } from "lucide-react";
+import { getInlineTranslations, type Lang } from "@/i18n";
+import { getWikiSlug, type WikiEntry } from "@/lib/wiki-utils";
+
+interface Props {
+	entry: WikiEntry;
+	lang: Lang;
+	readMinutes: number;
+	coverImage?: string;
+}
+
+const { entry, lang, readMinutes, coverImage } = Astro.props;
+const _ = getInlineTranslations(lang);
+const slug = getWikiSlug(entry);
+const title = entry.data.title;
+const description = entry.data.description;
+const image = coverImage ?? entry.data.coverImage;
+---
+
+<a
+	href={`/${lang}/wiki/${slug}`}
+	class="group/card bg-surface-lowest border-border-subtle hover:border-secondary/40 focus-visible:outline-secondary flex h-full flex-col overflow-hidden rounded-xl border p-5 shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 motion-safe:hover:-translate-y-0.5 sm:p-6"
+	data-wiki-item
+	data-wiki-text={`${title} ${description ?? ""}`.toLowerCase()}
+>
+	{
+		image && (
+			<div class="border-border-subtle/60 mb-5 aspect-video w-full overflow-hidden rounded-lg border bg-surface-container">
+				<img
+					src={image}
+					alt={title}
+					loading="lazy"
+					class="size-full object-cover transition-transform duration-500 group-hover/card:scale-105"
+				/>
+			</div>
+		)
+	}
+
+	<div class="mb-3 flex items-center justify-between gap-3">
+		<span class="font-technical-data text-industrial-gray inline-flex items-center gap-1.5 text-xs font-medium">
+			<Clock className="text-secondary size-3.5" aria-hidden="true" />
+			{readMinutes} {_("min read")}
+		</span>
+	</div>
+
+	<h3 class="font-headline-lg text-foreground m-0 text-lg font-semibold tracking-tight transition-colors group-hover/card:text-secondary">
+		{title}
+	</h3>
+
+	{
+		description && (
+			<p class="font-body-md text-industrial-gray m-0 mt-2 line-clamp-3 text-sm leading-relaxed">
+				{description}
+			</p>
+		)
+	}
+
+	<span class="text-secondary font-technical-data mt-auto inline-flex items-center gap-2 pt-4 text-sm font-semibold">
+		{_("Read article")}
+		<ArrowRight
+			className="size-4 transition-transform duration-200 group-hover/card:translate-x-1"
+			aria-hidden="true"
+		/>
+	</span>
+</a>
