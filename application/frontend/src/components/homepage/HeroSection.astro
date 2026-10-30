@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import { ArrowRight } from "lucide-react";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { formatApprox, type SiteStats } from "@/lib/about/partners-data";
+import { categoryUrl } from "@/lib/catalogue-urls";
 
 interface Props {
 	lang: Lang;
@@ -102,7 +103,7 @@ const partners = [_("Official Partner of Wipotec GmbH"), _("Official Partner of 
 					/>
 				</a>
 				<a
-					href={`/${lang}#catalogue`}
+					href={categoryUrl(lang, "checkweigher")}
 					class="border-secondary text-secondary hover:bg-secondary/5 focus-visible:outline-secondary inline-flex items-center justify-center gap-2 rounded-lg border-2 px-7 py-3.5 text-[15px] leading-[22px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
 				>
 					{_("View Products")}

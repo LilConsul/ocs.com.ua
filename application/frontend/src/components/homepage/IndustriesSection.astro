@@ -1,6 +1,8 @@
 ---
 import { Pill, Sparkles, Utensils, Warehouse } from "lucide-react";
 import { getInlineTranslations, type Lang } from "@/i18n";
+import { industryUrl } from "@/lib/catalogue-urls";
+import { getIndustriesForLocale } from "@/lib/content-utils";
 import IndustryCard from "./atoms/IndustryCard.astro";
 import IndustryCardCTA from "./atoms/IndustryCardCTA.astro";
 import IndustryCardSmall from "./atoms/IndustryCardSmall.astro";
@@ -11,6 +13,9 @@ interface Props {
 
 const { lang } = Astro.props;
 const _ = getInlineTranslations(lang);
+
+const url = (slug: string) => industryUrl(lang, slug);
+const firstIndustry = getIndustriesForLocale(lang)[0].slug;
 ---
 
 <section
@@ -52,6 +57,7 @@ const _ = getInlineTranslations(lang);
 					)}
 					icon={Utensils}
 					ctaText={_("Learn More")}
+					href={url("food-beverage")}
 				/>
 			</div>
 
@@ -63,6 +69,7 @@ const _ = getInlineTranslations(lang);
 					)}
 					icon={Pill}
 					ctaText={_("Learn More")}
+					href={url("pharmaceutical")}
 				/>
 			</div>
 
@@ -71,6 +78,7 @@ const _ = getInlineTranslations(lang);
 					title={_("Cosmetics")}
 					description={_("Quality control and filling inspection systems.")}
 					icon={Sparkles}
+					href={url("cosmetics")}
 				/>
 			</div>
 
@@ -79,6 +87,7 @@ const _ = getInlineTranslations(lang);
 					title={_("Logistics & Distribution")}
 					description={_("High-speed checkweighers for warehouses and fulfillment centers.")}
 					icon={Warehouse}
+					href={url("logistics")}
 				/>
 			</div>
 
@@ -86,6 +95,7 @@ const _ = getInlineTranslations(lang);
 				<IndustryCardCTA
 					title={_("All Industries")}
 					subtitle={_("Explore industry-specific solutions")}
+					href={url(firstIndustry)}
 				/>
 			</div>
 		</div>

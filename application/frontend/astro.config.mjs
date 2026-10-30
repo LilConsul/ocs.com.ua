@@ -5,10 +5,15 @@ import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, envField } from "astro/config";
+import { loadEnv } from "vite";
+
+// Astro reads .env files only after this config is evaluated, so load them here for `site`.
+// Real environment variables (CI) still take precedence over the files.
+const { SITE_URL } = loadEnv(process.env.NODE_ENV || "production", process.cwd(), "");
+
 // https://astro.build/config
 export default defineConfig({
-	// Absolute URLs for the sitemap, canonical and hreflang tags; CI sets SITE_URL per environment
-	site: process.env.SITE_URL || "https://ocs.com.ua",
+	site: SITE_URL || "https://ocs.com.ua",
 	output: "static",
 	adapter: node({ mode: "standalone" }),
 	integrations: [
