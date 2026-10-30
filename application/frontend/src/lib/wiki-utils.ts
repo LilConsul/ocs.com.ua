@@ -48,7 +48,7 @@ export function sortWikiArticles(entries: WikiEntry[]): WikiEntry[] {
  * Calculate estimated reading time in minutes (default 200 words per minute, min 1)
  */
 export function calculateReadingMinutes(content: string): number {
-	if (!content || !content.trim()) return 1;
+	if (!content?.trim()) return 1;
 	const words = content.trim().split(/\s+/).filter(Boolean).length;
 	return Math.max(1, Math.ceil(words / 200));
 }
@@ -69,10 +69,7 @@ export function findWikiTranslation(
 /**
  * Get article cover image with fallback to Ukrainian default locale
  */
-export function getWikiCoverImage(
-	entry: WikiEntry,
-	allEntries: WikiEntry[]
-): string | undefined {
+export function getWikiCoverImage(entry: WikiEntry, allEntries: WikiEntry[]): string | undefined {
 	if (entry.data.coverImage) return entry.data.coverImage;
 	const locale = getWikiLocale(entry);
 	if (locale === "ua") return undefined;

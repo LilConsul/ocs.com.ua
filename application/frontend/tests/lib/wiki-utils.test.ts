@@ -119,10 +119,14 @@ describe("wiki-utils: findWikiTranslation", () => {
 
 describe("wiki-utils: getWikiCoverImage", () => {
 	it("returns direct cover image if defined", () => {
-		expect(getWikiCoverImage(sampleEntries[1], sampleEntries)).toBe("/assets/checkweigher-cover.webp");
+		expect(getWikiCoverImage(sampleEntries[1], sampleEntries)).toBe(
+			"/assets/checkweigher-cover.webp"
+		);
 	});
 
 	it("falls back to default ua locale cover image when current locale has none", () => {
-		expect(getWikiCoverImage(sampleEntries[0], sampleEntries)).toBe("/assets/checkweigher-cover.webp");
+		expect(getWikiCoverImage(sampleEntries[0], sampleEntries)).toBe(
+			"/assets/checkweigher-cover.webp"
+		);
 	});
 });
