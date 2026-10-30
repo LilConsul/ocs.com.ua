@@ -32,6 +32,21 @@ const equipment = defineCollection({
 	}),
 });
 
+const wiki = defineCollection({
+	loader: glob({
+		pattern: "**/!(_index)*.md",
+		base: "./src/content/wiki",
+	}),
+	schema: z.object({
+		title: z.string(),
+		description: z.string().nullish(),
+		coverImage: z.string().nullish(),
+		order: z.number().nullish(),
+		related: z.array(z.string()).nullish(),
+	}),
+});
+
 export const collections = {
 	equipment,
+	wiki,
 };
