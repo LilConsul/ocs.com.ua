@@ -271,7 +271,12 @@ collections:
         widget: "string"
         i18n: duplicate
         pattern: ["^[a-z0-9]+(-[a-z0-9]+)*$", "Lowercase latin letters, digits and hyphens only, e.g. hc-a-md"]
-        hint: "Becomes the file name and the page URL, e.g. hc-a-md. Set it when creating a product; changing it later does NOT rename the file."
+        hint: >-
+          Required. Becomes the file name and the page URL (e.g. hc-a-md gives
+          /catalogue/equipment/checkweigher/hc-a-md). Use the model name in lowercase Latin
+          letters, digits and hyphens only, no spaces or Ukrainian letters. Choose it once when
+          creating the product: changing it later does NOT rename the file or the URL, and it must
+          stay the same as the file's name.
       - { label: "Order", name: "order", widget: "number", value_type: "int", default: 0, required: false, hint: "Lower numbers appear first within this category.", i18n: duplicate }
       - label: "Gallery"
         name: "gallery"
