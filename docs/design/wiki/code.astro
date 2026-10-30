@@ -1,0 +1,1154 @@
+---
+/**
+ * Wiki.astro — one file, two views.
+ *
+ *   <Wiki lang={lang} />                       → wiki home (topics, search, recent articles)
+ *   <Wiki lang={lang} slug="some-article" />   → article page (sidebar, content, table of contents)
+ *
+ * Pass your own `articles` / `categories`, or keep the sample data below while you review the design.
+ * UI labels go through _() (new translation keys); article content comes from the data itself.
+ */
+import {
+	AlignLeft,
+	ArrowLeft,
+	ArrowRight,
+	BookOpen,
+	CalendarDays,
+	ChevronRight,
+	Clock,
+	Info,
+	Lightbulb,
+	type LucideIcon,
+	QrCode,
+	Scale,
+	ScanLine,
+	Search,
+	ThumbsDown,
+	ThumbsUp,
+	TriangleAlert,
+	Wrench,
+} from "lucide-react";
+import { getInlineTranslations, type Lang } from "@/i18n";
+
+// ─── Types ─────────────────────────────────────────────────────────────────────
+type Block =
+	| { type: "p"; text: string }
+	| { type: "h2" | "h3"; text: string }
+	| { type: "ul" | "ol"; items: string[] }
+	| { type: "callout"; variant: "note" | "tip" | "warning"; title?: string; text: string }
+	| { type: "table"; head: string[]; rows: string[][] }
+	| { type: "specs"; items: { label: string; value: string }[] };
+
+type WikiArticle = {
+	slug: string;
+	category: string;
+	title: string;
+	summary: string;
+	/** ISO date, e.g. 2026-09-14 */
+	updated: string;
+	readMinutes: number;
+	blocks: Block[];
+	related?: string[];
+};
+
+type WikiCategory = {
+	id: string;
+	icon: "scale" | "detector" | "serial" | "service";
+	title: string;
+	description: string;
+};
+
+interface Props {
+	lang: Lang;
+	/** Article slug. Omit it to render the wiki home. */
+	slug?: string;
+	articles?: WikiArticle[];
+	categories?: WikiCategory[];
+}
+
+// ─── Sample data (replace with your own) ───────────────────────────────────────
+const sampleCategories: WikiCategory[] = [
+	{
+		id: "checkweighers",
+		icon: "scale",
+		title: "Checkweighers",
+		description: "Dynamic weighing: selection, setup, calibration and troubleshooting.",
+	},
+	{
+		id: "metal-detectors",
+		icon: "detector",
+		title: "Metal Detectors",
+		description: "Sensitivity, product effect and contaminant detection in food and pharma lines.",
+	},
+	{
+		id: "track-and-trace",
+		icon: "serial",
+		title: "Track & Trace",
+		description: "Serialization, aggregation and regulatory requirements (EU FMD, GS1).",
+	},
+	{
+		id: "service",
+		icon: "service",
+		title: "Service & Maintenance",
+		description: "Maintenance intervals, spare parts and warranty guidance.",
+	},
+];
+
+const sampleArticles: WikiArticle[] = [
+	{
+		slug: "choosing-a-dynamic-checkweigher",
+		category: "checkweighers",
+		title: "Choosing a dynamic checkweigher",
+		summary:
+			"How to match throughput, product weight and accuracy requirements to the right checkweigher model.",
+		updated: "2026-10-12",
+		readMinutes: 6,
+		related: ["checkweigher-calibration", "metal-detector-sensitivity"],
+		blocks: [
+			{
+				type: "p",
+				text: "A dynamic checkweigher weighs every product while it moves along the line, rejecting anything outside the permitted weight range. Choosing the right model starts with three numbers: product weight, line speed and the tolerance your standards require.",
+			},
+			{ type: "h2", text: "How dynamic weighing works" },
+			{
+				type: "p",
+				text: "The product travels over a short weighing conveyor. A high-resolution cell measures the force while the product is fully on the belt, and a controller converts the signal into a weight value in a few milliseconds.",
+			},
+			{
+				type: "callout",
+				variant: "note",
+				title: "Accuracy depends on speed",
+				text: "Accuracy is specified for a given throughput. Running faster than the rated speed increases the measurement error, even when the line seems to cope.",
+			},
+			{ type: "h2", text: "Matching the model to the line" },
+			{
+				type: "table",
+				head: ["Class", "Product weight", "Throughput", "Typical use"],
+				rows: [
+					["Compact", "5 – 500 g", "up to 400 pcs/min", "Sachets, small packs"],
+					["Standard", "50 g – 5 kg", "up to 250 pcs/min", "Boxes, trays, bottles"],
+					["Heavy duty", "1 – 60 kg", "up to 60 pcs/min", "Cartons, crates"],
+				],
+			},
+			{ type: "h3", text: "What to check before ordering" },
+			{
+				type: "ul",
+				items: [
+					"Product weight range and the smallest permitted tolerance",
+					"Line speed and the distance between products",
+					"Washdown requirements and ingress protection",
+					"Reject method: air jet, pusher or belt diverter",
+				],
+			},
+			{ type: "h2", text: "Typical specifications" },
+			{
+				type: "specs",
+				items: [
+					{ label: "Accuracy", value: "± 0.1 g" },
+					{ label: "Protection class", value: "IP66 | IP69K" },
+					{ label: "Belt widths", value: "150 | 200 | 300 | 400 mm" },
+					{ label: "Power supply", value: "230 V AC, 50 Hz" },
+				],
+			},
+			{
+				type: "callout",
+				variant: "warning",
+				title: "Do not size for average weight only",
+				text: "Size the weighing range for the heaviest product you plan to run, not the average. Overloading the cell shortens its life.",
+			},
+		],
+	},
+	{
+		slug: "checkweigher-calibration",
+		category: "checkweighers",
+		title: "Calibration and zero setting",
+		summary: "A step-by-step routine for keeping a checkweigher accurate between service visits.",
+		updated: "2026-09-28",
+		readMinutes: 4,
+		related: ["choosing-a-dynamic-checkweigher", "maintenance-intervals"],
+		blocks: [
+			{
+				type: "p",
+				text: "Regular calibration keeps weighing results traceable and audit-ready. The routine below takes about ten minutes once the line is stopped and empty.",
+			},
+			{ type: "h2", text: "Before you start" },
+			{
+				type: "ul",
+				items: [
+					"Stop the line and clear the belt",
+					"Let the machine warm up for at least 15 minutes",
+					"Have the certified test weights ready",
+				],
+			},
+			{ type: "h2", text: "Calibration procedure" },
+			{
+				type: "ol",
+				items: [
+					"Run the zero-setting routine from the service menu.",
+					"Place the first certified weight on the belt and confirm the reading.",
+					"Repeat with the second weight at the upper end of the range.",
+					"Run five dynamic test passes and check the deviation.",
+					"Record the result in the maintenance log.",
+				],
+			},
+			{
+				type: "callout",
+				variant: "tip",
+				title: "Log every calibration",
+				text: "A dated log entry for each calibration is the first thing auditors ask for under IFS and BRC.",
+			},
+		],
+	},
+	{
+		slug: "metal-detector-sensitivity",
+		category: "metal-detectors",
+		title: "Metal detector sensitivity explained",
+		summary: "Why sensitivity depends on the product, and how to set realistic detection limits.",
+		updated: "2026-10-03",
+		readMinutes: 5,
+		related: ["choosing-a-dynamic-checkweigher"],
+		blocks: [
+			{
+				type: "p",
+				text: "Sensitivity is the smallest metal sphere a detector will reliably find. It is not a fixed property of the device: the product itself changes the result.",
+			},
+			{ type: "h2", text: "Product effect" },
+			{
+				type: "p",
+				text: "Wet, salty or acidic products conduct electricity and create a signal of their own. The detector has to tell that signal apart from a genuine contaminant.",
+			},
+			{
+				type: "table",
+				head: ["Metal", "Relative ease of detection", "Note"],
+				rows: [
+					["Ferrous", "Easiest", "Magnetic and conductive"],
+					["Non-ferrous", "Moderate", "Conductive only"],
+					["Stainless steel", "Hardest", "Low conductivity, non-magnetic"],
+				],
+			},
+			{
+				type: "callout",
+				variant: "note",
+				text: "Detection limits are always quoted for a specific product and aperture size. Ask for the figures measured with your product, not the datasheet maximum.",
+			},
+		],
+	},
+	{
+		slug: "serialization-gs1-basics",
+		category: "track-and-trace",
+		title: "Serialization and GS1 basics",
+		summary: "What a unique identifier contains and how aggregation links packs, cartons and pallets.",
+		updated: "2026-08-21",
+		readMinutes: 7,
+		blocks: [
+			{
+				type: "p",
+				text: "Serialization gives every sellable pack a unique code so it can be verified at any point in the supply chain. Aggregation then records which packs sit in which carton and pallet.",
+			},
+			{ type: "h2", text: "What the code contains" },
+			{
+				type: "ul",
+				items: [
+					"Product code (GTIN)",
+					"Serial number, unique per pack",
+					"Batch number and expiry date",
+				],
+			},
+			{ type: "h2", text: "Aggregation levels" },
+			{
+				type: "specs",
+				items: [
+					{ label: "Level 1", value: "Unit pack" },
+					{ label: "Level 2", value: "Carton" },
+					{ label: "Level 3", value: "Pallet" },
+				],
+			},
+		],
+	},
+	{
+		slug: "maintenance-intervals",
+		category: "service",
+		title: "Recommended maintenance intervals",
+		summary: "Daily, monthly and yearly checks that keep inspection equipment within warranty.",
+		updated: "2026-09-02",
+		readMinutes: 3,
+		related: ["checkweigher-calibration"],
+		blocks: [
+			{
+				type: "p",
+				text: "Following the schedule below keeps the equipment accurate and protects the factory warranty.",
+			},
+			{
+				type: "table",
+				head: ["Interval", "Task"],
+				rows: [
+					["Daily", "Visual check, clean belts and sensors"],
+					["Monthly", "Check reject unit, test with certified samples"],
+					["Yearly", "Full calibration and service visit"],
+				],
+			},
+			{
+				type: "callout",
+				variant: "warning",
+				text: "Always disconnect power before opening covers or cleaning moving parts.",
+			},
+		],
+	},
+];
+
+// ─── Setup ─────────────────────────────────────────────────────────────────────
+const { lang, slug, articles = sampleArticles, categories = sampleCategories } = Astro.props;
+const _ = getInlineTranslations(lang);
+
+const base = `/${lang}/wiki`;
+const dateLocale = lang === "ua" ? "uk-UA" : "en-GB";
+const formatDate = (iso: string) =>
+	new Date(iso).toLocaleDateString(dateLocale, { year: "numeric", month: "long", day: "numeric" });
+
+const categoryIcons: Record<WikiCategory["icon"], LucideIcon> = {
+	scale: Scale,
+	detector: ScanLine,
+	serial: QrCode,
+	service: Wrench,
+};
+const categoryOf = (id: string) => categories.find((c) => c.id === id);
+const inCategory = (id: string) => articles.filter((a) => a.category === id);
+const byNewest = [...articles].sort((a, b) => b.updated.localeCompare(a.updated));
+
+const article = slug ? articles.find((a) => a.slug === slug) : undefined;
+const category = article ? categoryOf(article.category) : undefined;
+
+// Shared recipes (same family as the rest of the site)
+const cardClass =
+	"group/card bg-surface-container border-border-subtle/70 hover:border-secondary/40 focus-visible:outline-secondary rounded-xl border shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 motion-safe:hover:-translate-y-0.5";
+const iconTileClass =
+	"bg-background text-secondary border-border-subtle/50 group-hover/card:bg-secondary group-hover/card:text-background group-hover/card:border-secondary shrink-0 rounded-lg border p-2.5 transition-colors duration-300";
+const eyebrowClass =
+	"font-label-caps text-secondary m-0 flex items-center gap-3 text-xs font-semibold tracking-widest uppercase";
+const searchInputClass =
+	"font-body-md text-foreground placeholder:text-industrial-gray/70 border-border-subtle/70 bg-background focus-visible:outline-secondary h-11 w-full rounded-lg border pr-4 pl-10 text-sm shadow-xs transition-shadow focus-visible:outline-2 focus-visible:outline-offset-2";
+
+// Article-only: table of contents, neighbours, related
+const slugify = (text: string) =>
+	text
+		.toLowerCase()
+		.normalize("NFKD")
+		.replace(/[^\p{L}\p{N}]+/gu, "-")
+		.replace(/^-+|-+$/g, "");
+const used = new Map<string, number>();
+const headingId = (text: string) => {
+	const root = slugify(text) || "section";
+	const n = used.get(root) ?? 0;
+	used.set(root, n + 1);
+	return n === 0 ? root : `${root}-${n + 1}`;
+};
+const blocks = (article?.blocks ?? []).map((block) =>
+	block.type === "h2" || block.type === "h3" ? { ...block, id: headingId(block.text) } : block
+);
+const toc = blocks.flatMap((b) =>
+	b.type === "h2" || b.type === "h3" ? [{ id: (b as { id: string }).id, text: b.text, level: b.type }] : []
+);
+
+const siblings = article ? inCategory(article.category) : [];
+const position = article ? siblings.findIndex((a) => a.slug === article.slug) : -1;
+const previous = position > 0 ? siblings[position - 1] : undefined;
+const next = position >= 0 && position < siblings.length - 1 ? siblings[position + 1] : undefined;
+const related = (article?.related ?? [])
+	.map((s) => articles.find((a) => a.slug === s))
+	.filter((a): a is WikiArticle => Boolean(a));
+
+const callouts = {
+	note: { Icon: Info, label: _("Note"), box: "border-l-secondary bg-secondary/5", icon: "text-secondary" },
+	tip: {
+		Icon: Lightbulb,
+		label: _("Tip"),
+		box: "border-l-secondary bg-surface-container",
+		icon: "text-secondary",
+	},
+	warning: {
+		Icon: TriangleAlert,
+		label: _("Important"),
+		box: "border-l-primary bg-primary/5",
+		icon: "text-primary",
+	},
+} as const;
+---
+
+{
+	article && category ? (
+		<div class="bg-background w-full">
+			<div
+				id="wiki-progress"
+				class="bg-secondary fixed inset-x-0 top-0 z-50 h-0.5 origin-left scale-x-0"
+				aria-hidden="true"
+			/>
+
+			<div class="px-edge-margin mx-auto max-w-[1280px] py-10 lg:py-14">
+				{/* Breadcrumbs */}
+				<nav aria-label={_("Breadcrumb")} class="mb-8">
+					<ol class="font-technical-data text-industrial-gray m-0 flex list-none flex-wrap items-center gap-1.5 p-0 text-xs">
+						<li>
+							<a href={base} class="hover:text-secondary transition-colors hover:underline">
+								{_("Wiki")}
+							</a>
+						</li>
+						<li aria-hidden="true"><ChevronRight className="size-3.5" /></li>
+						<li>
+							<a
+								href={`${base}#${category.id}`}
+								class="hover:text-secondary transition-colors hover:underline"
+							>
+								{category.title}
+							</a>
+						</li>
+						<li aria-hidden="true"><ChevronRight className="size-3.5" /></li>
+						<li aria-current="page" class="text-foreground font-medium">{article.title}</li>
+					</ol>
+				</nav>
+
+				<div class="gap-gutter grid grid-cols-1 lg:grid-cols-[16rem_minmax(0,1fr)] xl:grid-cols-[16rem_minmax(0,1fr)_14rem]">
+					{/* ── Sidebar ── */}
+					<aside class="lg:sticky lg:top-24 lg:self-start">
+						<details data-wiki-nav open class="group/nav">
+							<summary class="bg-surface-container border-border-subtle/70 font-label-caps text-foreground flex cursor-pointer list-none items-center justify-between rounded-lg border px-4 py-3 text-xs font-semibold tracking-widest uppercase lg:hidden">
+								{_("Browse articles")}
+								<ChevronRight className="size-4 transition-transform group-open/nav:rotate-90" />
+							</summary>
+
+							<div class="mt-4 lg:mt-0">
+								<div class="relative mb-5">
+									<Search
+										className="text-industrial-gray pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2"
+										aria-hidden="true"
+									/>
+									<input
+										type="search"
+										class={searchInputClass}
+										placeholder={_("Search the wiki…")}
+										aria-label={_("Search the wiki…")}
+										data-wiki-filter="[data-wiki-nav-item]"
+										data-wiki-empty="#wiki-nav-empty"
+										data-wiki-groups="[data-wiki-nav-group]"
+									/>
+								</div>
+
+								<nav aria-label={_("Wiki articles")} class="flex flex-col gap-6">
+									{categories.map((cat) => {
+										const list = inCategory(cat.id);
+										if (list.length === 0) return null;
+										const Icon = categoryIcons[cat.icon];
+										return (
+											<div data-wiki-nav-group>
+												<p class="font-label-caps text-industrial-gray m-0 mb-2 flex items-center gap-2 text-[11px] font-semibold tracking-widest uppercase">
+													<Icon className="text-secondary size-3.5" aria-hidden="true" />
+													{cat.title}
+												</p>
+												<ul class="border-border-subtle/60 m-0 list-none border-l p-0">
+													{list.map((item) => {
+														const active = item.slug === article.slug;
+														return (
+															<li data-wiki-nav-item data-wiki-text={`${item.title} ${item.summary}`.toLowerCase()}>
+																<a
+																	href={`${base}/${item.slug}`}
+																	aria-current={active ? "page" : undefined}
+																	class:list={[
+																		"font-body-md -ml-px block border-l-2 py-1.5 pr-2 pl-4 text-sm leading-snug transition-colors",
+																		active
+																			? "border-secondary text-foreground font-semibold"
+																			: "text-industrial-gray hover:border-secondary/50 hover:text-foreground border-transparent",
+																	]}
+																>
+																	{item.title}
+																</a>
+															</li>
+														);
+													})}
+												</ul>
+											</div>
+										);
+									})}
+								</nav>
+								<p
+									id="wiki-nav-empty"
+									hidden
+									class="font-body-md text-industrial-gray m-0 mt-4 text-sm"
+								>
+									{_("No articles match your search.")}
+								</p>
+							</div>
+						</details>
+					</aside>
+
+					{/* ── Article ── */}
+					<article class="min-w-0">
+						<header class="border-border-subtle/60 border-b pb-8">
+							<a
+								href={`${base}#${category.id}`}
+								class="font-technical-data bg-secondary/10 text-secondary hover:bg-secondary/15 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold transition-colors"
+							>
+								{category.title}
+							</a>
+							<h1 class="font-display-lg text-foreground m-0 mt-4 text-3xl tracking-tight text-balance sm:text-4xl lg:text-5xl">
+								{article.title}
+							</h1>
+							<p class="font-body-md text-industrial-gray m-0 mt-4 max-w-prose text-base leading-relaxed lg:text-lg">
+								{article.summary}
+							</p>
+							<p class="font-technical-data text-industrial-gray m-0 mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs">
+								<span class="inline-flex items-center gap-1.5">
+									<CalendarDays className="text-secondary size-4" aria-hidden="true" />
+									{_("Updated")} <time datetime={article.updated}>{formatDate(article.updated)}</time>
+								</span>
+								<span class="inline-flex items-center gap-1.5">
+									<Clock className="text-secondary size-4" aria-hidden="true" />
+									{article.readMinutes} {_("min read")}
+								</span>
+							</p>
+						</header>
+
+						{/* Table of contents on small screens */}
+						{toc.length > 0 && (
+							<details class="group/toc bg-surface-container border-border-subtle/70 mt-6 rounded-lg border xl:hidden">
+								<summary class="font-label-caps text-foreground flex cursor-pointer list-none items-center justify-between px-4 py-3 text-xs font-semibold tracking-widest uppercase">
+									<span class="inline-flex items-center gap-2">
+										<AlignLeft className="text-secondary size-4" aria-hidden="true" />
+										{_("On this page")}
+									</span>
+									<ChevronRight className="size-4 transition-transform group-open/toc:rotate-90" />
+								</summary>
+								<ul class="m-0 list-none px-4 pb-3">
+									{toc.map((item) => (
+										<li>
+											<a
+												href={`#${item.id}`}
+												class:list={[
+													"font-body-md text-industrial-gray hover:text-secondary block py-1.5 text-sm",
+													item.level === "h3" && "pl-4",
+												]}
+											>
+												{item.text}
+											</a>
+										</li>
+									))}
+								</ul>
+							</details>
+						)}
+
+						{/* Content */}
+						<div class="wiki-content mt-8 flex flex-col gap-5">
+							{blocks.map((block) => {
+								if (block.type === "p") {
+									return (
+										<p class="font-body-md text-foreground/90 m-0 max-w-prose text-base leading-7">
+											{block.text}
+										</p>
+									);
+								}
+								if (block.type === "h2") {
+									return (
+										<h2
+											id={(block as { id: string }).id}
+											class="group/h font-headline-lg text-foreground m-0 mt-6 scroll-mt-28 text-2xl font-semibold tracking-tight"
+										>
+											<a href={`#${(block as { id: string }).id}`} class="no-underline">
+												{block.text}
+												<span
+													class="text-secondary ml-2 opacity-0 transition-opacity group-hover/h:opacity-100"
+													aria-hidden="true"
+												>
+													#
+												</span>
+											</a>
+										</h2>
+									);
+								}
+								if (block.type === "h3") {
+									return (
+										<h3
+											id={(block as { id: string }).id}
+											class="font-headline-lg text-foreground m-0 mt-2 scroll-mt-28 text-lg font-semibold tracking-tight"
+										>
+											{block.text}
+										</h3>
+									);
+								}
+								if (block.type === "ul" || block.type === "ol") {
+									const Tag = block.type;
+									return (
+										<Tag
+											class:list={[
+												"font-body-md text-foreground/90 m-0 flex max-w-prose list-none flex-col gap-2 p-0 text-base leading-7",
+												block.type === "ol" && "[counter-reset:step]",
+											]}
+										>
+											{block.items.map((item) => (
+												<li
+													class:list={[
+														"relative pl-8",
+														block.type === "ol"
+															? "[counter-increment:step] before:font-technical-data before:bg-secondary/10 before:text-secondary before:absolute before:top-1 before:left-0 before:flex before:size-5 before:items-center before:justify-center before:rounded-full before:text-[11px] before:font-bold before:content-[counter(step)]"
+															: "before:bg-secondary before:absolute before:top-3 before:left-2 before:size-1.5 before:rounded-full before:content-['']",
+													]}
+												>
+													{item}
+												</li>
+											))}
+										</Tag>
+									);
+								}
+								if (block.type === "callout") {
+									const c = callouts[block.variant];
+									const CalloutIcon = c.Icon;
+									return (
+										<aside
+											class={`border-border-subtle/70 flex gap-3 rounded-lg border border-l-4 p-4 sm:p-5 ${c.box}`}
+										>
+											<CalloutIcon className={`mt-0.5 size-5 shrink-0 ${c.icon}`} aria-hidden="true" />
+											<div class="min-w-0">
+												<p class="font-headline-lg text-foreground m-0 text-sm font-semibold">
+													{block.title ?? c.label}
+												</p>
+												<p class="font-body-md text-industrial-gray m-0 mt-1 text-sm leading-relaxed">
+													{block.text}
+												</p>
+											</div>
+										</aside>
+									);
+								}
+								if (block.type === "table") {
+									return (
+										<div class="border-border-subtle/70 bg-background overflow-x-auto rounded-xl border shadow-xs">
+											<table class="w-full min-w-[32rem] border-collapse text-left text-sm">
+												<thead>
+													<tr class="bg-surface-container border-border-subtle/60 border-b">
+														{block.head.map((h) => (
+															<th
+																scope="col"
+																class="font-label-caps text-industrial-gray px-4 py-3 text-[11px] font-semibold tracking-widest uppercase"
+															>
+																{h}
+															</th>
+														))}
+													</tr>
+												</thead>
+												<tbody class="font-technical-data">
+													{block.rows.map((row, ri) => (
+														<tr
+															class:list={[
+																"border-border-subtle/60 hover:bg-secondary/5 border-b transition-colors last:border-b-0",
+																ri % 2 === 1 && "bg-surface-container/60",
+															]}
+														>
+															{row.map((cell, ci) => (
+																<td
+																	class:list={[
+																		"px-4 py-3",
+																		ci === 0 ? "text-foreground font-semibold" : "text-industrial-gray",
+																	]}
+																>
+																	{cell}
+																</td>
+															))}
+														</tr>
+													))}
+												</tbody>
+											</table>
+										</div>
+									);
+								}
+								// specs
+								return (
+									<dl class="border-border-subtle/70 bg-background m-0 overflow-hidden rounded-xl border p-0 shadow-xs">
+										{block.items.map((spec, si) => {
+											const parts = spec.value.includes(" | ")
+												? spec.value.split(" | ").map((p) => p.trim())
+												: null;
+											return (
+												<div
+													class:list={[
+														"group/row border-border-subtle/60 hover:bg-secondary/5 grid grid-cols-1 gap-1 border-b px-4 py-3 transition-colors last:border-b-0 sm:grid-cols-3 sm:gap-6 sm:px-6",
+														si % 2 === 1 && "bg-surface-container/60",
+													]}
+												>
+													<dt class="font-technical-data text-industrial-gray m-0 text-sm font-medium">
+														{spec.label}
+													</dt>
+													<dd class="font-technical-data text-foreground m-0 text-sm font-medium sm:col-span-2">
+														{parts ? (
+															<span class="flex flex-wrap gap-1.5">
+																{parts.map((part) => (
+																	<span class="bg-secondary/10 border-secondary/20 group-hover/row:border-secondary/40 inline-block rounded-full border px-2.5 py-0.5 tabular-nums transition-colors">
+																		{part}
+																	</span>
+																))}
+															</span>
+														) : (
+															spec.value
+														)}
+													</dd>
+												</div>
+											);
+										})}
+									</dl>
+								);
+							})}
+						</div>
+
+						{/* Feedback */}
+						<section
+							class="border-border-subtle/60 mt-12 flex flex-wrap items-center justify-between gap-4 border-t pt-6"
+							data-wiki-feedback
+						>
+							<p class="font-headline-lg text-foreground m-0 text-sm font-semibold">
+								{_("Was this article helpful?")}
+							</p>
+							<div class="flex items-center gap-2" data-feedback-buttons>
+								<button
+									type="button"
+									data-vote="yes"
+									aria-pressed="false"
+									class="font-technical-data border-border-subtle/70 bg-background text-industrial-gray hover:border-secondary/40 hover:text-foreground aria-pressed:border-secondary aria-pressed:bg-secondary aria-pressed:text-background focus-visible:outline-secondary inline-flex cursor-pointer items-center gap-2 rounded-lg border px-4 py-2 text-xs shadow-xs transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+								>
+									<ThumbsUp className="size-4" aria-hidden="true" />
+									{_("Yes")}
+								</button>
+								<button
+									type="button"
+									data-vote="no"
+									aria-pressed="false"
+									class="font-technical-data border-border-subtle/70 bg-background text-industrial-gray hover:border-secondary/40 hover:text-foreground aria-pressed:border-secondary aria-pressed:bg-secondary aria-pressed:text-background focus-visible:outline-secondary inline-flex cursor-pointer items-center gap-2 rounded-lg border px-4 py-2 text-xs shadow-xs transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+								>
+									<ThumbsDown className="size-4" aria-hidden="true" />
+									{_("No")}
+								</button>
+							</div>
+							<p
+								class="font-body-md text-secondary m-0 w-full text-sm"
+								role="status"
+								data-feedback-thanks
+								hidden
+							>
+								{_("Thanks for your feedback.")}
+							</p>
+						</section>
+
+						{/* Previous / next */}
+						{(previous || next) && (
+							<nav aria-label={_("More in this topic")} class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+								{previous ? (
+									<a href={`${base}/${previous.slug}`} class={`${cardClass} flex flex-col gap-1 p-4 sm:p-5`}>
+										<span class="font-label-caps text-industrial-gray inline-flex items-center gap-2 text-[11px] tracking-widest uppercase">
+											<ArrowLeft
+												className="text-secondary size-4 transition-transform duration-200 group-hover/card:-translate-x-1"
+												aria-hidden="true"
+											/>
+											{_("Previous")}
+										</span>
+										<span class="font-headline-lg text-foreground text-sm font-semibold">
+											{previous.title}
+										</span>
+									</a>
+								) : (
+									<span class="hidden sm:block" />
+								)}
+								{next && (
+									<a
+										href={`${base}/${next.slug}`}
+										class={`${cardClass} flex flex-col items-end gap-1 p-4 text-right sm:p-5`}
+									>
+										<span class="font-label-caps text-industrial-gray inline-flex items-center gap-2 text-[11px] tracking-widest uppercase">
+											{_("Next")}
+											<ArrowRight
+												className="text-secondary size-4 transition-transform duration-200 group-hover/card:translate-x-1"
+												aria-hidden="true"
+											/>
+										</span>
+										<span class="font-headline-lg text-foreground text-sm font-semibold">{next.title}</span>
+									</a>
+								)}
+							</nav>
+						)}
+
+						{/* Related */}
+						{related.length > 0 && (
+							<section class="mt-12" aria-labelledby="related-heading">
+								<h2
+									id="related-heading"
+									class="font-label-caps text-industrial-gray m-0 mb-4 flex items-center gap-3 text-xs font-semibold tracking-widest uppercase"
+								>
+									<span class="bg-secondary h-px w-6" aria-hidden="true" />
+									{_("Related articles")}
+								</h2>
+								<ul class="m-0 grid list-none grid-cols-1 gap-4 p-0 sm:grid-cols-2">
+									{related.map((item) => (
+										<li>
+											<a href={`${base}/${item.slug}`} class={`${cardClass} flex h-full flex-col gap-2 p-4 sm:p-5`}>
+												<span class="font-headline-lg text-foreground text-sm font-semibold">
+													{item.title}
+												</span>
+												<span class="font-body-md text-industrial-gray text-sm leading-relaxed">
+													{item.summary}
+												</span>
+											</a>
+										</li>
+									))}
+								</ul>
+							</section>
+						)}
+
+						{/* Help CTA */}
+						<section class="bg-primary text-primary-foreground mt-12 flex flex-col gap-4 rounded-xl p-6 shadow-xs sm:flex-row sm:items-center sm:justify-between sm:p-8">
+							<div>
+								<h2 class="font-headline-lg m-0 text-lg font-semibold tracking-tight">
+									{_("Still need help?")}
+								</h2>
+								<p class="font-body-md text-primary-foreground/80 m-0 mt-1.5 max-w-md text-sm leading-relaxed">
+									{_("Our engineers will answer questions about your line and your product.")}
+								</p>
+							</div>
+							<a
+								href={`/${lang}/contact`}
+								class="group bg-background text-foreground focus-visible:outline-background inline-flex shrink-0 items-center justify-center gap-2 rounded-lg px-6 py-3 text-[15px] font-medium shadow-xs transition-[opacity,box-shadow] hover:opacity-90 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2"
+							>
+								{_("Contact an engineer")}
+								<ArrowRight
+									className="size-[18px] transition-transform duration-200 group-hover:translate-x-1"
+									aria-hidden="true"
+								/>
+							</a>
+						</section>
+					</article>
+
+					{/* ── On this page (desktop) ── */}
+					{toc.length > 0 && (
+						<aside class="hidden xl:block">
+							<nav aria-label={_("On this page")} class="sticky top-24" data-wiki-toc>
+								<p class="font-label-caps text-industrial-gray m-0 mb-3 flex items-center gap-2 text-[11px] font-semibold tracking-widest uppercase">
+									<AlignLeft className="text-secondary size-3.5" aria-hidden="true" />
+									{_("On this page")}
+								</p>
+								<ul class="border-border-subtle/60 m-0 list-none border-l p-0">
+									{toc.map((item) => (
+										<li>
+											<a
+												href={`#${item.id}`}
+												data-toc-link={item.id}
+												class:list={[
+													"font-body-md text-industrial-gray hover:text-foreground aria-[current=true]:border-secondary aria-[current=true]:text-secondary -ml-px block border-l-2 border-transparent py-1.5 pr-2 text-[13px] leading-snug transition-colors aria-[current=true]:font-semibold",
+													item.level === "h3" ? "pl-7" : "pl-4",
+												]}
+											>
+												{item.text}
+											</a>
+										</li>
+									))}
+								</ul>
+							</nav>
+						</aside>
+					)}
+				</div>
+			</div>
+		</div>
+	) : (
+		<div class="bg-background w-full">
+			<header class="from-surface-container/40 to-background border-border-subtle/60 relative w-full overflow-hidden border-b bg-linear-to-b py-12 lg:py-20">
+				<div
+					class="bg-secondary/10 pointer-events-none absolute -top-32 -right-24 size-[30rem] rounded-full blur-3xl"
+					aria-hidden="true"
+				/>
+				<div class="px-edge-margin relative mx-auto max-w-[1280px]">
+					<div class="max-w-3xl">
+						<p class={`wiki-rise ${eyebrowClass}`} style="--d:0">
+							<span class="bg-secondary h-px w-8" aria-hidden="true" />
+							{_("Knowledge Base")}
+						</p>
+						<h1
+							class="wiki-rise font-display-lg text-foreground m-0 mt-4 text-4xl tracking-tight text-balance lg:text-5xl"
+							style="--d:1"
+						>
+							{_("Technical Wiki")}
+						</h1>
+						<p
+							class="wiki-rise font-body-md text-industrial-gray m-0 mt-5 max-w-prose text-base leading-relaxed lg:text-lg"
+							style="--d:2"
+						>
+							{_(
+								"Guides, specifications and best practices for checkweighers, metal detectors and serialization lines."
+							)}
+						</p>
+
+						<div class="wiki-rise relative mt-8 max-w-xl" style="--d:3">
+							<Search
+								className="text-industrial-gray pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2"
+								aria-hidden="true"
+							/>
+							<input
+								type="search"
+								class={`${searchInputClass} h-12`}
+								placeholder={_("Search the wiki…")}
+								aria-label={_("Search the wiki…")}
+								data-wiki-filter="[data-wiki-item]"
+								data-wiki-empty="#wiki-home-empty"
+								data-wiki-hide="[data-wiki-hide-on-search]"
+							/>
+						</div>
+					</div>
+				</div>
+			</header>
+
+			<div class="px-edge-margin mx-auto max-w-[1280px] py-16 lg:py-24">
+				{/* Topics */}
+				<section data-wiki-hide-on-search aria-labelledby="topics-heading">
+					<div class="mb-10">
+						<p class={eyebrowClass}>
+							<span class="bg-secondary h-px w-8" aria-hidden="true" />
+							{_("Browse by topic")}
+						</p>
+						<h2
+							id="topics-heading"
+							class="font-headline-lg text-foreground m-0 mt-2 text-2xl font-semibold tracking-tight text-balance sm:text-3xl"
+						>
+							{_("Find answers by subject")}
+						</h2>
+					</div>
+
+					<div class="gap-gutter grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
+						{categories.map((cat) => {
+							const list = inCategory(cat.id);
+							const Icon = categoryIcons[cat.icon];
+							return (
+								<section
+									id={cat.id}
+									class={`${cardClass} scroll-mt-24 flex flex-col p-5 sm:p-6`}
+									aria-labelledby={`cat-${cat.id}`}
+								>
+									<div class="flex items-center justify-between gap-3">
+										<div class={iconTileClass} aria-hidden="true">
+											<Icon className="size-5" />
+										</div>
+										<span class="font-technical-data bg-secondary/10 text-secondary rounded-full px-2.5 py-0.5 text-xs font-bold tabular-nums">
+											{list.length} {_("Articles")}
+										</span>
+									</div>
+									<h3
+										id={`cat-${cat.id}`}
+										class="font-headline-lg text-foreground m-0 mt-5 text-lg font-semibold tracking-tight"
+									>
+										{cat.title}
+									</h3>
+									<p class="font-body-md text-industrial-gray m-0 mt-2 text-sm leading-relaxed">
+										{cat.description}
+									</p>
+									<ul class="border-border-subtle/50 m-0 mt-5 flex list-none flex-col gap-1 border-t p-0 pt-4">
+										{list.map((item) => (
+											<li>
+												<a
+													href={`${base}/${item.slug}`}
+													class="font-body-md text-foreground hover:text-secondary group/link flex items-center justify-between gap-2 py-1.5 text-sm transition-colors"
+												>
+													<span>{item.title}</span>
+													<ArrowRight
+														className="text-secondary size-4 shrink-0 -translate-x-1 opacity-0 transition-[opacity,translate] duration-200 group-hover/link:translate-x-0 group-hover/link:opacity-100"
+														aria-hidden="true"
+													/>
+												</a>
+											</li>
+										))}
+									</ul>
+								</section>
+							);
+						})}
+					</div>
+				</section>
+
+				{/* Latest / search results */}
+				<section class="mt-16 lg:mt-24" aria-labelledby="latest-heading">
+					<div class="mb-10">
+						<p class={eyebrowClass}>
+							<span class="bg-secondary h-px w-8" aria-hidden="true" />
+							{_("Recently updated")}
+						</p>
+						<h2
+							id="latest-heading"
+							class="font-headline-lg text-foreground m-0 mt-2 text-2xl font-semibold tracking-tight text-balance sm:text-3xl"
+						>
+							{_("Latest articles")}
+						</h2>
+					</div>
+
+					<ul class="m-0 grid list-none grid-cols-1 gap-4 p-0 md:grid-cols-2">
+						{byNewest.map((item) => {
+							const cat = categoryOf(item.category);
+							return (
+								<li data-wiki-item data-wiki-text={`${item.title} ${item.summary} ${cat?.title ?? ""}`.toLowerCase()}>
+									<a href={`${base}/${item.slug}`} class={`${cardClass} flex h-full flex-col gap-3 p-5 sm:p-6`}>
+										<div class="flex items-center justify-between gap-3">
+											<span class="font-technical-data bg-secondary/10 text-secondary rounded-full px-2.5 py-0.5 text-xs font-bold">
+												{cat?.title}
+											</span>
+											<span class="font-technical-data text-industrial-gray inline-flex items-center gap-1.5 text-xs">
+												<Clock className="text-secondary size-3.5" aria-hidden="true" />
+												{item.readMinutes} {_("min read")}
+											</span>
+										</div>
+										<h3 class="font-headline-lg text-foreground m-0 text-lg font-semibold tracking-tight">
+											{item.title}
+										</h3>
+										<p class="font-body-md text-industrial-gray m-0 text-sm leading-relaxed">
+											{item.summary}
+										</p>
+										<span class="text-secondary font-technical-data mt-auto inline-flex items-center gap-2 pt-2 text-sm font-medium">
+											{_("Read article")}
+											<ArrowRight
+												className="size-4 transition-transform duration-200 group-hover/card:translate-x-1"
+												aria-hidden="true"
+											/>
+										</span>
+									</a>
+								</li>
+							);
+						})}
+					</ul>
+
+					<p
+						id="wiki-home-empty"
+						hidden
+						class="font-body-md text-industrial-gray m-0 mt-6 flex items-center gap-2 text-sm"
+					>
+						<BookOpen className="text-secondary size-4" aria-hidden="true" />
+						{_("No articles match your search.")}
+					</p>
+				</section>
+			</div>
+		</div>
+	)
+}
+
+<style>
+	@media (prefers-reduced-motion: no-preference) {
+		.wiki-rise {
+			animation: wiki-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+			animation-delay: calc(var(--d, 0) * 90ms);
+		}
+		#wiki-progress {
+			transition: transform 0.1s linear;
+		}
+	}
+
+	@keyframes wiki-rise {
+		from {
+			opacity: 0;
+			transform: translateY(18px);
+		}
+	}
+
+	/* Headings are links to themselves; keep them looking like headings */
+	.wiki-content h2 a {
+		color: inherit;
+	}
+</style>
+
+<script>
+	// ── Search: filters items, hides empty groups and optional sections ──────────
+	document.querySelectorAll<HTMLInputElement>("[data-wiki-filter]").forEach((input) => {
+		const itemSelector = input.dataset.wikiFilter ?? "";
+		const emptyEl = input.dataset.wikiEmpty ? document.querySelector<HTMLElement>(input.dataset.wikiEmpty) : null;
+		const groupSelector = input.dataset.wikiGroups;
+		const hideSelector = input.dataset.wikiHide;
+
+		const run = () => {
+			const query = input.value.trim().toLowerCase();
+			const items = document.querySelectorAll<HTMLElement>(itemSelector);
+			let visible = 0;
+			items.forEach((item) => {
+				const match = query === "" || (item.dataset.wikiText ?? "").includes(query);
+				item.hidden = !match;
+				if (match) visible++;
+			});
+			if (groupSelector) {
+				document.querySelectorAll<HTMLElement>(groupSelector).forEach((group) => {
+					group.hidden = group.querySelectorAll(`${itemSelector}:not([hidden])`).length === 0;
+				});
+			}
+			if (hideSelector) {
+				document.querySelectorAll<HTMLElement>(hideSelector).forEach((el) => {
+					el.hidden = query !== "";
+				});
+			}
+			if (emptyEl) emptyEl.hidden = visible > 0 || query === "";
+		};
+		input.addEventListener("input", run);
+	});
+
+	// ── Sidebar: always open on desktop, collapsible on small screens ────────────
+	const nav = document.querySelector<HTMLDetailsElement>("[data-wiki-nav]");
+	if (nav) {
+		const desktop = window.matchMedia("(min-width: 1024px)");
+		const sync = () => {
+			if (desktop.matches) nav.open = true;
+		};
+		sync();
+		desktop.addEventListener("change", sync);
+	}
+
+	// ── Table of contents: highlight the section being read ────────────────────
+	const tocLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-toc-link]"));
+	if (tocLinks.length > 0) {
+		const headings = tocLinks
+			.map((link) => document.getElementById(link.dataset.tocLink ?? ""))
+			.filter((el): el is HTMLElement => el !== null);
+
+		const setActive = (id: string) => {
+			for (const link of tocLinks) {
+				link.setAttribute("aria-current", String(link.dataset.tocLink === id));
+			}
+		};
+		setActive(headings[0]?.id ?? "");
+
+		const observer = new IntersectionObserver(
+			(entries) => {
+				const visible = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+				if (visible[0]) setActive(visible[0].target.id);
+			},
+			{ rootMargin: "-96px 0px -65% 0px" }
+		);
+		headings.forEach((h) => observer.observe(h));
+	}
+
+	// ── Reading progress bar ───────────────────────────────────────────────────
+	const bar = document.getElementById("wiki-progress");
+	const articleEl = document.querySelector<HTMLElement>("article");
+	if (bar && articleEl) {
+		let ticking = false;
+		const update = () => {
+			const rect = articleEl.getBoundingClientRect();
+			const total = rect.height - window.innerHeight;
+			const progress = total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : 1;
+			bar.style.transform = `scaleX(${progress})`;
+			ticking = false;
+		};
+		window.addEventListener(
+			"scroll",
+			() => {
+				if (!ticking) {
+					ticking = true;
+					requestAnimationFrame(update);
+				}
+			},
+			{ passive: true }
+		);
+		update();
+	}
+
+	// ── Feedback ───────────────────────────────────────────────────────────────
+	document.querySelectorAll<HTMLElement>("[data-wiki-feedback]").forEach((box) => {
+		const buttons = box.querySelectorAll<HTMLButtonElement>("[data-vote]");
+		const thanks = box.querySelector<HTMLElement>("[data-feedback-thanks]");
+		buttons.forEach((button) => {
+			button.addEventListener("click", () => {
+				buttons.forEach((b) => b.setAttribute("aria-pressed", String(b === button)));
+				if (thanks) thanks.hidden = false;
+			});
+		});
+	});
+</script>
