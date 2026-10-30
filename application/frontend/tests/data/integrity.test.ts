@@ -331,3 +331,60 @@ describe("decap cms industries", () => {
 		expect(raw).not.toContain('value: "chemical"');
 	});
 });
+
+describe("wiki content", () => {
+	const WIKI_DIR = join(import.meta.dir, "../../src/content/wiki");
+
+	const wikiFiles = existsSync(WIKI_DIR)
+		? walk(WIKI_DIR)
+				.filter((f) => f.endsWith(".md"))
+				.map((f) => relative(WIKI_DIR, f).replaceAll("\\", "/"))
+		: [];
+
+	const parseWikiFrontmatter = (file: string) => {
+		const raw = readFileSync(join(WIKI_DIR, file), "utf8");
+		const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+		if (!match) throw new Error(`${file}: missing frontmatter`);
+		return parse(match[1]);
+	};
+
+	it("finds wiki content files", () => {
+		expect(wikiFiles.length).toBeGreaterThan(0);
+	});
+
+	it("names every wiki file <slug>.<en|ua>.md", () => {
+		const bad = wikiFiles.filter((f) => !/^[a-z0-9-]+\.(en|ua)\.md$/.test(f));
+		expect(bad).toEqual([]);
+	});
+
+	it("has a translation for every wiki file (en <-> ua)", () => {
+		const set = new Set(wikiFiles);
+		const missing = wikiFiles
+			.map((f) => f.replace(/\.(en|ua)\.md$/, (_m, l) => `.${l === "en" ? "ua" : "en"}.md`))
+			.filter((counterpart) => !set.has(counterpart));
+		expect(missing).toEqual([]);
+	});
+
+	it("matches the wiki content schema", () => {
+		const schema = (collections as any).wiki?.schema;
+		expect(schema).toBeDefined();
+		const failures = wikiFiles
+			.map((f) => ({ f, result: schema.safeParse(parseWikiFrontmatter(f)) }))
+			.filter(({ result }) => !result.success)
+			.map(({ f, result }) => `${f}: ${result.error.issues.map((i: any) => i.message).join("; ")}`);
+		expect(failures).toEqual([]);
+	});
+});
+
+describe("decap cms wiki collection", () => {
+	it("configures wiki folder collection in _config.template.yml", () => {
+		const templatePath = join(import.meta.dir, "../../src/pages/admin/_config.template.yml");
+		const raw = readFileSync(templatePath, "utf8");
+		const parsed = parse(raw.replace(/__[A-Z0-9_]+__/g, '""'));
+		const wikiCollection = parsed.collections?.find((c: any) => c.name === "wiki");
+		expect(wikiCollection).toBeDefined();
+		expect(wikiCollection.label).toBe("Wiki");
+		expect(wikiCollection.folder).toBe("application/frontend/src/content/wiki");
+		expect(wikiCollection.i18n).toBe(true);
+	});
+});

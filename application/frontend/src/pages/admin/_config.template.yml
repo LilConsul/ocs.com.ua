@@ -333,3 +333,36 @@ collections:
               - { label: "Label", name: "label", widget: "string" }
               - { label: "Value", name: "value", widget: "string" }
       - { label: "Body", name: "body", widget: "richtext", required: false, i18n: true }
+
+  # ── Wiki Knowledge Base ──────────────────────────────────────────────────
+  - name: "wiki"
+    label: "Wiki"
+    label_singular: "Wiki Article"
+    description: "Knowledge base and technical articles."
+    folder: "application/frontend/src/content/wiki"
+    create: true
+    delete: true
+    i18n: true
+    preview_path: "{{locale}}/wiki/{{filename}}"
+    sortable_fields: ["commit_date", "order", "title"]
+    fields:
+      - { label: "Title", name: "title", widget: "string", i18n: true }
+      - { label: "Description / Summary", name: "description", widget: "text", required: false, i18n: true, hint: "Brief summary shown on index cards and in SEO meta tags" }
+      - label: "Cover Image"
+        name: "coverImage"
+        widget: "image"
+        required: false
+        i18n: duplicate
+        media_processing:
+          enabled: true
+          format:
+            enabled: true
+            default: webp
+          quality: 85
+          strip_metadata: true
+          width: 1400
+          height: null
+          aspect_ratio: 16x9
+      - { label: "Order", name: "order", widget: "number", value_type: "int", default: 0, required: false, i18n: duplicate, hint: "Sorting priority (lower numbers appear first)" }
+      - { label: "Related Articles", name: "related", widget: "relation", collection: "wiki", search_fields: ["title"], value_field: "{{slug}}", display_fields: ["title"], multiple: true, required: false, i18n: duplicate }
+      - { label: "Body", name: "body", widget: "markdown", required: true, i18n: true }

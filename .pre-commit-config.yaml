@@ -4,7 +4,7 @@
 # Run manually: pre-commit run --all-files
 
 # Content Markdown is formatted by remark (same as Decap CMS writes it), not by the generic hooks
-x-exclude-content-md: &exclude-content-md ^application/frontend/src/content/equipment/.*\.md$
+x-exclude-content-md: &exclude-content-md ^application/frontend/src/content/.*\.md$
 
 repos:
   # Standard pre-commit hooks for file quality
