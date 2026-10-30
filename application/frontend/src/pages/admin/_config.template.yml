@@ -235,6 +235,9 @@ collections:
       in the sidebar to see its products. Choose a category from the dropdown
       to place a new product in the correct folder.
     folder: "application/frontend/src/content/equipment"
+    # File name comes from the "File name" field, not the (Cyrillic) title, so the URL stays clean
+    # and both locale files share one base name.
+    slug: "{{fields.file_name}}"
     create: true
     delete: false
     i18n: true
@@ -262,6 +265,13 @@ collections:
         label: "Category"
         options: __CATEGORY_OPTIONS__
     fields:
+      # Named file_name, not slug: Astro's glob loader treats a frontmatter `slug` as the entry id.
+      - label: "File name"
+        name: "file_name"
+        widget: "string"
+        i18n: duplicate
+        pattern: ["^[a-z0-9]+(-[a-z0-9]+)*$", "Lowercase latin letters, digits and hyphens only, e.g. hc-a-md"]
+        hint: "Becomes the file name and the page URL, e.g. hc-a-md. Set it when creating a product; changing it later does NOT rename the file."
       - { label: "Order", name: "order", widget: "number", value_type: "int", default: 0, required: false, hint: "Lower numbers appear first within this category.", i18n: duplicate }
       - label: "Gallery"
         name: "gallery"

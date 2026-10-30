@@ -20,6 +20,8 @@ const equipment = defineCollection({
 	}),
 	schema: z.object({
 		type: z.enum(["category", "product"]).nullish(),
+		// Used by the CMS to name new files (must match the file's base name)
+		file_name: z.string().nullish(),
 		title: z.string().nullish(),
 		description: z.string().nullish(),
 		icon: z.string().nullish(),
