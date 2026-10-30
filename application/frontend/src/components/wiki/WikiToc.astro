@@ -1,0 +1,108 @@
+---
+import type { MarkdownHeading } from "astro";
+import { AlignLeft, ChevronRight } from "lucide-react";
+import { getInlineTranslations, type Lang } from "@/i18n";
+
+interface Props {
+	headings: MarkdownHeading[];
+	mobile?: boolean;
+	lang: Lang;
+}
+
+const { headings = [], mobile = false, lang } = Astro.props;
+const _ = getInlineTranslations(lang);
+
+// Filter headings to depth 2 and 3
+const filteredHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+{
+	filteredHeadings.length > 0 &&
+		(mobile ? (
+			<details class="group/toc bg-surface-lowest border-border-subtle mt-6 rounded-lg border xl:hidden">
+				<summary class="font-label-caps text-foreground flex cursor-pointer list-none items-center justify-between px-4 py-3 text-xs font-semibold tracking-widest uppercase">
+					<span class="inline-flex items-center gap-2">
+						<AlignLeft className="text-secondary size-4" aria-hidden="true" />
+						{_("On this page")}
+					</span>
+					<ChevronRight className="size-4 transition-transform group-open/toc:rotate-90" />
+				</summary>
+				<ul class="m-0 list-none px-4 pb-3">
+					{filteredHeadings.map((item) => (
+						<li>
+							<a
+								href={`#${item.slug}`}
+								class:list={[
+									"font-body-md text-industrial-gray hover:text-secondary block py-1.5 text-sm transition-colors",
+									item.depth === 3 && "pl-4",
+								]}
+							>
+								{item.text}
+							</a>
+						</li>
+					))}
+				</ul>
+			</details>
+		) : (
+			<aside class="hidden xl:block">
+				<nav aria-label={_("On this page")} class="sticky top-24" data-wiki-toc>
+					<p class="font-label-caps text-industrial-gray m-0 mb-3 flex items-center gap-2 text-[11px] font-semibold tracking-widest uppercase">
+						<AlignLeft className="text-secondary size-3.5" aria-hidden="true" />
+						{_("On this page")}
+					</p>
+					<ul class="border-border-subtle m-0 list-none border-l p-0">
+						{filteredHeadings.map((item) => (
+							<li>
+								<a
+									href={`#${item.slug}`}
+									data-toc-link={item.slug}
+									class:list={[
+										"font-body-md text-industrial-gray hover:text-foreground aria-[current=true]:border-secondary aria-[current=true]:text-secondary -ml-px block border-l-2 border-transparent py-1.5 pr-2 text-[13px] leading-snug transition-colors aria-[current=true]:font-semibold",
+										item.depth === 3 ? "pl-7" : "pl-4",
+									]}
+								>
+									{item.text}
+								</a>
+							</li>
+						))}
+					</ul>
+				</nav>
+			</aside>
+		))
+}
+
+<script>
+	function setupTocObserver() {
+		const tocLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-toc-link]"));
+		if (tocLinks.length === 0) return;
+
+		const headingElements = tocLinks
+			.map((link) => document.getElementById(link.dataset.tocLink ?? ""))
+			.filter((el): el is HTMLElement => el !== null);
+
+		const setActive = (id: string) => {
+			for (const link of tocLinks) {
+				link.setAttribute("aria-current", String(link.dataset.tocLink === id));
+			}
+		};
+
+		if (headingElements[0]) {
+			setActive(headingElements[0].id);
+		}
+
+		const observer = new IntersectionObserver(
+			(entries) => {
+				const visible = entries
+					.filter((e) => e.isIntersecting)
+					.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+				if (visible[0]) setActive(visible[0].target.id);
+			},
+			{ rootMargin: "-96px 0px -65% 0px" }
+		);
+
+		headingElements.forEach((h) => observer.observe(h));
+	}
+
+	setupTocObserver();
+	document.addEventListener("astro:page-load", setupTocObserver);
+</script>

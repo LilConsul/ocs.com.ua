@@ -1,0 +1,54 @@
+---
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { getInlineTranslations, type Lang } from "@/i18n";
+import { getWikiSlug, type WikiEntry } from "@/lib/wiki-utils";
+
+interface Props {
+	prev?: WikiEntry;
+	next?: WikiEntry;
+	lang: Lang;
+}
+
+const { prev, next, lang } = Astro.props;
+const _ = getInlineTranslations(lang);
+
+const cardClass =
+	"group/card bg-surface-lowest border-border-subtle hover:border-secondary/40 focus-visible:outline-secondary rounded-xl border p-4 sm:p-5 shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 motion-safe:hover:-translate-y-0.5";
+---
+
+{
+	(prev || next) && (
+		<nav aria-label={_("Article navigation")} class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
+			{prev ? (
+				<a href={`/${lang}/wiki/${getWikiSlug(prev)}`} class={`${cardClass} flex flex-col gap-1`}>
+					<span class="font-label-caps text-industrial-gray inline-flex items-center gap-2 text-[11px] tracking-widest uppercase">
+						<ArrowLeft
+							className="text-secondary size-4 transition-transform duration-200 group-hover/card:-translate-x-1"
+							aria-hidden="true"
+						/>
+						{_("Previous article")}
+					</span>
+					<span class="font-headline-lg text-foreground text-sm font-semibold">{prev.data.title}</span>
+				</a>
+			) : (
+				<div class="hidden sm:block" />
+			)}
+
+			{next && (
+				<a
+					href={`/${lang}/wiki/${getWikiSlug(next)}`}
+					class={`${cardClass} flex flex-col items-end gap-1 text-right`}
+				>
+					<span class="font-label-caps text-industrial-gray inline-flex items-center gap-2 text-[11px] tracking-widest uppercase">
+						{_("Next article")}
+						<ArrowRight
+							className="text-secondary size-4 transition-transform duration-200 group-hover/card:translate-x-1"
+							aria-hidden="true"
+						/>
+					</span>
+					<span class="font-headline-lg text-foreground text-sm font-semibold">{next.data.title}</span>
+				</a>
+			)}
+		</nav>
+	)
+}
