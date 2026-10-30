@@ -256,12 +256,27 @@ collections:
     nested:
       depth: 2
       subfolders: false
+    # The Category dropdown is Decap's meta.path: changing it moves the product to another folder.
+    # The file name comes from the file_name field below, not from the title; changing that field
+    # renames the files. Both behaviours need the patched decap-cms-core (see patches/).
     meta:
       path:
         widget: select
         label: "Category"
         options: __CATEGORY_OPTIONS__
     fields:
+      # Named file_name, not slug: Astro's glob loader treats a frontmatter `slug` as the entry id.
+      - label: "File name"
+        name: "file_name"
+        widget: "string"
+        i18n: duplicate
+        pattern: ["^[a-z0-9]+(-[a-z0-9]+)*$", "Lowercase Latin letters, digits and hyphens only, e.g. hc-a-md"]
+        hint: >-
+          Required. Becomes the file name and the page URL, e.g. <file_name> gives
+          /catalogue/equipment/checkweigher/<file_name>. Use the model name in lowercase Latin
+          letters, digits and hyphens only: no spaces, capitals or Ukrainian letters.
+          Changing it on an existing product renames its files and changes its URL, so old
+          links to the product stop working. Change it only when you really have to.
       - { label: "Order", name: "order", widget: "number", value_type: "int", default: 0, required: false, hint: "Lower numbers appear first within this category.", i18n: duplicate }
       - label: "Gallery"
         name: "gallery"
@@ -293,7 +308,7 @@ collections:
         multiple: true
         min: 0
         options: __INDUSTRY_OPTIONS__
-      - { label: "Title", name: "title", widget: "string", i18n: true }
+      - { label: "Title", name: "title", widget: "string", i18n: true, required: false, hint: "The name that is displayed on the website catalogue page." }
       - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
       - label: "Specifications"
         name: "specs"

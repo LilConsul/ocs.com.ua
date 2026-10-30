@@ -1,4 +1,5 @@
 ---
+file_name: hc-sl
 type: product
 title: HC-SL Catchweigher
 order: 2

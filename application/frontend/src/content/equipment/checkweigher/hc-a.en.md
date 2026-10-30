@@ -1,4 +1,5 @@
 ---
+file_name: hc-a
 order: 1
 datasheet: /assets/equipment/hc-a/datasheet.pdf
 title: HC-A Checkweigher

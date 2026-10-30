@@ -1,4 +1,5 @@
 ---
+file_name: hc-m
 order: 2
 gallery:
   - /assets/equipment/hc-m/csm_checkweigher-hc-m-left_51bfea9ea2.webp

@@ -1,4 +1,5 @@
 ---
+file_name: ec-e
 order: 3
 gallery:
   - /assets/equipment/ec-e/csm_checkweigher-ec-e-left_b64a401e9a.webp

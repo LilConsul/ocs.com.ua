@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   fe-unit-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     defaults:
       run:
         working-directory: application/frontend
@@ -28,7 +28,7 @@ jobs:
         run: bun test
 
   image-check:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v10.3.0
@@ -36,7 +36,7 @@ jobs:
         run: uv run application/infra/scripts/check-images.py
 
   infra-unit-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     defaults:
       run:
         working-directory: application/infra
