@@ -136,25 +136,40 @@ describe("filterByIndustry", () => {
 	const tagged = (id: string, industries?: string[]) =>
 		({ id, data: { industries } }) as unknown as EquipmentEntry;
 
-	const list = [
-		tagged("checkweigher/hc-men", ["food-beverage", "pharmaceutical"]),
-		tagged("catchweigher/hc-slen", ["logistics"]),
+	// EN entries have no industries; UA counterparts carry the tags (i18n: false pattern)
+	const allEntries = [
+		tagged("checkweigher/hc-mua", ["food-beverage", "pharmaceutical"]),
+		tagged("checkweigher/hc-men"),
+		tagged("catchweigher/hc-slua", ["logistics"]),
+		tagged("catchweigher/hc-slen"),
+		tagged("checkweigher/ec-een"),
+	];
+
+	const localeEn = [
+		tagged("checkweigher/hc-men"),
+		tagged("catchweigher/hc-slen"),
 		tagged("checkweigher/ec-een"),
 	];
 
 	it("keeps products tagged with the industry, including multi-tagged ones", () => {
-		expect(filterByIndustry(list, "pharmaceutical").map((e) => e.id)).toEqual([
+		expect(filterByIndustry(localeEn, "pharmaceutical", allEntries).map((e) => e.id)).toEqual([
 			"checkweigher/hc-men",
 		]);
-		expect(filterByIndustry(list, "food-beverage")).toHaveLength(1);
+		expect(filterByIndustry(localeEn, "food-beverage", allEntries)).toHaveLength(1);
 	});
 
-	it("ignores products without industries", () => {
-		expect(filterByIndustry(list, "logistics").map((e) => e.id)).toEqual(["catchweigher/hc-slen"]);
+	it("falls back to the ua file when the en entry has no industries", () => {
+		expect(filterByIndustry(localeEn, "logistics", allEntries).map((e) => e.id)).toEqual([
+			"catchweigher/hc-slen",
+		]);
+	});
+
+	it("ignores products whose ua counterpart has no industries either", () => {
+		expect(filterByIndustry(localeEn, "logistics", allEntries.slice(0, 2))).toEqual([]);
 	});
 
 	it("returns an empty array for an unknown industry", () => {
-		expect(filterByIndustry(list, "chemical")).toEqual([]);
+		expect(filterByIndustry(localeEn, "chemical", allEntries)).toEqual([]);
 	});
 });
 

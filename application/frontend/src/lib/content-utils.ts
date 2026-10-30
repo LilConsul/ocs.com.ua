@@ -122,9 +122,10 @@ export function filterByCategory(
  */
 export function filterByIndustry(
 	entries: EquipmentEntry[],
-	industrySlug: string
+	industrySlug: string,
+	allEntries: EquipmentEntry[]
 ): EquipmentEntry[] {
-	return entries.filter((entry) => entry.data.industries?.includes(industrySlug));
+	return entries.filter((entry) => getIndustries(entry, allEntries)?.includes(industrySlug));
 }
 
 export interface CategoryGroup {
@@ -190,6 +191,21 @@ export function getGallery(
 	const locale = getLocale(entry);
 	if (locale === "ua") return undefined;
 	return findTranslation(entry, "ua", allEntries)?.data.gallery ?? undefined;
+}
+
+/**
+ * Get industry slugs for an entry, falling back to the default-locale (ua) translation
+ * when the current locale's entry has no industries (because industries is i18n: false in the
+ * CMS, meaning it is only stored in the ua file).
+ */
+export function getIndustries(
+	entry: EquipmentEntry,
+	allEntries: EquipmentEntry[]
+): string[] | undefined {
+	if (entry.data.industries?.length) return entry.data.industries;
+	const locale = getLocale(entry);
+	if (locale === "ua") return undefined;
+	return findTranslation(entry, "ua", allEntries)?.data.industries ?? undefined;
 }
 
 /**
