@@ -1,13 +1,21 @@
 import { describe, expect, it } from "bun:test";
 import { existsSync, readFileSync } from "node:fs";
-import { join } from "node:path";
+import { createRequire } from "node:module";
+import { dirname, join } from "node:path";
 
 const root = join(import.meta.dir, "../..");
 const PATCH_KEY = "decap-cms-core@3.19.1";
 
 const pkg = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
-const installed = (file: string) =>
-	readFileSync(join(root, "node_modules/decap-cms-core", file), "utf8");
+// decap-cms-core is a transitive dependency, so it is not hoisted under bun's isolated linker (CI).
+// Resolve it the way decap-cms-app does instead of assuming node_modules/decap-cms-core.
+const appDir = dirname(
+	createRequire(join(root, "package.json")).resolve("decap-cms-app/package.json")
+);
+const coreDir = dirname(
+	createRequire(join(appDir, "package.json")).resolve("decap-cms-core/package.json")
+);
+const installed = (file: string) => readFileSync(join(coreDir, file), "utf8");
 
 // Decap's own bundles need a browser, so these check the patched source text rather than running it.
 describe("decap-cms-core patch (file_name names and renames product files)", () => {
