@@ -560,6 +560,54 @@ msgstr "Фармацевтична промисловість"
 msgid "Pharmaceuticals"
 msgstr "Фармацевтика"
 
+msgid "Knowledge Base"
+msgstr "База знань"
+
+msgid "Technical articles, guides, and operational documentation for industrial equipment."
+msgstr "Технічні статті, інструкції та керівництва з експлуатації промислового обладнання."
+
+msgid "min read"
+msgstr "хв читання"
+
+msgid "On this page"
+msgstr "Зміст статті"
+
+msgid "All articles"
+msgstr "Всі статті"
+
+msgid "Browse articles"
+msgstr "Переглянути статті"
+
+msgid "Search the wiki…"
+msgstr "Пошук у базі знань…"
+
+msgid "No articles match your search."
+msgstr "За вашим запитом статей не знайдено."
+
+msgid "Previous article"
+msgstr "Попередня стаття"
+
+msgid "Next article"
+msgstr "Наступна стаття"
+
+msgid "Related articles"
+msgstr "Схожі статті"
+
+msgid "Need technical consultation?"
+msgstr "Потрібна консультація щодо обладнання?"
+
+msgid "Our engineers will help you choose the optimal solution for your production line."
+msgstr "Наші інженери допоможуть підібрати оптимальне рішення для вашої виробничої лінії."
+
+msgid "Contact us"
+msgstr "Зв'язатися з нами"
+
+msgid "Read article"
+msgstr "Читати статтю"
+
+msgid "Article navigation"
+msgstr "Навігація по статтях"
+
 #: src/components/contact/ContactInfoCard.astro:34
 #: src/components/contact/ContactForm.astro:132
 msgid "Phone"
