@@ -1,4 +1,5 @@
 ---
+file_name: hc-a
 order: 1
 gallery:
   - /assets/equipment/hc-a/csm_checkweigher-hc-a-right_a7ab8c2ea6.webp

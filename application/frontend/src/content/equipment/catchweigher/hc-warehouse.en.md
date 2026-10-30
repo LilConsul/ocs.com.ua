@@ -1,4 +1,5 @@
 ---
+file_name: hc-warehouse
 type: product
 title: HC-Warehouse Catchweigher
 order: 1

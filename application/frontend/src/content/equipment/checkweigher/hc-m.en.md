@@ -1,4 +1,5 @@
 ---
+file_name: hc-m
 order: 2
 datasheet: /assets/equipment/hc-m/datasheet.pdf
 title: HC-M Checkweigher

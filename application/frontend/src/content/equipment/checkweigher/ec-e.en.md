@@ -1,4 +1,5 @@
 ---
+file_name: ec-e
 order: 3
 datasheet: /assets/equipment/ec-e/datasheet.pdf
 title: EC-E Checkweigher

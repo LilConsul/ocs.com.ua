@@ -1,4 +1,5 @@
 ---
+file_name: hc-warehouse
 type: product
 title: Кетчвейєр HC-Warehouse
 order: 1
