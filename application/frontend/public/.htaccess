@@ -14,8 +14,16 @@ ErrorDocument 504 /50x/index.html
 # RedirectMatch runs before Apache maps the URL to a file, so these win over any file in dist.
 # Targets end in "/" so mod_dir does not add a second 301.
 
+# Root: send to the default locale (Ukrainian), matching src/pages/index.astro
+RedirectMatch 301 ^/$ /ua/
+
 # /{lang}/catalogue has no page of its own: send it to the Header's "Catalogue" target
 RedirectMatch 301 ^/(en|ua)/catalogue/?$ /$1/catalogue/equipment/checkweigher/
+
+# /{lang}/catalogue/equipment and /{lang}/catalogue/industry have no index page either:
+# send them to the first target the Header uses for "Catalogue" / "Industries"
+RedirectMatch 301 ^/(en|ua)/catalogue/equipment/?$ /$1/catalogue/equipment/checkweigher/
+RedirectMatch 301 ^/(en|ua)/catalogue/industry/?$ /$1/catalogue/industry/food-beverage/
 
 # Old scheme /{lang}/catalogue/{category}[/{product}] -> /{lang}/catalogue/equipment/...
 RedirectMatch 301 ^/(en|ua)/catalogue/(?!(?:equipment|industry)(?:/|$))([^/]+(?:/[^/]+)?)/?$ /$1/catalogue/equipment/$2/

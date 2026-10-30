@@ -15,7 +15,7 @@ const lang: Lang = currentLang;
 const _ = getInlineTranslations(lang);
 
 const getLanguagePath = (targetLang: string) => {
-	if (!currentPath) return `/${targetLang}`;
+	if (!(currentPath && /^\/(en|ua)(\/|$)/.test(currentPath))) return `/${targetLang}`;
 	const pathWithoutLang = currentPath.replace(/^\/(en|ua)/, "");
 	return `/${targetLang}${pathWithoutLang}`;
 };
