@@ -574,6 +574,9 @@ msgstr ""
 msgid "Browse articles"
 msgstr ""
 
+msgid "Breadcrumb"
+msgstr ""
+
 msgid "Search the wiki…"
 msgstr ""
 

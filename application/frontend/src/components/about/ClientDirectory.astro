@@ -74,7 +74,8 @@ const tabs = [
 	{ filter: "household", label: categoryLabels.household, count: countBy("household") },
 ];
 
-const unitsOf = (p: PartnerItem) => (p.equipment?.md ?? 0) + (p.equipment?.cw ?? 0) + (p.equipment?.tqs ?? 0);
+const unitsOf = (p: PartnerItem) =>
+	(p.equipment?.md ?? 0) + (p.equipment?.cw ?? 0) + (p.equipment?.tqs ?? 0);
 const maxUnits = Math.max(1, ...partners.map(unitsOf));
 
 // Clients without unit counts go last (stable sort keeps the original order within each group).

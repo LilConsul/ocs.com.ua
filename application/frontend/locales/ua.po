@@ -578,6 +578,9 @@ msgstr "Всі статті"
 msgid "Browse articles"
 msgstr "Переглянути статті"
 
+msgid "Breadcrumb"
+msgstr "Навігаційний ланцюжок"
+
 msgid "Search the wiki…"
 msgstr "Пошук у базі знань…"
 

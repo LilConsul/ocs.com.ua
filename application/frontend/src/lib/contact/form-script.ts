@@ -233,9 +233,7 @@ export function initContactForm(config: FormConfig) {
 						const wait = () => {
 							if (window.grecaptcha !== undefined) {
 								window.grecaptcha.ready(() => {
-									window.grecaptcha!
-										.execute(siteKey, { action: "contact" })
-										.then(resolve, reject);
+									window.grecaptcha!.execute(siteKey, { action: "contact" }).then(resolve, reject);
 								});
 							} else if (Date.now() - started > 5000) {
 								reject(new Error("reCAPTCHA failed to load"));
