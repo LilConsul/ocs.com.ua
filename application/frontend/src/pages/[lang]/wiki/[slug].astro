@@ -111,30 +111,6 @@ const structuredData = [
 	<WikiProgressBar />
 
 	<div class="px-edge-margin mx-auto max-w-[1280px] py-10 lg:py-14">
-		{/* Breadcrumbs */}
-		<nav aria-label={_("Breadcrumb")} class="mb-8">
-			<ol
-				class="font-technical-data text-industrial-gray m-0 flex list-none flex-wrap items-center gap-1.5 p-0 text-xs"
-			>
-				<li>
-					<a href={`/${lang}/`} class="hover:text-secondary transition-colors hover:underline">
-						{lang === "en" ? "Home" : "Головна"}
-					</a>
-				</li>
-				<li aria-hidden="true"><ChevronRight className="size-3.5" /></li>
-				<li>
-					<a
-						href={`/${lang}/wiki`}
-						class="hover:text-secondary transition-colors hover:underline"
-					>
-						{_("Knowledge Base")}
-					</a>
-				</li>
-				<li aria-hidden="true"><ChevronRight className="size-3.5" /></li>
-				<li aria-current="page" class="text-foreground font-medium">{title}</li>
-			</ol>
-		</nav>
-
 		<div
 			class="gap-gutter grid grid-cols-1 lg:grid-cols-[16rem_minmax(0,1fr)] xl:grid-cols-[16rem_minmax(0,1fr)_14rem]"
 		>
