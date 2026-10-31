@@ -40,8 +40,10 @@ export default defineConfig({
 		build: {
 			// The /admin Decap CMS bundle is a single ~5 MB chunk; public pages stay small
 			chunkSizeWarningLimit: 6000,
-			// Direct eval lives in Decap's deps (js-sha256, gray-matter, @iarna/toml), not our code
-			rolldownOptions: { checks: { eval: false } },
+			// Decap's deps (js-sha256, gray-matter, @iarna/toml) use direct eval, and react-toastify
+			// and jotai ship "use client" directives that are meaningless in a plain client bundle.
+			// Neither is our code.
+			rolldownOptions: { checks: { eval: false, moduleLevelDirective: false } },
 		},
 	},
 	// Typed, validated environment (read from .env / .env.local / process env).
