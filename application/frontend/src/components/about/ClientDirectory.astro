@@ -2,12 +2,12 @@
 import { Image } from "astro:assets";
 import { SHOW_CLIENT_EQUIPMENT } from "astro:env/server";
 import {
-	Building2,
+	type AstroComponent,
+	BuildingComplex,
 	ChevronLeft,
 	ChevronRight,
 	ExternalLink,
 	Info,
-	type LucideIcon,
 	MapPin,
 	Pill,
 	QrCode,
@@ -15,7 +15,7 @@ import {
 	ScanLine,
 	SprayCan,
 	Utensils,
-} from "lucide-react";
+} from "@lucide/astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { getCityCoordinates } from "@/lib/about/geocoding";
 import { formatApprox } from "@/lib/about/partners-data";
@@ -35,7 +35,7 @@ const categoryLabels: Record<PartnerItem["category"], string> = {
 	household: _("Chemicals & Packaging"),
 };
 
-const categoryIcons: Record<PartnerItem["category"], LucideIcon> = {
+const categoryIcons: Record<PartnerItem["category"], AstroComponent> = {
 	food: Utensils,
 	pharma: Pill,
 	household: SprayCan,
@@ -173,7 +173,7 @@ const orderedPartners = SHOW_CLIENT_EQUIPMENT
 										decoding="async"
 									/>
 								) : (
-									<Building2 className="text-industrial-gray/60 h-10 w-10" aria-hidden="true" />
+									<BuildingComplex class="text-industrial-gray/60 h-10 w-10" aria-hidden="true" />
 								)}
 							</figure>
 
@@ -184,7 +184,10 @@ const orderedPartners = SHOW_CLIENT_EQUIPMENT
 											{clientName}
 										</h3>
 										<p class="font-technical-data text-industrial-gray m-0 mt-1.5 flex items-center gap-1.5 text-xs">
-											<CategoryIcon className="text-secondary h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+											<CategoryIcon
+												class="text-secondary h-3.5 w-3.5 shrink-0"
+												aria-hidden="true"
+											/>
 											<span class="truncate">{categoryLabels[partner.category]}</span>
 										</p>
 									</div>
@@ -208,7 +211,7 @@ const orderedPartners = SHOW_CLIENT_EQUIPMENT
 											/>
 										</div>
 
-										<p class="font-label-caps text-industrial-gray m-0 mt-3 sm:mt-4 text-[11px] uppercase">
+										<p class="font-label-caps text-industrial-gray m-0 mt-3 text-[11px] uppercase sm:mt-4">
 											{_("Installed Equipment:")}
 										</p>
 
@@ -224,10 +227,10 @@ const orderedPartners = SHOW_CLIENT_EQUIPMENT
 														]}
 													>
 														<dt class="font-body-md text-industrial-gray flex min-w-0 items-center gap-2 text-xs">
-															<Icon className="text-secondary h-4 w-4 shrink-0" aria-hidden="true" />
+															<Icon class="text-secondary h-4 w-4 shrink-0" aria-hidden="true" />
 															<span class="truncate">{label}</span>
 														</dt>
-														<dd class="font-technical-data text-foreground m-0 shrink-0 text-base sm:text-lg leading-none font-bold tabular-nums">
+														<dd class="font-technical-data text-foreground m-0 shrink-0 text-base leading-none font-bold tabular-nums sm:text-lg">
 															{formatApprox(value)}
 														</dd>
 													</div>
@@ -240,10 +243,12 @@ const orderedPartners = SHOW_CLIENT_EQUIPMENT
 
 							<footer class="bg-surface-container border-border-subtle/40 font-technical-data text-industrial-gray flex items-center justify-between gap-3 border-t px-4 py-3 text-xs sm:px-6">
 								<address class="flex min-w-0 items-center gap-1.5 not-italic">
-									<MapPin className="text-secondary h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+									<MapPin class="text-secondary h-3.5 w-3.5 shrink-0" aria-hidden="true" />
 									<span class="truncate">
 										{partner.adres && partner.adres.length > 0
-											? partner.adres.map((city) => getCityCoordinates(city)?.name[lang] ?? city).join(", ")
+											? partner.adres
+													.map((city) => getCityCoordinates(city)?.name[lang] ?? city)
+													.join(", ")
 											: _("Ukraine")}
 									</span>
 								</address>
@@ -256,7 +261,7 @@ const orderedPartners = SHOW_CLIENT_EQUIPMENT
 										aria-label={`${clientName} Website`}
 									>
 										<span>{_("Site")}</span>
-										<ExternalLink className="text-secondary h-3 w-3" aria-hidden="true" />
+										<ExternalLink class="text-secondary h-3 w-3" aria-hidden="true" />
 									</a>
 								)}
 							</footer>
@@ -277,24 +282,20 @@ const orderedPartners = SHOW_CLIENT_EQUIPMENT
 			hidden
 		>
 			<button type="button" data-page-prev aria-label={_("Previous page")} class={pageButtonClass}>
-				<ChevronLeft className="h-4 w-4" aria-hidden="true" />
+				<ChevronLeft class="h-4 w-4" aria-hidden="true" />
 			</button>
 			<span id="clientPageButtons" class="flex flex-wrap items-center justify-center gap-2"></span>
 			<button type="button" data-page-next aria-label={_("Next page")} class={pageButtonClass}>
-				<ChevronRight className="h-4 w-4" aria-hidden="true" />
+				<ChevronRight class="h-4 w-4" aria-hidden="true" />
 			</button>
 		</nav>
 
 		<p
 			class="font-body-md text-industrial-gray m-0 mt-8 flex items-start gap-2 text-xs leading-relaxed sm:text-sm"
 		>
-			<Info className="text-secondary mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+			<Info class="text-secondary mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
 			<span>
-				{
-					_(
-						"This list is not exhaustive: not all of our clients are shown here."
-					)
-				}
+				{_("This list is not exhaustive: not all of our clients are shown here.")}
 			</span>
 		</p>
 	</div>

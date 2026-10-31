@@ -1,7 +1,6 @@
 ---
 import { SITE_DEV_NOTICE } from "astro:env/server";
-import { ArrowRight, Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowRight, Menu, X } from "@lucide/astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { categoryUrl, industryUrl } from "@/lib/catalogue-urls";
 import { getIndustriesForLocale } from "@/lib/content-utils";
@@ -140,7 +139,7 @@ const isActive = (pattern: string) => {
 				}`}
 			>
 				{_("Contact Us")}
-				<ArrowRight className="size-4" aria-hidden="true" />
+				<ArrowRight class="size-4" aria-hidden="true" />
 			</a>
 
 			{/* Language Switcher */}
@@ -165,16 +164,15 @@ const isActive = (pattern: string) => {
 			</div>
 
 			{/* Mobile Menu Toggle */}
-			<Button
-				variant="ghost"
-				size="icon"
-				className="md:hidden"
+			<button
+				type="button"
+				class="hover:bg-muted hover:text-foreground focus-visible:ring-ring/50 inline-flex size-8 shrink-0 items-center justify-center transition-colors outline-none focus-visible:ring-1 md:hidden"
 				id="mobile-menu-toggle"
 				aria-label={_("Toggle menu")}
 			>
-				<Menu className="h-5 w-5" id="menu-open-icon" />
-				<X className="hidden h-5 w-5" id="menu-close-icon" />
-			</Button>
+				<Menu class="h-5 w-5" id="menu-open-icon" />
+				<X class="hidden h-5 w-5" id="menu-close-icon" />
+			</button>
 		</div>
 	</nav>
 
@@ -207,7 +205,7 @@ const isActive = (pattern: string) => {
 				}`}
 			>
 				{_("Contact Us")}
-				<ArrowRight className="size-4" aria-hidden="true" />
+				<ArrowRight class="size-4" aria-hidden="true" />
 			</a>
 
 			<div class="border-border space-y-2 border-t pt-4">

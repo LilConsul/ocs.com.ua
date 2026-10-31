@@ -1,7 +1,6 @@
 // @ts-check
 
 import node from "@astrojs/node";
-import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, envField } from "astro/config";
@@ -17,7 +16,6 @@ export default defineConfig({
 	output: "static",
 	adapter: node({ mode: "standalone" }),
 	integrations: [
-		react(),
 		sitemap({
 			// Keep the CMS, the error pages, the "/" redirect to /ua and the old catalogue
 			// redirect stubs (anything under /catalogue/ except equipment/ and industry/) out

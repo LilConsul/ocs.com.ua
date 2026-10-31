@@ -1,6 +1,4 @@
 ---
-import { Card, CardContent } from "@/components/ui/card";
-
 interface Props {
 	value: string;
 	label: string;
@@ -9,8 +7,8 @@ interface Props {
 const { value, label } = Astro.props;
 ---
 
-<Card className="border-0 bg-transparent text-center shadow-none">
-	<CardContent className="pt-8 md:pt-0">
+<div class="py-4 text-center">
+	<div class="pt-8 md:pt-0">
 		<span class="font-heading text-primary mb-2 block text-[36px] leading-[44px] font-bold">
 			{value}
 		</span>
@@ -19,5 +17,5 @@ const { value, label } = Astro.props;
 		>
 			{label}
 		</span>
-	</CardContent>
-</Card>
+	</div>
+</div>

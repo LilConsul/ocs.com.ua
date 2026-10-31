@@ -379,7 +379,10 @@ const sections = [
 			if (band) {
 				const bandTopAfter = band.getBoundingClientRect().top;
 				if (push && bandTopAfter < 0) {
-					band.scrollIntoView({ block: "start", behavior: prefersReducedMotion() ? "auto" : "smooth" });
+					band.scrollIntoView({
+						block: "start",
+						behavior: prefersReducedMotion() ? "auto" : "smooth",
+					});
 				} else if (window.scrollY > 0 && bandTopAfter !== bandTopBefore) {
 					window.scrollBy({ top: bandTopAfter - bandTopBefore, behavior: "instant" });
 				}

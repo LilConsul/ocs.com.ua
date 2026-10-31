@@ -18,7 +18,7 @@ const workingHours = companyData.workingHours[lang as "en" | "ua"] || companyDat
 
 <aside class="relative lg:col-span-4">
 	<div
-		class="border-border-subtle bg-card/80 sticky top-[calc(7rem+var(--banner-h,0px))] flex w-full flex-col gap-6 rounded-xl border p-5 sm:p-8 shadow-sm backdrop-blur-xl"
+		class="border-border-subtle bg-card/80 sticky top-[calc(7rem+var(--banner-h,0px))] flex w-full flex-col gap-6 rounded-xl border p-5 shadow-sm backdrop-blur-xl sm:p-8"
 	>
 		<div>
 			<h3 class="font-heading text-foreground mb-2 text-xl font-semibold break-words sm:text-2xl">
@@ -86,7 +86,9 @@ const workingHours = companyData.workingHours[lang as "en" | "ua"] || companyDat
 						<span class="material-symbols-outlined text-industrial-gray group-hover:text-secondary shrink-0 text-[20px]">
 							mail
 						</span>
-						<span class="font-mono text-xs font-medium break-all sm:break-normal">{companyData.email}</span>
+						<span class="font-mono text-xs font-medium break-all sm:break-normal">
+							{companyData.email}
+						</span>
 					</a>
 				)
 			}

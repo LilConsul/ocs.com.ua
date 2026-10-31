@@ -1,6 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import { BookOpen, Search } from "lucide-react";
+import { BookOpen, Search } from "@lucide/astro";
 import WikiCard from "@/components/wiki/WikiCard.astro";
 import WikiCta from "@/components/wiki/WikiCta.astro";
 import { getInlineTranslations, type Lang, languages } from "@/i18n";
@@ -64,7 +64,7 @@ const description = _(
 				{/* Search bar */}
 				<div class="relative mt-8 max-w-xl">
 					<Search
-						className="text-industrial-gray pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2"
+						class="text-industrial-gray pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2"
 						aria-hidden="true"
 					/>
 					<input
@@ -84,10 +84,7 @@ const description = _(
 		class="px-edge-margin mx-auto max-w-[1280px] py-12 lg:py-20"
 		aria-label={_("All articles")}
 	>
-		<div
-			id="wiki-index-grid"
-			class="gap-gutter grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-		>
+		<div id="wiki-index-grid" class="gap-gutter grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
 			{
 				sortedArticles.map((article: WikiEntry) => (
 					<WikiCard
@@ -105,7 +102,7 @@ const description = _(
 			hidden
 			class="font-body-md text-industrial-gray m-0 mt-10 flex items-center justify-center gap-2 text-center text-sm"
 		>
-			<BookOpen className="text-secondary size-4" aria-hidden="true" />
+			<BookOpen class="text-secondary size-4" aria-hidden="true" />
 			{_("No articles match your search.")}
 		</p>
 

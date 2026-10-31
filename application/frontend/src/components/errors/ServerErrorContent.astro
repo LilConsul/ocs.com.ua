@@ -1,5 +1,5 @@
 ---
-import { ArrowRight, House, RotateCw } from "lucide-react";
+import { ArrowRight, House, RotateCw } from "@lucide/astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import ErrorSection from "./ErrorSection.astro";
 
@@ -25,14 +25,14 @@ const _ = getInlineTranslations(lang);
 			onclick="window.location.reload()"
 			class="bg-primary text-primary-foreground inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg px-7 py-3.5 text-[15px] leading-[22px] font-medium transition-opacity hover:opacity-90"
 		>
-			<RotateCw className="size-[18px]" strokeWidth={1.5} />
+			<RotateCw class="size-[18px]" stroke-width={1.5} />
 			{_("Try Again")}
 		</button>
 		<a
 			href={`/${lang}`}
 			class="border-secondary text-secondary hover:bg-secondary/5 inline-flex items-center justify-center gap-2 rounded-lg border-2 px-7 py-3.5 text-[15px] leading-[22px] font-medium transition-colors"
 		>
-			<House className="size-[18px]" strokeWidth={1.5} />
+			<House class="size-[18px]" stroke-width={1.5} />
 			{_("Back to Home")}
 		</a>
 	</Fragment>
@@ -45,8 +45,8 @@ const _ = getInlineTranslations(lang);
 		>
 			{_("Contact Us")}
 			<ArrowRight
-				className="size-4 transition-transform group-hover:translate-x-0.5"
-				strokeWidth={1.5}
+				class="size-4 transition-transform group-hover:translate-x-0.5"
+				stroke-width={1.5}
 			/>
 		</a>
 	</Fragment>

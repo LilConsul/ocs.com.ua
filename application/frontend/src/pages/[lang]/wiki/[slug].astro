@@ -1,6 +1,6 @@
 ---
 import { getCollection, render } from "astro:content";
-import { ChevronRight, Clock } from "lucide-react";
+import { Clock } from "@lucide/astro";
 import WikiCard from "@/components/wiki/WikiCard.astro";
 import WikiCta from "@/components/wiki/WikiCta.astro";
 import WikiPagination from "@/components/wiki/WikiPagination.astro";
@@ -138,15 +138,16 @@ const structuredData = [
 						class="font-technical-data text-industrial-gray m-0 mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs"
 					>
 						<span class="inline-flex items-center gap-1.5">
-							<Clock className="text-secondary size-4" aria-hidden="true" />
-							{readMinutes} {_("min read")}
+							<Clock class="text-secondary size-4" aria-hidden="true" />
+							{readMinutes}
+							{_("min read")}
 						</span>
 					</div>
 				</header>
 
 				{
 					coverImage && (
-						<div class="border-border-subtle mt-8 aspect-video w-full overflow-hidden rounded-xl border bg-surface-container">
+						<div class="border-border-subtle bg-surface-container mt-8 aspect-video w-full overflow-hidden rounded-xl border">
 							<img src={coverImage} alt={title} class="size-full object-cover" />
 						</div>
 					)
@@ -171,7 +172,7 @@ const structuredData = [
 								id="related-heading"
 								class="font-label-caps text-industrial-gray m-0 mb-4 flex items-center gap-3 text-xs font-semibold tracking-widest uppercase"
 							>
-								<span class="bg-secondary h-px w-6" aria-hidden="true"></span>
+								<span class="bg-secondary h-px w-6" aria-hidden="true" />
 								{_("Related articles")}
 							</h2>
 							<div class="gap-gutter grid grid-cols-1 md:grid-cols-2">

@@ -1,6 +1,6 @@
 ---
 import { Image } from "astro:assets";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight } from "@lucide/astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { formatApprox, type SiteStats } from "@/lib/about/partners-data";
 import { categoryUrl } from "@/lib/catalogue-urls";
@@ -98,7 +98,7 @@ const partners = [_("Official Partner of Wipotec GmbH"), _("Official Partner of 
 				>
 					{_("Contact Us")}
 					<ArrowRight
-						className="size-[18px] transition-transform duration-200 group-hover:translate-x-1"
+						class="size-[18px] transition-transform duration-200 group-hover:translate-x-1"
 						aria-hidden="true"
 					/>
 				</a>

@@ -123,12 +123,14 @@ const structuredData = {
 		<section aria-label={_("Products")}>
 			{
 				sortedProducts.length > 0 ? (
-					<div
-						data-product-grid
-						class="gap-gutter grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
-					>
+					<div data-product-grid class="gap-gutter grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
 						{sortedProducts.map((product, index) => (
-							<ProductCard product={product} lang={lang as Lang} index={index} gallery={galleries[product.id]} />
+							<ProductCard
+								product={product}
+								lang={lang as Lang}
+								index={index}
+								gallery={galleries[product.id]}
+							/>
 						))}
 					</div>
 				) : (
