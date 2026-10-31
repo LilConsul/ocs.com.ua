@@ -1,113 +1,87 @@
-# ocs.com.ua
+<h1 align="center">ocs.com.ua</h1>
 
-Corporate website for OCS — built with Astro (frontend) and FastAPI (backend).
+<p align="center">
+  Corporate website for <b>OS-Technology Ukraine</b> — a bilingual (<code>/ua</code>, <code>/en</code>)
+  B2B site for industrial weighing equipment, built with Astro and edited through Decap CMS.
+</p>
+
+<p align="center">
+  <a href="https://github.com/LilConsul/ocs.com.ua/actions/workflows/deploy-dev.yml"><img alt="Deploy dev" src="https://img.shields.io/github/actions/workflow/status/LilConsul/ocs.com.ua/deploy-dev.yml?branch=main&label=deploy&logo=githubactions&logoColor=white&style=for-the-badge&labelColor=0d1117"></a>
+  <a href="https://ocs.com.ua"><img alt="Main site: WIP" src="https://img.shields.io/badge/main%20site-WIP-F59E0B?logo=googlechrome&logoColor=white&style=for-the-badge&labelColor=0d1117"></a>
+  <a href="https://dev.ocs.com.ua"><img alt="Dev site" src="https://img.shields.io/website?url=https%3A%2F%2Fdev.ocs.com.ua%2Fua&label=dev%20site&logo=googlechrome&logoColor=white&style=for-the-badge&labelColor=0d1117"></a>
+  <a href="https://github.com/LilConsul/ocs.com.ua/commits/main"><img alt="Last commit" src="https://img.shields.io/github/last-commit/LilConsul/ocs.com.ua?logo=git&logoColor=white&style=for-the-badge&labelColor=0d1117&color=6e40c9"></a>
+</p>
+
+<p align="center">
+  <a href="https://astro.build"><img alt="Astro 7" src="https://img.shields.io/badge/Astro-7-BC52EE?logo=astro&logoColor=white&style=flat-square&labelColor=0d1117"></a>
+  <a href="https://react.dev"><img alt="React 19" src="https://img.shields.io/badge/React-19-149ECA?logo=react&logoColor=white&style=flat-square&labelColor=0d1117"></a>
+  <a href="https://tailwindcss.com"><img alt="Tailwind CSS 4" src="https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white&style=flat-square&labelColor=0d1117"></a>
+  <a href="https://www.typescriptlang.org"><img alt="TypeScript 6" src="https://img.shields.io/badge/TypeScript-6-3178C6?logo=typescript&logoColor=white&style=flat-square&labelColor=0d1117"></a>
+  <a href="https://bun.sh"><img alt="Bun" src="https://img.shields.io/badge/Bun-runtime-F9F1E1?logo=bun&logoColor=white&style=flat-square&labelColor=0d1117"></a>
+  <a href="https://decapcms.org"><img alt="Decap CMS 3" src="https://img.shields.io/badge/Decap_CMS-3-FF0082?logo=netlify&logoColor=white&style=flat-square&labelColor=0d1117"></a>
+</p>
+
+<p align="center">
+  <a href="https://www.python.org"><img alt="Python 3.11+" src="https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white&style=flat-square&labelColor=0d1117"></a>
+  <a href="https://docs.astral.sh/uv/"><img alt="uv" src="https://img.shields.io/badge/uv-managed-DE5FE9?logo=uv&logoColor=white&style=flat-square&labelColor=0d1117"></a>
+  <a href="https://biomejs.dev"><img alt="Biome" src="https://img.shields.io/badge/lint-Biome-60A5FA?logo=biome&logoColor=white&style=flat-square&labelColor=0d1117"></a>
+  <a href="https://pre-commit.com"><img alt="pre-commit" src="https://img.shields.io/badge/pre--commit-enabled-FAB040?logo=precommit&logoColor=white&style=flat-square&labelColor=0d1117"></a>
+  <a href="docs/info/development.md#translations"><img alt="i18n ua | en" src="https://img.shields.io/badge/i18n-ua%20%7C%20en-2EA043?logo=googletranslate&logoColor=white&style=flat-square&labelColor=0d1117"></a>
+</p>
 
 ______________________________________________________________________
 
 ## Project structure
 
 ```
+.github/        # CI, dev deploy workflow and the server env manifest
 application/
-├── frontend/   # Astro site: static pages + on-demand CMS routes (Node adapter)
-└── backend/    # FastAPI service (Python 3.14)
+├── frontend/   # Astro site: static pages + on-demand API routes (Node adapter)
+└── infra/      # Python (uv) tooling: Apache fragment, env renderer/sync, image checker
+docs/
+├── info/       # Setup, environment and deployment guides (start here)
+├── design/     # Page designs exported from Stitch
+└── superpowers/# Feature specs and implementation plans
+Makefile        # Shortcuts for setup, env sync and tests
 ```
 
 ______________________________________________________________________
 
-## Frontend
+## Quick start
 
-### Requirements
-
-- **Node.js** ≥ 22.12.0
-- **Bun** (used as package manager)
-
-### Install
+Requirements: **Node.js** ≥ 22.12, **Bun**, **uv**, **make** and **pre-commit**.
 
 ```bash
+make install-dev    # bun install, uv sync, install git hooks
+make env            # create/sync application/frontend/.env.local from .env.example
 cd application/frontend
-bun install
+bun run dev         # http://localhost:4321
 ```
 
-### Environment
-
-Copy the example env file and fill in your values:
-
-```bash
-cp .env.example .env.local
-```
-
-| Variable                | Description                                                                         |
-| ----------------------- | ----------------------------------------------------------------------------------- |
-| `GITHUB_CLIENT_ID`      | GitHub OAuth App client ID (**required**)                                           |
-| `GITHUB_CLIENT_SECRET`  | GitHub OAuth App client secret (**required**)                                       |
-| `GITHUB_OWNER`          | Repository owner (default: `LilConsul`)                                             |
-| `GITHUB_REPO`           | Repository name (default: `ocs.com.ua`)                                             |
-| `GITHUB_BRANCH`         | Branch to read/write content on (default: `main`)                                   |
-| `SITE_URL`              | Public site URL for "View live" links in the CMS (default: `https://ocs.com.ua`)    |
-| `CMS_BASE_URL`          | Host serving `/api/auth` (default: the origin `/admin` is opened on)                |
-| `CMS_LOCALE`            | Decap UI language: `en` or `ua` (default: `en`)                                     |
-| `CMS_SEARCH`            | Enable Decap entry search (default: `false`, saves GitHub API rate limit)           |
-| `SHOW_CLIENT_EQUIPMENT` | Show per-client equipment counts on the About page cards (default: `false`)         |
-| `SITE_DEV_NOTICE`       | Show the "website in active development" banner above the header (default: `false`) |
-
-Variables are validated at startup via `astro:env`. The server refuses to start if the required secrets are missing or a value is invalid.
-
-Create the GitHub OAuth App at <https://github.com/settings/developers>.
-Set the **Authorization callback URL** to:
-
-- Dev: `http://localhost:4321/api/auth`
-- Prod: `https://ocs.com.ua/api/auth`
-
-### Dev server
-
-```bash
-bun dev        # http://localhost:4321
-```
-
-### Build
-
-```bash
-bun run build
-```
-
-The build output lands in `application/frontend/dist/`. All public pages are prerendered to static HTML. Only the CMS routes (`/admin/config.yml` and `/api/auth`) are rendered on demand by the Node server. Run it with:
-
-```bash
-node dist/server/entry.mjs
-```
-
-### Other commands
-
-| Command                | Description                                                           |
-| ---------------------- | --------------------------------------------------------------------- |
-| `bun run check`        | Lint with Biome                                                       |
-| `bun run check:fix`    | Lint + auto-fix + Prettier                                            |
-| `bun run i18n`         | Extract + compile translations in one step                            |
-| `bun run i18n:extract` | Extract `_("…")` strings to `locales/messages.pot` and `locales/*.po` |
-| `bun run i18n:init`    | Create a PO file for a new language                                   |
-| `bun run i18n:compile` | Compile PO files into `src/i18n/ui.ts`                                |
-| `bun run remark:check` | Lint content Markdown files                                           |
-| `bun run remark:write` | Auto-fix content Markdown files                                       |
+Fill in `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` in `.env.local` to use the CMS locally. See [Environment](docs/info/environment.md).
 
 ______________________________________________________________________
 
-## CMS (Decap CMS)
+## Make targets
 
-The CMS is available at `/admin` when the dev server or production site is running. Sign in with GitHub. The account needs write access to the repository. Edits go through the editorial workflow (draft → review → publish) and are committed as `[CMS] …` commits.
+Run from the repository root.
+
+| Target             | Description                                                                             |
+| ------------------ | --------------------------------------------------------------------------------------- |
+| `make install-dev` | Install frontend deps (`bun`), infra deps (`uv sync`) and the pre-commit/pre-push hooks |
+| `make env`         | Create `.env.local` from `.env.example`, or merge new keys into it keeping your values  |
+| `make test`        | Run frontend and infra tests                                                            |
+| `make test-fe`     | Frontend tests only (`bun test`)                                                        |
+| `make test-infra`  | Infra tests only (`pytest`)                                                             |
 
 ______________________________________________________________________
 
-## Deployment (dev.ocs.com.ua)
+## Documentation
 
-Every push to `main` that touches `application/frontend/` (including CMS publishes) runs [`.github/workflows/deploy-dev.yml`](.github/workflows/deploy-dev.yml). It builds the site on GitHub, rsyncs `dist/` and `package.json` to the server, and restarts the service. Server dependencies are bundled into `dist/server` (`vite.ssr.noExternal` in `astro.config.mjs`), so no `node_modules` is deployed. Only `sharp` stays external, and the server never loads it because all images are processed at build time. It can also be run manually from the Actions tab.
+| Guide                                   | Contents                                                                  |
+| --------------------------------------- | ------------------------------------------------------------------------- |
+| [Development](docs/info/development.md) | Commands, i18n workflow, content and CMS, tests, git hooks, commit format |
+| [Environment](docs/info/environment.md) | Every environment variable, feature flags, GitHub OAuth app, `make env`   |
+| [Deployment](docs/info/deployment.md)   | CI, the dev.ocs.com.ua deploy pipeline, server layout, GitHub secrets     |
 
-Server layout (Debian 13, Virtualmin domain `dev.ocs.com.ua` owned by user `ocs`):
-
-| Path / unit                                    | Purpose                                                                  |
-| ---------------------------------------------- | ------------------------------------------------------------------------ |
-| `/home/ocs/domains/dev.ocs.com.ua/app/`        | Deployed build (`dist/client` is the Apache document root)               |
-| `/home/ocs/domains/dev.ocs.com.ua/ocs-dev.env` | Runtime secrets (`GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`)             |
-| `ocs-dev.service` (systemd)                    | `node dist/server/entry.mjs` on `127.0.0.1:4321`                         |
-| Apache vhost                                   | Serves static files, proxies `/api/auth` and `/admin/config.yml` to Node |
-
-GitHub repository secrets used by the workflow: `DEV_SSH_HOST`, `DEV_SSH_USER`, `DEV_SSH_KEY`, `DEV_SSH_KNOWN_HOSTS`.
+Contributor notes for AI assistants live in [`application/frontend/CLAUDE.md`](application/frontend/CLAUDE.md).
