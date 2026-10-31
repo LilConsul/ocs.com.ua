@@ -28,10 +28,10 @@ const documents = [
 <section
 	class="bg-background border-border-subtle/70 hover:border-secondary/40 before:from-secondary relative space-y-4 overflow-hidden rounded-xl border p-5 shadow-xs transition-[box-shadow,border-color] duration-300 before:absolute before:inset-x-0 before:top-0 before:h-0.5 before:bg-linear-to-r before:to-transparent hover:shadow-lg sm:p-8"
 >
-	<h2 class="font-headline-lg text-foreground text-xl font-semibold tracking-tight break-words">
+	<h2 class="font-headline-lg text-foreground text-xl font-semibold tracking-tight wrap-break-word">
 		{_("Authorized Documentation")}
 	</h2>
-	<p class="font-body-md text-body-md text-industrial-gray break-words">
+	<p class="font-body-md text-body-md text-industrial-gray wrap-break-word">
 		{_("Official distributorship certificates.")}
 	</p>
 	<ul class="space-y-3 pt-2">
@@ -50,10 +50,10 @@ const documents = [
 								{doc.icon}
 							</span>
 							<span class="min-w-0">
-								<span class="font-technical-data text-technical-data text-foreground group-hover:text-secondary block font-semibold transition-colors break-words">
+								<span class="font-technical-data text-technical-data text-foreground group-hover:text-secondary block font-semibold wrap-break-word transition-colors">
 									{doc.title}
 								</span>
-								<span class="font-label-caps text-label-caps text-industrial-gray uppercase truncate block">
+								<span class="font-label-caps text-label-caps text-industrial-gray block truncate uppercase">
 									{doc.label}
 								</span>
 							</span>

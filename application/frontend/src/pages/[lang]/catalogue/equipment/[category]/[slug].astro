@@ -10,7 +10,6 @@ import { getInlineTranslations, type Lang } from "@/i18n";
 import Layout from "@/layouts/Layout.astro";
 import { categoryUrl } from "@/lib/catalogue-urls";
 import {
-	type EquipmentEntry,
 	filterByCategory,
 	filterByLocale,
 	flattenSpecs,
@@ -21,7 +20,6 @@ import {
 	getLocale,
 	getProducts,
 	getSlug,
-	type Locale,
 	sortByOrder,
 } from "@/lib/content-utils";
 import { breadcrumbSchema, productSchema } from "@/lib/structured-data";
@@ -65,16 +63,6 @@ export async function getStaticPaths() {
 	}
 
 	return paths;
-}
-
-interface Props {
-	product: EquipmentEntry;
-	lang: Locale;
-	allCategories: ReturnType<typeof getCategoriesForLocale>;
-	allIndustries: ReturnType<typeof getIndustriesForLocale>;
-	relatedProducts: EquipmentEntry[];
-	gallery: string[] | undefined;
-	relatedGalleries: Record<string, string[]>;
 }
 
 const {
@@ -135,13 +123,12 @@ const shareImage = gallery?.[0];
 >
 	<script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
-
 	{/* Hero band: breadcrumb, eyebrow and title */}
 	<header
 		class="from-surface-container/40 to-background border-border-subtle/60 relative w-full overflow-hidden border-b bg-linear-to-b py-10 lg:py-16"
 	>
 		<div
-			class="bg-secondary/10 pointer-events-none absolute -top-32 -right-24 size-[30rem] rounded-full blur-3xl"
+			class="bg-secondary/10 pointer-events-none absolute -top-32 -right-24 size-120 rounded-full blur-3xl"
 			aria-hidden="true"
 		>
 		</div>
@@ -269,7 +256,7 @@ const shareImage = gallery?.[0];
 							<div class="flex flex-col gap-2.5 pt-1">
 								<a
 									href={`/${lang}/contact`}
-									class="group bg-primary text-primary-foreground focus-visible:outline-secondary inline-flex w-full items-center justify-center gap-2 rounded-lg px-7 py-3.5 text-[15px] leading-[22px] font-medium shadow-xs transition-[opacity,box-shadow] hover:opacity-90 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2"
+									class="group bg-primary text-primary-foreground focus-visible:outline-secondary inline-flex w-full items-center justify-center gap-2 rounded-lg px-7 py-3.5 text-[15px] leading-5.5 font-medium shadow-xs transition-[opacity,box-shadow] hover:opacity-90 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2"
 								>
 									{_("Request Consultation")}
 									<span
@@ -284,7 +271,7 @@ const shareImage = gallery?.[0];
 											href={product.data.datasheet}
 											target="_blank"
 											rel="noopener noreferrer"
-											class="border-secondary text-secondary hover:bg-secondary/5 focus-visible:outline-secondary font-technical-data inline-flex w-full items-center justify-center gap-2 rounded-lg border-2 px-7 py-3 text-[15px] leading-[22px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+											class="border-secondary text-secondary hover:bg-secondary/5 focus-visible:outline-secondary font-technical-data inline-flex w-full items-center justify-center gap-2 rounded-lg border-2 px-7 py-3 text-[15px] leading-5.5 font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
 										>
 											<span class="material-symbols-outlined text-[18px]" aria-hidden="true">
 												download

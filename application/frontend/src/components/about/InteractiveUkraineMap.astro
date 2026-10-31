@@ -1,7 +1,7 @@
 ---
 import { SHOW_CLIENT_EQUIPMENT } from "astro:env/server";
+import { type AstroComponent, Info, MapPin, Pill, SprayCan, Utensils } from "@lucide/astro";
 import { geoContains, geoMercator, geoPath } from "d3-geo";
-import { Info, type LucideIcon, MapPin, Pill, SprayCan, Utensils } from "lucide-react";
 import { feature, mesh } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
 import { getInlineTranslations, type Lang } from "@/i18n";
@@ -24,7 +24,7 @@ const metrics = [
 	{ key: "tqs", label: _("Track & Trace") },
 ] as const;
 
-const sectorIcons: Record<SectorBreakdown["category"], LucideIcon> = {
+const sectorIcons: Record<SectorBreakdown["category"], AstroComponent> = {
 	food: Utensils,
 	pharma: Pill,
 	household: SprayCan,
@@ -102,7 +102,7 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 	aria-labelledby="map-section-title"
 	class="bg-background w-full scroll-mt-[calc(6rem+var(--banner-h,0px))] py-16 lg:py-24"
 >
-	<div class="px-edge-margin mx-auto max-w-[1280px]">
+	<div class="px-edge-margin mx-auto max-w-7xl">
 		<header class="mb-12 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
 			<div>
 				<p
@@ -113,13 +113,13 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 				</p>
 				<h2
 					id="map-section-title"
-					class="font-headline-lg text-foreground mt-2 text-2xl font-semibold tracking-tight text-balance break-words sm:text-3xl lg:text-4xl"
+					class="font-headline-lg text-foreground mt-2 text-2xl font-semibold tracking-tight text-balance wrap-break-word sm:text-3xl lg:text-4xl"
 				>
 					{_("Verified Ukrainian Industrial Footprint")}
 				</h2>
 			</div>
 			<p class="font-technical-data text-industrial-gray m-0 flex items-center gap-2 text-sm">
-				<MapPin className="text-secondary h-4 w-4 shrink-0" aria-hidden="true" />
+				<MapPin class="text-secondary h-4 w-4 shrink-0" aria-hidden="true" />
 				<span>{_("Active Factory Installations Across Regional Hubs")}</span>
 			</p>
 		</header>
@@ -225,9 +225,9 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 									<div class="flex items-center justify-between gap-2 sm:gap-3">
 										<div class="flex min-w-0 items-center gap-2 sm:gap-2.5">
 											<div class={iconTileClass} aria-hidden="true">
-												<MapPin className="h-4 w-4" />
+												<MapPin class="h-4 w-4" />
 											</div>
-											<h4 class="font-headline-lg text-foreground m-0 text-sm font-semibold break-words sm:text-base">
+											<h4 class="font-headline-lg text-foreground m-0 text-sm font-semibold wrap-break-word sm:text-base">
 												{hub.name[lang]}
 											</h4>
 										</div>
@@ -242,7 +242,10 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 												class:list={["hub-metric", tileClass, hub.stats[key] === 0 && "opacity-50"]}
 												style={`--mi:${mi}`}
 											>
-												<dt class="font-label-caps text-industrial-gray text-[10px] leading-tight uppercase sm:text-[11px]" title={label}>
+												<dt
+													class="font-label-caps text-industrial-gray text-[10px] leading-tight uppercase sm:text-[11px]"
+													title={label}
+												>
 													{label}
 												</dt>
 												<dd class="font-technical-data text-foreground m-0 text-lg leading-none font-bold tabular-nums sm:text-2xl">
@@ -261,7 +264,7 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 											{hub.clients.length > 0 ? (
 												<ul class="m-0 mt-2 flex list-none flex-wrap gap-1.5 p-0">
 													{hub.clients.map((c) => (
-														<li class="font-body-md bg-background border-border-subtle/60 text-foreground max-w-full rounded-full border px-2.5 py-0.5 text-xs break-words">
+														<li class="font-body-md bg-background border-border-subtle/60 text-foreground max-w-full rounded-full border px-2.5 py-0.5 text-xs wrap-break-word">
 															{c[lang]}
 														</li>
 													))}
@@ -299,9 +302,9 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 											]}
 											aria-hidden="true"
 										>
-											<SectorIcon className="h-4 w-4" />
+											<SectorIcon class="h-4 w-4" />
 										</div>
-										<h3 class="font-headline-lg text-foreground m-0 text-sm font-semibold break-words sm:text-base">
+										<h3 class="font-headline-lg text-foreground m-0 text-sm font-semibold wrap-break-word sm:text-base">
 											{sector.title[lang]}
 										</h3>
 									</div>
@@ -329,7 +332,10 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 												sector.stats[key] === 0 && "opacity-50",
 											]}
 										>
-											<dt class="font-label-caps text-industrial-gray text-[10px] leading-tight uppercase sm:text-[11px]" title={label}>
+											<dt
+												class="font-label-caps text-industrial-gray text-[10px] leading-tight uppercase sm:text-[11px]"
+												title={label}
+											>
 												{label}
 											</dt>
 											<dd class="font-technical-data text-foreground m-0 text-lg leading-none font-bold tabular-nums sm:text-2xl">
@@ -348,7 +354,7 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 		<p
 			class="font-body-md text-industrial-gray m-0 mt-8 flex items-start gap-2 text-xs leading-relaxed sm:text-sm"
 		>
-			<Info className="text-secondary mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+			<Info class="text-secondary mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
 			<span>
 				{
 					_(

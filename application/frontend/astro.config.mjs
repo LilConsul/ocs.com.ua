@@ -1,7 +1,6 @@
 // @ts-check
 
 import node from "@astrojs/node";
-import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, envField } from "astro/config";
@@ -17,7 +16,6 @@ export default defineConfig({
 	output: "static",
 	adapter: node({ mode: "standalone" }),
 	integrations: [
-		react(),
 		sitemap({
 			// Keep the CMS, the error pages, the "/" redirect to /ua and the old catalogue
 			// redirect stubs (anything under /catalogue/ except equipment/ and industry/) out
@@ -42,8 +40,10 @@ export default defineConfig({
 		build: {
 			// The /admin Decap CMS bundle is a single ~5 MB chunk; public pages stay small
 			chunkSizeWarningLimit: 6000,
-			// Direct eval lives in Decap's deps (js-sha256, gray-matter, @iarna/toml), not our code
-			rolldownOptions: { checks: { eval: false } },
+			// Decap's deps (js-sha256, gray-matter, @iarna/toml) use direct eval, and react-toastify
+			// and jotai ship "use client" directives that are meaningless in a plain client bundle.
+			// Neither is our code.
+			rolldownOptions: { checks: { eval: false, moduleLevelDirective: false } },
 		},
 	},
 	// Typed, validated environment (read from .env / .env.local / process env).

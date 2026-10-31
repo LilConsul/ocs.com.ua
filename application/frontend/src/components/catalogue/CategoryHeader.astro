@@ -20,7 +20,7 @@ const description = categoryData.description;
 	data-catalogue-hero
 >
 	<div
-		class="bg-secondary/10 pointer-events-none absolute -top-32 -right-24 size-[30rem] rounded-full blur-3xl"
+		class="bg-secondary/10 pointer-events-none absolute -top-32 -right-24 size-120 rounded-full blur-3xl"
 		aria-hidden="true"
 	>
 	</div>
@@ -35,7 +35,7 @@ const description = categoryData.description;
 				{_("Catalogue")}
 			</p>
 			<h1
-				class="hero-rise font-display-lg text-foreground mb-6 text-3xl tracking-tight text-balance break-words sm:text-4xl lg:text-5xl"
+				class="hero-rise font-display-lg text-foreground mb-6 text-3xl tracking-tight text-balance wrap-break-word sm:text-4xl lg:text-5xl"
 				style="--d:1"
 			>
 				{title}
@@ -43,7 +43,7 @@ const description = categoryData.description;
 			{
 				description && (
 					<p
-						class="hero-rise font-body-md text-industrial-gray max-w-2xl text-base leading-relaxed break-words lg:text-lg"
+						class="hero-rise font-body-md text-industrial-gray max-w-2xl text-base leading-relaxed wrap-break-word lg:text-lg"
 						style="--d:2"
 					>
 						{description}

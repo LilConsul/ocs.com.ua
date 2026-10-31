@@ -22,7 +22,9 @@ const phoneHref = `tel:${companyData.phone.replace(/[^\d+]/g, "")}`;
 <section
 	class="bg-background border-border-subtle/70 hover:border-secondary/40 before:from-secondary relative space-y-6 overflow-hidden rounded-xl border p-5 shadow-xs transition-[box-shadow,border-color] duration-300 before:absolute before:inset-x-0 before:top-0 before:h-0.5 before:bg-linear-to-r before:to-transparent hover:shadow-lg sm:p-8"
 >
-	<h2 class="font-label-caps text-secondary flex items-center gap-3 text-xs font-semibold tracking-widest uppercase">
+	<h2
+		class="font-label-caps text-secondary flex items-center gap-3 text-xs font-semibold tracking-widest uppercase"
+	>
 		<span class="eyebrow-rule bg-secondary h-px w-8" aria-hidden="true"></span>
 		{_("Contact Information")}
 	</h2>
@@ -34,12 +36,14 @@ const phoneHref = `tel:${companyData.phone.replace(/[^\d+]/g, "")}`;
 				{_("Phone")}
 			</dt>
 			<dd class="space-y-1">
-				<p class="font-technical-data text-technical-data text-foreground font-semibold break-words">
+				<p
+					class="font-technical-data text-technical-data text-foreground font-semibold wrap-break-word"
+				>
 					{contactPerson.name}
 				</p>
 				<a
 					href={phoneHref}
-					class="font-headline-lg text-foreground hover:text-secondary text-lg sm:text-2xl font-bold transition-colors break-words"
+					class="font-headline-lg text-foreground hover:text-secondary text-lg font-bold wrap-break-word transition-colors sm:text-2xl"
 				>
 					{companyData.phone}
 				</a>
@@ -57,7 +61,7 @@ const phoneHref = `tel:${companyData.phone.replace(/[^\d+]/g, "")}`;
 			<dd>
 				<a
 					href={`mailto:${companyData.email}`}
-					class="font-technical-data text-technical-data text-foreground hover:text-secondary transition-colors break-all sm:break-normal"
+					class="font-technical-data text-technical-data text-foreground hover:text-secondary break-all transition-colors sm:break-normal"
 				>
 					{companyData.email}
 				</a>
@@ -83,7 +87,14 @@ const phoneHref = `tel:${companyData.phone.replace(/[^\d+]/g, "")}`;
 				<dd>
 					<address class="not-italic">
 						{address.street}<br />
-						{address.office && <>{address.office}<br /></>}
+						{
+							address.office && (
+								<>
+									{address.office}
+									<br />
+								</>
+							)
+						}
 						{address.city}, {address.postalCode}<br />{address.country}
 					</address>
 				</dd>

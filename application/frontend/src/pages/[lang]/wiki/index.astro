@@ -1,6 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import { BookOpen, Search } from "lucide-react";
+import { BookOpen, Search } from "@lucide/astro";
 import WikiCard from "@/components/wiki/WikiCard.astro";
 import WikiCta from "@/components/wiki/WikiCta.astro";
 import { getInlineTranslations, type Lang, languages } from "@/i18n";
@@ -38,11 +38,11 @@ const description = _(
 		class="from-surface-container/40 to-background border-border-subtle relative w-full overflow-hidden border-b bg-linear-to-b py-12 lg:py-20"
 	>
 		<div
-			class="bg-secondary/10 pointer-events-none absolute -top-32 -right-24 size-[30rem] rounded-full blur-3xl"
+			class="bg-secondary/10 pointer-events-none absolute -top-32 -right-24 size-120 rounded-full blur-3xl"
 			aria-hidden="true"
 		>
 		</div>
-		<div class="px-edge-margin relative mx-auto max-w-[1280px]">
+		<div class="px-edge-margin relative mx-auto max-w-7xl">
 			<div class="max-w-3xl">
 				<p
 					class="font-label-caps text-secondary m-0 flex items-center gap-3 text-xs font-semibold tracking-widest uppercase"
@@ -64,7 +64,7 @@ const description = _(
 				{/* Search bar */}
 				<div class="relative mt-8 max-w-xl">
 					<Search
-						className="text-industrial-gray pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2"
+						class="text-industrial-gray pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2"
 						aria-hidden="true"
 					/>
 					<input
@@ -80,14 +80,8 @@ const description = _(
 	</header>
 
 	{/* Articles Grid Section */}
-	<section
-		class="px-edge-margin mx-auto max-w-[1280px] py-12 lg:py-20"
-		aria-label={_("All articles")}
-	>
-		<div
-			id="wiki-index-grid"
-			class="gap-gutter grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-		>
+	<section class="px-edge-margin mx-auto max-w-7xl py-12 lg:py-20" aria-label={_("All articles")}>
+		<div id="wiki-index-grid" class="gap-gutter grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
 			{
 				sortedArticles.map((article: WikiEntry) => (
 					<WikiCard
@@ -105,7 +99,7 @@ const description = _(
 			hidden
 			class="font-body-md text-industrial-gray m-0 mt-10 flex items-center justify-center gap-2 text-center text-sm"
 		>
-			<BookOpen className="text-secondary size-4" aria-hidden="true" />
+			<BookOpen class="text-secondary size-4" aria-hidden="true" />
 			{_("No articles match your search.")}
 		</p>
 

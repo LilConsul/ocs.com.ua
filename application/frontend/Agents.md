@@ -9,7 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is the frontend of OS-Technology Ukraine's B2B industrial weighing equipment website, in `application/frontend`. It is built with **Astro 7**, **Tailwind 4**, **shadcn/ui** (React 19, only for primitives) and **Decap CMS**. It is bilingual (`/ua` default, `/en`) and optimized for SEO and LLM indexing.
+This is the frontend of OS-Technology Ukraine's B2B industrial weighing equipment website, in `application/frontend`. It is built with **Astro 7**, **Tailwind 4** and **Decap CMS**. It is bilingual (`/ua` default, `/en`) and optimized for SEO and LLM indexing.
 
 The repository root also holds `application/infra` (Python/uv deploy tooling), `docs/info` (setup, environment and deployment guides), `.github` (CI and deploy) and a `Makefile`. Read the guides in `docs/info/` before changing environment variables, deployment or CI:
 
@@ -55,7 +55,6 @@ bun run remark:write
 bun install
 bun add <package>
 bun add -D <package>
-bun shadcn add <component>
 ```
 
 From the repository root: `make install-dev` (deps and git hooks), `make env` (create or sync `.env.local`), `make test` (frontend and infra tests).
@@ -107,9 +106,9 @@ Language codes are `ua` and `en`; the HTML `lang` attribute and hreflang use ISO
 ### Components
 
 - **Astro components** (`.astro`) are the default for layouts, pages and sections.
-- Interactivity is a `<script>` tag inside the Astro component (see `Header.astro`, `CatalogueSidebar.astro`). Do not add React islands or `client:*` directives.
-- **React** is used only for shadcn primitives in `src/components/ui/` (`button`, `card`, `badge`) and lucide icons, rendered at build time.
-- Components are grouped by area: `homepage/`, `about/`, `catalogue/`, `contact/`, `wiki/`, `errors/`, `ui/`.
+- Interactivity is a `<script>` tag inside the Astro component (see `Header.astro`, `CatalogueSidebar.astro`). Do not add UI frameworks, React islands or `client:*` directives. React is a dependency of Decap CMS only (`src/cms/`).
+- Icons come from `@lucide/astro` (`import { ArrowRight } from "@lucide/astro"`, sized with `class`).
+- Components are grouped by area: `homepage/`, `about/`, `catalogue/`, `contact/`, `wiki/`, `errors/`.
 - `src/layouts/Layout.astro` wraps every page (SEO tags, hreflang, header, footer). The `<main>` has `pt-20` to clear the fixed header.
 
 ### Content and CMS
@@ -127,10 +126,6 @@ Language codes are `ua` and `en`; the HTML `lang` attribute and hreflang use ISO
 - Feature flags (`SITE_DEV_NOTICE`, `SHOW_CLIENT_EQUIPMENT`) are public booleans, default `false`, inlined at build time.
 - Adding a variable touches several places (schema, `.env.example`, deploy workflow, docs). Follow the checklist in `docs/info/environment.md`.
 - Unit tests mock `astro:env/server` in `tests/helpers/mocks.ts`. If a module under test imports a new variable, add it there.
-
-### shadcn/ui
-
-Components are installed with `bun shadcn add <component>` into `src/components/ui/`. Configuration is in `components.json` (style `radix-lyra`, icons `lucide-react`). Not every page uses shadcn: check the existing page first, and write a matching variant when shadcn has none.
 
 ### Design System
 
@@ -169,14 +164,9 @@ Commit messages follow `.gitmessage`: `type(scope): subject`, imperative, lowerc
 1. Run `bun run i18n`, translate the new strings in `locales/ua.po`, run it again.
 1. Add the link to the header or footer if needed.
 
-### Adding a shadcn Component
-
-1. `bun shadcn add component-name`.
-1. Import it from `@/components/ui/...` in an Astro component. No `client:*` directive.
-
 ### Working with Stitch Designs
 
-1. Check alignment with the existing shadcn theme and tokens.
+1. Check alignment with the existing theme and tokens in `global.css`.
 1. Reuse existing components where possible.
 1. Keep accessibility standards and verify both languages.
 

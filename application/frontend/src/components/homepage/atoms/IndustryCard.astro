@@ -1,10 +1,10 @@
 ---
-import { ArrowRight, type LucideIcon } from "lucide-react";
+import { ArrowRight, type AstroComponent } from "@lucide/astro";
 
 interface Props {
 	title: string;
 	description: string;
-	icon: LucideIcon;
+	icon: AstroComponent;
 	ctaText: string;
 	href?: string;
 }
@@ -20,8 +20,8 @@ const Tag = href ? "a" : "article";
 >
 	{/* Oversized watermark icon, purely decorative */}
 	<Icon
-		className="text-secondary/5 pointer-events-none absolute -right-8 -bottom-8 size-48 transition-transform duration-500 group-hover/card:scale-110"
-		strokeWidth={1}
+		class="text-secondary/5 pointer-events-none absolute -right-8 -bottom-8 size-48 transition-transform duration-500 group-hover/card:scale-110"
+		stroke-width={1}
 		aria-hidden="true"
 	/>
 
@@ -30,20 +30,26 @@ const Tag = href ? "a" : "article";
 			class="bg-background text-secondary border-border-subtle/50 group-hover/card:bg-secondary group-hover/card:text-background group-hover/card:border-secondary w-fit shrink-0 rounded-lg border p-3 shadow-xs transition-colors duration-300"
 			aria-hidden="true"
 		>
-			<Icon className="h-6 w-6" />
+			<Icon class="h-6 w-6" />
 		</div>
 
-		<h3 class="font-headline-lg text-foreground m-0 mt-6 text-xl font-semibold tracking-tight sm:text-2xl">
+		<h3
+			class="font-headline-lg text-foreground m-0 mt-6 text-xl font-semibold tracking-tight sm:text-2xl"
+		>
 			{title}
 		</h3>
-		<p class="font-body-md text-industrial-gray m-0 mt-3 max-w-md text-sm leading-relaxed sm:text-base">
+		<p
+			class="font-body-md text-industrial-gray m-0 mt-3 max-w-md text-sm leading-relaxed sm:text-base"
+		>
 			{description}
 		</p>
 
-		<span class="text-secondary font-technical-data mt-auto inline-flex items-center gap-2 pt-8 text-sm font-medium">
+		<span
+			class="text-secondary font-technical-data mt-auto inline-flex items-center gap-2 pt-8 text-sm font-medium"
+		>
 			{ctaText}
 			<ArrowRight
-				className="size-4 transition-transform duration-200 group-hover/card:translate-x-1"
+				class="size-4 transition-transform duration-200 group-hover/card:translate-x-1"
 				aria-hidden="true"
 			/>
 		</span>

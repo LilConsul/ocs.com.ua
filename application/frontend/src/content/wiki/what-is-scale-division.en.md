@@ -1,4 +1,5 @@
 ---
+file_name: what-is-scale-division
 title: "Scale Resolution (d): What It Is, in Simple Words"
 description: "What the number 'd' in a scale's specs means, why it is not the same as accuracy, and how to pick the right one for your product."
 order: 1

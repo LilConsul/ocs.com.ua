@@ -1,5 +1,5 @@
 ---
-import { BookOpen, ChevronRight, Search } from "lucide-react";
+import { BookOpen, ChevronRight, Search } from "@lucide/astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { getWikiSlug, type WikiEntry } from "@/lib/wiki-utils";
 
@@ -19,16 +19,16 @@ const _ = getInlineTranslations(lang);
 			class="bg-surface-lowest border-border-subtle font-label-caps text-foreground flex cursor-pointer list-none items-center justify-between rounded-lg border px-4 py-3 text-xs font-semibold tracking-widest uppercase lg:hidden"
 		>
 			<span class="inline-flex items-center gap-2">
-				<BookOpen className="text-secondary size-4" aria-hidden="true" />
+				<BookOpen class="text-secondary size-4" aria-hidden="true" />
 				{_("Browse articles")}
 			</span>
-			<ChevronRight className="size-4 transition-transform group-open/nav:rotate-90" />
+			<ChevronRight class="size-4 transition-transform group-open/nav:rotate-90" />
 		</summary>
 
 		<div class="mt-4 lg:mt-0">
 			<div class="relative mb-5">
 				<Search
-					className="text-industrial-gray pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2"
+					class="text-industrial-gray pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2"
 					aria-hidden="true"
 				/>
 				<input
@@ -45,7 +45,7 @@ const _ = getInlineTranslations(lang);
 				<p
 					class="font-label-caps text-industrial-gray m-0 mb-1 flex items-center gap-2 text-[11px] font-semibold tracking-widest uppercase"
 				>
-					<BookOpen className="text-secondary size-3.5" aria-hidden="true" />
+					<BookOpen class="text-secondary size-3.5" aria-hidden="true" />
 					{_("All articles")}
 				</p>
 				<ul class="border-border-subtle m-0 list-none border-l p-0">
@@ -65,7 +65,7 @@ const _ = getInlineTranslations(lang);
 											"font-body-md -ml-px block border-l-2 py-1.5 pr-2 pl-4 text-sm leading-snug transition-colors",
 											active
 												? "border-secondary bg-secondary/5 text-foreground font-semibold"
-												: "border-transparent text-industrial-gray hover:border-secondary/50 hover:text-foreground",
+												: "text-industrial-gray hover:border-secondary/50 hover:text-foreground border-transparent",
 										]}
 									>
 										{item.data.title}

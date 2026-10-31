@@ -1,5 +1,5 @@
 ---
-import { Boxes, CalendarDays, Handshake } from "lucide-react";
+import { Boxes, CalendarDays, Handshake } from "@lucide/astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { formatApprox, type SiteStats } from "@/lib/about/partners-data";
 
@@ -27,7 +27,7 @@ const stats = [
 	class="bg-surface-container border-border-subtle/40 relative w-full overflow-hidden border-b py-12 lg:py-16"
 	data-stats-strip
 >
-	<div class="px-edge-margin relative mx-auto max-w-[1280px]">
+	<div class="px-edge-margin relative mx-auto max-w-7xl">
 		<dl
 			class="divide-border-subtle/60 m-0 mx-auto grid max-w-sm grid-cols-1 divide-y p-0 md:max-w-none md:grid-cols-3 md:divide-x md:divide-y-0"
 		>
@@ -41,7 +41,7 @@ const stats = [
 							class="bg-background text-secondary border-border-subtle/50 group-hover/stat:bg-secondary group-hover/stat:text-background group-hover/stat:border-secondary shrink-0 rounded-lg border p-3 shadow-xs transition-colors duration-300"
 							aria-hidden="true"
 						>
-							<Icon className="h-6 w-6" />
+							<Icon class="h-6 w-6" />
 						</div>
 						<div class="flex flex-col-reverse justify-end gap-1">
 							<dt class="font-label-caps text-industrial-gray text-xs tracking-widest uppercase">

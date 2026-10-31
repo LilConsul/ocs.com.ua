@@ -1,5 +1,5 @@
 ---
-import { ArrowRight } from "lucide-react";
+import { ArrowRight } from "@lucide/astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 
 interface Props {
@@ -15,7 +15,10 @@ const _ = getInlineTranslations(lang);
 	aria-labelledby="wiki-cta-heading"
 >
 	<div class="max-w-xl">
-		<h2 id="wiki-cta-heading" class="font-headline-lg m-0 text-lg font-semibold tracking-tight sm:text-xl">
+		<h2
+			id="wiki-cta-heading"
+			class="font-headline-lg m-0 text-lg font-semibold tracking-tight sm:text-xl"
+		>
 			{_("Need technical consultation?")}
 		</h2>
 		<p class="font-body-md text-primary-foreground/80 m-0 mt-2 text-sm leading-relaxed">
@@ -29,7 +32,7 @@ const _ = getInlineTranslations(lang);
 	>
 		{_("Contact us")}
 		<ArrowRight
-			className="size-[18px] transition-transform duration-200 group-hover:translate-x-1"
+			class="size-4.5 transition-transform duration-200 group-hover:translate-x-1"
 			aria-hidden="true"
 		/>
 	</a>

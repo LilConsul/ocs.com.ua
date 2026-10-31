@@ -1,6 +1,6 @@
 ---
+import { ChevronRight, TextAlignStart } from "@lucide/astro";
 import type { MarkdownHeading } from "astro";
-import { AlignLeft, ChevronRight } from "lucide-react";
 import { getInlineTranslations, type Lang } from "@/i18n";
 
 interface Props {
@@ -22,10 +22,10 @@ const filteredHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
 			<details class="group/toc bg-surface-lowest border-border-subtle mt-6 rounded-lg border xl:hidden">
 				<summary class="font-label-caps text-foreground flex cursor-pointer list-none items-center justify-between px-4 py-3 text-xs font-semibold tracking-widest uppercase">
 					<span class="inline-flex items-center gap-2">
-						<AlignLeft className="text-secondary size-4" aria-hidden="true" />
+						<TextAlignStart class="text-secondary size-4" aria-hidden="true" />
 						{_("On this page")}
 					</span>
-					<ChevronRight className="size-4 transition-transform group-open/toc:rotate-90" />
+					<ChevronRight class="size-4 transition-transform group-open/toc:rotate-90" />
 				</summary>
 				<ul class="m-0 list-none px-4 pb-3">
 					{filteredHeadings.map((item) => (
@@ -45,9 +45,13 @@ const filteredHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
 			</details>
 		) : (
 			<aside class="hidden xl:block">
-				<nav aria-label={_("On this page")} class="sticky top-[calc(6rem+var(--banner-h,0px))]" data-wiki-toc>
+				<nav
+					aria-label={_("On this page")}
+					class="sticky top-[calc(6rem+var(--banner-h,0px))]"
+					data-wiki-toc
+				>
 					<p class="font-label-caps text-industrial-gray m-0 mb-3 flex items-center gap-2 text-[11px] font-semibold tracking-widest uppercase">
-						<AlignLeft className="text-secondary size-3.5" aria-hidden="true" />
+						<TextAlignStart class="text-secondary size-3.5" aria-hidden="true" />
 						{_("On this page")}
 					</p>
 					<ul class="border-border-subtle m-0 list-none border-l p-0">

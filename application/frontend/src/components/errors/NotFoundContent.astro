@@ -1,5 +1,5 @@
 ---
-import { ArrowRight, House, LayoutGrid } from "lucide-react";
+import { ArrowRight, House, LayoutGrid } from "@lucide/astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { categoryUrl } from "@/lib/catalogue-urls";
 import ErrorSection from "./ErrorSection.astro";
@@ -23,7 +23,7 @@ const _ = getInlineTranslations(lang);
 	<div
 		class="border-border-subtle bg-surface-muted inline-flex max-w-full items-center gap-3 rounded-lg border px-4 py-2"
 	>
-		<span class="text-industrial-gray shrink-0 font-mono text-[11px] tracking-[0.05em] uppercase">
+		<span class="text-industrial-gray shrink-0 font-mono text-[11px] tracking-wider uppercase">
 			{_("Requested path")}
 		</span>
 		<code data-requested-path class="text-foreground truncate font-mono text-[13px]">/</code>
@@ -32,16 +32,16 @@ const _ = getInlineTranslations(lang);
 	<Fragment slot="actions">
 		<a
 			href={`/${lang}`}
-			class="bg-primary text-primary-foreground inline-flex items-center justify-center gap-2 rounded-lg px-7 py-3.5 text-[15px] leading-[22px] font-medium transition-opacity hover:opacity-90"
+			class="bg-primary text-primary-foreground inline-flex items-center justify-center gap-2 rounded-lg px-7 py-3.5 text-[15px] leading-5.5 font-medium transition-opacity hover:opacity-90"
 		>
-			<House className="size-[18px]" strokeWidth={1.5} />
+			<House class="size-4.5" stroke-width={1.5} />
 			{_("Back to Home")}
 		</a>
 		<a
 			href={categoryUrl(lang, "checkweigher")}
-			class="border-secondary text-secondary hover:bg-secondary/5 inline-flex items-center justify-center gap-2 rounded-lg border-2 px-7 py-3.5 text-[15px] leading-[22px] font-medium transition-colors"
+			class="border-secondary text-secondary hover:bg-secondary/5 inline-flex items-center justify-center gap-2 rounded-lg border-2 px-7 py-3.5 text-[15px] leading-5.5 font-medium transition-colors"
 		>
-			<LayoutGrid className="size-[18px]" strokeWidth={1.5} />
+			<LayoutGrid class="size-4.5" stroke-width={1.5} />
 			{_("Browse Catalogue")}
 		</a>
 	</Fragment>
@@ -54,8 +54,8 @@ const _ = getInlineTranslations(lang);
 		>
 			{_("Contact Us")}
 			<ArrowRight
-				className="size-4 transition-transform group-hover:translate-x-0.5"
-				strokeWidth={1.5}
+				class="size-4 transition-transform group-hover:translate-x-0.5"
+				stroke-width={1.5}
 			/>
 		</a>
 	</Fragment>

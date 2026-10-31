@@ -26,12 +26,14 @@ const embedUrl = `https://maps.google.com/maps?q=${mapsQuery}&output=embed`;
 		<div class="flex flex-col justify-between gap-8 p-5 sm:p-8 lg:col-span-5">
 			<div class="space-y-6">
 				<header>
-					<p class="font-label-caps text-secondary m-0 flex items-center gap-3 text-xs font-semibold tracking-widest uppercase">
+					<p
+						class="font-label-caps text-secondary m-0 flex items-center gap-3 text-xs font-semibold tracking-widest uppercase"
+					>
 						<span class="eyebrow-rule bg-secondary h-px w-8" aria-hidden="true"></span>
 						{_("Kyiv Office")}
 					</p>
 					<h2
-						class="font-headline-lg text-foreground mt-2 text-2xl font-semibold tracking-tight break-words sm:text-3xl"
+						class="font-headline-lg text-foreground mt-2 text-2xl font-semibold tracking-tight wrap-break-word sm:text-3xl"
 					>
 						{_("Main Office")}
 					</h2>
@@ -49,7 +51,14 @@ const embedUrl = `https://maps.google.com/maps?q=${mapsQuery}&output=embed`;
 							<dd>
 								<address class="not-italic">
 									{address.street}<br />
-									{address.office && <>{address.office}<br /></>}
+									{
+										address.office && (
+											<>
+												{address.office}
+												<br />
+											</>
+										)
+									}
 									{address.city}, {address.postalCode}<br />{address.country}
 								</address>
 							</dd>
@@ -74,7 +83,7 @@ const embedUrl = `https://maps.google.com/maps?q=${mapsQuery}&output=embed`;
 				href={routeUrl}
 				target="_blank"
 				rel="noopener noreferrer"
-				class="border-secondary text-secondary hover:bg-secondary/5 focus-visible:outline-secondary font-technical-data inline-flex w-full sm:w-auto items-center justify-center gap-2 self-start rounded-lg border-2 px-6 py-3 text-[15px] leading-[22px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+				class="border-secondary text-secondary hover:bg-secondary/5 focus-visible:outline-secondary font-technical-data inline-flex w-full items-center justify-center gap-2 self-start rounded-lg border-2 px-6 py-3 text-[15px] leading-5.5 font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 sm:w-auto"
 			>
 				<span class="material-symbols-outlined text-base" aria-hidden="true">directions</span>
 				{_("Get Route")}
@@ -83,7 +92,7 @@ const embedUrl = `https://maps.google.com/maps?q=${mapsQuery}&output=embed`;
 
 		{/* Map */}
 		<figure
-			class="border-border-subtle/60 relative m-0 min-h-[320px] border-t lg:col-span-7 lg:min-h-[420px] lg:border-t-0 lg:border-l"
+			class="border-border-subtle/60 relative m-0 min-h-80 border-t lg:col-span-7 lg:min-h-105 lg:border-t-0 lg:border-l"
 		>
 			<iframe
 				src={embedUrl}

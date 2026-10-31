@@ -1,6 +1,6 @@
 ---
 import { getCollection, render } from "astro:content";
-import { ChevronRight, Clock } from "lucide-react";
+import { Clock } from "@lucide/astro";
 import WikiCard from "@/components/wiki/WikiCard.astro";
 import WikiCta from "@/components/wiki/WikiCta.astro";
 import WikiPagination from "@/components/wiki/WikiPagination.astro";
@@ -56,15 +56,6 @@ export async function getStaticPaths() {
 	return paths;
 }
 
-interface Props {
-	article: WikiEntry;
-	allArticles: WikiEntry[];
-	localeArticles: WikiEntry[];
-	prev?: WikiEntry;
-	next?: WikiEntry;
-	relatedArticles: WikiEntry[];
-}
-
 const { article, allArticles, localeArticles, prev, next, relatedArticles } = Astro.props;
 const { lang, slug } = Astro.params as { lang: Lang; slug: string };
 const _ = getInlineTranslations(lang);
@@ -110,7 +101,7 @@ const structuredData = [
 
 	<WikiProgressBar />
 
-	<div class="px-edge-margin mx-auto max-w-[1280px] py-10 lg:py-14">
+	<div class="px-edge-margin mx-auto max-w-7xl py-10 lg:py-14">
 		<div
 			class="gap-gutter grid grid-cols-1 lg:grid-cols-[16rem_minmax(0,1fr)] xl:grid-cols-[16rem_minmax(0,1fr)_14rem]"
 		>
@@ -138,15 +129,16 @@ const structuredData = [
 						class="font-technical-data text-industrial-gray m-0 mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs"
 					>
 						<span class="inline-flex items-center gap-1.5">
-							<Clock className="text-secondary size-4" aria-hidden="true" />
-							{readMinutes} {_("min read")}
+							<Clock class="text-secondary size-4" aria-hidden="true" />
+							{readMinutes}
+							{_("min read")}
 						</span>
 					</div>
 				</header>
 
 				{
 					coverImage && (
-						<div class="border-border-subtle mt-8 aspect-video w-full overflow-hidden rounded-xl border bg-surface-container">
+						<div class="border-border-subtle bg-surface-container mt-8 aspect-video w-full overflow-hidden rounded-xl border">
 							<img src={coverImage} alt={title} class="size-full object-cover" />
 						</div>
 					)
@@ -171,7 +163,7 @@ const structuredData = [
 								id="related-heading"
 								class="font-label-caps text-industrial-gray m-0 mb-4 flex items-center gap-3 text-xs font-semibold tracking-widest uppercase"
 							>
-								<span class="bg-secondary h-px w-6" aria-hidden="true"></span>
+								<span class="bg-secondary h-px w-6" aria-hidden="true" />
 								{_("Related articles")}
 							</h2>
 							<div class="gap-gutter grid grid-cols-1 md:grid-cols-2">

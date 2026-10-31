@@ -1,4 +1,5 @@
 ---
+file_name: load-cell
 title: "The Load Cell (Weight Sensor) in Simple Words"
 description: "What a load cell is, how it turns weight into a number, which types exist, and how to look after it."
 order: 3

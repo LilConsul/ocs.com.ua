@@ -8,7 +8,7 @@ import {
 	QrCode,
 	Scale,
 	ScanLine,
-} from "lucide-react";
+} from "@lucide/astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { formatApprox, type SiteStats } from "@/lib/about/partners-data";
 import type { EquipmentStats } from "@/lib/about/types";
@@ -53,12 +53,12 @@ const kpis = [
 	class="from-surface-container/40 to-background border-border-subtle/60 relative w-full overflow-hidden border-b bg-linear-to-b py-12 lg:py-20"
 >
 	<div
-		class="bg-secondary/10 pointer-events-none absolute -top-32 -right-24 size-[30rem] rounded-full blur-3xl"
+		class="bg-secondary/10 pointer-events-none absolute -top-32 -right-24 size-120 rounded-full blur-3xl"
 		aria-hidden="true"
 	>
 	</div>
 
-	<div class="px-edge-margin relative mx-auto max-w-[1280px]">
+	<div class="px-edge-margin relative mx-auto max-w-7xl">
 		<div class="gap-gutter grid grid-cols-1 items-center lg:grid-cols-12">
 			<div class="flex flex-col justify-center lg:col-span-7">
 				<p
@@ -69,13 +69,13 @@ const kpis = [
 					WIPOTEC · MESUTRONIC
 				</p>
 				<h1
-					class="hero-rise font-display-lg text-foreground mb-6 text-3xl tracking-tight text-balance sm:text-4xl lg:text-5xl break-words"
+					class="hero-rise font-display-lg text-foreground mb-6 text-3xl tracking-tight text-balance wrap-break-word sm:text-4xl lg:text-5xl"
 					style="--d:1"
 				>
 					{_("German Precision Engineering. Official Ukrainian Distributor.")}
 				</h1>
 				<p
-					class="hero-rise font-body-md text-industrial-gray max-w-prose text-base leading-relaxed break-words lg:text-lg"
+					class="hero-rise font-body-md text-industrial-gray max-w-prose text-base leading-relaxed wrap-break-word lg:text-lg"
 					style="--d:2"
 				>
 					{
@@ -96,9 +96,11 @@ const kpis = [
 									class="bg-surface-container text-secondary border-border-subtle/50 shrink-0 rounded-lg border p-2"
 									aria-hidden="true"
 								>
-									<Icon className="h-5 w-5" />
+									<Icon class="h-5 w-5" />
 								</span>
-								<span class="font-body-md text-foreground min-w-0 text-sm font-semibold break-words">{text}</span>
+								<span class="font-body-md text-foreground min-w-0 text-sm font-semibold wrap-break-word">
+									{text}
+								</span>
 							</li>
 						))
 					}
@@ -107,17 +109,17 @@ const kpis = [
 				<div class="hero-rise flex flex-col gap-3 pt-8 sm:flex-row" style="--d:4">
 					<a
 						href={`/${lang}/contact`}
-						class="group bg-primary text-primary-foreground focus-visible:outline-secondary inline-flex w-full items-center justify-center gap-2 rounded-lg px-5 py-3.5 text-sm sm:w-auto sm:px-7 sm:text-[15px] leading-[22px] font-medium shadow-xs transition-[opacity,box-shadow] hover:opacity-90 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2"
+						class="group bg-primary text-primary-foreground focus-visible:outline-secondary inline-flex w-full items-center justify-center gap-2 rounded-lg px-5 py-3.5 text-sm leading-5.5 font-medium shadow-xs transition-[opacity,box-shadow] hover:opacity-90 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 sm:w-auto sm:px-7 sm:text-[15px]"
 					>
 						{_("Request a quote")}
 						<ArrowRight
-							className="size-[18px] transition-transform duration-200 group-hover:translate-x-1"
+							class="size-4.5 transition-transform duration-200 group-hover:translate-x-1"
 							aria-hidden="true"
 						/>
 					</a>
 					<a
 						href={categoryUrl(lang, "checkweigher")}
-						class="border-secondary text-secondary hover:bg-secondary/5 focus-visible:outline-secondary inline-flex w-full items-center justify-center gap-2 rounded-lg border-2 px-5 py-3.5 text-sm sm:w-auto sm:px-7 sm:text-[15px] leading-[22px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+						class="border-secondary text-secondary hover:bg-secondary/5 focus-visible:outline-secondary inline-flex w-full items-center justify-center gap-2 rounded-lg border-2 px-5 py-3.5 text-sm leading-5.5 font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 sm:w-auto sm:px-7 sm:text-[15px]"
 					>
 						{_("View equipment")}
 					</a>
@@ -141,10 +143,12 @@ const kpis = [
 									class="bg-background text-secondary border-border-subtle/50 group-hover/kpi:bg-secondary group-hover/kpi:text-background group-hover/kpi:border-secondary shrink-0 rounded-lg border p-3 transition-colors duration-300"
 									aria-hidden="true"
 								>
-									<Icon className="h-6 w-6" />
+									<Icon class="h-6 w-6" />
 								</div>
 								<div class="flex min-w-0 flex-col-reverse justify-end gap-1">
-									<dt class="font-label-caps text-industrial-gray text-xs uppercase" title={label}>{label}</dt>
+									<dt class="font-label-caps text-industrial-gray text-xs uppercase" title={label}>
+										{label}
+									</dt>
 									<dd
 										class:list={[
 											"font-technical-data m-0 text-2xl font-bold tabular-nums sm:text-3xl",

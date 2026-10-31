@@ -1,5 +1,5 @@
 ---
-import { ArrowRight, Clock } from "lucide-react";
+import { ArrowRight, Clock } from "@lucide/astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { getWikiSlug, type WikiEntry } from "@/lib/wiki-utils";
 
@@ -26,7 +26,7 @@ const image = coverImage ?? entry.data.coverImage;
 >
 	{
 		image && (
-			<div class="border-border-subtle/60 mb-5 aspect-video w-full overflow-hidden rounded-lg border bg-surface-container">
+			<div class="border-border-subtle/60 bg-surface-container mb-5 aspect-video w-full overflow-hidden rounded-lg border">
 				<img
 					src={image}
 					alt={title}
@@ -38,13 +38,18 @@ const image = coverImage ?? entry.data.coverImage;
 	}
 
 	<div class="mb-3 flex items-center justify-between gap-3">
-		<span class="font-technical-data text-industrial-gray inline-flex items-center gap-1.5 text-xs font-medium">
-			<Clock className="text-secondary size-3.5" aria-hidden="true" />
-			{readMinutes} {_("min read")}
+		<span
+			class="font-technical-data text-industrial-gray inline-flex items-center gap-1.5 text-xs font-medium"
+		>
+			<Clock class="text-secondary size-3.5" aria-hidden="true" />
+			{readMinutes}
+			{_("min read")}
 		</span>
 	</div>
 
-	<h3 class="font-headline-lg text-foreground m-0 text-lg font-semibold tracking-tight transition-colors group-hover/card:text-secondary">
+	<h3
+		class="font-headline-lg text-foreground group-hover/card:text-secondary m-0 text-lg font-semibold tracking-tight transition-colors"
+	>
 		{title}
 	</h3>
 
@@ -56,10 +61,12 @@ const image = coverImage ?? entry.data.coverImage;
 		)
 	}
 
-	<span class="text-secondary font-technical-data mt-auto inline-flex items-center gap-2 pt-4 text-sm font-semibold">
+	<span
+		class="text-secondary font-technical-data mt-auto inline-flex items-center gap-2 pt-4 text-sm font-semibold"
+	>
 		{_("Read article")}
 		<ArrowRight
-			className="size-4 transition-transform duration-200 group-hover/card:translate-x-1"
+			class="size-4 transition-transform duration-200 group-hover/card:translate-x-1"
 			aria-hidden="true"
 		/>
 	</span>

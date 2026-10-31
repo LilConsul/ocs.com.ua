@@ -35,7 +35,9 @@ describe("revealOnce animation helper", () => {
 				observedElements.push(target);
 			}
 
-			unobserve() {}
+			unobserve() {
+				// no-op
+			}
 
 			disconnect() {
 				disconnectCalled = true;
@@ -54,10 +56,10 @@ describe("revealOnce animation helper", () => {
 				matches: matches(query),
 				media: query,
 				onchange: null,
-				addListener: () => {},
-				removeListener: () => {},
-				addEventListener: () => {},
-				removeEventListener: () => {},
+				addListener: () => undefined,
+				removeListener: () => undefined,
+				addEventListener: () => undefined,
+				removeEventListener: () => undefined,
 				dispatchEvent: () => true,
 			})),
 			IntersectionObserver: MockIntersectionObserver,
@@ -144,10 +146,10 @@ describe("revealOnce animation helper", () => {
 			matches: true,
 			media: "",
 			onchange: null,
-			addListener: () => {},
-			removeListener: () => {},
-			addEventListener: () => {},
-			removeEventListener: () => {},
+			addListener: () => undefined,
+			removeListener: () => undefined,
+			addEventListener: () => undefined,
+			removeEventListener: () => undefined,
 			dispatchEvent: () => true,
 		})) as unknown as typeof window.matchMedia;
 
@@ -159,10 +161,8 @@ describe("revealOnce animation helper", () => {
 	});
 
 	it("does nothing when IntersectionObserver is not available", () => {
-		// @ts-expect-error test missing API
-		delete globalThis.window.IntersectionObserver;
-		// @ts-expect-error test missing API
-		delete globalThis.IntersectionObserver;
+		Reflect.deleteProperty(globalThis.window, "IntersectionObserver");
+		Reflect.deleteProperty(globalThis, "IntersectionObserver");
 
 		const el = createElement();
 		revealOnce(el);

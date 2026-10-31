@@ -1,5 +1,5 @@
 ---
-import { Pill, Sparkles, Utensils, Warehouse } from "lucide-react";
+import { Pill, Sparkles, Utensils, Warehouse } from "@lucide/astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { industryUrl } from "@/lib/catalogue-urls";
 import { getIndustriesForLocale } from "@/lib/content-utils";
@@ -23,7 +23,7 @@ const firstIndustry = getIndustriesForLocale(lang)[0].slug;
 	aria-labelledby="industries-heading"
 	class="bg-background w-full scroll-mt-[calc(6rem+var(--banner-h,0px))] py-16 lg:py-24"
 >
-	<div class="px-edge-margin mx-auto max-w-[1280px]">
+	<div class="px-edge-margin mx-auto max-w-7xl">
 		<header class="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
 			<div>
 				<p
@@ -39,7 +39,9 @@ const firstIndustry = getIndustriesForLocale(lang)[0].slug;
 					{_("Solutions for Every Industry")}
 				</h2>
 			</div>
-			<p class="font-body-md text-industrial-gray max-w-lg lg:max-w-xl text-sm leading-relaxed md:text-right">
+			<p
+				class="font-body-md text-industrial-gray max-w-lg text-sm leading-relaxed md:text-right lg:max-w-xl"
+			>
 				{
 					_(
 						"Checkweighers and inspection systems meeting FDA, IFS, BRC, and GMP standards — engineered for Ukrainian manufacturers."

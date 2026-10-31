@@ -2,8 +2,8 @@
 import { Image } from "astro:assets";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { Boxes, CalendarDays, Handshake } from "@lucide/astro";
 import sizeOf from "image-size";
-import { Boxes, CalendarDays, Handshake } from "lucide-react";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { formatApprox, type SiteStats } from "@/lib/about/partners-data";
 
@@ -104,7 +104,7 @@ const stats = [
 	aria-labelledby="partners-heading"
 	class="bg-surface-container border-border-subtle/40 w-full scroll-mt-[calc(6rem+var(--banner-h,0px))] border-y py-16 lg:py-24"
 >
-	<div class="px-edge-margin mx-auto max-w-[1280px]">
+	<div class="px-edge-margin mx-auto max-w-7xl">
 		<header class="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
 			<div>
 				<p
@@ -130,9 +130,7 @@ const stats = [
 		</header>
 
 		{/* Logo marquee */}
-		<div
-			class="border-border-subtle/60 divide-border-subtle/50 divide-y border-y"
-		>
+		<div class="border-border-subtle/60 divide-border-subtle/50 divide-y border-y">
 			{
 				carouselRows.map(({ label, items, repeats, direction }) => (
 					<div class="marquee py-6" data-marquee>
@@ -145,13 +143,12 @@ const stats = [
 							class="marquee-mask marquee-viewport relative w-full cursor-grab touch-pan-y overflow-hidden select-none"
 							data-marquee-viewport
 						>
-							<div
-								class="marquee-track flex w-max"
-								data-speed={SPEED}
-								data-direction={direction}
-							>
+							<div class="marquee-track flex w-max" data-speed={SPEED} data-direction={direction}>
 								{[0, 1].map((copy) => (
-									<div class="marquee-group flex shrink-0" aria-hidden={copy === 1 ? "true" : undefined}>
+									<div
+										class="marquee-group flex shrink-0"
+										aria-hidden={copy === 1 ? "true" : undefined}
+									>
 										{Array.from({ length: repeats }).flatMap((_r, ri) =>
 											items.map(({ partner, dims }) => {
 												// Only the very first logo of each row is exposed to assistive tech and the keyboard
@@ -164,7 +161,8 @@ const stats = [
 														aria-label={hidden ? undefined : partner.name[lang]}
 														aria-hidden={hidden ? "true" : undefined}
 														tabindex={hidden ? -1 : undefined}
-														class="marquee-logo focus-visible:outline-secondary mr-12 flex h-16 w-44 shrink-0 items-center justify-center opacity-60 mix-blend-multiply grayscale transition-[opacity,filter,scale] duration-300 ease-out hover:opacity-100 hover:grayscale-0 focus-visible:opacity-100 focus-visible:grayscale-0 focus-visible:outline-2 focus-visible:outline-offset-4 motion-safe:hover:scale-105">
+														class="marquee-logo focus-visible:outline-secondary mr-12 flex h-16 w-44 shrink-0 items-center justify-center opacity-60 mix-blend-multiply grayscale transition-[opacity,filter,scale] duration-300 ease-out hover:opacity-100 hover:grayscale-0 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:grayscale-0 motion-safe:hover:scale-105"
+													>
 														<Image
 															src={partner.logo as string}
 															alt={hidden ? "" : partner.name[lang]}
@@ -213,7 +211,7 @@ const stats = [
 								class="bg-surface-container text-secondary border-border-subtle/50 group-hover/stat:bg-secondary group-hover/stat:text-background group-hover/stat:border-secondary shrink-0 rounded-lg border p-3 transition-colors duration-300"
 								aria-hidden="true"
 							>
-								<Icon className="h-6 w-6" />
+								<Icon class="h-6 w-6" />
 							</span>
 						</div>
 					</div>

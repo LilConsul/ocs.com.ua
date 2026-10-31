@@ -121,7 +121,12 @@ const structuredData = {
 							class="gap-gutter grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
 						>
 							{products.map((product, index) => (
-								<ProductCard product={product} lang={lang as Lang} index={index} gallery={galleries[product.id]} />
+								<ProductCard
+									product={product}
+									lang={lang as Lang}
+									index={index}
+									gallery={galleries[product.id]}
+								/>
 							))}
 						</div>
 					</section>
