@@ -18,8 +18,6 @@ import { glob } from "glob";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = resolve(__dirname, "..");
-const LOCALES_DIR = resolve(ROOT_DIR, "locales");
-const POT_FILE = resolve(LOCALES_DIR, "messages.pot");
 
 // Regex to find _("text") or _('text') calls
 // Handles escaped quotes and apostrophes within strings

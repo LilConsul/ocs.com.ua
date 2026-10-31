@@ -56,15 +56,6 @@ export async function getStaticPaths() {
 	return paths;
 }
 
-interface Props {
-	article: WikiEntry;
-	allArticles: WikiEntry[];
-	localeArticles: WikiEntry[];
-	prev?: WikiEntry;
-	next?: WikiEntry;
-	relatedArticles: WikiEntry[];
-}
-
 const { article, allArticles, localeArticles, prev, next, relatedArticles } = Astro.props;
 const { lang, slug } = Astro.params as { lang: Lang; slug: string };
 const _ = getInlineTranslations(lang);

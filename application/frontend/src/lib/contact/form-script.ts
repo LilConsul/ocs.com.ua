@@ -231,9 +231,10 @@ export function initContactForm(config: FormConfig) {
 					recaptchaToken = await new Promise<string>((resolve, reject) => {
 						const started = Date.now();
 						const wait = () => {
-							if (window.grecaptcha !== undefined) {
-								window.grecaptcha.ready(() => {
-									window.grecaptcha!.execute(siteKey, { action: "contact" }).then(resolve, reject);
+							const recaptcha = window.grecaptcha;
+							if (recaptcha !== undefined) {
+								recaptcha.ready(() => {
+									recaptcha.execute(siteKey, { action: "contact" }).then(resolve, reject);
 								});
 							} else if (Date.now() - started > 5000) {
 								reject(new Error("reCAPTCHA failed to load"));

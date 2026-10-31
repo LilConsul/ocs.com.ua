@@ -15,8 +15,6 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = resolve(__dirname, "..");
-const LOCALES_DIR = resolve(ROOT_DIR, "locales");
-const UI_FILE = resolve(ROOT_DIR, "src/i18n/ui.ts");
 
 /**
  * Convert English text to a valid translation key.

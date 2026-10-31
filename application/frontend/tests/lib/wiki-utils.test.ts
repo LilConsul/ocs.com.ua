@@ -20,7 +20,7 @@ const makeEntry = (id: string, data: Partial<WikiEntry["data"]> = {}): WikiEntry
 			order: data.order,
 			related: data.related,
 		},
-		body: data.body ?? "",
+		body: "",
 	}) as unknown as WikiEntry;
 
 const sampleEntries: WikiEntry[] = [
