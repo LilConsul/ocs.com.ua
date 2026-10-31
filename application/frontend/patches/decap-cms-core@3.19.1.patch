@@ -1,0 +1,126 @@
+diff --git a/node_modules/decap-cms-core/.bun-tag-306e1c7957a06ed b/.bun-tag-306e1c7957a06ed
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+diff --git a/node_modules/decap-cms-core/.bun-tag-b683dbca80a99a4 b/.bun-tag-b683dbca80a99a4
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+diff --git a/node_modules/decap-cms-core/.bun-tag-b845d9a24725503c b/.bun-tag-b845d9a24725503c
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+diff --git a/node_modules/decap-cms-core/.bun-tag-dd4b9c5934619de5 b/.bun-tag-dd4b9c5934619de5
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+diff --git a/dist/esm/actions/editorialWorkflow.js b/dist/esm/actions/editorialWorkflow.js
+index 70f2b62ee4dd958d6061d1b1727946c9f082400d..2fb25c7d26b86e92d52faa3e7608798838c8fb4d 100644
+--- a/dist/esm/actions/editorialWorkflow.js
++++ b/dist/esm/actions/editorialWorkflow.js
+@@ -1,4 +1,5 @@
+ import get from 'lodash/get';
++import { selectCustomPath } from '../reducers/entryDraft';
+ import { Map, List } from 'immutable';
+ import { EDITORIAL_WORKFLOW_ERROR } from 'decap-cms-lib-util';
+ import { currentBackend, slugFromCustomPath } from '../backend';
+@@ -329,6 +330,10 @@ export function persistUnpublishedEntry(collection, existingUnpublishedEntry) {
+       if (entry.get('slug') !== newSlug) {
+         await dispatch(loadUnpublishedEntry(collection, newSlug));
+         navigateToEntry(collection.get('name'), newSlug);
++      } else if (existingUnpublishedEntry && (movedPath => movedPath && movedPath !== entry.get('path'))(selectCustomPath(collection, serializedEntryDraft))) {
++        // The save moved or renamed the files. Reload the draft so it holds the new path;
++        // otherwise the next save would try to move files that are no longer there.
++        await dispatch(loadUnpublishedEntry(collection, newSlug));
+       }
+     } catch (error) {
+       dispatch(addNotification({
+diff --git a/dist/esm/backend.js b/dist/esm/backend.js
+index f00af56701b35a80c8d0f29ac537ccbe1966bb5a..6e67b1759284f9b7c3bbd8a049807a830da0310c 100644
+--- a/dist/esm/backend.js
++++ b/dist/esm/backend.js
+@@ -23,7 +23,7 @@ import { commitMessageFormatter, slugFormatter, previewUrlFormatter } from './li
+ import { status } from './constants/publishModes';
+ import { FOLDER, FILES } from './constants/collectionTypes';
+ import { selectCustomPath } from './reducers/entryDraft';
+-import { getI18nFilesDepth, getI18nFiles, hasI18n, getFilePaths, getI18nEntry, groupEntries, getI18nDataFiles, getI18nBackup, formatI18nBackup, getI18nInfo, I18N_STRUCTURE } from './lib/i18n';
++import { getI18nFilesDepth, getI18nFiles, hasI18n, getFilePaths, getI18nEntry, groupEntries, getI18nDataFiles, getI18nBackup, formatI18nBackup, getI18nInfo, I18N_STRUCTURE, normalizeFilePath, getLocaleFromPath } from './lib/i18n';
+ const {
+   extractTemplateVars,
+   dateParsers,
+@@ -797,12 +797,28 @@ export class Backend {
+       return formatData(loadedEntry.data, loadedEntry.file.path, false);
+     } else if (hasI18n(collection)) {
+       // we need to read all locales files and not just the changes
+-      const path = selectEntryPath(collection, slug);
++      let path = selectEntryPath(collection, slug);
++      // A renamed entry keeps its original slug (it names the branch), so the files on the branch
++      // no longer match the slug's path. Take the path from the changed files instead.
++      if (collection.get('type') !== FILES) {
++        const expectedPaths = getFilePaths(collection, extension, path, slug);
++        if (!dataFiles.some(f => expectedPaths.includes(f.path))) {
++          const {
++            structure
++          } = getI18nInfo(collection);
++          const changedPath = dataFiles[0].path;
++          path = normalizeFilePath(structure, changedPath, getLocaleFromPath(structure, extension, changedPath));
++        }
++      }
+       const i18nFiles = getI18nDataFiles(collection, extension, path, slug, dataFiles);
+       let entries = await Promise.all(i18nFiles.map(dataFile => readAndFormatDataFile(dataFile).catch(() => null)));
+       entries = entries.filter(Boolean);
+       const grouped = await groupEntries(collection, extension, entries);
+-      return grouped[0];
++      // Keep the branch's slug: it identifies the branch when the entry is saved or opened again
++      return grouped[0] && {
++        ...grouped[0],
++        slug
++      };
+     } else {
+       const entryWithFormat = await readAndFormatDataFile(dataFiles[0]);
+       return entryWithFormat;
+@@ -960,6 +976,17 @@ export class Backend {
+     } else {
+       const slug = entryDraft.getIn(['entry', 'slug']);
+       const path = entryDraft.getIn(['entry', 'path']);
++      // A move or rename must not overwrite a file that already exists at the destination
++      if (customPath && customPath !== path) {
++        const targets = hasI18n(collection) ? getFilePaths(collection, selectFolderEntryExtension(collection), customPath, slugFromCustomPath(collection, customPath)) : [customPath];
++        for (const target of targets) {
++          // getEntry resolves with empty data (it does not reject) when the file is missing
++          const exists = await this.implementation.getEntry(target).then(({ data }) => !!data).catch(() => false);
++          if (exists) {
++            throw new Error(`A file already exists at ${target}. Choose another file name or category.`);
++          }
++        }
++      }
+       dataFile = {
+         path,
+         // for workflow entries we refresh the slug on publish
+diff --git a/dist/esm/reducers/entryDraft.js b/dist/esm/reducers/entryDraft.js
+index 2a5a8c3e75eb51dcb636a063f60d494e5aa925a0..9716afb6a0964598af05445355fe86f664c098c0 100644
+--- a/dist/esm/reducers/entryDraft.js
++++ b/dist/esm/reducers/entryDraft.js
+@@ -220,19 +220,19 @@ export function selectCustomPath(collection, entryDraft) {
+     return customPath;
+   }
+
+-  // New behavior: generate filename from entry title
++  // New behavior: generate filename from the `file_name` field. New entries fall back to the
++  // title; existing entries fall back to their current filename (so a changed `file_name` renames
++  // the file, and an empty one leaves it alone).
+   const isNewEntry = entryDraft.getIn(['entry', 'newRecord']);
+   const currentPath = entryDraft.getIn(['entry', 'path']);
++  const entryData = entryDraft.getIn(['entry', 'data']);
++  const fileName = entryData && entryData.get('file_name');
+   let filename;
+   if (isNewEntry || !currentPath) {
+-    // For new entries, generate filename from title
+-    const entryData = entryDraft.getIn(['entry', 'data']);
+     const title = entryData && entryData.get('title');
+-    filename = cleanTitleForFilename(title);
++    filename = cleanTitleForFilename(fileName || title);
+   } else {
+-    // For existing entries, preserve the current filename
+-    const currentFilename = basename(currentPath, `.${extension}`);
+-    filename = currentFilename;
++    filename = fileName ? cleanTitleForFilename(fileName) : basename(currentPath, `.${extension}`);
+   }
+   const customPath = join(collection.get('folder'), path, `${filename}.${extension}`);
+   return customPath;

@@ -1,9 +1,8 @@
 ---
+file_name: hc-sl
 type: product
 title: HC-SL Catchweigher
 order: 2
-industries:
-  - logistics
 description: >-
   High-accuracy catchweigher for parcels up to 60 kg. Achieves speeds up to 2.9
   m/s with ±5g accuracy in calibrated mode. Features sandwich construction for

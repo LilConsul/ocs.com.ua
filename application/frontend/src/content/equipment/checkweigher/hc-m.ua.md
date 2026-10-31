@@ -1,4 +1,5 @@
 ---
+file_name: hc-m
 order: 2
 gallery:
   - /assets/equipment/hc-m/csm_checkweigher-hc-m-left_51bfea9ea2.webp
@@ -21,7 +22,7 @@ specs:
         value: від 0.1 г - 1.0 г
       - label: Найбільша границя зважування
         value: 750 г - 7500 г
-    title: зважування
+    title: Зважування
   - title: Підвідний та відвідний конвеєри
     items:
       - label: Довжина

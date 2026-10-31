@@ -29,7 +29,7 @@ export async function getStaticPaths() {
 		const localeProducts = filterByLocale(allProducts, lang);
 
 		return allIndustries.flatMap((industry) => {
-			const products = filterByIndustry(localeProducts, industry.slug);
+			const products = filterByIndustry(localeProducts, industry.slug, allProducts);
 			// No empty pages: an industry only gets a route when the locale has a product for it
 			if (products.length === 0) return [];
 

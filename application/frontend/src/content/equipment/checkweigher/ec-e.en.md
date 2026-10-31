@@ -1,8 +1,7 @@
 ---
+file_name: ec-e
 order: 3
 datasheet: /assets/equipment/ec-e/datasheet.pdf
-industries:
-  - food-beverage
 title: EC-E Checkweigher
 description: Reliable checkweigher for fully automatic weight control and data
   acquisition. Capable of 150 weight measurements per minute with intuitive

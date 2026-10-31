@@ -63,18 +63,55 @@ describe("equipment content", () => {
 		expect(failures).toEqual([]);
 	});
 
-	it("uses the same order and industries in both languages of a product", () => {
+	it("uses the same order in both languages of a product", () => {
 		const mismatched = files
 			.filter((f) => f.endsWith(".en.md"))
 			.filter((f) => {
 				const en = frontmatter(f);
 				const ua = frontmatter(f.replace(".en.md", ".ua.md"));
-				return (
-					en.order !== ua.order ||
-					JSON.stringify(en.industries ?? []) !== JSON.stringify(ua.industries ?? [])
-				);
+				return en.order !== ua.order;
 			});
 		expect(mismatched).toEqual([]);
+	});
+
+	it("stores industries only in the ua file (industries is not i18n)", () => {
+		const withIndustries = files
+			.filter((f) => f.endsWith(".en.md"))
+			.filter((f) => (frontmatter(f).industries ?? []).length > 0);
+		expect(withIndustries).toEqual([]);
+	});
+
+	it("keeps file_name equal to the file's base name (CMS names files from it)", () => {
+		const mismatched = files
+			.filter((f) => !f.includes("/_"))
+			.filter((f) => frontmatter(f).file_name !== f.split("/")[1].replace(/\.(en|ua)\.md$/, ""));
+		expect(mismatched).toEqual([]);
+	});
+});
+
+describe("decap cms equipment collection", () => {
+	const templatePath = join(import.meta.dir, "../../src/pages/admin/_config.template.yml");
+	const collection = parse(readFileSync(templatePath, "utf8")).collections?.find(
+		(c: any) => c.name === "equipment"
+	);
+
+	it("keeps the Category dropdown as meta.path so products can move between categories", () => {
+		expect(collection.meta?.path?.widget).toBe("select");
+	});
+
+	it("has a required, Latin-only file_name field shared by both locales", () => {
+		const field = collection.fields.find((f: any) => f.name === "file_name");
+		expect(field.widget).toBe("string");
+		expect(field.required).not.toBe(false);
+		expect(field.i18n).toBe("duplicate");
+		const [regex] = field.pattern;
+		expect(new RegExp(regex).test("hc-a-md")).toBe(true);
+		expect(new RegExp(regex).test("контрольно-ваги")).toBe(false);
+		expect(new RegExp(regex).test("HC A")).toBe(false);
+	});
+
+	it("does not rely on a slug template (ignored when meta.path is set)", () => {
+		expect(collection.slug).toBeUndefined();
 	});
 });
 
@@ -145,16 +182,14 @@ describe("product industries", () => {
 		expect(unknown).toEqual([]);
 	});
 
-	it("has at least one product for every listed industry in each locale", () => {
-		for (const locale of ["en", "ua"] as const) {
-			const used = new Set(
-				files
-					.filter((f) => f.endsWith(`.${locale}.md`))
-					.flatMap((f) => (frontmatter(f).industries ?? []) as string[])
-			);
-			const empty = industries[locale].industries.map((i) => i.slug).filter((s) => !used.has(s));
-			expect(empty).toEqual([]);
-		}
+	it("has at least one product for every listed industry (read from ua files)", () => {
+		const used = new Set(
+			files
+				.filter((f) => f.endsWith(".ua.md"))
+				.flatMap((f) => (frontmatter(f).industries ?? []) as string[])
+		);
+		const empty = industries.ua.industries.map((i) => i.slug).filter((s) => !used.has(s));
+		expect(empty).toEqual([]);
 	});
 });
 
