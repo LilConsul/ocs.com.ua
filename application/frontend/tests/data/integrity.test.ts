@@ -365,6 +365,13 @@ describe("wiki content", () => {
 		expect(missing).toEqual([]);
 	});
 
+	it("keeps file_name equal to the file's base name (CMS names files from it)", () => {
+		const mismatched = wikiFiles.filter(
+			(f) => parseWikiFrontmatter(f).file_name !== f.replace(/\.(en|ua)\.md$/, "")
+		);
+		expect(mismatched).toEqual([]);
+	});
+
 	it("matches the wiki content schema", () => {
 		const schema = (collections as any).wiki?.schema;
 		expect(schema).toBeDefined();
@@ -386,5 +393,35 @@ describe("decap cms wiki collection", () => {
 		expect(wikiCollection.label).toBe("Wiki");
 		expect(wikiCollection.folder).toBe("application/frontend/src/content/wiki");
 		expect(wikiCollection.i18n).toBe(true);
+	});
+
+	it("has a required, Latin-only file_name field shared by both locales", () => {
+		const raw = readFileSync(
+			join(import.meta.dir, "../../src/pages/admin/_config.template.yml"),
+			"utf8"
+		);
+		const parsed = parse(raw.replace(/__[A-Z0-9_]+__/g, '""'));
+		const wikiCollection = parsed.collections.find((c: any) => c.name === "wiki");
+		const field = wikiCollection.fields.find((f: any) => f.name === "file_name");
+		expect(field.widget).toBe("string");
+		expect(field.required).not.toBe(false);
+		expect(field.i18n).toBe("duplicate");
+		const [regex] = field.pattern;
+		expect(new RegExp(regex).test("load-cell")).toBe(true);
+		expect(new RegExp(regex).test("Load Cell")).toBe(false);
+		// The patched Decap names files from file_name only when the collection has a meta.path
+		expect(wikiCollection.meta?.path?.widget).toBe("hidden");
+		expect(wikiCollection.meta?.path?.default).toBe("/");
+	});
+
+	it("allows deleting wiki articles and products", () => {
+		const raw = readFileSync(
+			join(import.meta.dir, "../../src/pages/admin/_config.template.yml"),
+			"utf8"
+		);
+		const parsed = parse(raw.replace(/__[A-Z0-9_]+__/g, '""'));
+		for (const name of ["wiki", "equipment"]) {
+			expect(parsed.collections.find((c: any) => c.name === name).delete).toBe(true);
+		}
 	});
 });

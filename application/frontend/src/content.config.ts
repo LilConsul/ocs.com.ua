@@ -40,6 +40,8 @@ const wiki = defineCollection({
 		base: "./src/content/wiki",
 	}),
 	schema: z.object({
+		// Used by the CMS to name new files (must match the file's base name)
+		file_name: z.string().nullish(),
 		title: z.string(),
 		description: z.string().nullish(),
 		coverImage: z.string().nullish(),

@@ -236,7 +236,7 @@ collections:
       to place a new product in the correct folder.
     folder: "application/frontend/src/content/equipment"
     create: true
-    delete: false
+    delete: true
     i18n: true
     preview_path: "{{locale}}/catalogue/equipment/{{dirname}}/{{filename}}"
     preview_path_date_field: "date"
@@ -345,7 +345,27 @@ collections:
     i18n: true
     preview_path: "{{locale}}/wiki/{{filename}}"
     sortable_fields: ["commit_date", "order", "title"]
+    # Articles are not grouped in folders, but the patched decap-cms-core only names files from
+    # file_name when the collection has a meta.path. This hidden one always points at the folder root.
+    meta:
+      path:
+        widget: hidden
+        label: "Folder"
+        default: "/"
     fields:
+      # Named file_name, not slug: Astro's glob loader treats a frontmatter `slug` as the entry id.
+      - label: "File name"
+        name: "file_name"
+        widget: "string"
+        i18n: duplicate
+        pattern: ["^[a-z0-9]+(-[a-z0-9]+)*$", "Lowercase Latin letters, digits and hyphens only, e.g. load-cell"]
+        hint: >-
+          Required. Becomes the file name and the page URL, e.g. <file_name> gives /wiki/<file_name>.
+          Use lowercase Latin letters, digits and hyphens only: no spaces, capitals or Ukrainian
+          letters. Changing it on an existing article renames its files and changes its URL, so old
+          links stop working, and other articles that list it under Related Articles lose that link.
+
+          CHANGE IT ONLY WHEN YOU REALLY HAVE TO.
       - { label: "Title", name: "title", widget: "string", i18n: true }
       - { label: "Description / Summary", name: "description", widget: "text", required: false, i18n: true, hint: "Brief summary shown on index cards and in SEO meta tags" }
       - label: "Cover Image"

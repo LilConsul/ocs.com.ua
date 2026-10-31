@@ -1,4 +1,5 @@
 ---
+file_name: weighing-accuracy
 title: "Weighing Accuracy in Simple Words"
 description: "What 'accurate weighing' really means, why a scale can be wrong even when it looks precise, and what makes the result better or worse."
 order: 2
