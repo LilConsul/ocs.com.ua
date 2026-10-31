@@ -1,60 +1,79 @@
 ---
-title: "Understanding Scale Division (d) and Accuracy in Plain Words"
-description: "A plain-language guide to industrial weighing terminology: what scale division (d) means, how it differs from error and verification interval (e), and how to select the right resolution."
+title: "Scale Resolution (d): What It Is, in Simple Words"
+description: "What the number 'd' in a scale's specs means, why it is not the same as accuracy, and how to pick the right one for your product."
 order: 1
 related:
-  - "choosing-a-dynamic-checkweigher"
-  - "checkweigher-calibration"
+  - "weighing-accuracy"
+  - "load-cell"
 ---
 
-When selecting industrial scales or an automated dynamic checkweigher, one of the primary technical parameters in datasheets is **scale division** or resolution (denoted by the letter **d**).
+In every scale's specification you will find a small letter **d**. It is usually called **resolution** or **scale division**. It sounds technical, but the idea is very simple.
 
-## What is Scale Division (d) in Plain Terms?
+## The short version
 
-**Scale division (d)** is the smallest step or increment by which the weight value changes on the display.
+**d is the smallest step the display can show.**
 
-Think of an ordinary mechanical ruler:
+That's it. It is how finely the scale "rounds" the number on the screen.
 
-* If a ruler only has marks every centimetre, you can measure with a 1 cm step.
-* If it has millimeter lines, your resolution is 1 mm.
+## Think of a ruler
 
-Industrial weighing scales work the exact same way:
+Imagine two rulers:
 
-* If a scale has **d = 1 g**, the display increments as: `100 g` → `101 g` → `102 g`. It cannot display `100.5 g`.
-* If a scale has **d = 0.1 g**, the display increments as: `100.0 g` → `100.1 g` → `100.2 g`.
+* Ruler A has marks only every **1 cm**. You can only say "12 cm" or "13 cm". Anything in between, you have to guess.
+* Ruler B has marks every **1 mm**. Now you can say "12.3 cm".
 
-## Scale Division (d) vs Accuracy: What is the Difference?
+Scales work the same way:
 
-A common misconception is assuming that scale division equals scale accuracy. They are fundamentally different:
+| Scale | What the display can show |
+| :--- | :--- |
+| **d = 1 g** | 100 g → 101 g → 102 g (never 100.5 g) |
+| **d = 0.1 g** | 100.0 g → 100.1 g → 100.2 g |
+| **d = 0.01 g** | 100.00 g → 100.01 g → 100.02 g |
 
-1. **Scale Division (d)** — The display resolution (the smallest measurable increment).
-2. **Measurement Error (Accuracy)** — The actual deviation between the true certified test mass and the reading provided by the scale.
+A smaller d means the scale shows finer detail.
 
-> **Example:** If a scale displays `150.2 g` with `d = 0.1 g`, this only indicates display granularity. The true mass might be `150.4 g` if the system error tolerance is ±0.3 g.
+## Important: d is NOT accuracy
 
-## What is Verification Scale Interval (e)?
+This is the most common mistake. A scale can show many digits and still be wrong.
 
-In metrological certifications and data sheets, you will frequently see both **d** and **e**:
+> **Example:** A clock that shows seconds is not necessarily more *correct* than a clock that shows only minutes. It just shows more detail. If it is set 5 minutes wrong, the seconds don't help.
 
-* **d (actual scale interval)** — The actual display resolution.
-* **e (verification scale interval)** — The verified metrological division used by calibration authorities to determine accuracy classes (OIML Class II, III, etc.) and maximum permissible errors.
+The same with scales:
 
-In most industrial weighing systems, `e = d` or `e = 10 · d`.
+* **d** tells you how finely the number is **displayed**.
+* **Accuracy** tells you how close that number is to the **real weight**.
 
-## Practical Recommendations by Industry
+A scale with d = 0.1 g may show `150.2 g` while the product really weighs `150.4 g`. The display is detailed, but not exact. You can read more about this in the article about [weighing accuracy](/en/wiki/weighing-accuracy).
 
-| Industry / Application | Typical Package Weight | Recommended Scale Division (d) |
+## You may also see "e"
+
+On certified scales you will often see two letters, **d** and **e**:
+
+* **d** is the step of the display.
+* **e** is the step used by the inspectors when they officially check the scale and decide how much error is allowed.
+
+Usually **e = d**, or sometimes **e = 10 × d**. If you are not doing official trade weighing, you can mostly just look at d.
+
+## Which d do I need?
+
+A simple rule: **d should be about 3 to 5 times smaller than the weight tolerance you allow for your product.**
+
+Example: your bag should weigh 500 g, and you accept ±5 g. Then d of **1 g** is a good choice (5 times smaller than the tolerance). A d of 0.01 g would be pointless.
+
+Typical values:
+
+| What you weigh | Typical weight | Good d |
 | :--- | :--- | :--- |
-| **Pharmaceuticals (blisters, vials)** | up to 100 g | `0.01 g – 0.05 g` |
-| **Confectionery, coffee, dry goods** | 100 g – 1 kg | `0.1 g – 0.2 g` |
-| **Food packaging, fresh meat trays** | 1 kg – 5 kg | `0.5 g – 1 g` |
-| **Logistics cartons, bulk bags** | 10 kg – 60 kg | `5 g – 10 g` |
+| Pills, vials | up to 100 g | 0.01 – 0.05 g |
+| Coffee, sweets, dry goods | 100 g – 1 kg | 0.1 – 0.2 g |
+| Meat trays, food packs | 1 – 5 kg | 0.5 – 1 g |
+| Boxes, big bags | 10 – 60 kg | 5 – 10 g |
 
-## Why Not Choose the Smallest Possible 'd'?
+## Why not just take the smallest d possible?
 
-While choosing ultra-high resolution might sound ideal, setting resolution unnecessarily high on a dynamic production line introduces drawbacks:
+It sounds like "smaller is always better", but on a moving production line it is not:
 
-* **Sensitivity to environmental vibration:** High-resolution load cells register ambient conveyor vibration, motor hum, and air drafts.
-* **Stabilization time:** Processing ultra-fine signals takes more filter settling time, reducing maximum throughput (packs per minute).
+* **Too sensitive.** The scale starts to react to belt vibration, motors and even drafts. The numbers jump around.
+* **Slower.** To get a very fine number, the scale needs more time to "calm down", so fewer products per minute can pass.
 
-**Rule of Thumb:** Your scale division (d) should typically be 3 to 5 times smaller than your permitted product packaging tolerance.
+Pick a d that is fine enough for your tolerance, and no finer.
