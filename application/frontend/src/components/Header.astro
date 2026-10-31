@@ -41,6 +41,17 @@ const languageOptions = [
 	{ code: "ua" as const, name: "Українська", flag: "🇺🇦" },
 ];
 
+// The header is fixed, so the page and every sticky offset must add the banner's real height
+// (it wraps to several lines on narrow screens). Published as --banner-h; runs inline so the
+// value is set before first paint, and the observer follows rewrapping and dismissal.
+const bannerHeightScript = `(() => {
+	const banner = document.getElementById('dev-notice-banner');
+	if (!banner) return;
+	const sync = () => document.documentElement.style.setProperty('--banner-h', banner.offsetHeight + 'px');
+	sync();
+	new ResizeObserver(sync).observe(banner);
+})();`;
+
 const isActive = (pattern: string) => {
 	if (!currentPath) return false;
 	return currentPath.includes(pattern);
@@ -218,6 +229,8 @@ const isActive = (pattern: string) => {
 		</div>
 	</div>
 </header>
+
+{SITE_DEV_NOTICE && <script is:inline set:html={bannerHeightScript} />}
 
 <script>
 	function setupHeaderAndPopups() {

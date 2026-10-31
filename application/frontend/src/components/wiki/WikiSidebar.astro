@@ -13,7 +13,7 @@ const { articles, currentSlug, lang } = Astro.props;
 const _ = getInlineTranslations(lang);
 ---
 
-<aside class="lg:sticky lg:top-24 lg:self-start">
+<aside class="lg:sticky lg:top-[calc(6rem+var(--banner-h,0px))] lg:self-start">
 	<details data-wiki-nav open class="group/nav">
 		<summary
 			class="bg-surface-lowest border-border-subtle font-label-caps text-foreground flex cursor-pointer list-none items-center justify-between rounded-lg border px-4 py-3 text-xs font-semibold tracking-widest uppercase lg:hidden"

@@ -45,7 +45,7 @@ const filteredHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
 			</details>
 		) : (
 			<aside class="hidden xl:block">
-				<nav aria-label={_("On this page")} class="sticky top-24" data-wiki-toc>
+				<nav aria-label={_("On this page")} class="sticky top-[calc(6rem+var(--banner-h,0px))]" data-wiki-toc>
 					<p class="font-label-caps text-industrial-gray m-0 mb-3 flex items-center gap-2 text-[11px] font-semibold tracking-widest uppercase">
 						<AlignLeft className="text-secondary size-3.5" aria-hidden="true" />
 						{_("On this page")}
@@ -90,6 +90,12 @@ const filteredHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
 			setActive(headingElements[0].id);
 		}
 
+		// Active-heading line sits below the fixed header (96px) plus the dev notice banner
+		const bannerHeight = Number.parseFloat(
+			getComputedStyle(document.documentElement).getPropertyValue("--banner-h")
+		);
+		const topMargin = 96 + (Number.isFinite(bannerHeight) ? bannerHeight : 0);
+
 		const observer = new IntersectionObserver(
 			(entries) => {
 				const visible = entries
@@ -97,7 +103,7 @@ const filteredHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
 					.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
 				if (visible[0]) setActive(visible[0].target.id);
 			},
-			{ rootMargin: "-96px 0px -65% 0px" }
+			{ rootMargin: `-${topMargin}px 0px -65% 0px` }
 		);
 
 		headingElements.forEach((h) => observer.observe(h));

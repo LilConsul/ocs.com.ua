@@ -93,7 +93,7 @@ const defaultDescription =
 	</head>
 	<body class="bg-background text-foreground min-h-screen antialiased">
 		{showHeader && <Header currentLang={lang} currentPath={currentPath} />}
-		<main class="pt-20">
+		<main class="pt-[calc(5rem+var(--banner-h,0px))]">
 			<slot />
 		</main>
 		<Footer

@@ -573,4 +573,14 @@
 	.prose tbody tr:last-child td {
 		border-bottom: 0;
 	}
+
+	/* Wiki article: anchored headings clear the fixed header (plus the dev notice banner, when
+	   shown) and tables span the full column. */
+	.wiki-content h2,
+	.wiki-content h3 {
+		scroll-margin-top: calc(7rem + var(--banner-h, 0px));
+	}
+	.wiki-content table {
+		width: 100%;
+	}
 }
