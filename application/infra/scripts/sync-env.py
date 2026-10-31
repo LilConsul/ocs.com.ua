@@ -63,7 +63,7 @@ def _lines(text: str) -> list[str]:
 
 
 def sync_env(
-    example: str, local: str, overrides: dict[str, str]
+    example: str, local: str, overrides: dict[str, str] | None = None
 ) -> tuple[str, list[str], list[str], list[str]]:
     """Returns (new .env.local text, keys added, custom keys kept, keys overridden)."""
     local_values: dict[str, str] = {}
@@ -72,8 +72,9 @@ def sync_env(
             local_values[match.group(1)] = line
 
     # Apply git-derived overrides on top of whatever is in .env.local.
-    for key, value in overrides.items():
-        local_values[key] = f"{key}={value}"
+    if overrides:
+        for key, value in overrides.items():
+            local_values[key] = f"{key}={value}"
 
     used: dict[str, None] = {}
     out: list[str] = []
@@ -94,8 +95,9 @@ def sync_env(
     if custom:
         out += ["", CUSTOM_HEADER, *(local_values[key] for key in custom)]
 
-    added = [key for key in used if key not in local_values and key not in overrides]
-    overridden = [key for key in overrides if key in used]
+    applied_overrides = overrides or {}
+    added = [key for key in used if key not in local_values and key not in applied_overrides]
+    overridden = [key for key in applied_overrides if key in used]
     return "\n".join(out) + "\n", added, custom, overridden
 
 
