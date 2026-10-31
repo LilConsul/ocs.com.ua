@@ -44,6 +44,7 @@ jobs:
       SMTP_USER: ${{ secrets.SMTP_USER }}
       SMTP_PASS: ${{ secrets.SMTP_PASS }}
       SHOW_CLIENT_EQUIPMENT: ${{ vars.DEV_SHOW_CLIENT_EQUIPMENT }}
+      SITE_DEV_NOTICE: ${{ vars.DEV_SITE_DEV_NOTICE }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7

@@ -36,18 +36,19 @@ Copy the example env file and fill in your values:
 cp .env.example .env.local
 ```
 
-| Variable                | Description                                                                      |
-| ----------------------- | -------------------------------------------------------------------------------- |
-| `GITHUB_CLIENT_ID`      | GitHub OAuth App client ID (**required**)                                        |
-| `GITHUB_CLIENT_SECRET`  | GitHub OAuth App client secret (**required**)                                    |
-| `GITHUB_OWNER`          | Repository owner (default: `LilConsul`)                                          |
-| `GITHUB_REPO`           | Repository name (default: `ocs.com.ua`)                                          |
-| `GITHUB_BRANCH`         | Branch to read/write content on (default: `main`)                                |
-| `SITE_URL`              | Public site URL for "View live" links in the CMS (default: `https://ocs.com.ua`) |
-| `CMS_BASE_URL`          | Host serving `/api/auth` (default: the origin `/admin` is opened on)             |
-| `CMS_LOCALE`            | Decap UI language: `en` or `ua` (default: `en`)                                  |
-| `CMS_SEARCH`            | Enable Decap entry search (default: `false`, saves GitHub API rate limit)        |
-| `SHOW_CLIENT_EQUIPMENT` | Show per-client equipment counts on the About page cards (default: `false`)      |
+| Variable                | Description                                                                         |
+| ----------------------- | ----------------------------------------------------------------------------------- |
+| `GITHUB_CLIENT_ID`      | GitHub OAuth App client ID (**required**)                                           |
+| `GITHUB_CLIENT_SECRET`  | GitHub OAuth App client secret (**required**)                                       |
+| `GITHUB_OWNER`          | Repository owner (default: `LilConsul`)                                             |
+| `GITHUB_REPO`           | Repository name (default: `ocs.com.ua`)                                             |
+| `GITHUB_BRANCH`         | Branch to read/write content on (default: `main`)                                   |
+| `SITE_URL`              | Public site URL for "View live" links in the CMS (default: `https://ocs.com.ua`)    |
+| `CMS_BASE_URL`          | Host serving `/api/auth` (default: the origin `/admin` is opened on)                |
+| `CMS_LOCALE`            | Decap UI language: `en` or `ua` (default: `en`)                                     |
+| `CMS_SEARCH`            | Enable Decap entry search (default: `false`, saves GitHub API rate limit)           |
+| `SHOW_CLIENT_EQUIPMENT` | Show per-client equipment counts on the About page cards (default: `false`)         |
+| `SITE_DEV_NOTICE`       | Show the "website in active development" banner above the header (default: `false`) |
 
 Variables are validated at startup via `astro:env`. The server refuses to start if the required secrets are missing or a value is invalid.
 

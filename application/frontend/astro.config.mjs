@@ -82,6 +82,11 @@ export default defineConfig({
 			// Decap entry search; off by default to avoid exhausting GitHub API rate limits
 			CMS_SEARCH: envField.boolean({ context: "server", access: "public", default: false }),
 
+			// === Site-wide ===
+
+			// Show the "website in active development" banner above the header (build-time; hidden by default)
+			SITE_DEV_NOTICE: envField.boolean({ context: "server", access: "public", default: false }),
+
 			// === About page ===
 
 			// Show per-client equipment counts on the client cards (build-time; hidden by default)
