@@ -1,7 +1,7 @@
 .PHONY: env install-dev test test-fe test-infra
 
 env:
-	node scripts/sync-env.mjs
+	uv run application/infra/scripts/sync-env.py
 
 install-dev:
 	cd application/frontend && bun install

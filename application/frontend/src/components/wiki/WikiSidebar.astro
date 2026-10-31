@@ -1,0 +1,124 @@
+---
+import { BookOpen, ChevronRight, Search } from "lucide-react";
+import { getInlineTranslations, type Lang } from "@/i18n";
+import { getWikiSlug, type WikiEntry } from "@/lib/wiki-utils";
+
+interface Props {
+	articles: WikiEntry[];
+	currentSlug: string;
+	lang: Lang;
+}
+
+const { articles, currentSlug, lang } = Astro.props;
+const _ = getInlineTranslations(lang);
+---
+
+<aside class="lg:sticky lg:top-[calc(6rem+var(--banner-h,0px))] lg:self-start">
+	<details data-wiki-nav open class="group/nav">
+		<summary
+			class="bg-surface-lowest border-border-subtle font-label-caps text-foreground flex cursor-pointer list-none items-center justify-between rounded-lg border px-4 py-3 text-xs font-semibold tracking-widest uppercase lg:hidden"
+		>
+			<span class="inline-flex items-center gap-2">
+				<BookOpen className="text-secondary size-4" aria-hidden="true" />
+				{_("Browse articles")}
+			</span>
+			<ChevronRight className="size-4 transition-transform group-open/nav:rotate-90" />
+		</summary>
+
+		<div class="mt-4 lg:mt-0">
+			<div class="relative mb-5">
+				<Search
+					className="text-industrial-gray pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2"
+					aria-hidden="true"
+				/>
+				<input
+					type="search"
+					class="font-body-md text-foreground placeholder:text-industrial-gray/70 border-border-subtle bg-surface-lowest focus-visible:outline-secondary h-11 w-full rounded-lg border pr-4 pl-10 text-sm shadow-xs transition-shadow focus-visible:outline-2 focus-visible:outline-offset-2"
+					placeholder={_("Search the wiki…")}
+					aria-label={_("Search the wiki…")}
+					data-wiki-filter="[data-wiki-nav-item]"
+					data-wiki-empty="#wiki-nav-empty"
+				/>
+			</div>
+
+			<nav aria-label={_("All articles")} class="flex flex-col gap-2">
+				<p
+					class="font-label-caps text-industrial-gray m-0 mb-1 flex items-center gap-2 text-[11px] font-semibold tracking-widest uppercase"
+				>
+					<BookOpen className="text-secondary size-3.5" aria-hidden="true" />
+					{_("All articles")}
+				</p>
+				<ul class="border-border-subtle m-0 list-none border-l p-0">
+					{
+						articles.map((item) => {
+							const slug = getWikiSlug(item);
+							const active = slug === currentSlug;
+							return (
+								<li
+									data-wiki-nav-item
+									data-wiki-text={`${item.data.title} ${item.data.description ?? ""}`.toLowerCase()}
+								>
+									<a
+										href={`/${lang}/wiki/${slug}`}
+										aria-current={active ? "page" : undefined}
+										class:list={[
+											"font-body-md -ml-px block border-l-2 py-1.5 pr-2 pl-4 text-sm leading-snug transition-colors",
+											active
+												? "border-secondary bg-secondary/5 text-foreground font-semibold"
+												: "border-transparent text-industrial-gray hover:border-secondary/50 hover:text-foreground",
+										]}
+									>
+										{item.data.title}
+									</a>
+								</li>
+							);
+						})
+					}
+				</ul>
+			</nav>
+
+			<p id="wiki-nav-empty" hidden class="font-body-md text-industrial-gray m-0 mt-4 text-sm">
+				{_("No articles match your search.")}
+			</p>
+		</div>
+	</details>
+</aside>
+
+<script>
+	function setupWikiSidebar() {
+		// Filter items on search input
+		document.querySelectorAll<HTMLInputElement>("[data-wiki-filter]").forEach((input) => {
+			const itemSelector = input.dataset.wikiFilter ?? "";
+			const emptyEl = input.dataset.wikiEmpty
+				? document.querySelector<HTMLElement>(input.dataset.wikiEmpty)
+				: null;
+
+			const run = () => {
+				const query = input.value.trim().toLowerCase();
+				const items = document.querySelectorAll<HTMLElement>(itemSelector);
+				let visible = 0;
+				items.forEach((item) => {
+					const match = query === "" || (item.dataset.wikiText ?? "").includes(query);
+					item.hidden = !match;
+					if (match) visible++;
+				});
+				if (emptyEl) emptyEl.hidden = visible > 0 || query === "";
+			};
+			input.addEventListener("input", run);
+		});
+
+		// Ensure drawer is open on desktop
+		const nav = document.querySelector<HTMLDetailsElement>("[data-wiki-nav]");
+		if (nav) {
+			const desktop = window.matchMedia("(min-width: 1024px)");
+			const sync = () => {
+				if (desktop.matches) nav.open = true;
+			};
+			sync();
+			desktop.addEventListener("change", sync);
+		}
+	}
+
+	setupWikiSidebar();
+	document.addEventListener("astro:page-load", setupWikiSidebar);
+</script>

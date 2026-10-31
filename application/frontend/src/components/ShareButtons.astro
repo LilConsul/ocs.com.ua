@@ -17,7 +17,9 @@ const { title, description } = Astro.props;
 const _ = getInlineTranslations(getLangFromUrl(Astro.url));
 
 // astro-social-share interpolates these into share URLs without encoding them
-const url = encodeURIComponent(new URL(Astro.url.pathname, Astro.site || "https://ocs.com.ua").href);
+const url = encodeURIComponent(
+	new URL(Astro.url.pathname, Astro.site || "https://ocs.com.ua").href
+);
 const encodedTitle = encodeURIComponent(title);
 const encodedDescription = encodeURIComponent(description);
 ---

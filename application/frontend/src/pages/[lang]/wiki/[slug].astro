@@ -1,0 +1,199 @@
+---
+import { getCollection, render } from "astro:content";
+import { ChevronRight, Clock } from "lucide-react";
+import WikiCard from "@/components/wiki/WikiCard.astro";
+import WikiCta from "@/components/wiki/WikiCta.astro";
+import WikiPagination from "@/components/wiki/WikiPagination.astro";
+import WikiProgressBar from "@/components/wiki/WikiProgressBar.astro";
+import WikiSidebar from "@/components/wiki/WikiSidebar.astro";
+import WikiToc from "@/components/wiki/WikiToc.astro";
+import { getInlineTranslations, type Lang } from "@/i18n";
+import Layout from "@/layouts/Layout.astro";
+import { breadcrumbSchema } from "@/lib/structured-data";
+import {
+	calculateReadingMinutes,
+	filterWikiByLocale,
+	getWikiCoverImage,
+	getWikiLocale,
+	getWikiSlug,
+	sortWikiArticles,
+	type WikiEntry,
+} from "@/lib/wiki-utils";
+
+export async function getStaticPaths() {
+	const allArticles = await getCollection("wiki");
+	const paths = [];
+
+	for (const article of allArticles) {
+		const locale = getWikiLocale(article);
+		const slug = getWikiSlug(article);
+		const localeArticles = sortWikiArticles(filterWikiByLocale(allArticles, locale));
+		const currentIndex = localeArticles.findIndex((a) => getWikiSlug(a) === slug);
+		const prev = currentIndex > 0 ? localeArticles[currentIndex - 1] : undefined;
+		const next =
+			currentIndex >= 0 && currentIndex < localeArticles.length - 1
+				? localeArticles[currentIndex + 1]
+				: undefined;
+
+		const relatedSlugs = article.data.related ?? [];
+		const relatedArticles = relatedSlugs
+			.map((relSlug) => localeArticles.find((a) => getWikiSlug(a) === relSlug))
+			.filter((a): a is WikiEntry => Boolean(a));
+
+		paths.push({
+			params: { lang: locale, slug },
+			props: {
+				article,
+				allArticles,
+				localeArticles,
+				prev,
+				next,
+				relatedArticles,
+			},
+		});
+	}
+
+	return paths;
+}
+
+interface Props {
+	article: WikiEntry;
+	allArticles: WikiEntry[];
+	localeArticles: WikiEntry[];
+	prev?: WikiEntry;
+	next?: WikiEntry;
+	relatedArticles: WikiEntry[];
+}
+
+const { article, allArticles, localeArticles, prev, next, relatedArticles } = Astro.props;
+const { lang, slug } = Astro.params as { lang: Lang; slug: string };
+const _ = getInlineTranslations(lang);
+
+const { Content, headings } = await render(article);
+
+const title = article.data.title;
+const description = article.data.description ?? "";
+const readMinutes = calculateReadingMinutes(article.body ?? "");
+const coverImage = getWikiCoverImage(article, allArticles);
+
+const siteUrl = Astro.site || "https://ocs.com.ua";
+const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
+
+const structuredData = [
+	{
+		"@context": "https://schema.org",
+		"@type": "Article",
+		headline: title,
+		description: description,
+		image: coverImage ? [new URL(coverImage, siteUrl).href] : undefined,
+		inLanguage: lang === "ua" ? "uk" : "en",
+		mainEntityOfPage: {
+			"@type": "WebPage",
+			"@id": currentUrl,
+		},
+	},
+	breadcrumbSchema([
+		{ name: lang === "en" ? "Home" : "Головна", url: new URL(`/${lang}/`, siteUrl).href },
+		{ name: _("Knowledge Base"), url: new URL(`/${lang}/wiki`, siteUrl).href },
+		{ name: title, url: currentUrl },
+	]),
+];
+---
+
+<Layout
+	title={`${title} | ${_("OS-Technology Ukraine")}`}
+	description={description}
+	image={coverImage}
+	article={true}
+>
+	<script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+	<WikiProgressBar />
+
+	<div class="px-edge-margin mx-auto max-w-[1280px] py-10 lg:py-14">
+		<div
+			class="gap-gutter grid grid-cols-1 lg:grid-cols-[16rem_minmax(0,1fr)] xl:grid-cols-[16rem_minmax(0,1fr)_14rem]"
+		>
+			{/* Left Column: Sidebar Navigation */}
+			<WikiSidebar articles={localeArticles} currentSlug={slug} lang={lang} />
+
+			{/* Center Column: Article Main Content */}
+			<article class="min-w-0">
+				<header class="border-border-subtle border-b pb-8">
+					<h1
+						class="font-display-lg text-foreground m-0 text-3xl tracking-tight text-balance sm:text-4xl lg:text-5xl"
+					>
+						{title}
+					</h1>
+
+					{
+						description && (
+							<p class="font-body-md text-industrial-gray m-0 mt-4 max-w-prose text-base leading-relaxed lg:text-lg">
+								{description}
+							</p>
+						)
+					}
+
+					<div
+						class="font-technical-data text-industrial-gray m-0 mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs"
+					>
+						<span class="inline-flex items-center gap-1.5">
+							<Clock className="text-secondary size-4" aria-hidden="true" />
+							{readMinutes} {_("min read")}
+						</span>
+					</div>
+				</header>
+
+				{
+					coverImage && (
+						<div class="border-border-subtle mt-8 aspect-video w-full overflow-hidden rounded-xl border bg-surface-container">
+							<img src={coverImage} alt={title} class="size-full object-cover" />
+						</div>
+					)
+				}
+
+				{/* Mobile TOC */}
+				<WikiToc headings={headings} mobile={true} lang={lang} />
+
+				{/* Markdown Article Body */}
+				<div class="wiki-content prose prose-neutral dark:prose-invert mt-8 max-w-none">
+					<Content />
+				</div>
+
+				{/* Previous / Next Article Navigation */}
+				<WikiPagination prev={prev} next={next} lang={lang} />
+
+				{/* Related Articles */}
+				{
+					relatedArticles.length > 0 && (
+						<section class="mt-12" aria-labelledby="related-heading">
+							<h2
+								id="related-heading"
+								class="font-label-caps text-industrial-gray m-0 mb-4 flex items-center gap-3 text-xs font-semibold tracking-widest uppercase"
+							>
+								<span class="bg-secondary h-px w-6" aria-hidden="true"></span>
+								{_("Related articles")}
+							</h2>
+							<div class="gap-gutter grid grid-cols-1 md:grid-cols-2">
+								{relatedArticles.map((rel: WikiEntry) => (
+									<WikiCard
+										entry={rel}
+										lang={lang}
+										readMinutes={calculateReadingMinutes(rel.body ?? "")}
+										coverImage={getWikiCoverImage(rel, allArticles)}
+									/>
+								))}
+							</div>
+						</section>
+					)
+				}
+
+				{/* Bottom Consultation CTA */}
+				<WikiCta lang={lang} />
+			</article>
+
+			{/* Right Column: Desktop TOC */}
+			<WikiToc headings={headings} lang={lang} />
+		</div>
+	</div>
+</Layout>

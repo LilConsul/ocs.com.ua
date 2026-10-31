@@ -52,7 +52,15 @@ export async function getStaticPaths() {
 
 		paths.push({
 			params: { lang: locale, category, slug },
-			props: { product, lang: locale, allCategories, allIndustries, relatedProducts, gallery, relatedGalleries },
+			props: {
+				product,
+				lang: locale,
+				allCategories,
+				allIndustries,
+				relatedProducts,
+				gallery,
+				relatedGalleries,
+			},
 		});
 	}
 
@@ -69,7 +77,15 @@ interface Props {
 	relatedGalleries: Record<string, string[]>;
 }
 
-const { product, lang, allCategories, allIndustries, relatedProducts = [], gallery, relatedGalleries = {} } = Astro.props;
+const {
+	product,
+	lang,
+	allCategories,
+	allIndustries,
+	relatedProducts = [],
+	gallery,
+	relatedGalleries = {},
+} = Astro.props;
 const _ = getInlineTranslations(lang as Lang);
 const category = getCategory(product);
 

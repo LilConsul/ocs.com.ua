@@ -1,0 +1,143 @@
+---
+import { getCollection } from "astro:content";
+import { BookOpen, Search } from "lucide-react";
+import WikiCard from "@/components/wiki/WikiCard.astro";
+import WikiCta from "@/components/wiki/WikiCta.astro";
+import { getInlineTranslations, type Lang, languages } from "@/i18n";
+import Layout from "@/layouts/Layout.astro";
+import {
+	calculateReadingMinutes,
+	filterWikiByLocale,
+	getWikiCoverImage,
+	sortWikiArticles,
+	type WikiEntry,
+} from "@/lib/wiki-utils";
+
+export async function getStaticPaths() {
+	return Object.keys(languages).map((lang) => ({
+		params: { lang },
+	}));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const _ = getInlineTranslations(lang);
+
+const allArticles = await getCollection("wiki");
+const localizedArticles = filterWikiByLocale(allArticles, lang);
+const sortedArticles = sortWikiArticles(localizedArticles);
+
+const title = `${_("Knowledge Base")} | ${_("OS-Technology Ukraine")}`;
+const description = _(
+	"Technical articles, guides, and operational documentation for industrial equipment."
+);
+---
+
+<Layout title={title} description={description}>
+	{/* Hero Banner */}
+	<header
+		class="from-surface-container/40 to-background border-border-subtle relative w-full overflow-hidden border-b bg-linear-to-b py-12 lg:py-20"
+	>
+		<div
+			class="bg-secondary/10 pointer-events-none absolute -top-32 -right-24 size-[30rem] rounded-full blur-3xl"
+			aria-hidden="true"
+		>
+		</div>
+		<div class="px-edge-margin relative mx-auto max-w-[1280px]">
+			<div class="max-w-3xl">
+				<p
+					class="font-label-caps text-secondary m-0 flex items-center gap-3 text-xs font-semibold tracking-widest uppercase"
+				>
+					<span class="eyebrow-rule bg-secondary h-px w-8" aria-hidden="true"></span>
+					{_("Knowledge Base")}
+				</p>
+				<h1
+					class="font-display-lg text-foreground m-0 mt-4 text-4xl tracking-tight text-balance sm:text-5xl"
+				>
+					{_("Knowledge Base")}
+				</h1>
+				<p
+					class="font-body-md text-industrial-gray m-0 mt-5 max-w-prose text-base leading-relaxed lg:text-lg"
+				>
+					{description}
+				</p>
+
+				{/* Search bar */}
+				<div class="relative mt-8 max-w-xl">
+					<Search
+						className="text-industrial-gray pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2"
+						aria-hidden="true"
+					/>
+					<input
+						type="search"
+						class="font-body-md text-foreground placeholder:text-industrial-gray/70 border-border-subtle bg-surface-lowest focus-visible:outline-secondary h-12 w-full rounded-lg border pr-4 pl-10 text-sm shadow-xs transition-shadow focus-visible:outline-2 focus-visible:outline-offset-2"
+						placeholder={_("Search the wiki…")}
+						aria-label={_("Search the wiki…")}
+						data-wiki-index-filter
+					/>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	{/* Articles Grid Section */}
+	<section
+		class="px-edge-margin mx-auto max-w-[1280px] py-12 lg:py-20"
+		aria-label={_("All articles")}
+	>
+		<div
+			id="wiki-index-grid"
+			class="gap-gutter grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+		>
+			{
+				sortedArticles.map((article: WikiEntry) => (
+					<WikiCard
+						entry={article}
+						lang={lang}
+						readMinutes={calculateReadingMinutes(article.body ?? "")}
+						coverImage={getWikiCoverImage(article, allArticles)}
+					/>
+				))
+			}
+		</div>
+
+		<p
+			id="wiki-index-empty"
+			hidden
+			class="font-body-md text-industrial-gray m-0 mt-10 flex items-center justify-center gap-2 text-center text-sm"
+		>
+			<BookOpen className="text-secondary size-4" aria-hidden="true" />
+			{_("No articles match your search.")}
+		</p>
+
+		<WikiCta lang={lang} />
+	</section>
+</Layout>
+
+<script>
+	function setupWikiIndexSearch() {
+		const searchInput = document.querySelector<HTMLInputElement>("[data-wiki-index-filter]");
+		const grid = document.getElementById("wiki-index-grid");
+		const emptyEl = document.getElementById("wiki-index-empty");
+
+		if (!searchInput || !grid) return;
+
+		searchInput.addEventListener("input", () => {
+			const query = searchInput.value.trim().toLowerCase();
+			const items = grid.querySelectorAll<HTMLElement>("[data-wiki-item]");
+			let visibleCount = 0;
+
+			items.forEach((item) => {
+				const match = query === "" || (item.dataset.wikiText ?? "").includes(query);
+				item.hidden = !match;
+				if (match) visibleCount++;
+			});
+
+			if (emptyEl) {
+				emptyEl.hidden = visibleCount > 0 || query === "";
+			}
+		});
+	}
+
+	setupWikiIndexSearch();
+	document.addEventListener("astro:page-load", setupWikiIndexSearch);
+</script>

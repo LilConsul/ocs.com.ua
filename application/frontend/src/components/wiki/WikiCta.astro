@@ -1,0 +1,36 @@
+---
+import { ArrowRight } from "lucide-react";
+import { getInlineTranslations, type Lang } from "@/i18n";
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const _ = getInlineTranslations(lang);
+---
+
+<section
+	class="bg-primary text-primary-foreground relative mt-12 flex flex-col gap-6 overflow-hidden rounded-xl p-6 shadow-xs sm:flex-row sm:items-center sm:justify-between sm:p-8"
+	aria-labelledby="wiki-cta-heading"
+>
+	<div class="max-w-xl">
+		<h2 id="wiki-cta-heading" class="font-headline-lg m-0 text-lg font-semibold tracking-tight sm:text-xl">
+			{_("Need technical consultation?")}
+		</h2>
+		<p class="font-body-md text-primary-foreground/80 m-0 mt-2 text-sm leading-relaxed">
+			{_("Our engineers will help you choose the optimal solution for your production line.")}
+		</p>
+	</div>
+
+	<a
+		href={`/${lang}/contact`}
+		class="group bg-background text-foreground focus-visible:outline-background inline-flex shrink-0 items-center justify-center gap-2 rounded-lg px-6 py-3 text-[15px] font-medium shadow-xs transition-[opacity,box-shadow] hover:opacity-90 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2"
+	>
+		{_("Contact us")}
+		<ArrowRight
+			className="size-[18px] transition-transform duration-200 group-hover:translate-x-1"
+			aria-hidden="true"
+		/>
+	</a>
+</section>

@@ -556,6 +556,57 @@ msgstr ""
 msgid "Pharmaceuticals"
 msgstr ""
 
+msgid "Knowledge Base"
+msgstr ""
+
+msgid "Technical articles, guides, and operational documentation for industrial equipment."
+msgstr ""
+
+msgid "min read"
+msgstr ""
+
+msgid "On this page"
+msgstr ""
+
+msgid "All articles"
+msgstr ""
+
+msgid "Browse articles"
+msgstr ""
+
+msgid "Breadcrumb"
+msgstr ""
+
+msgid "Search the wiki…"
+msgstr ""
+
+msgid "No articles match your search."
+msgstr ""
+
+msgid "Previous article"
+msgstr ""
+
+msgid "Next article"
+msgstr ""
+
+msgid "Related articles"
+msgstr ""
+
+msgid "Need technical consultation?"
+msgstr ""
+
+msgid "Our engineers will help you choose the optimal solution for your production line."
+msgstr ""
+
+msgid "Contact us"
+msgstr ""
+
+msgid "Read article"
+msgstr ""
+
+msgid "Article navigation"
+msgstr ""
+
 #: src/components/contact/ContactInfoCard.astro:34
 #: src/components/contact/ContactForm.astro:132
 msgid "Phone"

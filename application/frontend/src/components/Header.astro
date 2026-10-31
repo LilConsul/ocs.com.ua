@@ -1,4 +1,5 @@
 ---
+import { SITE_DEV_NOTICE } from "astro:env/server";
 import { ArrowRight, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getInlineTranslations, type Lang } from "@/i18n";
@@ -15,7 +16,7 @@ const lang: Lang = currentLang;
 const _ = getInlineTranslations(lang);
 
 const getLanguagePath = (targetLang: string) => {
-	if (!currentPath) return `/${targetLang}`;
+	if (!(currentPath && /^\/(en|ua)(\/|$)/.test(currentPath))) return `/${targetLang}`;
 	const pathWithoutLang = currentPath.replace(/^\/(en|ua)/, "");
 	return `/${targetLang}${pathWithoutLang}`;
 };
@@ -40,6 +41,17 @@ const languageOptions = [
 	{ code: "ua" as const, name: "Українська", flag: "🇺🇦" },
 ];
 
+// The header is fixed, so the page and every sticky offset must add the banner's real height
+// (it wraps to several lines on narrow screens). Published as --banner-h; runs inline so the
+// value is set before first paint, and the observer follows rewrapping and dismissal.
+const bannerHeightScript = `(() => {
+	const banner = document.getElementById('dev-notice-banner');
+	if (!banner) return;
+	const sync = () => document.documentElement.style.setProperty('--banner-h', banner.offsetHeight + 'px');
+	sync();
+	new ResizeObserver(sync).observe(banner);
+})();`;
+
 const isActive = (pattern: string) => {
 	if (!currentPath) return false;
 	return currentPath.includes(pattern);
@@ -52,39 +64,40 @@ const isActive = (pattern: string) => {
 	class="bg-background/90 border-border/40 fixed top-0 right-0 left-0 z-50 border-b backdrop-blur-xl transition-all duration-300"
 	data-scrolled="false"
 >
-	{/* High-Contrast Top Development Notice Bar */}
-	<aside
-		id="dev-notice-banner"
-		class="relative z-50 flex items-center justify-between border-b border-amber-500/40 bg-amber-400 px-4 py-2 text-xs font-semibold text-neutral-950 shadow-xs dark:bg-amber-500 dark:text-neutral-950"
-		role="status"
-	>
-		<div class="mx-auto flex max-w-[1280px] flex-1 items-center justify-between gap-4">
-			<div class="flex items-center gap-2.5">
-				<span class="inline-block h-2.5 w-2.5 shrink-0 animate-pulse rounded-full bg-neutral-950"
-				></span>
-				<p class="text-[12px] leading-snug md:text-xs">
-					<span class="font-bold tracking-wider uppercase">
-						{lang === "ua" ? "Увага:" : "Notice:"}
-					</span>{" "}
-					{
-						_(
-							"Website in active development: Information and specifications may not be accurate, pages are still being completed, and all content is subject to change."
-						)
-					}
-				</p>
-			</div>
-
-			<button
-				type="button"
-				id="dev-notice-close"
-				class="shrink-0 rounded-md p-1 text-neutral-950 transition-all hover:bg-neutral-950/15 active:scale-95"
-				aria-label={_("Close notification")}
-				title={_("Close notification")}
+	{/* High-Contrast Top Development Notice Bar (feature flag: SITE_DEV_NOTICE) */}
+	{
+		SITE_DEV_NOTICE && (
+			<aside
+				id="dev-notice-banner"
+				class="relative z-50 flex items-center justify-between border-b border-amber-500/40 bg-amber-400 px-4 py-2 text-xs font-semibold text-neutral-950 shadow-xs dark:bg-amber-500 dark:text-neutral-950"
+				role="status"
 			>
-				<span class="material-symbols-outlined block text-[18px]">close</span>
-			</button>
-		</div>
-	</aside>
+				<div class="mx-auto flex max-w-[1280px] flex-1 items-center justify-between gap-4">
+					<div class="flex items-center gap-2.5">
+						<span class="inline-block h-2.5 w-2.5 shrink-0 animate-pulse rounded-full bg-neutral-950" />
+						<p class="text-[12px] leading-snug md:text-xs">
+							<span class="font-bold tracking-wider uppercase">
+								{lang === "ua" ? "Увага:" : "Notice:"}
+							</span>{" "}
+							{_(
+								"Website in active development: Information and specifications may not be accurate, pages are still being completed, and all content is subject to change."
+							)}
+						</p>
+					</div>
+
+					<button
+						type="button"
+						id="dev-notice-close"
+						class="shrink-0 rounded-md p-1 text-neutral-950 transition-all hover:bg-neutral-950/15 active:scale-95"
+						aria-label={_("Close notification")}
+						title={_("Close notification")}
+					>
+						<span class="material-symbols-outlined block text-[18px]">close</span>
+					</button>
+				</div>
+			</aside>
+		)
+	}
 
 	{/* Main Navigation Bar */}
 	<nav class="mx-auto flex h-20 max-w-[1280px] items-center justify-between px-8">
@@ -216,6 +229,8 @@ const isActive = (pattern: string) => {
 		</div>
 	</div>
 </header>
+
+{SITE_DEV_NOTICE && <script is:inline set:html={bannerHeightScript} />}
 
 <script>
 	function setupHeaderAndPopups() {
