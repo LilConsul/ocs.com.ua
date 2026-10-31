@@ -33,7 +33,7 @@ const prepared = groups.filter((group) => (group.items?.length ?? 0) > 0);
 		>
 			<h2
 				id="specs-heading"
-				class="font-headline-lg text-foreground m-0 px-4 pt-6 pb-4 text-xl font-semibold tracking-tight break-words sm:px-8 sm:pt-7 sm:pb-5 sm:text-2xl"
+				class="font-headline-lg text-foreground m-0 px-4 pt-6 pb-4 text-xl font-semibold tracking-tight wrap-break-word sm:px-8 sm:pt-7 sm:pb-5 sm:text-2xl"
 			>
 				{_("Technical Specifications")}
 			</h2>
@@ -56,10 +56,10 @@ const prepared = groups.filter((group) => (group.items?.length ?? 0) > 0);
 									index % 2 === 1 ? "bg-surface-container/60" : "bg-background"
 								}`}
 							>
-								<dt class="font-body-md text-industrial-gray m-0 text-sm font-medium break-words">
+								<dt class="font-body-md text-industrial-gray m-0 text-sm font-medium wrap-break-word">
 									{spec.label}
 								</dt>
-								<dd class="font-body-md text-foreground m-0 text-sm font-medium break-words sm:col-span-2">
+								<dd class="font-body-md text-foreground m-0 text-sm font-medium wrap-break-word sm:col-span-2">
 									{spec.value}
 								</dd>
 							</div>

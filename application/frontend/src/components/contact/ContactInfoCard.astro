@@ -37,13 +37,13 @@ const phoneHref = `tel:${companyData.phone.replace(/[^\d+]/g, "")}`;
 			</dt>
 			<dd class="space-y-1">
 				<p
-					class="font-technical-data text-technical-data text-foreground font-semibold break-words"
+					class="font-technical-data text-technical-data text-foreground font-semibold wrap-break-word"
 				>
 					{contactPerson.name}
 				</p>
 				<a
 					href={phoneHref}
-					class="font-headline-lg text-foreground hover:text-secondary text-lg font-bold break-words transition-colors sm:text-2xl"
+					class="font-headline-lg text-foreground hover:text-secondary text-lg font-bold wrap-break-word transition-colors sm:text-2xl"
 				>
 					{companyData.phone}
 				</a>

@@ -102,7 +102,7 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 	aria-labelledby="map-section-title"
 	class="bg-background w-full scroll-mt-[calc(6rem+var(--banner-h,0px))] py-16 lg:py-24"
 >
-	<div class="px-edge-margin mx-auto max-w-[1280px]">
+	<div class="px-edge-margin mx-auto max-w-7xl">
 		<header class="mb-12 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
 			<div>
 				<p
@@ -113,7 +113,7 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 				</p>
 				<h2
 					id="map-section-title"
-					class="font-headline-lg text-foreground mt-2 text-2xl font-semibold tracking-tight text-balance break-words sm:text-3xl lg:text-4xl"
+					class="font-headline-lg text-foreground mt-2 text-2xl font-semibold tracking-tight text-balance wrap-break-word sm:text-3xl lg:text-4xl"
 				>
 					{_("Verified Ukrainian Industrial Footprint")}
 				</h2>
@@ -227,7 +227,7 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 											<div class={iconTileClass} aria-hidden="true">
 												<MapPin class="h-4 w-4" />
 											</div>
-											<h4 class="font-headline-lg text-foreground m-0 text-sm font-semibold break-words sm:text-base">
+											<h4 class="font-headline-lg text-foreground m-0 text-sm font-semibold wrap-break-word sm:text-base">
 												{hub.name[lang]}
 											</h4>
 										</div>
@@ -264,7 +264,7 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 											{hub.clients.length > 0 ? (
 												<ul class="m-0 mt-2 flex list-none flex-wrap gap-1.5 p-0">
 													{hub.clients.map((c) => (
-														<li class="font-body-md bg-background border-border-subtle/60 text-foreground max-w-full rounded-full border px-2.5 py-0.5 text-xs break-words">
+														<li class="font-body-md bg-background border-border-subtle/60 text-foreground max-w-full rounded-full border px-2.5 py-0.5 text-xs wrap-break-word">
 															{c[lang]}
 														</li>
 													))}
@@ -304,7 +304,7 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 										>
 											<SectorIcon class="h-4 w-4" />
 										</div>
-										<h3 class="font-headline-lg text-foreground m-0 text-sm font-semibold break-words sm:text-base">
+										<h3 class="font-headline-lg text-foreground m-0 text-sm font-semibold wrap-break-word sm:text-base">
 											{sector.title[lang]}
 										</h3>
 									</div>

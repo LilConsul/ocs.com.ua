@@ -24,7 +24,7 @@ const controlButton =
 
 // Thumbnail recipe shared by the rail and the lightbox strip
 const thumbBase =
-	"border-border-subtle/60 hover:border-secondary/40 focus-visible:outline-secondary aspect-[4/3] shrink-0 cursor-pointer touch-manipulation overflow-hidden rounded-lg border bg-white p-1.5 opacity-60 transition-[opacity,border-color,box-shadow] duration-200 hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2";
+	"border-border-subtle/60 hover:border-secondary/40 focus-visible:outline-secondary aspect-4/3 shrink-0 cursor-pointer touch-manipulation overflow-hidden rounded-lg border bg-white p-1.5 opacity-60 transition-[opacity,border-color,box-shadow] duration-200 hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2";
 ---
 
 <figure
@@ -52,7 +52,7 @@ const thumbBase =
 	{/* Main viewer */}
 	<div
 		data-main-card
-		class="group/card border-border-subtle/50 hover:border-secondary/40 before:from-secondary relative aspect-[4/3] w-full touch-pan-y overflow-hidden rounded-xl border bg-white shadow-xs transition-[box-shadow,border-color] duration-300 before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-0.5 before:bg-linear-to-r before:to-transparent hover:shadow-lg"
+		class="group/card border-border-subtle/50 hover:border-secondary/40 before:from-secondary relative aspect-4/3 w-full touch-pan-y overflow-hidden rounded-xl border bg-white shadow-xs transition-[box-shadow,border-color] duration-300 before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-0.5 before:bg-linear-to-r before:to-transparent hover:shadow-lg"
 	>
 		{/* Badge bar — floats over the image */}
 		<div class="absolute inset-x-0 top-0 z-10 flex items-center justify-between p-3 sm:p-4">
@@ -135,7 +135,7 @@ const thumbBase =
 						<li role="presentation" class="shrink-0 snap-start">
 							<button
 								type="button"
-								class={`gallery-thumb group/thumb ${thumbBase} aria-selected:border-secondary aria-selected:ring-secondary/20 relative h-[4.5rem] aria-selected:opacity-100 aria-selected:shadow-xs aria-selected:ring-2`}
+								class={`gallery-thumb group/thumb ${thumbBase} aria-selected:border-secondary aria-selected:ring-secondary/20 relative h-18 aria-selected:opacity-100 aria-selected:shadow-xs aria-selected:ring-2`}
 								data-index={idx}
 								aria-label={`${_("View image")} ${idx + 1}`}
 								role="tab"
@@ -216,9 +216,7 @@ const thumbBase =
 			id="lightbox-viewport"
 			class:list={[
 				"absolute inset-0 flex touch-none items-center justify-center overflow-hidden px-16 data-dragging:cursor-grabbing data-zoomed:cursor-grab",
-				hasMultiple
-					? "pt-[3.5rem] pb-[5.5rem] sm:pt-[4rem] sm:pb-[6rem] md:pt-[4.5rem] md:pb-[6.5rem]"
-					: "pt-[3.5rem] pb-4 sm:pt-[4rem]",
+				hasMultiple ? "pt-14 pb-22 sm:pt-16 sm:pb-24 md:pt-18 md:pb-26" : "pt-14 pb-4 sm:pt-16",
 			]}
 		>
 			<Image
@@ -238,7 +236,7 @@ const thumbBase =
 						<button
 							type="button"
 							id="lightbox-prev-btn"
-							class={`${controlButton} absolute bottom-[5.5rem] left-3 size-11 rounded-full md:top-1/2 md:bottom-auto md:left-8 md:size-12 md:-translate-y-1/2`}
+							class={`${controlButton} absolute bottom-22 left-3 size-11 rounded-full md:top-1/2 md:bottom-auto md:left-8 md:size-12 md:-translate-y-1/2`}
 							aria-label={_("Previous image")}
 						>
 							<ChevronLeft class="size-5 md:size-6" aria-hidden="true" />
@@ -246,7 +244,7 @@ const thumbBase =
 						<button
 							type="button"
 							id="lightbox-next-btn"
-							class={`${controlButton} absolute right-3 bottom-[5.5rem] size-11 rounded-full md:top-1/2 md:right-8 md:bottom-auto md:size-12 md:-translate-y-1/2`}
+							class={`${controlButton} absolute right-3 bottom-22 size-11 rounded-full md:top-1/2 md:right-8 md:bottom-auto md:size-12 md:-translate-y-1/2`}
 							aria-label={_("Next image")}
 						>
 							<ChevronRight class="size-5 md:size-6" aria-hidden="true" />

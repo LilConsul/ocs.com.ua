@@ -23,7 +23,7 @@ const _ = getInlineTranslations(lang);
 			data-related
 		>
 			<div
-				class="related-glow bg-secondary/10 pointer-events-none absolute -bottom-40 -left-24 size-[30rem] rounded-full blur-3xl"
+				class="related-glow bg-secondary/10 pointer-events-none absolute -bottom-40 -left-24 size-120 rounded-full blur-3xl"
 				aria-hidden="true"
 			/>
 
@@ -35,7 +35,7 @@ const _ = getInlineTranslations(lang);
 					</span>
 					<h2
 						id="related-heading"
-						class="font-headline-lg text-foreground mt-2 text-2xl font-semibold tracking-tight text-balance break-words sm:text-3xl lg:text-4xl"
+						class="font-headline-lg text-foreground mt-2 text-2xl font-semibold tracking-tight text-balance wrap-break-word sm:text-3xl lg:text-4xl"
 					>
 						{_("Related Equipment")}
 					</h2>
@@ -69,11 +69,11 @@ const _ = getInlineTranslations(lang);
 									<p class="font-label-caps text-secondary mb-1 text-[11px] font-semibold tracking-wider uppercase">
 										{itemCategory}
 									</p>
-									<h3 class="font-headline-lg text-foreground group-hover:text-secondary m-0 mb-2 text-base font-semibold break-words transition-colors">
+									<h3 class="font-headline-lg text-foreground group-hover:text-secondary m-0 mb-2 text-base font-semibold wrap-break-word transition-colors">
 										{item.data.title}
 									</h3>
 									{itemSpec && (
-										<p class="font-technical-data text-industrial-gray m-0 text-xs break-words">
+										<p class="font-technical-data text-industrial-gray m-0 text-xs wrap-break-word">
 											{itemSpec.label}:{" "}
 											<span class="text-foreground font-semibold">{itemSpec.value}</span>
 										</p>
