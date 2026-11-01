@@ -547,7 +547,7 @@ msgstr "ОС-Технолоджи Україна — ексклюзивний а
 
 #: src/pages/[lang]/index.astro:30
 msgid "OS-Technology Ukraine | Checkweighers & Inspection Systems"
-msgstr "ОС-Технолоджи Україна | Контрольно динамічні ваги та інспекційні системи"
+msgstr "ОС-Технолоджи Україна | Промислові інспекційні системи"
 
 #: src/components/about/ManufacturerCredentials.astro:75
 msgid "Official German Engineering Credentials"

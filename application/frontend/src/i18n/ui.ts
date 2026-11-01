@@ -375,7 +375,7 @@ export const ui = {
 		"inline.open_in_google_maps": "Відкрити в Google Maps",
 		"inline.optional": "необов'язково",
 		"inline.os_technology_ukraine": "ОС-Технолоджи Україна",
-		"inline.os_technology_ukraine_checkweighers_inspection_systems": "ОС-Технолоджи Україна | Контрольно динамічні ваги та інспекційні системи",
+		"inline.os_technology_ukraine_checkweighers_inspection_systems": "ОС-Технолоджи Україна | Промислові інспекційні системи",
 		"inline.os_technology_ukraine_is_the_exclusive_authorized_distributor_and_certified_inte": "ОС-Технолоджи Україна — ексклюзивний авторизований дистриб'ютор та сертифікований інтеграційний партнер WIPOTEC GmbH і MESUTRONIC Gerätebau GmbH в Україні. Ми постачаємо контрольні динамічні ваги, промислові металодетектори, X-Ray сканери та системи серіалізації та агрегації Track & Trace для фармацевтичної промисловості із введенням в експлуатацію під ключ та заводською гарантією.",
 		"inline.other": "Інше",
 		"inline.our_clients": "Наші клієнти",
