@@ -146,14 +146,19 @@ describe("structured-data: websiteSchema", () => {
 		expect(ws.name).toBe(companyData.name.en);
 		expect(ws.inLanguage).toBe("en");
 		expect(ws.publisher).toEqual({ "@id": "https://ocs.com.ua/#organization" });
-		expect(ws.potentialAction).toEqual({
-			"@type": "SearchAction",
-			target: {
-				"@type": "EntryPoint",
-				urlTemplate: "https://ocs.com.ua/en/wiki/?q={search_term_string}",
-			},
-			"query-input": "required name=search_term_string",
-		});
+		expect(Array.isArray(ws.potentialAction)).toBe(true);
+	});
+
+	it("emits two SearchAction nodes — one for wiki and one for catalogue", () => {
+		const ws = websiteSchema("en", SITE);
+		const actions = ws.potentialAction as unknown[];
+		expect(Array.isArray(actions)).toBe(true);
+		expect(actions).toHaveLength(2);
+		const templates = (actions as Array<Record<string, unknown>>).map(
+			(a) => ((a.target as Record<string, unknown>)?.urlTemplate as string) ?? ""
+		);
+		expect(templates.some((t) => t.includes("/wiki/"))).toBe(true);
+		expect(templates.some((t) => t.includes("/catalogue/equipment/checkweighers/"))).toBe(true);
 	});
 });
 

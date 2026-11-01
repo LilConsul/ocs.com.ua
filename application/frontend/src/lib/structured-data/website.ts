@@ -15,13 +15,23 @@ export function websiteSchema(lang: Lang, site: SiteOrigin): SchemaNode {
 		publisher: {
 			"@id": organizationId(site),
 		},
-		potentialAction: {
-			"@type": "SearchAction",
-			target: {
-				"@type": "EntryPoint",
-				urlTemplate: `${baseUrl}wiki/?q={search_term_string}`,
+		potentialAction: [
+			{
+				"@type": "SearchAction",
+				target: {
+					"@type": "EntryPoint",
+					urlTemplate: `${baseUrl}wiki/?q={search_term_string}`,
+				},
+				"query-input": "required name=search_term_string",
 			},
-			"query-input": "required name=search_term_string",
-		},
+			{
+				"@type": "SearchAction",
+				target: {
+					"@type": "EntryPoint",
+					urlTemplate: `${baseUrl}catalogue/equipment/checkweighers/?q={search_term_string}`,
+				},
+				"query-input": "required name=search_term_string",
+			},
+		],
 	};
 }
