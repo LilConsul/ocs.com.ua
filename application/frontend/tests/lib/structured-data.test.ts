@@ -303,3 +303,31 @@ describe("structured-data: productSchema", () => {
 		expect(minimal.inLanguage).toBe("uk");
 	});
 });
+
+import { articleSchema } from "@/lib/structured-data/article";
+
+describe("structured-data: articleSchema", () => {
+	it("builds a TechArticle node with reading time and author/publisher refs", () => {
+		const pageUrl = "https://ocs.com.ua/en/wiki/weighing-accuracy/";
+		const article = articleSchema({
+			headline: "Dynamic Weighing Accuracy",
+			description: "Understanding calibration tolerances",
+			url: pageUrl,
+			lang: "en",
+			site: SITE,
+			image: "/assets/wiki/cover.webp",
+			readMinutes: 4,
+			wordCount: 820,
+		});
+
+		expect(article["@type"]).toBe("TechArticle");
+		expect(article["@id"]).toBe(`${pageUrl}#article`);
+		expect(article.headline).toBe("Dynamic Weighing Accuracy");
+		expect(article.image).toEqual(["https://ocs.com.ua/assets/wiki/cover.webp"]);
+		expect(article.timeRequired).toBe("PT4M");
+		expect(article.wordCount).toBe(820);
+		expect(article.author).toEqual({ "@id": "https://ocs.com.ua/#organization" });
+		expect(article.publisher).toEqual({ "@id": "https://ocs.com.ua/#organization" });
+		expect(article.mainEntityOfPage).toEqual({ "@id": `${pageUrl}#webpage` });
+	});
+});
