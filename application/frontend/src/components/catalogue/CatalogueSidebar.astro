@@ -1,7 +1,7 @@
 ---
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { categoryUrl, industryUrl } from "@/lib/catalogue-urls";
-import type { EquipmentType, Industry } from "@/lib/content-utils";
+import type { EquipmentType, Industry, ProductSearchEntry } from "@/lib/content-utils";
 
 interface Props {
 	allCategories: EquipmentType[];
@@ -11,9 +11,12 @@ interface Props {
 	/** Slug of the active category (equipment) or industry (industry) */
 	activeSlug: string;
 	lang: Lang;
+	/** All locale products for cross-category search */
+	productSearchIndex?: ProductSearchEntry[];
 }
 
-const { allCategories, allIndustries, section, activeSlug, lang } = Astro.props;
+const { allCategories, allIndustries, section, activeSlug, lang, productSearchIndex = [] } =
+	Astro.props;
 const _ = getInlineTranslations(lang);
 
 // Array order is the display order
@@ -92,16 +95,18 @@ const sections = [
 					placeholder={_("Search products…")}
 					aria-label={_("Search products…")}
 					data-product-search-input
+					data-label-technical-details={_("Technical Details")}
+					data-label-no-results={_("No products match your search. Try browsing another category.")}
 				/>
 			</div>
-			<p
-				data-product-empty
-				hidden
-				class="font-body-md text-industrial-gray mt-3 text-xs leading-relaxed"
-			>
-				{_("No products match your search. Try browsing another category.")}
-			</p>
 		</div>
+
+		{/* JSON index for cross-category search — read by the sidebar script */}
+		<script
+			type="application/json"
+			data-product-index
+			set:text={JSON.stringify(productSearchIndex)}
+		/>
 
 		{/* Exclusive accordion: opening one section closes the other */}
 		<div class="space-y-3">
@@ -406,6 +411,8 @@ const sections = [
 				el.style.animation = "none";
 			});
 
+			// Reset any saved search state so restoration uses the new page's content
+			savedResultsHTML = null;
 			results.innerHTML = nextResults.innerHTML;
 			revealGrids();
 			setupProductSearch();
@@ -471,30 +478,115 @@ const sections = [
 
 	window.addEventListener("popstate", () => {
 		if (!getResults() || trimSlash(location.pathname) === shownPath) return;
+		savedResultsHTML = null;
 		swapPage(location.href, false);
 	});
 
-	function filterProducts(): void {
-		const input = document.querySelector<HTMLInputElement>("[data-product-search-input]");
-		const emptyEl = document.querySelector<HTMLElement>("[data-product-empty]");
-		const results = getResults();
-		if (!input) return;
+	/*
+	 * Cross-category product search.
+	 * When query is non-empty: searches the JSON index embedded at build time and renders
+	 * matching cards into [data-catalogue-results], saving the original HTML for restoration.
+	 * When query is cleared: restores the saved original HTML.
+	 */
 
-		const query = input.value.trim().toLowerCase();
-		const items = results
-			? results.querySelectorAll<HTMLElement>("[data-product-item]")
-			: document.querySelectorAll<HTMLElement>("[data-product-item]");
+	interface ProductEntry {
+		title: string;
+		description: string;
+		url: string;
+		image: string;
+	}
 
-		let visibleCount = 0;
-		items.forEach((item) => {
-			const match = query === "" || (item.dataset.productText ?? "").includes(query);
-			item.hidden = !match;
-			if (match) visibleCount++;
-		});
-
-		if (emptyEl) {
-			emptyEl.hidden = visibleCount > 0 || query === "";
+	function getProductIndex(): ProductEntry[] {
+		const el = document.querySelector<HTMLScriptElement>("[data-product-index]");
+		if (!el) return [];
+		try {
+			return JSON.parse(el.textContent ?? "[]") as ProductEntry[];
+		} catch {
+			return [];
 		}
+	}
+
+	function renderSearchResults(
+		matches: ProductEntry[],
+		labelDetails: string,
+		labelNoResults: string
+	): string {
+		if (matches.length === 0) {
+			return `<div class="text-industrial-gray py-24 text-center">
+				<p class="text-lg">${labelNoResults}</p>
+			</div>`;
+		}
+		const cards = matches
+			.map(
+				(p, i) => `
+			<article
+				class="product-card group bg-background border-border-subtle/70 hover:border-secondary/40 flex flex-col overflow-hidden rounded-xl border shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-lg motion-safe:hover:-translate-y-0.5"
+				style="--i:${i % 3}"
+				data-product-item
+				data-product-text="${(p.title + " " + p.description).toLowerCase().replace(/"/g, "&quot;")}"
+			>
+				<div class="border-border-subtle/40 relative flex aspect-4/3 items-center justify-center border-b bg-white p-4">
+					<img src="${p.image || "/placeholder.svg"}" alt="${p.title.replace(/"/g, "&quot;")}"
+						width="800" height="600"
+						class="h-full w-full object-contain mix-blend-multiply"
+						loading="lazy" />
+				</div>
+				<div class="flex flex-1 flex-col p-5 sm:p-6">
+					<h3 class="font-headline-lg text-foreground m-0 mb-2 text-lg leading-snug font-semibold text-balance">${p.title}</h3>
+					${p.description ? `<p class="font-body-md text-industrial-gray m-0 mb-5 line-clamp-2 text-sm leading-relaxed">${p.description}</p>` : ""}
+					<div class="mt-auto">
+						<a href="${p.url}"
+							class="border-secondary/40 text-secondary group-hover:border-secondary group-hover:bg-secondary/5 focus-visible:outline-secondary font-technical-data flex w-full items-center justify-center gap-2 rounded-lg border py-2.5 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+						>
+							${labelDetails}
+							<span class="material-symbols-outlined text-[16px] transition-transform group-hover:translate-x-1">arrow_forward</span>
+						</a>
+					</div>
+				</div>
+			</article>`
+			)
+			.join("");
+		return `<section aria-label="Search results">
+			<div data-product-grid class="gap-gutter grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+				${cards}
+			</div>
+		</section>`;
+	}
+
+	let savedResultsHTML: string | null = null;
+
+	function runProductSearch(query: string): void {
+		const results = getResults();
+		if (!results) return;
+
+		const input = document.querySelector<HTMLInputElement>("[data-product-search-input]");
+		const labelDetails = input?.dataset.labelTechnicalDetails ?? "Technical Details";
+		const labelNoResults =
+			input?.dataset.labelNoResults ??
+			"No products match your search. Try browsing another category.";
+
+		if (query === "") {
+			// Restore original page HTML
+			if (savedResultsHTML !== null) {
+				results.innerHTML = savedResultsHTML;
+				savedResultsHTML = null;
+				revealGrids();
+			}
+			return;
+		}
+
+		// Save current HTML before first search
+		if (savedResultsHTML === null) {
+			savedResultsHTML = results.innerHTML;
+		}
+
+		const index = getProductIndex();
+		const matches = index.filter(
+			(p) => p.title.toLowerCase().includes(query) || p.description.toLowerCase().includes(query)
+		);
+
+		results.innerHTML = renderSearchResults(matches, labelDetails, labelNoResults);
+		revealGrids();
 	}
 
 	function setupProductSearch(): void {
@@ -510,12 +602,14 @@ const sections = [
 		if (input.value !== initial) input.value = initial;
 
 		input.addEventListener("input", () => {
+			const q = input.value.trim().toLowerCase();
 			setSearchQuery(input.value.trim());
-			filterProducts();
+			runProductSearch(q);
 		});
 
-		// Apply current query to the cards now in the DOM
-		filterProducts();
+		// Apply current query to results already in the DOM
+		const q = initial.trim().toLowerCase();
+		if (q) runProductSearch(q);
 	}
 
 	setupProductSearch();

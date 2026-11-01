@@ -11,6 +11,7 @@ import {
 	filterByCategory,
 	filterByLocale,
 	getCategoriesForLocale,
+	getCategory,
 	getGallery,
 	getIndustriesForLocale,
 	getProducts,
@@ -41,6 +42,9 @@ export async function getStaticPaths() {
 			const galleries = Object.fromEntries(
 				(categoryProducts || []).map((p) => [p.id, getGallery(p, allProducts) ?? []])
 			);
+			const allGalleries = Object.fromEntries(
+				localeProducts.map((p) => [p.id, getGallery(p, allProducts) ?? []])
+			);
 
 			paths.push({
 				params: { lang, category: cat.slug },
@@ -52,6 +56,8 @@ export async function getStaticPaths() {
 					allIndustries: getIndustriesForLocale(lang),
 					lang,
 					galleries,
+					localeProducts,
+					allGalleries,
 				},
 			});
 		}
@@ -68,12 +74,22 @@ const {
 	allIndustries = [],
 	lang,
 	galleries = {},
+	localeProducts = [],
+	allGalleries = {},
 } = Astro.props;
 const _ = getInlineTranslations(lang as Lang);
 
 // Sort products by order field; categories keep their JSON array order
 const sortedProducts = Array.isArray(products) ? sortByOrder(products) : [];
 const sortedCategories = Array.isArray(allCategories) ? allCategories : [];
+
+// Minimal product index for cross-category search (title + description + url + first image)
+const productSearchIndex = localeProducts.map((p) => ({
+	title: p.data.title ?? "",
+	description: p.data.description ?? "",
+	url: productUrl(lang as Lang, getCategory(p), getSlug(p)),
+	image: (allGalleries as Record<string, string[]>)[p.id]?.[0] ?? "",
+}));
 
 // Page metadata - with fallback for missing categoryData
 const pageTitle = `${categoryData?.title || "Equipment"} | ${companyData.shortName[lang as "en" | "ua"] ?? companyData.shortName.en}`;
@@ -130,6 +146,7 @@ const structuredData = createPageGraph({
 		section="equipment"
 		activeSlug={categorySlug}
 		lang={lang as Lang}
+		productSearchIndex={productSearchIndex}
 	>
 		<section aria-label={_("Products")}>
 			{

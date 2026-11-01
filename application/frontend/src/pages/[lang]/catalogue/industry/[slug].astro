@@ -37,6 +37,9 @@ export async function getStaticPaths() {
 			const galleries = Object.fromEntries(
 				products.map((p) => [p.id, getGallery(p, allProducts) ?? []])
 			);
+			const allGalleries = Object.fromEntries(
+				localeProducts.map((p) => [p.id, getGallery(p, allProducts) ?? []])
+			);
 
 			return [
 				{
@@ -48,6 +51,8 @@ export async function getStaticPaths() {
 						allIndustries,
 						lang,
 						galleries,
+						localeProducts,
+						allGalleries,
 					},
 				},
 			];
@@ -55,13 +60,30 @@ export async function getStaticPaths() {
 	});
 }
 
-const { industry, groups, allCategories, allIndustries, lang, galleries = {} } = Astro.props;
+const {
+	industry,
+	groups,
+	allCategories,
+	allIndustries,
+	lang,
+	galleries = {},
+	localeProducts = [],
+	allGalleries = {},
+} = Astro.props;
 const _ = getInlineTranslations(lang as Lang);
 
 const pageTitle = `${industry.title} | ${companyData.shortName[lang as "en" | "ua"] ?? companyData.shortName.en}`;
 
 const siteUrl = Astro.site || "https://ocs.com.ua";
 const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
+
+// Minimal product index for cross-category search
+const productSearchIndex = localeProducts.map((p) => ({
+	title: p.data.title ?? "",
+	description: p.data.description ?? "",
+	url: productUrl(lang as Lang, getCategory(p), getSlug(p)),
+	image: (allGalleries as Record<string, string[]>)[p.id]?.[0] ?? "",
+}));
 
 // Flat list in the same order the groups are shown
 const listedProducts = groups.flatMap((group) => group.products);
@@ -121,6 +143,7 @@ const structuredData = createPageGraph({
 		section="industry"
 		activeSlug={industry.slug}
 		lang={lang as Lang}
+		productSearchIndex={productSearchIndex}
 	>
 		<section aria-label={_("Products")} class="space-y-12">
 			{

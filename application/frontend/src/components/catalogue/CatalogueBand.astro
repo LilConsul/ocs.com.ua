@@ -1,6 +1,6 @@
 ---
 import type { Lang } from "@/i18n";
-import type { EquipmentType, Industry } from "@/lib/content-utils";
+import type { EquipmentType, Industry, ProductSearchEntry } from "@/lib/content-utils";
 import CatalogueSidebar from "./CatalogueSidebar.astro";
 
 interface Props {
@@ -9,6 +9,7 @@ interface Props {
 	section: "equipment" | "industry";
 	activeSlug: string;
 	lang: Lang;
+	productSearchIndex?: ProductSearchEntry[];
 }
 ---
 
