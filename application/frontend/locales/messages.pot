@@ -247,7 +247,7 @@ msgid "Download PDF"
 msgstr ""
 
 #: src/pages/[lang]/index.astro:31
-msgid "Dynamic checkweighers and Track & Trace systems for food, pharmaceutical, and logistics industries in Ukraine. Official Wipotec partner."
+msgid "Checkweighers, metal detectors & Track & Trace systems for food, pharmaceutical and logistics industries in Ukraine. Official WIPOTEC & MESUTRONIC partner."
 msgstr ""
 
 #: src/components/about/ManufacturerCredentials.astro:21
