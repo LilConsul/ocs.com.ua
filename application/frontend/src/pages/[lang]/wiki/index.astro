@@ -147,9 +147,9 @@ const structuredData = createPageGraph({
 
 		if (!searchInput || !grid) return;
 
-		searchInput.addEventListener("input", () => {
-			const query = searchInput.value.trim().toLowerCase();
-			const items = grid.querySelectorAll<HTMLElement>("[data-wiki-item]");
+		function runFilter() {
+			const query = searchInput!.value.trim().toLowerCase();
+			const items = grid!.querySelectorAll<HTMLElement>("[data-wiki-item]");
 			let visibleCount = 0;
 
 			items.forEach((item) => {
@@ -161,7 +161,26 @@ const structuredData = createPageGraph({
 			if (emptyEl) {
 				emptyEl.hidden = visibleCount > 0 || query === "";
 			}
+		}
+
+		searchInput.addEventListener("input", () => {
+			const q = searchInput.value.trim();
+			const url = new URL(location.href);
+			if (q) {
+				url.searchParams.set("q", q);
+			} else {
+				url.searchParams.delete("q");
+			}
+			history.replaceState(history.state, "", url);
+			runFilter();
 		});
+
+		// Pre-fill from URL on load / Astro page transition
+		const initial = new URLSearchParams(location.search).get("q") ?? "";
+		if (initial) {
+			searchInput.value = initial;
+		}
+		runFilter();
 	}
 
 	setupWikiIndexSearch();
