@@ -90,8 +90,8 @@ const { itemList } = collectionPageSchema({
 	title: pageTitle,
 	description: pageDescription,
 	items: sortedProducts.map((product) => ({
-		name: product.data.title,
-		description: product.data.description,
+		name: product.data.title ?? "",
+		description: product.data.description ?? undefined,
 		url: new URL(productUrl(lang as Lang, categorySlug, getSlug(product)), siteUrl).href,
 	})),
 	about: categoryData

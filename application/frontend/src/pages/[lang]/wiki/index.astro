@@ -44,7 +44,7 @@ const { itemList } = collectionPageSchema({
 	description,
 	items: sortedArticles.map((article) => ({
 		name: article.data.title,
-		description: article.data.description,
+		description: article.data.description ?? undefined,
 		url: new URL(`/${lang}/wiki/${getWikiSlug(article)}/`, siteUrl).href,
 	})),
 });

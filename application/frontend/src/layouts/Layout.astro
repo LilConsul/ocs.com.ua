@@ -5,6 +5,7 @@ import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
 import companyData from "@/data/company.json";
 import { defaultLang, getIsoLang, getLangFromUrl } from "@/i18n";
+import type { SchemaGraph } from "@/lib/structured-data";
 
 interface Props {
 	title: string;
@@ -12,7 +13,7 @@ interface Props {
 	showHeader?: boolean;
 	image?: string;
 	article?: boolean;
-	structuredData?: Record<string, unknown>;
+	structuredData?: SchemaGraph;
 }
 
 const {

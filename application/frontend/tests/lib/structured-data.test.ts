@@ -15,7 +15,7 @@ const SITE = "https://ocs.com.ua";
 
 describe("structured-data: cleanSchema", () => {
 	it("removes undefined and null properties recursively", () => {
-		const input = {
+		const input: Record<string, unknown> = {
 			"@type": "Product",
 			name: "HC-A",
 			description: undefined,
@@ -25,7 +25,7 @@ describe("structured-data: cleanSchema", () => {
 				legalName: undefined,
 			},
 		};
-		expect(cleanSchema(input)).toEqual({
+		expect(cleanSchema(input as Parameters<typeof cleanSchema>[0])).toEqual({
 			"@type": "Product",
 			name: "HC-A",
 			brand: {
@@ -35,12 +35,12 @@ describe("structured-data: cleanSchema", () => {
 	});
 
 	it("removes empty arrays and leaves populated arrays intact", () => {
-		const input = {
+		const input: Record<string, unknown> = {
 			"@type": "Product",
 			image: [],
 			additionalProperty: [{ "@type": "PropertyValue", name: "Speed", value: "2.5 m/s" }],
 		};
-		expect(cleanSchema(input)).toEqual({
+		expect(cleanSchema(input as Parameters<typeof cleanSchema>[0])).toEqual({
 			"@type": "Product",
 			additionalProperty: [{ "@type": "PropertyValue", name: "Speed", value: "2.5 m/s" }],
 		});
@@ -127,15 +127,14 @@ describe("structured-data: organizationSchema", () => {
 		expect(org.knowsAbout).not.toContain("");
 		expect(org.openingHours).toBe("Mo Tu We Th Fr 09:00-18:00");
 		expect(org.priceRange).toBe(companyData.priceRange);
-		// sameAs is omitted when empty array
-		expect(org.sameAs).toBeUndefined();
+		expect(org.sameAs).toEqual(companyData.sameAs);
 	});
 
 	it("translates address and company name for Ukrainian locale", () => {
 		const org = organizationSchema("ua", SITE);
 		expect(org.name).toBe(companyData.name.ua);
 		expect(org.url).toBe("https://ocs.com.ua/ua/");
-		expect(org.address.addressLocality).toBe("Київ");
+		expect((org.address as Record<string, unknown>)?.addressLocality).toBe("Київ");
 	});
 });
 
@@ -313,8 +312,8 @@ describe("structured-data: productSchema", () => {
 			site: SITE,
 			datasheetUrl: "/assets/equipment/hc-a/datasheet.pdf",
 		});
-		expect(uaProduct.subjectOf.name).toBe("Технічна специфікація");
-		expect(uaProduct.offers.priceSpecification.description).toBe("Ціна за запитом");
+		expect((uaProduct.subjectOf as Record<string, unknown>)?.name).toBe("Технічна специфікація");
+		expect(((uaProduct.offers as Record<string, unknown>)?.priceSpecification as Record<string, unknown>)?.description).toBe("Ціна за запитом");
 	});
 
 	it("omits empty gallery, specs, or datasheet when not present", () => {
@@ -480,11 +479,11 @@ describe("structured-data: integration — no null/undefined in JSON output", ()
 
 	it("geocoordinates and opening hours match company.json", () => {
 		const org = organizationSchema("en", SITE);
-		expect(org.geo.latitude).toBe(companyData.geo.latitude);
-		expect(org.geo.longitude).toBe(companyData.geo.longitude);
-		expect(org.openingHoursSpecification.dayOfWeek).toEqual(companyData.openingHours.days);
-		expect(org.openingHoursSpecification.opens).toBe(companyData.openingHours.opens);
-		expect(org.openingHoursSpecification.closes).toBe(companyData.openingHours.closes);
+		expect((org.geo as Record<string, unknown>)?.latitude).toBe(companyData.geo.latitude);
+		expect((org.geo as Record<string, unknown>)?.longitude).toBe(companyData.geo.longitude);
+		expect((org.openingHoursSpecification as Record<string, unknown>)?.dayOfWeek).toEqual(companyData.openingHours.days);
+		expect((org.openingHoursSpecification as Record<string, unknown>)?.opens).toBe(companyData.openingHours.opens);
+		expect((org.openingHoursSpecification as Record<string, unknown>)?.closes).toBe(companyData.openingHours.closes);
 	});
 
 	it("_('Price on request') and _('Technical Datasheet') translate correctly", () => {
@@ -496,8 +495,8 @@ describe("structured-data: integration — no null/undefined in JSON output", ()
 			site: SITE,
 			datasheetUrl: "/assets/test.pdf",
 		});
-		expect(enProduct.offers.priceSpecification.description).toBe("Price on request");
-		expect(enProduct.subjectOf.name).toBe("Technical Datasheet");
+		expect(((enProduct.offers as Record<string, unknown>)?.priceSpecification as Record<string, unknown>)?.description).toBe("Price on request");
+		expect((enProduct.subjectOf as Record<string, unknown>)?.name).toBe("Technical Datasheet");
 
 		const uaProduct = productSchema({
 			name: "Test",
@@ -507,7 +506,7 @@ describe("structured-data: integration — no null/undefined in JSON output", ()
 			site: SITE,
 			datasheetUrl: "/assets/test.pdf",
 		});
-		expect(uaProduct.offers.priceSpecification.description).toBe("Ціна за запитом");
-		expect(uaProduct.subjectOf.name).toBe("Технічна специфікація");
+		expect(((uaProduct.offers as Record<string, unknown>)?.priceSpecification as Record<string, unknown>)?.description).toBe("Ціна за запитом");
+		expect((uaProduct.subjectOf as Record<string, unknown>)?.name).toBe("Технічна специфікація");
 	});
 });

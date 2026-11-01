@@ -73,8 +73,8 @@ const { itemList } = collectionPageSchema({
 	title: industry.title,
 	description: industry.description,
 	items: listedProducts.map((product) => ({
-		name: product.data.title,
-		description: product.data.description,
+		name: product.data.title ?? "",
+		description: product.data.description ?? undefined,
 		url: new URL(productUrl(lang as Lang, getCategory(product), getSlug(product)), siteUrl).href,
 	})),
 	about: {
@@ -90,8 +90,8 @@ const { itemList } = collectionPageSchema({
 	subGroups: groups.map((group) => ({
 		name: group.category.title,
 		items: group.products.map((product) => ({
-			name: product.data.title,
-			description: product.data.description,
+			name: product.data.title ?? "",
+			description: product.data.description ?? undefined,
 			url: new URL(productUrl(lang as Lang, getCategory(product), getSlug(product)), siteUrl).href,
 		})),
 	})),
