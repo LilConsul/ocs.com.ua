@@ -371,3 +371,117 @@ describe("structured-data: createPageGraph", () => {
 		expect(types).toContain("Product");
 	});
 });
+
+describe("structured-data: integration — no null/undefined in JSON output", () => {
+	it("JSON.stringify produces no undefined keys for product graph", () => {
+		const pageUrl = "https://ocs.com.ua/en/catalogue/equipment/checkweigher/hc-a/";
+		const graph = createPageGraph({
+			lang: "en",
+			url: pageUrl,
+			site: SITE,
+			title: "HC-A",
+			description: "Checkweigher",
+			breadcrumbs: [
+				{ name: "Home", url: "https://ocs.com.ua/en/" },
+				{ name: "HC-A", url: pageUrl },
+			],
+			mainEntities: [
+				productSchema({
+					name: "HC-A",
+					description: "Checkweigher",
+					url: pageUrl,
+					lang: "en",
+					site: SITE,
+					datasheetUrl: "/assets/hc-a.pdf",
+					specs: [{ label: "Speed", value: "600 pcs/min" }],
+				}),
+			],
+		});
+		const serialized = JSON.stringify(graph);
+		expect(serialized).not.toContain('"undefined"');
+		expect(serialized).not.toContain(":null");
+		expect(serialized).not.toContain('":null"');
+	});
+
+	it("every @id in the graph is a valid https URL", () => {
+		const pageUrl = "https://ocs.com.ua/en/wiki/weighing-accuracy/";
+		const graph = createPageGraph({
+			lang: "en",
+			url: pageUrl,
+			site: SITE,
+			title: "Article",
+			description: "Desc",
+			breadcrumbs: [{ name: "Home", url: "https://ocs.com.ua/en/" }],
+			mainEntities: [
+				articleSchema({
+					headline: "Article",
+					description: "Desc",
+					url: pageUrl,
+					lang: "en",
+					site: SITE,
+				}),
+			],
+		});
+		const ids = graph["@graph"]
+			.map((n) => n["@id"])
+			.filter((id): id is string => typeof id === "string");
+		expect(ids.length).toBeGreaterThan(0);
+		for (const id of ids) {
+			expect(id).toMatch(/^https:\/\//);
+		}
+	});
+
+	it("uses correct ISO language codes: uk for ua, en for en", () => {
+		const pageUrl = "https://ocs.com.ua/ua/wiki/test/";
+		const graph = createPageGraph({
+			lang: "ua",
+			url: pageUrl,
+			site: SITE,
+			title: "Test",
+			description: "Desc",
+		});
+		const serialized = JSON.stringify(graph);
+		expect(serialized).toContain('"uk"');
+		expect(serialized).not.toContain('"ua"');
+	});
+
+	it("companyData.name and shortName are used consistently", () => {
+		const org = organizationSchema("en", SITE);
+		expect(org.name).toBe(companyData.name.en);
+		const orgUa = organizationSchema("ua", SITE);
+		expect(orgUa.name).toBe(companyData.name.ua);
+	});
+
+	it("geocoordinates and opening hours match company.json", () => {
+		const org = organizationSchema("en", SITE);
+		expect(org.geo.latitude).toBe(companyData.geo.latitude);
+		expect(org.geo.longitude).toBe(companyData.geo.longitude);
+		expect(org.openingHoursSpecification.dayOfWeek).toEqual(companyData.openingHours.days);
+		expect(org.openingHoursSpecification.opens).toBe(companyData.openingHours.opens);
+		expect(org.openingHoursSpecification.closes).toBe(companyData.openingHours.closes);
+	});
+
+	it("_('Price on request') and _('Technical Datasheet') translate correctly", () => {
+		const enProduct = productSchema({
+			name: "Test",
+			description: "Desc",
+			url: "https://ocs.com.ua/en/catalogue/equipment/checkweigher/test/",
+			lang: "en",
+			site: SITE,
+			datasheetUrl: "/assets/test.pdf",
+		});
+		expect(enProduct.offers.priceSpecification.description).toBe("Price on request");
+		expect(enProduct.subjectOf.name).toBe("Technical Datasheet");
+
+		const uaProduct = productSchema({
+			name: "Test",
+			description: "Desc",
+			url: "https://ocs.com.ua/ua/catalogue/equipment/checkweigher/test/",
+			lang: "ua",
+			site: SITE,
+			datasheetUrl: "/assets/test.pdf",
+		});
+		expect(uaProduct.offers.priceSpecification.description).toBe("Ціна за запитом");
+		expect(uaProduct.subjectOf.name).toBe("Технічна специфікація");
+	});
+});
