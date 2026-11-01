@@ -738,6 +738,14 @@ msgstr "Прокрутка — масштаб"
 msgid "Search the wiki…"
 msgstr "Пошук у базі знань…"
 
+#: src/components/catalogue/CatalogueSidebar.astro
+msgid "Search products…"
+msgstr "Пошук обладнання…"
+
+#: src/components/catalogue/CatalogueSidebar.astro
+msgid "No products match your search. Try browsing another category."
+msgstr "За вашим запитом обладнання не знайдено. Спробуйте іншу категорію."
+
 #: src/components/contact/ContactForm.astro:50
 #: src/components/contact/ContactForm.astro:51
 msgid "Security check failed. Please refresh and try again."

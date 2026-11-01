@@ -734,6 +734,14 @@ msgstr ""
 msgid "Search the wiki…"
 msgstr ""
 
+#: src/components/catalogue/CatalogueSidebar.astro
+msgid "Search products…"
+msgstr ""
+
+#: src/components/catalogue/CatalogueSidebar.astro
+msgid "No products match your search. Try browsing another category."
+msgstr ""
+
 #: src/components/contact/ContactForm.astro:50
 #: src/components/contact/ContactForm.astro:51
 msgid "Security check failed. Please refresh and try again."
