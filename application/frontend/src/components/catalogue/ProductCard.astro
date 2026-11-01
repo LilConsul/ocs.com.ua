@@ -29,6 +29,8 @@ const href = productUrl(lang, getCategory(product), getSlug(product));
 <article
 	class="product-card group bg-background border-border-subtle/70 hover:border-secondary/40 flex flex-col overflow-hidden rounded-xl border shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-lg motion-safe:hover:-translate-y-0.5"
 	style={`--i:${index % 3}`}
+	data-product-item
+	data-product-text={`${title} ${description ?? ""}`.toLowerCase()}
 >
 	<div
 		class="border-border-subtle/40 relative flex aspect-4/3 items-center justify-center border-b bg-white p-4"
