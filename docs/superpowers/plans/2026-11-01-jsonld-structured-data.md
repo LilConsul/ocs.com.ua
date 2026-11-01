@@ -2,15 +2,180 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use skills:subagent-driven-development (recommended) or skills:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Implement a unified, interconnected Schema.org JSON-LD Knowledge Graph architecture across all pages with modular builders, full data presentation (specifications, credentials, gallery, datasheets, catalog lists), and clean Layout integration.
+**Goal:** Implement a unified, interconnected Schema.org JSON-LD Knowledge Graph architecture across all pages with modular builders, exhaustive data presentation (specifications, credentials, gallery, datasheets, catalog lists, company geolocation & opening hours from `company.json`), localized schema descriptions via `getInlineTranslations`, and clean Layout integration.
 
-**Architecture:** A single `<script type="application/ld+json">` with `{"@context": "https://schema.org", "@graph": [...]}` per page, interconnecting `Organization`, `WebSite`, `WebPage`, `BreadcrumbList`, and page-specific `mainEntity` (`Product`, `TechArticle`, `ItemList`) via canonical `@id` URIs. Modular typed schema builders in `src/lib/structured-data/` sanitize and compose graphs cleanly without undefined or empty keys.
+**Architecture:** A single `<script type="application/ld+json">` with `{"@context": "https://schema.org", "@graph": [...]}` per page, interconnecting `Organization`, `WebSite`, `WebPage`, `BreadcrumbList`, and page-specific `mainEntity` (`Product`, `TechArticle`, `ItemList`) via canonical `@id` URIs. Modular typed schema builders in `src/lib/structured-data/` sanitize and compose graphs cleanly without undefined or empty keys. All company metadata (phone, email, localized address, geo coordinates, opening hours, contact person) is sourced directly from `src/data/company.json`. All user-facing strings (e.g. `_("Price on request")`, `_("Technical Datasheet")`) use `getInlineTranslations(lang)` to integrate with the project's PO/POT i18n pipeline.
 
-**Tech Stack:** Astro 5, TypeScript, Schema.org JSON-LD, Bun Test.
+**Tech Stack:** Astro 5, TypeScript, Schema.org JSON-LD, Decap CMS, gettext PO/POT i18n, Bun Test.
 
 ______________________________________________________________________
 
-### Task 1: Clean Utility, Types & Canonical Graph ID Generator
+### Task 1: Enhance Company Data & CMS Schema (`company.json`, Decap CMS, Integrity Tests)
+
+**Files:**
+
+- Modify: `application/frontend/src/data/company.json`
+
+- Modify: `application/frontend/src/pages/admin/_config.template.yml:88-144`
+
+- Modify: `application/frontend/tests/data/integrity.test.ts:247-278`
+
+- [ ] **Step 1: Write integrity tests for company geo coordinates and structured opening hours**
+
+Edit `application/frontend/tests/data/integrity.test.ts` around line 247:
+
+```typescript
+describe("company data", () => {
+	it("has phone number string", () => {
+		expect(typeof companyData.phone).toBe("string");
+		expect(companyData.phone.trim()).not.toBe("");
+	});
+
+	it("has email address string", () => {
+		expect(typeof companyData.email).toBe("string");
+		expect(companyData.email.trim()).not.toBe("");
+	});
+
+	it("has contactPerson names in en and ua", () => {
+		expect(companyData.contactPerson.en.name.trim()).not.toBe("");
+		expect(companyData.contactPerson.ua.name.trim()).not.toBe("");
+	});
+
+	it("has workingHours in en and ua", () => {
+		expect(companyData.workingHours.en.trim()).not.toBe("");
+		expect(companyData.workingHours.ua.trim()).not.toBe("");
+	});
+
+	it("has address in en and ua with all subfields", () => {
+		for (const lang of ["en", "ua"] as const) {
+			const addr = companyData.address[lang];
+			expect(addr.street.trim()).not.toBe("");
+			expect(addr.city.trim()).not.toBe("");
+			expect(addr.postalCode.trim()).not.toBe("");
+			expect(addr.country.trim()).not.toBe("");
+		}
+	});
+
+	it("has geo coordinates with valid latitude and longitude numbers", () => {
+		expect(typeof (companyData as any).geo?.latitude).toBe("number");
+		expect(typeof (companyData as any).geo?.longitude).toBe("number");
+		expect((companyData as any).geo.latitude).toBeGreaterThan(44);
+		expect((companyData as any).geo.latitude).toBeLessThan(53);
+		expect((companyData as any).geo.longitude).toBeGreaterThan(22);
+		expect((companyData as any).geo.longitude).toBeLessThan(41);
+	});
+
+	it("has structured opening hours with days array and opens/closes time strings", () => {
+		const hours = (companyData as any).openingHours;
+		expect(Array.isArray(hours?.days)).toBe(true);
+		expect(hours.days.length).toBeGreaterThan(0);
+		expect(typeof hours.opens).toBe("string");
+		expect(typeof hours.closes).toBe("string");
+	});
+});
+```
+
+- [ ] **Step 2: Run test to verify it fails**
+
+Run: `bun test tests/data/integrity.test.ts` (in `application/frontend`)
+Expected: FAIL due to missing `geo` and `openingHours` properties in `company.json`.
+
+- [ ] **Step 3: Update `company.json` and Decap CMS template**
+
+Update `application/frontend/src/data/company.json`:
+
+```json
+{
+	"phone": "+38 067 35 33 853",
+	"email": "info@ocs.com.ua",
+	"contactPerson": {
+		"en": {
+			"name": "George Shevchenko"
+		},
+		"ua": {
+			"name": "Георгій Шевченко"
+		}
+	},
+	"workingHours": {
+		"en": "Mon-Fri, 9:00 - 18:00 (Kyiv)",
+		"ua": "Пн-Пт, 9:00 - 18:00 (Київ)"
+	},
+	"openingHours": {
+		"days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+		"opens": "09:00",
+		"closes": "18:00"
+	},
+	"address": {
+		"en": {
+			"street": "67 Beresteiskyi Ave",
+			"office": "Office 9",
+			"city": "Kyiv",
+			"postalCode": "03062",
+			"country": "Ukraine"
+		},
+		"ua": {
+			"street": "Берестейський просп., 67",
+			"office": "Офіс 9",
+			"city": "Київ",
+			"postalCode": "03062",
+			"country": "Україна"
+		}
+	},
+	"geo": {
+		"latitude": 50.4578,
+		"longitude": 30.4024
+	}
+}
+```
+
+Update `application/frontend/src/pages/admin/_config.template.yml` under `company` collection:
+
+```yaml
+          - label: "Address"
+            name: "address"
+            widget: "object"
+            fields:
+              - label: "English"
+                name: "en"
+                widget: "object"
+                fields:
+                  - { label: "Street", name: "street", widget: "string" }
+                  - { label: "Office", name: "office", widget: "string", required: false, hint: "e.g. Office 9" }
+                  - { label: "City", name: "city", widget: "string" }
+                  - { label: "Postal Code", name: "postalCode", widget: "string" }
+                  - { label: "Country", name: "country", widget: "string" }
+              - label: "Ukrainian"
+                name: "ua"
+                widget: "object"
+                fields:
+                  - { label: "Street", name: "street", widget: "string" }
+                  - { label: "Office", name: "office", widget: "string", required: false, hint: "e.g. Офіс 9" }
+                  - { label: "City", name: "city", widget: "string" }
+                  - { label: "Postal Code", name: "postalCode", widget: "string" }
+                  - { label: "Country", name: "country", widget: "string" }
+          - label: "Geo Coordinates"
+            name: "geo"
+            widget: "object"
+            fields:
+              - { label: "Latitude", name: "latitude", widget: "number", value_type: "float" }
+              - { label: "Longitude", name: "longitude", widget: "number", value_type: "float" }
+```
+
+- [ ] **Step 4: Run test to verify it passes**
+
+Run: `bun test tests/data/integrity.test.ts`
+Expected: PASS
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add src/data/company.json src/pages/admin/_config.template.yml tests/data/integrity.test.ts
+git commit -m "feat(data): add geo coordinates and opening hours to company.json and CMS schema"
+```
+
+______________________________________________________________________
+
+### Task 2: Clean Utility, Types & Canonical Graph ID Generator
 
 **Files:**
 
@@ -235,7 +400,7 @@ git commit -m "feat(seo): add structured data types, clean utility, and graph ID
 
 ______________________________________________________________________
 
-### Task 2: Organization, LocalBusiness & WebSite Builders
+### Task 3: Organization, LocalBusiness & WebSite Builders (Using `company.json` & `_("...")`)
 
 **Files:**
 
@@ -255,7 +420,7 @@ import { organizationSchema } from "@/lib/structured-data/organization";
 import { websiteSchema } from "@/lib/structured-data/website";
 
 describe("structured-data: organizationSchema", () => {
-	it("builds a rich unified Organization node", () => {
+	it("builds a rich unified Organization node sourced completely from company.json and translated via i18n", () => {
 		const org = organizationSchema("en", SITE);
 		expect(org["@type"]).toEqual(["Organization", "LocalBusiness"]);
 		expect(org["@id"]).toBe("https://ocs.com.ua/#organization");
@@ -272,8 +437,23 @@ describe("structured-data: organizationSchema", () => {
 		});
 		expect(org.geo).toEqual({
 			"@type": "GeoCoordinates",
-			latitude: 50.4578,
-			longitude: 30.4024,
+			latitude: companyData.geo.latitude,
+			longitude: companyData.geo.longitude,
+		});
+		expect(org.openingHoursSpecification).toEqual({
+			"@type": "OpeningHoursSpecification",
+			dayOfWeek: companyData.openingHours.days,
+			opens: companyData.openingHours.opens,
+			closes: companyData.openingHours.closes,
+		});
+		expect(org.contactPoint).toEqual({
+			"@type": "ContactPoint",
+			contactType: "sales",
+			name: companyData.contactPerson.en.name,
+			telephone: companyData.phone,
+			email: companyData.email,
+			areaServed: "UA",
+			availableLanguage: ["uk", "en"],
 		});
 		expect(org.hasCredential).toBeDefined();
 		expect(org.knowsAbout).toBeDefined();
@@ -310,26 +490,33 @@ Create `application/frontend/src/lib/structured-data/organization.ts`:
 ```typescript
 import companyData from "@/data/company.json";
 import documentsData from "@/data/documents.json";
-import type { Lang } from "@/i18n/utils";
+import { getInlineTranslations, type Lang } from "@/i18n";
 import { absUrl, organizationId } from "./graph";
 import type { SchemaNode, SiteOrigin } from "./types";
 
 export function organizationSchema(lang: Lang, site: SiteOrigin): SchemaNode {
+	const _ = getInlineTranslations(lang);
 	const address = companyData.address[lang as "en" | "ua"] ?? companyData.address.en;
 	const contactPerson = companyData.contactPerson[lang as "en" | "ua"] ?? companyData.contactPerson.en;
+	const geo = companyData.geo ?? { latitude: 50.4578, longitude: 30.4024 };
+	const hours = companyData.openingHours ?? {
+		days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+		opens: "09:00",
+		closes: "18:00",
+	};
 
 	const credentials = [
 		documentsData.wipotec
 			? {
 					"@type": "EducationalOccupationalCredential",
-					name: "WIPOTEC Official Distributor Authorization",
+					name: _("WIPOTEC Official Distributor Authorization"),
 					url: absUrl(documentsData.wipotec, site),
 				}
 			: null,
 		documentsData.mesutronic
 			? {
 					"@type": "EducationalOccupationalCredential",
-					name: "MESUTRONIC Authorized Distributor Certificate",
+					name: _("MESUTRONIC Authorized Distributor Certificate"),
 					url: absUrl(documentsData.mesutronic, site),
 				}
 			: null,
@@ -338,7 +525,7 @@ export function organizationSchema(lang: Lang, site: SiteOrigin): SchemaNode {
 	return {
 		"@type": ["Organization", "LocalBusiness"],
 		"@id": organizationId(site),
-		name: lang === "en" ? "OS-Technology Ukraine" : "ОС-Технолоджи Україна",
+		name: _("OS-Technology Ukraine"),
 		url: absUrl(`/${lang}/`, site),
 		logo: absUrl("/apple-touch-icon.png", site),
 		email: companyData.email,
@@ -352,14 +539,14 @@ export function organizationSchema(lang: Lang, site: SiteOrigin): SchemaNode {
 		},
 		geo: {
 			"@type": "GeoCoordinates",
-			latitude: 50.4578,
-			longitude: 30.4024,
+			latitude: geo.latitude,
+			longitude: geo.longitude,
 		},
 		openingHoursSpecification: {
 			"@type": "OpeningHoursSpecification",
-			dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-			opens: "09:00",
-			closes: "18:00",
+			dayOfWeek: hours.days,
+			opens: hours.opens,
+			closes: hours.closes,
 		},
 		contactPoint: {
 			"@type": "ContactPoint",
@@ -389,15 +576,16 @@ export function organizationSchema(lang: Lang, site: SiteOrigin): SchemaNode {
 Create `application/frontend/src/lib/structured-data/website.ts`:
 
 ```typescript
-import { getIsoLang, type Lang } from "@/i18n/utils";
+import { getInlineTranslations, getIsoLang, type Lang } from "@/i18n";
 import { absUrl, organizationId, websiteId } from "./graph";
 import type { SchemaNode, SiteOrigin } from "./types";
 
 export function websiteSchema(lang: Lang, site: SiteOrigin): SchemaNode {
+	const _ = getInlineTranslations(lang);
 	return {
 		"@type": "WebSite",
 		"@id": websiteId(lang, site),
-		name: lang === "en" ? "OS-Technology Ukraine" : "ОС-Технолоджи Україна",
+		name: _("OS-Technology Ukraine"),
 		url: absUrl(`/${lang}/`, site),
 		inLanguage: getIsoLang(lang),
 		publisher: {
@@ -416,12 +604,12 @@ Expected: PASS
 
 ```bash
 git add src/lib/structured-data/organization.ts src/lib/structured-data/website.ts tests/lib/structured-data.test.ts
-git commit -m "feat(seo): implement rich Organization and WebSite schema builders"
+git commit -m "feat(seo): implement rich Organization and WebSite schema builders using company.json and i18n"
 ```
 
 ______________________________________________________________________
 
-### Task 3: BreadcrumbList and WebPage / Collection Builders
+### Task 4: BreadcrumbList and WebPage / Collection Builders
 
 **Files:**
 
@@ -559,7 +747,7 @@ Create `application/frontend/src/lib/structured-data/webpage.ts`:
 ```typescript
 import { getIsoLang, type Lang } from "@/i18n/utils";
 import { breadcrumbId, itemListId, organizationId, webpageId, websiteId } from "./graph";
-import type { BreadcrumbItem, SchemaNode, SiteOrigin } from "./types";
+import type { SchemaNode, SiteOrigin } from "./types";
 
 export interface WebPageOptions {
 	lang: Lang;
@@ -665,7 +853,7 @@ git commit -m "feat(seo): implement BreadcrumbList, WebPage, and CollectionPage 
 
 ______________________________________________________________________
 
-### Task 4: Product Schema Builder (Specs, Gallery, Datasheet, Inquiry-only Offer)
+### Task 5: Product Schema Builder (Specs, Gallery, Datasheet, `_("Price on request")` Inquiry Offer)
 
 **Files:**
 
@@ -696,7 +884,7 @@ describe("structured-data: productSchema", () => {
 		datasheetUrl: "/assets/equipment/hc-a/datasheet.pdf",
 	};
 
-	it("builds a full product schema with specs, datasheet, gallery, and inquiry offer", () => {
+	it("builds a full product schema with specs, datasheet, gallery, and presentation-only inquiry offer via i18n", () => {
 		const product = productSchema(productBase);
 		expect(product["@type"]).toBe("Product");
 		expect(product["@id"]).toBe("https://ocs.com.ua/en/catalogue/equipment/checkweigher/hc-a/#product");
@@ -732,6 +920,19 @@ describe("structured-data: productSchema", () => {
 		});
 	});
 
+	it("translates datasheet and offer in Ukrainian locale", () => {
+		const uaProduct = productSchema({
+			name: "Чеквеєр HC-A",
+			description: "Опис",
+			url: "https://ocs.com.ua/ua/catalogue/equipment/checkweigher/hc-a/",
+			lang: "ua",
+			site: SITE,
+			datasheetUrl: "/assets/equipment/hc-a/datasheet.pdf",
+		});
+		expect(uaProduct.subjectOf.name).toBe("Технічний паспорт");
+		expect(uaProduct.offers.priceSpecification.description).toBe("Ціна за запитом");
+	});
+
 	it("omits empty gallery, specs, or datasheet when not present", () => {
 		const minimal = productSchema({
 			name: "Basic Weigher",
@@ -753,12 +954,12 @@ describe("structured-data: productSchema", () => {
 Run: `bun test tests/lib/structured-data.test.ts`
 Expected: FAIL with missing `@/lib/structured-data/product`.
 
-- [ ] **Step 3: Implement product schema builder**
+- [ ] **Step 3: Implement product schema builder with `_("...")` localization**
 
 Create `application/frontend/src/lib/structured-data/product.ts`:
 
 ```typescript
-import { getIsoLang, type Lang } from "@/i18n/utils";
+import { getInlineTranslations, getIsoLang, type Lang } from "@/i18n";
 import { absUrl, organizationId, productId } from "./graph";
 import type { SchemaNode, SiteOrigin } from "./types";
 
@@ -790,6 +991,7 @@ export function productSchema({
 	specs,
 	datasheetUrl,
 }: ProductSchemaInput): SchemaNode {
+	const _ = getInlineTranslations(lang);
 	const validImages = images?.filter(Boolean) ?? [];
 	const validSpecs = specs?.filter((s) => s.label && s.value) ?? [];
 
@@ -819,7 +1021,7 @@ export function productSchema({
 		subjectOf: datasheetUrl
 			? {
 					"@type": "DigitalDocument",
-					name: lang === "en" ? "Technical Datasheet" : "Технічний паспорт",
+					name: _("Technical Datasheet"),
 					url: absUrl(datasheetUrl, site),
 				}
 			: undefined,
@@ -830,7 +1032,7 @@ export function productSchema({
 			price: "0",
 			priceSpecification: {
 				"@type": "PriceSpecification",
-				description: lang === "en" ? "Price on request" : "Ціна за запитом",
+				description: _("Price on request"),
 			},
 			seller: {
 				"@id": organizationId(site),
@@ -854,7 +1056,7 @@ git commit -m "feat(seo): implement Product schema builder with specs, datasheet
 
 ______________________________________________________________________
 
-### Task 5: TechArticle / Article Schema Builder
+### Task 6: TechArticle / Article Schema Builder
 
 **Files:**
 
@@ -967,13 +1169,13 @@ git commit -m "feat(seo): implement TechArticle schema builder"
 
 ______________________________________________________________________
 
-### Task 6: Master `createPageGraph` and Public API
+### Task 7: Master `createPageGraph` and Public API
 
 **Files:**
 
 - Create: `application/frontend/src/lib/structured-data/index.ts`
 
-- Modify: `application/frontend/src/lib/structured-data.ts` (re-export or alias for backwards compatibility)
+- Modify: `application/frontend/src/lib/structured-data.ts`
 
 - Modify: `application/frontend/tests/lib/structured-data.test.ts`
 
@@ -1143,7 +1345,7 @@ git commit -m "feat(seo): implement createPageGraph and structured-data entry po
 
 ______________________________________________________________________
 
-### Task 7: Layout.astro Structured Data Support
+### Task 8: Layout.astro Structured Data Support
 
 **Files:**
 
@@ -1231,7 +1433,7 @@ git commit -m "feat(seo): add structuredData prop to Layout.astro"
 
 ______________________________________________________________________
 
-### Task 8: Page Integration — Home, About & Contact
+### Task 9: Page Integration — Home, About & Contact
 
 **Files:**
 
@@ -1317,8 +1519,8 @@ const structuredData = createPageGraph({
 	description: pageDescription,
 	pageType: "AboutPage",
 	breadcrumbs: [
-		{ name: lang === "en" ? "Home" : "Головна", url: new URL(`/${lang}/`, siteUrl).href },
-		{ name: lang === "en" ? "About Us" : "Про нас", url: currentUrl },
+		{ name: _("Home"), url: new URL(`/${lang}/`, siteUrl).href },
+		{ name: _("About Us"), url: currentUrl },
 	],
 });
 ```
@@ -1344,8 +1546,8 @@ const structuredData = createPageGraph({
 	description: pageDescription,
 	pageType: "ContactPage",
 	breadcrumbs: [
-		{ name: lang === "en" ? "Home" : "Головна", url: new URL(`/${lang}/`, siteUrl).href },
-		{ name: lang === "en" ? "Contact Us" : "Зв'яжіться з нами", url: currentUrl },
+		{ name: _("Home"), url: new URL(`/${lang}/`, siteUrl).href },
+		{ name: _("Contact Us"), url: currentUrl },
 	],
 });
 ```
@@ -1366,7 +1568,7 @@ git commit -m "feat(seo): integrate unified graph structured data into home, abo
 
 ______________________________________________________________________
 
-### Task 9: Page Integration — Equipment, Industry & Wiki
+### Task 10: Page Integration — Equipment, Industry & Wiki
 
 **Files:**
 
@@ -1406,7 +1608,7 @@ const structuredData = createPageGraph({
 	description: pageDescription,
 	pageType: "CollectionPage",
 	breadcrumbs: [
-		{ name: lang === "en" ? "Home" : "Головна", url: new URL(`/${lang}/`, siteUrl).href },
+		{ name: _("Home"), url: new URL(`/${lang}/`, siteUrl).href },
 		{ name: categoryData?.title || categorySlug, url: currentUrl },
 	],
 	mainEntities: [itemList],
@@ -1439,7 +1641,7 @@ const structuredData = createPageGraph({
 	title,
 	description,
 	breadcrumbs: [
-		{ name: lang === "en" ? "Home" : "Головна", url: new URL(`/${lang}/`, siteUrl).href },
+		{ name: _("Home"), url: new URL(`/${lang}/`, siteUrl).href },
 		{ name: categoryTitle, url: new URL(`${categoryUrl(lang as Lang, category)}/`, siteUrl).href },
 		{ name: title, url: currentUrl },
 	],
@@ -1475,7 +1677,7 @@ const structuredData = createPageGraph({
 	description: industry.description,
 	pageType: "CollectionPage",
 	breadcrumbs: [
-		{ name: lang === "en" ? "Home" : "Головна", url: new URL(`/${lang}/`, siteUrl).href },
+		{ name: _("Home"), url: new URL(`/${lang}/`, siteUrl).href },
 		{ name: industry.title, url: currentUrl },
 	],
 	mainEntities: [itemList],
@@ -1513,7 +1715,7 @@ const structuredData = createPageGraph({
 	description,
 	pageType: "CollectionPage",
 	breadcrumbs: [
-		{ name: lang === "en" ? "Home" : "Головна", url: new URL(`/${lang}/`, siteUrl).href },
+		{ name: _("Home"), url: new URL(`/${lang}/`, siteUrl).href },
 		{ name: _("Knowledge Base"), url: currentUrl },
 	],
 	mainEntities: [itemList],
@@ -1543,7 +1745,7 @@ const structuredData = createPageGraph({
 	title,
 	description,
 	breadcrumbs: [
-		{ name: lang === "en" ? "Home" : "Головна", url: new URL(`/${lang}/`, siteUrl).href },
+		{ name: _("Home"), url: new URL(`/${lang}/`, siteUrl).href },
 		{ name: _("Knowledge Base"), url: new URL(`/${lang}/wiki`, siteUrl).href },
 		{ name: title, url: currentUrl },
 	],
@@ -1567,11 +1769,15 @@ git commit -m "feat(seo): integrate unified graph structured data across catalog
 
 ______________________________________________________________________
 
-### Task 10: End-to-End Validation & Build Verification
+### Task 11: End-to-End Validation, i18n Sync & Build Verification
 
 **Files:**
 
 - Modify: `application/frontend/tests/lib/structured-data.test.ts`
+
+- Modify: `application/frontend/locales/messages.pot`
+
+- Modify: `application/frontend/locales/ua.po`
 
 - [ ] **Step 1: Write integration tests verifying schema output across all routes**
 
@@ -1581,8 +1787,20 @@ Add route schema snapshot/structure tests to `tests/lib/structured-data.test.ts`
 1. No undefined/null keys in JSON stringification
 1. Correct language ISO codes (`uk`, `en`)
 1. Full specification and credential mappings
+1. Geocoordinates and opening hours match `company.json`
+1. `_("Price on request")` and `_("Technical Datasheet")` properly translate
 
-- [ ] **Step 2: Run complete test suite and project build**
+- [ ] **Step 2: Sync and verify i18n PO/POT files**
+
+Run in `application/frontend`:
+
+```bash
+bun run i18n
+```
+
+Expected: All newly added translatable strings (like `Price on request` and `Technical Datasheet`) are extracted into `locales/messages.pot` and compiled into `src/i18n/ui.ts`.
+
+- [ ] **Step 3: Run complete test suite and project build**
 
 Run in `application/frontend`:
 
@@ -1592,11 +1810,11 @@ bun run check
 bun run build
 ```
 
-Expected: All tests pass, build succeeds with zero errors.
+Expected: All tests pass (including `tests/i18n/parity.test.ts`), build succeeds with zero errors.
 
-- [ ] **Step 3: Commit**
+- [ ] **Step 4: Commit**
 
 ```bash
-git add tests/
-git commit -m "test(seo): add complete structured data integration test suite"
+git add tests/ locales/ src/i18n/
+git commit -m "test(seo): add complete structured data integration test suite and sync i18n catalogs"
 ```
