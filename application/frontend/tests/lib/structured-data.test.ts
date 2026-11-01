@@ -221,3 +221,85 @@ describe("structured-data: collectionPageSchema", () => {
 		]);
 	});
 });
+
+import { productSchema } from "@/lib/structured-data/product";
+
+describe("structured-data: productSchema", () => {
+	const productBase = {
+		name: "HC-A Checkweigher",
+		description: "High speed dynamic checkweigher",
+		url: "https://ocs.com.ua/en/catalogue/equipment/checkweigher/hc-a/",
+		lang: "en" as const,
+		site: SITE,
+		category: "Checkweighers",
+		images: ["/assets/equipment/hc-a/front.webp", "/assets/equipment/hc-a/left.webp"],
+		specs: [
+			{ label: "Weighing Range", value: "up to 750g" },
+			{ label: "Throughput", value: "up to 600 pcs/min" },
+		],
+		datasheetUrl: "/assets/equipment/hc-a/datasheet.pdf",
+	};
+
+	it("builds a full product schema with specs, datasheet, gallery, and presentation-only inquiry offer via i18n", () => {
+		const product = productSchema(productBase);
+		expect(product["@type"]).toBe("Product");
+		expect(product["@id"]).toBe("https://ocs.com.ua/en/catalogue/equipment/checkweigher/hc-a/#product");
+		expect(product.name).toBe("HC-A Checkweigher");
+		expect(product.category).toBe("Checkweighers");
+		expect(product.image).toEqual([
+			"https://ocs.com.ua/assets/equipment/hc-a/front.webp",
+			"https://ocs.com.ua/assets/equipment/hc-a/left.webp",
+		]);
+		expect(product.brand).toEqual({ "@id": "https://ocs.com.ua/#organization" });
+		expect(product.manufacturer).toEqual({ "@id": "https://ocs.com.ua/#organization" });
+		expect(product.additionalProperty).toEqual([
+			{ "@type": "PropertyValue", name: "Weighing Range", value: "up to 750g" },
+			{ "@type": "PropertyValue", name: "Throughput", value: "up to 600 pcs/min" },
+		]);
+		expect(product.subjectOf).toEqual({
+			"@type": "DigitalDocument",
+			name: "Technical Datasheet",
+			url: "https://ocs.com.ua/assets/equipment/hc-a/datasheet.pdf",
+		});
+		expect(product.offers).toEqual({
+			"@type": "Offer",
+			availability: "https://schema.org/InStock",
+			priceCurrency: "UAH",
+			price: "0",
+			priceSpecification: {
+				"@type": "PriceSpecification",
+				description: "Price on request",
+			},
+			seller: {
+				"@id": "https://ocs.com.ua/#organization",
+			},
+		});
+	});
+
+	it("translates datasheet and offer in Ukrainian locale", () => {
+		const uaProduct = productSchema({
+			name: "Чеквеєр HC-A",
+			description: "Опис",
+			url: "https://ocs.com.ua/ua/catalogue/equipment/checkweigher/hc-a/",
+			lang: "ua",
+			site: SITE,
+			datasheetUrl: "/assets/equipment/hc-a/datasheet.pdf",
+		});
+		expect(uaProduct.subjectOf.name).toBe("Технічна специфікація");
+		expect(uaProduct.offers.priceSpecification.description).toBe("Ціна за запитом");
+	});
+
+	it("omits empty gallery, specs, or datasheet when not present", () => {
+		const minimal = productSchema({
+			name: "Basic Weigher",
+			description: "Simple desc",
+			url: "https://ocs.com.ua/ua/catalogue/equipment/checkweigher/basic/",
+			lang: "ua",
+			site: SITE,
+		});
+		expect(minimal.image).toBeUndefined();
+		expect(minimal.additionalProperty).toBeUndefined();
+		expect(minimal.subjectOf).toBeUndefined();
+		expect(minimal.inLanguage).toBe("uk");
+	});
+});

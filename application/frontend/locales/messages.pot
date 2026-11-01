@@ -652,6 +652,9 @@ msgstr ""
 
 #: src/components/Footer.astro:30
 #: src/components/contact/ContactForm.astro:207
+msgid "Price on request"
+msgstr ""
+
 msgid "Privacy Policy"
 msgstr ""
 

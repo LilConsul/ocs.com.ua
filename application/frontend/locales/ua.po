@@ -656,6 +656,9 @@ msgstr "Попередня сторінка"
 
 #: src/components/Footer.astro:30
 #: src/components/contact/ContactForm.astro:207
+msgid "Price on request"
+msgstr "Ціна за запитом"
+
 msgid "Privacy Policy"
 msgstr "Політика конфіденційності"
 
