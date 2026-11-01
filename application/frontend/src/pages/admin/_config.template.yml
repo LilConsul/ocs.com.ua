@@ -96,6 +96,18 @@ collections:
         file: "application/frontend/src/data/company.json"
         format: json
         fields:
+          - label: "Company Name"
+            name: "name"
+            widget: "object"
+            fields:
+              - { label: "English", name: "en", widget: "string", hint: "e.g. OS-Technology Ukraine" }
+              - { label: "Ukrainian", name: "ua", widget: "string", hint: "e.g. ОС-Технолоджи Україна" }
+          - label: "Short Name"
+            name: "shortName"
+            widget: "object"
+            fields:
+              - { label: "English", name: "en", widget: "string", hint: "e.g. OS-Technology" }
+              - { label: "Ukrainian", name: "ua", widget: "string", hint: "e.g. ОС-Технолоджи" }
           - { label: "Phone Number", name: "phone", widget: "string", hint: "e.g. +38 067 35 33 853" }
           - { label: "Email Address", name: "email", widget: "string", hint: "e.g. info@ocs.com.ua" }
           - label: "Contact Person"
@@ -140,6 +152,12 @@ collections:
                   - { label: "City", name: "city", widget: "string" }
                   - { label: "Postal Code", name: "postalCode", widget: "string" }
                   - { label: "Country", name: "country", widget: "string" }
+          - label: "Geo Coordinates"
+            name: "geo"
+            widget: "object"
+            fields:
+              - { label: "Latitude", name: "latitude", widget: "number", value_type: "float" }
+              - { label: "Longitude", name: "longitude", widget: "number", value_type: "float" }
 
   # ── Equipment Categories & Industries ───────────────────────────────────────
   # File collection backed by JSON. Adding an entry creates a new category or
