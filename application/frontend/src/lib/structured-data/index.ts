@@ -7,15 +7,15 @@ import type { BreadcrumbItem, SchemaGraph, SchemaNode, SiteOrigin } from "./type
 import { webPageSchema } from "./webpage";
 import { websiteSchema } from "./website";
 
-export * from "./types";
-export * from "./graph";
-export * from "./clean";
-export * from "./organization";
-export * from "./website";
-export * from "./breadcrumb";
-export * from "./webpage";
-export * from "./product";
 export * from "./article";
+export * from "./breadcrumb";
+export * from "./clean";
+export * from "./graph";
+export * from "./organization";
+export * from "./product";
+export * from "./types";
+export * from "./webpage";
+export * from "./website";
 
 export interface CreatePageGraphOptions {
 	lang: Lang;

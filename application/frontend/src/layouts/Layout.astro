@@ -3,6 +3,7 @@ import "../styles/global.css";
 import { SEO } from "astro-seo";
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
+import companyData from "@/data/company.json";
 import { defaultLang, getIsoLang, getLangFromUrl } from "@/i18n";
 
 interface Props {
@@ -11,15 +12,24 @@ interface Props {
 	showHeader?: boolean;
 	image?: string;
 	article?: boolean;
+	structuredData?: Record<string, unknown>;
 }
 
-const { title, description, showHeader = true, image, article = false } = Astro.props;
+const {
+	title,
+	description,
+	showHeader = true,
+	image,
+	article = false,
+	structuredData,
+} = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const isoLang = getIsoLang(lang);
 const currentPath = Astro.url.pathname;
 
 const siteUrl = Astro.site || "https://ocs.com.ua";
 const canonicalUrl = new URL(currentPath, siteUrl).href;
+const companyName = companyData.name[lang as "en" | "ua"] ?? companyData.name.en;
 
 // Language alternates only exist for pages under /en/ or /ua/ (not the 404/50x error pages)
 const isLocalized = /^\/(en|ua)(\/|$)/.test(currentPath);
@@ -67,7 +77,7 @@ const defaultDescription =
 				optional: {
 					description: description || defaultDescription,
 					locale: lang === "en" ? "en_US" : "uk_UA",
-					siteName: lang === "en" ? "OS-Technology Ukraine" : "ОС-Технолоджи Україна",
+					siteName: companyName,
 				},
 				image: {
 					alt: title,
@@ -90,6 +100,34 @@ const defaultDescription =
 					]
 				: undefined}
 		/>
+
+		{
+			structuredData && (
+				<script
+					is:inline
+					type="application/ld+json"
+					set:html={JSON.stringify(structuredData)}
+				/>
+			)
+		}
+
+		<!-- BEGIN PLERDY CODE -->
+			<script data-plerdy_code='1'>
+			(function(w,d){
+			if(w.__plerdyCode)return;
+			w.__plerdyCode=1;
+			w._protocol=w.location.protocol=="https:"?"https://":"http://";
+			w._site_hash_code="722f7e7a90fc3a805c26e6d3b638bc77";
+			w._suid=82713;
+			var s=d.createElement("script");
+			s.async=true;
+			s.referrerPolicy="strict-origin-when-cross-origin";
+			s.src="https://a.plerdy.com/public/js/click/main.js?v="+Math.random();
+			d.head.appendChild(s);
+			})(window,document);
+			</script>
+		<!-- END PLERDY CODE -->
+
 	</head>
 	<body class="bg-background text-foreground min-h-screen antialiased">
 		{showHeader && <Header currentLang={lang} currentPath={currentPath} />}

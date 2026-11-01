@@ -1,6 +1,7 @@
 ---
 import { SITE_DEV_NOTICE } from "astro:env/server";
 import { ArrowRight, Menu, X } from "@lucide/astro";
+import companyData from "@/data/company.json";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { categoryUrl, industryUrl } from "@/lib/catalogue-urls";
 import { getIndustriesForLocale } from "@/lib/content-utils";
@@ -104,7 +105,7 @@ const isActive = (pattern: string) => {
 		<a href={`/${lang}`} class="transition-opacity hover:opacity-80">
 			<img
 				src={`/assets/icons/logo-${lang}.svg`}
-				alt={lang === "en" ? "OS-Technology Ukraine" : "ОС-Технолоджи Україна"}
+				alt={companyData.name[currentLang as "en" | "ua"] ?? companyData.name.en}
 				width="220"
 				height="40"
 				class="h-8 w-auto md:h-10"

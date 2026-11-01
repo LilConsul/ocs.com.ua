@@ -7,7 +7,8 @@ import type { SchemaNode, SiteOrigin } from "./types";
 export function organizationSchema(lang: Lang, site: SiteOrigin): SchemaNode {
 	const _ = getInlineTranslations(lang);
 	const address = companyData.address[lang as "en" | "ua"] ?? companyData.address.en;
-	const contactPerson = companyData.contactPerson[lang as "en" | "ua"] ?? companyData.contactPerson.en;
+	const contactPerson =
+		companyData.contactPerson[lang as "en" | "ua"] ?? companyData.contactPerson.en;
 	const companyName = companyData.name[lang as "en" | "ua"] ?? companyData.name.en;
 	const geo = companyData.geo ?? { latitude: 50.4578, longitude: 30.4024 };
 	const hours = companyData.openingHours ?? {

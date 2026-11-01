@@ -243,7 +243,9 @@ describe("structured-data: productSchema", () => {
 	it("builds a full product schema with specs, datasheet, gallery, and presentation-only inquiry offer via i18n", () => {
 		const product = productSchema(productBase);
 		expect(product["@type"]).toBe("Product");
-		expect(product["@id"]).toBe("https://ocs.com.ua/en/catalogue/equipment/checkweigher/hc-a/#product");
+		expect(product["@id"]).toBe(
+			"https://ocs.com.ua/en/catalogue/equipment/checkweigher/hc-a/#product"
+		);
 		expect(product.name).toBe("HC-A Checkweigher");
 		expect(product.category).toBe("Checkweighers");
 		expect(product.image).toEqual([
