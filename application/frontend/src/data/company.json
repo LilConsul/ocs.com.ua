@@ -1,4 +1,12 @@
 {
+	"name": {
+		"en": "OS-Technology Ukraine",
+		"ua": "ОС-Технолоджи Україна"
+	},
+	"shortName": {
+		"en": "OS-Technology",
+		"ua": "ОС-Технолоджи"
+	},
 	"phone": "+38 067 35 33 853",
 	"email": "info@ocs.com.ua",
 	"contactPerson": {
@@ -13,6 +21,17 @@
 		"en": "Mon-Fri, 9:00 - 18:00 (Kyiv)",
 		"ua": "Пн-Пт, 9:00 - 18:00 (Київ)"
 	},
+	"openingHours": {
+		"days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+		"opens": "09:00",
+		"closes": "18:00"
+	},
+	"priceRange": "$$$$",
+	"sameAs": [
+		"https://www.facebook.com/ocs.com.ua",
+		"https://opendatabot.ua/c/40123601",
+		"https://youcontrol.com.ua/catalog/company_details/40123601/"
+	],
 	"address": {
 		"en": {
 			"street": "67 Beresteiskyi Ave",
@@ -28,5 +47,9 @@
 			"postalCode": "03062",
 			"country": "Україна"
 		}
+	},
+	"geo": {
+		"latitude": 50.4578,
+		"longitude": 30.4024
 	}
 }

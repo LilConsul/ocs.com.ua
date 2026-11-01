@@ -22,7 +22,7 @@ import {
 	getSlug,
 	sortByOrder,
 } from "@/lib/content-utils";
-import { breadcrumbSchema, productSchema } from "@/lib/structured-data";
+import { createPageGraph, productSchema } from "@/lib/structured-data";
 
 export async function getStaticPaths() {
 	const allEquipment = await getCollection("equipment");
@@ -92,37 +92,44 @@ const workingHours = companyData.workingHours[lang as "en" | "ua"] || companyDat
 const siteUrl = Astro.site || "https://ocs.com.ua";
 const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
 
-const structuredData = [
-	productSchema({
-		name: title,
-		description,
-		url: currentUrl,
-		lang: lang as Lang,
-		site: siteUrl,
-		category: categoryTitle,
-		images: gallery,
-		specs: flattenSpecs(product.data.specs),
-	}),
-	breadcrumbSchema([
-		{ name: lang === "en" ? "Home" : "Головна", url: new URL(`/${lang}/`, siteUrl).href },
-		// There is no /catalogue/ index page, so the trail goes straight from Home to the category
+const productNode = productSchema({
+	name: title,
+	description,
+	url: currentUrl,
+	lang: lang as Lang,
+	site: siteUrl,
+	sku: `${category}/${getSlug(product)}`,
+	category: categoryTitle,
+	images: gallery,
+	specs: flattenSpecs(product.data.specs),
+	datasheetUrl: product.data.datasheet,
+});
+
+const structuredData = createPageGraph({
+	lang: lang as Lang,
+	url: currentUrl,
+	site: siteUrl,
+	title,
+	description,
+	breadcrumbs: [
+		{ name: _("Home"), url: new URL(`/${lang}/`, siteUrl).href },
 		{ name: categoryTitle, url: new URL(`${categoryUrl(lang, category)}/`, siteUrl).href },
 		{ name: title, url: currentUrl },
-	]),
-];
+	],
+	mainEntities: [productNode],
+});
 
 // Share previews use the product photo when there is one, else the default brand image
 const shareImage = gallery?.[0];
 ---
 
 <Layout
-	title={`${title} | ${lang === "en" ? "OS-Technology" : "ОС-Технолоджи"}`}
+	title={`${title} | ${companyData.shortName[lang as "en" | "ua"] ?? companyData.shortName.en}`}
 	description={description}
 	image={shareImage}
 	article={true}
+	structuredData={structuredData}
 >
-	<script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
-
 	{/* Hero band: breadcrumb, eyebrow and title */}
 	<header
 		class="from-surface-container/40 to-background border-border-subtle/60 relative w-full overflow-hidden border-b bg-linear-to-b py-10 lg:py-16"

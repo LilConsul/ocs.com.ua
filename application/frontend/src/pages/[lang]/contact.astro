@@ -4,10 +4,10 @@ import ContactHero from "@/components/contact/ContactHero.astro";
 import ContactInfoCard from "@/components/contact/ContactInfoCard.astro";
 import DocumentsCard from "@/components/contact/DocumentsCard.astro";
 import OfficeLocation from "@/components/contact/OfficeLocation.astro";
-import companyData from "@/data/company.json";
-import { getInlineTranslations, getIsoLang, isValidLang, type Lang } from "@/i18n";
+import { getInlineTranslations, isValidLang, type Lang } from "@/i18n";
 import { languages } from "@/i18n/ui";
 import Layout from "@/layouts/Layout.astro";
+import { createPageGraph } from "@/lib/structured-data";
 
 export function getStaticPaths() {
 	return (Object.keys(languages) as Lang[]).map((lang) => ({ params: { lang } }));
@@ -22,70 +22,27 @@ const _ = getInlineTranslations(lang);
 
 const siteUrl = Astro.site ?? "https://ocs.com.ua";
 const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
-const address = companyData.address[lang as "en" | "ua"] ?? companyData.address.en;
 
-const structuredData = [
-	{
-		"@context": "https://schema.org",
-		"@type": "ContactPage",
-		url: currentUrl,
-		inLanguage: getIsoLang(lang),
-		name: lang === "en" ? "Contact OS-Technology Ukraine" : "Зв'яжіться з ОС-Технолоджи Україна",
-		breadcrumb: {
-			"@type": "BreadcrumbList",
-			itemListElement: [
-				{
-					"@type": "ListItem",
-					position: 1,
-					name: lang === "en" ? "Home" : "Головна",
-					item: new URL(`/${lang}`, siteUrl).href,
-				},
-				{
-					"@type": "ListItem",
-					position: 2,
-					name: lang === "en" ? "Contact Us" : "Зв'яжіться з нами",
-					item: currentUrl,
-				},
-			],
-		},
-	},
-	{
-		"@context": "https://schema.org",
-		"@type": "LocalBusiness",
-		name: lang === "en" ? "OS-Technology Ukraine" : "ОС-Технолоджи Україна",
-		url: new URL(`/${lang}`, siteUrl).href,
-		telephone: companyData.phone,
-		email: companyData.email,
-		address: {
-			"@type": "PostalAddress",
-			streetAddress: address.office ? `${address.street}, ${address.office}` : address.street,
-			addressLocality: address.city,
-			postalCode: address.postalCode,
-			addressCountry: "UA",
-		},
-		openingHoursSpecification: {
-			"@type": "OpeningHoursSpecification",
-			dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-			opens: "09:00",
-			closes: "18:00",
-		},
-		areaServed: "UA",
-	},
-];
+const pageTitle = _("Contact Us | OS-Technology Ukraine");
+const pageDescription = _(
+	"Contact the OS-Technology Ukraine engineering team. Request a quotation, arrange a product demonstration, or get technical support."
+);
+
+const structuredData = createPageGraph({
+	lang,
+	url: currentUrl,
+	site: siteUrl,
+	title: pageTitle,
+	description: pageDescription,
+	pageType: "ContactPage",
+	breadcrumbs: [
+		{ name: _("Home"), url: new URL(`/${lang}/`, siteUrl).href },
+		{ name: _("Contact Us"), url: currentUrl },
+	],
+});
 ---
 
-<Layout
-	title={_("Contact Us | OS-Technology Ukraine")}
-	description={_(
-		"Contact the OS-Technology Ukraine engineering team. Request a quotation, arrange a product demonstration, or get technical support."
-	)}
->
-	{
-		structuredData.map((sd) => (
-			<script is:inline type="application/ld+json" set:html={JSON.stringify(sd)} />
-		))
-	}
-
+<Layout title={pageTitle} description={pageDescription} structuredData={structuredData}>
 	<ContactHero lang={lang} />
 
 	{/* Muted band: white form and info cards stand out against it */}

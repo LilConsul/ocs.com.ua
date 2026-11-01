@@ -3,13 +3,15 @@ import { getCollection } from "astro:content";
 import CatalogueBand from "@/components/catalogue/CatalogueBand.astro";
 import CategoryHeader from "@/components/catalogue/CategoryHeader.astro";
 import ProductCard from "@/components/catalogue/ProductCard.astro";
-import { getInlineTranslations, getIsoLang, type Lang } from "@/i18n";
+import companyData from "@/data/company.json";
+import { getInlineTranslations, type Lang } from "@/i18n";
 import Layout from "@/layouts/Layout.astro";
 import { productUrl } from "@/lib/catalogue-urls";
 import {
 	filterByCategory,
 	filterByLocale,
 	getCategoriesForLocale,
+	getCategory,
 	getGallery,
 	getIndustriesForLocale,
 	getProducts,
@@ -17,7 +19,7 @@ import {
 	type Locale,
 	sortByOrder,
 } from "@/lib/content-utils";
-import { breadcrumbSchema } from "@/lib/structured-data";
+import { collectionPageSchema, createPageGraph } from "@/lib/structured-data";
 
 export async function getStaticPaths() {
 	const allEquipment = await getCollection("equipment");
@@ -40,6 +42,9 @@ export async function getStaticPaths() {
 			const galleries = Object.fromEntries(
 				(categoryProducts || []).map((p) => [p.id, getGallery(p, allProducts) ?? []])
 			);
+			const allGalleries = Object.fromEntries(
+				localeProducts.map((p) => [p.id, getGallery(p, allProducts) ?? []])
+			);
 
 			paths.push({
 				params: { lang, category: cat.slug },
@@ -51,6 +56,8 @@ export async function getStaticPaths() {
 					allIndustries: getIndustriesForLocale(lang),
 					lang,
 					galleries,
+					localeProducts,
+					allGalleries,
 				},
 			});
 		}
@@ -67,6 +74,8 @@ const {
 	allIndustries = [],
 	lang,
 	galleries = {},
+	localeProducts = [],
+	allGalleries = {},
 } = Astro.props;
 const _ = getInlineTranslations(lang as Lang);
 
@@ -74,43 +83,61 @@ const _ = getInlineTranslations(lang as Lang);
 const sortedProducts = Array.isArray(products) ? sortByOrder(products) : [];
 const sortedCategories = Array.isArray(allCategories) ? allCategories : [];
 
+// Minimal product index for cross-category search (title + description + url + first image)
+const productSearchIndex = localeProducts.map((p) => ({
+	title: p.data.title ?? "",
+	description: p.data.description ?? "",
+	url: productUrl(lang as Lang, getCategory(p), getSlug(p)),
+	image: (allGalleries as Record<string, string[]>)[p.id]?.[0] ?? "",
+}));
+
 // Page metadata - with fallback for missing categoryData
-const pageTitle = `${categoryData?.title || "Equipment"} | ${lang === "en" ? "OS-Technology" : "ОС-Технолоджи"}`;
+const pageTitle = `${categoryData?.title || "Equipment"} | ${companyData.shortName[lang as "en" | "ua"] ?? companyData.shortName.en}`;
 const pageDescription = categoryData?.description || "";
 
 // Structured data for SEO
 const siteUrl = Astro.site || "https://ocs.com.ua";
 const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
 
-const structuredData = {
-	"@context": "https://schema.org",
-	"@type": "CollectionPage",
-	name: categoryData?.title || "Equipment",
-	description: categoryData?.description || "",
+const { itemList } = collectionPageSchema({
+	lang: lang as Lang,
 	url: currentUrl,
-	inLanguage: getIsoLang(lang as Lang),
-	// There is no /catalogue/ index page, so the trail goes straight from Home to the category
-	breadcrumb: breadcrumbSchema([
-		{ name: lang === "en" ? "Home" : "Головна", url: new URL(`/${lang}/`, siteUrl).href },
+	site: siteUrl,
+	title: pageTitle,
+	description: pageDescription,
+	items: sortedProducts.map((product) => ({
+		name: product.data.title ?? "",
+		description: product.data.description ?? undefined,
+		url: new URL(productUrl(lang as Lang, categorySlug, getSlug(product)), siteUrl).href,
+	})),
+	about: categoryData
+		? {
+				"@type": "Thing",
+				name: categoryData.title,
+				description: categoryData.description,
+			}
+		: undefined,
+	keywords: [categoryData?.title, ...sortedProducts.map((p) => p.data.title).filter(Boolean)]
+		.filter(Boolean)
+		.join(", "),
+});
+
+const structuredData = createPageGraph({
+	lang: lang as Lang,
+	url: currentUrl,
+	site: siteUrl,
+	title: pageTitle,
+	description: pageDescription,
+	pageType: "CollectionPage",
+	breadcrumbs: [
+		{ name: _("Home"), url: new URL(`/${lang}/`, siteUrl).href },
 		{ name: categoryData?.title || categorySlug, url: currentUrl },
-	]),
-	mainEntity: {
-		"@type": "ItemList",
-		numberOfItems: sortedProducts.length,
-		itemListElement: sortedProducts.map((product, index) => ({
-			"@type": "ListItem",
-			position: index + 1,
-			url: new URL(productUrl(lang as Lang, categorySlug, getSlug(product)), siteUrl).href,
-			name: product.data.title,
-			description: product.data.description,
-		})),
-	},
-};
+	],
+	mainEntities: [itemList],
+});
 ---
 
-<Layout title={pageTitle} description={pageDescription}>
-	<script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
-
+<Layout title={pageTitle} description={pageDescription} structuredData={structuredData}>
 	<CategoryHeader categoryData={categoryData} lang={lang as Lang} />
 
 	<CatalogueBand
@@ -119,6 +146,7 @@ const structuredData = {
 		section="equipment"
 		activeSlug={categorySlug}
 		lang={lang as Lang}
+		productSearchIndex={productSearchIndex}
 	>
 		<section aria-label={_("Products")}>
 			{

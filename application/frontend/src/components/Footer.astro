@@ -1,5 +1,6 @@
 ---
 import ShareButtons from "@/components/ShareButtons.astro";
+import companyData from "@/data/company.json";
 import { getInlineTranslations, getLangFromUrl } from "@/i18n";
 
 interface Props {
@@ -22,7 +23,9 @@ const currentYear = new Date().getFullYear();
 			{share && <ShareButtons title={share.title} description={share.description} />}
 
 			<p class="font-sans">
-				&copy; {currentYear}{" "}{_("OS-Technology Ukraine")}. {_("All rights reserved")}.
+				&copy; {currentYear}{" "}{companyData.name[lang as "en" | "ua"] ?? companyData.name.en}. {
+					_("All rights reserved")
+				}.
 			</p>
 
 			<nav class="flex flex-wrap items-center justify-center gap-6">

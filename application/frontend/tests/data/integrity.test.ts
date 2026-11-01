@@ -245,6 +245,17 @@ describe("authorization documents data", () => {
 });
 
 describe("company data", () => {
+	it("has localized company names (full and short) for en and ua", () => {
+		for (const lang of ["en", "ua"] as const) {
+			expect((companyData as any).name?.[lang]?.trim()).not.toBe("");
+			expect((companyData as any).shortName?.[lang]?.trim()).not.toBe("");
+		}
+		expect((companyData as any).name.en).toBe("OS-Technology Ukraine");
+		expect((companyData as any).name.ua).toBe("ОС-Технолоджи Україна");
+		expect((companyData as any).shortName.en).toBe("OS-Technology");
+		expect((companyData as any).shortName.ua).toBe("ОС-Технолоджи");
+	});
+
 	it("has phone number string", () => {
 		expect(typeof companyData.phone).toBe("string");
 		expect(companyData.phone.trim()).not.toBe("");
@@ -272,6 +283,35 @@ describe("company data", () => {
 			expect(addr.city.trim()).not.toBe("");
 			expect(addr.postalCode.trim()).not.toBe("");
 			expect(addr.country.trim()).not.toBe("");
+		}
+	});
+
+	it("has geo coordinates with valid latitude and longitude numbers", () => {
+		expect(typeof (companyData as any).geo?.latitude).toBe("number");
+		expect(typeof (companyData as any).geo?.longitude).toBe("number");
+		expect((companyData as any).geo.latitude).toBeGreaterThan(44);
+		expect((companyData as any).geo.latitude).toBeLessThan(53);
+		expect((companyData as any).geo.longitude).toBeGreaterThan(22);
+		expect((companyData as any).geo.longitude).toBeLessThan(41);
+	});
+
+	it("has structured opening hours with days array and opens/closes time strings", () => {
+		const hours = (companyData as any).openingHours;
+		expect(Array.isArray(hours?.days)).toBe(true);
+		expect(hours.days.length).toBeGreaterThan(0);
+		expect(typeof hours.opens).toBe("string");
+		expect(typeof hours.closes).toBe("string");
+	});
+
+	it("has priceRange string", () => {
+		expect(typeof companyData.priceRange).toBe("string");
+		expect(companyData.priceRange.trim()).not.toBe("");
+	});
+
+	it("has sameAs array (may be empty)", () => {
+		expect(Array.isArray(companyData.sameAs)).toBe(true);
+		for (const url of companyData.sameAs) {
+			expect(url).toMatch(/^https?:\/\//);
 		}
 	});
 });

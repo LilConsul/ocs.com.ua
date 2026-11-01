@@ -4,10 +4,8 @@ import AboutHero from "@/components/about/AboutHero.astro";
 import ClientDirectory from "@/components/about/ClientDirectory.astro";
 import InteractiveUkraineMap from "@/components/about/InteractiveUkraineMap.astro";
 import ManufacturerCredentials from "@/components/about/ManufacturerCredentials.astro";
-import companyData from "@/data/company.json";
-import documentsData from "@/data/documents.json";
 import partnersRaw from "@/data/partners.json";
-import { getInlineTranslations, getIsoLang, isValidLang, type Lang } from "@/i18n";
+import { getInlineTranslations, isValidLang, type Lang } from "@/i18n";
 import { languages } from "@/i18n/ui";
 import Layout from "@/layouts/Layout.astro";
 import {
@@ -19,6 +17,7 @@ import {
 	getSiteStats,
 } from "@/lib/about/partners-data";
 import type { PartnersData } from "@/lib/about/types";
+import { createPageGraph } from "@/lib/structured-data";
 
 export function getStaticPaths() {
 	return (Object.keys(languages) as Lang[]).map((lang) => ({ params: { lang } }));
@@ -41,81 +40,26 @@ const siteStats = getSiteStats(partnersData);
 const siteUrl = Astro.site ?? "https://ocs.com.ua";
 const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
 
-const structuredData = [
-	{
-		"@context": "https://schema.org",
-		"@type": "AboutPage",
-		url: currentUrl,
-		inLanguage: getIsoLang(lang),
-		name: lang === "en" ? "About OS-Technology Ukraine" : "Про компанію ОС-Технолоджи Україна",
-		description:
-			lang === "en"
-				? "Official exclusive distributor and certified integration partner of WIPOTEC GmbH and MESUTRONIC Gerätebau GmbH in Ukraine."
-				: "Офіційний ексклюзивний дистриб'ютор та сертифікований інтеграційний партнер WIPOTEC GmbH та MESUTRONIC Gerätebau GmbH в Україні.",
-		breadcrumb: {
-			"@type": "BreadcrumbList",
-			itemListElement: [
-				{
-					"@type": "ListItem",
-					position: 1,
-					name: lang === "en" ? "Home" : "Головна",
-					item: new URL(`/${lang}`, siteUrl).href,
-				},
-				{
-					"@type": "ListItem",
-					position: 2,
-					name: lang === "en" ? "About Us" : "Про нас",
-					item: currentUrl,
-				},
-			],
-		},
-	},
-	{
-		"@context": "https://schema.org",
-		"@type": "Organization",
-		name: lang === "en" ? "OS-Technology Ukraine" : "ОС-Технолоджи Україна",
-		url: new URL(`/${lang}`, siteUrl).href,
-		telephone: companyData.phone,
-		email: companyData.email,
-		knowsAbout: [
-			"WIPOTEC GmbH Dynamic Checkweighers",
-			"MESUTRONIC Gerätebau Metal Detectors",
-			"Industrial X-Ray Scanners",
-			"Pharmaceutical Track and Trace Serialization",
-			"HACCP and IFS Food Inspection Compliance",
-		],
-		hasCredential: [
-			{
-				"@type": "EducationalOccupationalCredential",
-				name: "WIPOTEC Official Distributor Authorization",
-				url: new URL(documentsData.wipotec, siteUrl).href,
-			},
-			{
-				"@type": "EducationalOccupationalCredential",
-				name: "MESUTRONIC Authorized Distributor Certificate",
-				url: new URL(documentsData.mesutronic, siteUrl).href,
-			},
-		],
-		areaServed: {
-			"@type": "Country",
-			name: "Ukraine",
-		},
-	},
-];
+const pageTitle = _("About Us | OS-Technology Ukraine");
+const pageDescription = _(
+	"Official exclusive distributor and certified engineering partner of WIPOTEC GmbH and MESUTRONIC Gerätebau GmbH in Ukraine. {systems} systems installed."
+).replace("{systems}", formatApprox(siteStats.systems));
+
+const structuredData = createPageGraph({
+	lang,
+	url: currentUrl,
+	site: siteUrl,
+	title: pageTitle,
+	description: pageDescription,
+	pageType: "AboutPage",
+	breadcrumbs: [
+		{ name: _("Home"), url: new URL(`/${lang}/`, siteUrl).href },
+		{ name: _("About Us"), url: currentUrl },
+	],
+});
 ---
 
-<Layout
-	title={_("About Us | OS-Technology Ukraine")}
-	description={_(
-		"Official exclusive distributor and certified engineering partner of WIPOTEC GmbH and MESUTRONIC Gerätebau GmbH in Ukraine. {systems} systems installed."
-	).replace("{systems}", formatApprox(siteStats.systems))}
->
-	{
-		structuredData.map((sd) => (
-			<script is:inline type="application/ld+json" set:html={JSON.stringify(sd)} />
-		))
-	}
-
+<Layout title={pageTitle} description={pageDescription} structuredData={structuredData}>
 	<AboutHero lang={lang} stats={globalStats} siteStats={siteStats} />
 	<ManufacturerCredentials lang={lang} />
 	<InteractiveUkraineMap lang={lang} cityHubs={cityHubs} sectors={sectorBreakdowns} />
