@@ -68,3 +68,66 @@ describe("structured-data: canonical graph IDs", () => {
 		expect(absUrl("https://example.com/doc.pdf", SITE)).toBe("https://example.com/doc.pdf");
 	});
 });
+
+import companyData from "@/data/company.json";
+import { organizationSchema } from "@/lib/structured-data/organization";
+import { websiteSchema } from "@/lib/structured-data/website";
+
+describe("structured-data: organizationSchema", () => {
+	it("builds a rich unified Organization node sourced completely from company.json", () => {
+		const org = organizationSchema("en", SITE);
+		expect(org["@type"]).toEqual(["Organization", "LocalBusiness"]);
+		expect(org["@id"]).toBe("https://ocs.com.ua/#organization");
+		expect(org.name).toBe(companyData.name.en);
+		expect(org.url).toBe("https://ocs.com.ua/en/");
+		expect(org.email).toBe(companyData.email);
+		expect(org.telephone).toBe(companyData.phone);
+		expect(org.address).toEqual({
+			"@type": "PostalAddress",
+			streetAddress: "67 Beresteiskyi Ave, Office 9",
+			addressLocality: "Kyiv",
+			postalCode: "03062",
+			addressCountry: "UA",
+		});
+		expect(org.geo).toEqual({
+			"@type": "GeoCoordinates",
+			latitude: companyData.geo.latitude,
+			longitude: companyData.geo.longitude,
+		});
+		expect(org.openingHoursSpecification).toEqual({
+			"@type": "OpeningHoursSpecification",
+			dayOfWeek: companyData.openingHours.days,
+			opens: companyData.openingHours.opens,
+			closes: companyData.openingHours.closes,
+		});
+		expect(org.contactPoint).toEqual({
+			"@type": "ContactPoint",
+			contactType: "sales",
+			name: companyData.contactPerson.en.name,
+			telephone: companyData.phone,
+			email: companyData.email,
+			areaServed: "UA",
+			availableLanguage: ["uk", "en"],
+		});
+		expect(org.hasCredential).toBeDefined();
+		expect(org.knowsAbout).toBeDefined();
+	});
+
+	it("translates address and company name for Ukrainian locale", () => {
+		const org = organizationSchema("ua", SITE);
+		expect(org.name).toBe(companyData.name.ua);
+		expect(org.url).toBe("https://ocs.com.ua/ua/");
+		expect(org.address.addressLocality).toBe("Київ");
+	});
+});
+
+describe("structured-data: websiteSchema", () => {
+	it("builds a WebSite node referencing the organization publisher and company name", () => {
+		const ws = websiteSchema("en", SITE);
+		expect(ws["@type"]).toBe("WebSite");
+		expect(ws["@id"]).toBe("https://ocs.com.ua/en/#website");
+		expect(ws.name).toBe(companyData.name.en);
+		expect(ws.inLanguage).toBe("en");
+		expect(ws.publisher).toEqual({ "@id": "https://ocs.com.ua/#organization" });
+	});
+});
