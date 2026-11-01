@@ -26,6 +26,8 @@
 		"opens": "09:00",
 		"closes": "18:00"
 	},
+	"priceRange": "$$$$",
+	"sameAs": [],
 	"address": {
 		"en": {
 			"street": "67 Beresteiskyi Ave",

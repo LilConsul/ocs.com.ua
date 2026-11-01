@@ -111,6 +111,10 @@ describe("structured-data: organizationSchema", () => {
 		});
 		expect(org.hasCredential).toBeDefined();
 		expect(org.knowsAbout).toBeDefined();
+		expect(org.openingHours).toBe("Mo Tu We Th Fr 09:00-18:00");
+		expect(org.priceRange).toBe(companyData.priceRange);
+		// sameAs is omitted when empty array
+		expect(org.sameAs).toBeUndefined();
 	});
 
 	it("translates address and company name for Ukrainian locale", () => {
@@ -129,6 +133,14 @@ describe("structured-data: websiteSchema", () => {
 		expect(ws.name).toBe(companyData.name.en);
 		expect(ws.inLanguage).toBe("en");
 		expect(ws.publisher).toEqual({ "@id": "https://ocs.com.ua/#organization" });
+		expect(ws.potentialAction).toEqual({
+			"@type": "SearchAction",
+			target: {
+				"@type": "EntryPoint",
+				urlTemplate: "https://ocs.com.ua/en/wiki/?q={search_term_string}",
+			},
+			"query-input": "required name=search_term_string",
+		});
 	});
 });
 

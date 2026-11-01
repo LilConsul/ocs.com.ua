@@ -302,6 +302,18 @@ describe("company data", () => {
 		expect(typeof hours.opens).toBe("string");
 		expect(typeof hours.closes).toBe("string");
 	});
+
+	it("has priceRange string", () => {
+		expect(typeof companyData.priceRange).toBe("string");
+		expect(companyData.priceRange.trim()).not.toBe("");
+	});
+
+	it("has sameAs array (may be empty)", () => {
+		expect(Array.isArray(companyData.sameAs)).toBe(true);
+		for (const url of companyData.sameAs) {
+			expect(url).toMatch(/^https?:\/\//);
+		}
+	});
 });
 
 describe("decap cms documents collection", () => {

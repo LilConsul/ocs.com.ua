@@ -4,6 +4,26 @@ import { getInlineTranslations, type Lang } from "@/i18n";
 import { absUrl, organizationId } from "./graph";
 import type { SchemaNode, SiteOrigin } from "./types";
 
+/** Maps Schema.org full day names to their two-letter RFC 5545 abbreviations. */
+const DAY_ABBR: Record<string, string> = {
+	Monday: "Mo",
+	Tuesday: "Tu",
+	Wednesday: "We",
+	Thursday: "Th",
+	Friday: "Fr",
+	Saturday: "Sa",
+	Sunday: "Su",
+};
+
+/**
+ * Converts structured openingHours to the Schema.org LocalBusiness string format.
+ * e.g. ["Monday","Friday"] + "09:00" + "18:00" → "Mo Fr 09:00-18:00"
+ */
+function toOpeningHoursString(days: string[], opens: string, closes: string): string {
+	const abbrs = days.map((d) => DAY_ABBR[d] ?? d.slice(0, 2));
+	return `${abbrs.join(" ")} ${opens}-${closes}`;
+}
+
 export function organizationSchema(lang: Lang, site: SiteOrigin): SchemaNode {
 	const _ = getInlineTranslations(lang);
 	const address = companyData.address[lang as "en" | "ua"] ?? companyData.address.en;
@@ -81,5 +101,8 @@ export function organizationSchema(lang: Lang, site: SiteOrigin): SchemaNode {
 			"@type": "Country",
 			name: "Ukraine",
 		},
+		openingHours: toOpeningHoursString(hours.days, hours.opens, hours.closes),
+		priceRange: companyData.priceRange || undefined,
+		sameAs: companyData.sameAs.length > 0 ? companyData.sameAs : undefined,
 	};
 }

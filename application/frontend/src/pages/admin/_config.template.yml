@@ -158,6 +158,16 @@ collections:
             fields:
               - { label: "Latitude", name: "latitude", widget: "number", value_type: "float" }
               - { label: "Longitude", name: "longitude", widget: "number", value_type: "float" }
+          - { label: "Price Range", name: "priceRange", widget: "string", required: false, hint: "e.g. $$$$ (Schema.org LocalBusiness priceRange)" }
+          - label: "Same As (Social / Authority URLs)"
+            name: "sameAs"
+            widget: "list"
+            required: false
+            hint: "Official profiles: LinkedIn, Facebook, Google Maps, Wikidata, etc."
+            field:
+              label: "URL"
+              name: "url"
+              widget: "string"
 
   # ── Equipment Categories & Industries ───────────────────────────────────────
   # File collection backed by JSON. Adding an entry creates a new category or
