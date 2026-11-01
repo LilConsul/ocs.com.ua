@@ -331,3 +331,41 @@ describe("structured-data: articleSchema", () => {
 		expect(article.mainEntityOfPage).toEqual({ "@id": `${pageUrl}#webpage` });
 	});
 });
+
+import { createPageGraph } from "@/lib/structured-data";
+
+describe("structured-data: createPageGraph", () => {
+	it("assembles a complete, clean, interconnected @graph", () => {
+		const pageUrl = "https://ocs.com.ua/en/catalogue/equipment/checkweigher/hc-a/";
+		const graph = createPageGraph({
+			lang: "en",
+			url: pageUrl,
+			site: SITE,
+			title: "HC-A Checkweigher",
+			description: "High speed weigher",
+			breadcrumbs: [
+				{ name: "Home", url: "https://ocs.com.ua/en/" },
+				{ name: "Checkweighers", url: "https://ocs.com.ua/en/catalogue/equipment/checkweigher/" },
+				{ name: "HC-A", url: pageUrl },
+			],
+			mainEntities: [
+				productSchema({
+					name: "HC-A Checkweigher",
+					description: "High speed weigher",
+					url: pageUrl,
+					lang: "en",
+					site: SITE,
+				}),
+			],
+		});
+
+		expect(graph["@context"]).toBe("https://schema.org");
+		expect(Array.isArray(graph["@graph"])).toBe(true);
+		const types = graph["@graph"].map((n) => n["@type"]);
+		expect(types).toContainEqual(["Organization", "LocalBusiness"]);
+		expect(types).toContain("WebSite");
+		expect(types).toContain("BreadcrumbList");
+		expect(types).toContain("WebPage");
+		expect(types).toContain("Product");
+	});
+});
