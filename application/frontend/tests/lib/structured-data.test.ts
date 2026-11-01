@@ -131,3 +131,93 @@ describe("structured-data: websiteSchema", () => {
 		expect(ws.publisher).toEqual({ "@id": "https://ocs.com.ua/#organization" });
 	});
 });
+
+import { breadcrumbSchema } from "@/lib/structured-data/breadcrumb";
+import { collectionPageSchema, webPageSchema } from "@/lib/structured-data/webpage";
+
+describe("structured-data: breadcrumbSchema", () => {
+	it("numbers items from 1 and links canonical ID", () => {
+		const pageUrl = "https://ocs.com.ua/en/wiki/";
+		const crumbs = breadcrumbSchema(
+			[
+				{ name: "Home", url: "https://ocs.com.ua/en/" },
+				{ name: "Knowledge Base", url: pageUrl },
+			],
+			pageUrl
+		);
+		expect(crumbs["@type"]).toBe("BreadcrumbList");
+		expect(crumbs["@id"]).toBe("https://ocs.com.ua/en/wiki/#breadcrumb");
+		expect(crumbs.itemListElement).toEqual([
+			{ "@type": "ListItem", position: 1, name: "Home", item: "https://ocs.com.ua/en/" },
+			{ "@type": "ListItem", position: 2, name: "Knowledge Base", item: pageUrl },
+		]);
+	});
+});
+
+describe("structured-data: webPageSchema", () => {
+	it("builds a WebPage node linked to website, organization, and breadcrumb", () => {
+		const pageUrl = "https://ocs.com.ua/en/about/";
+		const page = webPageSchema({
+			lang: "en",
+			url: pageUrl,
+			site: SITE,
+			title: "About Us",
+			description: "Company overview",
+			pageType: "AboutPage",
+		});
+		expect(page["@type"]).toBe("AboutPage");
+		expect(page["@id"]).toBe("https://ocs.com.ua/en/about/#webpage");
+		expect(page.isPartOf).toEqual({ "@id": "https://ocs.com.ua/en/#website" });
+		expect(page.about).toEqual({ "@id": "https://ocs.com.ua/#organization" });
+		expect(page.breadcrumb).toEqual({ "@id": "https://ocs.com.ua/en/about/#breadcrumb" });
+	});
+});
+
+describe("structured-data: collectionPageSchema", () => {
+	it("builds a CollectionPage node with an ItemList mainEntity", () => {
+		const pageUrl = "https://ocs.com.ua/en/catalogue/equipment/checkweigher/";
+		const collection = collectionPageSchema({
+			lang: "en",
+			url: pageUrl,
+			site: SITE,
+			title: "Checkweighers",
+			description: "Dynamic checkweighers",
+			items: [
+				{
+					name: "HC-A",
+					url: "https://ocs.com.ua/en/catalogue/equipment/checkweigher/hc-a/",
+					description: "High speed",
+				},
+				{
+					name: "EC-E",
+					url: "https://ocs.com.ua/en/catalogue/equipment/checkweigher/ec-e/",
+				},
+			],
+		});
+		expect(collection.page["@type"]).toBe("CollectionPage");
+		expect(collection.page.mainEntity).toEqual({
+			"@id": "https://ocs.com.ua/en/catalogue/equipment/checkweigher/#itemlist",
+		});
+		expect(collection.itemList["@type"]).toBe("ItemList");
+		expect(collection.itemList["@id"]).toBe(
+			"https://ocs.com.ua/en/catalogue/equipment/checkweigher/#itemlist"
+		);
+		expect(collection.itemList.numberOfItems).toBe(2);
+		expect(collection.itemList.itemListElement).toEqual([
+			{
+				"@type": "ListItem",
+				position: 1,
+				name: "HC-A",
+				url: "https://ocs.com.ua/en/catalogue/equipment/checkweigher/hc-a/",
+				description: "High speed",
+			},
+			{
+				"@type": "ListItem",
+				position: 2,
+				name: "EC-E",
+				url: "https://ocs.com.ua/en/catalogue/equipment/checkweigher/ec-e/",
+				description: undefined,
+			},
+		]);
+	});
+});
