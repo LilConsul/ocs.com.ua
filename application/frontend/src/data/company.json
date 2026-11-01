@@ -27,7 +27,11 @@
 		"closes": "18:00"
 	},
 	"priceRange": "$$$$",
-	"sameAs": [],
+	"sameAs": [
+		"https://www.facebook.com/ocs.com.ua",
+		"https://opendatabot.ua/c/40123601",
+		"https://youcontrol.com.ua/catalog/company_details/40123601/"
+	],
 	"address": {
 		"en": {
 			"street": "67 Beresteiskyi Ave",
