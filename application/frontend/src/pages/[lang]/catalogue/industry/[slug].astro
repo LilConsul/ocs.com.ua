@@ -3,7 +3,8 @@ import { getCollection } from "astro:content";
 import CatalogueBand from "@/components/catalogue/CatalogueBand.astro";
 import CategoryHeader from "@/components/catalogue/CategoryHeader.astro";
 import ProductCard from "@/components/catalogue/ProductCard.astro";
-import { getInlineTranslations, getIsoLang, type Lang } from "@/i18n";
+import companyData from "@/data/company.json";
+import { getInlineTranslations, type Lang } from "@/i18n";
 import Layout from "@/layouts/Layout.astro";
 import { productUrl } from "@/lib/catalogue-urls";
 import {
@@ -18,7 +19,7 @@ import {
 	groupByCategory,
 	type Locale,
 } from "@/lib/content-utils";
-import { breadcrumbSchema } from "@/lib/structured-data";
+import { collectionPageSchema, createPageGraph } from "@/lib/structured-data";
 
 export async function getStaticPaths() {
 	const allProducts = getProducts(await getCollection("equipment"));
@@ -57,7 +58,7 @@ export async function getStaticPaths() {
 const { industry, groups, allCategories, allIndustries, lang, galleries = {} } = Astro.props;
 const _ = getInlineTranslations(lang as Lang);
 
-const pageTitle = `${industry.title} | ${lang === "en" ? "OS-Technology" : "ОС-Технолоджи"}`;
+const pageTitle = `${industry.title} | ${companyData.shortName[lang as "en" | "ua"] ?? companyData.shortName.en}`;
 
 const siteUrl = Astro.site || "https://ocs.com.ua";
 const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
@@ -65,35 +66,35 @@ const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
 // Flat list in the same order the groups are shown
 const listedProducts = groups.flatMap((group) => group.products);
 
-const structuredData = {
-	"@context": "https://schema.org",
-	"@type": "CollectionPage",
-	name: industry.title,
-	description: industry.description,
+const { itemList } = collectionPageSchema({
+	lang: lang as Lang,
 	url: currentUrl,
-	inLanguage: getIsoLang(lang as Lang),
-	// There is no /catalogue/ index page, so the trail goes straight from Home to the industry
-	breadcrumb: breadcrumbSchema([
-		{ name: lang === "en" ? "Home" : "Головна", url: new URL(`/${lang}/`, siteUrl).href },
+	site: siteUrl,
+	title: industry.title,
+	description: industry.description,
+	items: listedProducts.map((product) => ({
+		name: product.data.title,
+		description: product.data.description,
+		url: new URL(productUrl(lang as Lang, getCategory(product), getSlug(product)), siteUrl).href,
+	})),
+});
+
+const structuredData = createPageGraph({
+	lang: lang as Lang,
+	url: currentUrl,
+	site: siteUrl,
+	title: pageTitle,
+	description: industry.description,
+	pageType: "CollectionPage",
+	breadcrumbs: [
+		{ name: _("Home"), url: new URL(`/${lang}/`, siteUrl).href },
 		{ name: industry.title, url: currentUrl },
-	]),
-	mainEntity: {
-		"@type": "ItemList",
-		numberOfItems: listedProducts.length,
-		itemListElement: listedProducts.map((product, index) => ({
-			"@type": "ListItem",
-			position: index + 1,
-			url: new URL(productUrl(lang as Lang, getCategory(product), getSlug(product)), siteUrl).href,
-			name: product.data.title,
-			description: product.data.description,
-		})),
-	},
-};
+	],
+	mainEntities: [itemList],
+});
 ---
 
-<Layout title={pageTitle} description={industry.description}>
-	<script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
-
+<Layout title={pageTitle} description={industry.description} structuredData={structuredData}>
 	<CategoryHeader categoryData={industry} lang={lang as Lang} />
 
 	<CatalogueBand

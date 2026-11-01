@@ -5,10 +5,12 @@ import WikiCard from "@/components/wiki/WikiCard.astro";
 import WikiCta from "@/components/wiki/WikiCta.astro";
 import { getInlineTranslations, type Lang, languages } from "@/i18n";
 import Layout from "@/layouts/Layout.astro";
+import { collectionPageSchema, createPageGraph } from "@/lib/structured-data";
 import {
 	calculateReadingMinutes,
 	filterWikiByLocale,
 	getWikiCoverImage,
+	getWikiSlug,
 	sortWikiArticles,
 	type WikiEntry,
 } from "@/lib/wiki-utils";
@@ -30,9 +32,39 @@ const title = `${_("Knowledge Base")} | ${_("OS-Technology Ukraine")}`;
 const description = _(
 	"Technical articles, guides, and operational documentation for industrial equipment."
 );
+
+const siteUrl = Astro.site ?? "https://ocs.com.ua";
+const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
+
+const { itemList } = collectionPageSchema({
+	lang,
+	url: currentUrl,
+	site: siteUrl,
+	title: _("Knowledge Base"),
+	description,
+	items: sortedArticles.map((article) => ({
+		name: article.data.title,
+		description: article.data.description,
+		url: new URL(`/${lang}/wiki/${getWikiSlug(article)}/`, siteUrl).href,
+	})),
+});
+
+const structuredData = createPageGraph({
+	lang,
+	url: currentUrl,
+	site: siteUrl,
+	title,
+	description,
+	pageType: "CollectionPage",
+	breadcrumbs: [
+		{ name: _("Home"), url: new URL(`/${lang}/`, siteUrl).href },
+		{ name: _("Knowledge Base"), url: currentUrl },
+	],
+	mainEntities: [itemList],
+});
 ---
 
-<Layout title={title} description={description}>
+<Layout title={title} description={description} structuredData={structuredData}>
 	{/* Hero Banner */}
 	<header
 		class="from-surface-container/40 to-background border-border-subtle relative w-full overflow-hidden border-b bg-linear-to-b py-12 lg:py-20"
