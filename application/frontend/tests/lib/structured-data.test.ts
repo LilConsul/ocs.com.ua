@@ -244,6 +244,44 @@ describe("structured-data: collectionPageSchema", () => {
 				description: undefined,
 			},
 		]);
+		// No hasPart — sub-groups are sibling nodes, not nested on ItemList
+		expect((collection.itemList as Record<string, unknown>).hasPart).toBeUndefined();
+		expect(collection.subLists).toEqual([]);
+	});
+
+	it("emits sub-group ItemLists as sibling nodes with stable @ids", () => {
+		const pageUrl = "https://ocs.com.ua/en/catalogue/industry/food-beverage/";
+		const collection = collectionPageSchema({
+			lang: "en",
+			url: pageUrl,
+			site: SITE,
+			title: "Food & Beverage",
+			description: "Industry overview",
+			items: [
+				{ name: "HC-A", url: "https://ocs.com.ua/en/catalogue/equipment/checkweigher/hc-a/" },
+			],
+			subGroups: [
+				{
+					name: "Checkweighers",
+					items: [
+						{
+							name: "HC-A",
+							url: "https://ocs.com.ua/en/catalogue/equipment/checkweigher/hc-a/",
+						},
+					],
+				},
+			],
+		});
+		expect(collection.subLists).toHaveLength(1);
+		const sub = collection.subLists[0];
+		expect(sub["@type"]).toBe("ItemList");
+		expect(sub["@id"]).toBe(
+			"https://ocs.com.ua/en/catalogue/industry/food-beverage/#itemlist-checkweighers"
+		);
+		expect(sub.name).toBe("Checkweighers");
+		expect(sub.numberOfItems).toBe(1);
+		// main itemList has no hasPart
+		expect((collection.itemList as Record<string, unknown>).hasPart).toBeUndefined();
 	});
 });
 
@@ -288,19 +326,18 @@ describe("structured-data: productSchema", () => {
 			name: "Technical Datasheet",
 			url: "https://ocs.com.ua/assets/equipment/hc-a/datasheet.pdf",
 		});
-		expect(product.offers).toEqual({
-			"@type": "Offer",
-			availability: "https://schema.org/InStock",
-			priceCurrency: "UAH",
-			price: "0",
-			priceSpecification: {
-				"@type": "PriceSpecification",
-				description: "Price on request",
-			},
-			seller: {
-				"@id": "https://ocs.com.ua/#organization",
-			},
-		});
+		const offers = product.offers as Record<string, unknown>;
+		expect(offers["@type"]).toBe("Offer");
+		expect(offers.url).toBe(productBase.url);
+		expect(offers.availability).toBe("https://schema.org/InStock");
+		expect(offers.priceCurrency).toBe("UAH");
+		expect(offers.price).toBe("0");
+		expect(typeof offers.priceValidUntil).toBe("string");
+		expect(offers.priceValidUntil as string).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+		expect((offers.priceSpecification as Record<string, unknown>).description).toBe(
+			"Price on request"
+		);
+		expect(offers.seller).toEqual({ "@id": "https://ocs.com.ua/#organization" });
 	});
 
 	it("translates datasheet and offer in Ukrainian locale", () => {
@@ -327,7 +364,7 @@ describe("structured-data: productSchema", () => {
 		expect(minimal.image).toBeUndefined();
 		expect(minimal.additionalProperty).toBeUndefined();
 		expect(minimal.subjectOf).toBeUndefined();
-		expect(minimal.inLanguage).toBe("uk");
+		expect(minimal.inLanguage).toBeUndefined();
 	});
 });
 

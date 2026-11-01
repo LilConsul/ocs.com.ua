@@ -1,4 +1,4 @@
-import { getInlineTranslations, getIsoLang, type Lang } from "@/i18n";
+import { getInlineTranslations, type Lang } from "@/i18n";
 import { absUrl, organizationId, productId } from "./graph";
 import type { SchemaNode, SiteOrigin } from "./types";
 
@@ -13,10 +13,18 @@ export interface ProductSchemaInput {
 	url: string;
 	lang: Lang;
 	site: SiteOrigin;
+	sku?: string;
 	category?: string;
 	images?: string[] | null;
 	specs?: ProductSpec[] | null;
 	datasheetUrl?: string | null;
+}
+
+/** ISO-8601 date one year from now — used as a rolling priceValidUntil for inquiry-only products. */
+function nextYearDate(): string {
+	const d = new Date();
+	d.setFullYear(d.getFullYear() + 1);
+	return d.toISOString().slice(0, 10);
 }
 
 export function productSchema({
@@ -25,6 +33,7 @@ export function productSchema({
 	url,
 	lang,
 	site,
+	sku,
 	category,
 	images,
 	specs,
@@ -40,7 +49,7 @@ export function productSchema({
 		name,
 		description,
 		url,
-		inLanguage: getIsoLang(lang),
+		sku,
 		category,
 		image: validImages.length > 0 ? validImages.map((img) => absUrl(img, site)) : undefined,
 		brand: {
@@ -66,9 +75,11 @@ export function productSchema({
 			: undefined,
 		offers: {
 			"@type": "Offer",
+			url,
 			availability: "https://schema.org/InStock",
 			priceCurrency: "UAH",
 			price: "0",
+			priceValidUntil: nextYearDate(),
 			priceSpecification: {
 				"@type": "PriceSpecification",
 				description: _("Price on request"),

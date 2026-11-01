@@ -66,7 +66,7 @@ const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
 // Flat list in the same order the groups are shown
 const listedProducts = groups.flatMap((group) => group.products);
 
-const { itemList } = collectionPageSchema({
+const { itemList, subLists } = collectionPageSchema({
 	lang: lang as Lang,
 	url: currentUrl,
 	site: siteUrl,
@@ -108,7 +108,7 @@ const structuredData = createPageGraph({
 		{ name: _("Home"), url: new URL(`/${lang}/`, siteUrl).href },
 		{ name: industry.title, url: currentUrl },
 	],
-	mainEntities: [itemList],
+	mainEntities: [itemList, ...subLists],
 });
 ---
 

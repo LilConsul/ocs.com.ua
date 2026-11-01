@@ -98,6 +98,7 @@ const productNode = productSchema({
 	url: currentUrl,
 	lang: lang as Lang,
 	site: siteUrl,
+	sku: `${category}/${getSlug(product)}`,
 	category: categoryTitle,
 	images: gallery,
 	specs: flattenSpecs(product.data.specs),

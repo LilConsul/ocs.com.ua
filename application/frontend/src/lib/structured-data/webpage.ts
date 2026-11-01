@@ -62,8 +62,16 @@ export interface CollectionPageOptions {
 	about?: SchemaNode;
 	/** Comma-separated keywords for the WebPage node. */
 	keywords?: string;
-	/** Optional sub-groups encoded as hasPart ItemLists on the main ItemList. */
+	/** Optional sub-groups emitted as sibling ItemList nodes in the @graph. */
 	subGroups?: Array<{ name: string; items: CollectionItem[] }>;
+}
+
+/** Slugify a group name for use in an @id fragment (lowercase, hyphens). */
+function groupSlug(name: string): string {
+	return name
+		.toLowerCase()
+		.replace(/[^a-z0-9а-яіїєґ]+/gi, "-")
+		.replace(/^-|-$/g, "");
 }
 
 export function collectionPageSchema({
@@ -76,7 +84,7 @@ export function collectionPageSchema({
 	about,
 	keywords,
 	subGroups,
-}: CollectionPageOptions): { page: SchemaNode; itemList: SchemaNode } {
+}: CollectionPageOptions): { page: SchemaNode; itemList: SchemaNode; subLists: SchemaNode[] } {
 	const listId = itemListId(url);
 	const page = webPageSchema({
 		lang,
@@ -89,6 +97,23 @@ export function collectionPageSchema({
 		keywords,
 		about,
 	});
+
+	const subLists: SchemaNode[] =
+		subGroups && subGroups.length > 0
+			? subGroups.map((group) => ({
+					"@type": "ItemList",
+					"@id": `${listId.replace(/#.*$/, "")}#itemlist-${groupSlug(group.name)}`,
+					name: group.name,
+					numberOfItems: group.items.length,
+					itemListElement: group.items.map((item, index) => ({
+						"@type": "ListItem",
+						position: index + 1,
+						name: item.name,
+						url: item.url,
+						description: item.description,
+					})),
+				}))
+			: [];
 
 	const itemList: SchemaNode = {
 		"@type": "ItemList",
@@ -103,22 +128,7 @@ export function collectionPageSchema({
 			url: item.url,
 			description: item.description,
 		})),
-		hasPart:
-			subGroups && subGroups.length > 0
-				? subGroups.map((group) => ({
-						"@type": "ItemList",
-						name: group.name,
-						numberOfItems: group.items.length,
-						itemListElement: group.items.map((item, index) => ({
-							"@type": "ListItem",
-							position: index + 1,
-							name: item.name,
-							url: item.url,
-							description: item.description,
-						})),
-					}))
-				: undefined,
 	};
 
-	return { page, itemList };
+	return { page, itemList, subLists };
 }
