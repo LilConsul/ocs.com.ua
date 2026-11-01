@@ -11,6 +11,9 @@ export interface WebPageOptions {
 	pageType?: "WebPage" | "AboutPage" | "ContactPage" | "CollectionPage";
 	mainEntityId?: string;
 	hasBreadcrumb?: boolean;
+	keywords?: string;
+	/** Override the default about ref (org). Use for category/industry pages. */
+	about?: SchemaNode;
 }
 
 export function webPageSchema({
@@ -22,6 +25,8 @@ export function webPageSchema({
 	pageType = "WebPage",
 	mainEntityId,
 	hasBreadcrumb = true,
+	keywords,
+	about,
 }: WebPageOptions): SchemaNode {
 	return {
 		"@type": pageType,
@@ -29,13 +34,12 @@ export function webPageSchema({
 		url,
 		name: title,
 		description,
+		keywords,
 		inLanguage: getIsoLang(lang),
 		isPartOf: {
 			"@id": websiteId(lang, site),
 		},
-		about: {
-			"@id": organizationId(site),
-		},
+		about: about ?? { "@id": organizationId(site) },
 		breadcrumb: hasBreadcrumb ? { "@id": breadcrumbId(url) } : undefined,
 		mainEntity: mainEntityId ? { "@id": mainEntityId } : undefined,
 	};
@@ -54,6 +58,12 @@ export interface CollectionPageOptions {
 	title: string;
 	description: string;
 	items: CollectionItem[];
+	/** Overrides WebPage.about. Describes the subject (category/industry Thing). */
+	about?: SchemaNode;
+	/** Comma-separated keywords for the WebPage node. */
+	keywords?: string;
+	/** Optional sub-groups encoded as hasPart ItemLists on the main ItemList. */
+	subGroups?: Array<{ name: string; items: CollectionItem[] }>;
 }
 
 export function collectionPageSchema({
@@ -63,6 +73,9 @@ export function collectionPageSchema({
 	title,
 	description,
 	items,
+	about,
+	keywords,
+	subGroups,
 }: CollectionPageOptions): { page: SchemaNode; itemList: SchemaNode } {
 	const listId = itemListId(url);
 	const page = webPageSchema({
@@ -73,11 +86,15 @@ export function collectionPageSchema({
 		description,
 		pageType: "CollectionPage",
 		mainEntityId: listId,
+		keywords,
+		about,
 	});
 
 	const itemList: SchemaNode = {
 		"@type": "ItemList",
 		"@id": listId,
+		name: title,
+		description,
 		numberOfItems: items.length,
 		itemListElement: items.map((item, index) => ({
 			"@type": "ListItem",
@@ -86,6 +103,21 @@ export function collectionPageSchema({
 			url: item.url,
 			description: item.description,
 		})),
+		hasPart:
+			subGroups && subGroups.length > 0
+				? subGroups.map((group) => ({
+						"@type": "ItemList",
+						name: group.name,
+						numberOfItems: group.items.length,
+						itemListElement: group.items.map((item, index) => ({
+							"@type": "ListItem",
+							position: index + 1,
+							name: item.name,
+							url: item.url,
+							description: item.description,
+						})),
+					}))
+				: undefined,
 	};
 
 	return { page, itemList };

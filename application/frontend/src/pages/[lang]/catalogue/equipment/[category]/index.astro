@@ -94,6 +94,16 @@ const { itemList } = collectionPageSchema({
 		description: product.data.description,
 		url: new URL(productUrl(lang as Lang, categorySlug, getSlug(product)), siteUrl).href,
 	})),
+	about: categoryData
+		? {
+				"@type": "Thing",
+				name: categoryData.title,
+				description: categoryData.description,
+			}
+		: undefined,
+	keywords: [categoryData?.title, ...sortedProducts.map((p) => p.data.title).filter(Boolean)]
+		.filter(Boolean)
+		.join(", "),
 });
 
 const structuredData = createPageGraph({
