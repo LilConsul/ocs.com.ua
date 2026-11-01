@@ -111,6 +111,20 @@ describe("structured-data: organizationSchema", () => {
 		});
 		expect(org.hasCredential).toBeDefined();
 		expect(org.knowsAbout).toBeDefined();
+		expect(org.knowsAbout).toContain(
+			"FDA 21 CFR Part 11 Compliance (Electronic Records & Signatures)"
+		);
+		expect(org.knowsAbout).toContain("Machinery Directive 2006/42/EC");
+		expect(org.knowsAbout).toContain("Electromagnetic Compatibility (EMC) Directive 2014/30/EU");
+		expect(org.knowsAbout).toContain(
+			"RoHS Directive 2011/65/EU (Restriction of Hazardous Substances)"
+		);
+		expect(org.knowsAbout).toContain("EU Regulation (EC) No 1935/2004 (Food Contact Materials)");
+		expect(org.knowsAbout).toContain(
+			"EU Regulation (EC) No 2023/2006 (Good Manufacturing Practice for Food Contact Materials)"
+		);
+		expect(org.knowsAbout).toContain("EU Regulation No 10/2011 (Plastic Food Contact Materials)");
+		expect(org.knowsAbout).not.toContain("");
 		expect(org.openingHours).toBe("Mo Tu We Th Fr 09:00-18:00");
 		expect(org.priceRange).toBe(companyData.priceRange);
 		// sameAs is omitted when empty array

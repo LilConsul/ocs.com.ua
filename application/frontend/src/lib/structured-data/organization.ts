@@ -1,5 +1,7 @@
 import companyData from "@/data/company.json";
 import documentsData from "@/data/documents.json";
+import equipmentTypes from "@/data/equipment-types.json";
+import industriesData from "@/data/industries.json";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { absUrl, organizationId } from "./graph";
 import type { SchemaNode, SiteOrigin } from "./types";
@@ -90,11 +92,30 @@ export function organizationSchema(lang: Lang, site: SiteOrigin): SchemaNode {
 			availableLanguage: ["uk", "en"],
 		},
 		knowsAbout: [
-			"WIPOTEC GmbH Dynamic Checkweighers",
-			"MESUTRONIC Gerätebau Metal Detectors",
-			"Industrial X-Ray Scanners",
-			"Pharmaceutical Track and Trace Serialization",
-			"HACCP and IFS Food Inspection Compliance",
+			// Compliances & Regulatory Directives
+			"HACCP Food Safety Compliance",
+			"IFS and BRC Certification",
+			"FDA Protocol Compliant",
+			"GMP Pharmaceutical Quality Standards",
+			"FDA 21 CFR Part 11 Compliance (Electronic Records & Signatures)",
+			"Machinery Directive 2006/42/EC",
+			"Electromagnetic Compatibility (EMC) Directive 2014/30/EU",
+			"RoHS Directive 2011/65/EU (Restriction of Hazardous Substances)",
+			"EU Regulation (EC) No 1935/2004 (Food Contact Materials)",
+			"EU Regulation (EC) No 2023/2006 (Good Manufacturing Practice for Food Contact Materials)",
+			"EU Regulation No 10/2011 (Plastic Food Contact Materials)",
+
+			// Manufacturer-specific product lines
+			"WIPOTEC Electromagnetic Force Compensation Checkweighers",
+			"WIPOTEC X-Ray Inspection Systems",
+			"WIPOTEC Track & Trace Serialization and Aggregation",
+			"MESUTRONIC Meatline Pipeline Metal Detection",
+			"MESUTRONIC Quicktron Gravity-Fall Contaminant Separators",
+			"MESUTRONIC Metron Conveyor Metal Detection",
+
+			// Equipment types and industries it is used for, says in sync with CMS
+			...equipmentTypes.en.categories.map((c) => c.title),
+			...industriesData.en.industries.map((i) => i.title),
 		],
 		hasCredential: credentials.length > 0 ? (credentials as unknown as SchemaNode[]) : undefined,
 		areaServed: {

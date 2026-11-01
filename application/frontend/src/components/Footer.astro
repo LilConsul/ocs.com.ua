@@ -23,8 +23,10 @@ const currentYear = new Date().getFullYear();
 			{share && <ShareButtons title={share.title} description={share.description} />}
 
 			<p class="font-sans">
-					&copy; {currentYear}{" "}{companyData.name[lang as "en" | "ua"] ?? companyData.name.en}. {_("All rights reserved")}.
-				</p>
+				&copy; {currentYear}{" "}{companyData.name[lang as "en" | "ua"] ?? companyData.name.en}. {
+					_("All rights reserved")
+				}.
+			</p>
 
 			<nav class="flex flex-wrap items-center justify-center gap-6">
 				<span class="font-sans opacity-50">
