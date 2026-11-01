@@ -79,6 +79,30 @@ const sections = [
 			</p>
 		</div>
 
+		{/* Product search */}
+		<div class="mb-5 px-1">
+			<div class="relative">
+				<span
+					class="material-symbols-outlined text-industrial-gray pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-[18px]"
+					aria-hidden="true">search</span
+				>
+				<input
+					type="search"
+					class="font-body-md text-foreground placeholder:text-industrial-gray/70 border-border-subtle bg-surface-container focus-visible:outline-secondary h-10 w-full rounded-lg border pr-3 pl-9 text-sm shadow-xs transition-shadow focus-visible:outline-2 focus-visible:outline-offset-2"
+					placeholder={_("Search products…")}
+					aria-label={_("Search products…")}
+					data-product-search-input
+				/>
+			</div>
+			<p
+				data-product-empty
+				hidden
+				class="font-body-md text-industrial-gray mt-3 text-xs leading-relaxed"
+			>
+				{_("No products match your search. Try browsing another category.")}
+			</p>
+		</div>
+
 		{/* Exclusive accordion: opening one section closes the other */}
 		<div class="space-y-3">
 			{
