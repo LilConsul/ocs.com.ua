@@ -258,6 +258,21 @@ const sections = [
 
 	const trimSlash = (path: string) => path.replace(/\/+$/, "");
 	const getResults = () => document.querySelector<HTMLElement>("[data-catalogue-results]");
+
+	function getSearchQuery(): string {
+		return new URLSearchParams(location.search).get("q") ?? "";
+	}
+
+	function setSearchQuery(q: string): void {
+		const url = new URL(location.href);
+		if (q) {
+			url.searchParams.set("q", q);
+		} else {
+			url.searchParams.delete("q");
+		}
+		history.replaceState(history.state, "", url);
+	}
+
 	const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 	const getSections = () =>
 		Array.from(sidebar?.querySelectorAll<HTMLElement>("[data-sidebar-section]") ?? []);
@@ -393,10 +408,13 @@ const sections = [
 
 			results.innerHTML = nextResults.innerHTML;
 			revealGrids();
+			setupProductSearch();
 
 			syncChrome(next);
 
 			const url = new URL(href, location.href);
+			const q = getSearchQuery();
+			if (q) url.searchParams.set("q", q);
 			if (push) history.pushState({ catalogue: true }, "", url);
 			shownPath = trimSlash(url.pathname);
 
@@ -455,4 +473,50 @@ const sections = [
 		if (!getResults() || trimSlash(location.pathname) === shownPath) return;
 		swapPage(location.href, false);
 	});
+
+	function filterProducts(): void {
+		const input = document.querySelector<HTMLInputElement>("[data-product-search-input]");
+		const emptyEl = document.querySelector<HTMLElement>("[data-product-empty]");
+		const results = getResults();
+		if (!input) return;
+
+		const query = input.value.trim().toLowerCase();
+		const items = results
+			? results.querySelectorAll<HTMLElement>("[data-product-item]")
+			: document.querySelectorAll<HTMLElement>("[data-product-item]");
+
+		let visibleCount = 0;
+		items.forEach((item) => {
+			const match = query === "" || (item.dataset.productText ?? "").includes(query);
+			item.hidden = !match;
+			if (match) visibleCount++;
+		});
+
+		if (emptyEl) {
+			emptyEl.hidden = visibleCount > 0 || query === "";
+		}
+	}
+
+	function setupProductSearch(): void {
+		const existing = document.querySelector<HTMLInputElement>("[data-product-search-input]");
+		if (!existing) return;
+
+		// Clone to remove any previously attached listeners
+		const input = existing.cloneNode(true) as HTMLInputElement;
+		existing.replaceWith(input);
+
+		// Pre-fill from URL on (re-)setup
+		const initial = getSearchQuery();
+		if (input.value !== initial) input.value = initial;
+
+		input.addEventListener("input", () => {
+			setSearchQuery(input.value.trim());
+			filterProducts();
+		});
+
+		// Apply current query to the cards now in the DOM
+		filterProducts();
+	}
+
+	setupProductSearch();
 </script>
