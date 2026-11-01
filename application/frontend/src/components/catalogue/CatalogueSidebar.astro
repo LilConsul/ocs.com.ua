@@ -103,9 +103,10 @@ const sections = [
 
 		{/* JSON index for cross-category search — read by the sidebar script */}
 		<script
+			is:inline
 			type="application/json"
 			data-product-index
-			set:text={JSON.stringify(productSearchIndex)}
+			set:html={JSON.stringify(productSearchIndex)}
 		/>
 
 		{/* Exclusive accordion: opening one section closes the other */}

@@ -2,7 +2,6 @@ import type { Lang } from "@/i18n/utils";
 import { breadcrumbSchema } from "./breadcrumb";
 import { cleanSchema } from "./clean";
 import { organizationSchema } from "./organization";
-import { productSchema } from "./product";
 import type { BreadcrumbItem, SchemaGraph, SchemaNode, SiteOrigin } from "./types";
 import { webPageSchema } from "./webpage";
 import { websiteSchema } from "./website";

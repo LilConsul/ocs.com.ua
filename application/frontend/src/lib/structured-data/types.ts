@@ -1,5 +1,3 @@
-import type { Lang } from "@/i18n/utils";
-
 export type SiteOrigin = string | URL;
 
 export type JsonValue =
