@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use skills:subagent-driven-development (recommended) or skills:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Implement a unified, interconnected Schema.org JSON-LD Knowledge Graph architecture across all pages with modular builders, exhaustive data presentation (specifications, credentials, gallery, datasheets, catalog lists, company geolocation & opening hours from `company.json`), localized schema descriptions via `getInlineTranslations`, and clean Layout integration.
+**Goal:** Implement a unified, interconnected Schema.org JSON-LD Knowledge Graph architecture across all pages with modular builders, exhaustive data presentation (specifications, credentials, gallery, datasheets, catalog lists, company geolocation, opening hours, and localized company brand names sourced 100% from `company.json`), and clean Layout integration.
 
-**Architecture:** A single `<script type="application/ld+json">` with `{"@context": "https://schema.org", "@graph": [...]}` per page, interconnecting `Organization`, `WebSite`, `WebPage`, `BreadcrumbList`, and page-specific `mainEntity` (`Product`, `TechArticle`, `ItemList`) via canonical `@id` URIs. Modular typed schema builders in `src/lib/structured-data/` sanitize and compose graphs cleanly without undefined or empty keys. All company metadata (phone, email, localized address, geo coordinates, opening hours, contact person) is sourced directly from `src/data/company.json`. All user-facing strings (e.g. `_("Price on request")`, `_("Technical Datasheet")`) use `getInlineTranslations(lang)` to integrate with the project's PO/POT i18n pipeline.
+**Architecture:** A single `<script type="application/ld+json">` with `{"@context": "https://schema.org", "@graph": [...]}` per page, interconnecting `Organization`, `WebSite`, `WebPage`, `BreadcrumbList`, and page-specific `mainEntity` (`Product`, `TechArticle`, `ItemList`) via canonical `@id` URIs. Modular typed schema builders in `src/lib/structured-data/` sanitize and compose graphs cleanly without undefined or empty keys. All company metadata (localized brand names `name` and `shortName`, phone, email, localized address, geo coordinates, opening hours, contact person) is sourced directly from `src/data/company.json` eliminating ad-hoc name ternaries across all layouts and templates. All user-facing descriptions (e.g. `_("Price on request")`, `_("Technical Datasheet")`) use `getInlineTranslations(lang)` to integrate with the project's PO/POT i18n pipeline.
 
 **Tech Stack:** Astro 5, TypeScript, Schema.org JSON-LD, Decap CMS, gettext PO/POT i18n, Bun Test.
 
@@ -20,12 +20,23 @@ ______________________________________________________________________
 
 - Modify: `application/frontend/tests/data/integrity.test.ts:247-278`
 
-- [ ] **Step 1: Write integrity tests for company geo coordinates and structured opening hours**
+- [ ] **Step 1: Write integrity tests for company localized names, geo coordinates, and opening hours**
 
 Edit `application/frontend/tests/data/integrity.test.ts` around line 247:
 
 ```typescript
 describe("company data", () => {
+	it("has localized company names (full and short) for en and ua", () => {
+		for (const lang of ["en", "ua"] as const) {
+			expect((companyData as any).name?.[lang]?.trim()).not.toBe("");
+			expect((companyData as any).shortName?.[lang]?.trim()).not.toBe("");
+		}
+		expect((companyData as any).name.en).toBe("OS-Technology Ukraine");
+		expect((companyData as any).name.ua).toBe("ОС-Технолоджи Україна");
+		expect((companyData as any).shortName.en).toBe("OS-Technology");
+		expect((companyData as any).shortName.ua).toBe("ОС-Технолоджи");
+	});
+
 	it("has phone number string", () => {
 		expect(typeof companyData.phone).toBe("string");
 		expect(companyData.phone.trim()).not.toBe("");
@@ -78,7 +89,7 @@ describe("company data", () => {
 - [ ] **Step 2: Run test to verify it fails**
 
 Run: `bun test tests/data/integrity.test.ts` (in `application/frontend`)
-Expected: FAIL due to missing `geo` and `openingHours` properties in `company.json`.
+Expected: FAIL due to missing `name`, `shortName`, `geo`, and `openingHours` properties in `company.json`.
 
 - [ ] **Step 3: Update `company.json` and Decap CMS template**
 
@@ -86,6 +97,14 @@ Update `application/frontend/src/data/company.json`:
 
 ```json
 {
+	"name": {
+		"en": "OS-Technology Ukraine",
+		"ua": "ОС-Технолоджи Україна"
+	},
+	"shortName": {
+		"en": "OS-Technology",
+		"ua": "ОС-Технолоджи"
+	},
 	"phone": "+38 067 35 33 853",
 	"email": "info@ocs.com.ua",
 	"contactPerson": {
@@ -131,6 +150,41 @@ Update `application/frontend/src/data/company.json`:
 Update `application/frontend/src/pages/admin/_config.template.yml` under `company` collection:
 
 ```yaml
+        fields:
+          - label: "Company Name"
+            name: "name"
+            widget: "object"
+            fields:
+              - { label: "English", name: "en", widget: "string", hint: "e.g. OS-Technology Ukraine" }
+              - { label: "Ukrainian", name: "ua", widget: "string", hint: "e.g. ОС-Технолоджи Україна" }
+          - label: "Short Name"
+            name: "shortName"
+            widget: "object"
+            fields:
+              - { label: "English", name: "en", widget: "string", hint: "e.g. OS-Technology" }
+              - { label: "Ukrainian", name: "ua", widget: "string", hint: "e.g. ОС-Технолоджи" }
+          - { label: "Phone Number", name: "phone", widget: "string", hint: "e.g. +38 067 35 33 853" }
+          - { label: "Email Address", name: "email", widget: "string", hint: "e.g. info@ocs.com.ua" }
+          - label: "Contact Person"
+            name: "contactPerson"
+            widget: "object"
+            fields:
+              - label: "English"
+                name: "en"
+                widget: "object"
+                fields:
+                  - { label: "Name", name: "name", widget: "string" }
+              - label: "Ukrainian"
+                name: "ua"
+                widget: "object"
+                fields:
+                  - { label: "Name", name: "name", widget: "string" }
+          - label: "Working Hours"
+            name: "workingHours"
+            widget: "object"
+            fields:
+              - { label: "English", name: "en", widget: "string", hint: "e.g. Mon-Fri, 9:00 - 18:00 (Kyiv)" }
+              - { label: "Ukrainian", name: "ua", widget: "string", hint: "e.g. Пн-Пт, 9:00 - 18:00 (Київ)" }
           - label: "Address"
             name: "address"
             widget: "object"
@@ -170,7 +224,7 @@ Expected: PASS
 
 ```bash
 git add src/data/company.json src/pages/admin/_config.template.yml tests/data/integrity.test.ts
-git commit -m "feat(data): add geo coordinates and opening hours to company.json and CMS schema"
+git commit -m "feat(data): add localized names, geo coordinates, and opening hours to company.json"
 ```
 
 ______________________________________________________________________
@@ -400,7 +454,7 @@ git commit -m "feat(seo): add structured data types, clean utility, and graph ID
 
 ______________________________________________________________________
 
-### Task 3: Organization, LocalBusiness & WebSite Builders (Using `company.json` & `_("...")`)
+### Task 3: Organization, LocalBusiness & WebSite Builders (Using `companyData.name[lang]`)
 
 **Files:**
 
@@ -420,11 +474,11 @@ import { organizationSchema } from "@/lib/structured-data/organization";
 import { websiteSchema } from "@/lib/structured-data/website";
 
 describe("structured-data: organizationSchema", () => {
-	it("builds a rich unified Organization node sourced completely from company.json and translated via i18n", () => {
+	it("builds a rich unified Organization node sourced completely from company.json", () => {
 		const org = organizationSchema("en", SITE);
 		expect(org["@type"]).toEqual(["Organization", "LocalBusiness"]);
 		expect(org["@id"]).toBe("https://ocs.com.ua/#organization");
-		expect(org.name).toBe("OS-Technology Ukraine");
+		expect(org.name).toBe(companyData.name.en);
 		expect(org.url).toBe("https://ocs.com.ua/en/");
 		expect(org.email).toBe(companyData.email);
 		expect(org.telephone).toBe(companyData.phone);
@@ -459,19 +513,20 @@ describe("structured-data: organizationSchema", () => {
 		expect(org.knowsAbout).toBeDefined();
 	});
 
-	it("translates address and name for Ukrainian locale", () => {
+	it("translates address and company name for Ukrainian locale", () => {
 		const org = organizationSchema("ua", SITE);
-		expect(org.name).toBe("ОС-Технолоджи Україна");
+		expect(org.name).toBe(companyData.name.ua);
 		expect(org.url).toBe("https://ocs.com.ua/ua/");
 		expect(org.address.addressLocality).toBe("Київ");
 	});
 });
 
 describe("structured-data: websiteSchema", () => {
-	it("builds a WebSite node referencing the organization publisher", () => {
+	it("builds a WebSite node referencing the organization publisher and company name", () => {
 		const ws = websiteSchema("en", SITE);
 		expect(ws["@type"]).toBe("WebSite");
 		expect(ws["@id"]).toBe("https://ocs.com.ua/en/#website");
+		expect(ws.name).toBe(companyData.name.en);
 		expect(ws.inLanguage).toBe("en");
 		expect(ws.publisher).toEqual({ "@id": "https://ocs.com.ua/#organization" });
 	});
@@ -498,6 +553,7 @@ export function organizationSchema(lang: Lang, site: SiteOrigin): SchemaNode {
 	const _ = getInlineTranslations(lang);
 	const address = companyData.address[lang as "en" | "ua"] ?? companyData.address.en;
 	const contactPerson = companyData.contactPerson[lang as "en" | "ua"] ?? companyData.contactPerson.en;
+	const companyName = companyData.name[lang as "en" | "ua"] ?? companyData.name.en;
 	const geo = companyData.geo ?? { latitude: 50.4578, longitude: 30.4024 };
 	const hours = companyData.openingHours ?? {
 		days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
@@ -525,7 +581,7 @@ export function organizationSchema(lang: Lang, site: SiteOrigin): SchemaNode {
 	return {
 		"@type": ["Organization", "LocalBusiness"],
 		"@id": organizationId(site),
-		name: _("OS-Technology Ukraine"),
+		name: companyName,
 		url: absUrl(`/${lang}/`, site),
 		logo: absUrl("/apple-touch-icon.png", site),
 		email: companyData.email,
@@ -576,16 +632,17 @@ export function organizationSchema(lang: Lang, site: SiteOrigin): SchemaNode {
 Create `application/frontend/src/lib/structured-data/website.ts`:
 
 ```typescript
-import { getInlineTranslations, getIsoLang, type Lang } from "@/i18n";
+import companyData from "@/data/company.json";
+import { getIsoLang, type Lang } from "@/i18n";
 import { absUrl, organizationId, websiteId } from "./graph";
 import type { SchemaNode, SiteOrigin } from "./types";
 
 export function websiteSchema(lang: Lang, site: SiteOrigin): SchemaNode {
-	const _ = getInlineTranslations(lang);
+	const companyName = companyData.name[lang as "en" | "ua"] ?? companyData.name.en;
 	return {
 		"@type": "WebSite",
 		"@id": websiteId(lang, site),
-		name: _("OS-Technology Ukraine"),
+		name: companyName,
 		url: absUrl(`/${lang}/`, site),
 		inLanguage: getIsoLang(lang),
 		publisher: {
@@ -604,7 +661,7 @@ Expected: PASS
 
 ```bash
 git add src/lib/structured-data/organization.ts src/lib/structured-data/website.ts tests/lib/structured-data.test.ts
-git commit -m "feat(seo): implement rich Organization and WebSite schema builders using company.json and i18n"
+git commit -m "feat(seo): implement rich Organization and WebSite schema builders using companyData.name"
 ```
 
 ______________________________________________________________________
@@ -1345,16 +1402,19 @@ git commit -m "feat(seo): implement createPageGraph and structured-data entry po
 
 ______________________________________________________________________
 
-### Task 8: Layout.astro Structured Data Support
+### Task 8: Layout, Header & Footer Brand Name Consistency
 
 **Files:**
 
 - Modify: `application/frontend/src/layouts/Layout.astro`
 
-- [ ] **Step 1: Update Layout.astro to accept structuredData prop**
+- Modify: `application/frontend/src/components/Header.astro`
+
+- Modify: `application/frontend/src/components/Footer.astro`
+
+- [ ] **Step 1: Update Layout.astro to use companyData.name and accept structuredData**
 
 Edit `application/frontend/src/layouts/Layout.astro`:
-Add `structuredData?: Record<string, unknown>;` to `Props` interface and render `<script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />` inside `<head>`.
 
 ```astro
 ---
@@ -1362,6 +1422,7 @@ import "../styles/global.css";
 import { SEO } from "astro-seo";
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
+import companyData from "@/data/company.json";
 import { defaultLang, getIsoLang, getLangFromUrl } from "@/i18n";
 
 interface Props {
@@ -1381,7 +1442,25 @@ const {
 	article = false,
 	structuredData,
 } = Astro.props;
-// ... rest of frontmatter ...
+const lang = getLangFromUrl(Astro.url);
+const isoLang = getIsoLang(lang);
+const currentPath = Astro.url.pathname;
+
+const siteUrl = Astro.site || "https://ocs.com.ua";
+const canonicalUrl = new URL(currentPath, siteUrl).href;
+const companyName = companyData.name[lang as "en" | "ua"] ?? companyData.name.en;
+
+const isLocalized = /^\/(en|ua)(\/|$)/.test(currentPath);
+const pathFor = (target: "en" | "ua") => currentPath.replace(/^\/(en|ua)(?=\/|$)/, `/${target}`);
+const urlFor = (target: "en" | "ua") => new URL(pathFor(target), siteUrl).href;
+
+const ogImage = new URL(image || `/assets/og-${lang}.png`, siteUrl).href;
+const ogImageIsDefault = !image;
+
+const defaultDescription =
+	lang === "en"
+		? "OS-Technology Ukraine - B2B industrial equipment for precision weighing, inspection, and quality control systems"
+		: "ОС-Технолоджи Україна - промислове обладнання для точного зважування, інспекції та систем контролю якості";
 ---
 
 <!doctype html>
@@ -1402,7 +1481,40 @@ const {
 		<meta name="generator" content={Astro.generator} />
 
 		<SEO
-			...
+			title={title}
+			description={description || defaultDescription}
+			canonical={canonicalUrl}
+			openGraph={{
+				basic: {
+					title: title,
+					type: article ? "article" : "website",
+					image: ogImage,
+					url: canonicalUrl,
+				},
+				optional: {
+					description: description || defaultDescription,
+					locale: lang === "en" ? "en_US" : "uk_UA",
+					siteName: companyName,
+				},
+				image: {
+					alt: title,
+					...(ogImageIsDefault && { type: "image/png", width: 1200, height: 630 }),
+				},
+			}}
+			twitter={{
+				card: "summary_large_image",
+				title: title,
+				description: description || defaultDescription,
+				image: ogImage,
+				imageAlt: title,
+			}}
+			languageAlternates={isLocalized
+				? [
+						{ href: urlFor("ua"), hrefLang: getIsoLang("ua") },
+						{ href: urlFor("en"), hrefLang: getIsoLang("en") },
+						{ href: urlFor(defaultLang), hrefLang: "x-default" },
+					]
+				: undefined}
 		/>
 
 		{
@@ -1419,16 +1531,26 @@ const {
 		...
 ```
 
-- [ ] **Step 2: Run build check to verify Layout compiles cleanly**
+- [ ] **Step 2: Update Header.astro and Footer.astro to use companyData.name**
+
+In `application/frontend/src/components/Header.astro`:
+Import `companyData from "@/data/company.json";` and update logo alt:
+`alt={companyData.name[currentLang as "en" | "ua"] ?? companyData.name.en}`
+
+In `application/frontend/src/components/Footer.astro`:
+Import `companyData from "@/data/company.json";` and update copyright:
+`&copy; {currentYear}{" "}{companyData.name[lang as "en" | "ua"] ?? companyData.name.en}. {_("All rights reserved")}.`
+
+- [ ] **Step 3: Run check to verify layout and components compile cleanly**
 
 Run: `bun run check` (in `application/frontend`)
 Expected: PASS with 0 errors.
 
-- [ ] **Step 3: Commit**
+- [ ] **Step 4: Commit**
 
 ```bash
-git add src/layouts/Layout.astro
-git commit -m "feat(seo): add structuredData prop to Layout.astro"
+git add src/layouts/Layout.astro src/components/Header.astro src/components/Footer.astro
+git commit -m "feat(seo): use companyData.name in Layout, Header, and Footer and add structuredData support"
 ```
 
 ______________________________________________________________________
@@ -1585,6 +1707,8 @@ ______________________________________________________________________
 - [ ] **Step 1: Integrate into `equipment/[category]/index.astro`**
 
 Update `equipment/[category]/index.astro`:
+Use `companyData.shortName[lang]` for `pageTitle`:
+`const pageTitle = `${categoryData?.title || "Equipment"} | ${companyData.shortName\[lang as "en" | "ua"\] ?? companyData.shortName.en}`;`
 
 ```astro
 const { itemList } = collectionPageSchema({
@@ -1620,6 +1744,8 @@ Pass `structuredData={structuredData}` to `<Layout>`.
 - [ ] **Step 2: Integrate into `equipment/[category]/[slug].astro`**
 
 Update `equipment/[category]/[slug].astro`:
+Use `companyData.shortName[lang]` for Layout title:
+`<Layout title={`${title} | ${companyData.shortName\[lang as "en" | "ua"\] ?? companyData.shortName.en}`} description={description} structuredData={structuredData}>`
 
 ```astro
 const productNode = productSchema({
@@ -1654,6 +1780,8 @@ Pass `structuredData={structuredData}` to `<Layout>`.
 - [ ] **Step 3: Integrate into `industry/[slug].astro`**
 
 Update `industry/[slug].astro`:
+Use `companyData.shortName[lang]` for `pageTitle`:
+`const pageTitle = `${industry.title} | ${companyData.shortName\[lang as "en" | "ua"\] ?? companyData.shortName.en}`;`
 
 ```astro
 const { itemList } = collectionPageSchema({
@@ -1788,6 +1916,7 @@ Add route schema snapshot/structure tests to `tests/lib/structured-data.test.ts`
 1. Correct language ISO codes (`uk`, `en`)
 1. Full specification and credential mappings
 1. Geocoordinates and opening hours match `company.json`
+1. `companyData.name` and `companyData.shortName` used consistently
 1. `_("Price on request")` and `_("Technical Datasheet")` properly translate
 
 - [ ] **Step 2: Sync and verify i18n PO/POT files**
