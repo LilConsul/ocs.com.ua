@@ -326,7 +326,6 @@ collections:
             strip_metadata: true
             width: 1200
             height: null
-            aspect_ratio: 4x3
       - { label: "Datasheet", name: "datasheet", widget: "file", required: false, i18n: duplicate }
       - label: "Industries"
         name: "industries"

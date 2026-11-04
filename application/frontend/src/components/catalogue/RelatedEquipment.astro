@@ -46,7 +46,7 @@ const _ = getInlineTranslations(lang);
 						const itemCategory = getCategory(item);
 						const itemSlug = getSlug(item);
 						const itemUrl = productUrl(lang, itemCategory, itemSlug);
-						const itemImg = galleries[item.id]?.[0] || item.data.gallery?.[0] || "/placeholder.svg";
+						const itemImg = galleries[item.id]?.[0] || "/placeholder.svg";
 						const itemSpec = flattenSpecs(item.data.specs)[0];
 
 						return (

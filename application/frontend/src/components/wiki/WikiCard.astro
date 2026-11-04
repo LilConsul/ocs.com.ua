@@ -15,7 +15,8 @@ const _ = getInlineTranslations(lang);
 const slug = getWikiSlug(entry);
 const title = entry.data.title;
 const description = entry.data.description;
-const image = coverImage ?? entry.data.coverImage;
+// coverImage comes from getWikiCoverImage(), which drops a cover missing from public/
+const image = coverImage;
 ---
 
 <a

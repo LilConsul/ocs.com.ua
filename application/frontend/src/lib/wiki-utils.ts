@@ -1,5 +1,6 @@
 import type { CollectionEntry } from "astro:content";
 import type { Locale } from "./content-utils";
+import { existingImage } from "./public-assets";
 
 export type WikiEntry = CollectionEntry<"wiki">;
 
@@ -67,9 +68,14 @@ export function findWikiTranslation(
 }
 
 /**
- * Get article cover image with fallback to Ukrainian default locale
+ * Get article cover image with fallback to Ukrainian default locale.
+ * A cover missing from public/ is treated as no cover.
  */
 export function getWikiCoverImage(entry: WikiEntry, allEntries: WikiEntry[]): string | undefined {
+	return existingImage(rawCoverImage(entry, allEntries));
+}
+
+function rawCoverImage(entry: WikiEntry, allEntries: WikiEntry[]): string | undefined {
 	if (entry.data.coverImage) return entry.data.coverImage;
 	const locale = getWikiLocale(entry);
 	if (locale === "ua") return undefined;

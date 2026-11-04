@@ -6,6 +6,7 @@ import { Boxes, CalendarDays, Handshake } from "@lucide/astro";
 import sizeOf from "image-size";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { formatApprox, type SiteStats } from "@/lib/about/partners-data";
+import { existingImage } from "@/lib/public-assets";
 
 interface Partner {
 	name: { en: string; ua: string };
@@ -41,8 +42,9 @@ function getImageDimensions(logoPath: string) {
 	}
 }
 
-// Only partners with a logo and website belong in the carousel
-const withLogo = (partners: Partner[]) => partners.filter((p) => p.logo && p.website);
+// Only partners with a logo (that exists in public/) and a website belong in the carousel
+const withLogo = (partners: Partner[]) =>
+	partners.filter((p) => existingImage(p.logo) && p.website);
 
 // --- Marquee maths -----------------------------------------------------------
 // Every item carries its own trailing margin, so one "group" is exactly

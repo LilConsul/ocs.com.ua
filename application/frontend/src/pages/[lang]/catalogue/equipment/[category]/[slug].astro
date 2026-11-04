@@ -22,6 +22,7 @@ import {
 	getSlug,
 	sortByOrder,
 } from "@/lib/content-utils";
+import { existingFile } from "@/lib/public-assets";
 import { createPageGraph, productSchema } from "@/lib/structured-data";
 
 export async function getStaticPaths() {
@@ -76,6 +77,8 @@ const {
 } = Astro.props;
 const _ = getInlineTranslations(lang as Lang);
 const category = getCategory(product);
+// A datasheet deleted in the CMS must not leave a dead download button
+const datasheet = existingFile(product.data.datasheet);
 
 const title = product.data.title ?? "";
 const description = product.data.description ?? "";
@@ -102,7 +105,7 @@ const productNode = productSchema({
 	category: categoryTitle,
 	images: gallery,
 	specs: flattenSpecs(product.data.specs),
-	datasheetUrl: product.data.datasheet,
+	datasheetUrl: datasheet,
 });
 
 const structuredData = createPageGraph({
@@ -273,9 +276,9 @@ const shareImage = gallery?.[0];
 								</a>
 
 								{
-									product.data.datasheet && (
+									datasheet && (
 										<a
-											href={product.data.datasheet}
+											href={datasheet}
 											target="_blank"
 											rel="noopener noreferrer"
 											class="border-secondary text-secondary hover:bg-secondary/5 focus-visible:outline-secondary font-technical-data inline-flex w-full items-center justify-center gap-2 rounded-lg border-2 px-7 py-3 text-[15px] leading-5.5 font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"

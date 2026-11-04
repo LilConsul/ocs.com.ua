@@ -1,4 +1,4 @@
-import { describe, expect, it } from "bun:test";
+import { describe, expect, it, spyOn } from "bun:test";
 import {
 	calculateReadingMinutes,
 	filterWikiByLocale,
@@ -28,7 +28,7 @@ const sampleEntries: WikiEntry[] = [
 	makeEntry("choosing-a-dynamic-checkweigherua", {
 		title: "Як обрати чеквеєр",
 		order: 2,
-		coverImage: "/assets/checkweigher-cover.webp",
+		coverImage: "/assets/icons/logo-en.svg",
 	}),
 	makeEntry("checkweigher-calibrationen", { title: "Calibration", order: 1 }),
 	makeEntry("checkweigher-calibrationua", { title: "Калібрування", order: 1 }),
@@ -119,14 +119,17 @@ describe("wiki-utils: findWikiTranslation", () => {
 
 describe("wiki-utils: getWikiCoverImage", () => {
 	it("returns direct cover image if defined", () => {
-		expect(getWikiCoverImage(sampleEntries[1], sampleEntries)).toBe(
-			"/assets/checkweigher-cover.webp"
-		);
+		expect(getWikiCoverImage(sampleEntries[1], sampleEntries)).toBe("/assets/icons/logo-en.svg");
 	});
 
 	it("falls back to default ua locale cover image when current locale has none", () => {
-		expect(getWikiCoverImage(sampleEntries[0], sampleEntries)).toBe(
-			"/assets/checkweigher-cover.webp"
-		);
+		expect(getWikiCoverImage(sampleEntries[0], sampleEntries)).toBe("/assets/icons/logo-en.svg");
+	});
+
+	it("treats a cover image missing from public/ as no cover", () => {
+		const warn = spyOn(console, "warn").mockImplementation(() => undefined);
+		const entry = makeEntry("gone-article-ua", { coverImage: "/assets/deleted-in-cms.webp" });
+		expect(getWikiCoverImage(entry, [entry])).toBeUndefined();
+		warn.mockRestore();
 	});
 });
