@@ -11,6 +11,7 @@
 import type { CollectionEntry } from "astro:content";
 import equipmentTypes from "../data/equipment-types.json";
 import industriesData from "../data/industries.json";
+import { existingFiles } from "./public-assets";
 
 export type Locale = "en" | "ua";
 export type EquipmentEntry = CollectionEntry<"equipment">;
@@ -189,11 +190,18 @@ export function findTranslation(
  * Get gallery images for an entry, falling back to the default-locale (ua) translation
  * when the current locale's entry has no gallery (because gallery is i18n: false in the CMS,
  * meaning it is only stored in the ua file).
+ * Images missing from public/ are left out; undefined means none are left (callers show the
+ * placeholder).
  */
 export function getGallery(
 	entry: EquipmentEntry,
 	allEntries: EquipmentEntry[]
 ): string[] | undefined {
+	const gallery = existingFiles(rawGallery(entry, allEntries));
+	return gallery.length ? gallery : undefined;
+}
+
+function rawGallery(entry: EquipmentEntry, allEntries: EquipmentEntry[]): string[] | undefined {
 	if (entry.data.gallery?.length) return entry.data.gallery;
 	const locale = getLocale(entry);
 	if (locale === "ua") return undefined;

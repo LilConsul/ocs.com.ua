@@ -3,6 +3,7 @@ import documentsData from "@/data/documents.json";
 import equipmentTypes from "@/data/equipment-types.json";
 import industriesData from "@/data/industries.json";
 import { getInlineTranslations, type Lang } from "@/i18n";
+import { existingFile } from "../public-assets";
 import { absUrl, organizationId } from "./graph";
 import type { SchemaNode, SiteOrigin } from "./types";
 
@@ -39,19 +40,21 @@ export function organizationSchema(lang: Lang, site: SiteOrigin): SchemaNode {
 		closes: "18:00",
 	};
 
+	const wipotecPdf = existingFile(documentsData.wipotec);
+	const mesutronicPdf = existingFile(documentsData.mesutronic);
 	const credentials = [
-		documentsData.wipotec
+		wipotecPdf
 			? {
 					"@type": "EducationalOccupationalCredential",
 					name: _("WIPOTEC Official Distributor Authorization"),
-					url: absUrl(documentsData.wipotec, site),
+					url: absUrl(wipotecPdf, site),
 				}
 			: null,
-		documentsData.mesutronic
+		mesutronicPdf
 			? {
 					"@type": "EducationalOccupationalCredential",
 					name: _("MESUTRONIC Authorized Distributor Certificate"),
-					url: absUrl(documentsData.mesutronic, site),
+					url: absUrl(mesutronicPdf, site),
 				}
 			: null,
 	].filter(Boolean);

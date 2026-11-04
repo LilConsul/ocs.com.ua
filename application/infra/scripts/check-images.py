@@ -120,14 +120,17 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--fix", action="store_true", help="re-encode files that fail the check")
     args = parser.parse_args(argv)
 
+    files = collect(args.paths)
     failed = 0
-    for path in collect(args.paths):
+    fixed = 0
+    for path in files:
         problems = find_problems(path)
         if not problems:
             continue
         if args.fix:
             before = path.stat().st_size
             optimize(path)
+            fixed += 1
             print(f"fixed {path}: {before // 1024} KB -> {path.stat().st_size // 1024} KB")
             problems = find_problems(path)
         for problem in problems:
@@ -136,6 +139,9 @@ def main(argv: list[str] | None = None) -> int:
 
     if failed and not args.fix:
         print(f"\n{failed} image(s) failed. Run: uv run application/infra/scripts/check-images.py --fix")
+    elif not failed:
+        result = f"fixed {fixed}" if fixed else "all OK"
+        print(f"checked {len(files)} image(s), {result}")
     return 1 if failed else 0
 
 

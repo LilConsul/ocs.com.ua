@@ -1,4 +1,4 @@
-import { describe, expect, it } from "bun:test";
+import { describe, expect, it, spyOn } from "bun:test";
 import partnersRaw from "@/data/partners.json";
 import {
 	aggregateCityHubs,
@@ -69,5 +69,21 @@ describe("partners data processing", () => {
 		const expectedLength = data.food.length + data.household.length + data.pharma.length;
 		expect(all).toHaveLength(expectedLength);
 		expect(all.every((p) => ["food", "pharma", "household"].includes(p.category))).toBe(true);
+	});
+
+	it("drops a logo whose file is missing but keeps the partner", () => {
+		const warn = spyOn(console, "warn").mockImplementation(() => undefined);
+		const name = { en: "Ghost", ua: "Привид" };
+		const list = getAllPartnersList({
+			food: [
+				{ name, logo: "/assets/partners/deleted-in-cms.webp" },
+				{ name, logo: "/assets/icons/logo-en.svg" },
+				{ name },
+			],
+			household: [],
+			pharma: [],
+		});
+		warn.mockRestore();
+		expect(list.map((p) => p.logo)).toEqual([undefined, "/assets/icons/logo-en.svg", undefined]);
 	});
 });

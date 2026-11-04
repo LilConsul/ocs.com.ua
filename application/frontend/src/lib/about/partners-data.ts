@@ -1,3 +1,4 @@
+import { existingFile } from "../public-assets";
 import { getCityCoordinates } from "./geocoding";
 import type { CityHub, EquipmentStats, PartnerItem, PartnersData, SectorBreakdown } from "./types";
 
@@ -154,10 +155,19 @@ export function getSectorBreakdowns(data: PartnersData): SectorBreakdown[] {
 	];
 }
 
+/**
+ * Every partner with its sector. A logo whose file is missing from public/ is dropped, so the
+ * cards fall back to the building icon instead of a broken image.
+ */
 export function getAllPartnersList(data: PartnersData): PartnerItem[] {
+	const withCategory = <C extends PartnerItem["category"]>(
+		items: Omit<PartnerItem, "category">[],
+		category: C
+	) => items.map((item) => ({ ...item, logo: existingFile(item.logo), category }));
+
 	return [
-		...data.food.map((item) => ({ ...item, category: "food" as const })),
-		...data.pharma.map((item) => ({ ...item, category: "pharma" as const })),
-		...data.household.map((item) => ({ ...item, category: "household" as const })),
+		...withCategory(data.food, "food"),
+		...withCategory(data.pharma, "pharma"),
+		...withCategory(data.household, "household"),
 	];
 }

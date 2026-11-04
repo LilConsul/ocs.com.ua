@@ -1,6 +1,7 @@
 ---
 import documentsData from "@/data/documents.json";
 import { getInlineTranslations, type Lang } from "@/i18n";
+import { existingFile } from "@/lib/public-assets";
 
 interface Props {
 	lang: Lang;
@@ -14,13 +15,13 @@ const documents = [
 		icon: "verified_user",
 		title: _("Wipotec Authorization Letter"),
 		label: _("Authorization Letter — PDF"),
-		href: documentsData.wipotec || "#",
+		href: existingFile(documentsData.wipotec) || "#",
 	},
 	{
 		icon: "verified_user",
 		title: _("Mesutronic Authorization Letter"),
 		label: _("Authorization Letter — PDF"),
-		href: documentsData.mesutronic || "#",
+		href: existingFile(documentsData.mesutronic) || "#",
 	},
 ];
 ---
