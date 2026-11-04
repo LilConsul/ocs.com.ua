@@ -120,6 +120,35 @@ def test_check_mode_reports_every_problem_file(tmp_path, capsys):
     assert "a.webp" in out and "b.webp" in out
 
 
+def test_check_mode_prints_a_summary_when_all_images_pass(tmp_path, capsys):
+    save(tmp_path / "a.webp")
+    save(tmp_path / "b.webp")
+    assert main([str(tmp_path)]) == 0
+    assert capsys.readouterr().out.strip() == "checked 2 image(s), all OK"
+
+
+def test_summary_counts_only_raster_files(tmp_path, capsys):
+    save(tmp_path / "a.webp")
+    (tmp_path / "logo.svg").write_text("<svg/>")
+    assert main([str(tmp_path)]) == 0
+    assert "checked 1 image(s)" in capsys.readouterr().out
+
+
+def test_fix_mode_summary_reports_how_many_were_fixed(tmp_path, capsys):
+    save(tmp_path / "fake.webp", fmt="PNG")
+    save(tmp_path / "ok.webp")
+    assert main(["--fix", str(tmp_path)]) == 0
+    out = capsys.readouterr().out
+    assert "fixed" in out and "fake.webp" in out
+    assert out.strip().splitlines()[-1] == "checked 2 image(s), fixed 1"
+
+
+def test_failed_check_does_not_print_the_all_ok_summary(tmp_path, capsys):
+    save(tmp_path / "fake.webp", fmt="PNG")
+    assert main([str(tmp_path)]) == 1
+    assert "all OK" not in capsys.readouterr().out
+
+
 @pytest.mark.parametrize("name", ["missing.webp"])
 def test_main_ignores_paths_that_do_not_exist(tmp_path, name):
     # pre-commit passes deleted files too
