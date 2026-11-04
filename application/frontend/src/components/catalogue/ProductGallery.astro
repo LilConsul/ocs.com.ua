@@ -24,7 +24,7 @@ const controlButton =
 
 // Thumbnail recipe shared by the rail and the lightbox strip
 const thumbBase =
-	"border-border-subtle/60 hover:border-secondary/40 focus-visible:outline-secondary aspect-4/3 shrink-0 cursor-pointer touch-manipulation overflow-hidden rounded-lg border bg-white p-1.5 opacity-60 transition-[opacity,border-color,box-shadow] duration-200 hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2";
+	"border-border-subtle/60 hover:border-secondary/40 focus-visible:outline-secondary flex aspect-4/3 shrink-0 cursor-pointer touch-manipulation items-center justify-center overflow-hidden rounded-lg border bg-white p-1.5 opacity-60 transition-[opacity,border-color,box-shadow] duration-200 hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2";
 ---
 
 <figure
@@ -132,10 +132,10 @@ const thumbBase =
 					role="tablist"
 				>
 					{galleryImages.map((img, idx) => (
-						<li role="presentation" class="shrink-0 snap-start">
+						<li role="presentation" class="h-18 w-24 shrink-0 snap-start">
 							<button
 								type="button"
-								class={`gallery-thumb group/thumb ${thumbBase} aria-selected:border-secondary aria-selected:ring-secondary/20 relative h-18 aria-selected:opacity-100 aria-selected:shadow-xs aria-selected:ring-2`}
+								class={`gallery-thumb group/thumb ${thumbBase} aria-selected:border-secondary aria-selected:ring-secondary/20 relative h-full w-full aria-selected:opacity-100 aria-selected:shadow-xs aria-selected:ring-2`}
 								data-index={idx}
 								aria-label={`${_("View image")} ${idx + 1}`}
 								role="tab"
@@ -146,7 +146,7 @@ const thumbBase =
 									alt={`${title} - ${idx + 1}`}
 									width={160}
 									height={120}
-									class="h-full w-full object-contain transition-transform duration-200 motion-safe:group-hover/thumb:scale-105"
+									class="pointer-events-none h-full w-full object-contain transition-transform duration-200 motion-safe:group-hover/thumb:scale-105"
 									loading="eager"
 								/>
 							</button>
@@ -263,7 +263,7 @@ const thumbBase =
 					{galleryImages.map((img, idx) => (
 						<button
 							type="button"
-							class={`lightbox-thumb ${thumbBase} aria-[current=true]:border-secondary aria-[current=true]:ring-secondary/20 h-14 aria-[current=true]:opacity-100 aria-[current=true]:ring-2 md:h-16`}
+							class={`lightbox-thumb ${thumbBase} aria-[current=true]:border-secondary aria-[current=true]:ring-secondary/20 h-14 w-[75px] aria-[current=true]:opacity-100 aria-[current=true]:ring-2 md:h-16 md:w-[85px]`}
 							data-index={idx}
 							aria-label={`${_("View image")} ${idx + 1}`}
 							aria-current={idx === 0 ? "true" : "false"}
@@ -273,7 +273,7 @@ const thumbBase =
 								alt={`${title} - ${idx + 1}`}
 								width={100}
 								height={75}
-								class="h-full w-full object-contain"
+								class="pointer-events-none h-full w-full object-contain"
 							/>
 						</button>
 					))}
@@ -288,6 +288,7 @@ const thumbBase =
 <style>
 	.thumb-rail {
 		scrollbar-width: thin;
+		-webkit-overflow-scrolling: touch;
 	}
 
 	@media (prefers-reduced-motion: no-preference) {
