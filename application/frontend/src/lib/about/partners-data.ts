@@ -1,4 +1,4 @@
-import { existingImage } from "../public-assets";
+import { existingFile } from "../public-assets";
 import { getCityCoordinates } from "./geocoding";
 import type { CityHub, EquipmentStats, PartnerItem, PartnersData, SectorBreakdown } from "./types";
 
@@ -163,7 +163,7 @@ export function getAllPartnersList(data: PartnersData): PartnerItem[] {
 	const withCategory = <C extends PartnerItem["category"]>(
 		items: Omit<PartnerItem, "category">[],
 		category: C
-	) => items.map((item) => ({ ...item, logo: existingImage(item.logo), category }));
+	) => items.map((item) => ({ ...item, logo: existingFile(item.logo), category }));
 
 	return [
 		...withCategory(data.food, "food"),

@@ -11,7 +11,7 @@
 import type { CollectionEntry } from "astro:content";
 import equipmentTypes from "../data/equipment-types.json";
 import industriesData from "../data/industries.json";
-import { existingImages } from "./public-assets";
+import { existingFiles } from "./public-assets";
 
 export type Locale = "en" | "ua";
 export type EquipmentEntry = CollectionEntry<"equipment">;
@@ -197,7 +197,7 @@ export function getGallery(
 	entry: EquipmentEntry,
 	allEntries: EquipmentEntry[]
 ): string[] | undefined {
-	const gallery = existingImages(rawGallery(entry, allEntries));
+	const gallery = existingFiles(rawGallery(entry, allEntries));
 	return gallery.length ? gallery : undefined;
 }
 

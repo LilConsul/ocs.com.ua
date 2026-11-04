@@ -1,6 +1,6 @@
 import type { CollectionEntry } from "astro:content";
 import type { Locale } from "./content-utils";
-import { existingImage } from "./public-assets";
+import { existingFile } from "./public-assets";
 
 export type WikiEntry = CollectionEntry<"wiki">;
 
@@ -72,7 +72,7 @@ export function findWikiTranslation(
  * A cover missing from public/ is treated as no cover.
  */
 export function getWikiCoverImage(entry: WikiEntry, allEntries: WikiEntry[]): string | undefined {
-	return existingImage(rawCoverImage(entry, allEntries));
+	return existingFile(rawCoverImage(entry, allEntries));
 }
 
 function rawCoverImage(entry: WikiEntry, allEntries: WikiEntry[]): string | undefined {

@@ -14,13 +14,13 @@ function decode(path: string): string {
 }
 
 /**
- * Returns the path if it can be served, otherwise undefined. Content files reference images by
- * plain path, so an image deleted in the CMS would otherwise ship as a broken <img>.
- * Remote URLs are not checked. If the public folder cannot be found, nothing is dropped.
+ * Returns the path if it can be served, otherwise undefined. Content files reference images and
+ * PDFs by plain path, so a file deleted in the CMS would otherwise ship as a broken <img> or link.
+ * Only files that exist in public/ pass, so remote URLs are dropped too (the site does not
+ * support them). If the public folder cannot be found, nothing is dropped.
  */
-export function existingImage(path: string | null | undefined): string | undefined {
+export function existingFile(path: string | null | undefined): string | undefined {
 	if (!path) return undefined;
-	if (/^[a-z][a-z0-9+.-]*:|^\/\//i.test(path)) return path;
 	if (!existsSync(PUBLIC_DIR)) return path;
 
 	const file = resolve(join(PUBLIC_DIR, decode(path)));
@@ -33,9 +33,6 @@ export function existingImage(path: string | null | undefined): string | undefin
 	return undefined;
 }
 
-/** Same check for any file served from public/ (e.g. a datasheet PDF). */
-export const existingFile = existingImage;
-
-export function existingImages(paths: (string | null | undefined)[] | null | undefined): string[] {
-	return (paths ?? []).map(existingImage).filter((p): p is string => Boolean(p));
+export function existingFiles(paths: (string | null | undefined)[] | null | undefined): string[] {
+	return (paths ?? []).map(existingFile).filter((p): p is string => Boolean(p));
 }

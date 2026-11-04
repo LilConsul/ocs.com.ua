@@ -1,41 +1,42 @@
 import { describe, expect, it, spyOn } from "bun:test";
-import { existingFile, existingImage, existingImages } from "@/lib/public-assets";
+import { existingFile, existingFiles } from "@/lib/public-assets";
 
 // /placeholder.svg and /assets/icons/logo-en.svg are committed in public/
 const REAL = "/assets/icons/logo-en.svg";
 const MISSING = "/assets/definitely-not-uploaded.webp";
 
-describe("existingImage", () => {
+describe("existingFile", () => {
 	it("keeps a path whose file exists in public/", () => {
-		expect(existingImage(REAL)).toBe(REAL);
+		expect(existingFile(REAL)).toBe(REAL);
 	});
 
 	it("drops a path whose file is missing and warns once", () => {
 		const warn = spyOn(console, "warn").mockImplementation(() => undefined);
-		expect(existingImage("/assets/missing-once.webp")).toBeUndefined();
-		expect(existingImage("/assets/missing-once.webp")).toBeUndefined();
+		expect(existingFile("/assets/missing-once.webp")).toBeUndefined();
+		expect(existingFile("/assets/missing-once.webp")).toBeUndefined();
 		expect(warn).toHaveBeenCalledTimes(1);
 		warn.mockRestore();
 	});
 
 	it("returns undefined for empty values", () => {
-		expect(existingImage(undefined)).toBeUndefined();
-		expect(existingImage(null)).toBeUndefined();
-		expect(existingImage("")).toBeUndefined();
+		expect(existingFile(undefined)).toBeUndefined();
+		expect(existingFile(null)).toBeUndefined();
+		expect(existingFile("")).toBeUndefined();
 	});
 
-	it("does not check remote URLs", () => {
-		expect(existingImage("https://example.com/a.webp")).toBe("https://example.com/a.webp");
+	it("drops remote URLs because they cannot be verified", () => {
+		const warn = spyOn(console, "warn").mockImplementation(() => undefined);
+		expect(existingFile("https://example.com/a.webp")).toBeUndefined();
+		expect(existingFile("//example.com/b.webp")).toBeUndefined();
+		warn.mockRestore();
 	});
 
 	it("does not follow paths out of public/", () => {
 		const warn = spyOn(console, "warn").mockImplementation(() => undefined);
-		expect(existingImage("/../package.json")).toBeUndefined();
+		expect(existingFile("/../package.json")).toBeUndefined();
 		warn.mockRestore();
 	});
-});
 
-describe("existingFile", () => {
 	it("works for non-image files such as PDFs", () => {
 		const warn = spyOn(console, "warn").mockImplementation(() => undefined);
 		expect(existingFile("/assets/documents/authorisation-wipotec-2026-signed.pdf")).toBe(
@@ -46,18 +47,18 @@ describe("existingFile", () => {
 	});
 });
 
-describe("existingImages", () => {
+describe("existingFiles", () => {
 	it("keeps the existing paths in order and omits the missing ones", () => {
 		const warn = spyOn(console, "warn").mockImplementation(() => undefined);
-		expect(existingImages([MISSING, REAL, "/placeholder.svg"])).toEqual([REAL, "/placeholder.svg"]);
+		expect(existingFiles([MISSING, REAL, "/placeholder.svg"])).toEqual([REAL, "/placeholder.svg"]);
 		warn.mockRestore();
 	});
 
 	it("returns an empty array when nothing exists or the input is empty", () => {
 		const warn = spyOn(console, "warn").mockImplementation(() => undefined);
-		expect(existingImages([MISSING])).toEqual([]);
+		expect(existingFiles([MISSING])).toEqual([]);
 		warn.mockRestore();
-		expect(existingImages(undefined)).toEqual([]);
-		expect(existingImages(null)).toEqual([]);
+		expect(existingFiles(undefined)).toEqual([]);
+		expect(existingFiles(null)).toEqual([]);
 	});
 });
