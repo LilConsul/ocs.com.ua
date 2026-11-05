@@ -116,21 +116,26 @@ const structuredData = createPageGraph({
 			<article class="min-w-0">
 				<header class="border-border-subtle border-b pb-8">
 					<h1
-						class="font-display-lg text-foreground m-0 text-3xl tracking-tight text-balance sm:text-4xl lg:text-5xl"
+						class="hero-rise font-display-lg text-foreground m-0 text-3xl tracking-tight text-balance sm:text-4xl lg:text-5xl"
+						style="--d:0"
 					>
 						{title}
 					</h1>
 
 					{
 						description && (
-							<p class="font-body-md text-industrial-gray m-0 mt-4 max-w-prose text-base leading-relaxed lg:text-lg">
+							<p
+								class="hero-rise font-body-md text-industrial-gray m-0 mt-4 max-w-prose text-base leading-relaxed lg:text-lg"
+								style="--d:1"
+							>
 								{description}
 							</p>
 						)
 					}
 
 					<div
-						class="font-technical-data text-industrial-gray m-0 mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs"
+						class="hero-rise font-technical-data text-industrial-gray m-0 mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs"
+						style="--d:2"
 					>
 						<span class="inline-flex items-center gap-1.5">
 							<Clock class="text-secondary size-4" aria-hidden="true" />
@@ -142,7 +147,10 @@ const structuredData = createPageGraph({
 
 				{
 					coverImage && (
-						<div class="border-border-subtle bg-surface-container mt-8 aspect-video w-full overflow-hidden rounded-xl border">
+						<div
+							class="hero-rise border-border-subtle bg-surface-container mt-8 aspect-video w-full overflow-hidden rounded-xl border"
+							style="--d:3"
+						>
 							<img src={coverImage} alt={title} class="size-full object-cover" />
 						</div>
 					)
@@ -171,10 +179,11 @@ const structuredData = createPageGraph({
 								{_("Related articles")}
 							</h2>
 							<div class="gap-gutter grid grid-cols-1 md:grid-cols-2">
-								{relatedArticles.map((rel: WikiEntry) => (
+								{relatedArticles.map((rel: WikiEntry, i: number) => (
 									<WikiCard
 										entry={rel}
 										lang={lang}
+										index={i}
 										readMinutes={calculateReadingMinutes(rel.body ?? "")}
 										coverImage={getWikiCoverImage(rel, allArticles)}
 									/>

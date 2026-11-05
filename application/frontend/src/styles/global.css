@@ -226,21 +226,82 @@
 	}
 }
 
-/* Section label dash: drawn left-to-right on first view (see lib/anims/eyebrow-rule.ts) */
+/* Shared entrance animations.
+ * Hero intros are time-based; scroll reveals are pure CSS (scroll-driven animations).
+ * Browsers without `animation-timeline` and users preferring reduced motion get plain,
+ * fully visible content. Nothing is hidden by default. */
+@keyframes rise {
+	from {
+		opacity: 0;
+		transform: translateY(18px);
+	}
+}
+@keyframes rise-sm {
+	from {
+		opacity: 0;
+		transform: translateY(14px);
+	}
+}
+@keyframes slide-in {
+	from {
+		opacity: 0;
+		transform: translateX(-12px);
+	}
+}
+@keyframes bar-grow {
+	from {
+		transform: scaleX(0);
+	}
+}
+@keyframes glow-in {
+	from {
+		opacity: 0;
+		transform: scale(0.7);
+	}
+}
+@keyframes rule-draw {
+	from {
+		scale: 0 1;
+	}
+}
+
+/* Section label dash: drawn left-to-right as it scrolls into view */
 .eyebrow-rule {
 	transform-origin: left;
 }
+
 @media (prefers-reduced-motion: no-preference) {
-	.eyebrow-rule[data-rule="ready"] {
-		scale: 0 1;
+	.hero-rise {
+		animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+		animation-delay: calc(var(--d, 0) * 90ms);
 	}
-	.eyebrow-rule[data-rule="in"] {
-		animation: eyebrow-rule-draw 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.3s backwards;
-	}
-}
-@keyframes eyebrow-rule-draw {
-	from {
-		scale: 0 1;
+	@supports (animation-timeline: view()) {
+		.reveal {
+			animation: rise-sm linear both;
+			animation-timeline: view();
+			animation-range: entry calc(var(--i, 0) * 8%) entry calc(50% + var(--i, 0) * 8%);
+		}
+		.reveal-slide {
+			animation: slide-in linear both;
+			animation-timeline: view();
+			animation-range: entry calc(var(--i, 0) * 8%) entry calc(50% + var(--i, 0) * 8%);
+		}
+		.reveal-glow {
+			animation: glow-in linear both;
+			animation-timeline: view();
+			animation-range: entry 0% entry 80%;
+		}
+		.reveal-bar {
+			transform-origin: left;
+			animation: bar-grow linear both;
+			animation-timeline: view();
+			animation-range: entry 0% entry 80%;
+		}
+		.eyebrow-rule {
+			animation: rule-draw linear both;
+			animation-timeline: view();
+			animation-range: entry 0% entry 100%;
+		}
 	}
 }
 

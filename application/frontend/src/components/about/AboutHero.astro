@@ -170,22 +170,6 @@ const kpis = [
 	</div>
 </header>
 
-<style>
-	@media (prefers-reduced-motion: no-preference) {
-		.hero-rise {
-			animation: hero-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
-			animation-delay: calc(var(--d, 0) * 90ms);
-		}
-	}
-
-	@keyframes hero-rise {
-		from {
-			opacity: 0;
-			transform: translateY(18px);
-		}
-	}
-</style>
-
 <script>
 	// Count the KPI numbers up from 0; the server-rendered text is already the final value
 	if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {

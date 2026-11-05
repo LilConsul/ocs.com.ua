@@ -284,13 +284,13 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 			</div>
 
 			{/* Sector breakdown */}
-			<div class="flex flex-col gap-4 lg:col-span-5" data-sector-cards>
+			<div class="flex flex-col gap-4 lg:col-span-5">
 				{
 					sectors.map((sector, si) => {
 						const SectorIcon = sectorIcons[sector.category];
 						return (
 							<article
-								class="sector-card group/card bg-surface-container border-border-subtle/70 hover:border-secondary/40 rounded-xl border p-4 shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-lg motion-safe:hover:-translate-y-0.5 sm:p-6"
+								class="reveal group/card bg-surface-container border-border-subtle/70 hover:border-secondary/40 rounded-xl border p-4 shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-lg motion-safe:hover:-translate-y-0.5 sm:p-6"
 								style={`--i:${si}`}
 							>
 								<header class="flex items-center justify-between gap-2 sm:gap-3">
@@ -318,7 +318,7 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 									aria-hidden="true"
 								>
 									<div
-										class="sector-bar from-secondary/60 to-secondary h-full origin-left rounded-full bg-linear-to-r"
+										class="reveal-bar from-secondary/60 to-secondary h-full origin-left rounded-full bg-linear-to-r"
 										style={`width:${Math.round((sector.stats.total / maxSector) * 100)}%`}
 									/>
 								</div>
@@ -368,22 +368,6 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 
 <style>
 	@media (prefers-reduced-motion: no-preference) {
-		/* Sector cards: staggered rise-in, then the share bar fills */
-		[data-sector-cards][data-anim="ready"] .sector-card {
-			opacity: 0;
-		}
-		[data-sector-cards][data-anim="in"] .sector-card {
-			animation: card-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) backwards;
-			animation-delay: calc(var(--i, 0) * 120ms);
-		}
-		[data-sector-cards][data-anim="ready"] .sector-bar {
-			scale: 0 1;
-		}
-		[data-sector-cards][data-anim="in"] .sector-bar {
-			animation: bar-fill 0.9s cubic-bezier(0.22, 1, 0.36, 1) backwards;
-			animation-delay: calc(0.3s + var(--i, 0) * 120ms);
-		}
-
 		/* Hub card: metric tiles pop in each time a hub is selected */
 		.hub-panel:not([hidden]) .hub-metric {
 			animation: card-rise 0.4s cubic-bezier(0.22, 1, 0.36, 1) backwards;
@@ -420,11 +404,6 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 		from {
 			opacity: 0;
 			transform: translateY(14px);
-		}
-	}
-	@keyframes bar-fill {
-		from {
-			scale: 0 1;
 		}
 	}
 	@keyframes map-fade-in {
@@ -522,10 +501,8 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 			}
 		});
 
-		// Play the intro animations the first time each block scrolls into view
+		// Play the map intro the first time the stage scrolls into view
 		const stage = root.querySelector<HTMLElement>("[data-map-pins]");
-		const cards = root.querySelector<HTMLElement>("[data-sector-cards]");
 		if (stage) revealOnce(stage, 0.35);
-		if (cards) revealOnce(cards, 0.15);
 	}
 </script>

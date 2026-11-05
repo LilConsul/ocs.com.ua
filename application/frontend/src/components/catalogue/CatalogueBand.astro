@@ -30,11 +30,3 @@ interface Props {
 		</div>
 	</div>
 </section>
-
-<script>
-	import { revealOnce } from "@/lib/anims/reveal-once";
-
-	document
-		.querySelectorAll<HTMLElement>("[data-product-grid]")
-		.forEach((grid) => revealOnce(grid, 0.1));
-</script>

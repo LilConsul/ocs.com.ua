@@ -318,34 +318,3 @@ const shareImage = gallery?.[0];
 	{/* White band: related equipment */}
 	<RelatedEquipment products={relatedProducts} lang={lang as Lang} galleries={relatedGalleries} />
 </Layout>
-
-<style>
-	@media (prefers-reduced-motion: no-preference) {
-		.hero-rise {
-			animation: hero-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
-			animation-delay: calc(var(--d, 0) * 90ms);
-		}
-
-		/* Hidden only once the script has confirmed the animation will run */
-		.reveal[data-anim="ready"] {
-			opacity: 0;
-		}
-		.reveal[data-anim="in"] {
-			animation: hero-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
-			animation-delay: calc(var(--i, 0) * 120ms);
-		}
-	}
-
-	@keyframes hero-rise {
-		from {
-			opacity: 0;
-			transform: translateY(18px);
-		}
-	}
-</style>
-
-<script>
-	import { revealOnce } from "@/lib/anims/reveal-once";
-
-	document.querySelectorAll<HTMLElement>(".reveal").forEach((el) => revealOnce(el, 0.1));
-</script>

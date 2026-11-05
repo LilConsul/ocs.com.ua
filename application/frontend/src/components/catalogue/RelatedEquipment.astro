@@ -20,10 +20,9 @@ const _ = getInlineTranslations(lang);
 		<section
 			class="bg-background relative w-full overflow-hidden py-16 lg:py-24"
 			aria-labelledby="related-heading"
-			data-related
 		>
 			<div
-				class="related-glow bg-secondary/10 pointer-events-none absolute -bottom-40 -left-24 size-120 rounded-full blur-3xl"
+				class="reveal-glow bg-secondary/10 pointer-events-none absolute -bottom-40 -left-24 size-120 rounded-full blur-3xl"
 				aria-hidden="true"
 			/>
 
@@ -52,7 +51,7 @@ const _ = getInlineTranslations(lang);
 						return (
 							<a
 								href={itemUrl}
-								class="related-card group bg-background border-border-subtle/70 hover:border-secondary/40 focus-visible:outline-secondary block overflow-hidden rounded-xl border shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 motion-safe:hover:-translate-y-0.5"
+								class="reveal group bg-background border-border-subtle/70 hover:border-secondary/40 focus-visible:outline-secondary block overflow-hidden rounded-xl border shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 motion-safe:hover:-translate-y-0.5"
 								style={`--i:${index}`}
 							>
 								<div class="border-border-subtle/40 flex h-44 items-center justify-center border-b bg-white p-4">
@@ -87,41 +86,3 @@ const _ = getInlineTranslations(lang);
 		</section>
 	)
 }
-
-<style>
-	@media (prefers-reduced-motion: no-preference) {
-		/* Hidden only once the script has confirmed the animation will run */
-		[data-anim="ready"] .related-card,
-		[data-anim="ready"] .related-glow {
-			opacity: 0;
-		}
-
-		[data-anim="in"] .related-card {
-			animation: related-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) backwards;
-			animation-delay: calc(var(--i, 0) * 100ms);
-		}
-		[data-anim="in"] .related-glow {
-			animation: related-glow-in 1.4s ease-out backwards;
-		}
-	}
-
-	@keyframes related-rise {
-		from {
-			opacity: 0;
-			transform: translateY(14px);
-		}
-	}
-	@keyframes related-glow-in {
-		from {
-			opacity: 0;
-			transform: scale(0.7);
-		}
-	}
-</style>
-
-<script>
-	import { revealOnce } from "@/lib/anims/reveal-once";
-
-	const section = document.querySelector<HTMLElement>("[data-related]");
-	if (section) revealOnce(section, 0.15);
-</script>

@@ -28,7 +28,7 @@ const href = productUrl(lang, getCategory(product), getSlug(product));
 ---
 
 <article
-	class="product-card group bg-background border-border-subtle/70 hover:border-secondary/40 flex flex-col overflow-hidden rounded-xl border shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-lg motion-safe:hover:-translate-y-0.5"
+	class="product-card reveal group bg-background border-border-subtle/70 hover:border-secondary/40 flex flex-col overflow-hidden rounded-xl border shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-lg motion-safe:hover:-translate-y-0.5"
 	style={`--i:${index % 3}`}
 	data-product-item
 	data-product-text={`${title} ${description ?? ""}`.toLowerCase()}
@@ -89,23 +89,3 @@ const href = productUrl(lang, getCategory(product), getSlug(product));
 		</div>
 	</div>
 </article>
-
-<style>
-	@media (prefers-reduced-motion: no-preference) {
-		/* The ancestor lives in the page, so it must be matched globally */
-		:global([data-anim="ready"]) .product-card {
-			opacity: 0;
-		}
-		:global([data-anim="in"]) .product-card {
-			animation: product-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) backwards;
-			animation-delay: calc(var(--i, 0) * 100ms);
-		}
-	}
-
-	@keyframes product-rise {
-		from {
-			opacity: 0;
-			transform: translateY(14px);
-		}
-	}
-</style>
