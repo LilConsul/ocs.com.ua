@@ -6,6 +6,7 @@ import Header from "@/components/Header.astro";
 import companyData from "@/data/company.json";
 import { defaultLang, getIsoLang, getLangFromUrl } from "@/i18n";
 import type { SchemaGraph } from "@/lib/structured-data";
+import noJsCss from "../styles/no-js.css?raw";
 
 interface Props {
 	title: string;
@@ -62,6 +63,7 @@ const defaultDescription =
 			crossorigin
 		/>
 		<link rel="sitemap" href="/sitemap-index.xml" />
+		<noscript><style is:inline set:html={noJsCss}></style></noscript>
 		<meta name="generator" content={Astro.generator} />
 
 		<SEO

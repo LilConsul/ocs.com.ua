@@ -173,6 +173,16 @@
 			}
 		},
 		{
+			"includes": ["src/styles/no-js.css"],
+			"linter": {
+				"rules": {
+					"complexity": {
+						"noImportantStyles": "off"
+					}
+				}
+			}
+		},
+		{
 			"includes": ["public/**/*.svg"],
 			"linter": {
 				"rules": {
