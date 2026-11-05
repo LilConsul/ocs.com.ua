@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v7
-      - uses: astral-sh/setup-uv@v10.3.0
+      - uses: astral-sh/setup-uv@v10.3.3
       - name: "[FE] Public images are real, small and not oversized"
         run: uv run application/infra/scripts/check-images.py
 
@@ -42,6 +42,6 @@ jobs:
         working-directory: application/infra
     steps:
       - uses: actions/checkout@v7
-      - uses: astral-sh/setup-uv@v10.3.0
+      - uses: astral-sh/setup-uv@v10.3.3
       - name: "[Infra] Unit Tests"
         run: uv run pytest tests/ -v

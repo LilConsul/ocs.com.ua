@@ -53,7 +53,7 @@ jobs:
 
       - uses: oven-sh/setup-bun@v2
 
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: ~/.bun/install/cache
           key: bun-${{ runner.os }}-${{ hashFiles('application/frontend/bun.lock') }}
@@ -64,7 +64,7 @@ jobs:
       - name: Test
         run: bun test
 
-      - uses: astral-sh/setup-uv@v10.3.0
+      - uses: astral-sh/setup-uv@v10.3.3
       - name: Test infra scripts
         working-directory: application/infra
         run: uv run pytest tests/ -v
@@ -103,7 +103,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - uses: astral-sh/setup-uv@v10.3.0
+      - uses: astral-sh/setup-uv@v10.3.3
 
       - name: Configure SSH
         uses: ./.github/actions/configure-ssh
