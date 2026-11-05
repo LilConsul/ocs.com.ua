@@ -104,11 +104,24 @@ submit, error pages, catalogue sidebar action).
   classes; the listener becomes `{ passive: true }` and rAF-throttled. The duplicate
   `astro:page-load` registration is guarded so listeners do not stack.
 
-## Phases 2 to 4 (outline)
+## Phase 2: Page-level (implemented)
 
-- Phase 2: `@view-transition { navigation: auto }` with `view-transition-name` on the
-  header so it persists; image fade-in on load; heading and line reveals. Handle `pageshow`
-  for bfcache restores.
+- Page transitions: `@view-transition { navigation: auto }` in `global.css`, switched to
+  `none` under reduced motion. `#main-header` has `view-transition-name: site-header` so it
+  stays put while the body crossfades (`--dur-base`, `--ease-out-quart`). Unsupported browsers
+  ignore the rule. No `pageshow` handling is needed: a bfcache restore keeps `data-revealed`
+  and `data-loaded`, so nothing re-hides.
+- Image fade-in: opt-in class `img-fade`, handled by `src/lib/anims/images.ts`. Hidden under
+  `html.motion-on` until `data-loaded` is set on `load` or `error` (or immediately when the image
+  is already `complete`). It plays as a keyframe animation, so hover transforms on the same
+  image are untouched. Not used on the hero, header logo or product gallery (LCP images).
+  `observeImages(root)` must be called after inserting images with `innerHTML`.
+- Heading reveals: class `reveal-heading` on section `h2`s, variant `heading` (rise 14px, one
+  stagger step after the eyebrow rule). No word or line splitting: it breaks `text-balance`,
+  hyphenation and screen-reader flow.
+
+## Phases 3 to 4 (outline)
+
 - Phase 3: hero background parallax via `scroll()`; magnetic CTAs; spring card tilt.
   Pointer-fine devices only, skipped on touch and reduced motion.
 - Phase 4: sticky or scrubbed homepage sections using `scroll()` and `position: sticky`,

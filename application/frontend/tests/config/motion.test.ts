@@ -81,6 +81,28 @@ describe("motion: section headings", () => {
 	}
 });
 
+describe("motion: page transitions", () => {
+	it("opts in to native cross-document view transitions", () => {
+		expect(rules).toMatch(/@view-transition\s*\{[^}]*navigation:\s*auto/);
+	});
+
+	it("turns them off for reduced motion", () => {
+		expect(rules).toMatch(
+			/@media \(prefers-reduced-motion: reduce\)\s*\{\s*@view-transition\s*\{[^}]*navigation:\s*none/
+		);
+	});
+
+	it("keeps the header in place while the page crossfades", () => {
+		expect(rules).toMatch(/#main-header\s*\{[^}]*view-transition-name:\s*site-header/);
+	});
+
+	it("uses the shared duration and easing for the page crossfade", () => {
+		expect(rules).toMatch(
+			/::view-transition-(old|new)\(root\)[^{]*\{[^}]*animation-duration:\s*var\(--dur-base\)/
+		);
+	});
+});
+
 describe("motion: image fade-in", () => {
 	const files = [
 		"components/catalogue/ProductCard.astro",

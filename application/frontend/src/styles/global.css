@@ -287,6 +287,27 @@ html.motion-on .eyebrow-rule:not([data-revealed]) {
 	transform: scaleX(0);
 }
 
+/* Page transitions. Cross-document view transitions: the browser crossfades between pages on
+ * ordinary link navigation, with no router and no script. Browsers without support ignore the
+ * at-rule and navigate as before. The header is lifted into its own layer so it stays put while
+ * the page body crossfades underneath it. */
+@view-transition {
+	navigation: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+	@view-transition {
+		navigation: none;
+	}
+}
+#main-header {
+	view-transition-name: site-header;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation-duration: var(--dur-base);
+	animation-timing-function: var(--ease-out-quart);
+}
+
 /* Image fade-in. src/lib/anims/images.ts sets [data-loaded] when the file has finished (or
  * failed), so the picture appears instead of painting in line by line. A keyframe animation
  * rather than a transition: hover utilities that set `transform` or `transition-*` on the same
