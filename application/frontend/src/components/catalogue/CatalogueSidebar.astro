@@ -15,8 +15,14 @@ interface Props {
 	productSearchIndex?: ProductSearchEntry[];
 }
 
-const { allCategories, allIndustries, section, activeSlug, lang, productSearchIndex = [] } =
-	Astro.props;
+const {
+	allCategories,
+	allIndustries,
+	section,
+	activeSlug,
+	lang,
+	productSearchIndex = [],
+} = Astro.props;
 const _ = getInlineTranslations(lang);
 
 // Array order is the display order
@@ -240,6 +246,8 @@ const sections = [
 </style>
 
 <script>
+	import { observeReveals } from "@/lib/anims/reveal";
+
 	const toggleBtn = document.getElementById("mobile-filter-toggle");
 	const closeBtn = document.getElementById("mobile-filter-close");
 	const overlay = document.getElementById("mobile-filter-overlay");
@@ -404,10 +412,12 @@ const sections = [
 			hero.querySelectorAll<HTMLElement>(".hero-rise").forEach((el) => {
 				el.style.animation = "none";
 			});
+			observeReveals(hero);
 
 			// Reset any saved search state so restoration uses the new page's content
 			savedResultsHTML = null;
 			results.innerHTML = nextResults.innerHTML;
+			observeReveals(results);
 			setupProductSearch();
 
 			syncChrome(next);
@@ -562,6 +572,7 @@ const sections = [
 			// Restore original page HTML
 			if (savedResultsHTML !== null) {
 				results.innerHTML = savedResultsHTML;
+				observeReveals(results);
 				savedResultsHTML = null;
 			}
 			return;
@@ -578,6 +589,7 @@ const sections = [
 		);
 
 		results.innerHTML = renderSearchResults(matches, labelDetails, labelNoResults);
+		observeReveals(results);
 	}
 
 	function setupProductSearch(): void {
