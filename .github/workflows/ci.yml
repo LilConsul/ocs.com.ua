@@ -27,6 +27,56 @@ jobs:
       - name: "[FE] Unit Tests"
         run: bun test
 
+  fe-e2e-test:
+    runs-on: ubuntu-26.04
+    defaults:
+      run:
+        working-directory: application/frontend
+    env:
+      # The env schema requires these at build time. The e2e checks never use them.
+      GITHUB_CLIENT_ID: ci
+      GITHUB_CLIENT_SECRET: ci
+      SMTP_HOST: localhost
+      RECAPTCHA_SECRET_KEY: ci
+    steps:
+      - uses: actions/checkout@v7
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+
+      - name: Read Playwright version
+        id: playwright
+        run: echo "version=$(bunx playwright --version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Playwright browsers
+        id: browsers
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
+
+      - name: Install browsers
+        if: steps.browsers.outputs.cache-hit != 'true'
+        run: bunx playwright install --with-deps chromium firefox webkit
+
+      # Browsers come from the cache, but their system libraries do not
+      - name: Install browser system dependencies
+        if: steps.browsers.outputs.cache-hit == 'true'
+        run: bunx playwright install-deps chromium firefox webkit
+
+      - name: Build
+        run: bun run build
+
+      - name: "[FE] E2E Tests"
+        run: bun run test:e2e
+
+      - name: Upload failure artifacts
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-test-results
+          path: application/frontend/test-results
+          retention-days: 7
+
   image-check:
     runs-on: ubuntu-26.04
     steps:

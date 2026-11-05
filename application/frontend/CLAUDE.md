@@ -35,7 +35,7 @@ bun run dev              # Dev server at localhost:4321
 bun run build            # Production build into ./dist/
 bun run preview          # Preview the production build
 bun test                 # Unit tests
-bun run build && bun run test:e2e   # Playwright motion checks (Chromium, Firefox, WebKit, Edge; needs a build)
+bun run build && bun run test:e2e   # Playwright motion checks (Chromium, Firefox, WebKit; needs a build)
 
 # Code quality (ALWAYS RUN BEFORE COMMITS)
 bun run check:fix        # Biome fix + Prettier on .astro/.tsx/.jsx
