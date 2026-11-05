@@ -287,6 +287,22 @@ html.motion-on .eyebrow-rule:not([data-revealed]) {
 	transform: scaleX(0);
 }
 
+/* Image fade-in. src/lib/anims/images.ts sets [data-loaded] when the file has finished (or
+ * failed), so the picture appears instead of painting in line by line. A keyframe animation
+ * rather than a transition: hover utilities that set `transform` or `transition-*` on the same
+ * image are not disturbed. Same gating as the reveals: invisible only while html.motion-on. */
+@keyframes img-in {
+	from {
+		opacity: 0;
+	}
+}
+html.motion-on .img-fade:not([data-loaded]) {
+	opacity: 0;
+}
+html.motion-on .img-fade[data-loaded] {
+	animation: img-in var(--dur-slow) var(--ease-out-quart);
+}
+
 @layer utilities {
 	/* Display typography - Category titles */
 	.font-display-lg {

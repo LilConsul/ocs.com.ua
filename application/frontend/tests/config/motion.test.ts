@@ -29,7 +29,9 @@ describe("motion: global.css", () => {
 	});
 
 	it("hides reveal elements only under html.motion-on and until they are revealed", () => {
-		const hiding = rules.match(/html\.motion-on[^{]*\{[^}]*opacity:\s*0[^}]*\}/g) ?? [];
+		const hiding = (rules.match(/html\.motion-on[^{]*\{[^}]*opacity:\s*0[^}]*\}/g) ?? []).filter(
+			(rule) => !rule.includes(".img-fade")
+		);
 		expect(hiding.length).toBeGreaterThan(0);
 		for (const rule of hiding) {
 			expect(rule).toContain(":not([data-revealed])");
@@ -79,8 +81,54 @@ describe("motion: section headings", () => {
 	}
 });
 
+describe("motion: image fade-in", () => {
+	const files = [
+		"components/catalogue/ProductCard.astro",
+		"components/catalogue/RelatedEquipment.astro",
+		"components/about/ClientDirectory.astro",
+		"components/homepage/PartnersSection.astro",
+		"components/homepage/atoms/PartnerLogo.astro",
+		"components/wiki/WikiCard.astro",
+		"pages/[lang]/wiki/[slug].astro",
+	];
+
+	it("hides an image only under html.motion-on and until it has loaded", () => {
+		expect(rules).toMatch(
+			/html\.motion-on \.img-fade:not\(\[data-loaded\]\)\s*\{[^}]*opacity:\s*0/
+		);
+	});
+
+	it("fades with a keyframe animation so hover transforms on the image keep working", () => {
+		expect(rules).toMatch(/html\.motion-on \.img-fade\[data-loaded\]\s*\{[^}]*animation:\s*img-in/);
+		expect(rules).toMatch(/@keyframes img-in\s*\{\s*from\s*\{\s*opacity:\s*0/);
+	});
+
+	for (const file of files) {
+		it(`${file} marks its images with img-fade`, () => {
+			const tags = read(file).match(/<(Image|img)\b[^>]*>/g) ?? [];
+			expect(tags.length).toBeGreaterThan(0);
+			for (const tag of tags) expect(tag).toContain("img-fade");
+		});
+	}
+
+	it("leaves the largest-contentful-paint images alone", () => {
+		expect(read("components/homepage/HeroSection.astro")).not.toContain("img-fade");
+		expect(read("components/Header.astro")).not.toContain("img-fade");
+		expect(read("components/catalogue/ProductGallery.astro")).not.toContain("img-fade");
+	});
+
+	it("starts the observer from the runtime", () => {
+		expect(read("lib/anims/runtime.ts")).toMatch(/observeImages\(document\)/);
+	});
+});
+
 describe("motion: dynamic markup", () => {
 	const sidebar = read("components/catalogue/CatalogueSidebar.astro");
+
+	it("search result cards carry img-fade and are scanned for images", () => {
+		expect(sidebar).toMatch(/<img[^>]*class="[^"]*img-fade/);
+		expect(sidebar).toMatch(/import\s*\{\s*observeImages\s*\}\s*from\s*"@\/lib\/anims\/images"/);
+	});
 
 	it("imports observeReveals", () => {
 		expect(sidebar).toMatch(/import\s*\{\s*observeReveals\s*\}\s*from\s*"@\/lib\/anims\/reveal"/);
