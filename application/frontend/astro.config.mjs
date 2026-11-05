@@ -15,6 +15,7 @@ export default defineConfig({
 	site: SITE_URL || "https://ocs.com.ua",
 	output: "static",
 	adapter: node({ mode: "standalone" }),
+	prefetch: { prefetchAll: true, defaultStrategy: "hover" },
 	integrations: [
 		sitemap({
 			// Keep the CMS, the error pages, the "/" redirect to /ua and the old catalogue
