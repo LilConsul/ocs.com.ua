@@ -1,0 +1,88 @@
+/*
+ * Fallbacks for visitors with JavaScript disabled.
+ * Layout.astro inlines this inside a noscript element, so none of it applies when JS runs.
+ * Every selector targets an element that only works through a script.
+ */
+
+/* Same order Tailwind declares, so this file cannot reorder its layers whichever loads first */
+@layer properties, theme, base, components, utilities;
+
+/* Mobile navigation: the toggle button is dead, so show the drawer and let it flow with the page */
+#mobile-menu-toggle {
+	display: none !important;
+}
+@media (max-width: 767px) {
+	#main-header {
+		position: relative !important;
+	}
+	main {
+		padding-top: 0 !important;
+	}
+	#mobile-menu {
+		display: block !important;
+	}
+}
+
+/* Dev notice: the close button does nothing */
+#dev-notice-close {
+	display: none !important;
+}
+
+/* Catalogue sidebar: no off-canvas drawer, no accordion, no search */
+@media (max-width: 1023px) {
+	#mobile-filter-toggle,
+	#mobile-filter-close {
+		display: none !important;
+	}
+	div:has(> #catalogue-sidebar) {
+		flex-direction: column;
+	}
+	#catalogue-sidebar {
+		position: static !important;
+		translate: none !important;
+		transform: none !important;
+		width: 100% !important;
+	}
+}
+.sidebar-panel {
+	grid-template-rows: 1fr !important;
+}
+/*
+ * Tailwind preflight hides [hidden] with `display: none !important` inside @layer base. Layers
+ * reverse for !important, so an unlayered override loses; it has to live in the same layer,
+ * where the higher specificity wins.
+ */
+@layer base {
+	[data-sidebar-body][hidden] {
+		display: block !important;
+	}
+}
+.sidebar-chevron {
+	display: none !important;
+}
+
+/* Search boxes filter through a script */
+div:has(> [data-product-search-input]),
+div:has(> [data-wiki-filter]),
+div:has(> [data-wiki-index-filter]) {
+	display: none !important;
+}
+
+/* Product gallery: only the first image is shown, so drop the controls that cycle or zoom */
+#gallery-expand-btn,
+#gallery-card-prev,
+#gallery-card-next,
+.product-gallery-container > nav,
+span:has(> #gallery-badge-text) {
+	display: none !important;
+}
+
+/* Client directory: every card is visible, so the sector filter has nothing to do */
+#clientFilterGroup {
+	display: none !important;
+}
+
+/* Contact form: it submits through a script, a noscript notice points to phone and email */
+#contact-form {
+	display: none !important;
+}

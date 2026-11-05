@@ -35,6 +35,7 @@ bun run dev              # Dev server at localhost:4321
 bun run build            # Production build into ./dist/
 bun run preview          # Preview the production build
 bun test                 # Unit tests
+bun run build && bun run test:e2e   # Playwright motion checks (Chromium, Firefox, WebKit; needs a build)
 
 # Code quality (ALWAYS RUN BEFORE COMMITS)
 bun run check:fix        # Biome fix + Prettier on .astro/.tsx/.jsx
@@ -107,6 +108,7 @@ Language codes are `ua` and `en`; the HTML `lang` attribute and hreflang use ISO
 
 - **Astro components** (`.astro`) are the default for layouts, pages and sections.
 - Interactivity is a `<script>` tag inside the Astro component (see `Header.astro`, `CatalogueSidebar.astro`). Do not add UI frameworks, React islands or `client:*` directives. React is a dependency of Decap CMS only (`src/cms/`).
+- Motion: scroll reveals run through the `motion` package (`motion/mini`, vanilla, no React) in `src/lib/anims/`. Components only add classes: `reveal`, `reveal-slide`, `reveal-glow`, `reveal-bar`, `reveal-heading` (section `h2`), `eyebrow-rule`, with `style="--i:N"` for stagger. Call `observeReveals(root)` after inserting reveal markup with `innerHTML`. Content images use `img-fade` (not the hero, header logo or gallery); call `observeImages(root)` after inserting images with `innerHTML`. Page transitions are native CSS (`@view-transition`), with the header as its own layer. Hover, press (`press` class) and header state stay plain CSS. Content must stay visible without JavaScript and with reduced motion: elements are hidden only under `html.motion-on`, which `motion-on.js` sets in `<head>`.
 - Icons come from `@lucide/astro` (`import { ArrowRight } from "@lucide/astro"`, sized with `class`).
 - Components are grouped by area: `homepage/`, `about/`, `catalogue/`, `contact/`, `wiki/`, `errors/`.
 - `src/layouts/Layout.astro` wraps every page (SEO tags, hreflang, header, footer). The `<main>` has `pt-20` to clear the fixed header.
@@ -150,7 +152,7 @@ Commit messages follow `.gitmessage`: `type(scope): subject`, imperative, lowerc
 ## SEO & Performance
 
 - Use semantic HTML5 and a unique translated `title` and `description` per page through `Layout.astro`.
-- Keep pages prerendered; avoid client-side JavaScript unless a feature needs it.
+- Keep pages prerendered; avoid client-side JavaScript unless a feature needs it. The motion runtime is the one shared exception (about 4 KB gzip).
 - Optimize images and size them explicitly.
 - Add JSON-LD where appropriate (`src/lib/structured-data.ts`), keep a clear heading hierarchy, and use descriptive link text.
 

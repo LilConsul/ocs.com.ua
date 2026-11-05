@@ -29,3 +29,7 @@ bun-debug.log*
 /.claude/hooks
 
 node_modules
+
+# Playwright
+test-results/
+playwright-report/

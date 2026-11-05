@@ -101,7 +101,7 @@ const orderedPartners = SHOW_CLIENT_EQUIPMENT
 				</p>
 				<h2
 					id="clients-heading"
-					class="font-headline-lg text-foreground mt-2 text-2xl font-semibold tracking-tight text-balance wrap-break-word sm:text-3xl lg:text-4xl"
+					class="reveal-heading font-headline-lg text-foreground mt-2 text-2xl font-semibold tracking-tight text-balance wrap-break-word sm:text-3xl lg:text-4xl"
 				>
 					{_("Trusted by Ukraine's Industrial Flagships")}
 				</h2>
@@ -156,7 +156,7 @@ const orderedPartners = SHOW_CLIENT_EQUIPMENT
 
 					return (
 						<article
-							class="client-card group/card bg-background border-border-subtle/70 hover:border-secondary/40 flex flex-col overflow-hidden rounded-xl border shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-lg motion-safe:hover:-translate-y-0.5"
+							class="client-card reveal group/card bg-background border-border-subtle/70 hover:border-secondary/40 flex flex-col overflow-hidden rounded-xl border shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-lg motion-safe:hover:-translate-y-0.5"
 							data-category={partner.category}
 							style={`--i:${pi % 3}`}
 						>
@@ -168,7 +168,7 @@ const orderedPartners = SHOW_CLIENT_EQUIPMENT
 										alt={`${clientName} Logo`}
 										width={160}
 										height={80}
-										class="max-h-full max-w-full object-contain"
+										class="img-fade max-h-full max-w-full object-contain"
 										loading="lazy"
 										decoding="async"
 									/>
@@ -206,7 +206,7 @@ const orderedPartners = SHOW_CLIENT_EQUIPMENT
 											aria-hidden="true"
 										>
 											<div
-												class="client-bar from-secondary/60 to-secondary h-full origin-left rounded-full bg-linear-to-r"
+												class="reveal-bar from-secondary/60 to-secondary h-full origin-left rounded-full bg-linear-to-r"
 												style={`width:${Math.max(6, Math.round((totalUnits / maxUnits) * 100))}%`}
 											/>
 										</div>
@@ -301,40 +301,7 @@ const orderedPartners = SHOW_CLIENT_EQUIPMENT
 	</div>
 </section>
 
-<style>
-	@media (prefers-reduced-motion: no-preference) {
-		[data-anim="in"] .client-card {
-			animation: client-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
-			animation-delay: calc(var(--i, 0) * 80ms);
-		}
-		[data-anim="in"] .client-bar {
-			animation: client-bar-fill 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
-			animation-delay: calc(0.2s + var(--i, 0) * 80ms);
-		}
-	}
-
-	@keyframes client-rise {
-		from {
-			opacity: 0;
-			transform: translateY(12px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
-	}
-	@keyframes client-bar-fill {
-		from {
-			transform: scaleX(0);
-		}
-		to {
-			transform: scaleX(1);
-		}
-	}
-</style>
-
 <script>
-	import { revealOnce } from "@/lib/anims/reveal-once";
 	import { paginate } from "@/lib/about/pagination";
 
 	function setupClientFilters() {
@@ -406,7 +373,6 @@ const orderedPartners = SHOW_CLIENT_EQUIPMENT
 		}
 
 		render();
-		if (grid) revealOnce(grid, 0.1);
 	}
 
 	setupClientFilters();

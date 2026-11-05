@@ -18,7 +18,10 @@ const cardClass =
 
 {
 	(prev || next) && (
-		<nav aria-label={_("Article navigation")} class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
+		<nav
+			aria-label={_("Article navigation")}
+			class="reveal mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2"
+		>
 			{prev ? (
 				<a href={`/${lang}/wiki/${getWikiSlug(prev)}`} class={`${cardClass} flex flex-col gap-1`}>
 					<span class="font-label-caps text-industrial-gray inline-flex items-center gap-2 text-[11px] tracking-widest uppercase">

@@ -6,6 +6,8 @@ import Header from "@/components/Header.astro";
 import companyData from "@/data/company.json";
 import { defaultLang, getIsoLang, getLangFromUrl } from "@/i18n";
 import type { SchemaGraph } from "@/lib/structured-data";
+import motionOn from "../lib/anims/motion-on.js?raw";
+import noJsCss from "../styles/no-js.css?raw";
 
 interface Props {
 	title: string;
@@ -62,6 +64,8 @@ const defaultDescription =
 			crossorigin
 		/>
 		<link rel="sitemap" href="/sitemap-index.xml" />
+		<noscript><style is:inline set:html={noJsCss}></style></noscript>
+		<script is:inline set:html={motionOn} />
 		<meta name="generator" content={Astro.generator} />
 
 		<SEO
@@ -134,9 +138,7 @@ const defaultDescription =
 			share={isLocalized ? { title, description: description || defaultDescription } : undefined}
 		/>
 		<script>
-			import { initEyebrowRules } from "@/lib/anims/eyebrow-rule";
-
-			initEyebrowRules();
+			import "@/lib/anims/runtime";
 		</script>
 	</body>
 </html>

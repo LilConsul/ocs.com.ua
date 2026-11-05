@@ -1,18 +1,10 @@
-# JetBrains IDEs
 .idea/*
-
-# Bob AI Assistant
 .bob
 .agents
 skills-lock.json
-#docs/superpowers
 docs/web
-
-# Stitch
-stitch-downloads/
 .env
-
-# Python virtual environments
 .venv/
 __pycache__/
 *.pyc
+.shots

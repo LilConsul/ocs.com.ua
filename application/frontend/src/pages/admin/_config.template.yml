@@ -335,7 +335,7 @@ collections:
         multiple: true
         min: 0
         options: __INDUSTRY_OPTIONS__
-      - { label: "Title", name: "title", widget: "string", i18n: true, required: false, hint: "The name that is displayed on the website catalogue page." }
+      - { label: "Title", name: "title", widget: "string", i18n: true, required: true, hint: "The name that is displayed on the website catalogue page." }
       - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
       - label: "Specifications"
         name: "specs"

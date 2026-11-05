@@ -15,8 +15,14 @@ interface Props {
 	productSearchIndex?: ProductSearchEntry[];
 }
 
-const { allCategories, allIndustries, section, activeSlug, lang, productSearchIndex = [] } =
-	Astro.props;
+const {
+	allCategories,
+	allIndustries,
+	section,
+	activeSlug,
+	lang,
+	productSearchIndex = [],
+} = Astro.props;
 const _ = getInlineTranslations(lang);
 
 // Array order is the display order
@@ -190,7 +196,7 @@ const sections = [
 		<div class="border-border-subtle/60 mt-8 border-t px-2 pt-6">
 			<a
 				href={`/${lang}/contact`}
-				class="group bg-primary text-primary-foreground focus-visible:outline-secondary flex w-full items-center justify-center gap-2 rounded-lg px-4 py-3 text-[15px] font-medium shadow-xs transition-[opacity,box-shadow] hover:opacity-90 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2"
+				class="press group bg-primary text-primary-foreground focus-visible:outline-secondary flex w-full items-center justify-center gap-2 rounded-lg px-4 py-3 text-[15px] font-medium shadow-xs transition-[opacity,box-shadow] hover:opacity-90 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2"
 			>
 				{_("Contact Us")}
 				<svg
@@ -204,6 +210,7 @@ const sections = [
 					stroke-linecap="round"
 					stroke-linejoin="round"
 					class="lucide lucide-arrow-right transition-transform duration-200 group-hover:translate-x-1"
+					aria-hidden="true"
 				>
 					<path d="M5 12h14"></path>
 					<path d="m12 5 7 7-7 7"></path>
@@ -239,7 +246,8 @@ const sections = [
 </style>
 
 <script>
-	import { revealOnce } from "@/lib/anims/reveal-once";
+	import { observeImages } from "@/lib/anims/images";
+	import { observeReveals } from "@/lib/anims/reveal";
 
 	const toggleBtn = document.getElementById("mobile-filter-toggle");
 	const closeBtn = document.getElementById("mobile-filter-close");
@@ -320,12 +328,6 @@ const sections = [
 				body.hidden = true;
 			}, 320)
 		);
-	}
-
-	function revealGrids() {
-		document
-			.querySelectorAll<HTMLElement>("[data-product-grid]")
-			.forEach((grid) => revealOnce(grid, 0.1));
 	}
 
 	/*
@@ -411,11 +413,14 @@ const sections = [
 			hero.querySelectorAll<HTMLElement>(".hero-rise").forEach((el) => {
 				el.style.animation = "none";
 			});
+			observeReveals(hero);
+			observeImages(hero);
 
 			// Reset any saved search state so restoration uses the new page's content
 			savedResultsHTML = null;
 			results.innerHTML = nextResults.innerHTML;
-			revealGrids();
+			observeReveals(results);
+			observeImages(results);
 			setupProductSearch();
 
 			syncChrome(next);
@@ -521,7 +526,7 @@ const sections = [
 			.map(
 				(p, i) => `
 			<article
-				class="product-card group bg-background border-border-subtle/70 hover:border-secondary/40 flex flex-col overflow-hidden rounded-xl border shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-lg motion-safe:hover:-translate-y-0.5"
+				class="product-card reveal group bg-background border-border-subtle/70 hover:border-secondary/40 flex flex-col overflow-hidden rounded-xl border shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-lg motion-safe:hover:-translate-y-0.5"
 				style="--i:${i % 3}"
 				data-product-item
 				data-product-text="${(p.title + " " + p.description).toLowerCase().replace(/"/g, "&quot;")}"
@@ -529,7 +534,7 @@ const sections = [
 				<div class="border-border-subtle/40 relative flex aspect-4/3 items-center justify-center border-b bg-white p-4">
 					<img src="${p.image || "/placeholder.svg"}" alt="${p.title.replace(/"/g, "&quot;")}"
 						width="800" height="600"
-						class="h-full w-full object-contain mix-blend-multiply"
+						class="img-fade h-full w-full object-contain mix-blend-multiply"
 						loading="lazy" />
 				</div>
 				<div class="flex flex-1 flex-col p-5 sm:p-6">
@@ -570,8 +575,9 @@ const sections = [
 			// Restore original page HTML
 			if (savedResultsHTML !== null) {
 				results.innerHTML = savedResultsHTML;
+				observeReveals(results);
+				observeImages(results);
 				savedResultsHTML = null;
-				revealGrids();
 			}
 			return;
 		}
@@ -587,7 +593,8 @@ const sections = [
 		);
 
 		results.innerHTML = renderSearchResults(matches, labelDetails, labelNoResults);
-		revealGrids();
+		observeReveals(results);
+		observeImages(results);
 	}
 
 	function setupProductSearch(): void {

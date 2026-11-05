@@ -266,7 +266,7 @@ const shareImage = gallery?.[0];
 							<div class="flex flex-col gap-2.5 pt-1">
 								<a
 									href={`/${lang}/contact`}
-									class="group bg-primary text-primary-foreground focus-visible:outline-secondary inline-flex w-full items-center justify-center gap-2 rounded-lg px-7 py-3.5 text-[15px] leading-5.5 font-medium shadow-xs transition-[opacity,box-shadow] hover:opacity-90 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2"
+									class="press group bg-primary text-primary-foreground focus-visible:outline-secondary inline-flex w-full items-center justify-center gap-2 rounded-lg px-7 py-3.5 text-[15px] leading-5.5 font-medium shadow-xs transition-[opacity,box-shadow] hover:opacity-90 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2"
 								>
 									{_("Request Consultation")}
 									<span
@@ -281,7 +281,7 @@ const shareImage = gallery?.[0];
 											href={datasheet}
 											target="_blank"
 											rel="noopener noreferrer"
-											class="border-secondary text-secondary hover:bg-secondary/5 focus-visible:outline-secondary font-technical-data inline-flex w-full items-center justify-center gap-2 rounded-lg border-2 px-7 py-3 text-[15px] leading-5.5 font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+											class="press border-secondary text-secondary hover:bg-secondary/5 focus-visible:outline-secondary font-technical-data inline-flex w-full items-center justify-center gap-2 rounded-lg border-2 px-7 py-3 text-[15px] leading-5.5 font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
 										>
 											<span class="material-symbols-outlined text-[18px]" aria-hidden="true">
 												download
@@ -318,34 +318,3 @@ const shareImage = gallery?.[0];
 	{/* White band: related equipment */}
 	<RelatedEquipment products={relatedProducts} lang={lang as Lang} galleries={relatedGalleries} />
 </Layout>
-
-<style>
-	@media (prefers-reduced-motion: no-preference) {
-		.hero-rise {
-			animation: hero-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
-			animation-delay: calc(var(--d, 0) * 90ms);
-		}
-
-		/* Hidden only once the script has confirmed the animation will run */
-		.reveal[data-anim="ready"] {
-			opacity: 0;
-		}
-		.reveal[data-anim="in"] {
-			animation: hero-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
-			animation-delay: calc(var(--i, 0) * 120ms);
-		}
-	}
-
-	@keyframes hero-rise {
-		from {
-			opacity: 0;
-			transform: translateY(18px);
-		}
-	}
-</style>
-
-<script>
-	import { revealOnce } from "@/lib/anims/reveal-once";
-
-	document.querySelectorAll<HTMLElement>(".reveal").forEach((el) => revealOnce(el, 0.1));
-</script>

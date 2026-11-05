@@ -8,9 +8,11 @@ interface Props {
 	lang: Lang;
 	readMinutes: number;
 	coverImage?: string;
+	/** Position in the grid, used to stagger the scroll reveal. */
+	index?: number;
 }
 
-const { entry, lang, readMinutes, coverImage } = Astro.props;
+const { entry, lang, readMinutes, coverImage, index = 0 } = Astro.props;
 const _ = getInlineTranslations(lang);
 const slug = getWikiSlug(entry);
 const title = entry.data.title;
@@ -21,7 +23,8 @@ const image = coverImage;
 
 <a
 	href={`/${lang}/wiki/${slug}`}
-	class="group/card bg-surface-lowest border-border-subtle hover:border-secondary/40 focus-visible:outline-secondary flex h-full flex-col overflow-hidden rounded-xl border p-5 shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 motion-safe:hover:-translate-y-0.5 sm:p-6"
+	class="reveal group/card bg-surface-lowest border-border-subtle hover:border-secondary/40 focus-visible:outline-secondary flex h-full flex-col overflow-hidden rounded-xl border p-5 shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 motion-safe:hover:-translate-y-0.5 sm:p-6"
+	style={`--i:${index % 3}`}
 	data-wiki-item
 	data-wiki-text={`${title} ${description ?? ""}`.toLowerCase()}
 >
@@ -32,7 +35,7 @@ const image = coverImage;
 					src={image}
 					alt={title}
 					loading="lazy"
-					class="size-full object-cover transition-transform duration-500 group-hover/card:scale-105"
+					class="img-fade size-full object-cover transition-transform duration-500 group-hover/card:scale-105"
 				/>
 			</div>
 		)
@@ -44,7 +47,7 @@ const image = coverImage;
 		>
 			<Clock class="text-secondary size-3.5" aria-hidden="true" />
 			{readMinutes}
-			{_("min read")}
+			{" " + _("min read")}
 		</span>
 	</div>
 

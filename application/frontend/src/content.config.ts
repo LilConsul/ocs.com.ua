@@ -22,7 +22,8 @@ const equipment = defineCollection({
 		type: z.enum(["category", "product"]).nullish(),
 		// Used by the CMS to name new files (must match the file's base name)
 		file_name: z.string().nullish(),
-		title: z.string().nullish(),
+		// Required: it is the alt text of every product image and the page <title>/<h1>
+		title: z.string().min(1),
 		description: z.string().nullish(),
 		icon: z.string().nullish(),
 		order: z.number().nullish(),

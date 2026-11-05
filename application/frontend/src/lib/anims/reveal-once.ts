@@ -4,6 +4,10 @@ const MOBILE_QUERY = "(max-width: 767px)";
 /**
  * Plays an intro animation once, the first time `el` scrolls into view.
  *
+ * Only the Ukraine map uses this: its choreography is time-based (outline draw, pins popping
+ * in) and driven by CSS keyframes. Everything else uses the `.reveal*` classes, played by
+ * `reveal.ts` (see `styles/global.css` for the hidden state).
+ *
  * Sets `data-anim="ready"` immediately (CSS uses it to hide the animated children) and
  * switches to `data-anim="in"` on first intersection (CSS uses it to run the animations).
  * `threshold` is the visible fraction needed on larger screens; on mobile it is forced to 0

@@ -34,7 +34,7 @@ const firstIndustry = getIndustriesForLocale(lang)[0].slug;
 				</p>
 				<h2
 					id="industries-heading"
-					class="font-headline-lg text-foreground mt-2 text-2xl font-semibold tracking-tight text-balance sm:text-3xl lg:text-4xl"
+					class="reveal-heading font-headline-lg text-foreground mt-2 text-2xl font-semibold tracking-tight text-balance sm:text-3xl lg:text-4xl"
 				>
 					{_("Solutions for Every Industry")}
 				</h2>
@@ -50,8 +50,8 @@ const firstIndustry = getIndustriesForLocale(lang)[0].slug;
 			</p>
 		</header>
 
-		<div class="gap-gutter grid grid-cols-1 md:grid-cols-12" data-bento>
-			<div class="bento-item md:col-span-6" style="--i:0">
+		<div class="gap-gutter grid grid-cols-1 md:grid-cols-12">
+			<div class="reveal md:col-span-6" style="--i:0">
 				<IndustryCard
 					title={_("Food & Beverage")}
 					description={_(
@@ -63,7 +63,7 @@ const firstIndustry = getIndustriesForLocale(lang)[0].slug;
 				/>
 			</div>
 
-			<div class="bento-item md:col-span-6" style="--i:1">
+			<div class="reveal md:col-span-6" style="--i:1">
 				<IndustryCard
 					title={_("Pharmaceutical")}
 					description={_(
@@ -75,7 +75,7 @@ const firstIndustry = getIndustriesForLocale(lang)[0].slug;
 				/>
 			</div>
 
-			<div class="bento-item md:col-span-4" style="--i:2">
+			<div class="reveal md:col-span-4" style="--i:2">
 				<IndustryCardSmall
 					title={_("Cosmetics")}
 					description={_("Quality control and filling inspection systems.")}
@@ -84,7 +84,7 @@ const firstIndustry = getIndustriesForLocale(lang)[0].slug;
 				/>
 			</div>
 
-			<div class="bento-item md:col-span-4" style="--i:3">
+			<div class="reveal md:col-span-4" style="--i:3">
 				<IndustryCardSmall
 					title={_("Logistics & Distribution")}
 					description={_("High-speed checkweighers for warehouses and fulfillment centers.")}
@@ -93,7 +93,7 @@ const firstIndustry = getIndustriesForLocale(lang)[0].slug;
 				/>
 			</div>
 
-			<div class="bento-item md:col-span-4" style="--i:4">
+			<div class="reveal md:col-span-4" style="--i:4">
 				<IndustryCardCTA
 					title={_("All Industries")}
 					subtitle={_("Explore industry-specific solutions")}
@@ -103,30 +103,3 @@ const firstIndustry = getIndustriesForLocale(lang)[0].slug;
 		</div>
 	</div>
 </section>
-
-<style>
-	@media (prefers-reduced-motion: no-preference) {
-		/* Hidden only once the script has confirmed the animation will run */
-		[data-bento][data-anim="ready"] .bento-item {
-			opacity: 0;
-		}
-		[data-bento][data-anim="in"] .bento-item {
-			animation: bento-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) backwards;
-			animation-delay: calc(var(--i, 0) * 100ms);
-		}
-	}
-
-	@keyframes bento-rise {
-		from {
-			opacity: 0;
-			transform: translateY(14px);
-		}
-	}
-</style>
-
-<script>
-	import { revealOnce } from "@/lib/anims/reveal-once";
-
-	const grid = document.querySelector<HTMLElement>("[data-bento]");
-	if (grid) revealOnce(grid, 0.15);
-</script>

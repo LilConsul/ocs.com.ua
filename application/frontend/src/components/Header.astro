@@ -61,7 +61,7 @@ const isActive = (pattern: string) => {
 {/* Fixed Header Container */}
 <header
 	id="main-header"
-	class="bg-background/90 border-border/40 fixed top-0 right-0 left-0 z-50 border-b backdrop-blur-xl transition-all duration-300"
+	class="bg-background/90 border-border/40 data-[scrolled=true]:bg-background/95 data-[scrolled=true]:border-border fixed top-0 right-0 left-0 z-50 border-b shadow-none backdrop-blur-xl transition-[background-color,border-color,box-shadow] duration-300 data-[scrolled=true]:shadow-sm"
 	data-scrolled="false"
 >
 	{/* High-Contrast Top Development Notice Bar (feature flag: SITE_DEV_NOTICE) */}
@@ -232,20 +232,27 @@ const isActive = (pattern: string) => {
 {SITE_DEV_NOTICE && <script is:inline set:html={bannerHeightScript} />}
 
 <script>
+	let scrollListening = false;
+
 	function setupHeaderAndPopups() {
-		// Scroll effect
+		// Scroll effect: styling lives in the header's data-[scrolled=true]: variants
 		const header = document.getElementById("main-header");
-		const handleScroll = () => {
-			if (!header) return;
-			if (window.scrollY > 10) {
-				header.classList.add("border-b", "border-border", "shadow-sm");
-				header.dataset.scrolled = "true";
-			} else {
-				header.classList.remove("border-b", "border-border", "shadow-sm");
-				header.dataset.scrolled = "false";
-			}
-		};
-		window.addEventListener("scroll", handleScroll);
+		if (header && !scrollListening) {
+			scrollListening = true;
+			let frame = 0;
+			const sync = () => {
+				frame = 0;
+				header.dataset.scrolled = String(window.scrollY > 10);
+			};
+			window.addEventListener(
+				"scroll",
+				() => {
+					if (!frame) frame = requestAnimationFrame(sync);
+				},
+				{ passive: true }
+			);
+			sync();
+		}
 
 		// Development notice banner dismissal
 		const devBanner = document.getElementById("dev-notice-banner");
