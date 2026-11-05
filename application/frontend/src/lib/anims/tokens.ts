@@ -45,10 +45,7 @@ export function variantFor(classList: { contains(name: string): boolean }): Reve
 	return "rise";
 }
 
-interface Keyframes {
-	opacity: number[];
-	transform: string[];
-}
+type Keyframes = { opacity: number[]; transform: string[] };
 
 /**
  * Start and end keyframes for a variant. The end state is always `opacity: 1` and

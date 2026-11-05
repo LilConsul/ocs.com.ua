@@ -70,3 +70,46 @@ describe("motion: dynamic markup", () => {
 		}
 	});
 });
+
+describe("motion: button press state", () => {
+	it("defines .press with a scale on :active, only when motion is allowed", () => {
+		expect(rules).toMatch(/\.press\s*\{[^}]*transition-property:[^;}]*\bscale\b/);
+		expect(rules).toMatch(
+			/@media \(prefers-reduced-motion: no-preference\)\s*\{\s*\.press:active\s*\{[^}]*scale:\s*0\.97/
+		);
+	});
+
+	it("marks every primary and outline call-to-action with press", () => {
+		const files = [
+			"components/homepage/HeroSection.astro",
+			"components/about/AboutHero.astro",
+			"components/about/AboutCta.astro",
+			"components/about/ManufacturerCredentials.astro",
+			"components/wiki/WikiCta.astro",
+			"components/contact/ContactForm.astro",
+			"components/contact/OfficeLocation.astro",
+			"components/catalogue/CatalogueSidebar.astro",
+			"components/errors/NotFoundContent.astro",
+			"components/errors/ServerErrorContent.astro",
+			"pages/[lang]/catalogue/equipment/[category]/[slug].astro",
+		];
+		const cta =
+			/class="(?!press )(group\/dl |group )?(bg-primary text-primary-foreground|border-secondary text-secondary hover:bg-secondary\/5|bg-background text-foreground focus-visible:outline-background)/;
+		const unmarked = files.filter((file) => cta.test(read(file)));
+		expect(unmarked).toEqual([]);
+	});
+});
+
+describe("motion: header scroll state", () => {
+	const header = read("components/Header.astro");
+
+	it("styles the scrolled state from the data attribute, not from toggled classes", () => {
+		expect(header).toContain("data-[scrolled=true]:shadow-sm");
+		expect(header).not.toMatch(/classList\.(add|remove)\("border-b"/);
+	});
+
+	it("listens passively and registers only once", () => {
+		expect(header).toContain("{ passive: true }");
+		expect(header).toContain("scrollListening");
+	});
+});

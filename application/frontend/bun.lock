@@ -32,6 +32,7 @@
       "devDependencies": {
         "@astrojs/check": "^0.9.9",
         "@biomejs/biome": "^2.4.16",
+        "@playwright/test": "^1.65.0",
         "@types/bun": "^1.4.3",
         "@types/d3-geo": "^3.1.1",
         "@types/node": "^22.20.2",
@@ -410,6 +411,8 @@
     "@platejs/slate": ["@platejs/slate@49.2.21", "", { "dependencies": { "@udecode/utils": "47.2.7", "is-plain-object": "^5.0.0", "lodash": "^4.17.21", "slate": "0.118.1", "slate-dom": "0.118.1" } }, "sha512-lvkdKRz18qxbuX8N8uXWHAGCkxPG2dldJmSSqFZkx8gCuIYGDGTWsAqKm9vdvpxVBHJ6j3cH4YiTQRRRNzKBpA=="],
 
     "@platejs/utils": ["@platejs/utils@49.2.21", "", { "dependencies": { "@platejs/core": "49.2.21", "@platejs/slate": "49.2.21", "@udecode/react-utils": "49.0.15", "@udecode/utils": "47.2.7", "clsx": "^2.1.1", "lodash": "^4.17.21" }, "peerDependencies": { "react": ">=18.0.0", "react-dom": ">=18.0.0" } }, "sha512-SbgXptdhcMP7mIiE88cwZpc2AC5+r/G4YDjBxnr4WabSE5DK0G2lL13zhopRoNKNRPqAKzpdIkpLg0Arc0DvKA=="],
+
+    "@playwright/test": ["@playwright/test@1.65.0", "", { "dependencies": { "playwright": "1.65.0" }, "bin": { "playwright": "cli.js" } }, "sha512-iGURLGuKDLakSEl7Pgfv8h7f+XLT+V861Wfhz0zlEl5nyFuKUopdkFBPKqTllTUp06aOwPuH8iuUEb3yp3MpbQ=="],
 
     "@radix-ui/react-compose-refs": ["@radix-ui/react-compose-refs@1.1.5", "", { "peerDependencies": { "@types/react": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" }, "optionalPeers": ["@types/react"] }, "sha512-+48PbAAbq3didjJxa+OaWY2ZwgAKsNiRGyeHKszblZMQ+kcpd9pAaT11cMkGEie0vsOi3QdeTE6d5Fe3Gn61kA=="],
 
@@ -1452,6 +1455,10 @@
     "picomatch": ["picomatch@4.0.7", "", {}, "sha512-qcJu88Q2IWqJsDD529JKMdwGm/dvInW4HvQnRwiH9JtihJvzGOscDtHE3x1pBKeUOTysQ8kVmLnJ2kJu7yhcGA=="],
 
     "platejs": ["platejs@49.2.21", "", { "dependencies": { "@platejs/core": "49.2.21", "@platejs/slate": "49.2.21", "@platejs/utils": "49.2.21", "@udecode/react-hotkeys": "37.0.0", "@udecode/react-utils": "49.0.15", "@udecode/utils": "47.2.7" }, "peerDependencies": { "react": ">=18.0.0", "react-dom": ">=18.0.0" } }, "sha512-JK3W4WxEGOW7W+GHMH1Wro46mVfkbKgFlj0DrajDv4HmmK7FQVu9IkVdeR97IbimM76GafoHglbqlJrLM7CYIw=="],
+
+    "playwright": ["playwright@1.65.0", "", { "dependencies": { "playwright-core": "1.65.0" }, "bin": { "playwright": "cli.js" } }, "sha512-F3AMWcR44qMBt4kq+6Kb6mX7bjGXshktKFOPULd7reED6ZJWevjbNRqysP7q+AATE9kdPEZBibex1BYsvpVoeA=="],
+
+    "playwright-core": ["playwright-core@1.65.0", "", { "bin": { "playwright-core": "cli.js" } }, "sha512-vNSKgH6YqtN7cdT/L334zo0a+YwkrpicyrHJlWWPIm/Q+Nn2SWInil01oT0mbu96U4GgoRtCYQD9CzJQgju+lA=="],
 
     "postcss": ["postcss@8.5.28", "", { "dependencies": { "nanoid": "3.3.19", "picocolors": "1.1.1", "source-map-js": "1.2.1" } }, "sha512-RRuzqDtt5Y9h3quz5hWhK+TPnsmVs6WwSU6LkJMeY4HstUEDuYTG8UJSdawMRzmzAtV+KEoG8N3Qg2qLy5vM/A=="],
 

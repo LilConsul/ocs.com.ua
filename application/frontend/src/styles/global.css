@@ -262,6 +262,20 @@
 	}
 }
 
+/* Button press feedback. Unlayered on purpose: it must beat the `transition-[opacity,box-shadow]`
+ * and `transition-colors` utilities on the buttons so `scale` joins their transition list. */
+.press {
+	transition-property: color, background-color, border-color, opacity, box-shadow, scale;
+	transition-duration: var(--dur-fast);
+	transition-timing-function: var(--ease-out-quart);
+}
+@media (prefers-reduced-motion: no-preference) {
+	.press:active {
+		scale: 0.97;
+	}
+}
+
+
 html.motion-on .reveal:not([data-revealed]),
 html.motion-on .reveal-slide:not([data-revealed]),
 html.motion-on .reveal-glow:not([data-revealed]) {

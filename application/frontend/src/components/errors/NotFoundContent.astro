@@ -32,14 +32,14 @@ const _ = getInlineTranslations(lang);
 	<Fragment slot="actions">
 		<a
 			href={`/${lang}`}
-			class="bg-primary text-primary-foreground inline-flex items-center justify-center gap-2 rounded-lg px-7 py-3.5 text-[15px] leading-5.5 font-medium transition-opacity hover:opacity-90"
+			class="press bg-primary text-primary-foreground inline-flex items-center justify-center gap-2 rounded-lg px-7 py-3.5 text-[15px] leading-5.5 font-medium transition-opacity hover:opacity-90"
 		>
 			<House class="size-4.5" stroke-width={1.5} />
 			{_("Back to Home")}
 		</a>
 		<a
 			href={categoryUrl(lang, "checkweigher")}
-			class="border-secondary text-secondary hover:bg-secondary/5 inline-flex items-center justify-center gap-2 rounded-lg border-2 px-7 py-3.5 text-[15px] leading-5.5 font-medium transition-colors"
+			class="press border-secondary text-secondary hover:bg-secondary/5 inline-flex items-center justify-center gap-2 rounded-lg border-2 px-7 py-3.5 text-[15px] leading-5.5 font-medium transition-colors"
 		>
 			<LayoutGrid class="size-4.5" stroke-width={1.5} />
 			{_("Browse Catalogue")}
