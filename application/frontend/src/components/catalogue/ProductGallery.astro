@@ -14,6 +14,7 @@ const _ = getInlineTranslations(lang);
 
 const galleryImages = images && images.length > 0 ? images : ["/placeholder.svg"];
 const hasMultiple = galleryImages.length > 1;
+const imageAlts = galleryImages.map((_img, idx) => (hasMultiple ? `${title} - ${idx + 1}` : title));
 const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
 const counterText = `01 / ${pad(galleryImages.length)}`;
 
@@ -30,6 +31,7 @@ const thumbBase =
 <figure
 	class="product-gallery-container m-0 w-full select-none"
 	data-images={JSON.stringify(galleryImages)}
+	data-alts={JSON.stringify(imageAlts)}
 	itemscope
 	itemtype="https://schema.org/ImageGallery"
 	role="group"
@@ -89,7 +91,7 @@ const thumbBase =
 			<Image
 				id="gallery-main-image"
 				src={galleryImages[0]}
-				alt={title}
+				alt={imageAlts[0]}
 				width={800}
 				height={600}
 				class="max-h-full max-w-full cursor-zoom-in object-contain drop-shadow-sm transition-transform duration-300 ease-out motion-safe:group-hover/card:scale-[1.02]"
@@ -143,7 +145,7 @@ const thumbBase =
 							>
 								<Image
 									src={img}
-									alt={`${title} - ${idx + 1}`}
+									alt={imageAlts[idx]}
 									width={160}
 									height={120}
 									class="pointer-events-none h-full w-full object-contain transition-transform duration-200 motion-safe:group-hover/thumb:scale-105"
@@ -222,7 +224,7 @@ const thumbBase =
 			<Image
 				id="lightbox-image"
 				src={galleryImages[0]}
-				alt={title}
+				alt={imageAlts[0]}
 				width={1200}
 				height={900}
 				class="border-border-subtle/50 max-h-full max-w-full rounded-lg border bg-white object-contain shadow-lg select-none"
@@ -270,7 +272,7 @@ const thumbBase =
 						>
 							<Image
 								src={img}
-								alt={`${title} - ${idx + 1}`}
+								alt={imageAlts[idx]}
 								width={100}
 								height={75}
 								class="pointer-events-none h-full w-full object-contain"
@@ -313,8 +315,10 @@ const thumbBase =
 		container.dataset.ready = "";
 
 		let images: string[] = [];
+		let alts: string[] = [];
 		try {
 			images = JSON.parse(container.dataset.images ?? "[]");
+			alts = JSON.parse(container.dataset.alts ?? "[]");
 		} catch {
 			return;
 		}
@@ -397,8 +401,14 @@ const thumbBase =
 			activeIndex = index;
 			const label = `${pad(activeIndex + 1)} / ${pad(total)}`;
 
-			if (mainImg) mainImg.src = images[activeIndex];
-			if (lightboxImg) lightboxImg.src = images[activeIndex];
+			if (mainImg) {
+				mainImg.src = images[activeIndex];
+				mainImg.alt = alts[activeIndex] ?? mainImg.alt;
+			}
+			if (lightboxImg) {
+				lightboxImg.src = images[activeIndex];
+				lightboxImg.alt = alts[activeIndex] ?? lightboxImg.alt;
+			}
 			if (badgeText) badgeText.textContent = label;
 			if (lightboxCounter) lightboxCounter.textContent = label;
 
