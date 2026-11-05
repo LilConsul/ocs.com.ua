@@ -5,8 +5,8 @@ import {
 	parseIndex,
 	REVEAL_DURATION,
 	REVEAL_SELECTOR,
+	revealDelay,
 	revealKeyframes,
-	staggerDelay,
 	variantFor,
 } from "./tokens";
 
@@ -18,7 +18,8 @@ const TRIGGER_MARGIN = "0px 0px -8% 0px";
 
 function play(el: HTMLElement): void {
 	const index = parseIndex(el.style.getPropertyValue("--i"));
-	const frames = revealKeyframes(variantFor(el.classList));
+	const variant = variantFor(el.classList);
+	const frames = revealKeyframes(variant);
 
 	// Mark first: the stylesheet un-hides on [data-revealed], so even a throwing animation
 	// can never leave the element invisible
@@ -26,7 +27,7 @@ function play(el: HTMLElement): void {
 	try {
 		animate(el, frames, {
 			duration: REVEAL_DURATION,
-			delay: staggerDelay(index),
+			delay: revealDelay(variant, index),
 			ease: EASE_OUT_EXPO,
 		}).then(() => {
 			// Hand control back to the stylesheet so hover transforms keep working

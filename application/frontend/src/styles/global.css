@@ -278,7 +278,8 @@
 
 html.motion-on .reveal:not([data-revealed]),
 html.motion-on .reveal-slide:not([data-revealed]),
-html.motion-on .reveal-glow:not([data-revealed]) {
+html.motion-on .reveal-glow:not([data-revealed]),
+html.motion-on .reveal-heading:not([data-revealed]) {
 	opacity: 0;
 }
 html.motion-on .reveal-bar:not([data-revealed]),

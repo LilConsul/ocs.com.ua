@@ -20,9 +20,10 @@ export const MAX_STAGGER_INDEX = 6;
 export const FAILSAFE_MS = 3000;
 
 /** Every class that opts an element into a scroll reveal */
-export const REVEAL_SELECTOR = ".reveal, .reveal-slide, .reveal-glow, .reveal-bar, .eyebrow-rule";
+export const REVEAL_SELECTOR =
+	".reveal, .reveal-slide, .reveal-glow, .reveal-bar, .reveal-heading, .eyebrow-rule";
 
-export type RevealVariant = "rise" | "slide" | "glow" | "bar" | "rule";
+export type RevealVariant = "rise" | "slide" | "glow" | "bar" | "rule" | "heading";
 
 /** Reads the `--i` custom property value; invalid or missing values become 0 */
 export function parseIndex(raw: string | null | undefined): number {
@@ -36,11 +37,17 @@ export function staggerDelay(index: number): number {
 	return index * STAGGER_STEP;
 }
 
+/** Delay for a variant; headings trail the eyebrow rule above them by one step */
+export function revealDelay(variant: RevealVariant, index: number): number {
+	return staggerDelay(index) + (variant === "heading" ? STAGGER_STEP : 0);
+}
+
 /** Picks the variant from the element's classes (first match wins, default is rise) */
 export function variantFor(classList: { contains(name: string): boolean }): RevealVariant {
 	if (classList.contains("reveal-slide")) return "slide";
 	if (classList.contains("reveal-glow")) return "glow";
 	if (classList.contains("reveal-bar")) return "bar";
+	if (classList.contains("reveal-heading")) return "heading";
 	if (classList.contains("eyebrow-rule")) return "rule";
 	return "rise";
 }
@@ -57,6 +64,8 @@ export function revealKeyframes(variant: RevealVariant): Keyframes {
 			return { opacity: [0, 1], transform: ["translateX(-16px)", "none"] };
 		case "glow":
 			return { opacity: [0, 1], transform: ["scale(0.7)", "none"] };
+		case "heading":
+			return { opacity: [0, 1], transform: ["translateY(14px)", "none"] };
 		case "bar":
 		case "rule":
 			return { opacity: [1, 1], transform: ["scaleX(0)", "none"] };

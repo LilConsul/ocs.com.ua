@@ -39,6 +39,12 @@ describe("motion: global.css", () => {
 		expect(withoutGated).not.toMatch(/\.(reveal|eyebrow-rule)[^{]*\{[^}]*opacity:\s*0/);
 	});
 
+	it("hides section headings the same gated way", () => {
+		expect(rules).toMatch(
+			/html\.motion-on \.reveal-heading:not\(\[data-revealed\]\)[^{]*\{[^}]*opacity:\s*0/
+		);
+	});
+
 	it("keeps the CSS easing token equal to the JS one", () => {
 		const match = css.match(/--ease-out-expo:\s*cubic-bezier\(([^)]*)\)/);
 		expect(match).not.toBeNull();
@@ -51,6 +57,26 @@ describe("motion: global.css", () => {
 			expect(css).toContain(`${name}:`);
 		}
 	});
+});
+
+describe("motion: section headings", () => {
+	const files = [
+		"components/homepage/IndustriesSection.astro",
+		"components/homepage/PartnersSection.astro",
+		"components/about/ManufacturerCredentials.astro",
+		"components/about/ClientDirectory.astro",
+		"components/about/InteractiveUkraineMap.astro",
+		"components/catalogue/RelatedEquipment.astro",
+		"components/contact/ContactForm.astro",
+		"components/contact/OfficeLocation.astro",
+	];
+
+	for (const file of files) {
+		it(`${file} reveals its h2`, () => {
+			const h2 = read(file).match(/<h2[^>]*>/)?.[0] ?? "";
+			expect(h2).toContain("reveal-heading");
+		});
+	}
 });
 
 describe("motion: dynamic markup", () => {

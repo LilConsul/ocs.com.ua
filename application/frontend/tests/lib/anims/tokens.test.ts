@@ -5,6 +5,7 @@ import {
 	MAX_STAGGER_INDEX,
 	parseIndex,
 	REVEAL_SELECTOR,
+	revealDelay,
 	revealKeyframes,
 	STAGGER_STEP,
 	staggerDelay,
@@ -46,6 +47,7 @@ describe("variantFor", () => {
 		expect(variantFor(classes("reveal-glow"))).toBe("glow");
 		expect(variantFor(classes("reveal-bar"))).toBe("bar");
 		expect(variantFor(classes("eyebrow-rule"))).toBe("rule");
+		expect(variantFor(classes("reveal-heading"))).toBe("heading");
 	});
 
 	it("defaults to rise", () => {
@@ -53,9 +55,21 @@ describe("variantFor", () => {
 	});
 });
 
+describe("revealDelay", () => {
+	it("is the plain stagger delay for ordinary variants", () => {
+		expect(revealDelay("rise", 2)).toBe(staggerDelay(2));
+		expect(revealDelay("rule", 0)).toBe(0);
+	});
+
+	it("starts headings one step after their eyebrow rule", () => {
+		expect(revealDelay("heading", 0)).toBe(STAGGER_STEP);
+		expect(revealDelay("heading", 2)).toBeCloseTo(staggerDelay(2) + STAGGER_STEP, 10);
+	});
+});
+
 describe("revealKeyframes", () => {
 	it("always ends fully visible and untransformed", () => {
-		for (const variant of ["rise", "slide", "glow", "bar", "rule"] as const) {
+		for (const variant of ["rise", "slide", "glow", "bar", "rule", "heading"] as const) {
 			const frames = revealKeyframes(variant);
 			expect(frames.transform?.at(-1)).toBe("none");
 			expect(frames.opacity?.at(-1)).toBe(1);
@@ -71,7 +85,14 @@ describe("revealKeyframes", () => {
 
 describe("constants", () => {
 	it("selects every class the old scroll-driven CSS supported", () => {
-		for (const name of ["reveal", "reveal-slide", "reveal-glow", "reveal-bar", "eyebrow-rule"]) {
+		for (const name of [
+			"reveal",
+			"reveal-slide",
+			"reveal-glow",
+			"reveal-bar",
+			"reveal-heading",
+			"eyebrow-rule",
+		]) {
 			expect(REVEAL_SELECTOR).toContain(`.${name}`);
 		}
 	});
