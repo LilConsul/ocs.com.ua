@@ -1,7 +1,7 @@
 ---
 file_name: hc-m-mdi
 order: 5
-datasheet: /assets/image_b25be6f8.webp
+datasheet: null
 title: HC-M-MDi Checkweigher with Metal Detector
 description: HC-M-MDi series checkweighers with an integrated metal detector
   combine high-accuracy dynamic weighing and reliable metal detection in a

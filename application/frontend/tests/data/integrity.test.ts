@@ -3,11 +3,13 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join, relative } from "node:path";
 import { parse } from "yaml";
 import { collections } from "@/content.config";
+import cityData from "@/data/city-coordinates.json";
 import companyData from "@/data/company.json";
 import documentsData from "@/data/documents.json";
 import equipmentTypes from "@/data/equipment-types.json";
 import icons from "@/data/icons.json";
 import industries from "@/data/industries.json";
+import partnersData from "@/data/partners.json";
 import { getInlineTranslations } from "@/i18n/inline";
 import { EQUIPMENT_SLUGS, SECTORS } from "@/lib/contact/options";
 
@@ -316,35 +318,41 @@ describe("company data", () => {
 	});
 });
 
-describe("decap cms documents collection", () => {
-	it("configures documents file collection in _config.template.yml", () => {
-		const templatePath = join(import.meta.dir, "../../src/pages/admin/_config.template.yml");
-		const raw = readFileSync(templatePath, "utf8");
-		// Replace template tokens with dummy values so it parses valid YAML
-		const parsed = parse(raw.replace(/__[A-Z0-9_]+__/g, '""'));
-		const documentsCollection = parsed.collections?.find((c: any) => c.name === "documents");
-		expect(documentsCollection).toBeDefined();
-		expect(documentsCollection.label).toBe("Documents");
-		expect(documentsCollection.files?.[0]?.name).toBe("authorization-letters");
-		expect(documentsCollection.files?.[0]?.file).toBe(
-			"application/frontend/src/data/documents.json"
-		);
-		expect(documentsCollection.files?.[0]?.media_folder).toBe("../../public/assets/documents");
-		expect(documentsCollection.files?.[0]?.public_folder).toBe("/assets/documents");
-	});
-});
+describe("decap cms site-data collection", () => {
+	const templatePath = join(import.meta.dir, "../../src/pages/admin/_config.template.yml");
+	// Replace template tokens with dummy values so it parses valid YAML
+	const parsed = parse(readFileSync(templatePath, "utf8").replace(/__[A-Z0-9_]+__/g, '""'));
+	const siteData = parsed.collections?.find((c: any) => c.name === "site-data");
+	const fileEntry = (name: string) => siteData.files.find((f: any) => f.name === name);
 
-describe("decap cms company collection", () => {
-	it("configures company file collection in _config.template.yml", () => {
-		const templatePath = join(import.meta.dir, "../../src/pages/admin/_config.template.yml");
-		const raw = readFileSync(templatePath, "utf8");
-		const parsed = parse(raw.replace(/__[A-Z0-9_]+__/g, '""'));
-		const companyCollection = parsed.collections?.find((c: any) => c.name === "company");
-		expect(companyCollection).toBeDefined();
-		expect(companyCollection.label).toBe("Company");
-		expect(companyCollection.files?.[0]?.name).toBe("company-info");
-		expect(companyCollection.files?.[0]?.file).toBe("application/frontend/src/data/company.json");
-		expect(companyCollection.files?.[0]?.format).toBe("json");
+	it("groups the small data files into one collection", () => {
+		expect(siteData).toBeDefined();
+		expect(siteData.label).toBe("Site Data");
+		expect(siteData.files.map((f: any) => f.name)).toEqual([
+			"company-info",
+			"authorization-letters",
+			"partner-list",
+			"city-list",
+		]);
+	});
+
+	it("no longer has the separate collections", () => {
+		for (const name of ["company", "documents", "partners", "cities"]) {
+			expect(parsed.collections.find((c: any) => c.name === name)).toBeUndefined();
+		}
+	});
+
+	it("configures the documents file", () => {
+		const file = fileEntry("authorization-letters");
+		expect(file.file).toBe("application/frontend/src/data/documents.json");
+		expect(file.media_folder).toBe("../../public/assets/documents");
+		expect(file.public_folder).toBe("/assets/documents");
+	});
+
+	it("configures the company file", () => {
+		const file = fileEntry("company-info");
+		expect(file.file).toBe("application/frontend/src/data/company.json");
+		expect(file.format).toBe("json");
 	});
 });
 
@@ -463,5 +471,128 @@ describe("decap cms wiki collection", () => {
 		for (const name of ["wiki", "equipment"]) {
 			expect(parsed.collections.find((c: any) => c.name === name).delete).toBe(true);
 		}
+	});
+});
+
+describe("city coordinates data", () => {
+	const cities = (cityData as any).cities as {
+		name: { en: string; ua: string };
+		lat: number;
+		lng: number;
+	}[];
+
+	it("is a non-empty list under a cities key", () => {
+		expect(Array.isArray(cities)).toBe(true);
+		expect(cities.length).toBeGreaterThan(0);
+	});
+
+	it("has unique English names (partners reference a city by name.en)", () => {
+		const names = cities.map((c) => c.name.en);
+		expect(new Set(names).size).toBe(names.length);
+	});
+
+	it("has English and Ukrainian names for every city", () => {
+		for (const c of cities) {
+			expect(c.name.en.trim()).not.toBe("");
+			expect(c.name.ua.trim()).not.toBe("");
+		}
+	});
+
+	it("places every city inside Ukraine's bounding box", () => {
+		for (const c of cities) {
+			expect(c.lat).toBeGreaterThan(44);
+			expect(c.lat).toBeLessThan(53);
+			expect(c.lng).toBeGreaterThan(22);
+			expect(c.lng).toBeLessThan(41);
+		}
+	});
+});
+
+describe("partners data", () => {
+	const sectors = Object.entries(partnersData) as [string, any[]][];
+
+	it("has exactly the food, household and pharma sectors", () => {
+		expect(Object.keys(partnersData).sort()).toEqual(["food", "household", "pharma"]);
+	});
+
+	it("has English and Ukrainian names for every partner", () => {
+		for (const [, partners] of sectors) {
+			for (const p of partners) {
+				expect(p.name.en.trim()).not.toBe("");
+				expect(p.name.ua.trim()).not.toBe("");
+			}
+		}
+	});
+
+	it("only references cities that exist in city-coordinates.json", () => {
+		const known = new Set(
+			((cityData as any).cities as { name: { en: string } }[]).map((c) => c.name.en)
+		);
+		const unknown = sectors.flatMap(([sector, partners]) =>
+			partners.flatMap((p) =>
+				((p.adres ?? []) as string[])
+					.filter((city) => !known.has(city))
+					.map((city) => `${sector}/${p.name.en}: ${city}`)
+			)
+		);
+		expect(unknown).toEqual([]);
+	});
+});
+
+describe("decap cms partners and cities files", () => {
+	const templatePath = join(import.meta.dir, "../../src/pages/admin/_config.template.yml");
+	const parsed = parse(readFileSync(templatePath, "utf8").replace(/__[A-Z0-9_]+__/g, '""'));
+	const siteData = parsed.collections?.find((c: any) => c.name === "site-data");
+	const partnerFile = siteData?.files.find((f: any) => f.name === "partner-list");
+	const cityFile = siteData?.files.find((f: any) => f.name === "city-list");
+
+	it("edits partners.json with one list per sector", () => {
+		expect(partnerFile).toBeDefined();
+		const file = partnerFile;
+		expect(file.file).toBe("application/frontend/src/data/partners.json");
+		expect(file.format).toBe("json");
+		expect(file.fields.map((f: any) => f.name)).toEqual(["food", "household", "pharma"]);
+	});
+
+	it("gives every sector the same partner fields", () => {
+		const [food, household, pharma] = partnerFile.fields;
+		expect(food.fields.map((f: any) => f.name)).toEqual([
+			"name",
+			"website",
+			"logo",
+			"equipment",
+			"adres",
+		]);
+		expect(household.fields).toEqual(food.fields);
+		expect(pharma.fields).toEqual(food.fields);
+	});
+
+	it("picks partner cities from the cities file through a relation", () => {
+		const adres = partnerFile.fields[0].fields.find((f: any) => f.name === "adres");
+		expect(adres.widget).toBe("relation");
+		expect(adres.multiple).toBe(true);
+		expect(adres.collection).toBe("site-data");
+		expect(adres.file).toBe(cityFile.name);
+		expect(adres.value_field).toBe("cities.*.name.en");
+	});
+
+	it("edits city-coordinates.json as a list of cities", () => {
+		expect(cityFile).toBeDefined();
+		const file = cityFile;
+		expect(file.file).toBe("application/frontend/src/data/city-coordinates.json");
+		expect(file.format).toBe("json");
+		expect(file.fields[0].name).toBe("cities");
+		const names = file.fields[0].fields.map((f: any) => f.name);
+		expect(names).toEqual(["name", "lat", "lng"]);
+	});
+
+	it("keeps partner logos under public/assets/partners", () => {
+		const file = partnerFile;
+		expect(file.media_folder).toBe("../../public/assets/partners");
+		expect(file.public_folder).toBe("/assets/partners");
+	});
+
+	it("never allows deleting the data files", () => {
+		expect(siteData.delete).toBe(false);
 	});
 });

@@ -55,3 +55,16 @@ describe("astro config: astro:page-load listeners", () => {
 		expect(usesRouter).toBe(false);
 	});
 });
+
+describe("astro config: gated datasheets", () => {
+	it("declares DATASHEET_TOKEN_SECRET as a required server secret", () => {
+		const field = config.env?.schema?.DATASHEET_TOKEN_SECRET as Record<string, unknown>;
+		expect(field).toMatchObject({ context: "server", access: "secret" });
+		expect(field.optional).toBeUndefined();
+	});
+
+	it("copies private/datasheets into dist after the build", () => {
+		const names = (config.integrations ?? []).flat().map((i) => (i as { name?: string }).name);
+		expect(names).toContain("copy-datasheets");
+	});
+});

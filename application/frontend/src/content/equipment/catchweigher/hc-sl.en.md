@@ -7,7 +7,7 @@ description: >-
   High-accuracy catchweigher for parcels up to 60 kg. Achieves speeds up to 2.9
   m/s with ±5g accuracy in calibrated mode. Features sandwich construction for
   rigid platform and noise reduction below 65 dB.
-datasheet: /assets/equipment/hc-sl/datasheet.pdf
+datasheet: null
 specs:
   - items:
       - label: Max Speed

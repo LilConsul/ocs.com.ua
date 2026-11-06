@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import { ArrowRight } from "@lucide/astro";
+import TechnicalField from "@/components/TechnicalField.astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { formatApprox, type SiteStats } from "@/lib/about/partners-data";
 import { categoryUrl } from "@/lib/catalogue-urls";
@@ -24,20 +25,20 @@ const partners = [_("Official Partner of Wipotec GmbH"), _("Official Partner of 
 		<Image
 			src="/images/main_page.webp"
 			alt={_("Industrial Checkweigher Systems")}
-			class="h-full w-full object-cover object-right"
+			class="hero-media h-full w-full object-cover object-right"
 			loading="eager"
 			width={1920}
 			height={1080}
 		/>
 		{/* Top-to-bottom on phones (text sits over the photo), left-to-right from md up */}
 		<div
-			class="from-background via-background/90 to-background/50 md:via-background/85 absolute inset-0 bg-linear-to-b md:bg-linear-to-r md:to-transparent"
+			class="from-background via-background/90 to-background/50 pointer-events-none absolute inset-0 bg-linear-to-b md:via-background/85 md:bg-linear-to-r md:to-transparent"
 			aria-hidden="true"
 		>
 		</div>
 		{/* Soft fade into the next section */}
 		<div
-			class="to-background absolute inset-x-0 bottom-0 h-24 bg-linear-to-b from-transparent"
+			class="to-background pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-linear-to-b from-transparent"
 			aria-hidden="true"
 		>
 		</div>
@@ -46,10 +47,11 @@ const partners = [_("Official Partner of Wipotec GmbH"), _("Official Partner of 
 			aria-hidden="true"
 		>
 		</div>
+		<TechnicalField class="hero-technical-field z-0 mix-blend-multiply" opacity={0.45} />
 	</div>
 
 	{/* Content */}
-	<div class="px-edge-margin relative z-10 mx-auto w-full max-w-7xl">
+	<div class="px-edge-margin relative z-20 mx-auto w-full max-w-7xl">
 		<div class="flex max-w-3xl flex-col gap-6">
 			{/* Partner badges */}
 			<ul class="hero-rise m-0 flex list-none flex-col items-start gap-2 p-0" style="--d:0">
@@ -57,7 +59,7 @@ const partners = [_("Official Partner of Wipotec GmbH"), _("Official Partner of 
 					partners.map((label) => (
 						<li class="bg-background/80 border-border-subtle/60 font-label-caps text-industrial-gray inline-flex max-w-full items-center gap-2.5 rounded-full border px-4 py-1.5 text-[11px] tracking-widest uppercase shadow-xs backdrop-blur-sm">
 							<span class="relative flex size-2 shrink-0" aria-hidden="true">
-								<span class="bg-secondary/50 absolute inset-0 rounded-full motion-safe:animate-ping" />
+								<span class="bg-secondary/40 absolute inset-0 rounded-full motion-safe:animate-pulse" />
 								<span class="bg-secondary relative size-2 rounded-full" />
 							</span>
 							<span class="text-balance">{label}</span>
