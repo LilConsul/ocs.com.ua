@@ -5,7 +5,7 @@ gallery:
   - /assets/equipment/ec-e/csm_checkweigher-ec-e-left_b64a401e9a.webp
   - /assets/equipment/ec-e/csm_checkweigher-ec-e-front_03ef4b6a1d.webp
   - /assets/equipment/ec-e/csm_checkweigher-ec-e-right_40e479f487.webp
-datasheet: /assets/equipment/ec-e/datasheet.pdf
+datasheet: null
 industries:
   - food-beverage
 title: Контрольно динамічні ваги EC-E

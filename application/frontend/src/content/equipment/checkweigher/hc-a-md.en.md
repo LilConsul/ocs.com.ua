@@ -1,7 +1,7 @@
 ---
 file_name: hc-a-md
 order: 4
-datasheet: /assets/image_409a1f1c.webp
+datasheet: null
 title: HC-A-MD Checkweigher with Metal Detector
 description: HC-A-MD series checkweighers with an integrated metal detector
   combine high-precision dynamic weighing with ultra-sensitive metal detection

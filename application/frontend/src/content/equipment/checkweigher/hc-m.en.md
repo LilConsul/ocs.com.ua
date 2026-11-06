@@ -1,7 +1,7 @@
 ---
 file_name: hc-m
 order: 2
-datasheet: /assets/equipment/hc-m/datasheet.pdf
+datasheet: /datasheets/hc-m.pdf
 title: HC-M Checkweigher
 description: HC-M series checkweighers for medium performance ranges. Positioned
   between the EC-E and HC-A series, they provide up to 250 weight measurements

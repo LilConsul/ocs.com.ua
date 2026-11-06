@@ -5,7 +5,7 @@ gallery:
   - /assets/equipment/hc-m/csm_checkweigher-hc-m-left_51bfea9ea2.webp
   - /assets/equipment/hc-m/csm_checkweigher-hc-m-front_aa34489ed7.webp
   - /assets/equipment/hc-m/csm_checkweigher-hc-m-right_efe164ce5c.webp
-datasheet: /assets/equipment/hc-m/datasheet.pdf
+datasheet: /datasheets/hc-m.pdf
 industries:
   - food-beverage
   - pharmaceutical

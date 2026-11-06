@@ -13,7 +13,7 @@ gallery:
   - /assets/equipment/hc-sl/csm_catchweigher-hc-sl-left_b9e714b4cd.webp
   - /assets/equipment/hc-sl/csm_catchweigher-hc-sl-front_0106966235.webp
   - /assets/equipment/hc-sl/csm_catchweigher-hc-sl-right_f0a1215e7f.webp
-datasheet: /assets/equipment/hc-sl/datasheet.pdf
+datasheet: null
 specs:
   - items:
       - label: Макс. швидкість

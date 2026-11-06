@@ -1,7 +1,7 @@
 ---
 file_name: hc-a
 order: 1
-datasheet: /assets/equipment/hc-a/datasheet.pdf
+datasheet: null
 title: HC-A Checkweigher
 description: HC-A series checkweighers are high-performance, premium-class
   equipment designed for 100% weight control of products directly on the

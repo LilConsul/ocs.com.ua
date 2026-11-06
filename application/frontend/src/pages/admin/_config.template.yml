@@ -417,7 +417,16 @@ collections:
             strip_metadata: true
             width: 1200
             height: null
-      - { label: "Datasheet", name: "datasheet", widget: "file", required: false, i18n: duplicate, hint: "PDF offered for download on the product page. Shared by both languages." }
+      - label: "Datasheet"
+        name: "datasheet"
+        widget: "file"
+        required: false
+        i18n: duplicate
+        # A leading slash makes Decap resolve the folder from the repo root. The PDF is committed
+        # to the private folder, which the site never serves directly.
+        media_folder: "/application/frontend/private/datasheets"
+        public_folder: "/datasheets"
+        hint: "PDF only. Name the file after the product, e.g. hc-m.pdf. Uploading a file with an existing name replaces it for every product that uses it. Visitors can download it only after filling in the form. Shared by both languages."
       - label: "Industries"
         name: "industries"
         widget: "select"
