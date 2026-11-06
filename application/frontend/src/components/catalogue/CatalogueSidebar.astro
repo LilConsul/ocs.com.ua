@@ -531,12 +531,12 @@ const sections = [
 				data-product-item
 				data-product-text="${(p.title + " " + p.description).toLowerCase().replace(/"/g, "&quot;")}"
 			>
-				<div class="border-border-subtle/40 relative flex aspect-4/3 items-center justify-center border-b bg-white p-4">
+				<a href="${p.url}" class="border-border-subtle/40 focus-visible:outline-secondary relative flex aspect-4/3 items-center justify-center border-b bg-white p-4 focus-visible:outline-2 focus-visible:-outline-offset-2" aria-label="${p.title.replace(/"/g, "&quot;")}">
 					<img src="${p.image || "/placeholder.svg"}" alt="${p.title.replace(/"/g, "&quot;")}"
 						width="800" height="600"
 						class="img-fade h-full w-full object-contain mix-blend-multiply"
 						loading="lazy" />
-				</div>
+				</a>
 				<div class="flex flex-1 flex-col p-5 sm:p-6">
 					<h3 class="font-headline-lg text-foreground m-0 mb-2 text-lg leading-snug font-semibold text-balance">${p.title}</h3>
 					${p.description ? `<p class="font-body-md text-industrial-gray m-0 mb-5 line-clamp-2 text-sm leading-relaxed">${p.description}</p>` : ""}
