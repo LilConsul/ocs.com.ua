@@ -1,13 +1,24 @@
 ---
 import "../styles/global.css";
+import type { ComponentProps } from "astro/types";
 import { SEO } from "astro-seo";
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
+import TechnicalField from "@/components/TechnicalField.astro";
 import companyData from "@/data/company.json";
 import { defaultLang, getIsoLang, getLangFromUrl } from "@/i18n";
 import type { SchemaGraph } from "@/lib/structured-data";
 import motionOn from "../lib/anims/motion-on.js?raw";
 import noJsCss from "../styles/no-js.css?raw";
+
+type BackgroundVariant = NonNullable<ComponentProps<typeof TechnicalField>["variant"]>;
+
+const sectionVariants: Record<string, BackgroundVariant> = {
+	catalogue: "catalogue",
+	wiki: "wiki",
+	contact: "contact",
+	about: "about",
+};
 
 interface Props {
 	title: string;
@@ -29,6 +40,9 @@ const {
 const lang = getLangFromUrl(Astro.url);
 const isoLang = getIsoLang(lang);
 const currentPath = Astro.url.pathname;
+// Pages live under /{lang}/{section}/..., so the section is the second path segment
+const section = currentPath.split("/")[2] ?? "";
+const backgroundVariant = sectionVariants[section] ?? "quiet";
 
 const siteUrl = Astro.site || "https://ocs.com.ua";
 const canonicalUrl = new URL(currentPath, siteUrl).href;
@@ -129,9 +143,13 @@ const defaultDescription =
 		</script>
 		<!-- END PLERDY CODE -->
 	</head>
-	<body class="bg-background text-foreground min-h-screen antialiased">
+	<body class={`page-${backgroundVariant} bg-background text-foreground min-h-screen antialiased`}>
+		<div class="site-technical-field" aria-hidden="true">
+			<TechnicalField variant={backgroundVariant} opacity={backgroundVariant === "quiet" ? 0.22 : 0.28} />
+		</div>
+		<div class="scroll-progress" data-scroll-progress aria-hidden="true"></div>
 		{showHeader && <Header currentLang={lang} currentPath={currentPath} />}
-		<main class="pt-[calc(5rem+var(--banner-h,0px))]">
+		<main class="relative z-10 pt-[calc(5rem+var(--banner-h,0px))]">
 			<slot />
 		</main>
 		<Footer
@@ -139,6 +157,26 @@ const defaultDescription =
 		/>
 		<script>
 			import "@/lib/anims/runtime";
+		</script>
+		<script>
+			const progress = document.querySelector<HTMLElement>("[data-scroll-progress]");
+			let progressFrame = 0;
+
+			const updateScrollProgress = () => {
+				progressFrame = 0;
+				if (!progress) return;
+				const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+				progress.style.transform = `scaleX(${scrollable > 0 ? window.scrollY / scrollable : 0})`;
+			};
+
+			window.addEventListener(
+				"scroll",
+				() => {
+					if (!progressFrame) progressFrame = requestAnimationFrame(updateScrollProgress);
+				},
+				{ passive: true }
+			);
+			updateScrollProgress();
 		</script>
 	</body>
 </html>

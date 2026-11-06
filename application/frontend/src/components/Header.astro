@@ -123,6 +123,7 @@ const isActive = (pattern: string) => {
 								? "text-foreground after:bg-primary after:absolute after:right-0 after:-bottom-2 after:left-0 after:h-0.5 after:content-['']"
 								: "text-muted-foreground hover:text-foreground"
 						}`}
+						aria-current={isActive(link.pattern) ? "page" : undefined}
 					>
 						{link.label}
 					</a>
@@ -170,6 +171,8 @@ const isActive = (pattern: string) => {
 				class="hover:bg-muted hover:text-foreground focus-visible:ring-ring/50 inline-flex size-8 shrink-0 items-center justify-center transition-colors outline-none focus-visible:ring-1 md:hidden"
 				id="mobile-menu-toggle"
 				aria-label={_("Toggle menu")}
+				aria-expanded="false"
+				aria-controls="mobile-menu"
 			>
 				<Menu class="h-5 w-5" id="menu-open-icon" />
 				<X class="hidden h-5 w-5" id="menu-close-icon" />
@@ -180,7 +183,8 @@ const isActive = (pattern: string) => {
 	{/* Mobile Menu Drawer */}
 	<div
 		id="mobile-menu"
-		class="border-border bg-background/95 hidden border-t backdrop-blur-xl md:hidden"
+		class="mobile-menu-shell border-border bg-background/95 border-t backdrop-blur-xl md:hidden"
+		data-open="false"
 	>
 		<div class="space-y-4 px-8 py-6">
 			{
@@ -269,25 +273,32 @@ const isActive = (pattern: string) => {
 		const menuCloseIcon = document.getElementById("menu-close-icon");
 
 		mobileMenuToggle?.addEventListener("click", () => {
-			const isOpen = !mobileMenu?.classList.contains("hidden");
-			if (isOpen) {
-				mobileMenu?.classList.add("hidden");
-				menuOpenIcon?.classList.remove("hidden");
-				menuCloseIcon?.classList.add("hidden");
-			} else {
-				mobileMenu?.classList.remove("hidden");
-				menuOpenIcon?.classList.add("hidden");
-				menuCloseIcon?.classList.remove("hidden");
-			}
+			const isOpen = mobileMenu?.dataset.open === "true";
+			mobileMenu?.setAttribute("data-open", String(!isOpen));
+			mobileMenuToggle.setAttribute("aria-expanded", String(!isOpen));
+			menuOpenIcon?.classList.toggle("hidden", !isOpen);
+			menuCloseIcon?.classList.toggle("hidden", isOpen);
+			document.documentElement.classList.toggle("overflow-hidden", !isOpen);
 		});
 
 		const mobileMenuLinks = mobileMenu?.querySelectorAll("a");
 		mobileMenuLinks?.forEach((link) => {
 			link.addEventListener("click", () => {
-				mobileMenu?.classList.add("hidden");
+				mobileMenu?.setAttribute("data-open", "false");
+				mobileMenuToggle?.setAttribute("aria-expanded", "false");
 				menuOpenIcon?.classList.remove("hidden");
 				menuCloseIcon?.classList.add("hidden");
+				document.documentElement.classList.remove("overflow-hidden");
 			});
+		});
+
+		document.addEventListener("keydown", (event) => {
+			if (event.key !== "Escape" || mobileMenu?.dataset.open !== "true") return;
+			mobileMenu.setAttribute("data-open", "false");
+			mobileMenuToggle?.setAttribute("aria-expanded", "false");
+			menuOpenIcon?.classList.remove("hidden");
+			menuCloseIcon?.classList.add("hidden");
+			document.documentElement.classList.remove("overflow-hidden");
 		});
 	}
 

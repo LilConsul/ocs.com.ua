@@ -8,10 +8,10 @@
 export const EASE_OUT_EXPO: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /** Seconds per reveal animation */
-export const REVEAL_DURATION = 0.7;
+export const REVEAL_DURATION = 1.1;
 
 /** Seconds of delay added per `--i` step */
-export const STAGGER_STEP = 0.08;
+export const STAGGER_STEP = 0.14;
 
 /** Highest stagger index honoured, so a long grid never waits seconds for its last card */
 export const MAX_STAGGER_INDEX = 6;
