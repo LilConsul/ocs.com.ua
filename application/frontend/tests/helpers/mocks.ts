@@ -27,6 +27,7 @@ mock.module("nodemailer", () => {
 mock.module("astro:env/server", () => ({
 	CONTACT_FROM: "noreply@ocs.test",
 	CONTACT_TO: "info@ocs.test",
+	DATASHEET_TOKEN_SECRET: "test-datasheet-secret-0123456789abcdef",
 	RECAPTCHA_SECRET_KEY: "test-secret",
 	SITE_URL: "https://ocs.test",
 	SMTP_HOST: "smtp.ocs.test",
@@ -36,7 +37,20 @@ mock.module("astro:env/server", () => ({
 	SMTP_USER: "test-user",
 }));
 
+// Product entries the datasheet API looks up. IDs follow Astro's slugging: "<category>/<slug><lang>".
+export const equipmentEntries: {
+	id: string;
+	data: { title: string; datasheet?: string | null };
+}[] = [
+	{ id: "checkweigher/hc-men", data: { title: "HC-M", datasheet: "/datasheets/hc-m.pdf" } },
+	{ id: "checkweigher/hc-mua", data: { title: "HC-M UA", datasheet: "/datasheets/hc-m.pdf" } },
+	{ id: "checkweigher/nodsen", data: { title: "No datasheet", datasheet: null } },
+	{ id: "checkweigher/ghosten", data: { title: "Ghost", datasheet: "/datasheets/ghost.pdf" } },
+	{ id: "checkweigher/_indexen", data: { title: "Checkweighers" } },
+];
+
 // content.config.ts only needs defineCollection to hand back its config
 mock.module("astro:content", () => ({
 	defineCollection: (config: unknown) => config,
+	getCollection: async () => equipmentEntries,
 }));

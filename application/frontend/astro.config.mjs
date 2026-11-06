@@ -1,5 +1,7 @@
 // @ts-check
 
+import { cpSync, existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import node from "@astrojs/node";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
@@ -9,6 +11,20 @@ import { loadEnv } from "vite";
 // Astro reads .env files only after this config is evaluated, so load them here for `site`.
 // Real environment variables (CI) still take precedence over the files.
 const { SITE_URL } = loadEnv(process.env.NODE_ENV || "production", process.cwd(), "");
+
+// The datasheet PDFs are not part of public/, so Astro does not emit them. Copy them next to
+// dist/client (not into it) so Apache never serves them; the Node server reads them from there.
+/** @type {import("astro").AstroIntegration} */
+const copyDatasheets = {
+	name: "copy-datasheets",
+	hooks: {
+		"astro:build:done": ({ dir }) => {
+			const from = fileURLToPath(new URL("private/datasheets", import.meta.url));
+			if (!existsSync(from)) return;
+			cpSync(from, fileURLToPath(new URL("../private/datasheets/", dir)), { recursive: true });
+		},
+	},
+};
 
 // https://astro.build/config
 export default defineConfig({
@@ -28,6 +44,7 @@ export default defineConfig({
 			// Emits <xhtml:link hreflang> alternates, matching the <link rel="alternate"> tags
 			i18n: { defaultLocale: "ua", locales: { ua: "uk", en: "en" } },
 		}),
+		copyDatasheets,
 	],
 	vite: {
 		plugins: [
@@ -126,6 +143,11 @@ export default defineConfig({
 			}),
 			// reCAPTCHA v3 (server secret — never sent to browser)
 			RECAPTCHA_SECRET_KEY: envField.string({ context: "server", access: "secret" }),
+
+			// === Datasheet downloads ===
+
+			// Signs the short-lived download links (server secret, at least 32 characters)
+			DATASHEET_TOKEN_SECRET: envField.string({ context: "server", access: "secret", min: 32 }),
 		},
 	},
 	i18n: {
