@@ -59,38 +59,17 @@ i18n:
   default_locale: ua
 
 collections:
-  # ── Authorization Documents ───────────────────────────────────────────────
-  - name: "documents"
-    label: "Documents"
+  # ── Site Data ─────────────────────────────────────────────────────────────
+  # Small single-file data sets grouped under one sidebar entry: company info,
+  # authorization letters, partners and the map cities. Each file keeps its own
+  # schema.
+  - name: "site-data"
+    label: "Site Data"
     delete: false
     editor:
       preview: false
     files:
-      - name: "authorization-letters"
-        label: "Authorization Letters"
-        file: "application/frontend/src/data/documents.json"
-        format: json
-        media_folder: "../../public/assets/documents"
-        public_folder: "/assets/documents"
-        fields:
-          - label: "Wipotec Authorization Letter (PDF)"
-            name: "wipotec"
-            widget: "file"
-            required: false
-            hint: "Upload the official Wipotec Authorization Letter (PDF)"
-          - label: "Mesutronic Authorization Letter (PDF)"
-            name: "mesutronic"
-            widget: "file"
-            required: false
-            hint: "Upload the official Mesutronic Authorization Letter (PDF)"
-
-  # ── Company Information ───────────────────────────────────────────────────
-  - name: "company"
-    label: "Company"
-    delete: false
-    editor:
-      preview: false
-    files:
+      # Company Information
       - name: "company-info"
         label: "Company Information"
         file: "application/frontend/src/data/company.json"
@@ -169,15 +148,28 @@ collections:
               name: "url"
               widget: "string"
 
-  # ── Partners ──────────────────────────────────────────────────────────────
-  # The three sector lists share one field set through a YAML anchor. Cities are
-  # picked from the "Cities" collection below, so the name there must match.
-  - name: "partners"
-    label: "Partners"
-    delete: false
-    editor:
-      preview: false
-    files:
+      # Authorization Documents
+      - name: "authorization-letters"
+        label: "Authorization Letters"
+        file: "application/frontend/src/data/documents.json"
+        format: json
+        media_folder: "../../public/assets/documents"
+        public_folder: "/assets/documents"
+        fields:
+          - label: "Wipotec Authorization Letter (PDF)"
+            name: "wipotec"
+            widget: "file"
+            required: false
+            hint: "Upload the official Wipotec Authorization Letter (PDF)"
+          - label: "Mesutronic Authorization Letter (PDF)"
+            name: "mesutronic"
+            widget: "file"
+            required: false
+            hint: "Upload the official Mesutronic Authorization Letter (PDF)"
+
+      # Partners. The three sector lists share one field set through a YAML
+      # anchor. Cities are picked from the "city-list" file below, so the name
+      # there must match.
       - name: "partner-list"
         label: "Partners and Clients"
         file: "application/frontend/src/data/partners.json"
@@ -210,7 +202,7 @@ collections:
               - label: "Cities"
                 name: "adres"
                 widget: "relation"
-                collection: "cities"
+                collection: "site-data"
                 file: "city-list"
                 search_fields: ["cities.*.name.en"]
                 value_field: "cities.*.name.en"
@@ -229,13 +221,7 @@ collections:
             summary: "{{fields.name.en}}"
             fields: *partner_fields
 
-  # ── Cities (map pins) ─────────────────────────────────────────────────────
-  - name: "cities"
-    label: "Cities"
-    delete: false
-    editor:
-      preview: false
-    files:
+      # Cities (map pins)
       - name: "city-list"
         label: "Map Cities"
         file: "application/frontend/src/data/city-coordinates.json"
