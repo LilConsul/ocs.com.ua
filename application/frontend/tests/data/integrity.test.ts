@@ -532,3 +532,61 @@ describe("partners data", () => {
 		expect(unknown).toEqual([]);
 	});
 });
+
+describe("decap cms partners and cities collections", () => {
+	const templatePath = join(import.meta.dir, "../../src/pages/admin/_config.template.yml");
+	const parsed = parse(readFileSync(templatePath, "utf8").replace(/__[A-Z0-9_]+__/g, '""'));
+	const partners = parsed.collections?.find((c: any) => c.name === "partners");
+	const cities = parsed.collections?.find((c: any) => c.name === "cities");
+
+	it("edits partners.json with one list per sector", () => {
+		expect(partners).toBeDefined();
+		const file = partners.files[0];
+		expect(file.file).toBe("application/frontend/src/data/partners.json");
+		expect(file.format).toBe("json");
+		expect(file.fields.map((f: any) => f.name)).toEqual(["food", "household", "pharma"]);
+	});
+
+	it("gives every sector the same partner fields", () => {
+		const [food, household, pharma] = partners.files[0].fields;
+		expect(food.fields.map((f: any) => f.name)).toEqual([
+			"name",
+			"website",
+			"logo",
+			"equipment",
+			"adres",
+		]);
+		expect(household.fields).toEqual(food.fields);
+		expect(pharma.fields).toEqual(food.fields);
+	});
+
+	it("picks partner cities from the cities file through a relation", () => {
+		const adres = partners.files[0].fields[0].fields.find((f: any) => f.name === "adres");
+		expect(adres.widget).toBe("relation");
+		expect(adres.multiple).toBe(true);
+		expect(adres.collection).toBe("cities");
+		expect(adres.file).toBe(cities.files[0].name);
+		expect(adres.value_field).toBe("cities.*.name.en");
+	});
+
+	it("edits city-coordinates.json as a list of cities", () => {
+		expect(cities).toBeDefined();
+		const file = cities.files[0];
+		expect(file.file).toBe("application/frontend/src/data/city-coordinates.json");
+		expect(file.format).toBe("json");
+		expect(file.fields[0].name).toBe("cities");
+		const names = file.fields[0].fields.map((f: any) => f.name);
+		expect(names).toEqual(["name", "lat", "lng"]);
+	});
+
+	it("keeps partner logos under public/assets/partners", () => {
+		const file = partners.files[0];
+		expect(file.media_folder).toBe("../../public/assets/partners");
+		expect(file.public_folder).toBe("/assets/partners");
+	});
+
+	it("never allows deleting the data files", () => {
+		expect(partners.delete).toBe(false);
+		expect(cities.delete).toBe(false);
+	});
+});

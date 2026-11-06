@@ -169,6 +169,93 @@ collections:
               name: "url"
               widget: "string"
 
+  # ── Partners ──────────────────────────────────────────────────────────────
+  # The three sector lists share one field set through a YAML anchor. Cities are
+  # picked from the "Cities" collection below, so the name there must match.
+  - name: "partners"
+    label: "Partners"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - name: "partner-list"
+        label: "Partners and Clients"
+        file: "application/frontend/src/data/partners.json"
+        format: json
+        media_folder: "../../public/assets/partners"
+        public_folder: "/assets/partners"
+        fields:
+          - label: "Food & Beverage"
+            name: "food"
+            widget: "list"
+            summary: "{{fields.name.en}}"
+            fields: &partner_fields
+              - label: "Name"
+                name: "name"
+                widget: "object"
+                fields:
+                  - { label: "English", name: "en", widget: "string" }
+                  - { label: "Ukrainian", name: "ua", widget: "string" }
+              - { label: "Website", name: "website", widget: "string", required: false, pattern: ['^https?://\S+$', "Must start with http:// or https://"], hint: "e.g. https://roshen.com" }
+              - { label: "Logo", name: "logo", widget: "image", required: false, hint: "Shown in the homepage carousel and the client directory. Without a website or logo the partner is not in the carousel." }
+              - label: "Equipment"
+                name: "equipment"
+                widget: "object"
+                required: false
+                hint: "Number of installed systems. Counts feed the totals on the home and About pages."
+                fields:
+                  - { label: "Metal detectors (MD)", name: "md", widget: "number", value_type: "int", min: 0, default: 0 }
+                  - { label: "Checkweighers (CW)", name: "cw", widget: "number", value_type: "int", min: 0, default: 0 }
+                  - { label: "Track & Trace (TQS)", name: "tqs", widget: "number", value_type: "int", min: 0, default: 0 }
+              - label: "Cities"
+                name: "adres"
+                widget: "relation"
+                collection: "cities"
+                file: "city-list"
+                search_fields: ["cities.*.name.en"]
+                value_field: "cities.*.name.en"
+                display_fields: ["cities.*.name.en"]
+                multiple: true
+                required: false
+                hint: "Where the equipment is installed. Add a missing city in Cities first."
+          - label: "Chemicals & Packaging"
+            name: "household"
+            widget: "list"
+            summary: "{{fields.name.en}}"
+            fields: *partner_fields
+          - label: "Pharmaceuticals"
+            name: "pharma"
+            widget: "list"
+            summary: "{{fields.name.en}}"
+            fields: *partner_fields
+
+  # ── Cities (map pins) ─────────────────────────────────────────────────────
+  - name: "cities"
+    label: "Cities"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - name: "city-list"
+        label: "Map Cities"
+        file: "application/frontend/src/data/city-coordinates.json"
+        format: json
+        fields:
+          - label: "Cities"
+            name: "cities"
+            widget: "list"
+            summary: "{{fields.name.en}}"
+            hint: "A partner city is shown on the map only if it is listed here."
+            fields:
+              - label: "Name"
+                name: "name"
+                widget: "object"
+                fields:
+                  - { label: "English", name: "en", widget: "string", hint: "Partners reference the city by this name. Renaming it needs the partners updated too." }
+                  - { label: "Ukrainian", name: "ua", widget: "string" }
+              - { label: "Latitude", name: "lat", widget: "number", value_type: "float" }
+              - { label: "Longitude", name: "lng", widget: "number", value_type: "float" }
+
   # ── Equipment Categories & Industries ───────────────────────────────────────
   # File collection backed by JSON. Adding an entry creates a new category or
   # industry that auto-appears in the site sidebar and the product dropdowns.
