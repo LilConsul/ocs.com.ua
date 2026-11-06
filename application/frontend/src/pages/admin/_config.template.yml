@@ -55,7 +55,7 @@ media_processing:
 
 i18n:
   structure: multiple_files
-  locales: [en, ua]
+  locales: [ua, en]
   default_locale: ua
 
 collections:
@@ -274,8 +274,8 @@ collections:
       preview: false
     i18n:
       structure: single_file
-      locales: [en, ua]
-      default_locale: en
+      locales: [ua, en]
+      default_locale: ua
     files:
       - name: "equipment-types"
         label: "Equipment Types"
