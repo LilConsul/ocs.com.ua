@@ -3,6 +3,7 @@ import {
 	type ContactFormData,
 	stripHeaderChars,
 	validateContactForm,
+	validateLeadFields,
 } from "@/lib/contact/validate";
 
 describe("stripHeaderChars", () => {
@@ -160,5 +161,39 @@ describe("validateContactForm", () => {
 		const result = validateContactForm({ ...validForm, message: "a".repeat(5001) });
 		expect(result.ok).toBe(false);
 		expect(result.errors?.message).toBeDefined();
+	});
+});
+
+describe("validateLeadFields", () => {
+	const lead = {
+		name: validForm.name,
+		jobTitle: validForm.jobTitle,
+		company: validForm.company,
+		phone: validForm.phone,
+		email: validForm.email,
+		sector: validForm.sector,
+	};
+
+	it("accepts a valid lead without message or equipment", () => {
+		expect(validateLeadFields(lead)).toEqual({});
+	});
+
+	it("reports each invalid field with the same codes as the contact form", () => {
+		const errors = validateLeadFields({
+			name: " ",
+			jobTitle: "",
+			company: "x".repeat(201),
+			phone: "abc",
+			email: "nope",
+			sector: "Mining",
+		});
+		expect(errors).toEqual({
+			name: "required",
+			jobTitle: "required",
+			company: "too_long",
+			phone: "invalid_phone",
+			email: "invalid_format",
+			sector: "invalid_sector",
+		});
 	});
 });
