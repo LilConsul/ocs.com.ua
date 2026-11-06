@@ -3,11 +3,13 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join, relative } from "node:path";
 import { parse } from "yaml";
 import { collections } from "@/content.config";
+import cityData from "@/data/city-coordinates.json";
 import companyData from "@/data/company.json";
 import documentsData from "@/data/documents.json";
 import equipmentTypes from "@/data/equipment-types.json";
 import icons from "@/data/icons.json";
 import industries from "@/data/industries.json";
+import partnersData from "@/data/partners.json";
 import { getInlineTranslations } from "@/i18n/inline";
 import { EQUIPMENT_SLUGS, SECTORS } from "@/lib/contact/options";
 
@@ -463,5 +465,70 @@ describe("decap cms wiki collection", () => {
 		for (const name of ["wiki", "equipment"]) {
 			expect(parsed.collections.find((c: any) => c.name === name).delete).toBe(true);
 		}
+	});
+});
+
+describe("city coordinates data", () => {
+	const cities = (cityData as any).cities as {
+		name: { en: string; ua: string };
+		lat: number;
+		lng: number;
+	}[];
+
+	it("is a non-empty list under a cities key", () => {
+		expect(Array.isArray(cities)).toBe(true);
+		expect(cities.length).toBeGreaterThan(0);
+	});
+
+	it("has unique English names (partners reference a city by name.en)", () => {
+		const names = cities.map((c) => c.name.en);
+		expect(new Set(names).size).toBe(names.length);
+	});
+
+	it("has English and Ukrainian names for every city", () => {
+		for (const c of cities) {
+			expect(c.name.en.trim()).not.toBe("");
+			expect(c.name.ua.trim()).not.toBe("");
+		}
+	});
+
+	it("places every city inside Ukraine's bounding box", () => {
+		for (const c of cities) {
+			expect(c.lat).toBeGreaterThan(44);
+			expect(c.lat).toBeLessThan(53);
+			expect(c.lng).toBeGreaterThan(22);
+			expect(c.lng).toBeLessThan(41);
+		}
+	});
+});
+
+describe("partners data", () => {
+	const sectors = Object.entries(partnersData) as [string, any[]][];
+
+	it("has exactly the food, household and pharma sectors", () => {
+		expect(Object.keys(partnersData).sort()).toEqual(["food", "household", "pharma"]);
+	});
+
+	it("has English and Ukrainian names for every partner", () => {
+		for (const [, partners] of sectors) {
+			for (const p of partners) {
+				expect(p.name.en.trim()).not.toBe("");
+				expect(p.name.ua.trim()).not.toBe("");
+			}
+		}
+	});
+
+	it("only references cities that exist in city-coordinates.json", () => {
+		const known = new Set(
+			((cityData as any).cities as { name: { en: string } }[]).map((c) => c.name.en)
+		);
+		const unknown = sectors.flatMap(([sector, partners]) =>
+			partners.flatMap((p) =>
+				((p.adres ?? []) as string[])
+					.filter((city) => !known.has(city))
+					.map((city) => `${sector}/${p.name.en}: ${city}`)
+			)
+		);
+		expect(unknown).toEqual([]);
 	});
 });

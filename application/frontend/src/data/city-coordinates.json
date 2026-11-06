@@ -1,67 +1,17 @@
 {
-	"Kyiv": {
-		"lat": 50.4501,
-		"lng": 30.5234,
-		"name": { "en": "Kyiv", "ua": "Київ" }
-	},
-	"Vinnytsia": {
-		"lat": 49.2331,
-		"lng": 28.4682,
-		"name": { "en": "Vinnytsia", "ua": "Вінниця" }
-	},
-	"Sumy": {
-		"lat": 50.9077,
-		"lng": 34.7981,
-		"name": { "en": "Sumy", "ua": "Суми" }
-	},
-	"Lviv": {
-		"lat": 49.8397,
-		"lng": 24.0297,
-		"name": { "en": "Lviv", "ua": "Львів" }
-	},
-	"Cherkasy": {
-		"lat": 49.4444,
-		"lng": 32.0598,
-		"name": { "en": "Cherkasy", "ua": "Черкаси" }
-	},
-	"Odesa": {
-		"lat": 46.4825,
-		"lng": 30.7233,
-		"name": { "en": "Odesa", "ua": "Одеса" }
-	},
-	"Zhytomyr": {
-		"lat": 50.2547,
-		"lng": 28.6587,
-		"name": { "en": "Zhytomyr", "ua": "Житомир" }
-	},
-	"Dnipro": {
-		"lat": 48.4647,
-		"lng": 35.0462,
-		"name": { "en": "Dnipro", "ua": "Дніпро" }
-	},
-	"Kharkiv": {
-		"lat": 49.9935,
-		"lng": 36.2304,
-		"name": { "en": "Kharkiv", "ua": "Харків" }
-	},
-	"Poltava": {
-		"lat": 49.5883,
-		"lng": 34.5514,
-		"name": { "en": "Poltava", "ua": "Полтава" }
-	},
-	"Rivne": {
-		"lat": 50.6199,
-		"lng": 26.2516,
-		"name": { "en": "Rivne", "ua": "Рівне" }
-	},
-	"Kryvyi Rih": {
-		"lat": 47.9105,
-		"lng": 33.3918,
-		"name": { "en": "Kryvyi Rih", "ua": "Кривий Ріг" }
-	},
-	"Zakarpattia": {
-		"lat": 48.4439,
-		"lng": 22.7178,
-		"name": { "en": "Zakarpattia", "ua": "Закарпаття" }
-	}
+	"cities": [
+		{ "name": { "en": "Kyiv", "ua": "Київ" }, "lat": 50.4501, "lng": 30.5234 },
+		{ "name": { "en": "Vinnytsia", "ua": "Вінниця" }, "lat": 49.2331, "lng": 28.4682 },
+		{ "name": { "en": "Sumy", "ua": "Суми" }, "lat": 50.9077, "lng": 34.7981 },
+		{ "name": { "en": "Lviv", "ua": "Львів" }, "lat": 49.8397, "lng": 24.0297 },
+		{ "name": { "en": "Cherkasy", "ua": "Черкаси" }, "lat": 49.4444, "lng": 32.0598 },
+		{ "name": { "en": "Odesa", "ua": "Одеса" }, "lat": 46.4825, "lng": 30.7233 },
+		{ "name": { "en": "Zhytomyr", "ua": "Житомир" }, "lat": 50.2547, "lng": 28.6587 },
+		{ "name": { "en": "Dnipro", "ua": "Дніпро" }, "lat": 48.4647, "lng": 35.0462 },
+		{ "name": { "en": "Kharkiv", "ua": "Харків" }, "lat": 49.9935, "lng": 36.2304 },
+		{ "name": { "en": "Poltava", "ua": "Полтава" }, "lat": 49.5883, "lng": 34.5514 },
+		{ "name": { "en": "Rivne", "ua": "Рівне" }, "lat": 50.6199, "lng": 26.2516 },
+		{ "name": { "en": "Kryvyi Rih", "ua": "Кривий Ріг" }, "lat": 47.9105, "lng": 33.3918 },
+		{ "name": { "en": "Zakarpattia", "ua": "Закарпаття" }, "lat": 48.4439, "lng": 22.7178 }
+	]
 }
