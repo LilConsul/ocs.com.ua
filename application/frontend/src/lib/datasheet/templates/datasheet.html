@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="uk">
+	<head>
+		<meta charset="utf-8">
+	</head>
+	<body style="margin: 0; padding: 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.5; color: #1f2937;">
+		<div style="max-width: 600px;">
+			<h2 style="margin: 0 0 16px 0; font-size: 18px; color: #111827;">Завантажено технічну специфікацію з сайту {{ site }}:</h2>
+
+			<table role="presentation" cellpadding="0" cellspacing="0" style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+				<tr>
+					<td style="padding: 6px 12px 6px 0; color: #4b5563; width: 140px; vertical-align: top;">Продукт:</td>
+					<td style="padding: 6px 0; font-weight: 600; color: #111827;">{{ product }}</td>
+				</tr>
+				<tr>
+					<td style="padding: 6px 12px 6px 0; color: #4b5563; vertical-align: top;">Категорія:</td>
+					<td style="padding: 6px 0; color: #111827;">{{ category }}</td>
+				</tr>
+				<tr>
+					<td style="padding: 6px 12px 6px 0; color: #4b5563; vertical-align: top;">Файл:</td>
+					<td style="padding: 6px 0; color: #111827;">{{ file }}</td>
+				</tr>
+				<tr>
+					<td style="padding: 6px 12px 6px 0; color: #4b5563; vertical-align: top;">Сторінка:</td>
+					<td style="padding: 6px 0; color: #111827;"><a href="{{ pageUrl }}" style="color: #2563eb; text-decoration: none;">{{ pageUrl }}</a></td>
+				</tr>
+				<tr>
+					<td style="padding: 6px 12px 6px 0; color: #4b5563; vertical-align: top;">Мова сторінки:</td>
+					<td style="padding: 6px 0; color: #111827;">{{ lang }}</td>
+				</tr>
+				<tr>
+					<td style="padding: 6px 12px 6px 0; color: #4b5563; vertical-align: top;">Час:</td>
+					<td style="padding: 6px 0; color: #111827;">{{ at }}</td>
+				</tr>
+				<tr>
+					<td style="padding: 6px 12px 6px 0; color: #4b5563; vertical-align: top;">IP:</td>
+					<td style="padding: 6px 0; color: #111827;">{{ ip }}</td>
+				</tr>
+			</table>
+
+			<table role="presentation" cellpadding="0" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+				<tr>
+					<td style="padding: 6px 12px 6px 0; color: #4b5563; width: 140px; vertical-align: top;">Ім'я:</td>
+					<td style="padding: 6px 0; font-weight: 600; color: #111827;">{{ name }}</td>
+				</tr>
+				<tr>
+					<td style="padding: 6px 12px 6px 0; color: #4b5563; vertical-align: top;">Посада:</td>
+					<td style="padding: 6px 0; color: #111827;">{{ jobTitle }}</td>
+				</tr>
+				<tr>
+					<td style="padding: 6px 12px 6px 0; color: #4b5563; vertical-align: top;">Компанія:</td>
+					<td style="padding: 6px 0; color: #111827;">{{ company }}</td>
+				</tr>
+				<tr>
+					<td style="padding: 6px 12px 6px 0; color: #4b5563; vertical-align: top;">Телефон:</td>
+					<td style="padding: 6px 0; color: #111827;">{{ phone }}</td>
+				</tr>
+				<tr>
+					<td style="padding: 6px 12px 6px 0; color: #4b5563; vertical-align: top;">Email:</td>
+					<td style="padding: 6px 0; color: #111827;"><a href="mailto:{{ email }}" style="color: #2563eb; text-decoration: none;">{{ email }}</a></td>
+				</tr>
+				<tr>
+					<td style="padding: 6px 12px 6px 0; color: #4b5563; vertical-align: top;">Галузь:</td>
+					<td style="padding: 6px 0; color: #111827;">{{ sector }}</td>
+				</tr>
+			</table>
+		</div>
+	</body>
+</html>
