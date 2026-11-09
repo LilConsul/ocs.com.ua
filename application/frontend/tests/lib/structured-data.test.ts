@@ -305,10 +305,9 @@ describe("structured-data: productSchema", () => {
 			{ label: "Weighing Range", value: "up to 750g" },
 			{ label: "Throughput", value: "up to 600 pcs/min" },
 		],
-		datasheetUrl: "/assets/equipment/hc-a/datasheet.pdf",
 	};
 
-	it("builds a full product schema with specs, datasheet, gallery, and presentation-only inquiry offer via i18n", () => {
+	it("builds a full product schema with specs, gallery, and presentation-only inquiry offer via i18n", () => {
 		const product = productSchema(productBase);
 		expect(product["@type"]).toBe("Product");
 		expect(product["@id"]).toBe(
@@ -326,11 +325,7 @@ describe("structured-data: productSchema", () => {
 			{ "@type": "PropertyValue", name: "Weighing Range", value: "up to 750g" },
 			{ "@type": "PropertyValue", name: "Throughput", value: "up to 600 pcs/min" },
 		]);
-		expect(product.subjectOf).toEqual({
-			"@type": "DigitalDocument",
-			name: "Technical Datasheet",
-			url: "https://ocs.com.ua/assets/equipment/hc-a/datasheet.pdf",
-		});
+		expect(product.subjectOf).toBeUndefined();
 		const offers = product.offers as Record<string, unknown>;
 		expect(offers["@type"]).toBe("Offer");
 		expect(offers.url).toBe(productBase.url);
@@ -345,16 +340,14 @@ describe("structured-data: productSchema", () => {
 		expect(offers.seller).toEqual({ "@id": "https://ocs.com.ua/#organization" });
 	});
 
-	it("translates datasheet and offer in Ukrainian locale", () => {
+	it("translates the offer in Ukrainian locale", () => {
 		const uaProduct = productSchema({
 			name: "Чеквеєр HC-A",
 			description: "Опис",
 			url: "https://ocs.com.ua/ua/catalogue/equipment/checkweigher/hc-a/",
 			lang: "ua",
 			site: SITE,
-			datasheetUrl: "/assets/equipment/hc-a/datasheet.pdf",
 		});
-		expect((uaProduct.subjectOf as Record<string, unknown>)?.name).toBe("Технічна специфікація");
 		expect(((uaProduct.offers as Record<string, unknown>)?.priceSpecification as Record<string, unknown>)?.description).toBe("Ціна за запитом");
 	});
 
@@ -370,6 +363,19 @@ describe("structured-data: productSchema", () => {
 		expect(minimal.additionalProperty).toBeUndefined();
 		expect(minimal.subjectOf).toBeUndefined();
 		expect(minimal.inLanguage).toBeUndefined();
+	});
+
+	it("never exposes a datasheet URL, even if a caller passes one", () => {
+		const leaked = productSchema({
+			name: "HC-A",
+			description: "Desc",
+			url: "https://ocs.com.ua/en/catalogue/equipment/checkweigher/hc-a/",
+			lang: "en",
+			site: SITE,
+			datasheetUrl: "/assets/equipment/hc-a/datasheet.pdf",
+		} as never);
+		expect(leaked.subjectOf).toBeUndefined();
+		expect(JSON.stringify(leaked)).not.toContain("datasheet.pdf");
 	});
 });
 
@@ -459,7 +465,6 @@ describe("structured-data: integration — no null/undefined in JSON output", ()
 					url: pageUrl,
 					lang: "en",
 					site: SITE,
-					datasheetUrl: "/assets/hc-a.pdf",
 					specs: [{ label: "Speed", value: "600 pcs/min" }],
 				}),
 			],
@@ -528,17 +533,15 @@ describe("structured-data: integration — no null/undefined in JSON output", ()
 		expect((org.openingHoursSpecification as Record<string, unknown>)?.closes).toBe(companyData.openingHours.closes);
 	});
 
-	it("_('Price on request') and _('Technical Datasheet') translate correctly", () => {
+	it("_('Price on request') translates correctly", () => {
 		const enProduct = productSchema({
 			name: "Test",
 			description: "Desc",
 			url: "https://ocs.com.ua/en/catalogue/equipment/checkweigher/test/",
 			lang: "en",
 			site: SITE,
-			datasheetUrl: "/assets/test.pdf",
 		});
 		expect(((enProduct.offers as Record<string, unknown>)?.priceSpecification as Record<string, unknown>)?.description).toBe("Price on request");
-		expect((enProduct.subjectOf as Record<string, unknown>)?.name).toBe("Technical Datasheet");
 
 		const uaProduct = productSchema({
 			name: "Test",
@@ -546,9 +549,7 @@ describe("structured-data: integration — no null/undefined in JSON output", ()
 			url: "https://ocs.com.ua/ua/catalogue/equipment/checkweigher/test/",
 			lang: "ua",
 			site: SITE,
-			datasheetUrl: "/assets/test.pdf",
 		});
 		expect(((uaProduct.offers as Record<string, unknown>)?.priceSpecification as Record<string, unknown>)?.description).toBe("Ціна за запитом");
-		expect((uaProduct.subjectOf as Record<string, unknown>)?.name).toBe("Технічна специфікація");
 	});
 });

@@ -17,7 +17,6 @@ export interface ProductSchemaInput {
 	category?: string;
 	images?: string[] | null;
 	specs?: ProductSpec[] | null;
-	datasheetUrl?: string | null;
 }
 
 /** ISO-8601 date one year from now — used as a rolling priceValidUntil for inquiry-only products. */
@@ -37,7 +36,6 @@ export function productSchema({
 	category,
 	images,
 	specs,
-	datasheetUrl,
 }: ProductSchemaInput): SchemaNode {
 	const _ = getInlineTranslations(lang);
 	const validImages = images?.filter(Boolean) ?? [];
@@ -66,13 +64,6 @@ export function productSchema({
 						value: spec.value,
 					}))
 				: undefined,
-		subjectOf: datasheetUrl
-			? {
-					"@type": "DigitalDocument",
-					name: _("Technical Datasheet"),
-					url: absUrl(datasheetUrl, site),
-				}
-			: undefined,
 		offers: {
 			"@type": "Offer",
 			url,
