@@ -1,5 +1,12 @@
 import { expect, type Page, test } from "@playwright/test";
 
+// The page loads Plerdy analytics from a third-party host. It is irrelevant to motion, needs the
+// network and adds main-thread work that can push the runtime past the 3 s failsafe, so the tests
+// never load it.
+test.beforeEach(async ({ page }) => {
+	await page.route(/\/\/a\.plerdy\.com\//, (route) => route.abort());
+});
+
 const HOME = "/ua";
 const CATEGORY = "/ua/catalogue/equipment/checkweigher";
 
