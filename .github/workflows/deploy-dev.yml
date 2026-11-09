@@ -34,6 +34,7 @@ jobs:
       CMS_BASE_URL: https://dev.ocs.com.ua
       RECAPTCHA_SITE_KEY: ${{ vars.DEV_RECAPTCHA_SITE_KEY }}
       RECAPTCHA_SECRET_KEY: ${{ secrets.DEV_RECAPTCHA_SECRET_KEY }}
+      DATASHEET_TOKEN_SECRET: ${{ secrets.DEV_DATASHEET_TOKEN_SECRET }}
       CONTACT_TO: ${{ vars.DEV_CONTACT_TO }}
       CONTACT_FROM: ${{ vars.CONTACT_FROM }}
       GITHUB_CLIENT_ID: ${{ secrets.DEV_GITHUB_CLIENT_ID }}

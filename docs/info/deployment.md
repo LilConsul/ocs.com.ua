@@ -39,9 +39,11 @@ All public pages are prerendered. The Node server (`node dist/server/entry.mjs`)
 
 - `/api/auth` — Decap GitHub OAuth
 - `/api/contact` — contact form submission
+- `/api/datasheet-request` — datasheet lead form, emails the team and returns a signed link
+- `/api/datasheet` — streams a datasheet PDF for a valid signed link
 - `/admin/config.yml` — generated Decap config
 
-Apache serves everything else from `dist/client` and proxies these three paths to Node (the fragment file in `application/infra/apache/`). A new on-demand route must be added to that fragment too.
+Apache serves everything else from `dist/client` and proxies these paths to Node (the fragment file in `application/infra/apache/`). A new on-demand route must be added to that fragment too.
 
 ______________________________________________________________________
 
@@ -73,17 +75,18 @@ Set these under **Settings → Secrets and variables → Actions**.
 
 ### Secrets
 
-| Name                       | Used for                                  |
-| -------------------------- | ----------------------------------------- |
-| `DEV_SSH_HOST`             | Deploy target host                        |
-| `DEV_SSH_USER`             | Deploy SSH user                           |
-| `DEV_SSH_KEY`              | Deploy SSH private key                    |
-| `DEV_SSH_KNOWN_HOSTS`      | `known_hosts` entry for the host          |
-| `DEV_GITHUB_CLIENT_ID`     | OAuth App client ID → `GITHUB_CLIENT_ID`  |
-| `DEV_GITHUB_CLIENT_SECRET` | OAuth App secret → `GITHUB_CLIENT_SECRET` |
-| `DEV_RECAPTCHA_SECRET_KEY` | reCAPTCHA secret → `RECAPTCHA_SECRET_KEY` |
-| `SMTP_USER`                | SMTP username                             |
-| `SMTP_PASS`                | SMTP password                             |
+| Name                         | Used for                                              |
+| ---------------------------- | ----------------------------------------------------- |
+| `DEV_SSH_HOST`               | Deploy target host                                    |
+| `DEV_SSH_USER`               | Deploy SSH user                                       |
+| `DEV_SSH_KEY`                | Deploy SSH private key                                |
+| `DEV_SSH_KNOWN_HOSTS`        | `known_hosts` entry for the host                      |
+| `DEV_GITHUB_CLIENT_ID`       | OAuth App client ID → `GITHUB_CLIENT_ID`              |
+| `DEV_GITHUB_CLIENT_SECRET`   | OAuth App secret → `GITHUB_CLIENT_SECRET`             |
+| `DEV_RECAPTCHA_SECRET_KEY`   | reCAPTCHA secret → `RECAPTCHA_SECRET_KEY`             |
+| `DEV_DATASHEET_TOKEN_SECRET` | Datasheet link signing key → `DATASHEET_TOKEN_SECRET` |
+| `SMTP_USER`                  | SMTP username                                         |
+| `SMTP_PASS`                  | SMTP password                                         |
 
 ### Variables
 
