@@ -71,8 +71,8 @@ msgstr ""
 msgid "All rights reserved"
 msgstr ""
 
-#: src/components/catalogue/DatasheetModal.astro:43
 #: src/components/contact/ContactForm.astro:57
+#: src/components/catalogue/DatasheetModal.astro:43
 msgid "An unexpected error occurred. Please try again."
 msgstr ""
 
@@ -120,10 +120,10 @@ msgstr ""
 msgid "Category navigation"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:23
 #: src/components/about/InteractiveUkraineMap.astro:22
 #: src/components/about/ClientDirectory.astro:45
 #: src/components/about/AboutHero.astro:39
+#: src/components/contact/ContactForm.astro:23
 msgid "Checkweighers"
 msgstr ""
 
@@ -144,6 +144,10 @@ msgstr ""
 msgid "Chemicals & Packaging"
 msgstr ""
 
+#: src/components/catalogue/DatasheetModal.astro:76
+msgid "Clear"
+msgstr ""
+
 #: src/components/about/InteractiveUkraineMap.astro:140
 msgid "Click a pin or region to inspect"
 msgstr ""
@@ -160,7 +164,7 @@ msgstr ""
 msgid "Clients pagination"
 msgstr ""
 
-#: src/components/catalogue/DatasheetModal.astro:72
+#: src/components/catalogue/DatasheetModal.astro:83
 msgid "Close"
 msgstr ""
 
@@ -177,8 +181,8 @@ msgstr ""
 msgid "Close preview"
 msgstr ""
 
-#: src/components/catalogue/DatasheetModal.astro:128
 #: src/components/contact/ContactForm.astro:146
+#: src/components/catalogue/DatasheetModal.astro:133
 msgid "Company"
 msgstr ""
 
@@ -188,13 +192,13 @@ msgstr ""
 
 #: src/components/Header.astro:143
 #: src/components/Header.astro:212
+#: src/pages/[lang]/contact.astro:40
 #: src/components/homepage/HeroSection.astro:101
 #: src/components/errors/ServerErrorContent.astro:46
 #: src/components/errors/NotFoundContent.astro:55
-#: src/components/catalogue/CatalogueSidebar.astro:201
-#: src/components/contact/ContactHero.astro:28
 #: src/components/about/AboutCta.astro:35
-#: src/pages/[lang]/contact.astro:40
+#: src/components/contact/ContactHero.astro:28
+#: src/components/catalogue/CatalogueSidebar.astro:201
 msgid "Contact Us"
 msgstr ""
 
@@ -214,24 +218,24 @@ msgstr ""
 msgid "Contact us"
 msgstr ""
 
-#: src/components/catalogue/DatasheetModal.astro:145
 #: src/components/contact/ContactForm.astro:164
+#: src/components/catalogue/DatasheetModal.astro:150
 msgid "Corporate Email"
 msgstr ""
 
 #: src/components/homepage/IndustriesSection.astro:80
-#: src/components/catalogue/DatasheetModal.astro:22
 #: src/components/contact/ContactForm.astro:32
+#: src/components/catalogue/DatasheetModal.astro:22
 msgid "Cosmetics"
 msgstr ""
 
-#: src/components/catalogue/DatasheetModal.astro:38
 #: src/components/contact/ContactForm.astro:53
+#: src/components/catalogue/DatasheetModal.astro:38
 msgid "Could not complete security check. Please try again later."
 msgstr ""
 
-#: src/components/catalogue/DatasheetModal.astro:39
 #: src/components/contact/ContactForm.astro:54
+#: src/components/catalogue/DatasheetModal.astro:39
 msgid "Could not send your message. Please try again later or email us directly."
 msgstr ""
 
@@ -255,7 +259,7 @@ msgstr ""
 msgid "Double-click to toggle"
 msgstr ""
 
-#: src/components/catalogue/DatasheetModal.astro:181
+#: src/components/catalogue/DatasheetModal.astro:186
 msgid "Download"
 msgstr ""
 
@@ -323,13 +327,13 @@ msgstr ""
 msgid "Food & Beverage"
 msgstr ""
 
-#: src/components/catalogue/DatasheetModal.astro:20
 #: src/components/contact/ContactForm.astro:30
+#: src/components/catalogue/DatasheetModal.astro:20
 msgid "Food Industry"
 msgstr ""
 
-#: src/components/catalogue/DatasheetModal.astro:111
 #: src/components/contact/ContactForm.astro:128
+#: src/components/catalogue/DatasheetModal.astro:116
 msgid "Full Name"
 msgstr ""
 
@@ -404,8 +408,8 @@ msgstr ""
 msgid "Industries We Serve"
 msgstr ""
 
-#: src/components/catalogue/DatasheetModal.astro:152
 #: src/components/contact/ContactForm.astro:181
+#: src/components/catalogue/DatasheetModal.astro:157
 msgid "Industry Sector"
 msgstr ""
 
@@ -438,8 +442,8 @@ msgstr ""
 msgid "JavaScript is required to send this form. Please call or email us instead:"
 msgstr ""
 
-#: src/components/catalogue/DatasheetModal.astro:118
 #: src/components/contact/ContactForm.astro:135
+#: src/components/catalogue/DatasheetModal.astro:123
 msgid "Job Title"
 msgstr ""
 
@@ -474,8 +478,8 @@ msgid "Let's Talk About Your Production Line"
 msgstr ""
 
 #: src/components/homepage/IndustriesSection.astro:89
-#: src/components/catalogue/DatasheetModal.astro:23
 #: src/components/contact/ContactForm.astro:33
+#: src/components/catalogue/DatasheetModal.astro:23
 msgid "Logistics & Distribution"
 msgstr ""
 
@@ -491,8 +495,8 @@ msgstr ""
 msgid "MESUTRONIC Gerätebau GmbH develops and manufactures metal detectors in Kirchberg im Wald, Germany."
 msgstr ""
 
-#: src/components/contact/OfficeLocation.astro:38
 #: src/pages/[lang]/contact.astro:74
+#: src/components/contact/OfficeLocation.astro:38
 msgid "Main Office"
 msgstr ""
 
@@ -615,14 +619,14 @@ msgstr ""
 msgid "Open filters"
 msgstr ""
 
+#: src/components/about/ManufacturerCredentials.astro:100
 #: src/components/contact/ContactInfoCard.astro:79
 #: src/components/contact/ContactInfoCard.astro:80
-#: src/components/about/ManufacturerCredentials.astro:100
 msgid "Open in Google Maps"
 msgstr ""
 
-#: src/components/catalogue/DatasheetModal.astro:24
 #: src/components/contact/ContactForm.astro:34
+#: src/components/catalogue/DatasheetModal.astro:24
 msgid "Other"
 msgstr ""
 
@@ -649,8 +653,8 @@ msgid "Page Not Found"
 msgstr ""
 
 #: src/components/homepage/IndustriesSection.astro:68
-#: src/components/catalogue/DatasheetModal.astro:21
 #: src/components/contact/ContactForm.astro:31
+#: src/components/catalogue/DatasheetModal.astro:21
 msgid "Pharmaceutical"
 msgstr ""
 
@@ -659,9 +663,9 @@ msgstr ""
 msgid "Pharmaceuticals"
 msgstr ""
 
-#: src/components/catalogue/DatasheetModal.astro:135
 #: src/components/contact/ContactInfoCard.astro:36
 #: src/components/contact/ContactForm.astro:153
+#: src/components/catalogue/DatasheetModal.astro:140
 msgid "Phone"
 msgstr ""
 
@@ -669,23 +673,23 @@ msgstr ""
 msgid "Planning to upgrade your production line?"
 msgstr ""
 
-#: src/components/catalogue/DatasheetModal.astro:40
 #: src/components/contact/ContactForm.astro:55
+#: src/components/catalogue/DatasheetModal.astro:40
 msgid "Please correct the highlighted fields and try again."
 msgstr ""
 
-#: src/components/catalogue/DatasheetModal.astro:32
 #: src/components/contact/ContactForm.astro:46
+#: src/components/catalogue/DatasheetModal.astro:32
 msgid "Please enter a valid email address."
 msgstr ""
 
-#: src/components/catalogue/DatasheetModal.astro:33
 #: src/components/contact/ContactForm.astro:47
+#: src/components/catalogue/DatasheetModal.astro:33
 msgid "Please enter a valid phone number, e.g. +380 50 123 45 67."
 msgstr ""
 
-#: src/components/catalogue/DatasheetModal.astro:34
 #: src/components/contact/ContactForm.astro:48
+#: src/components/catalogue/DatasheetModal.astro:34
 msgid "Please select a valid sector."
 msgstr ""
 
@@ -715,8 +719,8 @@ msgid "Price on request"
 msgstr ""
 
 #: src/components/Footer.astro:33
-#: src/components/catalogue/DatasheetModal.astro:164
 #: src/components/contact/ContactForm.astro:226
+#: src/components/catalogue/DatasheetModal.astro:169
 msgid "Privacy Policy"
 msgstr ""
 
@@ -783,20 +787,20 @@ msgstr ""
 msgid "Search the wiki…"
 msgstr ""
 
-#: src/components/catalogue/DatasheetModal.astro:36
-#: src/components/catalogue/DatasheetModal.astro:37
 #: src/components/contact/ContactForm.astro:51
 #: src/components/contact/ContactForm.astro:52
+#: src/components/catalogue/DatasheetModal.astro:36
+#: src/components/catalogue/DatasheetModal.astro:37
 msgid "Security check failed. Please refresh and try again."
 msgstr ""
 
-#: src/components/catalogue/DatasheetModal.astro:153
 #: src/components/contact/ContactForm.astro:182
+#: src/components/catalogue/DatasheetModal.astro:158
 msgid "Select sector…"
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:78
 #: src/pages/[lang]/contact.astro:51
+#: src/components/contact/ContactForm.astro:78
 msgid "Send Us a Message"
 msgstr ""
 
@@ -838,8 +842,8 @@ msgstr ""
 msgid "Still having trouble?"
 msgstr ""
 
-#: src/components/catalogue/DatasheetModal.astro:41
 #: src/components/contact/ContactForm.astro:56
+#: src/components/catalogue/DatasheetModal.astro:41
 msgid "Submission not allowed from this origin."
 msgstr ""
 
@@ -889,8 +893,8 @@ msgid "Tell us what you produce and what you need to inspect. We will recommend 
 msgstr ""
 
 #: src/components/Footer.astro:36
-#: src/components/catalogue/DatasheetModal.astro:171
 #: src/components/contact/ContactForm.astro:233
+#: src/components/catalogue/DatasheetModal.astro:176
 msgid "Terms of Service"
 msgstr ""
 
@@ -910,13 +914,13 @@ msgstr ""
 msgid "This datasheet is not available right now. Please contact us."
 msgstr ""
 
-#: src/components/catalogue/DatasheetModal.astro:30
 #: src/components/contact/ContactForm.astro:44
+#: src/components/catalogue/DatasheetModal.astro:30
 msgid "This field is required."
 msgstr ""
 
-#: src/components/catalogue/DatasheetModal.astro:158
 #: src/components/contact/ContactForm.astro:220
+#: src/components/catalogue/DatasheetModal.astro:163
 msgid "This form is protected by reCAPTCHA."
 msgstr ""
 
@@ -924,8 +928,8 @@ msgstr ""
 msgid "This list is not exhaustive: not all of our clients are shown here."
 msgstr ""
 
-#: src/components/catalogue/DatasheetModal.astro:31
 #: src/components/contact/ContactForm.astro:45
+#: src/components/catalogue/DatasheetModal.astro:31
 msgid "This value is too long."
 msgstr ""
 
@@ -933,8 +937,8 @@ msgstr ""
 msgid "Toggle menu"
 msgstr ""
 
-#: src/components/catalogue/DatasheetModal.astro:35
 #: src/components/contact/ContactForm.astro:50
+#: src/components/catalogue/DatasheetModal.astro:35
 msgid "Too many submissions. Please try again in 10 minutes."
 msgstr ""
 
@@ -1032,22 +1036,26 @@ msgstr ""
 msgid "Years of Experience"
 msgstr ""
 
+#: src/components/catalogue/DatasheetModal.astro:69
+msgid "Your details are saved on this device for next time."
+msgstr ""
+
 #: src/components/contact/ContactForm.astro:58
 msgid "Your inquiry has been sent. We will contact you shortly."
 msgstr ""
 
-#: src/components/catalogue/DatasheetModal.astro:121
 #: src/components/contact/ContactForm.astro:138
+#: src/components/catalogue/DatasheetModal.astro:126
 msgid "e.g. Chief Engineer"
 msgstr ""
 
-#: src/components/catalogue/DatasheetModal.astro:131
 #: src/components/contact/ContactForm.astro:149
+#: src/components/catalogue/DatasheetModal.astro:136
 msgid "e.g. Farmak PJSC"
 msgstr ""
 
-#: src/components/catalogue/DatasheetModal.astro:114
 #: src/components/contact/ContactForm.astro:131
+#: src/components/catalogue/DatasheetModal.astro:119
 msgid "e.g. Oleksii Kovalenko"
 msgstr ""
 

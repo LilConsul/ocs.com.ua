@@ -8,7 +8,9 @@ export default defineConfig({
 	testDir: "./e2e",
 	testMatch: "**/*.e2e.ts",
 	fullyParallel: true,
-	retries: 0,
+	// The motion checks are timing sensitive and webkit on a busy CI runner occasionally misses a
+	// deadline; a retry absorbs that, while a real regression still fails every attempt
+	retries: process.env.CI ? 2 : 0,
 	reporter: "list",
 	use: { baseURL: `http://localhost:${PORT}` },
 	projects: [

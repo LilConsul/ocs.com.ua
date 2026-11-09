@@ -65,6 +65,17 @@ const messages = {
 				<p class="text-industrial-gray mt-2 mb-0 text-sm">
 					{_("Leave your details and the download will start right away.")}
 				</p>
+				<p id="datasheet-saved-note" class="text-industrial-gray mt-2 mb-0 hidden text-xs">
+					{_("Your details are saved on this device for next time.")}
+					{" "}
+					<button
+						type="button"
+						id="datasheet-clear-saved"
+						class="hover:text-foreground focus-visible:outline-secondary underline focus-visible:outline-2"
+					>
+						{_("Clear")}
+					</button>
+				</p>
 			</div>
 			<button
 				type="button"

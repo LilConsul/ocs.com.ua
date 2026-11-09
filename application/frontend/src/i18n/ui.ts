@@ -49,6 +49,7 @@ export const ui = {
 		"inline.checkweighers_metal_detectors_serialization_aggregation_systems": "Checkweighers, Metal Detectors, Serialization & Aggregation Systems",
 		"inline.checkweighers_metal_detectors_track_trace_systems_for_food_pharmaceutical_and_lo": "Checkweighers, metal detectors & Track & Trace systems for food, pharmaceutical and logistics industries in Ukraine. Official WIPOTEC & MESUTRONIC partner.",
 		"inline.chemicals_packaging": "Chemicals & Packaging",
+		"inline.clear": "Clear",
 		"inline.click_a_pin_or_region_to_inspect": "Click a pin or region to inspect",
 		"inline.client_retention": "Client Retention",
 		"inline.clients": "Clients",
@@ -252,6 +253,7 @@ export const ui = {
 		"inline.working_hours": "Working Hours",
 		"inline.years_in_ukraine": "Years in Ukraine",
 		"inline.years_of_experience": "Years of Experience",
+		"inline.your_details_are_saved_on_this_device_for_next_time": "Your details are saved on this device for next time.",
 		"inline.your_inquiry_has_been_sent_we_will_contact_you_shortly": "Your inquiry has been sent. We will contact you shortly.",
 	},
 	ua: {
@@ -281,6 +283,7 @@ export const ui = {
 		"inline.checkweighers_metal_detectors_serialization_aggregation_systems": "Контрольно динамічні ваги, металодетектори, системи серіалізації та агрегації",
 		"inline.checkweighers_metal_detectors_track_trace_systems_for_food_pharmaceutical_and_lo": "Контрольно-динамічні ваги, металодетектори та системи Track & Trace для харчової промисловості, фармацевтики й логістики. Офіційний партнер WIPOTEC та MESUTRONIC.",
 		"inline.chemicals_packaging": "Побутова хімія та пакування",
+		"inline.clear": "Очистити",
 		"inline.click_a_pin_or_region_to_inspect": "Натисніть на мітку або область для перегляду",
 		"inline.client_retention": "Утримання клієнтів",
 		"inline.clients": "Клієнтів",
@@ -484,6 +487,7 @@ export const ui = {
 		"inline.working_hours": "Режим роботи",
 		"inline.years_in_ukraine": "Років роботи в Україні",
 		"inline.years_of_experience": "Років досвіду",
+		"inline.your_details_are_saved_on_this_device_for_next_time": "Ваші дані збережено на цьому пристрої для наступного разу.",
 		"inline.your_inquiry_has_been_sent_we_will_contact_you_shortly": "Ваш запит надіслано. Ми зв'яжемося з вами найближчим часом.",
 	},
 } as const;

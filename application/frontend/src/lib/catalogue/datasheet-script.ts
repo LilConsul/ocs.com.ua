@@ -9,6 +9,7 @@ import {
 	showStatus,
 	validateField,
 } from "../contact/form-script";
+import { clearLead, loadLead, saveLead } from "./saved-lead";
 
 declare global {
 	interface Window {
@@ -19,6 +20,15 @@ declare global {
 const FIELDS = ["name", "jobTitle", "company", "phone", "email", "sector"] as const;
 const STATUS_ID = "datasheet-status";
 const CLOSE_DELAY_MS = 2500;
+
+// localStorage can throw just by being touched (blocked cookies), so it is read lazily
+function store(): Storage | null {
+	try {
+		return window.localStorage;
+	} catch {
+		return null;
+	}
+}
 
 export function initDatasheetDialog(config: FormConfig) {
 	const { siteKey, messages, emailPattern, phonePattern } = config;
@@ -31,14 +41,37 @@ export function initDatasheetDialog(config: FormConfig) {
 	if (!(dialog && form && opener) || form.dataset.bound === "true") return;
 	form.dataset.bound = "true";
 
+	const savedNote = document.getElementById("datasheet-saved-note");
 	let openedAt = Date.now();
+
+	// Fills the form from the details remembered on this device and shows the note about it
+	function prefill() {
+		const storage = store();
+		const saved = storage ? loadLead(storage) : null;
+		savedNote?.classList.toggle("hidden", !saved);
+		if (!saved) return;
+		for (const field of FIELDS) {
+			const input = form?.querySelector<HTMLInputElement | HTMLSelectElement>(`#${field}`);
+			if (input) input.value = saved[field];
+		}
+	}
 
 	opener.addEventListener("click", () => {
 		openedAt = Date.now();
 		clearErrors(form);
 		document.getElementById(STATUS_ID)?.classList.add("hidden");
+		prefill();
 		loadRecaptcha(siteKey);
 		dialog.showModal();
+	});
+
+	document.getElementById("datasheet-clear-saved")?.addEventListener("click", () => {
+		const storage = store();
+		if (storage) clearLead(storage);
+		form.reset();
+		clearErrors(form);
+		savedNote?.classList.add("hidden");
+		form.querySelector<HTMLInputElement>("#name")?.focus();
 	});
 
 	document.getElementById("datasheet-close")?.addEventListener("click", () => dialog.close());
@@ -111,7 +144,17 @@ export function initDatasheetDialog(config: FormConfig) {
 
 			if (json.ok && typeof json.url === "string") {
 				showStatus(messages.success, false, STATUS_ID);
-				form.reset();
+				const storage = store();
+				if (storage) {
+					saveLead(storage, {
+						name: data.name,
+						jobTitle: data.jobTitle,
+						company: data.company,
+						phone: data.phone,
+						email: data.email,
+						sector: data.sector,
+					});
+				}
 				// The response is an attachment, so the browser downloads it and the page stays put
 				window.location.assign(json.url);
 				setTimeout(() => dialog.close(), CLOSE_DELAY_MS);
