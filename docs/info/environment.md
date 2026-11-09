@@ -51,6 +51,14 @@ ______________________________________________________________________
 
 Register reCAPTCHA keys at <https://www.google.com/recaptcha>. Without `RECAPTCHA_SITE_KEY` the site still starts, but the form cannot pass the server-side check.
 
+### Datasheet downloads
+
+| Variable                 | Required | Default | Description                                                                                     |
+| ------------------------ | -------- | ------- | ----------------------------------------------------------------------------------------------- |
+| `DATASHEET_TOKEN_SECRET` | yes      | —       | Signs the 5-minute download links, at least 32 characters, e.g. `openssl rand -hex 32` (secret) |
+
+Datasheet PDFs live in `application/frontend/private/datasheets/`, outside `public/`. The build copies them to `dist/private/datasheets/`, beside `dist/client`, so Apache never serves them; they are only reachable through `/api/datasheet` with a valid token.
+
 ### Feature flags
 
 Feature flags are public booleans that default to `false`. They are inlined when the site is built, so changing one needs a rebuild and redeploy.

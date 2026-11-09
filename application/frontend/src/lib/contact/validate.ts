@@ -34,8 +34,15 @@ export const EMAIL_REGEX =
 // Digits plus common separators, optional leading "+", 7-15 digits in total (E.164 maximum).
 export const PHONE_REGEX = /^(?=(?:\D*\d){7,15}\D*$)\+?[\d\s().-]+$/;
 
-export function validateContactForm(data: ContactFormData): ValidationResult {
-	const errors: Partial<Record<keyof Omit<ContactFormData, "website">, string>> = {};
+export type LeadFormData = Pick<
+	ContactFormData,
+	"name" | "jobTitle" | "company" | "phone" | "email" | "sector"
+>;
+export type LeadErrors = Partial<Record<keyof LeadFormData, string>>;
+
+// The fields both the contact form and the datasheet dialog collect
+export function validateLeadFields(data: LeadFormData): LeadErrors {
+	const errors: LeadErrors = {};
 
 	if (!data.name.trim()) {
 		errors.name = "required";
@@ -72,6 +79,12 @@ export function validateContactForm(data: ContactFormData): ValidationResult {
 	if (!(SECTORS as readonly string[]).includes(data.sector)) {
 		errors.sector = "invalid_sector";
 	}
+
+	return errors;
+}
+
+export function validateContactForm(data: ContactFormData): ValidationResult {
+	const errors: NonNullable<ValidationResult["errors"]> = validateLeadFields(data);
 
 	if (data.equipment.length > 0) {
 		const valid = (data.equipment as string[]).every((slug) =>

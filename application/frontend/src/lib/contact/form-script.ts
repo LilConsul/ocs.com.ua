@@ -1,4 +1,4 @@
-import { MAX_MESSAGE_LENGTH, MAX_PHONE_LENGTH, MAX_SHORT_FIELD_LENGTH } from "./validate";
+﻿import { MAX_MESSAGE_LENGTH, MAX_PHONE_LENGTH, MAX_SHORT_FIELD_LENGTH } from "./validate";
 
 export interface FormConfig {
 	siteKey: string;
@@ -17,7 +17,7 @@ declare global {
 	}
 }
 
-// Personal-mail domains — shows a soft note, never blocks submission
+// Personal-mail domains â€” shows a soft note, never blocks submission
 const FREE_MAIL = new Set([
 	"gmail.com",
 	"yahoo.com",
@@ -40,7 +40,7 @@ const FREE_MAIL = new Set([
 	"hotmail.co.uk",
 ]);
 
-function clearErrors(form: HTMLFormElement) {
+export function clearErrors(form: HTMLFormElement) {
 	form.querySelectorAll("[data-field-error]").forEach((el) => {
 		(el as HTMLElement).textContent = "";
 		el.classList.add("hidden");
@@ -50,7 +50,7 @@ function clearErrors(form: HTMLFormElement) {
 	});
 }
 
-function showFieldError(form: HTMLFormElement, fieldId: string, message: string) {
+export function showFieldError(form: HTMLFormElement, fieldId: string, message: string) {
 	const errorEl = form.querySelector(`[data-field-error="${fieldId}"]`);
 	const inputEl = form.querySelector(`#${fieldId}`);
 	if (errorEl) {
@@ -60,7 +60,7 @@ function showFieldError(form: HTMLFormElement, fieldId: string, message: string)
 	if (inputEl) inputEl.setAttribute("aria-invalid", "true");
 }
 
-function clearFieldError(form: HTMLFormElement, fieldId: string) {
+export function clearFieldError(form: HTMLFormElement, fieldId: string) {
 	const errorEl = form.querySelector(`[data-field-error="${fieldId}"]`);
 	const inputEl = form.querySelector(`#${fieldId}`);
 	if (errorEl) {
@@ -70,8 +70,8 @@ function clearFieldError(form: HTMLFormElement, fieldId: string) {
 	if (inputEl) inputEl.removeAttribute("aria-invalid");
 }
 
-function showStatus(message: string, isError: boolean) {
-	const statusEl = document.getElementById("form-status");
+export function showStatus(message: string, isError: boolean, statusId = "form-status") {
+	const statusEl = document.getElementById(statusId);
 	if (!statusEl) return;
 	statusEl.textContent = message;
 	statusEl.classList.remove(
@@ -95,7 +95,7 @@ function updateEmailNote(form: HTMLFormElement) {
 	note.classList.toggle("hidden", !(domain && FREE_MAIL.has(domain)));
 }
 
-function getFormData(form: HTMLFormElement) {
+export function getFormData(form: HTMLFormElement) {
 	const fd = new FormData(form);
 	return {
 		name: (fd.get("name") as string) ?? "",
@@ -110,7 +110,7 @@ function getFormData(form: HTMLFormElement) {
 
 type FormData = ReturnType<typeof getFormData>;
 
-function validateField(
+export function validateField(
 	fieldId: string,
 	data: FormData,
 	EMAIL_RE: RegExp,
@@ -160,21 +160,42 @@ function validateAll(data: FormData, EMAIL_RE: RegExp, PHONE_RE: RegExp): Record
 	return errors;
 }
 
+let recaptchaLoaded = false;
+
+export function loadRecaptcha(siteKey: string) {
+	if (recaptchaLoaded || !siteKey) return;
+	recaptchaLoaded = true;
+	const script = document.createElement("script");
+	script.src = `https://www.google.com/recaptcha/api.js?render=${siteKey}`;
+	script.async = true;
+	document.head.appendChild(script);
+}
+
+/** Loads reCAPTCHA if needed and resolves with a v3 token for `action`; rejects after 5 seconds. */
+export function executeRecaptcha(siteKey: string, action: string): Promise<string> {
+	loadRecaptcha(siteKey);
+	return new Promise<string>((resolve, reject) => {
+		const started = Date.now();
+		const wait = () => {
+			const recaptcha = window.grecaptcha;
+			if (recaptcha !== undefined) {
+				recaptcha.ready(() => {
+					recaptcha.execute(siteKey, { action }).then(resolve, reject);
+				});
+			} else if (Date.now() - started > 5000) {
+				reject(new Error("reCAPTCHA failed to load"));
+			} else {
+				setTimeout(wait, 100);
+			}
+		};
+		wait();
+	});
+}
+
 export function initContactForm(config: FormConfig) {
 	const { siteKey, messages, emailPattern, phonePattern } = config;
 	const EMAIL_RE = new RegExp(emailPattern);
 	const PHONE_RE = new RegExp(phonePattern);
-
-	let recaptchaLoaded = false;
-
-	function loadRecaptcha() {
-		if (recaptchaLoaded || !siteKey) return;
-		recaptchaLoaded = true;
-		const script = document.createElement("script");
-		script.src = `https://www.google.com/recaptcha/api.js?render=${siteKey}`;
-		script.async = true;
-		document.head.appendChild(script);
-	}
 
 	function setup() {
 		const form = document.getElementById("contact-form") as HTMLFormElement | null;
@@ -199,7 +220,7 @@ export function initContactForm(config: FormConfig) {
 
 		// Lazy-load reCAPTCHA on first field focus
 		form.querySelectorAll("input, select, textarea").forEach((el) => {
-			el.addEventListener("focus", loadRecaptcha, { once: true });
+			el.addEventListener("focus", () => loadRecaptcha(siteKey), { once: true });
 		});
 
 		form.addEventListener("submit", async (e) => {
@@ -226,24 +247,8 @@ export function initContactForm(config: FormConfig) {
 
 			let recaptchaToken = "";
 			if (siteKey) {
-				loadRecaptcha();
 				try {
-					recaptchaToken = await new Promise<string>((resolve, reject) => {
-						const started = Date.now();
-						const wait = () => {
-							const recaptcha = window.grecaptcha;
-							if (recaptcha !== undefined) {
-								recaptcha.ready(() => {
-									recaptcha.execute(siteKey, { action: "contact" }).then(resolve, reject);
-								});
-							} else if (Date.now() - started > 5000) {
-								reject(new Error("reCAPTCHA failed to load"));
-							} else {
-								setTimeout(wait, 100);
-							}
-						};
-						wait();
-					});
+					recaptchaToken = await executeRecaptcha(siteKey, "contact");
 				} catch {
 					showStatus(messages.recaptcha_missing, true);
 					return;

@@ -7,7 +7,7 @@ description: >-
   Attractively priced catchweigher for warehouse and intralogistics. Weighing
   range up to 50 kg with transport speeds up to 1.2 m/s. Features predictive
   maintenance concept for maximum uptime.
-datasheet: /assets/equipment/hc-warehouse/datasheet.pdf
+datasheet: null
 specs:
   - items:
       - label: Max Speed

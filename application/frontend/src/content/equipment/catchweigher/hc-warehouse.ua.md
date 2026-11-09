@@ -16,7 +16,7 @@ gallery:
     /assets/equipment/hc-warehouse/csm_catchweigher-hc-warehouse-front-72105245_6683c75d22.webp
   - >-
     /assets/equipment/hc-warehouse/csm_catchweigher-hc-warehouse-right-72105245_0bd99e6e16.webp
-datasheet: /assets/equipment/hc-warehouse/datasheet.pdf
+datasheet: null
 specs:
   - items:
       - label: Макс. швидкість

@@ -1,9 +1,9 @@
 import cityCoordinatesData from "@/data/city-coordinates.json";
 import type { CityCoordinate } from "./types";
 
-const coordinatesCache: Record<string, CityCoordinate> = {
-	...(cityCoordinatesData as Record<string, CityCoordinate>),
-};
+const coordinatesCache: Record<string, CityCoordinate> = Object.fromEntries(
+	(cityCoordinatesData.cities as CityCoordinate[]).map((city) => [city.name.en, city])
+);
 
 export function getCityCoordinates(cityName: string): CityCoordinate | undefined {
 	const normalized = cityName.trim();

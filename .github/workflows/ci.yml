@@ -38,6 +38,7 @@ jobs:
       GITHUB_CLIENT_SECRET: ci
       SMTP_HOST: localhost
       RECAPTCHA_SECRET_KEY: ci
+      DATASHEET_TOKEN_SECRET: ci-datasheet-secret-0123456789abcdef
     steps:
       - uses: actions/checkout@v7
       - uses: oven-sh/setup-bun@v2

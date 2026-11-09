@@ -1,0 +1,226 @@
+---
+interface Props {
+	class?: string;
+	opacity?: number;
+	variant?: "default" | "quiet" | "catalogue" | "wiki" | "contact" | "about";
+}
+
+const { class: className = "", opacity = 0.7, variant = "default" } = Astro.props;
+---
+
+<canvas
+	class={`technical-field pointer-events-none absolute inset-0 h-full w-full ${className}`}
+	data-technical-field
+	data-opacity={opacity}
+	data-variant={variant}
+	aria-hidden="true"
+></canvas>
+
+<script>
+	type Point = [x: number, y: number];
+
+	interface VariantConfig {
+		/** Grid cell size: width / divisor, clamped to [min, max]. */
+		spacing: { min: number; max: number; divisor: number };
+		gridColor: string;
+		arcCount: number;
+		arcColor: string;
+		/** Arc center as a fraction of canvas size. */
+		arcCenter: Point;
+		/** Calibration points as fractions of canvas size. */
+		points: Point[];
+		pointRadius: number;
+		/** Draw a pulsing halo around each point. */
+		halo: boolean;
+		/** Horizontal scan line speed; omitted when the variant has no sweep. */
+		sweepSpeed?: number;
+	}
+
+	const GRID_COLOR = "rgba(184, 0, 109, 0.12)";
+	const GRID_COLOR_STRONG = "rgba(184, 0, 109, 0.14)";
+	const ARC_COLOR = "rgba(184, 0, 109, 0.09)";
+	const ARC_COLOR_STRONG = "rgba(184, 0, 109, 0.14)";
+	const POINT_COLOR = "rgba(184, 0, 109, 0.55)";
+	const SWEEP_COLOR = "rgba(184, 0, 109, 0.18)";
+
+	const DEFAULT: VariantConfig = {
+		spacing: { min: 46, max: 84, divisor: 14 },
+		gridColor: GRID_COLOR,
+		arcCount: 4,
+		arcColor: ARC_COLOR,
+		arcCenter: [0.78, 0.38],
+		points: [
+			[0.18, 0.28],
+			[0.56, 0.72],
+			[0.86, 0.2],
+			[0.72, 0.88],
+		],
+		pointRadius: 1.7,
+		halo: true,
+	};
+
+	const VARIANTS: Record<string, VariantConfig> = {
+		default: DEFAULT,
+		quiet: {
+			...DEFAULT,
+			spacing: { min: 64, max: 112, divisor: 10 },
+			arcCount: 2,
+			points: [
+				[0.18, 0.28],
+				[0.86, 0.2],
+			],
+			halo: false,
+		},
+		catalogue: {
+			...DEFAULT,
+			spacing: { min: 34, max: 58, divisor: 18 },
+			gridColor: GRID_COLOR_STRONG,
+			arcCount: 3,
+			points: [
+				[0.12, 0.2],
+				[0.38, 0.76],
+				[0.72, 0.32],
+				[0.9, 0.82],
+			],
+			pointRadius: 2,
+			sweepSpeed: 0.035,
+		},
+		wiki: {
+			...DEFAULT,
+			arcCenter: [0.18, 0.38],
+			points: [
+				[0.14, 0.7],
+				[0.52, 0.22],
+				[0.88, 0.54],
+			],
+		},
+		contact: {
+			...DEFAULT,
+			arcCenter: [0.84, 0.38],
+			points: [
+				[0.22, 0.32],
+				[0.78, 0.68],
+			],
+			sweepSpeed: 0.02,
+		},
+		about: {
+			...DEFAULT,
+			arcColor: ARC_COLOR_STRONG,
+			arcCenter: [0.78, 0.68],
+			points: [
+				[0.16, 0.24],
+				[0.48, 0.6],
+				[0.82, 0.3],
+				[0.7, 0.84],
+			],
+		},
+	};
+
+	const fields = document.querySelectorAll<HTMLCanvasElement>("[data-technical-field]");
+
+	for (const canvas of fields) {
+		if (canvas.dataset.ready) continue;
+		canvas.dataset.ready = "true";
+
+		const context = canvas.getContext("2d");
+		if (!context) continue;
+
+		const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+		const config = VARIANTS[canvas.dataset.variant ?? "quiet"] ?? DEFAULT;
+		let frame = 0;
+		let width = 0;
+		let height = 0;
+		let dpr = 1;
+		let start = performance.now();
+
+		const resize = () => {
+			const rect = canvas.getBoundingClientRect();
+			width = rect.width;
+			height = rect.height;
+			dpr = Math.min(window.devicePixelRatio || 1, 2);
+			canvas.width = Math.round(width * dpr);
+			canvas.height = Math.round(height * dpr);
+			context.setTransform(dpr, 0, 0, dpr, 0, 0);
+		};
+
+		const draw = (now: number) => {
+			const reduced = reduceMotion.matches;
+			const elapsed = reduced ? 0 : (now - start) / 1000;
+			const opacity = Number(canvas.dataset.opacity ?? 0.7);
+			context.clearRect(0, 0, width, height);
+			context.globalAlpha = opacity;
+			context.lineWidth = 1;
+
+			// The grid is deliberately sparse and low contrast. It gives the field a technical
+			// texture without creating hard diagonal bands behind section content.
+			const { min, max, divisor } = config.spacing;
+			const spacing = Math.max(min, Math.min(max, width / divisor));
+			const offset = reduced ? 0 : (elapsed * 5) % spacing;
+			context.strokeStyle = config.gridColor;
+			for (let x = -spacing + offset; x < width + spacing; x += spacing) {
+				context.beginPath();
+				context.moveTo(x, 0);
+				context.lineTo(x, height);
+				context.stroke();
+			}
+			for (let y = -spacing + offset; y < height + spacing; y += spacing) {
+				context.beginPath();
+				context.moveTo(0, y);
+				context.lineTo(width, y);
+				context.stroke();
+			}
+
+			// Contour-like arcs echo the site's map and equipment diagrams.
+			context.strokeStyle = config.arcColor;
+			const [centerX, centerY] = [width * config.arcCenter[0], height * config.arcCenter[1]];
+			for (let i = 0; i < config.arcCount; i++) {
+				const radius = Math.max(width, height) * (0.18 + i * 0.1);
+				context.beginPath();
+				context.arc(centerX, centerY, radius, Math.PI * 0.15, Math.PI * 1.35);
+				context.stroke();
+			}
+
+			// Calibration points breathe once per cycle instead of flashing continuously.
+			context.fillStyle = POINT_COLOR;
+			for (const [x, y] of config.points) {
+				const pulse = reduced ? 1 : 0.7 + Math.sin(elapsed * 1.5 + x * 8) * 0.25;
+				context.globalAlpha = opacity * pulse;
+				context.beginPath();
+				context.arc(width * x, height * y, config.pointRadius, 0, Math.PI * 2);
+				context.fill();
+
+				if (config.halo && !reduced) {
+					context.globalAlpha = opacity * 0.07;
+					context.beginPath();
+					context.arc(width * x, height * y, 10 + pulse * 8, 0, Math.PI * 2);
+					context.fill();
+				}
+			}
+
+			if (config.sweepSpeed) {
+				const sweep = ((elapsed * config.sweepSpeed) % 1.3) - 0.15;
+				context.globalAlpha = opacity * 0.22;
+				context.fillStyle = SWEEP_COLOR;
+				context.fillRect(0, height * sweep, width, Math.max(1, height * 0.002));
+			}
+
+			if (!reduced) frame = requestAnimationFrame(draw);
+		};
+
+		const stop = () => {
+			if (frame) cancelAnimationFrame(frame);
+			frame = 0;
+		};
+
+		const startDrawing = () => {
+			stop();
+			start = performance.now();
+			draw(start);
+		};
+
+		resize();
+		startDrawing();
+		new ResizeObserver(resize).observe(canvas);
+		reduceMotion.addEventListener("change", startDrawing);
+	}
+</script>

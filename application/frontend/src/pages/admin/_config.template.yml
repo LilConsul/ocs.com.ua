@@ -55,64 +55,51 @@ media_processing:
 
 i18n:
   structure: multiple_files
-  locales: [en, ua]
+  locales: [ua, en]
   default_locale: ua
 
 collections:
-  # ── Authorization Documents ───────────────────────────────────────────────
-  - name: "documents"
-    label: "Documents"
+  # ── Site Data ─────────────────────────────────────────────────────────────
+  # Small single-file data sets grouped under one sidebar entry: company info,
+  # authorization letters, partners and the map cities. Each file keeps its own
+  # schema.
+  - name: "site-data"
+    label: "Site Data"
+    description: >-
+      Company details and other shared site data. Pick a file from the list:
+      Company Information, Authorization Letters, Partners and Clients, or
+      Map Cities. These files cannot be created or deleted, only edited.
     delete: false
     editor:
       preview: false
     files:
-      - name: "authorization-letters"
-        label: "Authorization Letters"
-        file: "application/frontend/src/data/documents.json"
-        format: json
-        media_folder: "../../public/assets/documents"
-        public_folder: "/assets/documents"
-        fields:
-          - label: "Wipotec Authorization Letter (PDF)"
-            name: "wipotec"
-            widget: "file"
-            required: false
-            hint: "Upload the official Wipotec Authorization Letter (PDF)"
-          - label: "Mesutronic Authorization Letter (PDF)"
-            name: "mesutronic"
-            widget: "file"
-            required: false
-            hint: "Upload the official Mesutronic Authorization Letter (PDF)"
-
-  # ── Company Information ───────────────────────────────────────────────────
-  - name: "company"
-    label: "Company"
-    delete: false
-    editor:
-      preview: false
-    files:
+      # Company Information
       - name: "company-info"
         label: "Company Information"
+        description: "Contact details, address and search-engine data for the company. Used across the Contact page, product pages and the site's structured data."
         file: "application/frontend/src/data/company.json"
         format: json
         fields:
           - label: "Company Name"
             name: "name"
             widget: "object"
+            hint: "Full company name, also published in search-engine data."
             fields:
               - { label: "English", name: "en", widget: "string", hint: "e.g. OS-Technology Ukraine" }
               - { label: "Ukrainian", name: "ua", widget: "string", hint: "e.g. ОС-Технолоджи Україна" }
           - label: "Short Name"
             name: "shortName"
             widget: "object"
+            hint: "Used in page titles, e.g. \"Product | Short name\"."
             fields:
               - { label: "English", name: "en", widget: "string", hint: "e.g. OS-Technology" }
               - { label: "Ukrainian", name: "ua", widget: "string", hint: "e.g. ОС-Технолоджи" }
-          - { label: "Phone Number", name: "phone", widget: "string", hint: "e.g. +38 067 35 33 853" }
-          - { label: "Email Address", name: "email", widget: "string", hint: "e.g. info@ocs.com.ua" }
+          - { label: "Phone Number", name: "phone", widget: "string", hint: "e.g. +38 067 35 33 853. Also used for tap-to-call links, so keep the international format." }
+          - { label: "Email Address", name: "email", widget: "string", hint: "e.g. info@ocs.com.ua. Also used for click-to-email links." }
           - label: "Contact Person"
             name: "contactPerson"
             widget: "object"
+            hint: "Who visitors are asked to contact. Shown on the Contact page and on product pages."
             fields:
               - label: "English"
                 name: "en"
@@ -127,12 +114,14 @@ collections:
           - label: "Working Hours"
             name: "workingHours"
             widget: "object"
+            hint: "Shown on the Contact page and on product pages."
             fields:
               - { label: "English", name: "en", widget: "string", hint: "e.g. Mon-Fri, 9:00 - 18:00 (Kyiv)" }
               - { label: "Ukrainian", name: "ua", widget: "string", hint: "e.g. Пн-Пт, 9:00 - 18:00 (Київ)" }
           - label: "Address"
             name: "address"
             widget: "object"
+            hint: "Office address shown on the Contact page and published in search-engine data."
             fields:
               - label: "English"
                 name: "en"
@@ -155,9 +144,10 @@ collections:
           - label: "Geo Coordinates"
             name: "geo"
             widget: "object"
+            hint: "Office location published in search-engine data, in decimal degrees."
             fields:
-              - { label: "Latitude", name: "latitude", widget: "number", value_type: "float" }
-              - { label: "Longitude", name: "longitude", widget: "number", value_type: "float" }
+              - { label: "Latitude", name: "latitude", widget: "number", value_type: "float", hint: "e.g. 50.4578" }
+              - { label: "Longitude", name: "longitude", widget: "number", value_type: "float", hint: "e.g. 30.4024" }
           - { label: "Price Range", name: "priceRange", widget: "string", required: false, hint: "e.g. $$$$ (Schema.org LocalBusiness priceRange)" }
           - label: "Same As (Social / Authority URLs)"
             name: "sameAs"
@@ -168,6 +158,106 @@ collections:
               label: "URL"
               name: "url"
               widget: "string"
+
+      # Authorization Documents
+      - name: "authorization-letters"
+        label: "Authorization Letters"
+        description: "PDFs of the manufacturers' official authorizations, offered for download on the About and Contact pages. A missing file is left out."
+        file: "application/frontend/src/data/documents.json"
+        format: json
+        media_folder: "../../public/assets/documents"
+        public_folder: "/assets/documents"
+        fields:
+          - label: "Wipotec Authorization Letter (PDF)"
+            name: "wipotec"
+            widget: "file"
+            required: false
+            hint: "Upload the official Wipotec Authorization Letter (PDF)"
+          - label: "Mesutronic Authorization Letter (PDF)"
+            name: "mesutronic"
+            widget: "file"
+            required: false
+            hint: "Upload the official Mesutronic Authorization Letter (PDF)"
+
+      # Partners. The three sector lists share one field set through a YAML
+      # anchor. Cities are picked from the "city-list" file below, so the name
+      # there must match.
+      - name: "partner-list"
+        label: "Partners and Clients"
+        description: "Clients and partners by sector, with their logos and installed equipment. Feeds the homepage carousel, the About page client directory and the equipment totals."
+        file: "application/frontend/src/data/partners.json"
+        format: json
+        media_folder: "../../public/assets/partners"
+        public_folder: "/assets/partners"
+        fields:
+          - label: "Food & Beverage"
+            name: "food"
+            widget: "list"
+            summary: "{{fields.name.en}}"
+            hint: "Clients in the food and beverage sector. Every sector list has the same fields."
+            fields: &partner_fields
+              - label: "Name"
+                name: "name"
+                widget: "object"
+                fields:
+                  - { label: "English", name: "en", widget: "string", hint: "Shown on the English site." }
+                  - { label: "Ukrainian", name: "ua", widget: "string", hint: "Shown on the Ukrainian site." }
+              - { label: "Website", name: "website", widget: "string", required: false, pattern: ['^https?://\S+$', "Must start with http:// or https://"], hint: "e.g. https://roshen.com" }
+              - { label: "Logo", name: "logo", widget: "image", required: false, hint: "Shown in the homepage carousel and the client directory. Without a website or logo the partner is not in the carousel." }
+              - label: "Equipment"
+                name: "equipment"
+                widget: "object"
+                required: false
+                hint: "Number of installed systems. Counts feed the totals on the home and About pages."
+                fields:
+                  - { label: "Metal detectors (MD)", name: "md", widget: "number", value_type: "int", min: 0, default: 0 }
+                  - { label: "Checkweighers (CW)", name: "cw", widget: "number", value_type: "int", min: 0, default: 0 }
+                  - { label: "Track & Trace (TQS)", name: "tqs", widget: "number", value_type: "int", min: 0, default: 0 }
+              - label: "Cities"
+                name: "adres"
+                widget: "relation"
+                collection: "site-data"
+                file: "city-list"
+                search_fields: ["cities.*.name.en"]
+                value_field: "cities.*.name.en"
+                display_fields: ["cities.*.name.en"]
+                multiple: true
+                required: false
+                hint: "Where the equipment is installed. Add a missing city in Map Cities first."
+          - label: "Chemicals & Packaging"
+            name: "household"
+            widget: "list"
+            summary: "{{fields.name.en}}"
+            hint: "Clients in the chemicals and packaging sector."
+            fields: *partner_fields
+          - label: "Pharmaceuticals"
+            name: "pharma"
+            widget: "list"
+            summary: "{{fields.name.en}}"
+            hint: "Clients in the pharmaceutical sector."
+            fields: *partner_fields
+
+      # Cities (map pins)
+      - name: "city-list"
+        label: "Map Cities"
+        description: "Cities that can be pinned on the About page map. Add a city here before choosing it for a partner."
+        file: "application/frontend/src/data/city-coordinates.json"
+        format: json
+        fields:
+          - label: "Cities"
+            name: "cities"
+            widget: "list"
+            summary: "{{fields.name.en}}"
+            hint: "A partner city is shown on the map only if it is listed here."
+            fields:
+              - label: "Name"
+                name: "name"
+                widget: "object"
+                fields:
+                  - { label: "English", name: "en", widget: "string", hint: "Partners reference the city by this name. Renaming it needs the partners updated too." }
+                  - { label: "Ukrainian", name: "ua", widget: "string", hint: "Shown on the Ukrainian version of the map and in client cities." }
+              - { label: "Latitude", name: "lat", widget: "number", value_type: "float", hint: "Decimal degrees, e.g. 50.4501 for Kyiv." }
+              - { label: "Longitude", name: "lng", widget: "number", value_type: "float", hint: "Decimal degrees, e.g. 30.5234 for Kyiv." }
 
   # ── Equipment Categories & Industries ───────────────────────────────────────
   # File collection backed by JSON. Adding an entry creates a new category or
@@ -184,8 +274,8 @@ collections:
       preview: false
     i18n:
       structure: single_file
-      locales: [en, ua]
-      default_locale: en
+      locales: [ua, en]
+      default_locale: ua
     files:
       - name: "equipment-types"
         label: "Equipment Types"
@@ -313,6 +403,7 @@ collections:
         i18n: false
         min: 0
         max: 3
+        hint: "Up to 3 images, shared by both languages. The first one is the picture on the catalogue card and in link previews. Images are converted to WebP automatically."
         field:
           label: "Image"
           name: "image"
@@ -326,7 +417,16 @@ collections:
             strip_metadata: true
             width: 1200
             height: null
-      - { label: "Datasheet", name: "datasheet", widget: "file", required: false, i18n: duplicate }
+      - label: "Datasheet"
+        name: "datasheet"
+        widget: "file"
+        required: false
+        i18n: duplicate
+        # A leading slash makes Decap resolve the folder from the repo root. The PDF is committed
+        # to the private folder, which the site never serves directly.
+        media_folder: "/application/frontend/private/datasheets"
+        public_folder: "/datasheets"
+        hint: "PDF only. Name the file after the product, e.g. hc-m.pdf. Uploading a file with an existing name replaces it for every product that uses it. Visitors can download it only after filling in the form. Shared by both languages."
       - label: "Industries"
         name: "industries"
         widget: "select"
@@ -334,9 +434,10 @@ collections:
         i18n: false
         multiple: true
         min: 0
+        hint: "The industries this product is listed under. Shared by both languages. Add a missing industry in Categories & Industries first."
         options: __INDUSTRY_OPTIONS__
       - { label: "Title", name: "title", widget: "string", i18n: true, required: true, hint: "The name that is displayed on the website catalogue page." }
-      - { label: "Description", name: "description", widget: "text", required: false, i18n: true }
+      - { label: "Description", name: "description", widget: "text", required: false, i18n: true, hint: "Short summary shown on catalogue cards and in search-engine results." }
       - label: "Specifications"
         name: "specs"
         widget: "list"
@@ -359,7 +460,7 @@ collections:
             fields:
               - { label: "Label", name: "label", widget: "string" }
               - { label: "Value", name: "value", widget: "string" }
-      - { label: "Body", name: "body", widget: "richtext", required: false, i18n: true }
+      - { label: "Body", name: "body", widget: "richtext", required: false, i18n: true, hint: "Longer product text shown on the product page below the specifications table." }
 
   # ── Wiki Knowledge Base ──────────────────────────────────────────────────
   - name: "wiki"
@@ -393,13 +494,14 @@ collections:
           links stop working, and other articles that list it under Related Articles lose that link.
 
           CHANGE IT ONLY WHEN YOU REALLY HAVE TO.
-      - { label: "Title", name: "title", widget: "string", i18n: true }
+      - { label: "Title", name: "title", widget: "string", i18n: true, hint: "The article name shown on the wiki page, index cards and sidebar." }
       - { label: "Description / Summary", name: "description", widget: "text", required: false, i18n: true, hint: "Brief summary shown on index cards and in SEO meta tags" }
       - label: "Cover Image"
         name: "coverImage"
         widget: "image"
         required: false
         i18n: duplicate
+        hint: "Optional picture for the article. It is cropped to 16:9 and shared by both languages."
         media_processing:
           enabled: true
           format:
@@ -411,5 +513,5 @@ collections:
           height: null
           aspect_ratio: 16x9
       - { label: "Order", name: "order", widget: "number", value_type: "int", default: 0, required: false, i18n: duplicate, hint: "Sorting priority (lower numbers appear first)" }
-      - { label: "Related Articles", name: "related", widget: "relation", collection: "wiki", search_fields: ["title"], value_field: "{{slug}}", display_fields: ["title"], multiple: true, required: false, i18n: duplicate }
-      - { label: "Body", name: "body", widget: "markdown", required: true, i18n: true }
+      - { label: "Related Articles", name: "related", widget: "relation", collection: "wiki", search_fields: ["title"], value_field: "{{slug}}", display_fields: ["title"], multiple: true, required: false, i18n: duplicate, hint: "Other articles to suggest alongside this one. The link breaks if a listed article's File name is changed." }
+      - { label: "Body", name: "body", widget: "markdown", required: true, i18n: true, hint: "The article text, written in Markdown." }
