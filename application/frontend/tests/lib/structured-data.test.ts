@@ -348,7 +348,10 @@ describe("structured-data: productSchema", () => {
 			lang: "ua",
 			site: SITE,
 		});
-		expect(((uaProduct.offers as Record<string, unknown>)?.priceSpecification as Record<string, unknown>)?.description).toBe("Ціна за запитом");
+		expect(
+			((uaProduct.offers as Record<string, unknown>)?.priceSpecification as Record<string, unknown>)
+				?.description
+		).toBe("Ціна за запитом");
 	});
 
 	it("omits empty gallery, specs, or datasheet when not present", () => {
@@ -528,9 +531,15 @@ describe("structured-data: integration — no null/undefined in JSON output", ()
 		const org = organizationSchema("en", SITE);
 		expect((org.geo as Record<string, unknown>)?.latitude).toBe(companyData.geo.latitude);
 		expect((org.geo as Record<string, unknown>)?.longitude).toBe(companyData.geo.longitude);
-		expect((org.openingHoursSpecification as Record<string, unknown>)?.dayOfWeek).toEqual(companyData.openingHours.days);
-		expect((org.openingHoursSpecification as Record<string, unknown>)?.opens).toBe(companyData.openingHours.opens);
-		expect((org.openingHoursSpecification as Record<string, unknown>)?.closes).toBe(companyData.openingHours.closes);
+		expect((org.openingHoursSpecification as Record<string, unknown>)?.dayOfWeek).toEqual(
+			companyData.openingHours.days
+		);
+		expect((org.openingHoursSpecification as Record<string, unknown>)?.opens).toBe(
+			companyData.openingHours.opens
+		);
+		expect((org.openingHoursSpecification as Record<string, unknown>)?.closes).toBe(
+			companyData.openingHours.closes
+		);
 	});
 
 	it("_('Price on request') translates correctly", () => {
@@ -541,7 +550,10 @@ describe("structured-data: integration — no null/undefined in JSON output", ()
 			lang: "en",
 			site: SITE,
 		});
-		expect(((enProduct.offers as Record<string, unknown>)?.priceSpecification as Record<string, unknown>)?.description).toBe("Price on request");
+		expect(
+			((enProduct.offers as Record<string, unknown>)?.priceSpecification as Record<string, unknown>)
+				?.description
+		).toBe("Price on request");
 
 		const uaProduct = productSchema({
 			name: "Test",
@@ -550,6 +562,9 @@ describe("structured-data: integration — no null/undefined in JSON output", ()
 			lang: "ua",
 			site: SITE,
 		});
-		expect(((uaProduct.offers as Record<string, unknown>)?.priceSpecification as Record<string, unknown>)?.description).toBe("Ціна за запитом");
+		expect(
+			((uaProduct.offers as Record<string, unknown>)?.priceSpecification as Record<string, unknown>)
+				?.description
+		).toBe("Ціна за запитом");
 	});
 });
