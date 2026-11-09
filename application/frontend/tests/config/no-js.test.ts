@@ -8,6 +8,7 @@ const read = (path: string) => readFileSync(join(SRC, path), "utf8");
 const css = read("styles/no-js.css");
 const layout = read("layouts/Layout.astro");
 const contactForm = read("components/contact/ContactForm.astro");
+const productPage = read("pages/[lang]/catalogue/equipment/[category]/[slug].astro");
 
 // Strip comments so a selector mentioned in prose is not counted as a rule
 const rules = css.replace(/\/\*[\s\S]*?\*\//g, "");
@@ -142,4 +143,12 @@ describe("no-JS fallback: content is never hidden by default", () => {
 			}
 		});
 	}
+});
+
+describe("no-JS fallback: datasheet dialog", () => {
+	it("hides the dead download button and points to phone and email", () => {
+		expect(rules).toMatch(/#datasheet-open\s*\{[^}]*display:\s*none/);
+		expect(productPage).toContain('id="datasheet-open"');
+		expect(productPage).toMatch(/<noscript>[\s\S]*tel:[\s\S]*mailto:[\s\S]*<\/noscript>/);
+	});
 });

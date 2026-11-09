@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import { marked } from "marked";
 import CatalogueSidebar from "@/components/catalogue/CatalogueSidebar.astro";
+import DatasheetModal from "@/components/catalogue/DatasheetModal.astro";
 import ProductGallery from "@/components/catalogue/ProductGallery.astro";
 import ProductSpecsTable from "@/components/catalogue/ProductSpecsTable.astro";
 import RelatedEquipment from "@/components/catalogue/RelatedEquipment.astro";
@@ -22,7 +23,7 @@ import {
 	getSlug,
 	sortByOrder,
 } from "@/lib/content-utils";
-import { existingFile } from "@/lib/public-assets";
+import { hasDatasheet } from "@/lib/datasheet/files";
 import { createPageGraph, productSchema } from "@/lib/structured-data";
 
 export async function getStaticPaths() {
@@ -77,8 +78,9 @@ const {
 } = Astro.props;
 const _ = getInlineTranslations(lang as Lang);
 const category = getCategory(product);
-// A datasheet deleted in the CMS must not leave a dead download button
-const datasheet = existingFile(product.data.datasheet);
+// The PDF path is never rendered: the file is only reachable through the lead form.
+// A datasheet deleted in the CMS must not leave a dead button.
+const datasheetAvailable = hasDatasheet(product.data.datasheet);
 
 const title = product.data.title ?? "";
 const description = product.data.description ?? "";
@@ -105,7 +107,6 @@ const productNode = productSchema({
 	category: categoryTitle,
 	images: gallery,
 	specs: flattenSpecs(product.data.specs),
-	datasheetUrl: datasheet,
 });
 
 const structuredData = createPageGraph({
@@ -276,18 +277,42 @@ const shareImage = gallery?.[0];
 								</a>
 
 								{
-									datasheet && (
-										<a
-											href={datasheet}
-											target="_blank"
-											rel="noopener noreferrer"
-											class="press border-secondary text-secondary hover:bg-secondary/5 focus-visible:outline-secondary font-technical-data inline-flex w-full items-center justify-center gap-2 rounded-lg border-2 px-7 py-3 text-[15px] leading-5.5 font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
-										>
-											<span class="material-symbols-outlined text-[18px]" aria-hidden="true">
-												download
-											</span>
-											{_("Technical Datasheet")}
-										</a>
+									datasheetAvailable && (
+										<>
+											<button
+												id="datasheet-open"
+												type="button"
+												class="press border-secondary text-secondary hover:bg-secondary/5 focus-visible:outline-secondary font-technical-data inline-flex w-full items-center justify-center gap-2 rounded-lg border-2 px-7 py-3 text-[15px] leading-5.5 font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+											>
+												<span class="material-symbols-outlined text-[18px]" aria-hidden="true">
+													download
+												</span>
+												{_("Technical Datasheet")}
+											</button>
+											<noscript>
+												<p class="font-technical-data text-industrial-gray m-0 text-xs">
+													{_(
+														"JavaScript is required to send this form. Please call or email us instead:"
+													)}{" "}
+													<a
+														href={`tel:${companyData.phone.replace(/[^\d+]/g, "")}`}
+														class="font-semibold underline"
+													>
+														{companyData.phone}
+													</a>
+													{" · "}
+													<a href={`mailto:${companyData.email}`} class="font-semibold underline">
+														{companyData.email}
+													</a>
+												</p>
+											</noscript>
+											<DatasheetModal
+												lang={lang as Lang}
+												category={category}
+												slug={getSlug(product)}
+												title={title}
+											/>
+										</>
 									)
 								}
 							</div>

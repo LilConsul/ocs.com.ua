@@ -86,3 +86,8 @@ span:has(> #gallery-badge-text) {
 #contact-form {
 	display: none !important;
 }
+
+/* Datasheet: the button opens a script-driven dialog, a noscript notice points to phone and email */
+#datasheet-open {
+	display: none;
+}

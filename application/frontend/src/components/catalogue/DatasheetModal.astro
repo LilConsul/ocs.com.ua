@@ -1,0 +1,198 @@
+---
+import { RECAPTCHA_SITE_KEY } from "astro:env/client";
+import FormField from "@/components/contact/FormField.astro";
+import { getInlineTranslations, type Lang } from "@/i18n";
+import { SECTORS } from "@/lib/contact/options";
+import { EMAIL_REGEX, PHONE_REGEX } from "@/lib/contact/validate";
+
+interface Props {
+	lang: Lang;
+	category: string;
+	slug: string;
+	title: string;
+}
+
+const { lang, category, slug, title } = Astro.props;
+const _ = getInlineTranslations(lang);
+
+// Literal _() calls so the i18n extractor picks up every sector label
+const sectorLabels: Record<(typeof SECTORS)[number], string> = {
+	"Food Industry": _("Food Industry"),
+	Pharmaceutical: _("Pharmaceutical"),
+	Cosmetics: _("Cosmetics"),
+	"Logistics & Distribution": _("Logistics & Distribution"),
+	Other: _("Other"),
+};
+const sectorOptions = SECTORS.map((sector) => ({ value: sector, label: sectorLabels[sector] }));
+
+// Server error / validation codes -> translated display strings, consumed by the client script
+const messages = {
+	required: _("This field is required."),
+	too_long: _("This value is too long."),
+	invalid_format: _("Please enter a valid email address."),
+	invalid_phone: _("Please enter a valid phone number, e.g. +380 50 123 45 67."),
+	invalid_sector: _("Please select a valid sector."),
+	rate_limited: _("Too many submissions. Please try again in 10 minutes."),
+	recaptcha_missing: _("Security check failed. Please refresh and try again."),
+	recaptcha_failed: _("Security check failed. Please refresh and try again."),
+	recaptcha_unavailable: _("Could not complete security check. Please try again later."),
+	smtp_error: _("Could not send your message. Please try again later or email us directly."),
+	validation_failed: _("Please correct the highlighted fields and try again."),
+	forbidden: _("Submission not allowed from this origin."),
+	not_found: _("This datasheet is not available right now. Please contact us."),
+	default: _("An unexpected error occurred. Please try again."),
+	success: _("Thank you. Your download is starting."),
+};
+---
+
+<dialog
+	id="datasheet-dialog"
+	aria-labelledby="datasheet-heading"
+	class="bg-background border-border-subtle/70 text-foreground m-auto w-[min(34rem,calc(100vw-2rem))] rounded-xl border p-0 shadow-xl backdrop:bg-black/50"
+>
+	<div class="max-h-[90vh] overflow-y-auto p-5 sm:p-8">
+		<header class="flex items-start justify-between gap-4 pb-5">
+			<div class="min-w-0">
+				<h2
+					id="datasheet-heading"
+					class="font-headline-lg text-foreground m-0 text-xl font-semibold tracking-tight wrap-break-word sm:text-2xl"
+				>
+					{_("Download Technical Datasheet")}
+				</h2>
+				<p class="font-technical-data text-secondary mt-1 mb-0 text-sm font-medium wrap-break-word">
+					{title}
+				</p>
+				<p class="text-industrial-gray mt-2 mb-0 text-sm">
+					{_("Leave your details and the download will start right away.")}
+				</p>
+			</div>
+			<button
+				type="button"
+				id="datasheet-close"
+				aria-label={_("Close")}
+				class="text-industrial-gray hover:text-foreground focus-visible:outline-secondary shrink-0 rounded-lg p-1.5 focus-visible:outline-2"
+			>
+				<span class="material-symbols-outlined block" aria-hidden="true">close</span>
+			</button>
+		</header>
+
+		<div
+			id="datasheet-status"
+			role="status"
+			aria-live="polite"
+			aria-atomic="true"
+			class="font-technical-data text-technical-data mb-5 hidden rounded-lg p-4"
+		>
+		</div>
+
+		<form
+			id="datasheet-form"
+			novalidate
+			class="space-y-5"
+			data-category={category}
+			data-slug={slug}
+			data-lang={lang}
+		>
+			{/* Honeypot: must stay hidden and empty */}
+			<div class="hidden" aria-hidden="true">
+				<label for="datasheet-website">Website</label>
+				<input type="text" id="datasheet-website" name="website" tabindex="-1" autocomplete="off" />
+			</div>
+
+			<div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+				<FormField
+					id="name"
+					label={_("Full Name")}
+					required
+					autocomplete="name"
+					placeholder={_("e.g. Oleksii Kovalenko")}
+				/>
+				<FormField
+					id="jobTitle"
+					label={_("Job Title")}
+					required
+					autocomplete="organization-title"
+					placeholder={_("e.g. Chief Engineer")}
+				/>
+			</div>
+
+			<div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+				<FormField
+					id="company"
+					label={_("Company")}
+					required
+					autocomplete="organization"
+					placeholder={_("e.g. Farmak PJSC")}
+				/>
+				<FormField
+					id="phone"
+					label={_("Phone")}
+					type="tel"
+					required
+					autocomplete="tel"
+					placeholder="+380 (50) 000-00-00"
+				/>
+			</div>
+
+			<FormField
+				id="email"
+				label={_("Corporate Email")}
+				type="email"
+				required
+				autocomplete="email"
+				placeholder="engineer@company.ua"
+			/>
+
+			<FormField id="sector" label={_("Industry Sector")} type="select" required>
+				<option value="" disabled selected>{_("Select sector…")}</option>
+				{sectorOptions.map(({ value, label }) => <option value={value}>{label}</option>)}
+			</FormField>
+
+			<p class="text-industrial-gray text-xs">
+				{_("This form is protected by reCAPTCHA.")}
+				{" "}
+				<a
+					href="https://policies.google.com/privacy"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="hover:text-foreground underline">{_("Privacy Policy")}</a
+				>
+				{" "}&amp;{" "}
+				<a
+					href="https://policies.google.com/terms"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="hover:text-foreground underline">{_("Terms of Service")}</a
+				>
+			</p>
+
+			<button
+				type="submit"
+				id="datasheet-submit"
+				class="press group bg-primary text-primary-foreground focus-visible:outline-secondary inline-flex w-full items-center justify-center gap-2 rounded-lg px-7 py-3.5 text-[15px] leading-5.5 font-medium shadow-xs transition-[opacity,box-shadow] hover:opacity-90 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50"
+			>
+				<span class="material-symbols-outlined text-[18px]" aria-hidden="true">download</span>
+				{_("Download")}
+			</button>
+		</form>
+	</div>
+</dialog>
+
+<script>
+	import { initDatasheetDialog } from "@/lib/catalogue/datasheet-script";
+	// Config is injected by the inline bootstrap below, which runs before this deferred module
+	const cfg = window.__datasheetConfig;
+	if (cfg) initDatasheetDialog(cfg);
+</script>
+
+<script
+	is:inline
+	define:vars={{
+		siteKey: RECAPTCHA_SITE_KEY,
+		messages,
+		emailPattern: EMAIL_REGEX.source,
+		phonePattern: PHONE_REGEX.source,
+	}}
+>
+	window.__datasheetConfig = { siteKey, messages, emailPattern, phonePattern };
+</script>
