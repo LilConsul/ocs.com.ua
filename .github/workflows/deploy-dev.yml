@@ -163,19 +163,86 @@ jobs:
       - name: Restart
         run: ssh "$SSH_TARGET" "sudo /usr/bin/systemctl restart ocs-dev"
 
+      # Checks the Node server directly on the host, before Apache is involved.
+      # `systemctl status` needs no sudo; journalctl tries a passwordless sudo first, then the
+      # plain user (works when the user is in the adm / systemd-journal group).
       - name: Health check
         run: |
           ssh "$SSH_TARGET" '
-            for i in $(seq 1 10); do
+            for i in $(seq 1 20); do
               if curl -fsS http://127.0.0.1:4321/admin/config.yml > /dev/null 2>&1; then
                 echo "Server is healthy and responding."
                 exit 0
               fi
-              echo "Waiting for server to start ($i/10)..."
+              echo "Waiting for server to start ($i/20)..."
               sleep 1
             done
             echo "Health check failed! Service status and logs:"
-            sudo systemctl status ocs-dev --no-pager || true
-            sudo journalctl -u ocs-dev -n 40 --no-pager || true
+            systemctl status ocs-dev --no-pager || true
+            sudo -n /usr/bin/journalctl -u ocs-dev -n 40 --no-pager 2>/dev/null \
+              || journalctl -u ocs-dev -n 40 --no-pager \
+              || echo "Cannot read the journal: add the user to the systemd-journal group (see docs/info/deployment.md)"
             exit 1
           '
+
+  # Runs after the new build is live: checks the site through Apache on its public URL,
+  # then runs the Playwright e2e suite against it.
+  verify:
+    runs-on: ubuntu-26.04
+    needs: deploy
+    defaults:
+      run:
+        working-directory: application/frontend
+    env:
+      E2E_BASE_URL: https://dev.ocs.com.ua
+    steps:
+      - uses: actions/checkout@v7
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Public health check
+        working-directory: .
+        run: |
+          for path in /ua /en /admin/config.yml; do
+            for i in $(seq 1 10); do
+              if curl -fsS -o /dev/null "${E2E_BASE_URL}${path}"; then
+                echo "OK ${path}"
+                continue 2
+              fi
+              echo "Waiting for ${path} ($i/10)..."
+              sleep 3
+            done
+            echo "Public health check failed for ${path}"
+            exit 1
+          done
+
+      - run: bun install --frozen-lockfile
+
+      - name: Read Playwright version
+        id: playwright
+        run: echo "version=$(bunx playwright --version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Playwright browsers
+        id: browsers
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}-chromium
+
+      - name: Install browsers
+        if: steps.browsers.outputs.cache-hit != 'true'
+        run: bunx playwright install --with-deps chromium
+
+      - name: Install browser system dependencies
+        if: steps.browsers.outputs.cache-hit == 'true'
+        run: bunx playwright install-deps chromium
+
+      - name: "[FE] E2E Tests (deployed dev site)"
+        run: bun run test:e2e --project=chromium
+
+      - name: Upload failure artifacts
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-test-results-dev
+          path: application/frontend/test-results
+          retention-days: 7
