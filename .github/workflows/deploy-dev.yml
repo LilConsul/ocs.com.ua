@@ -135,16 +135,23 @@ jobs:
             fi
           '
 
-      # Render the env file on the CI runner and stream it to the server over SSH.
-      # Writing via stdin + atomic rename means a render failure leaves the existing file intact.
+      # Render the env file on the CI runner first, and only then stream it to the server.
+      # Rendering to a file (not straight into a pipe) matters: a pipeline's exit status is
+      # that of its last command, so a failed render would still let ssh replace the real env
+      # file with an empty one. Here a render failure stops the job before the server is touched.
       - name: Sync env file
         env:
           GH_SECRETS: ${{ toJSON(secrets) }}
           GH_VARS: ${{ toJSON(vars) }}
         run: |
-          uv run application/infra/scripts/render-env.py .github/secrets.dev.yaml \
-            | ssh "$SSH_TARGET" \
-              "umask 077; cat > \"${DOMAIN_DIR}/ocs-dev.env.tmp\" && mv \"${DOMAIN_DIR}/ocs-dev.env.tmp\" \"${DOMAIN_DIR}/ocs-dev.env\""
+          umask 077
+          ENV_FILE="$(mktemp)"
+          uv run application/infra/scripts/render-env.py .github/secrets.dev.yaml > "$ENV_FILE"
+          test -s "$ENV_FILE" || { echo "Rendered env file is empty, refusing to deploy it"; exit 1; }
+          ssh "$SSH_TARGET" \
+            "umask 077; cat > \"${DOMAIN_DIR}/ocs-dev.env.tmp\" && mv \"${DOMAIN_DIR}/ocs-dev.env.tmp\" \"${DOMAIN_DIR}/ocs-dev.env\"" \
+            < "$ENV_FILE"
+          rm -f "$ENV_FILE"
 
       - name: Download build artifact
         uses: actions/download-artifact@v8

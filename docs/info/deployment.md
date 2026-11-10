@@ -119,7 +119,7 @@ Feature flags are build-time only. An unset variable resolves to an empty string
 
 [`.github/secrets.dev.yaml`](../../.github/secrets.dev.yaml) maps GitHub secret and variable names to the environment variable names written to `ocs-dev.env`. It holds no values.
 
-On each deploy, [`render-env.py`](../../application/infra/scripts/render-env.py) reads the manifest and the `secrets` / `vars` contexts (passed as JSON), and prints one `NAME="value"` line per entry. The output is streamed over SSH to a temporary file, then renamed into place with owner-only permissions, so a failed render leaves the existing file untouched and values never appear on a command line.
+On each deploy, [`render-env.py`](../../application/infra/scripts/render-env.py) reads the manifest and the `secrets` / `vars` contexts (passed as JSON), and prints one `NAME="value"` line per entry. The output is first written to a temporary file on the runner, so a failed render or an empty result stops the job before the server is touched. It is then streamed over SSH to a temporary file on the server and renamed into place with owner-only permissions. Values never appear on a command line.
 
 Every name listed in the manifest must exist and be non-empty, otherwise the deploy fails before the server is touched. Listing a build-time value such as a feature flag also writes it to the server env file, which the running server does not read. It is harmless, but it makes the variable mandatory.
 
