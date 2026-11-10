@@ -4,10 +4,10 @@ ______________________________________________________________________
 
 ## Pipelines
 
-| Workflow                                                   | Trigger                                                                      | What it does                                     |
-| ---------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------ |
-| [`ci.yml`](../../.github/workflows/ci.yml)                 | Pull requests touching `frontend/`, `infra/` or the workflow                 | Frontend tests, image check, infra tests         |
-| [`deploy-dev.yml`](../../.github/workflows/deploy-dev.yml) | Push to `main` touching `frontend/`, `infra/` or the workflow, or manual run | Test, build and deploy to https://dev.ocs.com.ua |
+| Workflow                                                   | Trigger                                                                      | What it does                                                                        |
+| ---------------------------------------------------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| [`ci.yml`](../../.github/workflows/ci.yml)                 | Pull requests touching `frontend/`, `infra/` or the workflow                 | Frontend tests, image check, infra tests                                            |
+| [`deploy-dev.yml`](../../.github/workflows/deploy-dev.yml) | Push to `main` touching `frontend/`, `infra/` or the workflow, or manual run | Test, build, deploy to https://dev.ocs.com.ua, then health check and e2e against it |
 
 CMS publishes are commits to `main`, so content edits deploy the same way as code.
 
@@ -31,7 +31,11 @@ ______________________________________________________________________
 1. **Sync env file** — renders the server env file on the runner and streams it over SSH (see below).
 1. **Upload** — `rsync --delete` of `dist/` and `package.json` into the app directory.
 1. **Restart** — `systemctl restart ocs-dev`.
-1. **Health check** — polls `http://127.0.0.1:4321/admin/config.yml` for up to 10 seconds and prints service status and logs on failure.
+1. **Health check** — polls `http://127.0.0.1:4321/admin/config.yml` on the server for up to 20 seconds and prints service status and logs on failure.
+
+### Verify job
+
+Runs after the deploy job. It requests `/ua`, `/en` and `/admin/config.yml` on https://dev.ocs.com.ua (through Apache), then runs the Playwright e2e suite (chromium only) against the live site by setting `E2E_BASE_URL`. Without that variable the same suite runs against a local preview server, as in [`ci.yml`](../../.github/workflows/ci.yml).
 
 ### Static vs on-demand
 
@@ -65,6 +69,12 @@ The `ocs` user may run these commands as root without a password:
 ```
 /usr/bin/systemctl restart ocs-dev
 /usr/bin/systemctl reload apache2
+```
+
+Reading the service log needs `journalctl` access. Add the user to the journal group once so the health check can print logs on failure (a passwordless `sudo journalctl` is not configured):
+
+```bash
+sudo usermod -aG systemd-journal ocs
 ```
 
 ______________________________________________________________________
@@ -109,7 +119,7 @@ Feature flags are build-time only. An unset variable resolves to an empty string
 
 [`.github/secrets.dev.yaml`](../../.github/secrets.dev.yaml) maps GitHub secret and variable names to the environment variable names written to `ocs-dev.env`. It holds no values.
 
-On each deploy, [`render-env.py`](../../application/infra/scripts/render-env.py) reads the manifest and the `secrets` / `vars` contexts (passed as JSON), and prints one `NAME="value"` line per entry. The output is streamed over SSH to a temporary file, then renamed into place with owner-only permissions, so a failed render leaves the existing file untouched and values never appear on a command line.
+On each deploy, [`render-env.py`](../../application/infra/scripts/render-env.py) reads the manifest and the `secrets` / `vars` contexts (passed as JSON), and prints one `NAME="value"` line per entry. The output is first written to a temporary file on the runner, so a failed render or an empty result stops the job before the server is touched. It is then streamed over SSH to a temporary file on the server and renamed into place with owner-only permissions. Values never appear on a command line.
 
 Every name listed in the manifest must exist and be non-empty, otherwise the deploy fails before the server is touched. Listing a build-time value such as a feature flag also writes it to the server env file, which the running server does not read. It is harmless, but it makes the variable mandatory.
 
