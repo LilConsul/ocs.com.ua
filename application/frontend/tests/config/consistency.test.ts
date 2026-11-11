@@ -83,3 +83,41 @@ describe("buttons and links", () => {
 		}
 	});
 });
+
+describe("featured equipment band", () => {
+	const page = read("pages/[lang]/index.astro");
+	const band = read("components/homepage/FeaturedEquipment.astro");
+
+	it("sits between the stats strip and the industries section", () => {
+		const order = ["<StatsSection", "<FeaturedEquipment", "<IndustriesSection"].map((tag) =>
+			page.indexOf(tag)
+		);
+		expect(order.every((i) => i >= 0)).toBe(true);
+		expect(order).toEqual([...order].sort((a, b) => a - b));
+	});
+
+	it("is a real tab list with panels, wired to the tabs script", () => {
+		expect(band).toContain('role="tablist"');
+		expect(band).toContain('role="tab"');
+		expect(band).toContain('role="tabpanel"');
+		expect(band).toContain("initFeaturedTabs");
+	});
+
+	it("reuses the shared card, divider and link styles", () => {
+		for (const name of ["card-hover", "section-block", "link-arrow"]) {
+			expect(band).toContain(name);
+		}
+		expect(band).not.toMatch(/duration-\d+/);
+	});
+
+	it("shows every panel when JavaScript is off and hides the tab bar", () => {
+		expect(rules).toMatch(/\[data-featured-tabs\]\s+\.featured-tablist\s*\{[^}]*display:\s*none/);
+		expect(rules).toMatch(
+			/\[data-featured-tabs\]\[data-tabs-ready\]\s+\.featured-tablist\s*\{[^}]*display:\s*flex/
+		);
+	});
+
+	it("animates a panel switch with the shared base duration", () => {
+		expect(rules).toMatch(/featured-panel-in\s+var\(--dur-base\)/);
+	});
+});

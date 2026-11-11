@@ -966,3 +966,34 @@ html.motion-on .eyebrow-rule:not([data-revealed]) {
 .section-block {
 	border-top: 1px solid color-mix(in oklab, var(--border-subtle) 55%, transparent);
 }
+
+/* Featured equipment band. Without JavaScript every category panel is visible, stacked, each
+ * with its own title; the script adds [data-tabs-ready] and the band becomes a tab list. */
+[data-featured-tabs] .featured-tablist {
+	display: none;
+}
+
+[data-featured-tabs][data-tabs-ready] .featured-tablist {
+	display: flex;
+}
+
+[data-featured-tabs][data-tabs-ready] .featured-panel-title {
+	display: none;
+}
+
+[data-featured-tabs] [role="tabpanel"][hidden] {
+	display: none;
+}
+
+@keyframes featured-panel-in {
+	from {
+		opacity: 0;
+		translate: 0 12px;
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	[data-featured-tabs][data-tabs-ready] [role="tabpanel"][data-active] {
+		animation: featured-panel-in var(--dur-base) var(--ease-out-quart) both;
+	}
+}

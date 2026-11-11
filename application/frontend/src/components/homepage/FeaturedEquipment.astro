@@ -1,0 +1,183 @@
+---
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import { ArrowRight } from "@lucide/astro";
+import { getInlineTranslations, type Lang } from "@/i18n";
+import { categoryUrl, productUrl } from "@/lib/catalogue-urls";
+import {
+	type EquipmentEntry,
+	flattenSpecs,
+	getCategoriesForLocale,
+	getCategory,
+	getGallery,
+	getSlug,
+} from "@/lib/content-utils";
+import { getFeaturedGroups } from "@/lib/featured-equipment";
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const _ = getInlineTranslations(lang);
+
+const allEntries = await getCollection("equipment");
+const groups = getFeaturedGroups(allEntries, lang, getCategoriesForLocale(lang));
+
+const image = (entry: EquipmentEntry) => getGallery(entry, allEntries)?.[0] ?? "/placeholder.svg";
+const href = (entry: EquipmentEntry) => productUrl(lang, getCategory(entry), getSlug(entry));
+const keySpecs = (entry: EquipmentEntry) =>
+	flattenSpecs(entry.data.specs)
+		.slice(0, 2)
+		.map((spec) => ({ ...spec, value: spec.value.split(",")[0].trim() }));
+---
+
+{
+	groups.length > 0 && (
+		<section
+			id="featured-equipment"
+			aria-labelledby="featured-heading"
+			class="section-block relative w-full scroll-mt-[calc(6rem+var(--banner-h,0px))] py-16 lg:py-24"
+			data-featured-tabs
+		>
+			<div class="px-edge-margin mx-auto max-w-7xl">
+				<header class="mb-8">
+					<p class="font-label-caps text-secondary m-0 flex items-center gap-3 text-xs font-semibold tracking-widest uppercase">
+						<span class="eyebrow-rule bg-secondary h-px w-8" aria-hidden="true" />
+						{_("Featured Equipment")}
+					</p>
+					<h2
+						id="featured-heading"
+						class="reveal-heading font-headline-lg text-foreground mt-2 text-2xl font-semibold tracking-tight text-balance sm:text-3xl lg:text-4xl"
+					>
+						{_("Equipment We Supply in Ukraine")}
+					</h2>
+				</header>
+
+				<div
+					class="featured-tablist reveal -mx-1 mb-8 gap-2 overflow-x-auto px-1 pb-1"
+					role="tablist"
+					aria-label={_("Equipment categories")}
+					style="--i:0"
+				>
+					{groups.map(({ category }, i) => (
+						<button
+							type="button"
+							role="tab"
+							id={`featured-tab-${category.slug}`}
+							aria-controls={`featured-panel-${category.slug}`}
+							aria-selected={i === 0 ? "true" : "false"}
+							tabindex={i === 0 ? 0 : -1}
+							class="font-technical-data border-border-subtle/60 bg-background text-industrial-gray hover:text-foreground hover:border-secondary/40 focus-visible:outline-secondary aria-selected:bg-foreground aria-selected:text-background aria-selected:border-foreground shrink-0 cursor-pointer rounded-full border px-4 py-2 text-sm whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+						>
+							{category.title}
+						</button>
+					))}
+				</div>
+
+				<div class="reveal" style="--i:1">
+					{groups.map(({ category, spotlight, others }) => (
+						<div
+							role="tabpanel"
+							id={`featured-panel-${category.slug}`}
+							aria-labelledby={`featured-tab-${category.slug}`}
+							class="featured-panel [&:not(:first-child)]:mt-12"
+						>
+							<h3 class="featured-panel-title font-headline-lg text-foreground m-0 mb-4 text-xl font-semibold">
+								{category.title}
+							</h3>
+							<div class="gap-gutter grid grid-cols-1 items-stretch lg:grid-cols-3">
+								<article class="card-hover group bg-background border-border-subtle/70 flex h-full flex-col overflow-hidden rounded-xl border shadow-xs lg:col-span-2">
+									<a
+										href={href(spotlight)}
+										class="border-border-subtle/40 focus-visible:outline-secondary relative flex h-64 items-center justify-center border-b bg-white p-4 focus-visible:outline-2 focus-visible:-outline-offset-2 lg:h-72"
+										aria-label={spotlight.data.title}
+									>
+										<Image
+											src={image(spotlight)}
+											alt={spotlight.data.title}
+											width={1000}
+											height={625}
+											class="h-full w-full object-contain mix-blend-multiply transition-transform duration-(--dur-slow) group-hover:scale-105"
+											loading="lazy"
+										/>
+									</a>
+									<div class="flex flex-1 flex-col gap-4 p-5 sm:p-6">
+										<div>
+											{spotlight.data.manufacturer && (
+												<p class="font-label-caps text-secondary m-0 mb-1 text-[11px] tracking-widest uppercase">
+													{spotlight.data.manufacturer}
+												</p>
+											)}
+											<h3 class="font-headline-lg text-foreground m-0 text-xl leading-snug font-semibold text-balance wrap-break-word">
+												{spotlight.data.title}
+											</h3>
+										</div>
+										{keySpecs(spotlight).length > 0 && (
+											<dl class="m-0 grid grid-cols-2 gap-2 p-0">
+												{keySpecs(spotlight).map((spec) => (
+													<div class="bg-surface-container border-border-subtle/50 min-w-0 rounded-lg border px-3 py-2">
+														<dt class="font-label-caps text-industrial-gray mb-0.5 truncate text-[10px] uppercase">
+															{spec.label}
+														</dt>
+														<dd class="font-technical-data text-foreground m-0 truncate text-sm font-bold">
+															{spec.value}
+														</dd>
+													</div>
+												))}
+											</dl>
+										)}
+										<a href={href(spotlight)} class="link-arrow mt-auto">
+											{_("Technical Details")}
+											<ArrowRight class="link-arrow-icon size-4" aria-hidden="true" />
+										</a>
+									</div>
+								</article>
+
+								<div class="flex flex-col gap-4">
+									{others.map((entry) => (
+										<a
+											href={href(entry)}
+											class="card-hover bg-background border-border-subtle/70 focus-visible:outline-secondary flex flex-1 items-center gap-4 rounded-xl border p-4 shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2"
+										>
+											<span class="border-border-subtle/40 flex size-20 shrink-0 items-center justify-center rounded-lg border bg-white p-1.5">
+												<Image
+													src={image(entry)}
+													alt=""
+													width={160}
+													height={160}
+													class="h-full w-full object-contain mix-blend-multiply"
+													loading="lazy"
+												/>
+											</span>
+											<span class="min-w-0">
+												<span class="font-headline-lg text-foreground line-clamp-2 block text-base leading-snug font-semibold wrap-break-word">
+													{entry.data.title}
+												</span>
+												<span class="font-label-caps text-industrial-gray mt-1 block truncate text-[11px] tracking-widest uppercase">
+													{category.title}
+												</span>
+											</span>
+										</a>
+									))}
+									<a href={categoryUrl(lang, category.slug)} class="link-arrow mt-auto self-start">
+										{_("View all {category}").replace("{category}", category.title)}
+										<ArrowRight class="link-arrow-icon size-4" aria-hidden="true" />
+									</a>
+								</div>
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+	)
+}
+
+<script>
+	import { initFeaturedTabs } from "@/lib/homepage/featured-tabs";
+
+	for (const root of document.querySelectorAll<HTMLElement>("[data-featured-tabs]")) {
+		initFeaturedTabs(root);
+	}
+</script>

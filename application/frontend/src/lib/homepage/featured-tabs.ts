@@ -25,13 +25,13 @@ export function initFeaturedTabs(root: HTMLElement): void {
 	const panels = Array.from(root.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
 	if (tabs.length < 2 || tabs.length !== panels.length) return;
 
-	const select = (index: number, focus = false) => {
+	const select = (index: number, focus = false, animate = true) => {
 		tabs.forEach((tab, i) => {
 			const active = i === index;
 			tab.setAttribute("aria-selected", String(active));
 			tab.tabIndex = active ? 0 : -1;
 			panels[i].hidden = !active;
-			if (active) panels[i].dataset.active = "";
+			if (active && animate) panels[i].dataset.active = "";
 			else delete panels[i].dataset.active;
 		});
 		if (focus) tabs[index].focus();
@@ -48,5 +48,5 @@ export function initFeaturedTabs(root: HTMLElement): void {
 	});
 
 	root.dataset.tabsReady = "";
-	select(0);
+	select(0, false, false);
 }
