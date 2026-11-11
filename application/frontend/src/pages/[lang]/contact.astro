@@ -46,10 +46,7 @@ const structuredData = createPageGraph({
 	<ContactHero lang={lang} />
 
 	{/* Muted band: white form and info cards stand out against it */}
-	<section
-		class="bg-surface-container border-border-subtle/40 w-full border-b py-16 lg:py-24"
-		aria-label={_("Send Us a Message")}
-	>
+	<section class="section-block w-full py-16 lg:py-24" aria-label={_("Send Us a Message")}>
 		<div class="px-edge-margin mx-auto max-w-7xl">
 			{/* Main grid: form (8 cols) + sidebar (4 cols) */}
 			<div class="gap-gutter grid grid-cols-1 items-start lg:grid-cols-12">
@@ -70,7 +67,7 @@ const structuredData = createPageGraph({
 
 	{/* White band: office card with map, glow in the corner like the About CTA */}
 	<section
-		class="bg-background relative w-full overflow-hidden py-16 lg:py-24"
+		class="section-block relative w-full overflow-hidden py-16 lg:py-24"
 		aria-label={_("Main Office")}
 	>
 		<div
