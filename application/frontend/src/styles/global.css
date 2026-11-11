@@ -433,18 +433,6 @@
 		opacity: 1;
 	}
 
-	.img-fade {
-		transition:
-			opacity var(--dur-slow) var(--ease-out-quart),
-			transform var(--dur-slow) var(--ease-out-quart),
-			filter var(--dur-slow) var(--ease-out-quart);
-	}
-
-	.product-card:hover .img-fade,
-	.group\/card:hover .img-fade {
-		filter: saturate(1.06) contrast(1.02);
-	}
-
 	.reveal-heading[data-revealed] {
 		animation: heading-settle var(--dur-slow) var(--ease-out-expo) both;
 	}
@@ -540,22 +528,6 @@ html.motion-on .eyebrow-rule:not([data-revealed]) {
 ::view-transition-new(root) {
 	animation-duration: var(--dur-base);
 	animation-timing-function: var(--ease-out-quart);
-}
-
-/* Image fade-in. src/lib/anims/images.ts sets [data-loaded] when the file has finished (or
- * failed), so the picture appears instead of painting in line by line. A keyframe animation
- * rather than a transition: hover utilities that set `transform` or `transition-*` on the same
- * image are not disturbed. Same gating as the reveals: invisible only while html.motion-on. */
-@keyframes img-in {
-	from {
-		opacity: 0;
-	}
-}
-html.motion-on .img-fade:not([data-loaded]) {
-	opacity: 0;
-}
-html.motion-on .img-fade[data-loaded] {
-	animation: img-in var(--dur-slow) var(--ease-out-quart);
 }
 
 @layer utilities {

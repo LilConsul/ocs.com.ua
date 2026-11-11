@@ -1,4 +1,3 @@
-import { observeImages } from "./images";
 import { observeReveals } from "./reveal";
 
 declare global {
@@ -12,4 +11,3 @@ declare global {
 if (window.__motionFailsafe !== undefined) window.clearTimeout(window.__motionFailsafe);
 
 observeReveals(document);
-observeImages(document);

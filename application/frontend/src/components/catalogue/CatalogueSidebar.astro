@@ -246,7 +246,6 @@ const sections = [
 </style>
 
 <script>
-	import { observeImages } from "@/lib/anims/images";
 	import { observeReveals } from "@/lib/anims/reveal";
 
 	const toggleBtn = document.getElementById("mobile-filter-toggle");
@@ -414,13 +413,11 @@ const sections = [
 				el.style.animation = "none";
 			});
 			observeReveals(hero);
-			observeImages(hero);
 
 			// Reset any saved search state so restoration uses the new page's content
 			savedResultsHTML = null;
 			results.innerHTML = nextResults.innerHTML;
 			observeReveals(results);
-			observeImages(results);
 			setupProductSearch();
 
 			syncChrome(next);
@@ -534,7 +531,7 @@ const sections = [
 				<a href="${p.url}" class="border-border-subtle/40 focus-visible:outline-secondary relative flex aspect-4/3 items-center justify-center border-b bg-white p-4 focus-visible:outline-2 focus-visible:-outline-offset-2" aria-label="${p.title.replace(/"/g, "&quot;")}">
 					<img src="${p.image || "/placeholder.svg"}" alt="${p.title.replace(/"/g, "&quot;")}"
 						width="800" height="600"
-						class="img-fade h-full w-full object-contain mix-blend-multiply"
+						class="h-full w-full object-contain mix-blend-multiply"
 						loading="lazy" />
 				</a>
 				<div class="flex flex-1 flex-col p-5 sm:p-6">
@@ -576,7 +573,6 @@ const sections = [
 			if (savedResultsHTML !== null) {
 				results.innerHTML = savedResultsHTML;
 				observeReveals(results);
-				observeImages(results);
 				savedResultsHTML = null;
 			}
 			return;
@@ -594,7 +590,6 @@ const sections = [
 
 		results.innerHTML = renderSearchResults(matches, labelDetails, labelNoResults);
 		observeReveals(results);
-		observeImages(results);
 	}
 
 	function setupProductSearch(): void {
