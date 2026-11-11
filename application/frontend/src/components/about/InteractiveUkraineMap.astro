@@ -32,11 +32,11 @@ const sectorIcons: Record<SectorBreakdown["category"], AstroComponent> = {
 
 // Shared by the hub card and the sector cards so both read as one family
 const tileClass =
-	"bg-background border-border-subtle/50 flex min-w-0 flex-col-reverse justify-end gap-1 rounded-lg border p-2 sm:px-3 sm:py-2.5 transition-colors duration-300";
+	"bg-background border-border-subtle/50 flex min-w-0 flex-col-reverse justify-end gap-1 rounded-lg border p-2 sm:px-3 sm:py-2.5 transition-colors duration-(--dur-base)";
 const badgeClass =
 	"font-technical-data bg-secondary/10 text-secondary shrink-0 rounded-full px-2 py-0.5 text-[11px] sm:px-2.5 sm:text-xs font-bold tabular-nums";
 const iconTileClass =
-	"bg-background text-secondary border-border-subtle/50 shrink-0 rounded-lg border p-2 transition-colors duration-300";
+	"bg-background text-secondary border-border-subtle/50 shrink-0 rounded-lg border p-2 transition-colors duration-(--dur-base)";
 
 const W = 800;
 const H = 520;
@@ -156,7 +156,7 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 										data-hub-id={hubId}
 										data-active={id === initialOblastId ? "" : undefined}
 										class:list={[
-											"map-oblast fill-secondary/10 stroke-secondary/30 data-active:fill-secondary/35 motion-safe:transition-[fill] motion-safe:duration-300",
+											"map-oblast fill-secondary/10 stroke-secondary/30 data-active:fill-secondary/35 motion-safe:transition-[fill] motion-safe:duration-(--dur-base)",
 											hubId && "hover:fill-secondary/25 cursor-pointer",
 										]}
 										style={`--delay:${delay}ms`}
@@ -290,7 +290,7 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 						const SectorIcon = sectorIcons[sector.category];
 						return (
 							<article
-								class="reveal group/card bg-surface-container border-border-subtle/70 hover:border-secondary/40 rounded-xl border p-4 shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-lg motion-safe:hover:-translate-y-0.5 sm:p-6"
+								class="reveal group/card bg-surface-container border-border-subtle/70 hover:border-secondary/40 rounded-xl border p-4 shadow-xs transition-[translate,box-shadow,border-color] duration-(--dur-base) hover:shadow-lg motion-safe:hover:-translate-y-0.5 sm:p-6"
 								style={`--i:${si}`}
 							>
 								<header class="flex items-center justify-between gap-2 sm:gap-3">

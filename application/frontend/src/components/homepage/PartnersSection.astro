@@ -162,7 +162,7 @@ const stats = [
 														aria-label={hidden ? undefined : partner.name[lang]}
 														aria-hidden={hidden ? "true" : undefined}
 														tabindex={hidden ? -1 : undefined}
-														class="marquee-logo focus-visible:outline-secondary mr-12 flex h-16 w-44 shrink-0 items-center justify-center opacity-60 mix-blend-multiply grayscale transition-[opacity,filter,scale] duration-300 ease-out hover:opacity-100 hover:grayscale-0 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:grayscale-0 motion-safe:hover:scale-105"
+														class="marquee-logo focus-visible:outline-secondary mr-12 flex h-16 w-44 shrink-0 items-center justify-center opacity-60 mix-blend-multiply grayscale transition-[opacity,filter,scale] duration-(--dur-base) ease-out hover:opacity-100 hover:grayscale-0 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:grayscale-0 motion-safe:hover:scale-105"
 													>
 														<Image
 															src={partner.logo as string}
@@ -191,7 +191,7 @@ const stats = [
 				stats.map(({ Icon, value, label, text, featured }) => (
 					<div
 						class:list={[
-							"group/stat border-border-subtle/70 hover:border-secondary/40 flex flex-col-reverse justify-end gap-1 rounded-xl border p-5 shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-lg motion-safe:hover:-translate-y-0.5 sm:p-6",
+							"group/stat border-border-subtle/70 hover:border-secondary/40 flex flex-col-reverse justify-end gap-1 rounded-xl border p-5 shadow-xs transition-[translate,box-shadow,border-color] duration-(--dur-base) hover:shadow-lg motion-safe:hover:-translate-y-0.5 sm:p-6",
 							featured
 								? "border-l-secondary from-secondary/10 to-background border-l-4 bg-linear-to-br"
 								: "bg-background",
@@ -209,7 +209,7 @@ const stats = [
 								{value}
 							</span>
 							<span
-								class="bg-surface-container text-secondary border-border-subtle/50 group-hover/stat:bg-secondary group-hover/stat:text-background group-hover/stat:border-secondary shrink-0 rounded-lg border p-3 transition-colors duration-300"
+								class="bg-surface-container text-secondary border-border-subtle/50 group-hover/stat:bg-secondary group-hover/stat:text-background group-hover/stat:border-secondary shrink-0 rounded-lg border p-3 transition-colors duration-(--dur-base)"
 								aria-hidden="true"
 							>
 								<Icon class="h-6 w-6" />

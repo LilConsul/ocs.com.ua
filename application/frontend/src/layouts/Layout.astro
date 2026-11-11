@@ -4,7 +4,8 @@ import type { ComponentProps } from "astro/types";
 import { SEO } from "astro-seo";
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
-import type TechnicalField from "@/components/TechnicalField.astro";
+// biome-ignore lint/style/useImportType: rendered as a component in the template
+import TechnicalField from "@/components/TechnicalField.astro";
 import companyData from "@/data/company.json";
 import { defaultLang, getIsoLang, getLangFromUrl } from "@/i18n";
 import type { SchemaGraph } from "@/lib/structured-data";

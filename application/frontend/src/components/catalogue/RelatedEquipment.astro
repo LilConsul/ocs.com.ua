@@ -51,7 +51,7 @@ const _ = getInlineTranslations(lang);
 						return (
 							<a
 								href={itemUrl}
-								class="catalogue-trace reveal group bg-background border-border-subtle/70 hover:border-secondary/40 focus-visible:outline-secondary block overflow-hidden rounded-xl border shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 motion-safe:hover:-translate-y-0.5"
+								class="catalogue-trace reveal group bg-background border-border-subtle/70 hover:border-secondary/40 focus-visible:outline-secondary block overflow-hidden rounded-xl border shadow-xs transition-[translate,box-shadow,border-color] duration-(--dur-base) hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 motion-safe:hover:-translate-y-0.5"
 								style={`--i:${index}`}
 							>
 								<div class="border-border-subtle/40 flex h-44 items-center justify-center border-b bg-white p-4">
@@ -60,7 +60,7 @@ const _ = getInlineTranslations(lang);
 										alt={item.data.title ?? ""}
 										width={400}
 										height={300}
-										class="img-fade max-h-full max-w-full object-contain mix-blend-multiply transition-transform duration-300 group-hover:scale-105"
+										class="img-fade max-h-full max-w-full object-contain mix-blend-multiply transition-transform duration-(--dur-base) group-hover:scale-105"
 										loading="lazy"
 									/>
 								</div>

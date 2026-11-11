@@ -47,7 +47,7 @@ const sections = [
 {/* Mobile Filter Button */}
 <button
 	id="mobile-filter-toggle"
-	class="bg-background border-border-subtle text-foreground hover:border-secondary/40 focus-visible:outline-secondary fixed right-6 bottom-6 z-40 flex items-center gap-2 rounded-full border px-6 py-3 shadow-lg transition-all hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-2 lg:hidden"
+	class="bg-background border-border-subtle text-foreground hover:border-secondary/40 focus-visible:outline-secondary fixed right-6 bottom-6 z-40 flex items-center gap-2 rounded-full border px-6 py-3 shadow-lg transition-[box-shadow,border-color] hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-2 lg:hidden"
 	aria-label={_("Open filters")}
 >
 	<span class="material-symbols-outlined text-[20px]">filter_list</span>
@@ -65,7 +65,7 @@ const sections = [
 {/* Desktop Sidebar & Mobile Drawer */}
 <aside
 	id="catalogue-sidebar"
-	class="fixed inset-y-0 left-0 z-50 w-80 -translate-x-full transition-transform duration-300 lg:sticky lg:top-[calc(6rem+var(--banner-h,0px))] lg:z-10 lg:h-fit lg:w-72 lg:shrink-0 lg:translate-x-0"
+	class="fixed inset-y-0 left-0 z-50 w-80 -translate-x-full transition-transform duration-(--dur-base) lg:sticky lg:top-[calc(6rem+var(--banner-h,0px))] lg:z-10 lg:h-fit lg:w-72 lg:shrink-0 lg:translate-x-0"
 >
 	<div
 		class="bg-background border-border-subtle/70 before:from-secondary relative h-full w-full overflow-y-auto rounded-none border-r px-5 py-8 shadow-xs before:absolute before:inset-x-0 before:top-0 before:h-0.5 before:bg-linear-to-r before:to-transparent lg:rounded-xl lg:border lg:px-6"
@@ -168,7 +168,7 @@ const sections = [
 												<a
 													href={s.hrefFor(item.slug)}
 													aria-current={isActive ? "page" : undefined}
-													class={`focus-visible:outline-secondary flex cursor-pointer items-center gap-3 rounded-lg border px-4 py-3 transition-all focus-visible:outline-2 focus-visible:outline-offset-2 ${
+													class={`focus-visible:outline-secondary flex cursor-pointer items-center gap-3 rounded-lg border px-4 py-3 transition-[background-color,border-color,color,translate] focus-visible:outline-2 focus-visible:outline-offset-2 ${
 														isActive
 															? "border-secondary/30 bg-secondary/10 text-secondary font-bold"
 															: "text-industrial-gray hover:bg-surface-container hover:border-border-subtle/60 border-transparent hover:translate-x-1"
@@ -209,7 +209,7 @@ const sections = [
 					stroke-width="2"
 					stroke-linecap="round"
 					stroke-linejoin="round"
-					class="lucide lucide-arrow-right transition-transform duration-200 group-hover:translate-x-1"
+					class="lucide lucide-arrow-right transition-transform duration-(--dur-fast) group-hover:translate-x-1"
 					aria-hidden="true"
 				>
 					<path d="M5 12h14"></path>
@@ -526,7 +526,7 @@ const sections = [
 			.map(
 				(p, i) => `
 			<article
-				class="product-card reveal group bg-background border-border-subtle/70 hover:border-secondary/40 flex flex-col overflow-hidden rounded-xl border shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-lg motion-safe:hover:-translate-y-0.5"
+				class="product-card reveal group bg-background border-border-subtle/70 hover:border-secondary/40 flex flex-col overflow-hidden rounded-xl border shadow-xs transition-[translate,box-shadow,border-color] duration-(--dur-base) hover:shadow-lg motion-safe:hover:-translate-y-0.5"
 				style="--i:${i % 3}"
 				data-product-item
 				data-product-text="${(p.title + " " + p.description).toLowerCase().replace(/"/g, "&quot;")}"

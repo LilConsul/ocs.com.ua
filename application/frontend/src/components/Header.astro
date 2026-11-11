@@ -61,7 +61,7 @@ const isActive = (pattern: string) => {
 {/* Fixed Header Container */}
 <header
 	id="main-header"
-	class="bg-background/90 border-border/40 data-[scrolled=true]:bg-background/95 data-[scrolled=true]:border-border fixed top-0 right-0 left-0 z-50 border-b shadow-none backdrop-blur-xl transition-[background-color,border-color,box-shadow] duration-300 data-[scrolled=true]:shadow-sm"
+	class="bg-background/90 border-border/40 data-[scrolled=true]:bg-background/95 data-[scrolled=true]:border-border fixed top-0 right-0 left-0 z-50 border-b shadow-none backdrop-blur-xl transition-[background-color,border-color,box-shadow] duration-(--dur-base) data-[scrolled=true]:shadow-sm"
 	data-scrolled="false"
 >
 	{/* High-Contrast Top Development Notice Bar (feature flag: SITE_DEV_NOTICE) */}
@@ -88,7 +88,7 @@ const isActive = (pattern: string) => {
 					<button
 						type="button"
 						id="dev-notice-close"
-						class="shrink-0 rounded-md p-1 text-neutral-950 transition-all hover:bg-neutral-950/15 active:scale-95"
+						class="shrink-0 rounded-md p-1 text-neutral-950 transition-[background-color,scale] hover:bg-neutral-950/15 active:scale-95"
 						aria-label={_("Close notification")}
 						title={_("Close notification")}
 					>
@@ -152,7 +152,7 @@ const isActive = (pattern: string) => {
 					languageOptions.map((langOption) => (
 						<a
 							href={getLanguagePath(langOption.code)}
-							class={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-all duration-200 ${
+							class={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-[background-color,color,box-shadow] duration-(--dur-fast) ${
 								lang === langOption.code
 									? "bg-primary text-primary-foreground shadow-sm"
 									: "text-muted-foreground hover:text-foreground hover:bg-background/50"
