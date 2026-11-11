@@ -903,3 +903,33 @@ html.motion-on .eyebrow-rule:not([data-revealed]) {
 		translate: 0 -2px;
 	}
 }
+
+/* Shared buttons and text links. Layout-only classes (width, margin, alignment) stay on the
+ * element. `press` is added in markup so the press feedback keeps beating these transitions. */
+@layer components {
+	.btn-primary {
+		@apply bg-primary text-primary-foreground focus-visible:outline-secondary inline-flex items-center justify-center gap-2 rounded-lg px-7 py-3.5 text-[15px] leading-5.5 font-medium shadow-xs transition-[opacity,box-shadow] hover:opacity-90 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50;
+	}
+
+	.btn-secondary {
+		@apply border-secondary text-secondary hover:bg-secondary/5 focus-visible:outline-secondary inline-flex items-center justify-center gap-2 rounded-lg border-2 px-7 py-3.5 text-[15px] leading-5.5 font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2;
+	}
+
+	/* Compact size for buttons inside cards and tables */
+	.btn-sm {
+		@apply px-4 py-2.5 text-xs;
+	}
+
+	/* Text link with a trailing arrow icon (give the icon the `link-arrow-icon` class) */
+	.link-arrow {
+		@apply text-secondary focus-visible:outline-secondary inline-flex items-center gap-2 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2;
+	}
+
+	.link-arrow-icon {
+		@apply transition-transform duration-(--dur-fast);
+	}
+
+	.link-arrow:hover .link-arrow-icon {
+		@apply translate-x-1;
+	}
+}

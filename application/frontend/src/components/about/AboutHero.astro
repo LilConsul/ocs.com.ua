@@ -107,20 +107,14 @@ const kpis = [
 				</ul>
 
 				<div class="hero-rise flex flex-col gap-3 pt-8 sm:flex-row" style="--d:4">
-					<a
-						href={`/${lang}/contact`}
-						class="press group bg-primary text-primary-foreground focus-visible:outline-secondary inline-flex w-full items-center justify-center gap-2 rounded-lg px-5 py-3.5 text-sm leading-5.5 font-medium shadow-xs transition-[opacity,box-shadow] hover:opacity-90 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 sm:w-auto sm:px-7 sm:text-[15px]"
-					>
+					<a href={`/${lang}/contact`} class="btn-primary press group w-full sm:w-auto">
 						{_("Request a quote")}
 						<ArrowRight
 							class="size-4.5 transition-transform duration-(--dur-fast) group-hover:translate-x-1"
 							aria-hidden="true"
 						/>
 					</a>
-					<a
-						href={categoryUrl(lang, "checkweigher")}
-						class="press border-secondary text-secondary hover:bg-secondary/5 focus-visible:outline-secondary inline-flex w-full items-center justify-center gap-2 rounded-lg border-2 px-5 py-3.5 text-sm leading-5.5 font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 sm:w-auto sm:px-7 sm:text-[15px]"
-					>
+					<a href={categoryUrl(lang, "checkweigher")} class="btn-secondary press w-full sm:w-auto">
 						{_("View equipment")}
 					</a>
 				</div>

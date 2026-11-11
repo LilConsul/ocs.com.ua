@@ -54,10 +54,7 @@ const _ = getInlineTranslations(lang);
 				</div>
 
 				<div class="reveal flex shrink-0 flex-col gap-3 sm:flex-row lg:flex-col" style="--i:4">
-					<a
-						href={`/${lang}/contact`}
-						class="press group bg-primary text-primary-foreground focus-visible:outline-secondary inline-flex w-full items-center justify-center gap-2 rounded-lg px-5 py-3.5 text-sm leading-5.5 font-medium shadow-xs transition-[opacity,box-shadow] hover:opacity-90 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 sm:w-auto sm:px-7 sm:text-[15px]"
-					>
+					<a href={`/${lang}/contact`} class="btn-primary press group w-full sm:w-auto">
 						<span>{_("Request a quote")}</span>
 						<ArrowRight
 							class="size-4.5 transition-transform duration-(--dur-fast) group-hover:translate-x-1"
@@ -66,7 +63,7 @@ const _ = getInlineTranslations(lang);
 					</a>
 					<a
 						href={`tel:${companyData.phone.replace(/\s+/g, "")}`}
-						class="press border-secondary text-secondary hover:bg-secondary/5 focus-visible:outline-secondary font-technical-data inline-flex w-full items-center justify-center gap-2 rounded-lg border-2 px-5 py-3.5 text-sm leading-5.5 font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 sm:w-auto sm:px-7 sm:text-[15px]"
+						class="btn-secondary press w-full sm:w-auto"
 					>
 						<PhoneCall class="size-4.5" aria-hidden="true" />
 						<span>{companyData.phone}</span>

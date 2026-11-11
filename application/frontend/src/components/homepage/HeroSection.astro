@@ -95,20 +95,14 @@ const partners = [_("Official Partner of Wipotec GmbH"), _("Official Partner of 
 
 			{/* CTA buttons */}
 			<div class="hero-rise flex flex-col gap-3 pt-2 sm:flex-row" style="--d:3">
-				<a
-					href={`/${lang}/contact`}
-					class="press group bg-primary text-primary-foreground focus-visible:outline-secondary inline-flex items-center justify-center gap-2 rounded-lg px-7 py-3.5 text-[15px] leading-5.5 font-medium shadow-xs transition-[opacity,box-shadow] hover:opacity-90 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2"
-				>
+				<a href={`/${lang}/contact`} class="btn-primary press group">
 					{_("Contact Us")}
 					<ArrowRight
 						class="size-4.5 transition-transform duration-(--dur-fast) group-hover:translate-x-1"
 						aria-hidden="true"
 					/>
 				</a>
-				<a
-					href={categoryUrl(lang, "checkweigher")}
-					class="press border-secondary text-secondary hover:bg-secondary/5 focus-visible:outline-secondary inline-flex items-center justify-center gap-2 rounded-lg border-2 px-7 py-3.5 text-[15px] leading-5.5 font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
-				>
+				<a href={categoryUrl(lang, "checkweigher")} class="btn-secondary press">
 					{_("View Products")}
 				</a>
 			</div>

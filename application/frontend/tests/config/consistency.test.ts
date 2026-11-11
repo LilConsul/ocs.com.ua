@@ -41,3 +41,45 @@ describe("card hover", () => {
 		});
 	}
 });
+
+describe("buttons and links", () => {
+	it("defines btn-primary, btn-secondary, btn-sm and link-arrow", () => {
+		for (const name of ["btn-primary", "btn-secondary", "btn-sm", "link-arrow"]) {
+			expect(rules).toContain(`.${name}`);
+		}
+	});
+
+	const primary = [
+		"components/homepage/HeroSection.astro",
+		"components/about/AboutHero.astro",
+		"components/about/AboutCta.astro",
+		"components/about/ManufacturerCredentials.astro",
+		"components/catalogue/CatalogueSidebar.astro",
+		"components/catalogue/DatasheetModal.astro",
+		"components/contact/ContactForm.astro",
+		"components/errors/NotFoundContent.astro",
+		"components/errors/ServerErrorContent.astro",
+		"pages/[lang]/catalogue/equipment/[category]/[slug].astro",
+	];
+	const secondary = [
+		"components/homepage/HeroSection.astro",
+		"components/about/AboutHero.astro",
+		"components/about/AboutCta.astro",
+		"components/contact/OfficeLocation.astro",
+		"components/errors/NotFoundContent.astro",
+		"components/errors/ServerErrorContent.astro",
+		"pages/[lang]/catalogue/equipment/[category]/[slug].astro",
+	];
+	for (const file of primary) {
+		it(`${file} uses btn-primary`, () => expect(read(file)).toContain("btn-primary"));
+	}
+	for (const file of secondary) {
+		it(`${file} uses btn-secondary`, () => expect(read(file)).toContain("btn-secondary"));
+	}
+
+	it("no component keeps its own copy of the button size", () => {
+		for (const file of [...new Set([...primary, ...secondary])]) {
+			expect(read(file)).not.toContain("rounded-lg px-7 py-3.5");
+		}
+	});
+});
