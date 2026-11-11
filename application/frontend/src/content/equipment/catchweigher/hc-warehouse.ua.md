@@ -1,30 +1,26 @@
 ---
 file_name: hc-warehouse
-type: product
-title: Кетчвейєр HC-Warehouse
 order: 1
+gallery:
+  - /assets/image_c2afd3b1.webp
+  - /assets/image_ccc86c14.webp
+  - /assets/image_343ad479.webp
+datasheet: null
 industries:
   - logistics
-description: >-
-  Вигідні за ціною динамічні ваги для складу та внутрішньої логістики. Діапазон
-  зважування до 50 кг зі швидкістю транспортування до 1.2 м/с. Має концепцію
-  передбачуваного обслуговування для максимальної безвідмовності.
-gallery:
-  - >-
-    /assets/equipment/hc-warehouse/csm_catchweigher-hc-warehouse-left-72105245_6f49444971.webp
-  - >-
-    /assets/equipment/hc-warehouse/csm_catchweigher-hc-warehouse-front-72105245_6683c75d22.webp
-  - >-
-    /assets/equipment/hc-warehouse/csm_catchweigher-hc-warehouse-right-72105245_0bd99e6e16.webp
-datasheet: null
+title: Кетчвейєр HC-Warehouse
+description: Вигідні за ціною динамічні ваги для складу та внутрішньої
+  логістики. Діапазон зважування до 50 кг зі швидкістю транспортування до 1.2
+  м/с. Має концепцію передбачуваного обслуговування для максимальної
+  безвідмовності.
 specs:
   - items:
       - label: Макс. швидкість
         value: 1,2 м/с
       - label: Дискретність
         value: TODO
+type: product
 ---
-
 ## Вигідні за ціною динамічні ваги для складського та внутрішньологістичного сектору
 
 HC-Warehouse є ідеальним рішенням для застосувань зважування у складському та внутрішньологістичному секторі. Таким чином, Wipotec створила перші ваги в цьому ціновому сегменті без компромісів щодо якості та довговічності. Завдяки інноваційному використанню лише одного центрального тензометричного датчика ваги, HC-Warehouse є дуже міцним і надійним. Водночас це забезпечує швидке та нескладне обслуговування.

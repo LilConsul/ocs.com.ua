@@ -1,13 +1,12 @@
 ---
 file_name: hc-warehouse
 type: product
-title: HC-Warehouse Catchweigher
 order: 1
-description: >-
-  Attractively priced catchweigher for warehouse and intralogistics. Weighing
-  range up to 50 kg with transport speeds up to 1.2 m/s. Features predictive
-  maintenance concept for maximum uptime.
 datasheet: null
+title: HC-Warehouse Catchweigher
+description: Attractively priced catchweigher for warehouse and intralogistics.
+  Weighing range up to 50 kg with transport speeds up to 1.2 m/s. Features
+  predictive maintenance concept for maximum uptime.
 specs:
   - items:
       - label: Max Speed
@@ -15,7 +14,6 @@ specs:
       - label: Resolution
         value: TODO
 ---
-
 ## Attractively Priced Catchweigher for Warehouse and Intralogistics Sector
 
 The HC-Warehouse is the ideal solution for weighing applications in the warehouse and intralogistics sector. Wipotec has thus created the first scale in this price segment without compromising on quality and durability. Due to the innovative use of only one central strain gauge Weigh Cell, the HC-Warehouse is very robust and reliable. At the same time, it enables fast and uncomplicated maintenance.
