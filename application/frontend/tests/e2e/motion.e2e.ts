@@ -21,7 +21,7 @@ const lastReveal = (page: Page) => page.locator(".reveal").last();
 
 test.describe("scroll reveals", () => {
 	test("hide until scrolled into view, then play once and stay visible", async ({ page }) => {
-		await page.goto(HOME);
+		await page.goto(HOME, { waitUntil: "domcontentloaded" });
 		await expect(page.locator("html")).toHaveClass(/motion-on/);
 
 		const target = lastReveal(page);
