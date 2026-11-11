@@ -19,7 +19,7 @@ description: HC-Warehouse — це ідеальне рішення для зва
 specs:
   - items:
       - label: Макс. швидкість
-        value: 1,2 м/с
+        value: 1.2 м/с
       - label: Дискретність
         value: від 5 г.
       - label: Найбільша границя зважування
