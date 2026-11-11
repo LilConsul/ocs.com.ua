@@ -257,12 +257,12 @@
 
 @media (prefers-reduced-motion: no-preference) {
 	.hero-rise {
-		animation: rise 0.7s var(--ease-out-expo) backwards;
+		animation: rise var(--dur-slow) var(--ease-out-expo) backwards;
 		animation-delay: calc(var(--d, 0) * 90ms);
 	}
 
 	.hero-media {
-		animation: hero-media-in 1.2s var(--ease-out-quart) both;
+		animation: hero-media-in var(--dur-slow) var(--ease-out-quart) both;
 	}
 }
 
@@ -392,7 +392,7 @@
 	background: linear-gradient(90deg, var(--primary), var(--secondary));
 	transform: scaleX(0);
 	transform-origin: left;
-	transition: transform 120ms linear;
+	transition: transform var(--dur-fast) linear;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -421,7 +421,7 @@
 		border: 1px solid color-mix(in oklab, var(--secondary) 88%, transparent);
 		opacity: 0.9;
 		clip-path: inset(0 100% 100% 0 round 0.75rem);
-		transition: clip-path 900ms var(--ease-out-expo);
+		transition: clip-path var(--dur-slow) var(--ease-out-expo);
 	}
 
 	.product-card:hover::after,
@@ -434,8 +434,8 @@
 	.img-fade {
 		transition:
 			opacity var(--dur-slow) var(--ease-out-quart),
-			transform 700ms var(--ease-out-quart),
-			filter 700ms var(--ease-out-quart);
+			transform var(--dur-slow) var(--ease-out-quart),
+			filter var(--dur-slow) var(--ease-out-quart);
 	}
 
 	.product-card:hover .img-fade,
@@ -444,12 +444,12 @@
 	}
 
 	.reveal-heading[data-revealed] {
-		animation: heading-settle 700ms var(--ease-out-expo) both;
+		animation: heading-settle var(--dur-slow) var(--ease-out-expo) both;
 	}
 
 	.mobile-menu-shell[data-open="true"] a,
 	.mobile-menu-shell[data-open="true"] .font-mono {
-		animation: menu-item-in 450ms var(--ease-out-expo) both;
+		animation: menu-item-in var(--dur-base) var(--ease-out-expo) both;
 	}
 
 	.mobile-menu-shell[data-open="true"] a:nth-child(2) {
@@ -735,7 +735,7 @@ html.motion-on .img-fade[data-loaded] {
 		text-decoration: underline;
 		text-decoration-thickness: 1px;
 		text-underline-offset: 3px;
-		transition: color 0.2s;
+		transition: color var(--dur-fast);
 	}
 	.prose a:hover {
 		color: var(--color-foreground);

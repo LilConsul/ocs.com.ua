@@ -7,8 +7,11 @@
 /** Cubic-bezier control points, same curve as the CSS `--ease-out-expo` token */
 export const EASE_OUT_EXPO: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
+/** Seconds for the three shared speeds; mirrors `--dur-fast|base|slow` in `styles/global.css` */
+export const DUR = { fast: 0.15, base: 0.3, slow: 0.7 } as const;
+
 /** Seconds per reveal animation */
-export const REVEAL_DURATION = 1.1;
+export const REVEAL_DURATION = DUR.slow;
 
 /** Seconds of delay added per `--i` step */
 export const STAGGER_STEP = 0.14;

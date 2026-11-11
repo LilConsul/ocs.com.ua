@@ -1,9 +1,11 @@
 import { describe, expect, it } from "bun:test";
 import {
+	DUR,
 	EASE_OUT_EXPO,
 	FAILSAFE_MS,
 	MAX_STAGGER_INDEX,
 	parseIndex,
+	REVEAL_DURATION,
 	REVEAL_SELECTOR,
 	revealDelay,
 	revealKeyframes,
@@ -100,5 +102,12 @@ describe("constants", () => {
 	it("uses an ease-out curve with a 3 second failsafe", () => {
 		expect(EASE_OUT_EXPO).toEqual([0.16, 1, 0.3, 1]);
 		expect(FAILSAFE_MS).toBe(3000);
+	});
+});
+
+describe("DUR", () => {
+	it("exposes DUR matching the CSS duration tokens", () => {
+		expect(DUR).toEqual({ fast: 0.15, base: 0.3, slow: 0.7 });
+		expect(REVEAL_DURATION).toBe(DUR.slow);
 	});
 });

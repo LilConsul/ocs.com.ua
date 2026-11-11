@@ -1,7 +1,7 @@
 import { describe, expect, it } from "bun:test";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { EASE_OUT_EXPO } from "@/lib/anims/tokens";
+import { DUR, EASE_OUT_EXPO } from "@/lib/anims/tokens";
 
 const SRC = join(import.meta.dir, "../../src");
 const read = (path: string) => readFileSync(join(SRC, path), "utf8");
@@ -52,6 +52,21 @@ describe("motion: global.css", () => {
 		expect(match).not.toBeNull();
 		const values = match?.[1].split(",").map(Number);
 		expect(values).toEqual([...EASE_OUT_EXPO]);
+	});
+
+	it("keeps CSS duration tokens equal to the JS ones", () => {
+		for (const [name, seconds] of Object.entries(DUR)) {
+			const match = css.match(new RegExp(`--dur-${name}:\\s*(\\d+)ms`));
+			expect(match).not.toBeNull();
+			expect(Number(match?.[1])).toBe(Math.round(seconds * 1000));
+		}
+	});
+
+	it("uses no hand-set durations in transition or animation declarations", () => {
+		const declarations = rules.match(/\b(?:transition|animation)(?:-duration)?\s*:[^;{}]*;/g) ?? [];
+		for (const declaration of declarations) {
+			expect(declaration).not.toMatch(/(?<![\w.-])(?!0s\b)\d*\.?\d+m?s\b/);
+		}
 	});
 
 	it("defines the duration tokens", () => {

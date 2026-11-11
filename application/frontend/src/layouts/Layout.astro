@@ -4,7 +4,7 @@ import type { ComponentProps } from "astro/types";
 import { SEO } from "astro-seo";
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
-import TechnicalField from "@/components/TechnicalField.astro";
+import type TechnicalField from "@/components/TechnicalField.astro";
 import companyData from "@/data/company.json";
 import { defaultLang, getIsoLang, getLangFromUrl } from "@/i18n";
 import type { SchemaGraph } from "@/lib/structured-data";
@@ -147,7 +147,10 @@ const defaultDescription =
 	</head>
 	<body class={`page-${backgroundVariant} bg-background text-foreground min-h-screen antialiased`}>
 		<div class="site-technical-field" aria-hidden="true">
-			<TechnicalField variant={backgroundVariant} opacity={backgroundVariant === "quiet" ? 0.22 : 0.28} />
+			<TechnicalField
+				variant={backgroundVariant}
+				opacity={backgroundVariant === "quiet" ? 0.22 : 0.28}
+			/>
 		</div>
 		<div class="scroll-progress" data-scroll-progress aria-hidden="true"></div>
 		{showHeader && <Header currentLang={lang} currentPath={currentPath} />}
