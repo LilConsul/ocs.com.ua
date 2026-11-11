@@ -23,7 +23,7 @@ const image = coverImage;
 
 <a
 	href={`/${lang}/wiki/${slug}`}
-	class="reveal group/card bg-surface-lowest border-border-subtle hover:border-secondary/40 focus-visible:outline-secondary flex h-full flex-col overflow-hidden rounded-xl border p-5 shadow-xs transition-[translate,box-shadow,border-color] duration-(--dur-base) hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 motion-safe:hover:-translate-y-0.5 sm:p-6"
+	class="card-hover reveal group/card bg-surface-lowest border-border-subtle focus-visible:outline-secondary flex h-full flex-col overflow-hidden rounded-xl border p-5 shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 sm:p-6"
 	style={`--i:${index % 3}`}
 	data-wiki-item
 	data-wiki-text={`${title} ${description ?? ""}`.toLowerCase()}

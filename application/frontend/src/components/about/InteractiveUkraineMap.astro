@@ -290,7 +290,7 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 						const SectorIcon = sectorIcons[sector.category];
 						return (
 							<article
-								class="reveal group/card bg-surface-container border-border-subtle/70 hover:border-secondary/40 rounded-xl border p-4 shadow-xs transition-[translate,box-shadow,border-color] duration-(--dur-base) hover:shadow-lg motion-safe:hover:-translate-y-0.5 sm:p-6"
+								class="card-hover reveal group/card bg-surface-container border-border-subtle/70 rounded-xl border p-4 shadow-xs sm:p-6"
 								style={`--i:${si}`}
 							>
 								<header class="flex items-center justify-between gap-2 sm:gap-3">

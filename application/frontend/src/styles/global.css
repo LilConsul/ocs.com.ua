@@ -884,3 +884,22 @@ html.motion-on .eyebrow-rule:not([data-revealed]) {
 		width: 100%;
 	}
 }
+
+/* One hover treatment for every card (product, industry, wiki, partner, client).
+ * Unlayered on purpose: it must beat the base `shadow-*` utility on the same element. */
+.card-hover {
+	transition-property: translate, box-shadow, border-color;
+	transition-duration: var(--dur-base);
+	transition-timing-function: var(--ease-out-quart);
+}
+
+.card-hover:hover {
+	border-color: color-mix(in oklab, var(--secondary) 40%, transparent);
+	box-shadow: var(--shadow-lg);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.card-hover:hover {
+		translate: 0 -2px;
+	}
+}

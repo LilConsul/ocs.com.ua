@@ -523,7 +523,7 @@ const sections = [
 			.map(
 				(p, i) => `
 			<article
-				class="product-card reveal group bg-background border-border-subtle/70 hover:border-secondary/40 flex flex-col overflow-hidden rounded-xl border shadow-xs transition-[translate,box-shadow,border-color] duration-(--dur-base) hover:shadow-lg motion-safe:hover:-translate-y-0.5"
+				class="card-hover product-card reveal group bg-background border-border-subtle/70 flex flex-col overflow-hidden rounded-xl border shadow-xs"
 				style="--i:${i % 3}"
 				data-product-item
 				data-product-text="${(p.title + " " + p.description).toLowerCase().replace(/"/g, "&quot;")}"
