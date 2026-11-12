@@ -970,27 +970,3 @@ html.motion-on .eyebrow-rule:not([data-revealed]) {
 [data-featured-tabs]:not([data-tabs-ready]) .featured-panel + .featured-panel {
 	margin-top: 3.5rem;
 }
-
-/* Gallery photos slide in from the side the pointer is moving towards. A slide, not a fade:
- * the photo is fully opaque the whole time. */
-@keyframes gallery-in-next {
-	from {
-		translate: 10% 0;
-	}
-}
-
-@keyframes gallery-in-prev {
-	from {
-		translate: -10% 0;
-	}
-}
-
-@media (prefers-reduced-motion: no-preference) {
-	[data-gallery-stage] img[data-enter="next"] {
-		animation: gallery-in-next var(--dur-base) var(--ease-out-quart);
-	}
-
-	[data-gallery-stage] img[data-enter="prev"] {
-		animation: gallery-in-prev var(--dur-base) var(--ease-out-quart);
-	}
-}

@@ -7,9 +7,9 @@ export function indexFromPosition(x: number, width: number, count: number): numb
 
 /**
  * Lets a mouse step through the photos of a spotlight: moving across the stage shows the photo
- * for that zone, and leaving it keeps the photo that was showing. A new photo slides in
- * (`data-enter` = "next" or "prev", animated in CSS) instead of fading. Touch and pen input are
- * ignored, and without the script only the first photo is visible.
+ * for that zone, and leaving it keeps the photo that was showing. Photos cut instantly, with no
+ * fade or slide. Touch and pen input are ignored, and without the script only the first photo
+ * is visible.
  * Expects `<img>` photos and optional `[data-gallery-dot]` markers inside `stage`.
  */
 export function initFeaturedGallery(stage: HTMLElement): void {
@@ -22,12 +22,9 @@ export function initFeaturedGallery(stage: HTMLElement): void {
 
 	const show = (index: number) => {
 		if (index === current) return;
-		const direction = index > current ? "next" : "prev";
 		current = index;
 		images.forEach((img, i) => {
 			img.hidden = i !== index;
-			if (i === index) img.dataset.enter = direction;
-			else delete img.dataset.enter;
 		});
 		dots.forEach((dot, i) => {
 			if (i === index) dot.dataset.active = "";

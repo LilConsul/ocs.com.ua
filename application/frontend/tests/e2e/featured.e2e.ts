@@ -164,7 +164,7 @@ for (const lang of ["ua", "en"]) {
 			expect(await shownIndex()).toBe(last);
 		});
 
-		test("a photo change slides in without fading", async ({ page }) => {
+		test("a photo change cuts instantly with no animation", async ({ page }) => {
 			await page.setViewportSize({ width: 1440, height: 1000 });
 			await openHome(page, `/${lang}`);
 			const stage = visiblePanel(page).locator("article [data-gallery-stage]");
@@ -172,14 +172,14 @@ for (const lang of ["ua", "en"]) {
 			const box = await stage.boundingBox();
 			if (!box) throw new Error("stage has no box");
 			await page.mouse.move(box.x + box.width * 0.95, box.y + box.height / 2);
-			const entering = stage.locator("img[data-enter]:not([hidden])");
-			await expect(entering).toHaveCount(1);
-			const animation = await entering.evaluate((el) => {
-				const style = getComputedStyle(el);
-				return { name: style.animationName, opacity: Number(style.opacity) };
+			const shown = stage.locator("img:not([hidden])");
+			await expect(shown).toHaveCount(1);
+			const style = await shown.evaluate((el) => {
+				const computed = getComputedStyle(el);
+				return { animation: computed.animationName, opacity: Number(computed.opacity) };
 			});
-			expect(animation.name).not.toBe("none");
-			expect(animation.opacity).toBe(1);
+			expect(style.animation).toBe("none");
+			expect(style.opacity).toBe(1);
 		});
 
 		test("list cards step through their photos on hover and show a key spec", async ({ page }) => {
