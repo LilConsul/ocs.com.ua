@@ -190,7 +190,7 @@ test.describe("page transitions", () => {
 });
 
 test.describe("button press state", () => {
-	const primary = (page: Page) => page.locator("main a.bg-primary").first();
+	const primary = (page: Page) => page.locator("main a.btn-primary").first();
 
 	test("primary call-to-action scales down while pressed", async ({ page }) => {
 		await page.goto(HOME);

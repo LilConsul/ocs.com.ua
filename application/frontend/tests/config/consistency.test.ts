@@ -103,11 +103,11 @@ describe("featured equipment band", () => {
 		expect(band).toContain("initFeaturedTabs");
 	});
 
-	it("reuses the shared card, divider and link styles", () => {
-		for (const name of ["card-hover", "section-block", "link-arrow"]) {
+	it("reuses the shared card and link styles on a plain section background", () => {
+		for (const name of ["card-hover", "bg-background", "link-arrow"]) {
 			expect(band).toContain(name);
 		}
-		expect(band).not.toMatch(/duration-\d+/);
+		expect(band).not.toMatch(/\bduration-\d+\b/);
 	});
 
 	it("shows every panel when JavaScript is off and hides the tab bar", () => {
@@ -119,5 +119,34 @@ describe("featured equipment band", () => {
 
 	it("animates a panel switch with the shared base duration", () => {
 		expect(rules).toMatch(/featured-panel-in\s+var\(--dur-base\)/);
+	});
+});
+
+describe("homepage rhythm", () => {
+	const firstSectionClass = (file: string) =>
+		(read(file).match(/<section\b[^>]*>/)?.[0] ?? "").match(/class="([^"]*)"/)?.[1] ?? "";
+
+	it("alternates grey and white sections in page order", () => {
+		const order = [
+			["components/homepage/StatsSection.astro", "bg-surface-container"],
+			["components/homepage/FeaturedEquipment.astro", "bg-background"],
+			["components/homepage/IndustriesSection.astro", "bg-surface-container"],
+			["components/homepage/PartnersSection.astro", "bg-background"],
+		];
+		for (const [file, fill] of order) {
+			expect(firstSectionClass(file).split(/\s+/)).toContain(fill);
+		}
+	});
+
+	it("gives industry cards the same white card surface as the other cards", () => {
+		for (const file of [
+			"components/homepage/atoms/IndustryCard.astro",
+			"components/homepage/atoms/IndustryCardSmall.astro",
+		]) {
+			const root = read(file).match(/<Tag[^>]*class="([^"]*)"/)?.[1] ?? "";
+			expect(root.split(/\s+/)).toContain("bg-background");
+			expect(root.split(/\s+/)).not.toContain("bg-surface-container");
+			expect(root).toContain("card-hover");
+		}
 	});
 });

@@ -37,7 +37,7 @@ const keySpecs = (entry: EquipmentEntry) =>
 		<section
 			id="featured-equipment"
 			aria-labelledby="featured-heading"
-			class="section-block relative w-full scroll-mt-[calc(6rem+var(--banner-h,0px))] py-16 lg:py-24"
+			class="bg-background border-border-subtle/40 relative w-full scroll-mt-[calc(6rem+var(--banner-h,0px))] border-y py-16 lg:py-24"
 			data-featured-tabs
 		>
 			<div class="px-edge-margin mx-auto max-w-7xl">
@@ -138,7 +138,7 @@ const keySpecs = (entry: EquipmentEntry) =>
 									{others.map((entry) => (
 										<a
 											href={href(entry)}
-											class="card-hover bg-background border-border-subtle/70 focus-visible:outline-secondary flex flex-1 items-center gap-4 rounded-xl border p-4 shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2"
+											class="card-hover bg-background border-border-subtle/70 focus-visible:outline-secondary flex max-h-40 flex-1 items-center gap-4 rounded-xl border p-4 shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2"
 										>
 											<span class="border-border-subtle/40 flex size-20 shrink-0 items-center justify-center rounded-lg border bg-white p-1.5">
 												<Image
@@ -160,7 +160,7 @@ const keySpecs = (entry: EquipmentEntry) =>
 											</span>
 										</a>
 									))}
-									<a href={categoryUrl(lang, category.slug)} class="link-arrow mt-auto self-start">
+									<a href={categoryUrl(lang, category.slug)} class="link-arrow self-start pt-1">
 										{_("View all {category}").replace("{category}", category.title)}
 										<ArrowRight class="link-arrow-icon size-4" aria-hidden="true" />
 									</a>
