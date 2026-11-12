@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import { getCollection, render } from "astro:content";
 import { Clock } from "@lucide/astro";
 import WikiCard from "@/components/wiki/WikiCard.astro";
@@ -151,7 +152,16 @@ const structuredData = createPageGraph({
 							class="hero-rise border-border-subtle bg-surface-container mt-8 aspect-video w-full overflow-hidden rounded-xl border"
 							style="--d:3"
 						>
-							<img src={coverImage.src} alt={title} class="size-full object-cover" />
+							<Image
+								src={coverImage}
+								alt={title}
+								width={coverImage.width}
+								height={coverImage.height}
+								widths={[640, 960, 1280]}
+								sizes="(min-width: 1024px) 768px, 100vw"
+								loading="eager"
+								class="size-full object-cover"
+							/>
 						</div>
 					)
 				}
