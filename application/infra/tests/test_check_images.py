@@ -1,4 +1,7 @@
-"""Tests for check-images.py: guards public images against mislabeled or oversized files."""
+"""Tests for check-images.py.
+
+Guards the images in public/ and src/assets/ against mislabeled or oversized files.
+"""
 
 import importlib.util
 import os

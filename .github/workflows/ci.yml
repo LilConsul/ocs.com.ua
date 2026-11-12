@@ -83,7 +83,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v10.3.3
-      - name: "[FE] Public images are real, small and not oversized"
+      - name: "[FE] Images are real, small and not oversized"
         run: uv run application/infra/scripts/check-images.py
 
   infra-unit-test:

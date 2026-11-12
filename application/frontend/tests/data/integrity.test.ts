@@ -452,6 +452,14 @@ describe("wiki content", () => {
 		expect(mismatched).toEqual([]);
 	});
 
+	it("references only cover images that exist in src/assets", () => {
+		const missing = wikiFiles
+			.map((f) => ({ f, cover: parseWikiFrontmatter(f).coverImage as string | undefined }))
+			.filter(({ cover }) => cover && missingFromSrcAssets(cover))
+			.map(({ f, cover }) => `${f}: ${cover}`);
+		expect(missing).toEqual([]);
+	});
+
 	it("matches the wiki content schema", () => {
 		const schema = (collections as any).wiki?.schema;
 		expect(schema).toBeDefined();
