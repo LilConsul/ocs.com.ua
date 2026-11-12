@@ -12,7 +12,7 @@ import {
 	getGallery,
 	getSlug,
 } from "@/lib/content-utils";
-import { getFeaturedGroups } from "@/lib/featured-equipment";
+import { getFeaturedGroups, summarize } from "@/lib/featured-equipment";
 
 interface Props {
 	lang: Lang;
@@ -30,7 +30,7 @@ const keySpecs = (entry: EquipmentEntry) =>
 	flattenSpecs(entry.data.specs)
 		.slice(0, 3)
 		.map((spec) => ({ ...spec, value: spec.value.split(",")[0].trim() }));
-const pad = (n: number) => String(n).padStart(2, "0");
+const model = (entry: EquipmentEntry) => getSlug(entry).toUpperCase();
 ---
 
 {
@@ -92,73 +92,78 @@ const pad = (n: number) => String(n).padStart(2, "0");
 									class="card-hover group bg-background border-border-subtle/70 flex h-full flex-col overflow-hidden rounded-xl border shadow-xs lg:col-span-2 lg:data-[solo]:col-span-3"
 									data-solo={others.length === 0 ? "" : undefined}
 								>
-									<a
-										href={href(spotlight)}
-										class="border-border-subtle/40 focus-visible:outline-secondary relative flex h-64 items-center justify-center overflow-hidden border-b bg-[radial-gradient(ellipse_at_50%_40%,var(--background),var(--surface-container))] p-1 focus-visible:outline-2 focus-visible:-outline-offset-2 lg:h-72"
-										aria-label={spotlight.data.title}
-									>
-										<Image
-											src={image(spotlight)}
-											alt={spotlight.data.title}
-											width={1000}
-											height={625}
-											class="relative h-full w-full object-contain mix-blend-multiply transition-transform duration-(--dur-slow) group-hover:scale-105"
-											loading="lazy"
-										/>
-										{spotlight.data.manufacturer && (
-											<span class="bg-background/90 text-secondary border-border-subtle/60 font-label-caps absolute top-4 left-4 rounded-full border px-3 py-1 text-[11px] font-semibold tracking-widest uppercase shadow-xs backdrop-blur-sm">
-												{spotlight.data.manufacturer}
-											</span>
-										)}
-									</a>
-									<div class="flex flex-1 flex-col gap-5 p-6 sm:p-8">
-										<div>
-											<p class="font-label-caps text-industrial-gray m-0 mb-2 text-[11px] tracking-widest uppercase">
-												{category.title}
-											</p>
-											<h3 class="font-headline-lg text-foreground m-0 text-2xl leading-tight font-semibold tracking-tight text-balance wrap-break-word sm:text-3xl">
-												{spotlight.data.title}
-											</h3>
-										</div>
-										{keySpecs(spotlight).length > 0 && (
-											<dl class="m-0 grid grid-cols-2 gap-3 p-0 lg:grid-cols-3">
-												{keySpecs(spotlight).map((spec, i) => (
-													<div
-														class:list={[
-															"bg-surface-container border-border-subtle/50 min-w-0 rounded-lg border px-4 py-4",
-															i === 2 && "hidden lg:block",
-														]}
-													>
-														<dt class="font-label-caps text-industrial-gray mb-1 truncate text-[10px] tracking-wider uppercase">
-															{spec.label}
-														</dt>
-														<dd class="font-technical-data text-foreground m-0 truncate text-lg font-bold lg:text-xl">
-															{spec.value}
-														</dd>
-													</div>
-												))}
-											</dl>
-										)}
+									<div class="grid flex-1 grid-cols-1 sm:grid-cols-2">
 										<a
 											href={href(spotlight)}
-											class="btn-primary btn-sm press group/cta mt-auto w-fit"
+											class="border-border-subtle/40 bg-surface-container/60 focus-visible:outline-secondary relative flex h-64 items-center justify-center overflow-hidden border-b p-6 focus-visible:outline-2 focus-visible:-outline-offset-2 sm:h-auto sm:min-h-72 sm:border-r sm:border-b-0"
+											aria-label={spotlight.data.title}
 										>
-											{_("Technical Details")}
-											<ArrowRight
-												class="size-4 transition-transform duration-(--dur-fast) group-hover/cta:translate-x-1"
-												aria-hidden="true"
+											<Image
+												src={image(spotlight)}
+												alt={spotlight.data.title}
+												width={800}
+												height={800}
+												class="relative h-full max-h-80 w-full object-contain mix-blend-multiply transition-transform duration-(--dur-slow) group-hover:scale-105"
+												loading="lazy"
 											/>
+											{spotlight.data.manufacturer && (
+												<span class="bg-background text-secondary border-border-subtle/60 font-label-caps absolute top-4 left-4 rounded-full border px-3 py-1 text-[11px] font-semibold tracking-widest uppercase shadow-xs">
+													{spotlight.data.manufacturer}
+												</span>
+											)}
 										</a>
+										<div class="flex flex-col gap-3 p-6 sm:p-8">
+											<p class="font-label-caps text-secondary m-0 text-[11px] font-semibold tracking-widest uppercase">
+												{category.title}
+											</p>
+											<h3 class="font-headline-lg text-foreground m-0 text-4xl leading-none font-semibold tracking-tight sm:text-5xl">
+												{model(spotlight)}
+											</h3>
+											<p class="font-body-md text-industrial-gray m-0 text-sm font-medium">
+												{spotlight.data.title}
+											</p>
+											{summarize(spotlight.data.description) && (
+												<p class="font-body-md text-industrial-gray m-0 text-sm leading-relaxed">
+													{summarize(spotlight.data.description)}
+												</p>
+											)}
+											<a href={href(spotlight)} class="btn-primary press group/cta mt-auto w-fit">
+												{_("Technical Details")}
+												<ArrowRight
+													class="size-4 transition-transform duration-(--dur-fast) group-hover/cta:translate-x-1"
+													aria-hidden="true"
+												/>
+											</a>
+										</div>
 									</div>
+									{keySpecs(spotlight).length > 0 && (
+										<dl class="border-border-subtle/50 bg-surface-container/60 m-0 grid grid-cols-2 gap-px border-t p-0 lg:grid-cols-3">
+											{keySpecs(spotlight).map((spec, i) => (
+												<div
+													class:list={[
+														"bg-background min-w-0 px-5 py-4 sm:px-6",
+														i === 2 && "hidden lg:block",
+													]}
+												>
+													<dt class="font-label-caps text-industrial-gray mb-1 truncate text-[10px] tracking-wider uppercase">
+														{spec.label}
+													</dt>
+													<dd class="font-headline-lg text-foreground m-0 truncate text-lg font-semibold tracking-tight">
+														{spec.value}
+													</dd>
+												</div>
+											))}
+										</dl>
+									)}
 								</article>
 
 								<div class="flex flex-col gap-4">
-									{others.map((entry, index) => (
+									{others.map((entry) => (
 										<a
 											href={href(entry)}
 											class="card-hover group/row bg-background border-border-subtle/70 focus-visible:outline-secondary flex max-h-40 flex-1 items-center gap-4 rounded-xl border p-4 shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 sm:gap-5 sm:p-5"
 										>
-											<span class="border-border-subtle/40 flex size-20 shrink-0 items-center justify-center rounded-lg border bg-[radial-gradient(ellipse_at_50%_40%,var(--background),var(--surface-container))] p-2 sm:size-24">
+											<span class="border-border-subtle/40 bg-surface-container/60 flex size-20 shrink-0 items-center justify-center rounded-lg border p-2 sm:size-24">
 												<Image
 													src={image(entry)}
 													alt=""
@@ -169,13 +174,10 @@ const pad = (n: number) => String(n).padStart(2, "0");
 												/>
 											</span>
 											<span class="min-w-0 flex-1">
-												<span
-													class="font-technical-data text-secondary mb-1 block text-xs font-semibold tracking-widest"
-													aria-hidden="true"
-												>
-													{pad(index + 2)}
+												<span class="font-headline-lg text-foreground block text-2xl leading-none font-semibold tracking-tight">
+													{model(entry)}
 												</span>
-												<span class="font-headline-lg text-foreground line-clamp-3 text-base leading-snug font-semibold wrap-break-word sm:text-lg">
+												<span class="font-body-md text-industrial-gray mt-2 block text-sm leading-snug wrap-break-word">
 													{entry.data.title}
 												</span>
 											</span>

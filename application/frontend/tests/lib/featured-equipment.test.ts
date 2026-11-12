@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import type { EquipmentEntry, EquipmentType } from "@/lib/content-utils";
-import { getFeaturedGroups } from "@/lib/featured-equipment";
+import { getFeaturedGroups, summarize } from "@/lib/featured-equipment";
 
 // The glob loader strips the dot before the locale, so "hc-a.en.md" has the id "hc-aen"
 const entry = (id: string, order?: number) =>
@@ -79,5 +79,36 @@ describe("getFeaturedGroups", () => {
 		const entries = [entry("catchweigher/aen", 1), entry("checkweigher/ben", 1)];
 		const groups = getFeaturedGroups(entries, "en", categories);
 		expect(groups.map((g) => g.category.slug)).toEqual(["checkweigher", "catchweigher"]);
+	});
+});
+
+describe("summarize", () => {
+	it("returns an empty string for missing text", () => {
+		expect(summarize(null)).toBe("");
+		expect(summarize(undefined)).toBe("");
+		expect(summarize("   ")).toBe("");
+	});
+
+	it("keeps short text whole", () => {
+		expect(summarize("One. Two.")).toBe("One. Two.");
+	});
+
+	it("stops at a sentence boundary instead of cutting a sentence", () => {
+		const text = "First sentence here. Second sentence is here too. Third sentence is long enough.";
+		expect(summarize(text, 50)).toBe("First sentence here. Second sentence is here too.");
+		expect(summarize(text, 30)).toBe("First sentence here.");
+	});
+
+	it("always returns the whole first sentence even when it is longer than the limit", () => {
+		const first = "A very long first sentence that goes well past the limit by itself.";
+		expect(summarize(`${first} Second.`, 10)).toBe(first);
+	});
+
+	it("collapses line breaks and repeated spaces", () => {
+		expect(summarize("Folded\n  over   text.")).toBe("Folded over text.");
+	});
+
+	it("does not split on decimals or units", () => {
+		expect(summarize("Weighs 0.1 g to 7.5 kg. Fast.", 24)).toBe("Weighs 0.1 g to 7.5 kg.");
 	});
 });

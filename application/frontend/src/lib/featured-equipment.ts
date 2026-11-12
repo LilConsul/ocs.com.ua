@@ -37,3 +37,18 @@ export function getFeaturedGroups(
 		return spotlight ? [{ category, spotlight, others: rest.slice(0, listSize) }] : [];
 	});
 }
+
+/**
+ * Whole sentences from `text` up to about `max` characters, always at least the first one and
+ * never cut mid-sentence. Decimals like "0.1 g" do not end a sentence.
+ */
+export function summarize(text: string | null | undefined, max = 230): string {
+	const flat = (text ?? "").replace(/\s+/g, " ").trim();
+	const sentences = flat.match(/.+?(?:[.!?]+(?=\s|$)|$)/g) ?? [];
+	let out = "";
+	for (const sentence of sentences) {
+		if (out && out.length + sentence.length > max) break;
+		out += sentence;
+	}
+	return out.trim();
+}
