@@ -22,15 +22,11 @@ const hasMultiple = galleryImages.length > 1;
 // The main and the lightbox picture: one set of props each, shared by the rendered first photo
 // and the per-photo sources the script swaps in, so photo 1 in the data equals the markup.
 const mainProps = {
-	width: 800,
-	height: 600,
 	widths: [640, 960, 1280],
 	sizes: "(min-width: 1024px) 640px, 100vw",
 	format: "webp",
 } as const;
 const lightboxProps = {
-	width: 1200,
-	height: 900,
 	widths: [1200, 1600],
 	sizes: "100vw",
 	format: "webp",
@@ -193,8 +189,6 @@ const thumbBase =
 								<Image
 									src={img}
 									alt={imageAlts[idx]}
-									width={160}
-									height={120}
 									widths={[100, 200]}
 									sizes="80px"
 									format="webp"
@@ -323,8 +317,6 @@ const thumbBase =
 							<Image
 								src={img}
 								alt={imageAlts[idx]}
-								width={100}
-								height={75}
 								widths={[100, 200]}
 								sizes="80px"
 								format="webp"
