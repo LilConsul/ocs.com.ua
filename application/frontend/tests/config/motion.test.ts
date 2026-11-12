@@ -32,7 +32,8 @@ describe("motion: global.css", () => {
 		const hiding = rules.match(/html\.motion-on[^{]*\{[^}]*opacity:\s*0[^}]*\}/g) ?? [];
 		expect(hiding.length).toBeGreaterThan(0);
 		for (const rule of hiding) {
-			expect(rule).toContain(":not([data-revealed])");
+			// Reveals hide until revealed; skeleton pictures hide until loaded
+			expect(rule).toMatch(/:not\(\[data-revealed\]\)|\.skeleton:not\(\[data-loaded\]\)/);
 		}
 		// No other rule may hide a reveal element
 		const withoutGated = rules.replace(/html\.motion-on[^{]*\{[^}]*\}/g, "");

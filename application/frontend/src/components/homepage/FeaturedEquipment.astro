@@ -106,7 +106,7 @@ const titleParts = (entry: EquipmentEntry) => {
 										<a
 											href={href(spotlight)}
 											data-gallery-stage
-											class="border-border-subtle/40 bg-surface-container/60 focus-visible:outline-secondary relative flex h-64 touch-pan-y items-center justify-center overflow-hidden border-b p-6 focus-visible:outline-2 focus-visible:-outline-offset-2 sm:h-auto sm:min-h-72 sm:border-r sm:border-b-0"
+											class="skeleton border-border-subtle/40 bg-surface-container/60 focus-visible:outline-secondary relative flex h-64 touch-pan-y items-center justify-center overflow-hidden border-b p-6 focus-visible:outline-2 focus-visible:-outline-offset-2 sm:h-auto sm:min-h-72 sm:border-r sm:border-b-0"
 											aria-label={spotlight.data.title}
 										>
 											{photos(spotlight).map((src, i) => (
@@ -198,7 +198,7 @@ const titleParts = (entry: EquipmentEntry) => {
 										>
 											<span
 												data-gallery-stage
-												class="border-border-subtle/40 bg-surface-container/60 flex w-28 shrink-0 touch-pan-y items-center justify-center self-stretch border-r p-3 sm:w-36"
+												class="skeleton border-border-subtle/40 bg-surface-container/60 flex w-28 shrink-0 touch-pan-y items-center justify-center self-stretch border-r p-3 sm:w-36"
 											>
 												{photos(entry).map((src, i) => (
 													<Image

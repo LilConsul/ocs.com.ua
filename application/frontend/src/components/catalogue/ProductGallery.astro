@@ -93,7 +93,7 @@ const thumbBase =
 		{/* Image area — full card, even padding on all sides */}
 		<div
 			data-gallery-stage
-			class="flex h-full w-full cursor-zoom-in items-center justify-center p-4 md:p-6"
+			class="skeleton flex h-full w-full cursor-zoom-in items-center justify-center p-4 md:p-6"
 		>
 			<Image
 				id="gallery-main-image"
@@ -147,7 +147,7 @@ const thumbBase =
 						<li role="presentation" class="h-18 w-24 shrink-0 snap-start">
 							<button
 								type="button"
-								class={`gallery-thumb group/thumb ${thumbBase} aria-selected:border-secondary aria-selected:ring-secondary/20 relative h-full w-full aria-selected:opacity-100 aria-selected:shadow-xs aria-selected:ring-2`}
+								class={`skeleton gallery-thumb group/thumb ${thumbBase} aria-selected:border-secondary aria-selected:ring-secondary/20 relative h-full w-full aria-selected:opacity-100 aria-selected:shadow-xs aria-selected:ring-2`}
 								data-index={idx}
 								aria-label={`${_("View image")} ${idx + 1}`}
 								role="tab"

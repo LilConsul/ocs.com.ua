@@ -163,6 +163,10 @@ const defaultDescription =
 		/>
 		<script>
 			import "@/lib/anims/runtime";
+			import { initImageSkeletons } from "@/lib/image-skeleton";
+
+			// Same bundle as the motion runtime, so the head failsafe also covers the skeletons
+			initImageSkeletons();
 		</script>
 		<script>
 			const progress = document.querySelector<HTMLElement>("[data-scroll-progress]");

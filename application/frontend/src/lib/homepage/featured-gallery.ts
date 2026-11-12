@@ -1,3 +1,5 @@
+import { markLoaded } from "@/lib/image-skeleton";
+
 /** Index of the photo for a pointer at `x` inside a stage `width` wide showing `count` photos */
 export function indexFromPosition(x: number, width: number, count: number): number {
 	if (count <= 1 || width <= 0) return 0;
@@ -32,6 +34,9 @@ export function initFeaturedGallery(stage: HTMLElement): void {
 	const show = (index: number) => {
 		if (index === current) return;
 		current = index;
+		// The loading skeleton waits for the first photo only; a step ends it, so the photo the
+		// user asked for is never kept transparent
+		if (stage.classList.contains("skeleton")) markLoaded(stage);
 		images.forEach((img, i) => {
 			img.hidden = i !== index;
 		});

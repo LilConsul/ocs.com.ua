@@ -155,16 +155,19 @@ const structuredData = createPageGraph({
 							class="hero-rise border-border-subtle bg-surface-container mt-8 aspect-video w-full overflow-hidden rounded-xl border"
 							style="--d:3"
 						>
-							<Image
-								src={coverImage}
-								alt={title}
-								width={coverImage.width}
-								height={coverImage.height}
-								widths={[640, 960, 1280]}
-								sizes="(min-width: 1024px) 768px, 100vw"
-								loading="eager"
-								class="size-full object-cover"
-							/>
+							{/* Inner box: the outer one runs the hero-rise animation, which the pulse would replace */}
+							<div class="skeleton size-full">
+								<Image
+									src={coverImage}
+									alt={title}
+									width={coverImage.width}
+									height={coverImage.height}
+									widths={[640, 960, 1280]}
+									sizes="(min-width: 1024px) 768px, 100vw"
+									loading="eager"
+									class="size-full object-cover"
+								/>
+							</div>
 						</div>
 					)
 				}

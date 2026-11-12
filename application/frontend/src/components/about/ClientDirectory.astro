@@ -161,7 +161,12 @@ const orderedPartners = SHOW_CLIENT_EQUIPMENT
 							style={`--i:${pi % 3}`}
 						>
 							{/* Logo band: fixed height so every card starts the same, logos get room to breathe */}
-							<figure class="border-border-subtle/40 m-0 flex h-28 items-center justify-center border-b bg-white px-8 py-4 sm:h-32">
+							<figure
+								class:list={[
+									"border-border-subtle/40 m-0 flex h-28 items-center justify-center border-b bg-white px-8 py-4 sm:h-32",
+									partner.logo && "skeleton",
+								]}
+							>
 								{partner.logo ? (
 									<Image
 										src={partner.logo}
