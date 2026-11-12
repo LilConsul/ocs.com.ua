@@ -88,8 +88,8 @@ describe("featured equipment band", () => {
 	const page = read("pages/[lang]/index.astro");
 	const band = read("components/homepage/FeaturedEquipment.astro");
 
-	it("sits between the stats strip and the industries section", () => {
-		const order = ["<StatsSection", "<FeaturedEquipment", "<IndustriesSection"].map((tag) =>
+	it("sits between the industries section and the partners section", () => {
+		const order = ["<IndustriesSection", "<FeaturedEquipment", "<PartnersSection"].map((tag) =>
 			page.indexOf(tag)
 		);
 		expect(order.every((i) => i >= 0)).toBe(true);
@@ -104,7 +104,7 @@ describe("featured equipment band", () => {
 	});
 
 	it("reuses the shared card and link styles on a plain section background", () => {
-		for (const name of ["card-hover", "bg-background", "link-arrow"]) {
+		for (const name of ["card-hover", "bg-surface-container", "link-arrow"]) {
 			expect(band).toContain(name);
 		}
 		expect(band).not.toMatch(/\bduration-\d+\b/);
@@ -129,8 +129,8 @@ describe("homepage rhythm", () => {
 	it("alternates grey and white sections in page order", () => {
 		const order = [
 			["components/homepage/StatsSection.astro", "bg-surface-container"],
-			["components/homepage/FeaturedEquipment.astro", "bg-background"],
-			["components/homepage/IndustriesSection.astro", "bg-surface-container"],
+			["components/homepage/IndustriesSection.astro", "bg-background"],
+			["components/homepage/FeaturedEquipment.astro", "bg-surface-container"],
 			["components/homepage/PartnersSection.astro", "bg-background"],
 		];
 		for (const [file, fill] of order) {

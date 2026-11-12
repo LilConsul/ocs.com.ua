@@ -30,6 +30,7 @@ const keySpecs = (entry: EquipmentEntry) =>
 	flattenSpecs(entry.data.specs)
 		.slice(0, 2)
 		.map((spec) => ({ ...spec, value: spec.value.split(",")[0].trim() }));
+const pad = (n: number) => String(n).padStart(2, "0");
 ---
 
 {
@@ -37,11 +38,11 @@ const keySpecs = (entry: EquipmentEntry) =>
 		<section
 			id="featured-equipment"
 			aria-labelledby="featured-heading"
-			class="bg-background border-border-subtle/40 relative w-full scroll-mt-[calc(6rem+var(--banner-h,0px))] border-y py-16 lg:py-24"
+			class="bg-surface-container border-border-subtle/40 relative w-full scroll-mt-[calc(6rem+var(--banner-h,0px))] border-y py-16 lg:py-24"
 			data-featured-tabs
 		>
 			<div class="px-edge-margin mx-auto max-w-7xl">
-				<header class="mb-8">
+				<header class="mb-10">
 					<p class="font-label-caps text-secondary m-0 flex items-center gap-3 text-xs font-semibold tracking-widest uppercase">
 						<span class="eyebrow-rule bg-secondary h-px w-8" aria-hidden="true" />
 						{_("Featured Equipment")}
@@ -55,7 +56,7 @@ const keySpecs = (entry: EquipmentEntry) =>
 				</header>
 
 				<div
-					class="featured-tablist reveal -mx-1 mb-8 gap-2 overflow-x-auto px-1 pb-1"
+					class="featured-tablist reveal border-border-subtle/70 -mx-1 mb-8 gap-1 overflow-x-auto border-b px-1 sm:gap-2"
 					role="tablist"
 					aria-label={_("Equipment categories")}
 					style="--i:0"
@@ -68,7 +69,7 @@ const keySpecs = (entry: EquipmentEntry) =>
 							aria-controls={`featured-panel-${category.slug}`}
 							aria-selected={i === 0 ? "true" : "false"}
 							tabindex={i === 0 ? 0 : -1}
-							class="font-technical-data border-border-subtle/60 bg-background text-industrial-gray hover:text-foreground hover:border-secondary/40 focus-visible:outline-secondary aria-selected:bg-foreground aria-selected:text-background aria-selected:border-foreground shrink-0 cursor-pointer rounded-full border px-4 py-2 text-sm whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+							class="text-industrial-gray hover:text-foreground focus-visible:outline-secondary aria-selected:text-secondary aria-selected:border-secondary -mb-px shrink-0 cursor-pointer border-b-2 border-transparent px-4 py-3 text-sm font-semibold whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:-outline-offset-2 sm:text-[15px]"
 						>
 							{category.title}
 						</button>
@@ -81,7 +82,7 @@ const keySpecs = (entry: EquipmentEntry) =>
 							role="tabpanel"
 							id={`featured-panel-${category.slug}`}
 							aria-labelledby={`featured-tab-${category.slug}`}
-							class="featured-panel [&:not(:first-child)]:mt-12"
+							class="featured-panel [&:not(:first-child)]:mt-14"
 						>
 							<h3 class="featured-panel-title font-headline-lg text-foreground m-0 mb-4 text-xl font-semibold">
 								{category.title}
@@ -90,7 +91,7 @@ const keySpecs = (entry: EquipmentEntry) =>
 								<article class="card-hover group bg-background border-border-subtle/70 flex h-full flex-col overflow-hidden rounded-xl border shadow-xs lg:col-span-2">
 									<a
 										href={href(spotlight)}
-										class="border-border-subtle/40 focus-visible:outline-secondary relative flex h-64 items-center justify-center border-b bg-white p-4 focus-visible:outline-2 focus-visible:-outline-offset-2 lg:h-72"
+										class="border-border-subtle/40 focus-visible:outline-secondary relative flex h-64 items-center justify-center overflow-hidden border-b bg-[radial-gradient(ellipse_at_50%_40%,var(--background),var(--surface-container))] p-1 focus-visible:outline-2 focus-visible:-outline-offset-2 lg:h-72"
 										aria-label={spotlight.data.title}
 									>
 										<Image
@@ -98,65 +99,83 @@ const keySpecs = (entry: EquipmentEntry) =>
 											alt={spotlight.data.title}
 											width={1000}
 											height={625}
-											class="h-full w-full object-contain mix-blend-multiply transition-transform duration-(--dur-slow) group-hover:scale-105"
+											class="relative h-full w-full object-contain mix-blend-multiply transition-transform duration-(--dur-slow) group-hover:scale-105"
 											loading="lazy"
 										/>
+										{spotlight.data.manufacturer && (
+											<span class="bg-background/90 text-secondary border-border-subtle/60 font-label-caps absolute top-4 left-4 rounded-full border px-3 py-1 text-[11px] font-semibold tracking-widest uppercase shadow-xs backdrop-blur-sm">
+												{spotlight.data.manufacturer}
+											</span>
+										)}
 									</a>
-									<div class="flex flex-1 flex-col gap-4 p-5 sm:p-6">
+									<div class="flex flex-1 flex-col gap-5 p-6 sm:p-8">
 										<div>
-											{spotlight.data.manufacturer && (
-												<p class="font-label-caps text-secondary m-0 mb-1 text-[11px] tracking-widest uppercase">
-													{spotlight.data.manufacturer}
-												</p>
-											)}
-											<h3 class="font-headline-lg text-foreground m-0 text-xl leading-snug font-semibold text-balance wrap-break-word">
+											<p class="font-label-caps text-industrial-gray m-0 mb-2 text-[11px] tracking-widest uppercase">
+												{category.title}
+											</p>
+											<h3 class="font-headline-lg text-foreground m-0 text-2xl leading-tight font-semibold tracking-tight text-balance wrap-break-word sm:text-3xl">
 												{spotlight.data.title}
 											</h3>
 										</div>
 										{keySpecs(spotlight).length > 0 && (
-											<dl class="m-0 grid grid-cols-2 gap-2 p-0">
+											<dl class="m-0 grid grid-cols-2 gap-3 p-0">
 												{keySpecs(spotlight).map((spec) => (
-													<div class="bg-surface-container border-border-subtle/50 min-w-0 rounded-lg border px-3 py-2">
-														<dt class="font-label-caps text-industrial-gray mb-0.5 truncate text-[10px] uppercase">
+													<div class="bg-surface-container border-border-subtle/50 min-w-0 rounded-lg border px-4 py-3">
+														<dt class="font-label-caps text-industrial-gray mb-1 truncate text-[10px] tracking-wider uppercase">
 															{spec.label}
 														</dt>
-														<dd class="font-technical-data text-foreground m-0 truncate text-sm font-bold">
+														<dd class="font-technical-data text-foreground m-0 truncate text-base font-bold">
 															{spec.value}
 														</dd>
 													</div>
 												))}
 											</dl>
 										)}
-										<a href={href(spotlight)} class="link-arrow mt-auto">
+										<a
+											href={href(spotlight)}
+											class="btn-primary btn-sm press group/cta mt-auto w-fit"
+										>
 											{_("Technical Details")}
-											<ArrowRight class="link-arrow-icon size-4" aria-hidden="true" />
+											<ArrowRight
+												class="size-4 transition-transform duration-(--dur-fast) group-hover/cta:translate-x-1"
+												aria-hidden="true"
+											/>
 										</a>
 									</div>
 								</article>
 
 								<div class="flex flex-col gap-4">
-									{others.map((entry) => (
+									{others.map((entry, index) => (
 										<a
 											href={href(entry)}
-											class="card-hover bg-background border-border-subtle/70 focus-visible:outline-secondary flex max-h-40 flex-1 items-center gap-4 rounded-xl border p-4 shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2"
+											class="card-hover group/row bg-background border-border-subtle/70 focus-visible:outline-secondary flex max-h-40 flex-1 items-center gap-4 rounded-xl border p-4 shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 sm:gap-5 sm:p-5"
 										>
-											<span class="border-border-subtle/40 flex size-20 shrink-0 items-center justify-center rounded-lg border bg-white p-1.5">
+											<span class="border-border-subtle/40 flex size-20 shrink-0 items-center justify-center rounded-lg border bg-[radial-gradient(ellipse_at_50%_40%,var(--background),var(--surface-container))] p-2 sm:size-24">
 												<Image
 													src={image(entry)}
 													alt=""
-													width={160}
-													height={160}
+													width={192}
+													height={192}
 													class="h-full w-full object-contain mix-blend-multiply"
 													loading="lazy"
 												/>
 											</span>
-											<span class="min-w-0">
-												<span class="font-headline-lg text-foreground line-clamp-2 block text-base leading-snug font-semibold wrap-break-word">
+											<span class="min-w-0 flex-1">
+												<span
+													class="font-technical-data text-secondary mb-1 block text-xs font-semibold tracking-widest"
+													aria-hidden="true"
+												>
+													{pad(index + 2)}
+												</span>
+												<span class="font-headline-lg text-foreground line-clamp-3 text-base leading-snug font-semibold wrap-break-word sm:text-lg">
 													{entry.data.title}
 												</span>
-												<span class="font-label-caps text-industrial-gray mt-1 block truncate text-[11px] tracking-widest uppercase">
-													{category.title}
-												</span>
+											</span>
+											<span
+												class="bg-surface-container text-secondary border-border-subtle/60 group-hover/row:bg-secondary group-hover/row:text-background group-hover/row:border-secondary flex size-9 shrink-0 items-center justify-center rounded-full border transition-colors duration-(--dur-base)"
+												aria-hidden="true"
+											>
+												<ArrowRight class="size-4" />
 											</span>
 										</a>
 									))}
