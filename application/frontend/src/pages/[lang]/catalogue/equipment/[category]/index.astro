@@ -20,6 +20,7 @@ import {
 	type Locale,
 	sortByOrder,
 } from "@/lib/content-utils";
+import { thumbUrl } from "@/lib/share-image";
 import { collectionPageSchema, createPageGraph } from "@/lib/structured-data";
 
 export async function getStaticPaths() {
@@ -85,12 +86,14 @@ const sortedProducts = Array.isArray(products) ? sortByOrder(products) : [];
 const sortedCategories = Array.isArray(allCategories) ? allCategories : [];
 
 // Minimal product index for cross-category search (title + description + url + first image)
-const productSearchIndex = localeProducts.map((p) => ({
-	title: p.data.title ?? "",
-	description: p.data.description ?? "",
-	url: productUrl(lang as Lang, getCategory(p), getSlug(p)),
-	image: (allGalleries as Record<string, ImageMetadata[]>)[p.id]?.[0]?.src ?? "",
-}));
+const productSearchIndex = await Promise.all(
+	localeProducts.map(async (p) => ({
+		title: p.data.title ?? "",
+		description: p.data.description ?? "",
+		url: productUrl(lang as Lang, getCategory(p), getSlug(p)),
+		image: await thumbUrl((allGalleries as Record<string, ImageMetadata[]>)[p.id]?.[0]),
+	}))
+);
 
 // Page metadata - with fallback for missing categoryData
 const pageTitle = `${categoryData?.title || "Equipment"} | ${companyData.shortName[lang as "en" | "ua"] ?? companyData.shortName.en}`;

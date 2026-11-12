@@ -66,3 +66,12 @@ mock.module("astro:content", () => ({
 	defineCollection: (config: unknown) => config,
 	getCollection: async () => equipmentEntries,
 }));
+
+// Bun has no astro:assets; a fake getImage returns the URL shape the build produces
+mock.module("astro:assets", () => ({
+	getImage: async (options: { src: ImageMetadata; width?: number; format?: string }) => {
+		const name = options.src.src.split("/").pop()?.split(".")[0] ?? "image";
+		const format = options.format ?? options.src.format;
+		return { src: `/_astro/${name}.w${options.width}.${format}`, options };
+	},
+}));

@@ -10,6 +10,7 @@ import WikiSidebar from "@/components/wiki/WikiSidebar.astro";
 import WikiToc from "@/components/wiki/WikiToc.astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import Layout from "@/layouts/Layout.astro";
+import { shareImageUrl } from "@/lib/share-image";
 import { articleSchema, createPageGraph } from "@/lib/structured-data";
 import {
 	calculateReadingMinutes,
@@ -71,13 +72,15 @@ const coverImage = getWikiCoverImage(article, allArticles);
 const siteUrl = Astro.site || "https://ocs.com.ua";
 const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
 
+const shareImage = await shareImageUrl(coverImage, siteUrl);
+
 const articleNode = articleSchema({
 	headline: title,
 	description,
 	url: currentUrl,
 	lang,
 	site: siteUrl,
-	image: coverImage?.src,
+	image: shareImage,
 	readMinutes,
 	wordCount: (article.body ?? "").split(/\s+/).filter(Boolean).length,
 });
@@ -100,7 +103,7 @@ const structuredData = createPageGraph({
 <Layout
 	title={`${title} | ${_("OS-Technology Ukraine")}`}
 	description={description}
-	image={coverImage?.src}
+	image={shareImage}
 	article={true}
 	structuredData={structuredData}
 >
