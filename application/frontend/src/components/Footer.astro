@@ -18,23 +18,32 @@ const currentYear = new Date().getFullYear();
 <footer class="border-border-subtle bg-background border-t">
 	<div class="container mx-auto max-w-7xl px-6">
 		<div
-			class="text-industrial-gray flex flex-col items-center justify-between gap-4 py-8 text-sm md:flex-row md:py-6"
+			class="text-industrial-gray flex flex-col items-center justify-between gap-5 py-8 text-sm md:flex-row md:gap-4 md:py-6"
 		>
-			{share && <ShareButtons title={share.title} description={share.description} />}
+			{
+				share && (
+					<div class="border-border-subtle/60 flex w-full justify-center border-b pb-5 md:w-auto md:border-0 md:pb-0">
+						<ShareButtons title={share.title} description={share.description} />
+					</div>
+				)
+			}
 
-			<p class="font-sans">
+			<p class="text-center font-sans text-balance hyphens-none">
 				&copy; {currentYear}{" "}{companyData.name[lang as "en" | "ua"] ?? companyData.name.en}. {
 					_("All rights reserved")
 				}.
 			</p>
 
-			<nav class="flex flex-wrap items-center justify-center gap-6">
-				<span class="font-sans opacity-50">
+			<nav class="flex flex-wrap items-center justify-center gap-x-8 gap-y-1">
+				<a
+					href={`/${lang}/privacy`}
+					class="hover:text-foreground py-1.5 font-sans transition-colors"
+				>
 					{_("Privacy Policy")}
-				</span>
-				<span class="font-sans opacity-50">
-					{_("Terms of Service")}
-				</span>
+				</a>
+				<a href={`/${lang}/terms`} class="hover:text-foreground py-1.5 font-sans transition-colors">
+					{_("Terms of Use")}
+				</a>
 			</nav>
 		</div>
 	</div>

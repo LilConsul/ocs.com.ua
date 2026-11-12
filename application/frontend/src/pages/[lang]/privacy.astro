@@ -1,0 +1,50 @@
+---
+import LegalDocumentView from "@/components/legal/LegalDocumentView.astro";
+import { getInlineTranslations, isValidLang, type Lang } from "@/i18n";
+import { languages } from "@/i18n/ui";
+import Layout from "@/layouts/Layout.astro";
+import { getPrivacyPolicy } from "@/lib/legal/document";
+import { createPageGraph } from "@/lib/structured-data";
+
+export function getStaticPaths() {
+	return (Object.keys(languages) as Lang[]).map((lang) => ({ params: { lang } }));
+}
+
+const langParam = Astro.params.lang;
+if (!isValidLang(langParam)) {
+	return new Response(null, { status: 404 });
+}
+const lang: Lang = langParam;
+const _ = getInlineTranslations(lang);
+
+const siteUrl = Astro.site ?? "https://ocs.com.ua";
+const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
+
+const pageTitle = _("Privacy Policy | OS-Technology Ukraine");
+const pageDescription = _(
+	"How OS-Technology Ukraine collects, uses and protects personal information when you visit our website, request a datasheet or contact us."
+);
+
+const structuredData = createPageGraph({
+	lang,
+	url: currentUrl,
+	site: siteUrl,
+	title: pageTitle,
+	description: pageDescription,
+	breadcrumbs: [
+		{ name: _("Home"), url: new URL(`/${lang}/`, siteUrl).href },
+		{ name: _("Privacy Policy"), url: currentUrl },
+	],
+});
+---
+
+<Layout title={pageTitle} description={pageDescription} structuredData={structuredData}>
+	<LegalDocumentView
+		lang={lang}
+		document={getPrivacyPolicy(lang)}
+		heading={_("Privacy Policy")}
+		ctaTitle={_("Questions about your data?")}
+		ctaText={_("Write to us with the subject line “Privacy request”.")}
+		mailSubject={_("Privacy request")}
+	/>
+</Layout>

@@ -67,7 +67,7 @@ collections:
     label: "Site Data"
     description: >-
       Company details and other shared site data. Pick a file from the list:
-      Company Information, Authorization Letters, Partners and Clients, or
+      Company Information, Authorization Letters, Privacy Policy, Terms of Use, Partners and Clients, or
       Map Cities. These files cannot be created or deleted, only edited.
     delete: false
     editor:
@@ -178,6 +178,42 @@ collections:
             widget: "file"
             required: false
             hint: "Upload the official Mesutronic Authorization Letter (PDF)"
+
+      # Privacy Policy
+      - name: "privacy-policy"
+        label: "Privacy Policy"
+        description: "Text of the Privacy Policy page, one card per section, in English and Ukrainian. Sections appear in the order listed and are numbered automatically."
+        file: "application/frontend/src/data/privacy-policy.json"
+        format: json
+        fields: &legal_fields
+          - { label: "Effective Date", name: "effectiveDate", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD", hint: "Shown at the top of the page. Update it every time the policy text changes." }
+          - label: "Sections"
+            name: "sections"
+            widget: "list"
+            summary: "{{fields.title.en}}"
+            hint: "Each section is one card. Text that says \"Section 6\" refers to the position in this list, so check those references after adding, removing or reordering sections."
+            fields:
+              - label: "Title"
+                name: "title"
+                widget: "object"
+                fields:
+                  - { label: "English", name: "en", widget: "string" }
+                  - { label: "Ukrainian", name: "ua", widget: "string" }
+              - label: "Text"
+                name: "body"
+                widget: "object"
+                hint: "Use the toolbar for bold, bullet lists and links. Type {email} or {address} to insert the company email and address from Company Information. For a link to the Privacy Policy or Terms of Use, add a link and type {privacyUrl} or {termsUrl} as its address."
+                fields:
+                  - { label: "English", name: "en", widget: "markdown", buttons: ["bold", "italic", "link", "bulleted-list", "numbered-list"], editor_components: [] }
+                  - { label: "Ukrainian", name: "ua", widget: "markdown", buttons: ["bold", "italic", "link", "bulleted-list", "numbered-list"], editor_components: [] }
+
+      # Terms of Use. Same fields as the Privacy Policy (YAML anchor above).
+      - name: "terms-of-use"
+        label: "Terms of Use"
+        description: "Text of the Terms of Use page, one card per section, in English and Ukrainian. Sections appear in the order listed and are numbered automatically."
+        file: "application/frontend/src/data/terms-of-use.json"
+        format: json
+        fields: *legal_fields
 
       # Partners. The three sector lists share one field set through a YAML
       # anchor. Cities are picked from the "city-list" file below, so the name

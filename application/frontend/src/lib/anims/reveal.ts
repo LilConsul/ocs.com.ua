@@ -20,13 +20,16 @@ function play(el: HTMLElement): void {
 	const index = parseIndex(el.style.getPropertyValue("--i"));
 	const variant = variantFor(el.classList);
 	const frames = revealKeyframes(variant);
+	// An element can ask for a quicker reveal with `--reveal-duration` (seconds), e.g. tall cards
+	const custom = Number.parseFloat(el.style.getPropertyValue("--reveal-duration"));
+	const duration = Number.isFinite(custom) && custom > 0 ? custom : REVEAL_DURATION;
 
 	// Mark first: the stylesheet un-hides on [data-revealed], so even a throwing animation
 	// can never leave the element invisible
 	el.dataset.revealed = "";
 	try {
 		animate(el, frames, {
-			duration: REVEAL_DURATION,
+			duration,
 			delay: revealDelay(variant, index),
 			ease: EASE_OUT_EXPO,
 		}).then(() => {
