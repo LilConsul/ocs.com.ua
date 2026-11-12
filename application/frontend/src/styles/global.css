@@ -934,39 +934,6 @@ html.motion-on .eyebrow-rule:not([data-revealed]) {
 	}
 }
 
-/* One soft gradient wash behind the whole page, hero to footer, repeating every 1500px so long
- * and short pages look the same. Sections are transparent and sit on top of it. Static on
- * purpose; the fixed technical-field canvas above it keeps its own look. */
-.site-gradient {
-	position: absolute;
-	inset: 0;
-	z-index: 0;
-	pointer-events: none;
-	background-image:
-		radial-gradient(
-			ellipse 46% 30% at 8% 14%,
-			color-mix(in oklab, var(--secondary) 11%, transparent),
-			transparent 72%
-		),
-		radial-gradient(
-			ellipse 42% 28% at 94% 52%,
-			color-mix(in oklab, var(--primary) 9%, transparent),
-			transparent 72%
-		),
-		radial-gradient(
-			ellipse 54% 22% at 38% 96%,
-			color-mix(in oklab, var(--secondary) 6%, transparent),
-			transparent 72%
-		);
-	background-size: 100% 1500px;
-	background-repeat: repeat-y;
-}
-
-/* Hairline between sections that no longer change background colour */
-.section-block {
-	border-top: 1px solid color-mix(in oklab, var(--border-subtle) 55%, transparent);
-}
-
 /* Featured equipment band. Without JavaScript every category panel is visible, stacked, each
  * with its own title; the script adds [data-tabs-ready] and the band becomes a tab list. */
 [data-featured-tabs] .featured-tablist {
@@ -996,4 +963,10 @@ html.motion-on .eyebrow-rule:not([data-revealed]) {
 	[data-featured-tabs][data-tabs-ready] [role="tabpanel"][data-active] {
 		animation: featured-panel-in var(--dur-base) var(--ease-out-quart) both;
 	}
+}
+
+/* Stacked (no JavaScript) layout: keep the panels apart. Once the script runs only one panel
+ * is visible, so it must not carry a margin that would shift it when tabs change. */
+[data-featured-tabs]:not([data-tabs-ready]) .featured-panel + .featured-panel {
+	margin-top: 3.5rem;
 }

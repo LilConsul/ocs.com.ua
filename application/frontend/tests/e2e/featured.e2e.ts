@@ -84,6 +84,59 @@ for (const lang of ["ua", "en"]) {
 			}
 		});
 
+		test("the tab bar shows no scrollbar on desktop", async ({ page }) => {
+			await page.setViewportSize({ width: 1440, height: 1000 });
+			await openHome(page, `/${lang}`);
+			const tablist = page.locator(`${BAND} [role="tablist"]`);
+			const metrics = await tablist.evaluate((el) => ({
+				verticalBar: el.offsetWidth - el.clientWidth,
+				overflowY: el.scrollHeight - el.clientHeight,
+			}));
+			// A vertical scrollbar would take width from the bar and let it scroll up and down
+			expect(metrics.verticalBar).toBeLessThanOrEqual(0);
+			expect(metrics.overflowY).toBeLessThanOrEqual(0);
+		});
+
+		test("the spotlight shows three equipment stat cards on wide screens", async ({ page }) => {
+			await page.setViewportSize({ width: 1440, height: 1000 });
+			await openHome(page, `/${lang}`);
+			const cards = visiblePanel(page).locator("article dl > div");
+			expect(await cards.count()).toBe(3);
+			for (let i = 0; i < 3; i++) await expect(cards.nth(i)).toBeVisible();
+		});
+
+		test("the spotlight shows two stat cards on phones", async ({ page }) => {
+			await page.setViewportSize({ width: 390, height: 800 });
+			await openHome(page, `/${lang}`);
+			const cards = visiblePanel(page).locator("article dl > div");
+			const visible = await cards.evaluateAll(
+				(els) => els.filter((el) => (el as HTMLElement).offsetParent !== null).length
+			);
+			expect(visible).toBe(2);
+		});
+
+		test("switching tabs does not move the panel down", async ({ page }) => {
+			await page.setViewportSize({ width: 1440, height: 1000 });
+			await openHome(page, `/${lang}`);
+			// Position in the document, so the scrolling done by clickTab does not count
+			const top = () =>
+				visiblePanel(page).evaluate((el) => el.getBoundingClientRect().top + window.scrollY);
+			const before = await top();
+			await clickTab(page, 1);
+			await expect(page.locator(`${BAND} [role="tab"]`).nth(1)).toHaveAttribute(
+				"aria-selected",
+				"true"
+			);
+			// The entrance animation slides the panel 12px, so wait until it has settled
+			await expect.poll(async () => Math.abs((await top()) - before)).toBeLessThanOrEqual(1);
+		});
+
+		test("clicking the selected tab does not replay the panel animation", async ({ page }) => {
+			await openHome(page, `/${lang}`);
+			await clickTab(page, 0);
+			await expect(visiblePanel(page)).not.toHaveAttribute("data-active", /.*/);
+		});
+
 		test("the page does not scroll sideways at phone width", async ({ page }) => {
 			await page.setViewportSize({ width: 375, height: 800 });
 			await page.goto(`/${lang}`);

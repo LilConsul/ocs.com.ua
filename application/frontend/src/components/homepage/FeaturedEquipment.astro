@@ -28,7 +28,7 @@ const image = (entry: EquipmentEntry) => getGallery(entry, allEntries)?.[0] ?? "
 const href = (entry: EquipmentEntry) => productUrl(lang, getCategory(entry), getSlug(entry));
 const keySpecs = (entry: EquipmentEntry) =>
 	flattenSpecs(entry.data.specs)
-		.slice(0, 2)
+		.slice(0, 3)
 		.map((spec) => ({ ...spec, value: spec.value.split(",")[0].trim() }));
 const pad = (n: number) => String(n).padStart(2, "0");
 ---
@@ -56,7 +56,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
 				</header>
 
 				<div
-					class="featured-tablist reveal border-border-subtle/70 -mx-1 mb-8 gap-1 overflow-x-auto border-b px-1 sm:gap-2"
+					class="featured-tablist reveal -mx-1 mb-8 [scrollbar-width:none] gap-1 overflow-x-auto overflow-y-hidden px-1 shadow-[inset_0_-1px_0_var(--border-subtle)] sm:gap-2 [&::-webkit-scrollbar]:hidden"
 					role="tablist"
 					aria-label={_("Equipment categories")}
 					style="--i:0"
@@ -69,7 +69,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
 							aria-controls={`featured-panel-${category.slug}`}
 							aria-selected={i === 0 ? "true" : "false"}
 							tabindex={i === 0 ? 0 : -1}
-							class="text-industrial-gray hover:text-foreground focus-visible:outline-secondary aria-selected:text-secondary aria-selected:border-secondary -mb-px shrink-0 cursor-pointer border-b-2 border-transparent px-4 py-3 text-sm font-semibold whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:-outline-offset-2 sm:text-[15px]"
+							class="text-industrial-gray hover:text-foreground focus-visible:outline-secondary aria-selected:text-secondary aria-selected:border-secondary shrink-0 cursor-pointer border-b-2 border-transparent px-4 py-3 text-sm font-semibold whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:-outline-offset-2 sm:text-[15px]"
 						>
 							{category.title}
 						</button>
@@ -82,13 +82,16 @@ const pad = (n: number) => String(n).padStart(2, "0");
 							role="tabpanel"
 							id={`featured-panel-${category.slug}`}
 							aria-labelledby={`featured-tab-${category.slug}`}
-							class="featured-panel [&:not(:first-child)]:mt-14"
+							class="featured-panel"
 						>
 							<h3 class="featured-panel-title font-headline-lg text-foreground m-0 mb-4 text-xl font-semibold">
 								{category.title}
 							</h3>
 							<div class="gap-gutter grid grid-cols-1 items-stretch lg:grid-cols-3">
-								<article class="card-hover group bg-background border-border-subtle/70 flex h-full flex-col overflow-hidden rounded-xl border shadow-xs lg:col-span-2">
+								<article
+									class="card-hover group bg-background border-border-subtle/70 flex h-full flex-col overflow-hidden rounded-xl border shadow-xs lg:col-span-2 lg:data-[solo]:col-span-3"
+									data-solo={others.length === 0 ? "" : undefined}
+								>
 									<a
 										href={href(spotlight)}
 										class="border-border-subtle/40 focus-visible:outline-secondary relative flex h-64 items-center justify-center overflow-hidden border-b bg-[radial-gradient(ellipse_at_50%_40%,var(--background),var(--surface-container))] p-1 focus-visible:outline-2 focus-visible:-outline-offset-2 lg:h-72"
@@ -118,13 +121,18 @@ const pad = (n: number) => String(n).padStart(2, "0");
 											</h3>
 										</div>
 										{keySpecs(spotlight).length > 0 && (
-											<dl class="m-0 grid grid-cols-2 gap-3 p-0">
-												{keySpecs(spotlight).map((spec) => (
-													<div class="bg-surface-container border-border-subtle/50 min-w-0 rounded-lg border px-4 py-3">
+											<dl class="m-0 grid grid-cols-2 gap-3 p-0 lg:grid-cols-3">
+												{keySpecs(spotlight).map((spec, i) => (
+													<div
+														class:list={[
+															"bg-surface-container border-border-subtle/50 min-w-0 rounded-lg border px-4 py-4",
+															i === 2 && "hidden lg:block",
+														]}
+													>
 														<dt class="font-label-caps text-industrial-gray mb-1 truncate text-[10px] tracking-wider uppercase">
 															{spec.label}
 														</dt>
-														<dd class="font-technical-data text-foreground m-0 truncate text-base font-bold">
+														<dd class="font-technical-data text-foreground m-0 truncate text-lg font-bold lg:text-xl">
 															{spec.value}
 														</dd>
 													</div>

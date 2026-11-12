@@ -38,7 +38,10 @@ export function initFeaturedTabs(root: HTMLElement): void {
 	};
 
 	tabs.forEach((tab, i) => {
-		tab.addEventListener("click", () => select(i));
+		tab.addEventListener("click", () => {
+			// Re-selecting the current tab must not replay the panel animation
+			if (tab.getAttribute("aria-selected") !== "true") select(i);
+		});
 		tab.addEventListener("keydown", (event) => {
 			const next = nextTabIndex(i, tabs.length, event.key);
 			if (next === i && !["Home", "End"].includes(event.key)) return;
