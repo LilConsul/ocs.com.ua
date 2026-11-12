@@ -1,12 +1,9 @@
 ---
-import { CalendarDays, Mail } from "@lucide/astro";
-import PolicySectionCard from "@/components/privacy/PolicySectionCard.astro";
-import WikiToc from "@/components/wiki/WikiToc.astro";
-import companyData from "@/data/company.json";
+import LegalDocumentView from "@/components/legal/LegalDocumentView.astro";
 import { getInlineTranslations, isValidLang, type Lang } from "@/i18n";
 import { languages } from "@/i18n/ui";
 import Layout from "@/layouts/Layout.astro";
-import { getPrivacyPolicy } from "@/lib/privacy/policy";
+import { getPrivacyPolicy } from "@/lib/legal/document";
 import { createPageGraph } from "@/lib/structured-data";
 
 export function getStaticPaths() {
@@ -28,20 +25,6 @@ const pageDescription = _(
 	"How OS-Technology Ukraine collects, uses and protects personal information when you visit our website, request a datasheet or contact us."
 );
 
-const policy = getPrivacyPolicy(lang);
-const effectiveDate = new Intl.DateTimeFormat(lang === "ua" ? "uk-UA" : "en-GB", {
-	day: "numeric",
-	month: "long",
-	year: "numeric",
-	timeZone: "UTC",
-}).format(new Date(`${policy.effectiveDate}T00:00:00Z`));
-
-const tocHeadings = policy.sections.map((section) => ({
-	depth: 2,
-	slug: section.id,
-	text: `${section.number}. ${section.title}`,
-}));
-
 const structuredData = createPageGraph({
 	lang,
 	url: currentUrl,
@@ -56,77 +39,12 @@ const structuredData = createPageGraph({
 ---
 
 <Layout title={pageTitle} description={pageDescription} structuredData={structuredData}>
-	<section class="relative w-full py-12 lg:pt-20 lg:pb-8">
-		<div class="px-edge-margin relative mx-auto max-w-7xl">
-			<header class="max-w-3xl">
-				<p
-					class="hero-rise font-label-caps text-secondary mb-4 flex items-center gap-3 text-xs tracking-widest uppercase"
-					style="--d:0"
-				>
-					<span class="eyebrow-rule bg-secondary h-px w-8" aria-hidden="true"></span>
-					{_("Legal")}
-				</p>
-				<h1
-					class="hero-rise font-display-lg text-foreground mb-6 text-3xl tracking-tight text-balance wrap-break-word sm:text-4xl lg:text-5xl"
-					style="--d:1"
-				>
-					{_("Privacy Policy")}
-				</h1>
-				<p
-					class="hero-rise bg-background border-border-subtle/70 text-industrial-gray inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm shadow-xs"
-					style="--d:2"
-				>
-					<CalendarDays class="text-secondary size-4" aria-hidden="true" />
-					{_("Effective date")}:
-					<time datetime={policy.effectiveDate} class="text-foreground font-medium"
-						>{effectiveDate}</time
-					>
-				</p>
-			</header>
-		</div>
-	</section>
-
-	<section class="w-full pt-4 pb-12 lg:pb-20" aria-label={_("Privacy Policy")}>
-		<div class="px-edge-margin mx-auto max-w-7xl">
-			<div class="gap-gutter grid grid-cols-1 xl:grid-cols-[15rem_minmax(0,1fr)]">
-				<div class="xl:contents">
-					<WikiToc headings={tocHeadings} mobile={true} lang={lang} />
-					<WikiToc headings={tocHeadings} lang={lang} />
-				</div>
-
-				<div class="max-w-4xl min-w-0 xl:col-start-2 xl:row-start-1">
-					<ol class="m-0 flex list-none flex-col gap-5 p-0">
-						{
-							policy.sections.map((section) => (
-								<li class="reveal" style="--i:0;--reveal-duration:0.55">
-									<PolicySectionCard section={section} lang={lang} />
-								</li>
-							))
-						}
-					</ol>
-
-					<aside
-						class="border-secondary/30 from-secondary/10 to-background reveal mt-8 flex flex-col items-start gap-4 rounded-xl border bg-linear-to-br p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8"
-						style="--i:0"
-					>
-						<div>
-							<h2 class="font-headline-lg text-foreground m-0 text-lg font-semibold">
-								{_("Questions about your data?")}
-							</h2>
-							<p class="text-industrial-gray mt-1 mb-0 text-sm">
-								{_("Write to us with the subject line “Privacy request”.")}
-							</p>
-						</div>
-						<a
-							href={`mailto:${companyData.email}?subject=${encodeURIComponent(_("Privacy request"))}`}
-							class="press bg-primary text-primary-foreground focus-visible:outline-secondary inline-flex shrink-0 items-center gap-2 rounded-lg px-5 py-3 text-sm font-medium shadow-xs transition-[opacity,box-shadow] hover:opacity-90 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2"
-						>
-							<Mail class="size-4" aria-hidden="true" />
-							{companyData.email}
-						</a>
-					</aside>
-				</div>
-			</div>
-		</div>
-	</section>
+	<LegalDocumentView
+		lang={lang}
+		document={getPrivacyPolicy(lang)}
+		heading={_("Privacy Policy")}
+		ctaTitle={_("Questions about your data?")}
+		ctaText={_("Write to us with the subject line “Privacy request”.")}
+		mailSubject={_("Privacy request")}
+	/>
 </Layout>

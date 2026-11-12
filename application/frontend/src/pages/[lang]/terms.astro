@@ -1,0 +1,50 @@
+---
+import LegalDocumentView from "@/components/legal/LegalDocumentView.astro";
+import { getInlineTranslations, isValidLang, type Lang } from "@/i18n";
+import { languages } from "@/i18n/ui";
+import Layout from "@/layouts/Layout.astro";
+import { getTermsOfUse } from "@/lib/legal/document";
+import { createPageGraph } from "@/lib/structured-data";
+
+export function getStaticPaths() {
+	return (Object.keys(languages) as Lang[]).map((lang) => ({ params: { lang } }));
+}
+
+const langParam = Astro.params.lang;
+if (!isValidLang(langParam)) {
+	return new Response(null, { status: 404 });
+}
+const lang: Lang = langParam;
+const _ = getInlineTranslations(lang);
+
+const siteUrl = Astro.site ?? "https://ocs.com.ua";
+const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
+
+const pageTitle = _("Terms of Use | OS-Technology Ukraine");
+const pageDescription = _(
+	"The terms for using the OS-Technology Ukraine website, including product information, technical documents and contact forms."
+);
+
+const structuredData = createPageGraph({
+	lang,
+	url: currentUrl,
+	site: siteUrl,
+	title: pageTitle,
+	description: pageDescription,
+	breadcrumbs: [
+		{ name: _("Home"), url: new URL(`/${lang}/`, siteUrl).href },
+		{ name: _("Terms of Use"), url: currentUrl },
+	],
+});
+---
+
+<Layout title={pageTitle} description={pageDescription} structuredData={structuredData}>
+	<LegalDocumentView
+		lang={lang}
+		document={getTermsOfUse(lang)}
+		heading={_("Terms of Use")}
+		ctaTitle={_("Questions about these terms?")}
+		ctaText={_("Write to us and we will get back to you.")}
+		mailSubject={_("Terms of Use")}
+	/>
+</Layout>

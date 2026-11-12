@@ -67,7 +67,7 @@ collections:
     label: "Site Data"
     description: >-
       Company details and other shared site data. Pick a file from the list:
-      Company Information, Authorization Letters, Privacy Policy, Partners and Clients, or
+      Company Information, Authorization Letters, Privacy Policy, Terms of Use, Partners and Clients, or
       Map Cities. These files cannot be created or deleted, only edited.
     delete: false
     editor:
@@ -185,7 +185,7 @@ collections:
         description: "Text of the Privacy Policy page, one card per section, in English and Ukrainian. Sections appear in the order listed and are numbered automatically."
         file: "application/frontend/src/data/privacy-policy.json"
         format: json
-        fields:
+        fields: &legal_fields
           - { label: "Effective Date", name: "effectiveDate", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD", hint: "Shown at the top of the page. Update it every time the policy text changes." }
           - label: "Sections"
             name: "sections"
@@ -202,7 +202,7 @@ collections:
               - label: "Text"
                 name: "body"
                 widget: "object"
-                hint: "Type {email} or {address} to insert the company email and address from Company Information. Start a line with \"- \" for a bullet point, wrap words in **double asterisks** for bold."
+                hint: "Type {email} or {address} to insert the company email and address from Company Information. Type {privacyUrl} or {termsUrl} for a link target to the Privacy Policy or Terms of Use, e.g. [Privacy Policy]({privacyUrl}). Start a line with \"- \" for a bullet point, wrap words in **double asterisks** for bold."
                 fields:
                   - { label: "English", name: "en", widget: "text" }
                   - { label: "Ukrainian", name: "ua", widget: "text" }
@@ -239,6 +239,14 @@ collections:
                 fields:
                   - { label: "English", name: "en", widget: "text", required: false }
                   - { label: "Ukrainian", name: "ua", widget: "text", required: false }
+
+      # Terms of Use. Same fields as the Privacy Policy (YAML anchor above).
+      - name: "terms-of-use"
+        label: "Terms of Use"
+        description: "Text of the Terms of Use page, one card per section, in English and Ukrainian. Sections appear in the order listed and are numbered automatically."
+        file: "application/frontend/src/data/terms-of-use.json"
+        format: json
+        fields: *legal_fields
 
       # Partners. The three sector lists share one field set through a YAML
       # anchor. Cities are picked from the "city-list" file below, so the name

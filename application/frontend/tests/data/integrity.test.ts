@@ -332,6 +332,7 @@ describe("decap cms site-data collection", () => {
 			"company-info",
 			"authorization-letters",
 			"privacy-policy",
+			"terms-of-use",
 			"partner-list",
 			"city-list",
 		]);

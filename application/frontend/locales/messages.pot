@@ -202,8 +202,8 @@ msgstr ""
 #: src/components/errors/ServerErrorContent.astro:46
 #: src/components/errors/NotFoundContent.astro:55
 #: src/components/contact/ContactHero.astro:28
-#: src/components/catalogue/CatalogueSidebar.astro:201
 #: src/components/about/AboutCta.astro:35
+#: src/components/catalogue/CatalogueSidebar.astro:201
 msgid "Contact Us"
 msgstr ""
 
@@ -281,7 +281,7 @@ msgstr ""
 msgid "Dynamic checkweighers with electromagnetic force compensation technology, X-Ray scanners, and Track & Trace serialization and aggregation systems for the pharmaceutical industry."
 msgstr ""
 
-#: src/pages/[lang]/privacy.astro:87
+#: src/components/legal/LegalDocumentView.astro:58
 msgid "Effective date"
 msgstr ""
 
@@ -392,7 +392,8 @@ msgstr ""
 msgid "High-speed checkweighers for warehouses and fulfillment centers."
 msgstr ""
 
-#: src/pages/[lang]/privacy.astro:52
+#: src/pages/[lang]/terms.astro:35
+#: src/pages/[lang]/privacy.astro:35
 #: src/pages/[lang]/contact.astro:39
 #: src/pages/[lang]/about.astro:56
 #: src/pages/[lang]/wiki/[slug].astro:91
@@ -403,7 +404,7 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-#: src/pages/[lang]/privacy.astro:27
+#: src/pages/[lang]/privacy.astro:24
 msgid "How OS-Technology Ukraine collects, uses and protects personal information when you visit our website, request a datasheet or contact us."
 msgstr ""
 
@@ -441,8 +442,8 @@ msgstr ""
 msgid "Industry navigation"
 msgstr ""
 
-#: src/components/privacy/PolicySectionCard.astro:44
-#: src/components/privacy/PolicySectionCard.astro:71
+#: src/components/legal/LegalSectionCard.astro:44
+#: src/components/legal/LegalSectionCard.astro:73
 msgid "Information used"
 msgstr ""
 
@@ -502,12 +503,12 @@ msgstr ""
 msgid "Leave your details and the download will start right away."
 msgstr ""
 
-#: src/pages/[lang]/privacy.astro:74
+#: src/components/legal/LegalDocumentView.astro:45
 msgid "Legal"
 msgstr ""
 
-#: src/components/privacy/PolicySectionCard.astro:50
-#: src/components/privacy/PolicySectionCard.astro:76
+#: src/components/legal/LegalSectionCard.astro:50
+#: src/components/legal/LegalSectionCard.astro:79
 msgid "Legal basis"
 msgstr ""
 
@@ -757,19 +758,18 @@ msgid "Price on request"
 msgstr ""
 
 #: src/components/Footer.astro:33
-#: src/pages/[lang]/privacy.astro:53
-#: src/pages/[lang]/privacy.astro:80
-#: src/pages/[lang]/privacy.astro:96
+#: src/pages/[lang]/privacy.astro:36
+#: src/pages/[lang]/privacy.astro:45
 #: src/components/contact/ContactForm.astro:222
 #: src/components/catalogue/DatasheetModal.astro:170
 msgid "Privacy Policy"
 msgstr ""
 
-#: src/pages/[lang]/privacy.astro:26
+#: src/pages/[lang]/privacy.astro:23
 msgid "Privacy Policy | OS-Technology Ukraine"
 msgstr ""
 
-#: src/pages/[lang]/privacy.astro:128
+#: src/pages/[lang]/privacy.astro:48
 msgid "Privacy request"
 msgstr ""
 
@@ -787,7 +787,7 @@ msgstr ""
 msgid "Products"
 msgstr ""
 
-#: src/components/privacy/PolicySectionCard.astro:66
+#: src/components/legal/LegalSectionCard.astro:67
 msgid "Purpose"
 msgstr ""
 
@@ -795,7 +795,11 @@ msgstr ""
 msgid "Quality control and filling inspection systems."
 msgstr ""
 
-#: src/pages/[lang]/privacy.astro:121
+#: src/pages/[lang]/terms.astro:46
+msgid "Questions about these terms?"
+msgstr ""
+
+#: src/pages/[lang]/privacy.astro:46
 msgid "Questions about your data?"
 msgstr ""
 
@@ -950,7 +954,14 @@ msgid "Tell us what you produce and what you need to inspect. We will recommend 
 msgstr ""
 
 #: src/components/Footer.astro:36
-msgid "Terms of Service"
+#: src/pages/[lang]/terms.astro:36
+#: src/pages/[lang]/terms.astro:45
+#: src/pages/[lang]/terms.astro:48
+msgid "Terms of Use"
+msgstr ""
+
+#: src/pages/[lang]/terms.astro:23
+msgid "Terms of Use | OS-Technology Ukraine"
 msgstr ""
 
 #: src/components/catalogue/DatasheetModal.astro:44
@@ -963,6 +974,10 @@ msgstr ""
 
 #: src/components/errors/ServerErrorContent.astro:18
 msgid "The server is temporarily unavailable. Please try again in a few minutes or return to the homepage."
+msgstr ""
+
+#: src/pages/[lang]/terms.astro:24
+msgid "The terms for using the OS-Technology Ukraine website, including product information, technical documents and contact forms."
 msgstr ""
 
 #: src/components/catalogue/DatasheetModal.astro:42
@@ -1083,7 +1098,11 @@ msgstr ""
 msgid "Working Hours"
 msgstr ""
 
-#: src/pages/[lang]/privacy.astro:124
+#: src/pages/[lang]/terms.astro:47
+msgid "Write to us and we will get back to you."
+msgstr ""
+
+#: src/pages/[lang]/privacy.astro:47
 msgid "Write to us with the subject line “Privacy request”."
 msgstr ""
 
