@@ -80,7 +80,7 @@ for (const lang of ["ua", "en"]) {
 			for (let i = 0; i < (await rows.count()); i++) {
 				const height = (await rows.nth(i).boundingBox())?.height ?? 0;
 				expect(height).toBeGreaterThan(0);
-				expect(height).toBeLessThanOrEqual(161);
+				expect(height).toBeLessThanOrEqual(209);
 			}
 		});
 
@@ -140,7 +140,7 @@ for (const lang of ["ua", "en"]) {
 		test("moving the mouse over the spotlight image steps through its photos", async ({ page }) => {
 			await page.setViewportSize({ width: 1440, height: 1000 });
 			await openHome(page, `/${lang}`);
-			const stage = visiblePanel(page).locator("[data-gallery-stage]");
+			const stage = visiblePanel(page).locator("article [data-gallery-stage]");
 			await stage.scrollIntoViewIfNeeded();
 			const images = stage.locator("img");
 			expect(await images.count()).toBeGreaterThan(1);
@@ -155,11 +155,52 @@ for (const lang of ["ua", "en"]) {
 			await expect.poll(shownIndex).toBe((await images.count()) - 1);
 			await page.mouse.move(box.x + box.width * 0.05, y);
 			await expect.poll(shownIndex).toBe(0);
-			// Leaving the stage goes back to the first photo
-			await page.mouse.move(box.x + box.width * 0.95, y);
-			await expect.poll(shownIndex).toBeGreaterThan(0);
+			// Leaving the stage keeps the photo that was showing
+			await page.mouse.move(box.x + box.width * 0.5, y);
+			const last = await shownIndex();
+			expect(last).toBeGreaterThan(0);
 			await page.mouse.move(2, 2);
-			await expect.poll(shownIndex).toBe(0);
+			await page.waitForTimeout(400);
+			expect(await shownIndex()).toBe(last);
+		});
+
+		test("a photo change slides in without fading", async ({ page }) => {
+			await page.setViewportSize({ width: 1440, height: 1000 });
+			await openHome(page, `/${lang}`);
+			const stage = visiblePanel(page).locator("article [data-gallery-stage]");
+			await stage.scrollIntoViewIfNeeded();
+			const box = await stage.boundingBox();
+			if (!box) throw new Error("stage has no box");
+			await page.mouse.move(box.x + box.width * 0.95, box.y + box.height / 2);
+			const entering = stage.locator("img[data-enter]:not([hidden])");
+			await expect(entering).toHaveCount(1);
+			const animation = await entering.evaluate((el) => {
+				const style = getComputedStyle(el);
+				return { name: style.animationName, opacity: Number(style.opacity) };
+			});
+			expect(animation.name).not.toBe("none");
+			expect(animation.opacity).toBe(1);
+		});
+
+		test("list cards step through their photos on hover and show a key spec", async ({ page }) => {
+			await page.setViewportSize({ width: 1440, height: 1000 });
+			await openHome(page, `/${lang}`);
+			const row = visiblePanel(page).locator("article + div > a.card-hover").first();
+			await row.scrollIntoViewIfNeeded();
+			const images = row.locator("[data-gallery-stage] img");
+			expect(await images.count()).toBeGreaterThan(1);
+			await expect(row.locator("[data-spec]")).toHaveCount(1);
+			const shownIndex = () =>
+				images.evaluateAll((els) => els.findIndex((el) => !(el as HTMLElement).hidden));
+			expect(await shownIndex()).toBe(0);
+			const box = await row.locator("[data-gallery-stage]").boundingBox();
+			if (!box) throw new Error("row stage has no box");
+			await page.mouse.move(box.x + box.width * 0.95, box.y + box.height / 2);
+			await expect.poll(shownIndex).toBe((await images.count()) - 1);
+			// Leaving the card keeps the photo that was showing
+			await page.mouse.move(2, 2);
+			await page.waitForTimeout(400);
+			expect(await shownIndex()).toBe((await images.count()) - 1);
 		});
 
 		test("the page does not scroll sideways at phone width", async ({ page }) => {

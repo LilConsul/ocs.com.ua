@@ -33,6 +33,14 @@ const keySpecs = (entry: EquipmentEntry) =>
 		.slice(0, 3)
 		.map((spec) => ({ ...spec, value: spec.value.split(",")[0].trim() }));
 const model = (entry: EquipmentEntry) => getSlug(entry).toUpperCase();
+/** Title split so its last word (the model code) never breaks across lines */
+const titleParts = (entry: EquipmentEntry) => {
+	const title = entry.data.title;
+	const cut = title.lastIndexOf(" ");
+	return cut === -1
+		? { lead: "", tail: title }
+		: { lead: title.slice(0, cut + 1), tail: title.slice(cut + 1) };
+};
 ---
 
 {
@@ -183,31 +191,48 @@ const model = (entry: EquipmentEntry) => getSlug(entry).toUpperCase();
 									{others.map((entry) => (
 										<a
 											href={href(entry)}
-											class="card-hover group/row bg-background border-border-subtle/70 focus-visible:outline-secondary flex max-h-40 flex-1 items-center gap-4 rounded-xl border p-4 shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 sm:gap-5 sm:p-5"
+											class="card-hover group/row bg-background border-border-subtle/70 focus-visible:outline-secondary flex max-h-52 flex-1 overflow-hidden rounded-xl border shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2"
 										>
-											<span class="border-border-subtle/40 bg-surface-container/60 flex size-20 shrink-0 items-center justify-center rounded-lg border p-2 sm:size-24">
-												<Image
-													src={image(entry)}
-													alt=""
-													width={192}
-													height={192}
-													class="h-full w-full object-contain mix-blend-multiply"
-													loading="lazy"
-												/>
+											<span
+												data-gallery-stage
+												class="border-border-subtle/40 bg-surface-container/60 flex w-28 shrink-0 items-center justify-center self-stretch border-r p-3 sm:w-36"
+											>
+												{photos(entry).map((src, i) => (
+													<Image
+														src={src}
+														alt={i === 0 ? entry.data.title : `${entry.data.title} - ${i + 1}`}
+														width={288}
+														height={288}
+														class="h-full max-h-28 w-full object-contain mix-blend-multiply"
+														loading="lazy"
+														hidden={i > 0}
+													/>
+												))}
 											</span>
-											<span class="min-w-0 flex-1">
+											<span class="relative flex min-w-0 flex-1 flex-col justify-center p-4 pr-14 sm:p-5 sm:pr-14">
 												<span class="font-headline-lg text-foreground block text-2xl leading-none font-semibold tracking-tight">
 													{model(entry)}
 												</span>
-												<span class="font-body-md text-industrial-gray mt-2 block text-sm leading-snug wrap-break-word">
-													{entry.data.title}
+												<span class="font-body-md text-industrial-gray mt-2 block text-sm leading-snug [hyphens:none]">
+													{titleParts(entry).lead}
+													<span class="whitespace-nowrap">{titleParts(entry).tail}</span>
 												</span>
-											</span>
-											<span
-												class="bg-surface-container text-secondary border-border-subtle/60 group-hover/row:bg-secondary group-hover/row:text-background group-hover/row:border-secondary flex size-9 shrink-0 items-center justify-center rounded-full border transition-colors duration-(--dur-base)"
-												aria-hidden="true"
-											>
-												<ArrowRight class="size-4" />
+												{keySpecs(entry)[0] && (
+													<span data-spec class="border-border-subtle/60 mt-3 block border-t pt-3">
+														<span class="font-label-caps text-industrial-gray mb-0.5 block text-[10px] tracking-wider [hyphens:none] uppercase">
+															{keySpecs(entry)[0].label}
+														</span>
+														<span class="font-headline-lg text-foreground block text-sm leading-snug font-semibold">
+															{keySpecs(entry)[0].value}
+														</span>
+													</span>
+												)}
+												<span
+													class="bg-surface-container text-secondary border-border-subtle/60 group-hover/row:bg-secondary group-hover/row:text-background group-hover/row:border-secondary absolute top-4 right-4 flex size-8 items-center justify-center rounded-full border transition-colors duration-(--dur-base)"
+													aria-hidden="true"
+												>
+													<ArrowRight class="size-4" />
+												</span>
 											</span>
 										</a>
 									))}
