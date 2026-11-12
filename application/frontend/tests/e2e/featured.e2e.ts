@@ -137,6 +137,31 @@ for (const lang of ["ua", "en"]) {
 			await expect(visiblePanel(page)).not.toHaveAttribute("data-active", /.*/);
 		});
 
+		test("moving the mouse over the spotlight image steps through its photos", async ({ page }) => {
+			await page.setViewportSize({ width: 1440, height: 1000 });
+			await openHome(page, `/${lang}`);
+			const stage = visiblePanel(page).locator("[data-gallery-stage]");
+			await stage.scrollIntoViewIfNeeded();
+			const images = stage.locator("img");
+			expect(await images.count()).toBeGreaterThan(1);
+			const shownIndex = () =>
+				images.evaluateAll((els) => els.findIndex((el) => !(el as HTMLElement).hidden));
+
+			expect(await shownIndex()).toBe(0);
+			const box = await stage.boundingBox();
+			if (!box) throw new Error("stage has no box");
+			const y = box.y + box.height / 2;
+			await page.mouse.move(box.x + box.width * 0.95, y);
+			await expect.poll(shownIndex).toBe((await images.count()) - 1);
+			await page.mouse.move(box.x + box.width * 0.05, y);
+			await expect.poll(shownIndex).toBe(0);
+			// Leaving the stage goes back to the first photo
+			await page.mouse.move(box.x + box.width * 0.95, y);
+			await expect.poll(shownIndex).toBeGreaterThan(0);
+			await page.mouse.move(2, 2);
+			await expect.poll(shownIndex).toBe(0);
+		});
+
 		test("the page does not scroll sideways at phone width", async ({ page }) => {
 			await page.setViewportSize({ width: 375, height: 800 });
 			await page.goto(`/${lang}`);
@@ -158,6 +183,14 @@ test.describe("featured equipment without JavaScript", () => {
 		expect(count).toBeGreaterThan(1);
 		for (let i = 0; i < count; i++) await expect(panels.nth(i)).toBeVisible();
 		await expect(page.locator(`${BAND} [role="tablist"]`)).toBeHidden();
+		// Only the first photo of each spotlight shows without the script
+		const shown = await page
+			.locator(`${BAND} [data-gallery-stage]`)
+			.evaluateAll((stages) =>
+				stages.map((stage) => stage.querySelectorAll("img:not([hidden])").length)
+			);
+		expect(shown.length).toBeGreaterThan(0);
+		expect(shown.every((n) => n === 1)).toBe(true);
 		await expect(page.locator(`${BAND} .featured-panel-title`).first()).toBeVisible();
 	});
 });
