@@ -8,6 +8,7 @@ import {
 	getSiteStats,
 } from "@/lib/about/partners-data";
 import type { PartnersData } from "@/lib/about/types";
+import { imageFixtures } from "../../helpers/mocks";
 
 describe("partners data processing", () => {
 	const data = partnersRaw as PartnersData;
@@ -77,13 +78,17 @@ describe("partners data processing", () => {
 		const list = getAllPartnersList({
 			food: [
 				{ name, logo: "/assets/partners/deleted-in-cms.webp" },
-				{ name, logo: "/assets/icons/logo-en.svg" },
+				{ name, logo: "/assets/partners/p.webp" },
 				{ name },
 			],
 			household: [],
 			pharma: [],
 		});
 		warn.mockRestore();
-		expect(list.map((p) => p.logo)).toEqual([undefined, "/assets/icons/logo-en.svg", undefined]);
+		expect(list.map((p) => p.logo)).toEqual([
+			undefined,
+			imageFixtures["/src/assets/partners/p.webp"],
+			undefined,
+		]);
 	});
 });

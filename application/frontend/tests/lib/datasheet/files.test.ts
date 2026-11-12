@@ -28,7 +28,7 @@ describe("datasheetFileName", () => {
 			undefined,
 			"",
 			"/assets/equipment/hc-m/datasheet.pdf",
-			"/assets/image_409a1f1c.webp",
+			"/assets/equipment/image_409a1f1c.webp",
 			"/datasheets/hc-m.webp",
 			"/datasheets/hc-m",
 			"/datasheets/../package.json",

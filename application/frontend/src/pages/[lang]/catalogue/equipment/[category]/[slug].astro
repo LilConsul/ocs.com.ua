@@ -105,7 +105,7 @@ const productNode = productSchema({
 	site: siteUrl,
 	sku: `${category}/${getSlug(product)}`,
 	category: categoryTitle,
-	images: gallery,
+	images: gallery?.map((img) => img.src),
 	specs: flattenSpecs(product.data.specs),
 });
 
@@ -124,7 +124,7 @@ const structuredData = createPageGraph({
 });
 
 // Share previews use the product photo when there is one, else the default brand image
-const shareImage = gallery?.[0];
+const shareImage = gallery?.[0]?.src;
 ---
 
 <Layout

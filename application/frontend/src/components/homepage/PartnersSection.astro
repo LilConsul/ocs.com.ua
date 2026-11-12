@@ -1,12 +1,10 @@
 ---
 import { Image } from "astro:assets";
-import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
 import { Boxes, CalendarDays, Handshake } from "@lucide/astro";
-import sizeOf from "image-size";
+import type { ImageMetadata } from "astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { formatApprox, type SiteStats } from "@/lib/about/partners-data";
-import { existingFile } from "@/lib/public-assets";
+import { resolveImage } from "@/lib/images";
 
 interface Partner {
 	name: { en: string; ua: string };
@@ -29,21 +27,9 @@ interface Props {
 const { partnersByCategory, siteStats, lang } = Astro.props;
 const _ = getInlineTranslations(lang);
 
-// Helper to get image dimensions from public folder
-function getImageDimensions(logoPath: string) {
-	try {
-		const publicPath = resolve(`./public${logoPath}`);
-		const buffer = readFileSync(publicPath);
-		const dimensions = sizeOf(buffer);
-		return { width: dimensions.width || 150, height: dimensions.height || 48 };
-	} catch {
-		// Fallback dimensions if image not found
-		return { width: 150, height: 48 };
-	}
-}
-
-// Only partners with a logo (that exists in public/) and a website belong in the carousel
-const withLogo = (partners: Partner[]) => partners.filter((p) => existingFile(p.logo) && p.website);
+// Only partners with a logo (that exists in src/assets/) and a website belong in the carousel
+const withLogo = (partners: Partner[]) =>
+	partners.map((p) => ({ ...p, logo: resolveImage(p.logo) })).filter((p) => p.logo && p.website);
 
 // --- Marquee maths -----------------------------------------------------------
 // Every item carries its own trailing margin, so one "group" is exactly
@@ -59,7 +45,7 @@ const SPEED = 40; // px per second of auto-scroll, shared by every row so they a
 const buildRow = (label: string, partners: Partner[], direction: "normal" | "reverse") => {
 	const items = withLogo(partners).map((p) => ({
 		partner: p,
-		dims: getImageDimensions(p.logo as string),
+		dims: { width: p.logo?.width ?? 150, height: p.logo?.height ?? 48 },
 	}));
 	if (items.length === 0) return null;
 	const repeats = Math.max(1, Math.ceil(MIN_GROUP_W / (items.length * STEP)));
@@ -165,7 +151,7 @@ const stats = [
 														class="marquee-logo focus-visible:outline-secondary mr-12 flex h-16 w-44 shrink-0 items-center justify-center opacity-60 mix-blend-multiply grayscale transition-[opacity,filter,scale] duration-(--dur-base) hover:opacity-100 hover:grayscale-0 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:grayscale-0 motion-safe:hover:scale-105"
 													>
 														<Image
-															src={partner.logo as string}
+															src={partner.logo as ImageMetadata}
 															alt={partner.name[lang]}
 															width={dims.width}
 															height={dims.height}

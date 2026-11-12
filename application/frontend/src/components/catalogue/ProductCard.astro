@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { productUrl } from "@/lib/catalogue-urls";
 import { type EquipmentEntry, flattenSpecs, getCategory, getSlug } from "@/lib/content-utils";
@@ -8,7 +9,7 @@ interface Props {
 	product: EquipmentEntry;
 	lang: Lang;
 	index?: number;
-	gallery?: string[];
+	gallery?: ImageMetadata[];
 }
 
 const { product, lang, index = 0, gallery } = Astro.props;
@@ -20,7 +21,7 @@ const description = product.data.description;
 const specs = flattenSpecs(product.data.specs)
 	.slice(0, 2)
 	.map((spec) => ({ ...spec, value: spec.value.split(",")[0].trim() }));
-// gallery comes from getGallery(), which already left out images missing from public/
+// gallery comes from getGallery(), which already left out images missing from src/assets/
 const firstImage = gallery?.[0] || "/placeholder.svg";
 
 // Build product URL

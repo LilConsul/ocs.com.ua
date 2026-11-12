@@ -14,6 +14,11 @@ import { getInlineTranslations } from "@/i18n/inline";
 import { EQUIPMENT_SLUGS, SECTORS } from "@/lib/contact/options";
 
 const CONTENT_DIR = join(import.meta.dir, "../../src/content/equipment");
+const FRONTEND_DIR = join(import.meta.dir, "../..");
+
+// Content keeps the public-style path (/assets/...); the file itself lives under src/assets/
+const missingFromSrcAssets = (path: string) =>
+	!existsSync(join(FRONTEND_DIR, "src", decodeURIComponent(path)));
 
 function walk(dir: string): string[] {
 	return readdirSync(dir, { withFileTypes: true }).flatMap((d) =>
@@ -89,6 +94,15 @@ describe("equipment content", () => {
 			.filter((f) => f.endsWith(".en.md"))
 			.filter((f) => (frontmatter(f).industries ?? []).length > 0);
 		expect(withIndustries).toEqual([]);
+	});
+
+	it("references only gallery images that exist in src/assets", () => {
+		const missing = files.flatMap((f) =>
+			((frontmatter(f).gallery ?? []) as string[])
+				.filter(missingFromSrcAssets)
+				.map((img) => `${f}: ${img}`)
+		);
+		expect(missing).toEqual([]);
 	});
 
 	it("keeps file_name equal to the file's base name (CMS names files from it)", () => {
@@ -554,6 +568,15 @@ describe("partners data", () => {
 			)
 		);
 		expect(unknown).toEqual([]);
+	});
+
+	it("references only logos that exist in src/assets", () => {
+		const missing = sectors.flatMap(([sector, partners]) =>
+			partners
+				.filter((p) => p.logo && missingFromSrcAssets(p.logo))
+				.map((p) => `${sector}/${p.name.en}: ${p.logo}`)
+		);
+		expect(missing).toEqual([]);
 	});
 });
 

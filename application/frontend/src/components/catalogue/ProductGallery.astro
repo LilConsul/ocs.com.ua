@@ -1,10 +1,11 @@
 ---
 import { Image } from "astro:assets";
 import { ChevronLeft, ChevronRight, Maximize2, X } from "@lucide/astro";
+import type { ImageMetadata } from "astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 
 interface Props {
-	images?: string[] | null;
+	images?: ImageMetadata[] | null;
 	title: string;
 	lang: Lang;
 }
@@ -12,7 +13,10 @@ interface Props {
 const { images = [], title, lang } = Astro.props;
 const _ = getInlineTranslations(lang);
 
-const galleryImages = images && images.length > 0 ? images : ["/placeholder.svg"];
+const galleryImages: (ImageMetadata | string)[] =
+	images && images.length > 0 ? images : ["/placeholder.svg"];
+// Plain URLs for the client script and microdata
+const imageUrls = galleryImages.map((img) => (typeof img === "string" ? img : img.src));
 const hasMultiple = galleryImages.length > 1;
 const imageAlts = galleryImages.map((_img, idx) => (hasMultiple ? `${title} - ${idx + 1}` : title));
 const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
@@ -30,7 +34,7 @@ const thumbBase =
 
 <figure
 	class="product-gallery-container m-0 w-full select-none"
-	data-images={JSON.stringify(galleryImages)}
+	data-images={JSON.stringify(imageUrls)}
 	data-alts={JSON.stringify(imageAlts)}
 	itemscope
 	itemtype="https://schema.org/ImageGallery"
@@ -44,7 +48,7 @@ const thumbBase =
 	{
 		galleryImages.map((img, idx) => (
 			<span hidden itemprop="associatedMedia" itemscope itemtype="https://schema.org/ImageObject">
-				<meta itemprop="contentUrl" content={img} />
+				<meta itemprop="contentUrl" content={imageUrls[idx]} />
 				<meta itemprop="name" content={`${title} - ${idx + 1}`} />
 				<meta itemprop="representativeOfPage" content={idx === 0 ? "true" : "false"} />
 			</span>

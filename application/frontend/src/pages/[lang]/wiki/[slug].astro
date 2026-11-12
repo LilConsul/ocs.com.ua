@@ -76,7 +76,7 @@ const articleNode = articleSchema({
 	url: currentUrl,
 	lang,
 	site: siteUrl,
-	image: coverImage,
+	image: coverImage?.src,
 	readMinutes,
 	wordCount: (article.body ?? "").split(/\s+/).filter(Boolean).length,
 });
@@ -99,7 +99,7 @@ const structuredData = createPageGraph({
 <Layout
 	title={`${title} | ${_("OS-Technology Ukraine")}`}
 	description={description}
-	image={coverImage}
+	image={coverImage?.src}
 	article={true}
 	structuredData={structuredData}
 >
@@ -151,7 +151,7 @@ const structuredData = createPageGraph({
 							class="hero-rise border-border-subtle bg-surface-container mt-8 aspect-video w-full overflow-hidden rounded-xl border"
 							style="--d:3"
 						>
-							<img src={coverImage} alt={title} class="size-full object-cover" />
+							<img src={coverImage.src} alt={title} class="size-full object-cover" />
 						</div>
 					)
 				}

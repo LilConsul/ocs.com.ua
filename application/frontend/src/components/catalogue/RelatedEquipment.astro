@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { productUrl } from "@/lib/catalogue-urls";
 import { type EquipmentEntry, flattenSpecs, getCategory, getSlug } from "@/lib/content-utils";
@@ -8,7 +9,7 @@ interface Props {
 	products: EquipmentEntry[];
 	lang: Lang;
 	/** Pre-resolved galleries keyed by entry id, used when gallery is not in the entry (i18n: false). */
-	galleries?: Record<string, string[]>;
+	galleries?: Record<string, ImageMetadata[]>;
 }
 
 const { products = [], lang, galleries = {} } = Astro.props;

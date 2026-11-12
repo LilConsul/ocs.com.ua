@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import { ArrowRight } from "@lucide/astro";
+import heroImage from "@/assets/hero/main_page.webp";
 import TechnicalField from "@/components/TechnicalField.astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { formatApprox, type SiteStats } from "@/lib/about/partners-data";
@@ -23,7 +24,7 @@ const partners = [_("Official Partner of Wipotec GmbH"), _("Official Partner of 
 	{/* Background image + readability overlay */}
 	<div class="absolute inset-0 z-0">
 		<Image
-			src="/images/main_page.webp"
+			src={heroImage}
 			alt={_("Industrial Checkweigher Systems")}
 			class="hero-media h-full w-full object-cover object-right"
 			loading="eager"

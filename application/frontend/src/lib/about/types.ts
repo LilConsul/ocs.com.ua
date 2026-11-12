@@ -1,3 +1,5 @@
+import type { ImageMetadata } from "astro";
+
 export interface EquipmentStats {
 	md: number;
 	cw: number;
@@ -25,11 +27,12 @@ export interface CityHub {
 	clients: {
 		en: string;
 		ua: string;
-		logo?: string;
+		logo?: ImageMetadata;
 	}[];
 }
 
-export interface PartnerItem {
+/** A partner as stored in src/data/partners.json; logo is a public-style path (/assets/...). */
+export interface PartnerRecord {
 	name: {
 		en: string;
 		ua: string;
@@ -42,13 +45,18 @@ export interface PartnerItem {
 		tqs?: number;
 	};
 	adres?: string[];
+}
+
+/** A partner ready to render: sector attached and logo resolved from src/assets/. */
+export interface PartnerItem extends Omit<PartnerRecord, "logo"> {
+	logo?: ImageMetadata;
 	category: "food" | "pharma" | "household";
 }
 
 export interface PartnersData {
-	food: Omit<PartnerItem, "category">[];
-	household: Omit<PartnerItem, "category">[];
-	pharma: Omit<PartnerItem, "category">[];
+	food: PartnerRecord[];
+	household: PartnerRecord[];
+	pharma: PartnerRecord[];
 }
 
 export interface SectorBreakdown {

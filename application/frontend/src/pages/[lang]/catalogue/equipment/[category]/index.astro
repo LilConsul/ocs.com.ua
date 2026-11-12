@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import type { ImageMetadata } from "astro";
 import CatalogueBand from "@/components/catalogue/CatalogueBand.astro";
 import CategoryHeader from "@/components/catalogue/CategoryHeader.astro";
 import ProductCard from "@/components/catalogue/ProductCard.astro";
@@ -88,7 +89,7 @@ const productSearchIndex = localeProducts.map((p) => ({
 	title: p.data.title ?? "",
 	description: p.data.description ?? "",
 	url: productUrl(lang as Lang, getCategory(p), getSlug(p)),
-	image: (allGalleries as Record<string, string[]>)[p.id]?.[0] ?? "",
+	image: (allGalleries as Record<string, ImageMetadata[]>)[p.id]?.[0]?.src ?? "",
 }));
 
 // Page metadata - with fallback for missing categoryData

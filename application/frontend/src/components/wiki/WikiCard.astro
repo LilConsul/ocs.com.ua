@@ -1,5 +1,6 @@
 ---
 import { ArrowRight, Clock } from "@lucide/astro";
+import type { ImageMetadata } from "astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { getWikiSlug, type WikiEntry } from "@/lib/wiki-utils";
 
@@ -7,7 +8,7 @@ interface Props {
 	entry: WikiEntry;
 	lang: Lang;
 	readMinutes: number;
-	coverImage?: string;
+	coverImage?: ImageMetadata;
 	/** Position in the grid, used to stagger the scroll reveal. */
 	index?: number;
 }
@@ -17,7 +18,7 @@ const _ = getInlineTranslations(lang);
 const slug = getWikiSlug(entry);
 const title = entry.data.title;
 const description = entry.data.description;
-// coverImage comes from getWikiCoverImage(), which drops a cover missing from public/
+// coverImage comes from getWikiCoverImage(), which drops a cover missing from src/assets/
 const image = coverImage;
 ---
 
@@ -32,7 +33,7 @@ const image = coverImage;
 		image && (
 			<div class="border-border-subtle/60 bg-surface-container mb-5 aspect-video w-full overflow-hidden rounded-lg border">
 				<img
-					src={image}
+					src={image.src}
 					alt={title}
 					loading="lazy"
 					class="size-full object-cover transition-transform duration-(--dur-slow) group-hover/card:scale-105"
