@@ -1,21 +1,15 @@
 /**
- * Loading skeletons for pictures. A `.skeleton` wrapper shows a pulsing gray block and keeps its
- * picture transparent (global.css, only under `html.skeleton-on`) until this script sets
- * `data-loaded` on it, which stops the pulse and fades the picture in.
+ * Loading skeletons for pictures. A `.skeleton` wrapper shows a gray block and keeps its picture
+ * transparent (global.css, only under `html.skeleton-on`) until `data-loaded` is set on it.
  *
- * A picture that is already complete (from the cache, or broken) is marked at once. Otherwise
- * the wrapper is marked on the first `load` or `error`, so a failed picture never stays hidden.
+ * skeleton-on.js (inlined in <head>) already does that as pictures load, with a capturing
+ * `load`/`error` listener, so skeletons never wait for this bundle. This module sweeps up what
+ * that listener cannot see: a picture that is already complete (cached, or broken) when the
+ * wrapper is first looked at, and markup inserted later with `innerHTML` (call it again then).
+ * A failed picture is marked on `error`, so it never stays hidden. Safe to call repeatedly.
  * Without JavaScript `skeleton-on` is not set and nothing is hidden. With reduced motion the gray
  * block stays but it does not pulse and the picture does not fade.
- * Safe to call repeatedly; call it again after inserting skeleton markup with `innerHTML`.
  */
-declare global {
-	interface Window {
-		/** Timer id set by skeleton-on.js; cleared once this script is alive */
-		__skeletonFailsafe?: number;
-	}
-}
-
 const watched = new WeakSet<Element>();
 
 /** The picture a wrapper waits for: the first visible one (a gallery stage hides the others) */
@@ -36,8 +30,6 @@ export function markLoaded(wrapper: HTMLElement): void {
 }
 
 export function initImageSkeletons(root: ParentNode = document): void {
-	// This script runs, so the head failsafe must not drop the skeletons
-	if (window.__skeletonFailsafe !== undefined) window.clearTimeout(window.__skeletonFailsafe);
 	for (const wrapper of root.querySelectorAll<HTMLElement>(".skeleton:not([data-loaded])")) {
 		if (watched.has(wrapper)) continue;
 		const img = pictureOf(wrapper);

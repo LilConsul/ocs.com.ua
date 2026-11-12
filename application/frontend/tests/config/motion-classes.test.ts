@@ -40,7 +40,7 @@ describe("picture fade-in", () => {
 	});
 
 	it("data-loaded belongs to the loading skeletons only", () => {
-		const owners = new Set(["lib/image-skeleton.ts", "styles/global.css"]);
+		const owners = new Set(["lib/image-skeleton.ts", "lib/skeleton-on.js", "styles/global.css"]);
 		const offenders = allFiles
 			.filter((f) => /data-loaded|dataset\.loaded/.test(f.text))
 			.map((f) => rel(f.path))

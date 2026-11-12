@@ -167,7 +167,7 @@ const defaultDescription =
 			import "@/lib/anims/runtime";
 			import { initImageSkeletons } from "@/lib/image-skeleton";
 
-			// Clears the head failsafe of html.skeleton-on, so pictures are only hidden while this runs
+			// skeleton-on.js (in <head>) ends skeletons as pictures load; this sweeps up the rest
 			initImageSkeletons();
 		</script>
 		<script>

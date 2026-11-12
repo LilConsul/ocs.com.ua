@@ -1,4 +1,4 @@
-import { expect, type Locator, type Page, test } from "@playwright/test";
+import { type Browser, expect, type Locator, type Page, test } from "@playwright/test";
 
 // Third-party analytics is irrelevant here and needs the network
 test.beforeEach(async ({ page }) => {
@@ -28,24 +28,32 @@ const skeletonImageOpacities = (page: Page) =>
 		.locator(".skeleton img")
 		.evaluateAll((els) => els.map((el) => Number(getComputedStyle(el).opacity)));
 
+/**
+ * The URLs of the first card's picture (its src and every srcset file), read in a separate context
+ * with scripts off, so nothing is cached for the page under test. Holding back only these keeps
+ * the page's other pictures loading normally: delaying every image can tie up the browser's
+ * connections (seen in Firefox).
+ */
+async function firstCardImageUrls(browser: Browser): Promise<string[]> {
+	const probe = await browser.newContext({ javaScriptEnabled: false });
+	const probePage = await probe.newPage();
+	await probePage.route("**/*.webp", (route) => route.abort());
+	await probePage.goto(CATEGORY, { waitUntil: "domcontentloaded" });
+	const urls = await firstCardWrapper(probePage)
+		.locator("img")
+		.evaluate((img) => {
+			const image = img as HTMLImageElement;
+			const fromSet = image.srcset.split(",").map((part) => part.trim().split(/\s+/)[0]);
+			const src = image.getAttribute("src") ?? "";
+			return [src, ...fromSet].map((url) => new URL(url, location.href).pathname);
+		});
+	await probe.close();
+	return urls;
+}
+
 test.describe("image skeletons", () => {
 	test("pulse while the picture loads, then fade the picture in", async ({ page, browser }) => {
-		// Hold back only this card's picture. Delaying every image can tie up the browser's
-		// connections (seen in Firefox) until the scripts miss the 3 s motion failsafe. Its URLs
-		// are read in a separate context, so nothing is cached for the page under test.
-		const probe = await browser.newContext({ javaScriptEnabled: false });
-		const probePage = await probe.newPage();
-		await probePage.route("**/*.webp", (route) => route.abort());
-		await probePage.goto(CATEGORY, { waitUntil: "domcontentloaded" });
-		const urls = await firstCardWrapper(probePage)
-			.locator("img")
-			.evaluate((img) => {
-				const image = img as HTMLImageElement;
-				const fromSet = image.srcset.split(",").map((part) => part.trim().split(/\s+/)[0]);
-				const src = image.getAttribute("src") ?? "";
-				return [src, ...fromSet].map((url) => new URL(url, location.href).pathname);
-			});
-		await probe.close();
+		const urls = await firstCardImageUrls(browser);
 		await delayImages(page, 1500, (url) => urls.includes(new URL(url).pathname));
 		await page.goto(CATEGORY, { waitUntil: "domcontentloaded" });
 		await expect(page.locator("html")).toHaveClass(/skeleton-on/);
@@ -74,24 +82,37 @@ test.describe("image skeletons", () => {
 		await expect.poll(() => opacityOf(wrapper.locator("img"))).toBe(1);
 	});
 
+	test("the skeleton stays up when the page scripts arrive late", async ({ page, browser }) => {
+		// Scripts held back well past the old 3 s failsafe, and the picture later still: the
+		// skeleton must be there the whole time, and end when the picture loads
+		const urls = await firstCardImageUrls(browser);
+		await page.route("**/_astro/*.js", async (route) => {
+			await new Promise((resolve) => setTimeout(resolve, 5000));
+			await route.continue();
+		});
+		await delayImages(page, 7000, (url) => urls.includes(new URL(url).pathname));
+		// Deferred scripts hold up domcontentloaded, so count from the moment the page starts
+		await page.goto(CATEGORY, { waitUntil: "commit" });
+
+		const wrapper = firstCardWrapper(page);
+		const img = wrapper.locator("img");
+		await page.waitForTimeout(4000);
+		await expect(page.locator("html")).toHaveClass(/skeleton-on/);
+		await expect(wrapper).not.toHaveAttribute("data-loaded", /.*/);
+		expect(await opacityOf(img)).toBe(0);
+		const background = await wrapper.evaluate((el) => getComputedStyle(el).backgroundColor);
+		expect(background).not.toBe("rgba(0, 0, 0, 0)");
+
+		await expect(wrapper).toHaveAttribute("data-loaded", "", { timeout: 15_000 });
+		await expect.poll(() => opacityOf(img)).toBe(1);
+	});
+
 	test("reduced motion: the gray block stays but does not pulse, the picture still shows", async ({
 		page,
 		browser,
 	}) => {
 		await page.emulateMedia({ reducedMotion: "reduce" });
-		const probe = await browser.newContext({ javaScriptEnabled: false });
-		const probePage = await probe.newPage();
-		await probePage.route("**/*.webp", (route) => route.abort());
-		await probePage.goto(CATEGORY, { waitUntil: "domcontentloaded" });
-		const urls = await firstCardWrapper(probePage)
-			.locator("img")
-			.evaluate((img) => {
-				const image = img as HTMLImageElement;
-				const fromSet = image.srcset.split(",").map((part) => part.trim().split(/\s+/)[0]);
-				const src = image.getAttribute("src") ?? "";
-				return [src, ...fromSet].map((url) => new URL(url, location.href).pathname);
-			});
-		await probe.close();
+		const urls = await firstCardImageUrls(browser);
 		await delayImages(page, 1500, (url) => urls.includes(new URL(url).pathname));
 		await page.goto(CATEGORY, { waitUntil: "domcontentloaded" });
 
