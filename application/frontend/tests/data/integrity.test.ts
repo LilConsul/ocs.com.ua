@@ -627,10 +627,24 @@ describe("decap cms partners and cities files", () => {
 		expect(names).toEqual(["name", "lat", "lng"]);
 	});
 
-	it("keeps partner logos under public/assets/partners", () => {
+	it("keeps partner logos under src/assets/partners", () => {
 		const file = partnerFile;
-		expect(file.media_folder).toBe("../../public/assets/partners");
+		expect(file.media_folder).toBe("../../src/assets/partners");
 		expect(file.public_folder).toBe("/assets/partners");
+	});
+
+	it("saves product gallery and wiki cover images to src/assets but keeps /assets paths", () => {
+		const collections = parsed.collections as any[];
+		const equipment = collections.find((c) => c.name === "equipment");
+		const gallery = equipment.fields.find((f: any) => f.name === "gallery").field;
+		expect(gallery.media_folder).toBe("/application/frontend/src/assets/equipment");
+		expect(gallery.public_folder).toBe("/assets/equipment");
+		const wiki = collections.find((c) => c.name === "wiki");
+		const cover = wiki.fields.find((f: any) => f.name === "coverImage");
+		expect(cover.media_folder).toBe("/application/frontend/src/assets/wiki");
+		expect(cover.public_folder).toBe("/assets/wiki");
+		expect(parsed.media_folder).toBe("application/frontend/public/assets");
+		expect(parsed.public_folder).toBe("/assets");
 	});
 
 	it("never allows deleting the data files", () => {

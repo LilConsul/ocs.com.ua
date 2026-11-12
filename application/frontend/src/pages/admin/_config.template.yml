@@ -223,7 +223,7 @@ collections:
         description: "Clients and partners by sector, with their logos and installed equipment. Feeds the homepage carousel, the About page client directory and the equipment totals."
         file: "application/frontend/src/data/partners.json"
         format: json
-        media_folder: "../../public/assets/partners"
+        media_folder: "../../src/assets/partners"
         public_folder: "/assets/partners"
         fields:
           - label: "Food & Beverage"
@@ -445,6 +445,9 @@ collections:
           label: "Image"
           name: "image"
           widget: "image"
+          # Rasters live in src/assets (Astro optimizes them at build); the saved string stays /assets/...
+          media_folder: "/application/frontend/src/assets/equipment"
+          public_folder: "/assets/equipment"
           media_processing:
             enabled: true
             format:
@@ -536,6 +539,8 @@ collections:
       - label: "Cover Image"
         name: "coverImage"
         widget: "image"
+        media_folder: "/application/frontend/src/assets/wiki"
+        public_folder: "/assets/wiki"
         required: false
         i18n: duplicate
         hint: "Optional picture for the article. It is cropped to 16:9 and shared by both languages."
