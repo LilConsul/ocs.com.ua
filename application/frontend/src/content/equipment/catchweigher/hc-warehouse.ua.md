@@ -2,9 +2,9 @@
 file_name: hc-warehouse
 order: 1
 gallery:
-  - /assets/image_c2afd3b1.webp
-  - /assets/image_ccc86c14.webp
-  - /assets/image_343ad479.webp
+  - /assets/equipment/image_c2afd3b1.webp
+  - /assets/equipment/image_ccc86c14.webp
+  - /assets/equipment/image_343ad479.webp
 datasheet: null
 industries:
   - logistics
@@ -45,6 +45,7 @@ specs:
         value: тензометричний датчик ваги
 type: product
 ---
+
 ## Вигідні за ціною динамічні ваги для складського та внутрішньологістичного сектору
 
 **HC-Warehouse** — це ідеальне рішення для зважування у складській логістиці та сфері внутрішньої логістики підприємств. Таким чином, компанія Wipotec створила перші ваги у цьому ціновому сегменті, які не поступаються за якістю та довговічністю. Завдяки інноваційному використанню лише одного центрального тензометричного датчика (Weigh Cell), HC-Warehouse вирізняється високою міцністю та надійністю. Водночас конструкція забезпечує швидке та просте технічне обслуговування.

@@ -1,4 +1,4 @@
-import { describe, expect, it } from "bun:test";
+import { describe, expect, it, spyOn } from "bun:test";
 import {
 	type EquipmentEntry,
 	type EquipmentType,
@@ -9,6 +9,7 @@ import {
 	getCategories,
 	getCategoriesForLocale,
 	getCategory,
+	getGallery,
 	getIndustriesForLocale,
 	getLocale,
 	getProducts,
@@ -18,6 +19,7 @@ import {
 	isProduct,
 	sortByOrder,
 } from "@/lib/content-utils";
+import { imageFixtures } from "../helpers/mocks";
 
 // The glob loader strips the dot before the locale, so "hc-sl.en.md" has the id "hc-slen"
 const entry = (id: string, order?: number) =>
@@ -196,5 +198,32 @@ describe("groupByCategory", () => {
 	it("sorts products inside a group by order", () => {
 		const groups = groupByCategory(products, categories);
 		expect(groups[0].products.map((e) => e.id)).toEqual(["checkweigher/b-en", "checkweigher/a-en"]);
+	});
+});
+
+describe("getGallery", () => {
+	const withGallery = (id: string, gallery?: string[]) =>
+		({ id, data: { gallery } }) as unknown as EquipmentEntry;
+	const known = "/assets/equipment/hc-a/a.webp";
+	const quiet = () => spyOn(console, "warn").mockImplementation(() => undefined);
+
+	it("resolves gallery paths to image metadata and drops missing files", () => {
+		const warn = quiet();
+		const ua = withGallery("checkweigher/hc-aua", [known, "/assets/equipment/hc-a/gone.webp"]);
+		expect(getGallery(ua, [ua])).toEqual([imageFixtures[`/src${known}`]]);
+		warn.mockRestore();
+	});
+
+	it("returns undefined when every image is missing", () => {
+		const warn = quiet();
+		const ua = withGallery("checkweigher/hc-aua", ["/assets/equipment/hc-a/gone-too.webp"]);
+		expect(getGallery(ua, [ua])).toBeUndefined();
+		warn.mockRestore();
+	});
+
+	it("falls back to the ua gallery for an English entry without one", () => {
+		const ua = withGallery("checkweigher/hc-aua", [known]);
+		const en = withGallery("checkweigher/hc-aen");
+		expect(getGallery(en, [en, ua])).toEqual([imageFixtures[`/src${known}`]]);
 	});
 });

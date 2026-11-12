@@ -2,9 +2,9 @@
 file_name: hc-a-md
 order: 4
 gallery:
-  - /assets/image_409a1f1c.webp
-  - /assets/image_63300955.webp
-  - /assets/image_98411ad6.webp
+  - /assets/equipment/image_409a1f1c.webp
+  - /assets/equipment/image_63300955.webp
+  - /assets/equipment/image_98411ad6.webp
 datasheet: null
 industries:
   - food-beverage

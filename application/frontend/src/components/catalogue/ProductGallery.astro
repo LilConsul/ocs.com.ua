@@ -1,10 +1,11 @@
 ---
-import { Image } from "astro:assets";
+import { getImage, Image } from "astro:assets";
 import { ChevronLeft, ChevronRight, Maximize2, X } from "@lucide/astro";
+import type { ImageMetadata } from "astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 
 interface Props {
-	images?: string[] | null;
+	images?: ImageMetadata[] | null;
 	title: string;
 	lang: Lang;
 }
@@ -12,8 +13,46 @@ interface Props {
 const { images = [], title, lang } = Astro.props;
 const _ = getInlineTranslations(lang);
 
-const galleryImages = images && images.length > 0 ? images : ["/placeholder.svg"];
+const galleryImages: (ImageMetadata | string)[] =
+	images && images.length > 0 ? images : ["/placeholder.svg"];
+// Plain URLs for the microdata
+const imageUrls = galleryImages.map((img) => (typeof img === "string" ? img : img.src));
 const hasMultiple = galleryImages.length > 1;
+
+// The main and the lightbox picture: one set of props each, shared by the rendered first photo
+// and the per-photo sources the script swaps in, so photo 1 in the data equals the markup.
+const mainProps = {
+	widths: [640, 960, 1280],
+	sizes: "(min-width: 1024px) 640px, 100vw",
+	format: "webp",
+} as const;
+const lightboxProps = {
+	widths: [1200, 1600],
+	sizes: "100vw",
+	format: "webp",
+} as const;
+
+interface PhotoSource {
+	src: string;
+	srcset?: string;
+}
+
+// A width-descriptor srcset makes the browser ignore `src`, so a photo swap has to replace both.
+// getImage with the same props as <Image> yields the same files (widths above the source are
+// dropped the same way).
+const toSources = (props: typeof mainProps | typeof lightboxProps) =>
+	Promise.all(
+		galleryImages.map(async (img): Promise<PhotoSource> => {
+			if (typeof img === "string") return { src: img };
+			const processed = await getImage({ src: img, ...props, widths: [...props.widths] });
+			const srcset = processed.srcSet.attribute;
+			return srcset ? { src: processed.src, srcset } : { src: processed.src };
+		})
+	);
+const [mainSources, lightboxSources] = await Promise.all([
+	toSources(mainProps),
+	toSources(lightboxProps),
+]);
 const imageAlts = galleryImages.map((_img, idx) => (hasMultiple ? `${title} - ${idx + 1}` : title));
 const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
 const counterText = `01 / ${pad(galleryImages.length)}`;
@@ -30,7 +69,8 @@ const thumbBase =
 
 <figure
 	class="product-gallery-container m-0 w-full select-none"
-	data-images={JSON.stringify(galleryImages)}
+	data-images={JSON.stringify(mainSources)}
+	data-lightbox-images={JSON.stringify(lightboxSources)}
 	data-alts={JSON.stringify(imageAlts)}
 	itemscope
 	itemtype="https://schema.org/ImageGallery"
@@ -44,7 +84,7 @@ const thumbBase =
 	{
 		galleryImages.map((img, idx) => (
 			<span hidden itemprop="associatedMedia" itemscope itemtype="https://schema.org/ImageObject">
-				<meta itemprop="contentUrl" content={img} />
+				<meta itemprop="contentUrl" content={imageUrls[idx]} />
 				<meta itemprop="name" content={`${title} - ${idx + 1}`} />
 				<meta itemprop="representativeOfPage" content={idx === 0 ? "true" : "false"} />
 			</span>
@@ -89,14 +129,14 @@ const thumbBase =
 		{/* Image area — full card, even padding on all sides */}
 		<div
 			data-gallery-stage
-			class="flex h-full w-full cursor-zoom-in items-center justify-center p-4 md:p-6"
+			class="skeleton flex h-full w-full cursor-zoom-in items-center justify-center p-4 md:p-6"
 		>
 			<Image
 				id="gallery-main-image"
 				src={galleryImages[0]}
 				alt={imageAlts[0]}
-				width={800}
-				height={600}
+				{...mainProps}
+				widths={[...mainProps.widths]}
 				class="max-h-full max-w-full cursor-zoom-in object-contain transition-transform duration-(--dur-base) motion-safe:group-hover/card:scale-[1.02]"
 				loading="eager"
 				itemprop="image"
@@ -140,7 +180,7 @@ const thumbBase =
 						<li role="presentation" class="h-18 w-24 shrink-0 snap-start">
 							<button
 								type="button"
-								class={`gallery-thumb group/thumb ${thumbBase} aria-selected:border-secondary aria-selected:ring-secondary/20 relative h-full w-full aria-selected:opacity-100 aria-selected:shadow-xs aria-selected:ring-2`}
+								class={`skeleton gallery-thumb group/thumb ${thumbBase} aria-selected:border-secondary aria-selected:ring-secondary/20 relative h-full w-full aria-selected:opacity-100 aria-selected:shadow-xs aria-selected:ring-2`}
 								data-index={idx}
 								aria-label={`${_("View image")} ${idx + 1}`}
 								role="tab"
@@ -149,10 +189,11 @@ const thumbBase =
 								<Image
 									src={img}
 									alt={imageAlts[idx]}
-									width={160}
-									height={120}
+									widths={[100, 200]}
+									sizes="80px"
+									format="webp"
 									class="pointer-events-none h-full w-full object-contain transition-transform duration-(--dur-fast) motion-safe:group-hover/thumb:scale-105"
-									loading="eager"
+									loading="lazy"
 								/>
 							</button>
 						</li>
@@ -228,8 +269,8 @@ const thumbBase =
 				id="lightbox-image"
 				src={galleryImages[0]}
 				alt={imageAlts[0]}
-				width={1200}
-				height={900}
+				{...lightboxProps}
+				widths={[...lightboxProps.widths]}
 				class="border-border-subtle/50 max-h-full max-w-full rounded-lg border bg-white object-contain shadow-lg select-none"
 				loading="lazy"
 				draggable="false"
@@ -276,8 +317,10 @@ const thumbBase =
 							<Image
 								src={img}
 								alt={imageAlts[idx]}
-								width={100}
-								height={75}
+								widths={[100, 200]}
+								sizes="80px"
+								format="webp"
+								loading="lazy"
 								class="pointer-events-none h-full w-full object-contain"
 							/>
 						</button>
@@ -314,13 +357,21 @@ const thumbBase =
 	const MAX_SCALE = 5;
 	const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
 
+	/** One photo as built by the frontmatter: the processed fallback and its srcset */
+	interface PhotoSource {
+		src: string;
+		srcset?: string;
+	}
+
 	function setupGallery(container: HTMLElement) {
 		container.dataset.ready = "";
 
-		let images: string[] = [];
+		let images: PhotoSource[] = [];
+		let lightboxImages: PhotoSource[] = [];
 		let alts: string[] = [];
 		try {
 			images = JSON.parse(container.dataset.images ?? "[]");
+			lightboxImages = JSON.parse(container.dataset.lightboxImages ?? "[]");
 			alts = JSON.parse(container.dataset.alts ?? "[]");
 		} catch {
 			return;
@@ -399,19 +450,23 @@ const thumbBase =
 		};
 
 		// ── Active image ──────────────────────────────────────────────────
+		// With a width-descriptor srcset the browser ignores `src`, so both are set. `sizes` stays.
+		const showPhoto = (img: HTMLImageElement | null, photo: PhotoSource | undefined) => {
+			if (!img || !photo) return;
+			// Setting an attribute, even to the same value, restarts image selection: skip no-ops
+			if (!photo.srcset) img.removeAttribute("srcset");
+			else if (img.getAttribute("srcset") !== photo.srcset) img.srcset = photo.srcset;
+			if (img.getAttribute("src") !== photo.src) img.src = photo.src;
+			img.alt = alts[activeIndex] ?? img.alt;
+		};
+
 		const setActiveImage = (index: number, scrollThumb = true) => {
 			if (index < 0 || index >= total) return;
 			activeIndex = index;
 			const label = `${pad(activeIndex + 1)} / ${pad(total)}`;
 
-			if (mainImg) {
-				mainImg.src = images[activeIndex];
-				mainImg.alt = alts[activeIndex] ?? mainImg.alt;
-			}
-			if (lightboxImg) {
-				lightboxImg.src = images[activeIndex];
-				lightboxImg.alt = alts[activeIndex] ?? lightboxImg.alt;
-			}
+			showPhoto(mainImg, images[activeIndex]);
+			showPhoto(lightboxImg, lightboxImages[activeIndex] ?? images[activeIndex]);
 			if (badgeText) badgeText.textContent = label;
 			if (lightboxCounter) lightboxCounter.textContent = label;
 

@@ -10,6 +10,7 @@ import companyData from "@/data/company.json";
 import { defaultLang, getIsoLang, getLangFromUrl } from "@/i18n";
 import type { SchemaGraph } from "@/lib/structured-data";
 import motionOn from "../lib/anims/motion-on.js?raw";
+import skeletonOn from "../lib/skeleton-on.js?raw";
 import noJsCss from "../styles/no-js.css?raw";
 
 type BackgroundVariant = NonNullable<ComponentProps<typeof TechnicalField>["variant"]>;
@@ -83,6 +84,7 @@ const defaultDescription =
 		<link rel="sitemap" href="/sitemap-index.xml" />
 		<noscript><style is:inline set:html={noJsCss}></style></noscript>
 		<script is:inline set:html={motionOn} />
+		<script is:inline set:html={skeletonOn} />
 		<meta name="generator" content={Astro.generator} />
 
 		<SEO
@@ -163,6 +165,10 @@ const defaultDescription =
 		/>
 		<script>
 			import "@/lib/anims/runtime";
+			import { initImageSkeletons } from "@/lib/image-skeleton";
+
+			// skeleton-on.js (in <head>) ends skeletons as pictures load; this sweeps up the rest
+			initImageSkeletons();
 		</script>
 		<script>
 			const progress = document.querySelector<HTMLElement>("[data-scroll-progress]");

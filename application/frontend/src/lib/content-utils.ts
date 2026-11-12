@@ -9,9 +9,10 @@
  */
 
 import type { CollectionEntry } from "astro:content";
+import type { ImageMetadata } from "astro";
 import equipmentTypes from "../data/equipment-types.json";
 import industriesData from "../data/industries.json";
-import { existingFiles } from "./public-assets";
+import { resolveImages } from "./images";
 
 export type Locale = "en" | "ua";
 export type EquipmentEntry = CollectionEntry<"equipment">;
@@ -190,14 +191,14 @@ export function findTranslation(
  * Get gallery images for an entry, falling back to the default-locale (ua) translation
  * when the current locale's entry has no gallery (because gallery is i18n: false in the CMS,
  * meaning it is only stored in the ua file).
- * Images missing from public/ are left out; undefined means none are left (callers show the
- * placeholder).
+ * Paths resolve to build-time image metadata; images missing from src/assets/ are left out and
+ * undefined means none are left (callers show the placeholder).
  */
 export function getGallery(
 	entry: EquipmentEntry,
 	allEntries: EquipmentEntry[]
-): string[] | undefined {
-	const gallery = existingFiles(rawGallery(entry, allEntries));
+): ImageMetadata[] | undefined {
+	const gallery = resolveImages(rawGallery(entry, allEntries));
 	return gallery.length ? gallery : undefined;
 }
 

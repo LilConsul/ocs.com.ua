@@ -1,4 +1,6 @@
 import { mock } from "bun:test";
+import type { ImageMetadata } from "astro";
+import { createImageResolver } from "../../src/lib/image-resolver";
 
 export const sentMails: Record<string, unknown>[] = [];
 export const transportOptions: Record<string, unknown>[] = [];
@@ -49,8 +51,27 @@ export const equipmentEntries: {
 	{ id: "checkweigher/_indexen", data: { title: "Checkweighers" } },
 ];
 
+// Bun has no import.meta.glob, so the src/assets glob is replaced by a fixed set of files
+const image = (src: string): ImageMetadata => ({ src, width: 800, height: 600, format: "webp" });
+export const imageFixtures: Record<string, ImageMetadata> = {
+	"/src/assets/equipment/hc-a/a.webp": image("/_astro/a.hash.webp"),
+	"/src/assets/partners/p.webp": image("/_astro/p.hash.webp"),
+	"/src/assets/hero/main_page.webp": image("/_astro/main_page.hash.webp"),
+};
+
+mock.module("@/lib/images", () => createImageResolver(imageFixtures));
+
 // content.config.ts only needs defineCollection to hand back its config
 mock.module("astro:content", () => ({
 	defineCollection: (config: unknown) => config,
 	getCollection: async () => equipmentEntries,
+}));
+
+// Bun has no astro:assets; a fake getImage returns the URL shape the build produces
+mock.module("astro:assets", () => ({
+	getImage: async (options: { src: ImageMetadata; width?: number; format?: string }) => {
+		const name = options.src.src.split("/").pop()?.split(".")[0] ?? "image";
+		const format = options.format ?? options.src.format;
+		return { src: `/_astro/${name}.w${options.width}.${format}`, options };
+	},
 }));

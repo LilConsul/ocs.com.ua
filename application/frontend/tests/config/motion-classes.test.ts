@@ -32,10 +32,19 @@ describe("motion classes in components", () => {
 });
 
 describe("picture fade-in", () => {
-	it("is gone from src", () => {
+	it("the old per-image fade is gone from src", () => {
 		const offenders = allFiles
-			.filter((f) => /img-fade|observeImages|data-loaded|img-in/.test(f.text))
+			.filter((f) => /img-fade|observeImages|img-in/.test(f.text))
 			.map((f) => rel(f.path));
+		expect(offenders).toEqual([]);
+	});
+
+	it("data-loaded belongs to the loading skeletons only", () => {
+		const owners = new Set(["lib/image-skeleton.ts", "lib/skeleton-on.js", "styles/global.css"]);
+		const offenders = allFiles
+			.filter((f) => /data-loaded|dataset\.loaded/.test(f.text))
+			.map((f) => rel(f.path))
+			.filter((path) => !owners.has(path));
 		expect(offenders).toEqual([]);
 	});
 });

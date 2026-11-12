@@ -24,6 +24,7 @@ import {
 	sortByOrder,
 } from "@/lib/content-utils";
 import { hasDatasheet } from "@/lib/datasheet/files";
+import { shareImageUrl } from "@/lib/share-image";
 import { createPageGraph, productSchema } from "@/lib/structured-data";
 
 export async function getStaticPaths() {
@@ -97,6 +98,10 @@ const workingHours = companyData.workingHours[lang as "en" | "ua"] || companyDat
 const siteUrl = Astro.site || "https://ocs.com.ua";
 const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
 
+const shareImages = (
+	await Promise.all((gallery ?? []).map((img) => shareImageUrl(img, siteUrl)))
+).filter((url): url is string => Boolean(url));
+
 const productNode = productSchema({
 	name: title,
 	description,
@@ -105,7 +110,7 @@ const productNode = productSchema({
 	site: siteUrl,
 	sku: `${category}/${getSlug(product)}`,
 	category: categoryTitle,
-	images: gallery,
+	images: shareImages,
 	specs: flattenSpecs(product.data.specs),
 });
 
@@ -124,7 +129,7 @@ const structuredData = createPageGraph({
 });
 
 // Share previews use the product photo when there is one, else the default brand image
-const shareImage = gallery?.[0];
+const shareImage = shareImages[0];
 ---
 
 <Layout

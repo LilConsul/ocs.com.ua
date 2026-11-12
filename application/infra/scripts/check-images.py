@@ -3,7 +3,7 @@
 # requires-python = ">=3.11"
 # dependencies = ["pillow>=13"]
 # ///
-"""Checks (and optionally fixes) raster images served from application/frontend/public.
+"""Checks (and optionally fixes) raster images kept in application/frontend/public and application/frontend/src/assets.
 
 A file fails the check when its extension lies about its real format (e.g. PNG data in a
 .webp file), when it is wider/taller than MAX_SIDE, or when it is larger than MAX_BYTES.
@@ -12,7 +12,7 @@ Usage:
     uv run application/infra/scripts/check-images.py [PATH ...]          # check, exit 1 on problems
     uv run application/infra/scripts/check-images.py --fix [PATH ...]    # re-encode problem files
 
-PATH may be files or directories. Defaults to application/frontend/public.
+PATH may be files or directories. Defaults to application/frontend/public and application/frontend/src/assets.
 Files are re-encoded in place and keep their name, so content references stay valid.
 """
 
@@ -26,7 +26,8 @@ from PIL import Image
 MAX_SIDE = 1600
 MAX_BYTES = 300 * 1024
 QUALITIES = (82, 75, 68, 60, 50)
-DEFAULT_PATH = Path(__file__).resolve().parents[2] / "frontend" / "public"
+_FRONTEND = Path(__file__).resolve().parents[2] / "frontend"
+DEFAULT_PATHS = [_FRONTEND / "public", _FRONTEND / "src" / "assets"]
 
 # extension -> format name reported by Pillow
 EXT_FORMATS = {".webp": "WEBP", ".png": "PNG", ".jpg": "JPEG", ".jpeg": "JPEG"}
@@ -116,7 +117,7 @@ def collect(paths: list[Path]) -> list[Path]:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("paths", nargs="*", type=Path, default=[DEFAULT_PATH])
+    parser.add_argument("paths", nargs="*", type=Path, default=DEFAULT_PATHS)
     parser.add_argument("--fix", action="store_true", help="re-encode files that fail the check")
     args = parser.parse_args(argv)
 

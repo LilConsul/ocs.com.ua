@@ -1,6 +1,13 @@
-import { existingFile } from "../public-assets";
+import { resolveImage } from "../images";
 import { getCityCoordinates } from "./geocoding";
-import type { CityHub, EquipmentStats, PartnerItem, PartnersData, SectorBreakdown } from "./types";
+import type {
+	CityHub,
+	EquipmentStats,
+	PartnerItem,
+	PartnerRecord,
+	PartnersData,
+	SectorBreakdown,
+} from "./types";
 
 /**
  * Display-friendly approximation of an exact count: floors to a multiple of 5 and
@@ -122,7 +129,7 @@ export function aggregateCityHubs(data: PartnersData): CityHub[] {
 export function getSectorBreakdowns(data: PartnersData): SectorBreakdown[] {
 	const calcCategory = (
 		category: "food" | "pharma" | "household",
-		items: Omit<PartnerItem, "category">[],
+		items: PartnerRecord[],
 		title: { en: string; ua: string }
 	): SectorBreakdown => {
 		let md = 0;
@@ -156,14 +163,13 @@ export function getSectorBreakdowns(data: PartnersData): SectorBreakdown[] {
 }
 
 /**
- * Every partner with its sector. A logo whose file is missing from public/ is dropped, so the
- * cards fall back to the building icon instead of a broken image.
+ * Every partner with its sector and its logo resolved to build-time image metadata. A logo whose
+ * file is missing from src/assets/ is dropped, so the cards fall back to the building icon
+ * instead of a broken image.
  */
 export function getAllPartnersList(data: PartnersData): PartnerItem[] {
-	const withCategory = <C extends PartnerItem["category"]>(
-		items: Omit<PartnerItem, "category">[],
-		category: C
-	) => items.map((item) => ({ ...item, logo: existingFile(item.logo), category }));
+	const withCategory = (items: PartnerRecord[], category: PartnerItem["category"]) =>
+		items.map((item): PartnerItem => ({ ...item, logo: resolveImage(item.logo), category }));
 
 	return [
 		...withCategory(data.food, "food"),

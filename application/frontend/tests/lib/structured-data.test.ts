@@ -307,6 +307,12 @@ describe("structured-data: productSchema", () => {
 		],
 	};
 
+	it("keeps already absolute processed image urls and omits image for an empty gallery", () => {
+		const jpg = "https://ocs.com.ua/_astro/front.w1200.jpeg";
+		expect(productSchema({ ...productBase, images: [jpg] }).image).toEqual([jpg]);
+		expect(productSchema({ ...productBase, images: [] }).image).toBeUndefined();
+	});
+
 	it("builds a full product schema with specs, gallery, and presentation-only inquiry offer via i18n", () => {
 		const product = productSchema(productBase);
 		expect(product["@type"]).toBe("Product");

@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { productUrl } from "@/lib/catalogue-urls";
 import { type EquipmentEntry, flattenSpecs, getCategory, getSlug } from "@/lib/content-utils";
@@ -8,7 +9,7 @@ interface Props {
 	products: EquipmentEntry[];
 	lang: Lang;
 	/** Pre-resolved galleries keyed by entry id, used when gallery is not in the entry (i18n: false). */
-	galleries?: Record<string, string[]>;
+	galleries?: Record<string, ImageMetadata[]>;
 }
 
 const { products = [], lang, galleries = {} } = Astro.props;
@@ -54,12 +55,13 @@ const _ = getInlineTranslations(lang);
 								class="card-hover catalogue-trace reveal group bg-background border-border-subtle/70 focus-visible:outline-secondary block overflow-hidden rounded-xl border shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2"
 								style={`--i:${index}`}
 							>
-								<div class="border-border-subtle/40 flex h-44 items-center justify-center border-b bg-white p-4">
+								<div class="skeleton border-border-subtle/40 flex h-44 items-center justify-center border-b bg-white p-4">
 									<Image
 										src={itemImg}
 										alt={item.data.title ?? ""}
-										width={400}
-										height={300}
+										widths={[400, 800]}
+										sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+										format="webp"
 										class="max-h-full max-w-full object-contain mix-blend-multiply transition-transform duration-(--dur-base) group-hover:scale-105"
 										loading="lazy"
 									/>

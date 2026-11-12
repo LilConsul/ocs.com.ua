@@ -77,6 +77,8 @@
 	--surface-bright: oklch(0.99 0 0);
 	--on-surface-variant: oklch(0.4 0 0);
 	--on-primary: oklch(1 0 0);
+	/* Picture loading skeleton: as dark as --border, so it reads on white and on surface boxes */
+	--skeleton: oklch(0.922 0 0);
 }
 
 .dark {
@@ -113,6 +115,7 @@
 	--sidebar-ring: oklch(0.556 0 0);
 	--surface-lowest: oklch(0.205 0 0);
 	--industrial-gray: oklch(0.6 0.015 254);
+	--skeleton: oklch(0.32 0 0);
 }
 
 @theme inline {
@@ -160,6 +163,7 @@
 	--color-surface-bright: var(--surface-bright);
 	--color-on-surface-variant: var(--on-surface-variant);
 	--color-on-primary: var(--on-primary);
+	--color-skeleton: var(--skeleton);
 	--radius-sm: calc(var(--radius) * 0.6);
 	--radius-md: calc(var(--radius) * 0.8);
 	--radius-lg: var(--radius);
@@ -236,6 +240,9 @@
 	--dur-fast: 150ms;
 	--dur-base: 300ms;
 	--dur-slow: 700ms;
+	/* Loading skeleton pulse (Tailwind's animate-pulse timing) */
+	--ease-in-out-pulse: cubic-bezier(0.4, 0, 0.6, 1);
+	--dur-pulse: 2s;
 }
 
 /* Shared entrance animations.
@@ -495,6 +502,54 @@ html.motion-on .reveal-heading:not([data-revealed]) {
 html.motion-on .reveal-bar:not([data-revealed]),
 html.motion-on .eyebrow-rule:not([data-revealed]) {
 	transform: scaleX(0);
+}
+
+/* Picture loading skeletons (shadcn style). Put `skeleton` on the box that holds a picture:
+ * while the picture loads the box is a gray block and the picture is transparent;
+ * src/lib/image-skeleton.ts sets [data-loaded] on load (or error), the box gets its own
+ * background back and the picture shows. This applies only under `html.skeleton-on`, which
+ * skeleton-on.js sets in <head> whenever JavaScript runs, so without JavaScript pictures simply
+ * show. It does not depend on reduced motion: the block is a placeholder, not an animation. The
+ * pulse and the fade are added only when motion is allowed.
+ * The pulse animates the background, not opacity, so badges inside the box stay steady. */
+@keyframes skeleton-pulse {
+	50% {
+		background-color: color-mix(in oklab, var(--color-skeleton) 55%, transparent);
+	}
+}
+
+html.skeleton-on .skeleton:not([data-loaded]) {
+	background-color: var(--color-skeleton);
+}
+
+html.skeleton-on .skeleton:not([data-loaded]) > img,
+html.skeleton-on .skeleton:not([data-loaded]) > picture > img {
+	opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	html.skeleton-on .skeleton:not([data-loaded]) {
+		animation: skeleton-pulse var(--dur-pulse) var(--ease-in-out-pulse) infinite;
+	}
+
+	/* Keeps the component's own transform transition (hover zoom) and its duration, and adds the
+	 * fade. A stepped gallery photo goes from display:none to visible, which never transitions,
+	 * so photo changes still cut instantly. */
+	html.skeleton-on .skeleton > img,
+	html.skeleton-on .skeleton > picture > img {
+		transition-property: opacity, transform, translate, scale, rotate;
+		transition-duration:
+			var(--dur-base), var(--tw-duration, var(--dur-base)), var(--tw-duration, var(--dur-base)),
+			var(--tw-duration, var(--dur-base)), var(--tw-duration, var(--dur-base));
+		transition-timing-function: var(--ease-out-quart);
+	}
+}
+
+/* Layered so a wrapper's own `rounded-*` utility wins; the radius only applies while loading */
+@layer components {
+	html.skeleton-on .skeleton:not([data-loaded]) {
+		border-radius: var(--radius-md);
+	}
 }
 
 /* Page transitions. Cross-document view transitions: the browser crossfades between pages on

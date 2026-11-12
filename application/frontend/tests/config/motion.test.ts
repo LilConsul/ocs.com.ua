@@ -32,7 +32,7 @@ describe("motion: global.css", () => {
 		const hiding = rules.match(/html\.motion-on[^{]*\{[^}]*opacity:\s*0[^}]*\}/g) ?? [];
 		expect(hiding.length).toBeGreaterThan(0);
 		for (const rule of hiding) {
-			expect(rule).toContain(":not([data-revealed])");
+			expect(rule).toMatch(/:not\(\[data-revealed\]\)/);
 		}
 		// No other rule may hide a reveal element
 		const withoutGated = rules.replace(/html\.motion-on[^{]*\{[^}]*\}/g, "");

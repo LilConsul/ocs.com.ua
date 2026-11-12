@@ -164,6 +164,31 @@ for (const lang of ["ua", "en"]) {
 			expect(await shownIndex()).toBe(last);
 		});
 
+		test("spotlight photos have a srcset and hidden ones load eagerly after the first step", async ({
+			page,
+		}) => {
+			await page.setViewportSize({ width: 1440, height: 1000 });
+			await openHome(page, `/${lang}`);
+			const stage = visiblePanel(page).locator("article [data-gallery-stage]");
+			await stage.scrollIntoViewIfNeeded();
+			const images = stage.locator("img");
+			const count = await images.count();
+			expect(count).toBeGreaterThan(1);
+			for (let i = 0; i < count; i++) {
+				await expect(images.nth(i)).toHaveAttribute("srcset", /\.webp \d+w/);
+				await expect(images.nth(i)).toHaveAttribute("sizes", /.+/);
+			}
+			const loadings = () =>
+				images.evaluateAll((els) => els.map((el) => (el as HTMLImageElement).loading));
+			expect((await loadings()).slice(1)).not.toContain("eager");
+			const box = await stage.boundingBox();
+			if (!box) throw new Error("stage has no box");
+			await page.mouse.move(box.x + box.width * 0.95, box.y + box.height / 2);
+			await expect
+				.poll(() => images.evaluateAll((els) => els.map((el) => (el as HTMLImageElement).loading)))
+				.toEqual(Array(count).fill("eager"));
+		});
+
 		test("a photo change cuts instantly with no animation", async ({ page }) => {
 			await page.setViewportSize({ width: 1440, height: 1000 });
 			await openHome(page, `/${lang}`);

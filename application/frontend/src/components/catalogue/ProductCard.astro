@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { productUrl } from "@/lib/catalogue-urls";
 import { type EquipmentEntry, flattenSpecs, getCategory, getSlug } from "@/lib/content-utils";
@@ -8,10 +9,12 @@ interface Props {
 	product: EquipmentEntry;
 	lang: Lang;
 	index?: number;
-	gallery?: string[];
+	gallery?: ImageMetadata[];
+	/** First row of the grid: load right away, everything else lazily */
+	eager?: boolean;
 }
 
-const { product, lang, index = 0, gallery } = Astro.props;
+const { product, lang, index = 0, gallery, eager = false } = Astro.props;
 const _ = getInlineTranslations(lang);
 
 // Extract fields using clean names (no prefixes!)
@@ -20,7 +23,7 @@ const description = product.data.description;
 const specs = flattenSpecs(product.data.specs)
 	.slice(0, 2)
 	.map((spec) => ({ ...spec, value: spec.value.split(",")[0].trim() }));
-// gallery comes from getGallery(), which already left out images missing from public/
+// gallery comes from getGallery(), which already left out images missing from src/assets/
 const firstImage = gallery?.[0] || "/placeholder.svg";
 
 // Build product URL
@@ -35,16 +38,17 @@ const href = productUrl(lang, getCategory(product), getSlug(product));
 >
 	<a
 		href={href}
-		class="border-border-subtle/40 focus-visible:outline-secondary relative flex aspect-4/3 items-center justify-center border-b bg-white p-4 focus-visible:outline-2 focus-visible:-outline-offset-2"
+		class="skeleton border-border-subtle/40 focus-visible:outline-secondary relative flex aspect-4/3 items-center justify-center border-b bg-white p-4 focus-visible:outline-2 focus-visible:-outline-offset-2"
 		aria-label={title}
 	>
 		<Image
 			src={firstImage}
 			alt={title}
-			width={800}
-			height={600}
+			widths={[400, 800]}
+			sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+			format="webp"
 			class="h-full w-full object-contain mix-blend-multiply transition-transform duration-(--dur-slow) group-hover:scale-105"
-			loading="eager"
+			loading={eager ? "eager" : "lazy"}
 		/>
 	</a>
 

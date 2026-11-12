@@ -9,6 +9,9 @@ import {
 	sortWikiArticles,
 	type WikiEntry,
 } from "@/lib/wiki-utils";
+import { imageFixtures } from "../helpers/mocks";
+
+const COVER = imageFixtures["/src/assets/equipment/hc-a/a.webp"];
 
 const makeEntry = (id: string, data: Partial<WikiEntry["data"]> = {}): WikiEntry =>
 	({
@@ -28,7 +31,7 @@ const sampleEntries: WikiEntry[] = [
 	makeEntry("choosing-a-dynamic-checkweigherua", {
 		title: "Як обрати чеквеєр",
 		order: 2,
-		coverImage: "/assets/icons/logo-en.svg",
+		coverImage: "/assets/equipment/hc-a/a.webp",
 	}),
 	makeEntry("checkweigher-calibrationen", { title: "Calibration", order: 1 }),
 	makeEntry("checkweigher-calibrationua", { title: "Калібрування", order: 1 }),
@@ -119,14 +122,14 @@ describe("wiki-utils: findWikiTranslation", () => {
 
 describe("wiki-utils: getWikiCoverImage", () => {
 	it("returns direct cover image if defined", () => {
-		expect(getWikiCoverImage(sampleEntries[1], sampleEntries)).toBe("/assets/icons/logo-en.svg");
+		expect(getWikiCoverImage(sampleEntries[1], sampleEntries)).toBe(COVER);
 	});
 
 	it("falls back to default ua locale cover image when current locale has none", () => {
-		expect(getWikiCoverImage(sampleEntries[0], sampleEntries)).toBe("/assets/icons/logo-en.svg");
+		expect(getWikiCoverImage(sampleEntries[0], sampleEntries)).toBe(COVER);
 	});
 
-	it("treats a cover image missing from public/ as no cover", () => {
+	it("treats a cover image missing from src/assets/ as no cover", () => {
 		const warn = spyOn(console, "warn").mockImplementation(() => undefined);
 		const entry = makeEntry("gone-article-ua", { coverImage: "/assets/deleted-in-cms.webp" });
 		expect(getWikiCoverImage(entry, [entry])).toBeUndefined();

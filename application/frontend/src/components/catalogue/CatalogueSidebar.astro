@@ -244,6 +244,7 @@ const sections = [
 
 <script>
 	import { observeReveals } from "@/lib/anims/reveal";
+	import { initImageSkeletons } from "@/lib/image-skeleton";
 
 	const toggleBtn = document.getElementById("mobile-filter-toggle");
 	const closeBtn = document.getElementById("mobile-filter-close");
@@ -415,6 +416,7 @@ const sections = [
 			savedResultsHTML = null;
 			results.innerHTML = nextResults.innerHTML;
 			observeReveals(results);
+			initImageSkeletons(results);
 			setupProductSearch();
 
 			syncChrome(next);
@@ -570,6 +572,7 @@ const sections = [
 			if (savedResultsHTML !== null) {
 				results.innerHTML = savedResultsHTML;
 				observeReveals(results);
+				initImageSkeletons(results);
 				savedResultsHTML = null;
 			}
 			return;

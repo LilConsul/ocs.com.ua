@@ -14,6 +14,11 @@ import { getInlineTranslations } from "@/i18n/inline";
 import { EQUIPMENT_SLUGS, SECTORS } from "@/lib/contact/options";
 
 const CONTENT_DIR = join(import.meta.dir, "../../src/content/equipment");
+const FRONTEND_DIR = join(import.meta.dir, "../..");
+
+// Content keeps the public-style path (/assets/...); the file itself lives under src/assets/
+const missingFromSrcAssets = (path: string) =>
+	!existsSync(join(FRONTEND_DIR, "src", decodeURIComponent(path)));
 
 function walk(dir: string): string[] {
 	return readdirSync(dir, { withFileTypes: true }).flatMap((d) =>
@@ -89,6 +94,15 @@ describe("equipment content", () => {
 			.filter((f) => f.endsWith(".en.md"))
 			.filter((f) => (frontmatter(f).industries ?? []).length > 0);
 		expect(withIndustries).toEqual([]);
+	});
+
+	it("references only gallery images that exist in src/assets", () => {
+		const missing = files.flatMap((f) =>
+			((frontmatter(f).gallery ?? []) as string[])
+				.filter(missingFromSrcAssets)
+				.map((img) => `${f}: ${img}`)
+		);
+		expect(missing).toEqual([]);
 	});
 
 	it("keeps file_name equal to the file's base name (CMS names files from it)", () => {
@@ -438,6 +452,14 @@ describe("wiki content", () => {
 		expect(mismatched).toEqual([]);
 	});
 
+	it("references only cover images that exist in src/assets", () => {
+		const missing = wikiFiles
+			.map((f) => ({ f, cover: parseWikiFrontmatter(f).coverImage as string | undefined }))
+			.filter(({ cover }) => cover && missingFromSrcAssets(cover))
+			.map(({ f, cover }) => `${f}: ${cover}`);
+		expect(missing).toEqual([]);
+	});
+
 	it("matches the wiki content schema", () => {
 		const schema = (collections as any).wiki?.schema;
 		expect(schema).toBeDefined();
@@ -555,6 +577,15 @@ describe("partners data", () => {
 		);
 		expect(unknown).toEqual([]);
 	});
+
+	it("references only logos that exist in src/assets", () => {
+		const missing = sectors.flatMap(([sector, partners]) =>
+			partners
+				.filter((p) => p.logo && missingFromSrcAssets(p.logo))
+				.map((p) => `${sector}/${p.name.en}: ${p.logo}`)
+		);
+		expect(missing).toEqual([]);
+	});
 });
 
 describe("decap cms partners and cities files", () => {
@@ -604,10 +635,24 @@ describe("decap cms partners and cities files", () => {
 		expect(names).toEqual(["name", "lat", "lng"]);
 	});
 
-	it("keeps partner logos under public/assets/partners", () => {
+	it("keeps partner logos under src/assets/partners", () => {
 		const file = partnerFile;
-		expect(file.media_folder).toBe("../../public/assets/partners");
+		expect(file.media_folder).toBe("../../src/assets/partners");
 		expect(file.public_folder).toBe("/assets/partners");
+	});
+
+	it("saves product gallery and wiki cover images to src/assets but keeps /assets paths", () => {
+		const collections = parsed.collections as any[];
+		const equipment = collections.find((c) => c.name === "equipment");
+		const gallery = equipment.fields.find((f: any) => f.name === "gallery").field;
+		expect(gallery.media_folder).toBe("/application/frontend/src/assets/equipment");
+		expect(gallery.public_folder).toBe("/assets/equipment");
+		const wiki = collections.find((c) => c.name === "wiki");
+		const cover = wiki.fields.find((f: any) => f.name === "coverImage");
+		expect(cover.media_folder).toBe("/application/frontend/src/assets/wiki");
+		expect(cover.public_folder).toBe("/assets/wiki");
+		expect(parsed.media_folder).toBe("application/frontend/public/assets");
+		expect(parsed.public_folder).toBe("/assets");
 	});
 
 	it("never allows deleting the data files", () => {
