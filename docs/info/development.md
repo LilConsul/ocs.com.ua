@@ -66,6 +66,17 @@ Edit the `msgstr` values in `locales/ua.po`. `locales/messages.pot` and `src/i18
 
 ______________________________________________________________________
 
+## Shared styles and motion
+
+Reuse these instead of copying class strings (all in `application/frontend/src/styles/global.css`):
+
+- `card-hover` - the one hover treatment for cards (lift, shadow, border highlight).
+- `btn-primary`, `btn-secondary`, `btn-sm`, `link-arrow` - buttons and text links. Add `press` in markup for the press feedback.
+- Motion uses three speeds only: `--dur-fast` (150 ms), `--dur-base` (300 ms), `--dur-slow` (700 ms), mirrored in `src/lib/anims/tokens.ts` as `DUR`. In Tailwind use `duration-(--dur-base)` and so on; no `duration-300` and no `transition-all`.
+- Product pictures do not fade in; the card reveals as a whole.
+
+______________________________________________________________________
+
 ## Content and CMS
 
 Equipment, wiki articles and site data are Markdown/JSON under `application/frontend/src/content` and `src/data`, edited through Decap CMS.

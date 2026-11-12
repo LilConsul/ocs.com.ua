@@ -141,7 +141,9 @@ ______________________________________________________________________
 
 - [ ] **Step 5: Commit** `feat: unify buttons and arrow links`.
 
-### Task 6: Continuous background gradient and transparent sections
+### Task 6: Continuous background gradient and transparent sections (SUPERSEDED)
+
+> Built, reviewed in a browser and then reverted at the owner's request: the gradients felt off and too strong and the grey and white sections were preferred. The background is unchanged; see the spec, Decisions 3.
 
 **Files:**
 
@@ -282,5 +284,5 @@ ______________________________________________________________________
 ## Self-Review Notes
 
 - Spec coverage: band (Tasks 8-11), manufacturer field (7), three speeds (1-2), no picture fade (3), card hover (4), buttons and links (5), transparent sections, section rhythm and continuous gradient (6), existing canvas untouched (Global Constraints), both languages and no-JS (10-11).
-- Section rhythm is delivered by `section-block` in Task 6 together with the gradient, since both touch the same section roots.
+- Section rhythm: Task 6 was reverted; the homepage keeps alternating grey and white sections, with the featured band slotted in as a white section.
 - Names used across tasks: `getFeaturedGroups`, `FeaturedGroup`, `nextTabIndex`, `initFeaturedTabs`, `card-hover`, `btn-primary`, `btn-secondary`, `link-arrow`, `section-block`, `site-gradient`, `DUR`.

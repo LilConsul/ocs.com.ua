@@ -25,8 +25,8 @@ It builds on the existing motion system (`docs/superpowers/specs/2026-11-05-moti
 1. A "Featured equipment" band on the homepage that shows catalogue products.
 1. One motion language: the same few speeds and easings for every reveal, hover, tab and menu.
 1. No fade-in on product pictures; cards reveal as a whole.
-1. A more consistent background: the existing technical-field look stays, with soft gradients
-   running continuously down every page and no alternating white/grey section fills.
+1. A consistent background: the existing technical-field look and the alternating grey and
+   white section fills stay (owner decision, see Decisions 3).
 1. Consistent card hover, section spacing rhythm, and buttons/links across all pages.
 
 ## Non-goals
@@ -75,19 +75,15 @@ It builds on the existing motion system (`docs/superpowers/specs/2026-11-05-moti
 ### 3. Background
 
 The owner tried several directions in a browser prototype (dot matrix, grain, pulsing glows,
-cursor-reactive dots and cursor light) and did not like them. Final decision: keep the existing
-technical-field canvas (grid, arcs, calibration points) as it is, and only add more consistent
-gradients. No grain, no dot matrix, no pulsing orbs, no mouse-reactive effects.
+cursor-reactive dots, cursor light, a page-long gradient with transparent sections) and none felt
+right: the gradients felt off and too strong, and the owner preferred the grey and white sections.
+Final decision: change nothing about the background. The existing technical-field canvas and the
+alternating `bg-background` / `bg-surface-container` section fills stay.
 
-- Soft gradients, built from the existing magenta/secondary palette, run continuously down the
-  whole page body behind all content, so the look is the same from the hero to the footer and on
-  every page. They replace the alternating white/grey section fills.
-- Sections become transparent over the shared background and are separated by spacing and
-  hairline dividers. Today most sections paint a solid `bg-background` or `bg-surface-container`
-  fill that hides the site-wide canvas in `Layout.astro`.
-- Gradients are subtle and static (at most a very slow drift, off under reduced motion). The
-  technical-field canvas keeps its current behaviour and per-page variants.
-- Content cards, forms and tables keep their own surfaces so text stays legible.
+- No grain, no dot matrix, no pulsing orbs, no mouse-reactive effects, no page-long gradient.
+- The new Featured equipment band takes its place in the alternation: Stats (grey), Featured
+  equipment (white), Industries (grey), Partners (white), each with a hairline border.
+- Industry cards use the same white card surface and hover as the other cards on the page.
 - The throwaway prototypes in `.superpowers/brainstorm/` are references only and are not carried
   into the build.
 
@@ -129,16 +125,12 @@ gradients. No grain, no dot matrix, no pulsing orbs, no mouse-reactive effects.
   above the list and tabs scroll horizontally.
 - "All <category>" links and category titles reuse `categoryUrl()` and `equipment-types.json`;
   any new UI strings go through `_()` and `bun run i18n`.
-- Alternating white/grey section fills are removed on all pages, no exceptions (owner decision).
-- Gradient strength, colours and positions down the page are tuned by eye in a browser on a long
-  and a short page, in both languages and at phone width; success is calm and consistent, never
-  noisy, with text easy to read everywhere.
+- With few products in a category the list rows are capped at 160 px, so a single row is not
+  stretched to the height of the spotlight.
 
 ## Left to the builder
 
 - Exact speed values, easing curves and token names, within the three-speed rule.
-- How the continuous gradient layer is built (fixed or page-long CSS layers), provided
-  performance, no-JS behaviour and the existing technical-field canvas hold.
 - Tab implementation details (accessible tablist semantics, keyboard support, no-JS fallback
   such as showing all categories stacked).
 - How many categories get a tab if a category has too few products.
