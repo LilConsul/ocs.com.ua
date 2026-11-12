@@ -77,6 +77,8 @@
 	--surface-bright: oklch(0.99 0 0);
 	--on-surface-variant: oklch(0.4 0 0);
 	--on-primary: oklch(1 0 0);
+	/* Picture loading skeleton: as dark as --border, so it reads on white and on surface boxes */
+	--skeleton: oklch(0.922 0 0);
 }
 
 .dark {
@@ -113,6 +115,7 @@
 	--sidebar-ring: oklch(0.556 0 0);
 	--surface-lowest: oklch(0.205 0 0);
 	--industrial-gray: oklch(0.6 0.015 254);
+	--skeleton: oklch(0.32 0 0);
 }
 
 @theme inline {
@@ -160,6 +163,7 @@
 	--color-surface-bright: var(--surface-bright);
 	--color-on-surface-variant: var(--on-surface-variant);
 	--color-on-primary: var(--on-primary);
+	--color-skeleton: var(--skeleton);
 	--radius-sm: calc(var(--radius) * 0.6);
 	--radius-md: calc(var(--radius) * 0.8);
 	--radius-lg: var(--radius);
@@ -501,19 +505,19 @@ html.motion-on .eyebrow-rule:not([data-revealed]) {
 }
 
 /* Picture loading skeletons (shadcn style). Put `skeleton` on the box that holds a picture:
- * while the picture loads the box is a pulsing muted block and the picture is transparent;
+ * while the picture loads the box is a pulsing gray block and the picture is transparent;
  * src/lib/image-skeleton.ts sets [data-loaded] on load (or error), the pulse stops, the box gets
  * its own background back and the picture fades in. Like the reveals, this applies only under
  * `html.motion-on`, so without JavaScript or with reduced motion pictures simply show.
  * The pulse animates the background, not opacity, so badges inside the box stay steady. */
 @keyframes skeleton-pulse {
 	50% {
-		background-color: color-mix(in oklab, var(--color-muted) 50%, transparent);
+		background-color: color-mix(in oklab, var(--color-skeleton) 55%, transparent);
 	}
 }
 
 html.motion-on .skeleton:not([data-loaded]) {
-	background-color: var(--color-muted);
+	background-color: var(--color-skeleton);
 	animation: skeleton-pulse var(--dur-pulse) var(--ease-in-out-pulse) infinite;
 }
 
