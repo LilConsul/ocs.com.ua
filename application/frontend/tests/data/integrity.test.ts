@@ -65,6 +65,14 @@ describe("equipment content", () => {
 		expect(failures).toEqual([]);
 	});
 
+	it("accepts only Wipotec or Mesutronic as the manufacturer", () => {
+		const schema = (collections.equipment as any).schema;
+		for (const manufacturer of ["Wipotec", "Mesutronic", null, undefined]) {
+			expect(schema.safeParse({ title: "X", manufacturer }).success).toBe(true);
+		}
+		expect(schema.safeParse({ title: "X", manufacturer: "Siemens" }).success).toBe(false);
+	});
+
 	it("uses the same order in both languages of a product", () => {
 		const mismatched = files
 			.filter((f) => f.endsWith(".en.md"))
@@ -110,6 +118,14 @@ describe("decap cms equipment collection", () => {
 		expect(new RegExp(regex).test("hc-a-md")).toBe(true);
 		expect(new RegExp(regex).test("контрольно-ваги")).toBe(false);
 		expect(new RegExp(regex).test("HC A")).toBe(false);
+	});
+
+	it("offers an optional manufacturer select shared by both locales", () => {
+		const field = collection.fields.find((f: any) => f.name === "manufacturer");
+		expect(field.widget).toBe("select");
+		expect(field.required).toBe(false);
+		expect(field.i18n).toBe("duplicate");
+		expect(field.options).toEqual(["Wipotec", "Mesutronic"]);
 	});
 
 	it("does not rely on a slug template (ignored when meta.path is set)", () => {

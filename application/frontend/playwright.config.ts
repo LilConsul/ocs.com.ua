@@ -8,7 +8,7 @@ const REMOTE_URL = process.env.E2E_BASE_URL;
 // E2E_BASE_URL set, against a deployed site. Files are named *.e2e.ts so `bun test`, which
 // matches *.test.ts and *.spec.ts, never picks them up.
 export default defineConfig({
-	testDir: "./e2e",
+	testDir: "./tests/e2e",
 	testMatch: "**/*.e2e.ts",
 	fullyParallel: true,
 	retries: 0,

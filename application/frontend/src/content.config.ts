@@ -27,6 +27,8 @@ const equipment = defineCollection({
 		description: z.string().nullish(),
 		icon: z.string().nullish(),
 		order: z.number().nullish(),
+		// Optional: shown on the homepage featured band when set
+		manufacturer: z.enum(["Wipotec", "Mesutronic"]).nullish(),
 		industries: z.array(z.string()).nullish(),
 		gallery: z.array(z.string()).nullish(),
 		datasheet: z.string().nullish(),

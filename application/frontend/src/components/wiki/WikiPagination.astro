@@ -13,7 +13,7 @@ const { prev, next, lang } = Astro.props;
 const _ = getInlineTranslations(lang);
 
 const cardClass =
-	"group/card bg-surface-lowest border-border-subtle hover:border-secondary/40 focus-visible:outline-secondary rounded-xl border p-4 sm:p-5 shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 motion-safe:hover:-translate-y-0.5";
+	"card-hover group/card bg-surface-lowest border-border-subtle focus-visible:outline-secondary rounded-xl border p-4 sm:p-5 shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2";
 ---
 
 {
@@ -26,7 +26,7 @@ const cardClass =
 				<a href={`/${lang}/wiki/${getWikiSlug(prev)}`} class={`${cardClass} flex flex-col gap-1`}>
 					<span class="font-label-caps text-industrial-gray inline-flex items-center gap-2 text-[11px] tracking-widest uppercase">
 						<ArrowLeft
-							class="text-secondary size-4 transition-transform duration-200 group-hover/card:-translate-x-1"
+							class="text-secondary size-4 transition-transform duration-(--dur-fast) group-hover/card:-translate-x-1"
 							aria-hidden="true"
 						/>
 						{_("Previous article")}
@@ -47,7 +47,7 @@ const cardClass =
 					<span class="font-label-caps text-industrial-gray inline-flex items-center gap-2 text-[11px] tracking-widest uppercase">
 						{_("Next article")}
 						<ArrowRight
-							class="text-secondary size-4 transition-transform duration-200 group-hover/card:translate-x-1"
+							class="text-secondary size-4 transition-transform duration-(--dur-fast) group-hover/card:translate-x-1"
 							aria-hidden="true"
 						/>
 					</span>

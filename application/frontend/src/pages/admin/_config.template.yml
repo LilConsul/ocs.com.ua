@@ -432,6 +432,7 @@ collections:
           Changing it on an existing product renames its files and changes its URL, so old
           links to the product stop working. Change it only when you really have to.
       - { label: "Order", name: "order", widget: "number", value_type: "int", default: 0, required: false, hint: "Lower numbers appear first within this category.", i18n: duplicate }
+      - { label: "Manufacturer", name: "manufacturer", widget: "select", options: ["Wipotec", "Mesutronic"], required: false, i18n: duplicate, hint: "Optional. Shown on the homepage featured equipment block. Leave empty if unknown." }
       - label: "Gallery"
         name: "gallery"
         widget: "list"

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "bun:test";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { EASE_OUT_EXPO } from "@/lib/anims/tokens";
+import { DUR, EASE_OUT_EXPO } from "@/lib/anims/tokens";
 
 const SRC = join(import.meta.dir, "../../src");
 const read = (path: string) => readFileSync(join(SRC, path), "utf8");
@@ -29,9 +29,7 @@ describe("motion: global.css", () => {
 	});
 
 	it("hides reveal elements only under html.motion-on and until they are revealed", () => {
-		const hiding = (rules.match(/html\.motion-on[^{]*\{[^}]*opacity:\s*0[^}]*\}/g) ?? []).filter(
-			(rule) => !rule.includes(".img-fade")
-		);
+		const hiding = rules.match(/html\.motion-on[^{]*\{[^}]*opacity:\s*0[^}]*\}/g) ?? [];
 		expect(hiding.length).toBeGreaterThan(0);
 		for (const rule of hiding) {
 			expect(rule).toContain(":not([data-revealed])");
@@ -52,6 +50,21 @@ describe("motion: global.css", () => {
 		expect(match).not.toBeNull();
 		const values = match?.[1].split(",").map(Number);
 		expect(values).toEqual([...EASE_OUT_EXPO]);
+	});
+
+	it("keeps CSS duration tokens equal to the JS ones", () => {
+		for (const [name, seconds] of Object.entries(DUR)) {
+			const match = css.match(new RegExp(`--dur-${name}:\\s*(\\d+)ms`));
+			expect(match).not.toBeNull();
+			expect(Number(match?.[1])).toBe(Math.round(seconds * 1000));
+		}
+	});
+
+	it("uses no hand-set durations in transition or animation declarations", () => {
+		const declarations = rules.match(/\b(?:transition|animation)(?:-duration)?\s*:[^;{}]*;/g) ?? [];
+		for (const declaration of declarations) {
+			expect(declaration).not.toMatch(/(?<![\w.-])(?!0s\b)\d*\.?\d+m?s\b/);
+		}
 	});
 
 	it("defines the duration tokens", () => {
@@ -103,54 +116,8 @@ describe("motion: page transitions", () => {
 	});
 });
 
-describe("motion: image fade-in", () => {
-	const files = [
-		"components/catalogue/ProductCard.astro",
-		"components/catalogue/RelatedEquipment.astro",
-		"components/about/ClientDirectory.astro",
-		"components/homepage/PartnersSection.astro",
-		"components/homepage/atoms/PartnerLogo.astro",
-		"components/wiki/WikiCard.astro",
-		"pages/[lang]/wiki/[slug].astro",
-	];
-
-	it("hides an image only under html.motion-on and until it has loaded", () => {
-		expect(rules).toMatch(
-			/html\.motion-on \.img-fade:not\(\[data-loaded\]\)\s*\{[^}]*opacity:\s*0/
-		);
-	});
-
-	it("fades with a keyframe animation so hover transforms on the image keep working", () => {
-		expect(rules).toMatch(/html\.motion-on \.img-fade\[data-loaded\]\s*\{[^}]*animation:\s*img-in/);
-		expect(rules).toMatch(/@keyframes img-in\s*\{\s*from\s*\{\s*opacity:\s*0/);
-	});
-
-	for (const file of files) {
-		it(`${file} marks its images with img-fade`, () => {
-			const tags = read(file).match(/<(Image|img)\b[^>]*>/g) ?? [];
-			expect(tags.length).toBeGreaterThan(0);
-			for (const tag of tags) expect(tag).toContain("img-fade");
-		});
-	}
-
-	it("leaves the largest-contentful-paint images alone", () => {
-		expect(read("components/homepage/HeroSection.astro")).not.toContain("img-fade");
-		expect(read("components/Header.astro")).not.toContain("img-fade");
-		expect(read("components/catalogue/ProductGallery.astro")).not.toContain("img-fade");
-	});
-
-	it("starts the observer from the runtime", () => {
-		expect(read("lib/anims/runtime.ts")).toMatch(/observeImages\(document\)/);
-	});
-});
-
 describe("motion: dynamic markup", () => {
 	const sidebar = read("components/catalogue/CatalogueSidebar.astro");
-
-	it("search result cards carry img-fade and are scanned for images", () => {
-		expect(sidebar).toMatch(/<img[^>]*class="[^"]*img-fade/);
-		expect(sidebar).toMatch(/import\s*\{\s*observeImages\s*\}\s*from\s*"@\/lib\/anims\/images"/);
-	});
 
 	it("imports observeReveals", () => {
 		expect(sidebar).toMatch(/import\s*\{\s*observeReveals\s*\}\s*from\s*"@\/lib\/anims\/reveal"/);

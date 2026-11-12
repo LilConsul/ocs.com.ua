@@ -32,11 +32,11 @@ const sectorIcons: Record<SectorBreakdown["category"], AstroComponent> = {
 
 // Shared by the hub card and the sector cards so both read as one family
 const tileClass =
-	"bg-background border-border-subtle/50 flex min-w-0 flex-col-reverse justify-end gap-1 rounded-lg border p-2 sm:px-3 sm:py-2.5 transition-colors duration-300";
+	"bg-background border-border-subtle/50 flex min-w-0 flex-col-reverse justify-end gap-1 rounded-lg border p-2 sm:px-3 sm:py-2.5 transition-colors duration-(--dur-base)";
 const badgeClass =
 	"font-technical-data bg-secondary/10 text-secondary shrink-0 rounded-full px-2 py-0.5 text-[11px] sm:px-2.5 sm:text-xs font-bold tabular-nums";
 const iconTileClass =
-	"bg-background text-secondary border-border-subtle/50 shrink-0 rounded-lg border p-2 transition-colors duration-300";
+	"bg-background text-secondary border-border-subtle/50 shrink-0 rounded-lg border p-2 transition-colors duration-(--dur-base)";
 
 const W = 800;
 const H = 520;
@@ -156,7 +156,7 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 										data-hub-id={hubId}
 										data-active={id === initialOblastId ? "" : undefined}
 										class:list={[
-											"map-oblast fill-secondary/10 stroke-secondary/30 data-active:fill-secondary/35 motion-safe:transition-[fill] motion-safe:duration-300",
+											"map-oblast fill-secondary/10 stroke-secondary/30 data-active:fill-secondary/35 motion-safe:transition-[fill] motion-safe:duration-(--dur-base)",
 											hubId && "hover:fill-secondary/25 cursor-pointer",
 										]}
 										style={`--delay:${delay}ms`}
@@ -290,7 +290,7 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 						const SectorIcon = sectorIcons[sector.category];
 						return (
 							<article
-								class="reveal group/card bg-surface-container border-border-subtle/70 hover:border-secondary/40 rounded-xl border p-4 shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-lg motion-safe:hover:-translate-y-0.5 sm:p-6"
+								class="card-hover reveal group/card bg-surface-container border-border-subtle/70 rounded-xl border p-4 shadow-xs sm:p-6"
 								style={`--i:${si}`}
 							>
 								<header class="flex items-center justify-between gap-2 sm:gap-3">
@@ -370,7 +370,7 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 	@media (prefers-reduced-motion: no-preference) {
 		/* Hub card: metric tiles pop in each time a hub is selected */
 		.hub-panel:not([hidden]) .hub-metric {
-			animation: card-rise 0.4s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+			animation: card-rise var(--dur-base) var(--ease-out-quart) backwards;
 			animation-delay: calc(0.05s + var(--mi, 0) * 60ms);
 		}
 
@@ -384,19 +384,20 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 		}
 
 		[data-anim="in"] .map-oblast {
-			animation: map-fade-in 0.7s ease-out both;
+			animation: map-fade-in var(--dur-slow) var(--ease-out-quart) both;
 			animation-delay: var(--delay, 0ms);
 		}
 		[data-anim="in"] .map-outline {
-			animation: map-draw 1.6s ease-in-out 0.2s both;
+			animation: map-draw calc(var(--dur-slow) * 2) var(--ease-out-quart) both;
+			animation-delay: 0.2s;
 		}
 		[data-anim="in"] .map-pin {
-			animation: map-pin-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+			animation: map-pin-pop var(--dur-base) var(--ease-out-expo) both;
 			animation-delay: calc(0.9s + var(--i, 0) * 90ms);
 		}
 
 		.hub-panel:not([hidden]) {
-			animation: hub-panel-in 0.3s ease-out;
+			animation: hub-panel-in var(--dur-base) var(--ease-out-quart);
 		}
 	}
 

@@ -23,7 +23,7 @@ const image = coverImage;
 
 <a
 	href={`/${lang}/wiki/${slug}`}
-	class="reveal group/card bg-surface-lowest border-border-subtle hover:border-secondary/40 focus-visible:outline-secondary flex h-full flex-col overflow-hidden rounded-xl border p-5 shadow-xs transition-[translate,box-shadow,border-color] duration-300 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 motion-safe:hover:-translate-y-0.5 sm:p-6"
+	class="card-hover reveal group/card bg-surface-lowest border-border-subtle focus-visible:outline-secondary flex h-full flex-col overflow-hidden rounded-xl border p-5 shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 sm:p-6"
 	style={`--i:${index % 3}`}
 	data-wiki-item
 	data-wiki-text={`${title} ${description ?? ""}`.toLowerCase()}
@@ -35,7 +35,7 @@ const image = coverImage;
 					src={image}
 					alt={title}
 					loading="lazy"
-					class="img-fade size-full object-cover transition-transform duration-500 group-hover/card:scale-105"
+					class="size-full object-cover transition-transform duration-(--dur-slow) group-hover/card:scale-105"
 				/>
 			</div>
 		)
@@ -70,7 +70,7 @@ const image = coverImage;
 	>
 		{_("Read article")}
 		<ArrowRight
-			class="size-4 transition-transform duration-200 group-hover/card:translate-x-1"
+			class="size-4 transition-transform duration-(--dur-fast) group-hover/card:translate-x-1"
 			aria-hidden="true"
 		/>
 	</span>

@@ -21,7 +21,7 @@ const lastReveal = (page: Page) => page.locator(".reveal").last();
 
 test.describe("scroll reveals", () => {
 	test("hide until scrolled into view, then play once and stay visible", async ({ page }) => {
-		await page.goto(HOME);
+		await page.goto(HOME, { waitUntil: "domcontentloaded" });
 		await expect(page.locator("html")).toHaveClass(/motion-on/);
 
 		const target = lastReveal(page);
@@ -113,7 +113,7 @@ test.describe("no JavaScript", () => {
 	test("every reveal element is visible", async ({ page }) => {
 		await page.goto(HOME);
 		const opacities = await page
-			.locator(".reveal, .reveal-slide, .reveal-glow, .reveal-heading, .img-fade")
+			.locator(".reveal, .reveal-slide, .reveal-glow, .reveal-heading")
 			.evaluateAll((els) => els.map((el) => Number(getComputedStyle(el).opacity)));
 		expect(opacities.length).toBeGreaterThan(0);
 		expect(opacities.every((o) => o === 1)).toBe(true);
@@ -138,62 +138,6 @@ test.describe("section headings", () => {
 		await page.emulateMedia({ reducedMotion: "reduce" });
 		await page.goto(HOME);
 		expect(await opacityOf(page, "#partners-heading")).toBe(1);
-	});
-});
-
-test.describe("image fade-in", () => {
-	test("an image stays hidden until its file arrives, then fades in", async ({ page }) => {
-		let release: () => void = () => undefined;
-		const gate = new Promise<void>((resolve) => {
-			release = resolve;
-		});
-		await page.route(/\/_image\?|\/assets\/.*\.(png|jpe?g|webp|avif)/, async (route) => {
-			await gate;
-			await route.continue();
-		});
-
-		await page.goto(CATEGORY, { waitUntil: "domcontentloaded" });
-		const img = page.locator("img.img-fade").first();
-		await expect(img).toBeAttached();
-		await expect(img).not.toHaveAttribute("data-loaded", /.*/);
-		expect(await img.evaluate((el) => Number(getComputedStyle(el).opacity))).toBe(0);
-
-		release();
-		await expect(img).toHaveAttribute("data-loaded", "", { timeout: 15_000 });
-		await expect.poll(() => img.evaluate((el) => Number(getComputedStyle(el).opacity))).toBe(1);
-	});
-
-	test("a broken image still ends up marked, so its alt text is not hidden", async ({ page }) => {
-		await page.route(/\/_image\?|\/assets\/.*\.(png|jpe?g|webp|avif)/, (route) => route.abort());
-		await page.goto(CATEGORY);
-		const img = page.locator("img.img-fade").first();
-		await expect(img).toHaveAttribute("data-loaded", "", { timeout: 15_000 });
-	});
-
-	test("hover scale on a card image still works after the fade", async ({ page }) => {
-		await page.goto(CATEGORY);
-		const img = page.locator("img.img-fade").first();
-		await expect(img).toHaveAttribute("data-loaded", "", { timeout: 15_000 });
-		await img.hover();
-		await expect
-			.poll(() => img.evaluate((el) => parseFloat(getComputedStyle(el).scale)))
-			.toBeGreaterThan(1);
-	});
-
-	test("reduced motion: images are visible and never gated", async ({ page }) => {
-		await page.emulateMedia({ reducedMotion: "reduce" });
-		await page.goto(CATEGORY);
-		const opacities = await page
-			.locator("img.img-fade")
-			.evaluateAll((els) => els.map((el) => Number(getComputedStyle(el).opacity)));
-		expect(opacities.length).toBeGreaterThan(0);
-		expect(opacities.every((o) => o === 1)).toBe(true);
-	});
-
-	test("the hero and header logo are never faded", async ({ page }) => {
-		await page.goto(HOME);
-		await expect(page.locator("header img.img-fade, #main-header img.img-fade")).toHaveCount(0);
-		await expect(page.locator("main img.img-fade").first()).toBeAttached();
 	});
 });
 
@@ -246,7 +190,7 @@ test.describe("page transitions", () => {
 });
 
 test.describe("button press state", () => {
-	const primary = (page: Page) => page.locator("main a.bg-primary").first();
+	const primary = (page: Page) => page.locator("main a.btn-primary").first();
 
 	test("primary call-to-action scales down while pressed", async ({ page }) => {
 		await page.goto(HOME);

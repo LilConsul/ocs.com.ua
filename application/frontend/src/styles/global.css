@@ -116,6 +116,8 @@
 }
 
 @theme inline {
+	--default-transition-duration: var(--dur-base);
+	--default-transition-timing-function: var(--ease-out-quart);
 	--font-sans: "Inter Variable", sans-serif;
 	--font-heading: "IBM Plex Sans Variable", sans-serif;
 	--color-sidebar-ring: var(--sidebar-ring);
@@ -257,12 +259,12 @@
 
 @media (prefers-reduced-motion: no-preference) {
 	.hero-rise {
-		animation: rise 0.7s var(--ease-out-expo) backwards;
+		animation: rise var(--dur-slow) var(--ease-out-expo) backwards;
 		animation-delay: calc(var(--d, 0) * 90ms);
 	}
 
 	.hero-media {
-		animation: hero-media-in 1.2s var(--ease-out-quart) both;
+		animation: hero-media-in var(--dur-slow) var(--ease-out-quart) both;
 	}
 }
 
@@ -392,7 +394,7 @@
 	background: linear-gradient(90deg, var(--primary), var(--secondary));
 	transform: scaleX(0);
 	transform-origin: left;
-	transition: transform 120ms linear;
+	transition: transform var(--dur-fast) linear;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -421,7 +423,7 @@
 		border: 1px solid color-mix(in oklab, var(--secondary) 88%, transparent);
 		opacity: 0.9;
 		clip-path: inset(0 100% 100% 0 round 0.75rem);
-		transition: clip-path 900ms var(--ease-out-expo);
+		transition: clip-path var(--dur-slow) var(--ease-out-expo);
 	}
 
 	.product-card:hover::after,
@@ -431,25 +433,13 @@
 		opacity: 1;
 	}
 
-	.img-fade {
-		transition:
-			opacity var(--dur-slow) var(--ease-out-quart),
-			transform 700ms var(--ease-out-quart),
-			filter 700ms var(--ease-out-quart);
-	}
-
-	.product-card:hover .img-fade,
-	.group\/card:hover .img-fade {
-		filter: saturate(1.06) contrast(1.02);
-	}
-
 	.reveal-heading[data-revealed] {
-		animation: heading-settle 700ms var(--ease-out-expo) both;
+		animation: heading-settle var(--dur-slow) var(--ease-out-expo) both;
 	}
 
 	.mobile-menu-shell[data-open="true"] a,
 	.mobile-menu-shell[data-open="true"] .font-mono {
-		animation: menu-item-in 450ms var(--ease-out-expo) both;
+		animation: menu-item-in var(--dur-base) var(--ease-out-expo) both;
 	}
 
 	.mobile-menu-shell[data-open="true"] a:nth-child(2) {
@@ -540,22 +530,6 @@ html.motion-on .eyebrow-rule:not([data-revealed]) {
 	animation-timing-function: var(--ease-out-quart);
 }
 
-/* Image fade-in. src/lib/anims/images.ts sets [data-loaded] when the file has finished (or
- * failed), so the picture appears instead of painting in line by line. A keyframe animation
- * rather than a transition: hover utilities that set `transform` or `transition-*` on the same
- * image are not disturbed. Same gating as the reveals: invisible only while html.motion-on. */
-@keyframes img-in {
-	from {
-		opacity: 0;
-	}
-}
-html.motion-on .img-fade:not([data-loaded]) {
-	opacity: 0;
-}
-html.motion-on .img-fade[data-loaded] {
-	animation: img-in var(--dur-slow) var(--ease-out-quart);
-}
-
 @layer utilities {
 	.mobile-menu-shell {
 		display: grid;
@@ -563,7 +537,7 @@ html.motion-on .img-fade[data-loaded] {
 		opacity: 0;
 		transition:
 			grid-template-rows var(--dur-base) var(--ease-out-quart),
-			opacity var(--dur-fast) ease;
+			opacity var(--dur-fast) var(--ease-out-quart);
 	}
 	.mobile-menu-shell[data-open="true"] {
 		grid-template-rows: 1fr;
@@ -735,7 +709,7 @@ html.motion-on .img-fade[data-loaded] {
 		text-decoration: underline;
 		text-decoration-thickness: 1px;
 		text-underline-offset: 3px;
-		transition: color 0.2s;
+		transition: color var(--dur-fast);
 	}
 	.prose a:hover {
 		color: var(--color-foreground);
@@ -909,4 +883,98 @@ html.motion-on .img-fade[data-loaded] {
 	.wiki-content table {
 		width: 100%;
 	}
+}
+
+/* One hover treatment for every card (product, industry, wiki, partner, client). `card-lift`
+ * is the same lift and shadow without the border highlight, for cards that have a coloured
+ * border or background of their own. Unlayered on purpose: it must beat the base `shadow-*`
+ * utility on the same element. */
+.card-lift,
+.card-hover {
+	transition-property: translate, box-shadow, border-color;
+	transition-duration: var(--dur-base);
+	transition-timing-function: var(--ease-out-quart);
+}
+
+.card-lift:hover,
+.card-hover:hover {
+	box-shadow: var(--shadow-lg);
+}
+
+.card-hover:hover {
+	border-color: color-mix(in oklab, var(--secondary) 40%, transparent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.card-lift:hover,
+	.card-hover:hover {
+		translate: 0 -2px;
+	}
+}
+
+/* Shared buttons and text links. Layout-only classes (width, margin, alignment) stay on the
+ * element. `press` is added in markup so the press feedback keeps beating these transitions. */
+@layer components {
+	.btn-primary {
+		@apply bg-primary text-primary-foreground focus-visible:outline-secondary inline-flex items-center justify-center gap-2 rounded-lg px-7 py-3.5 text-[15px] leading-5.5 font-medium shadow-xs transition-[opacity,box-shadow] hover:opacity-90 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50;
+	}
+
+	.btn-secondary {
+		@apply border-secondary text-secondary hover:bg-secondary/5 focus-visible:outline-secondary inline-flex items-center justify-center gap-2 rounded-lg border-2 px-7 py-3.5 text-[15px] leading-5.5 font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2;
+	}
+
+	/* Compact size for buttons inside cards and tables */
+	.btn-sm {
+		@apply px-4 py-2.5 text-xs;
+	}
+
+	/* Text link with a trailing arrow icon (give the icon the `link-arrow-icon` class) */
+	.link-arrow {
+		@apply text-secondary focus-visible:outline-secondary inline-flex items-center gap-2 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2;
+	}
+
+	.link-arrow-icon {
+		@apply transition-transform duration-(--dur-fast);
+	}
+
+	.link-arrow:hover .link-arrow-icon {
+		@apply translate-x-1;
+	}
+}
+
+/* Featured equipment band. Without JavaScript every category panel is visible, stacked, each
+ * with its own title; the script adds [data-tabs-ready] and the band becomes a tab list. */
+[data-featured-tabs] .featured-tablist {
+	display: none;
+}
+
+[data-featured-tabs][data-tabs-ready] .featured-tablist {
+	display: flex;
+}
+
+[data-featured-tabs][data-tabs-ready] .featured-panel-title {
+	display: none;
+}
+
+[data-featured-tabs] [role="tabpanel"][hidden] {
+	display: none;
+}
+
+@keyframes featured-panel-in {
+	from {
+		opacity: 0;
+		translate: 0 12px;
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	[data-featured-tabs][data-tabs-ready] [role="tabpanel"][data-active] {
+		animation: featured-panel-in var(--dur-base) var(--ease-out-quart) both;
+	}
+}
+
+/* Stacked (no JavaScript) layout: keep the panels apart. Once the script runs only one panel
+ * is visible, so it must not carry a margin that would shift it when tabs change. */
+[data-featured-tabs]:not([data-tabs-ready]) .featured-panel + .featured-panel {
+	margin-top: 3.5rem;
 }
