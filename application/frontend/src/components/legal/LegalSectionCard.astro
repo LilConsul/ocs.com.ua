@@ -11,7 +11,7 @@ const { section } = Astro.props;
 <section
 	id={section.id}
 	aria-labelledby={`${section.id}-title`}
-	class="bg-background border-border-subtle/70 hover:border-secondary/40 before:from-secondary relative scroll-mt-24 overflow-hidden rounded-xl border p-5 shadow-xs transition-[box-shadow,border-color] duration-300 before:absolute before:inset-x-0 before:top-0 before:h-0.5 before:bg-linear-to-r before:to-transparent hover:shadow-lg sm:p-8"
+	class="bg-background border-border-subtle/70 hover:border-secondary/40 before:from-secondary relative scroll-mt-24 overflow-hidden rounded-xl border p-5 shadow-xs transition-[box-shadow,border-color] duration-(--dur-base) before:absolute before:inset-x-0 before:top-0 before:h-0.5 before:bg-linear-to-r before:to-transparent hover:shadow-lg sm:p-8"
 >
 	<header class="border-border-subtle/60 mb-5 flex items-center gap-4 border-b pb-5">
 		<span
