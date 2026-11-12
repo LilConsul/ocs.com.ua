@@ -103,8 +103,8 @@ describe("featured equipment band", () => {
 		expect(band).toContain("initFeaturedTabs");
 	});
 
-	it("reuses the shared card and link styles on a plain section background", () => {
-		for (const name of ["card-hover", "bg-surface-container", "link-arrow"]) {
+	it("reuses the shared card and link styles", () => {
+		for (const name of ["card-hover", "link-arrow"]) {
 			expect(band).toContain(name);
 		}
 		expect(band).not.toMatch(/\bduration-\d+\b/);
@@ -122,19 +122,21 @@ describe("featured equipment band", () => {
 	});
 });
 
-describe("homepage rhythm", () => {
+describe("homepage background", () => {
 	const firstSectionClass = (file: string) =>
 		(read(file).match(/<section\b[^>]*>/)?.[0] ?? "").match(/class="([^"]*)"/)?.[1] ?? "";
 
-	it("alternates grey and white sections in page order", () => {
-		const order = [
-			["components/homepage/StatsSection.astro", "bg-surface-container"],
-			["components/homepage/IndustriesSection.astro", "bg-background"],
-			["components/homepage/FeaturedEquipment.astro", "bg-surface-container"],
-			["components/homepage/PartnersSection.astro", "bg-background"],
-		];
-		for (const [file, fill] of order) {
-			expect(firstSectionClass(file).split(/\s+/)).toContain(fill);
+	it("keeps the grey stats strip and leaves the other sections on the page background", () => {
+		expect(firstSectionClass("components/homepage/StatsSection.astro").split(/\s+/)).toContain(
+			"bg-surface-container"
+		);
+		const fills = /\b(bg-background|bg-surface-container|bg-linear-to-[a-z]+)\b/;
+		for (const file of [
+			"components/homepage/IndustriesSection.astro",
+			"components/homepage/FeaturedEquipment.astro",
+			"components/homepage/PartnersSection.astro",
+		]) {
+			expect(firstSectionClass(file)).not.toMatch(fills);
 		}
 	});
 
