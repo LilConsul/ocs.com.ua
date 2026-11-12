@@ -178,6 +178,9 @@ for (const lang of ["ua", "en"]) {
 				await expect(images.nth(i)).toHaveAttribute("srcset", /\.webp \d+w/);
 				await expect(images.nth(i)).toHaveAttribute("sizes", /.+/);
 			}
+			const loadings = () =>
+				images.evaluateAll((els) => els.map((el) => (el as HTMLImageElement).loading));
+			expect((await loadings()).slice(1)).not.toContain("eager");
 			const box = await stage.boundingBox();
 			if (!box) throw new Error("stage has no box");
 			await page.mouse.move(box.x + box.width * 0.95, box.y + box.height / 2);

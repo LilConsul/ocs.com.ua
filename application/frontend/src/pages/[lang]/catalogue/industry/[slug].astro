@@ -148,7 +148,7 @@ const structuredData = createPageGraph({
 	>
 		<section aria-label={_("Products")} class="space-y-12">
 			{
-				groups.map(({ category, products }) => (
+				groups.map(({ category, products }, groupIndex) => (
 					<section aria-labelledby={`industry-group-${category.slug}`}>
 						<h2
 							id={`industry-group-${category.slug}`}
@@ -168,7 +168,7 @@ const structuredData = createPageGraph({
 									product={product}
 									lang={lang as Lang}
 									index={index}
-									eager={index < 3}
+									eager={groupIndex === 0 && index < 3}
 									gallery={galleries[product.id]}
 								/>
 							))}
