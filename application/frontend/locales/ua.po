@@ -202,12 +202,12 @@ msgstr "Контактна інформація"
 #: src/components/Header.astro:143
 #: src/components/Header.astro:212
 #: src/pages/[lang]/contact.astro:40
+#: src/components/contact/ContactHero.astro:28
 #: src/components/homepage/HeroSection.astro:101
+#: src/components/catalogue/CatalogueSidebar.astro:201
 #: src/components/errors/ServerErrorContent.astro:46
 #: src/components/errors/NotFoundContent.astro:55
-#: src/components/contact/ContactHero.astro:28
 #: src/components/about/AboutCta.astro:35
-#: src/components/catalogue/CatalogueSidebar.astro:201
 msgid "Contact Us"
 msgstr "Зв’язатися з нами"
 
@@ -232,8 +232,8 @@ msgstr "Зв'язатися з нами"
 msgid "Corporate Email"
 msgstr "Корпоративний email"
 
-#: src/components/homepage/IndustriesSection.astro:80
 #: src/components/contact/ContactForm.astro:32
+#: src/components/homepage/IndustriesSection.astro:80
 #: src/components/catalogue/DatasheetModal.astro:22
 msgid "Cosmetics"
 msgstr "Косметична промисловість"
@@ -446,11 +446,6 @@ msgstr "Галузь"
 msgid "Industry navigation"
 msgstr "Навігація за галузями"
 
-#: src/components/legal/LegalSectionCard.astro:44
-#: src/components/legal/LegalSectionCard.astro:73
-msgid "Information used"
-msgstr "Використані дані"
-
 #: src/components/about/InteractiveUkraineMap.astro:137
 msgid "Installation Map of Ukraine"
 msgstr "Карта установок в Україні"
@@ -511,17 +506,12 @@ msgstr "Залиште свої дані, і завантаження розпо
 msgid "Legal"
 msgstr "Правова інформація"
 
-#: src/components/legal/LegalSectionCard.astro:50
-#: src/components/legal/LegalSectionCard.astro:79
-msgid "Legal basis"
-msgstr "Правова підстава"
-
 #: src/components/about/AboutCta.astro:42
 msgid "Let's Talk About Your Production Line"
 msgstr "Обговоримо вашу виробничу лінію"
 
-#: src/components/homepage/IndustriesSection.astro:89
 #: src/components/contact/ContactForm.astro:33
+#: src/components/homepage/IndustriesSection.astro:89
 #: src/components/catalogue/DatasheetModal.astro:23
 msgid "Logistics & Distribution"
 msgstr "Логістика та дистрибуція"
@@ -695,8 +685,8 @@ msgstr "Сторінка"
 msgid "Page Not Found"
 msgstr "Сторінку не знайдено"
 
-#: src/components/homepage/IndustriesSection.astro:68
 #: src/components/contact/ContactForm.astro:31
+#: src/components/homepage/IndustriesSection.astro:68
 #: src/components/catalogue/DatasheetModal.astro:21
 msgid "Pharmaceutical"
 msgstr "Фармацевтична промисловість"
@@ -790,10 +780,6 @@ msgstr "Мініатюри зображень обладнання"
 #: src/pages/[lang]/catalogue/equipment/[category]/index.astro:151
 msgid "Products"
 msgstr "Обладнання"
-
-#: src/components/legal/LegalSectionCard.astro:67
-msgid "Purpose"
-msgstr "Мета"
 
 #: src/components/homepage/IndustriesSection.astro:81
 msgid "Quality control and filling inspection systems."

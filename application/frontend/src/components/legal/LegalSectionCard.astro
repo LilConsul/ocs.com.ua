@@ -1,14 +1,11 @@
 ---
-import { getInlineTranslations, type Lang } from "@/i18n";
 import type { LegalSection } from "@/lib/legal/document";
 
 interface Props {
 	section: LegalSection;
-	lang: Lang;
 }
 
-const { section, lang } = Astro.props;
-const _ = getInlineTranslations(lang);
+const { section } = Astro.props;
 ---
 
 <section
@@ -30,72 +27,6 @@ const _ = getInlineTranslations(lang);
 	</header>
 
 	<div class="prose privacy-prose" set:html={section.html} />
-
-	{
-		section.table.length > 0 && (
-			<>
-				<ul class="m-0 my-5 flex list-none flex-col gap-3 p-0 md:hidden">
-					{section.table.map((row) => (
-						<li class="border-border-subtle/70 bg-surface-container/50 rounded-lg border p-4">
-							<p class="text-foreground m-0 mb-3 text-sm font-semibold">{row.purpose}</p>
-							<dl class="m-0 space-y-2 text-sm">
-								<div>
-									<dt class="font-label-caps text-secondary text-[11px] tracking-widest uppercase">
-										{_("Information used")}
-									</dt>
-									<dd class="text-industrial-gray m-0">{row.data}</dd>
-								</div>
-								<div>
-									<dt class="font-label-caps text-secondary text-[11px] tracking-widest uppercase">
-										{_("Legal basis")}
-									</dt>
-									<dd class="text-industrial-gray m-0">{row.basis}</dd>
-								</div>
-							</dl>
-						</li>
-					))}
-				</ul>
-
-				<div class="border-border-subtle/70 my-5 hidden overflow-hidden rounded-lg border md:block">
-					<table class="w-full border-collapse text-left text-sm">
-						<thead class="bg-surface-container">
-							<tr>
-								<th
-									scope="col"
-									class="font-label-caps text-secondary w-[28%] px-4 py-3 text-xs font-semibold tracking-widest uppercase"
-								>
-									{_("Purpose")}
-								</th>
-								<th
-									scope="col"
-									class="font-label-caps text-secondary w-[22%] px-4 py-3 text-xs font-semibold tracking-widest uppercase"
-								>
-									{_("Information used")}
-								</th>
-								<th
-									scope="col"
-									class="font-label-caps text-secondary px-4 py-3 text-xs font-semibold tracking-widest uppercase"
-								>
-									{_("Legal basis")}
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							{section.table.map((row) => (
-								<tr class="border-border-subtle/70 even:bg-surface-container/40 border-t align-top">
-									<td class="text-foreground px-4 py-3.5 font-medium">{row.purpose}</td>
-									<td class="text-industrial-gray px-4 py-3.5">{row.data}</td>
-									<td class="text-industrial-gray px-4 py-3.5">{row.basis}</td>
-								</tr>
-							))}
-						</tbody>
-					</table>
-				</div>
-			</>
-		)
-	}
-
-	{section.htmlAfter && <div class="prose privacy-prose" set:html={section.htmlAfter} />}
 </section>
 
 <style is:global>
@@ -107,6 +38,9 @@ const _ = getInlineTranslations(lang);
 	}
 	.privacy-prose a:hover {
 		color: var(--color-foreground);
+	}
+	.privacy-prose p:has(+ ul) {
+		margin-bottom: 0.5rem;
 	}
 	.privacy-prose p:last-child,
 	.privacy-prose ul:last-child {

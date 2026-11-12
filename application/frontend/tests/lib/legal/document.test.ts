@@ -16,6 +16,20 @@ describe("fillTokens", () => {
 	});
 });
 
+describe("fillTokens link addresses", () => {
+	test("accepts braces the rich text editor percent-encoded", () => {
+		const values = {
+			email: "a@b.ua",
+			address: "Kyiv",
+			privacyUrl: "/ua/privacy",
+			termsUrl: "/ua/terms",
+		};
+		expect(fillTokens("[x](%7BprivacyUrl%7D) [y](%7BtermsUrl%7D)", values)).toBe(
+			"[x](/ua/privacy) [y](/ua/terms)"
+		);
+	});
+});
+
 describe.each([
 	["privacy policy", getPrivacyPolicy],
 	["terms of use", getTermsOfUse],
@@ -27,12 +41,7 @@ describe.each([
 			for (const s of doc.sections) {
 				expect(s.title).not.toBe("");
 				expect(s.html).not.toBe("");
-				const all = [
-					s.html,
-					s.htmlAfter,
-					...s.table.flatMap((r) => [r.purpose, r.data, r.basis]),
-				].join(" ");
-				expect(all).not.toMatch(/[{}]|\[[^\]]*\](?!\()/);
+				expect(s.html).not.toMatch(/[{}]|\[[^\]]*\](?!\()/);
 			}
 		});
 	}
