@@ -140,6 +140,20 @@ describe("homepage background", () => {
 		}
 	});
 
+	it("separates the homepage sections with a hairline and tighter spacing", () => {
+		for (const file of [
+			"components/homepage/IndustriesSection.astro",
+			"components/homepage/FeaturedEquipment.astro",
+			"components/homepage/PartnersSection.astro",
+		]) {
+			const classes = firstSectionClass(file).split(/\s+/);
+			expect(classes).toContain("border-t");
+			expect(classes).toContain("py-12");
+			expect(classes).toContain("lg:py-16");
+			expect(classes).not.toContain("lg:py-24");
+		}
+	});
+
 	it("gives industry cards the same white card surface as the other cards", () => {
 		for (const file of [
 			"components/homepage/atoms/IndustryCard.astro",
