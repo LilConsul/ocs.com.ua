@@ -168,6 +168,7 @@ const structuredData = createPageGraph({
 									product={product}
 									lang={lang as Lang}
 									index={index}
+									eager={index < 3}
 									gallery={galleries[product.id]}
 								/>
 							))}

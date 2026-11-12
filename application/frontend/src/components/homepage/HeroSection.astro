@@ -27,9 +27,12 @@ const partners = [_("Official Partner of Wipotec GmbH"), _("Official Partner of 
 			src={heroImage}
 			alt={_("Industrial Checkweigher Systems")}
 			class="hero-media h-full w-full object-cover object-right"
-			loading="eager"
-			width={1920}
-			height={1080}
+			priority
+			widths={[768, 1280, 1600]}
+			sizes="100vw"
+			format="webp"
+			width={1600}
+			height={1535}
 		/>
 		{/* Top-to-bottom on phones (text sits over the photo), left-to-right from md up */}
 		<div

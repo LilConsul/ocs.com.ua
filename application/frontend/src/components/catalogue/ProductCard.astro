@@ -10,9 +10,11 @@ interface Props {
 	lang: Lang;
 	index?: number;
 	gallery?: ImageMetadata[];
+	/** First row of the grid: load right away, everything else lazily */
+	eager?: boolean;
 }
 
-const { product, lang, index = 0, gallery } = Astro.props;
+const { product, lang, index = 0, gallery, eager = false } = Astro.props;
 const _ = getInlineTranslations(lang);
 
 // Extract fields using clean names (no prefixes!)
@@ -44,8 +46,11 @@ const href = productUrl(lang, getCategory(product), getSlug(product));
 			alt={title}
 			width={800}
 			height={600}
+			widths={[400, 800]}
+			sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+			format="webp"
 			class="h-full w-full object-contain mix-blend-multiply transition-transform duration-(--dur-slow) group-hover:scale-105"
-			loading="eager"
+			loading={eager ? "eager" : "lazy"}
 		/>
 	</a>
 

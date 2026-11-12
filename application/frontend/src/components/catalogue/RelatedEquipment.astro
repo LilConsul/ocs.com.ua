@@ -61,6 +61,9 @@ const _ = getInlineTranslations(lang);
 										alt={item.data.title ?? ""}
 										width={400}
 										height={300}
+										widths={[400, 800]}
+										sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+										format="webp"
 										class="max-h-full max-w-full object-contain mix-blend-multiply transition-transform duration-(--dur-base) group-hover:scale-105"
 										loading="lazy"
 									/>
