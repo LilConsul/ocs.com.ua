@@ -48,7 +48,7 @@ test.describe("image skeletons", () => {
 		await probe.close();
 		await delayImages(page, 1500, (url) => urls.includes(new URL(url).pathname));
 		await page.goto(CATEGORY, { waitUntil: "domcontentloaded" });
-		await expect(page.locator("html")).toHaveClass(/motion-on/);
+		await expect(page.locator("html")).toHaveClass(/skeleton-on/);
 
 		const wrapper = firstCardWrapper(page);
 		const img = wrapper.locator("img");
@@ -74,15 +74,40 @@ test.describe("image skeletons", () => {
 		await expect.poll(() => opacityOf(wrapper.locator("img"))).toBe(1);
 	});
 
-	test("reduced motion: pictures are visible with no skeleton", async ({ page }) => {
+	test("reduced motion: the gray block stays but does not pulse, the picture still shows", async ({
+		page,
+		browser,
+	}) => {
 		await page.emulateMedia({ reducedMotion: "reduce" });
-		await delayImages(page, 1500);
+		const probe = await browser.newContext({ javaScriptEnabled: false });
+		const probePage = await probe.newPage();
+		await probePage.route("**/*.webp", (route) => route.abort());
+		await probePage.goto(CATEGORY, { waitUntil: "domcontentloaded" });
+		const urls = await firstCardWrapper(probePage)
+			.locator("img")
+			.evaluate((img) => {
+				const image = img as HTMLImageElement;
+				const fromSet = image.srcset.split(",").map((part) => part.trim().split(/\s+/)[0]);
+				const src = image.getAttribute("src") ?? "";
+				return [src, ...fromSet].map((url) => new URL(url, location.href).pathname);
+			});
+		await probe.close();
+		await delayImages(page, 1500, (url) => urls.includes(new URL(url).pathname));
 		await page.goto(CATEGORY, { waitUntil: "domcontentloaded" });
-		await expect(page.locator("html")).not.toHaveClass(/motion-on/);
-		const opacities = await skeletonImageOpacities(page);
-		expect(opacities.length).toBeGreaterThan(0);
-		expect(opacities.every((o) => o === 1)).toBe(true);
-		expect(await animationOf(firstCardWrapper(page))).toBe("none");
+
+		const wrapper = firstCardWrapper(page);
+		const img = wrapper.locator("img");
+		// The placeholder shows while loading, without the pulse
+		await expect(page.locator("html")).toHaveClass(/skeleton-on/);
+		await expect(wrapper).not.toHaveAttribute("data-loaded", /.*/);
+		expect(await animationOf(wrapper)).toBe("none");
+		const background = await wrapper.evaluate((el) => getComputedStyle(el).backgroundColor);
+		expect(background).not.toBe("rgba(0, 0, 0, 0)");
+		expect(await opacityOf(img)).toBe(0);
+
+		// And the picture shows once it has loaded
+		await expect(wrapper).toHaveAttribute("data-loaded", "", { timeout: 10_000 });
+		await expect.poll(() => opacityOf(img)).toBe(1);
 	});
 
 	/**

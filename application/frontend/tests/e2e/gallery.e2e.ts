@@ -16,8 +16,14 @@ const shownUrl = async (img: Locator) => {
 
 /** Waits until the shown picture differs from `before`, and returns it */
 const nextShownUrl = async (img: Locator, before: string) => {
+	// currentSrc is briefly empty while the browser re-picks from a new srcset: not a new picture yet
 	await expect
-		.poll(() => img.evaluate((el) => new URL((el as HTMLImageElement).currentSrc).pathname))
+		.poll(() =>
+			img.evaluate((el, fallback) => {
+				const { currentSrc } = el as HTMLImageElement;
+				return currentSrc ? new URL(currentSrc).pathname : fallback;
+			}, before)
+		)
 		.not.toBe(before);
 	return shownUrl(img);
 };

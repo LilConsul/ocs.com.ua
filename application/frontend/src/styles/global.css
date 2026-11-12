@@ -505,10 +505,12 @@ html.motion-on .eyebrow-rule:not([data-revealed]) {
 }
 
 /* Picture loading skeletons (shadcn style). Put `skeleton` on the box that holds a picture:
- * while the picture loads the box is a pulsing gray block and the picture is transparent;
- * src/lib/image-skeleton.ts sets [data-loaded] on load (or error), the pulse stops, the box gets
- * its own background back and the picture fades in. Like the reveals, this applies only under
- * `html.motion-on`, so without JavaScript or with reduced motion pictures simply show.
+ * while the picture loads the box is a gray block and the picture is transparent;
+ * src/lib/image-skeleton.ts sets [data-loaded] on load (or error), the box gets its own
+ * background back and the picture shows. This applies only under `html.skeleton-on`, which
+ * skeleton-on.js sets in <head> whenever JavaScript runs, so without JavaScript pictures simply
+ * show. It does not depend on reduced motion: the block is a placeholder, not an animation. The
+ * pulse and the fade are added only when motion is allowed.
  * The pulse animates the background, not opacity, so badges inside the box stay steady. */
 @keyframes skeleton-pulse {
 	50% {
@@ -516,31 +518,36 @@ html.motion-on .eyebrow-rule:not([data-revealed]) {
 	}
 }
 
-html.motion-on .skeleton:not([data-loaded]) {
+html.skeleton-on .skeleton:not([data-loaded]) {
 	background-color: var(--color-skeleton);
-	animation: skeleton-pulse var(--dur-pulse) var(--ease-in-out-pulse) infinite;
 }
 
-/* Keeps the component's own transform transition (hover zoom) and its duration, and adds the
- * fade. A stepped gallery photo goes from display:none to visible, which never transitions, so
- * photo changes still cut instantly. */
-html.motion-on .skeleton > img,
-html.motion-on .skeleton > picture > img {
-	transition-property: opacity, transform, translate, scale, rotate;
-	transition-duration:
-		var(--dur-base), var(--tw-duration, var(--dur-base)), var(--tw-duration, var(--dur-base)),
-		var(--tw-duration, var(--dur-base)), var(--tw-duration, var(--dur-base));
-	transition-timing-function: var(--ease-out-quart);
-}
-
-html.motion-on .skeleton:not([data-loaded]) > img,
-html.motion-on .skeleton:not([data-loaded]) > picture > img {
+html.skeleton-on .skeleton:not([data-loaded]) > img,
+html.skeleton-on .skeleton:not([data-loaded]) > picture > img {
 	opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	html.skeleton-on .skeleton:not([data-loaded]) {
+		animation: skeleton-pulse var(--dur-pulse) var(--ease-in-out-pulse) infinite;
+	}
+
+	/* Keeps the component's own transform transition (hover zoom) and its duration, and adds the
+	 * fade. A stepped gallery photo goes from display:none to visible, which never transitions,
+	 * so photo changes still cut instantly. */
+	html.skeleton-on .skeleton > img,
+	html.skeleton-on .skeleton > picture > img {
+		transition-property: opacity, transform, translate, scale, rotate;
+		transition-duration:
+			var(--dur-base), var(--tw-duration, var(--dur-base)), var(--tw-duration, var(--dur-base)),
+			var(--tw-duration, var(--dur-base)), var(--tw-duration, var(--dur-base));
+		transition-timing-function: var(--ease-out-quart);
+	}
 }
 
 /* Layered so a wrapper's own `rounded-*` utility wins; the radius only applies while loading */
 @layer components {
-	html.motion-on .skeleton:not([data-loaded]) {
+	html.skeleton-on .skeleton:not([data-loaded]) {
 		border-radius: var(--radius-md);
 	}
 }
