@@ -10,14 +10,30 @@ const CATEGORY = "/ua/catalogue/equipment/checkweigher";
 const firstCardWrapper = (page: Page) => page.locator("[data-product-item] > a").first();
 
 /**
- * Holds processed images back for `ms` (those `only` accepts, or all), so the skeleton stays up
- * long enough to check. Routing also turns off the HTTP cache, so the images are fetched again.
+ * Holds back the requests that match `pattern` (and `only` accepts, or all of them) until the
+ * returned `release()` is called, so a skeleton can be checked without racing a timer. Routing
+ * also turns off the HTTP cache, so the files are fetched again.
  */
-const delayImages = (page: Page, ms: number, only: (url: string) => boolean = () => true) =>
-	page.route("**/_astro/*.webp", async (route) => {
-		if (only(route.request().url())) await new Promise((resolve) => setTimeout(resolve, ms));
-		await route.continue();
+function holdRequests(
+	page: Page,
+	pattern: string,
+	only: (url: string) => boolean = () => true
+): () => void {
+	let release!: () => void;
+	const released = new Promise<void>((resolve) => {
+		release = resolve;
 	});
+	void page.route(pattern, async (route) => {
+		if (only(route.request().url())) await released;
+		// The page may be gone by the time a held request is released
+		await route.continue().catch(() => undefined);
+	});
+	return release;
+}
+
+/** Holds back the processed pictures that `only` accepts (all of them by default) */
+const holdImages = (page: Page, only?: (url: string) => boolean) =>
+	holdRequests(page, "**/_astro/*.webp", only);
 
 const animationOf = (el: Locator) => el.evaluate((node) => getComputedStyle(node).animationName);
 const opacityOf = (el: Locator) => el.evaluate((node) => Number(getComputedStyle(node).opacity));
@@ -54,7 +70,7 @@ async function firstCardImageUrls(browser: Browser): Promise<string[]> {
 test.describe("image skeletons", () => {
 	test("pulse while the picture loads, then fade the picture in", async ({ page, browser }) => {
 		const urls = await firstCardImageUrls(browser);
-		await delayImages(page, 1500, (url) => urls.includes(new URL(url).pathname));
+		const releaseImages = holdImages(page, (url) => urls.includes(new URL(url).pathname));
 		await page.goto(CATEGORY, { waitUntil: "domcontentloaded" });
 		await expect(page.locator("html")).toHaveClass(/skeleton-on/);
 
@@ -65,6 +81,7 @@ test.describe("image skeletons", () => {
 		expect(await animationOf(wrapper)).not.toBe("none");
 		expect(await opacityOf(img)).toBe(0);
 
+		releaseImages();
 		await expect(wrapper).toHaveAttribute("data-loaded", "", { timeout: 10_000 });
 		await expect.poll(() => opacityOf(img)).toBe(1);
 		expect(await animationOf(wrapper)).toBe("none");
@@ -82,27 +99,34 @@ test.describe("image skeletons", () => {
 		await expect.poll(() => opacityOf(wrapper.locator("img"))).toBe(1);
 	});
 
-	test("the skeleton stays up when the page scripts arrive late", async ({ page, browser }) => {
-		// Scripts held back well past the old 3 s failsafe, and the picture later still: the
-		// skeleton must be there the whole time, and end when the picture loads
+	test("the skeleton stays up while the page scripts have not arrived", async ({
+		page,
+		browser,
+	}) => {
+		// The page scripts are held back and so is the picture. The skeleton must show anyway (it
+		// does not wait for the bundle), keep showing once the scripts have run, and end only when
+		// the picture loads.
 		const urls = await firstCardImageUrls(browser);
-		await page.route("**/_astro/*.js", async (route) => {
-			await new Promise((resolve) => setTimeout(resolve, 5000));
-			await route.continue();
-		});
-		await delayImages(page, 7000, (url) => urls.includes(new URL(url).pathname));
-		// Deferred scripts hold up domcontentloaded, so count from the moment the page starts
+		const releaseScripts = holdRequests(page, "**/_astro/*.js");
+		const releaseImages = holdImages(page, (url) => urls.includes(new URL(url).pathname));
+		// Deferred scripts hold up domcontentloaded, so only wait for the page to start
 		await page.goto(CATEGORY, { waitUntil: "commit" });
 
 		const wrapper = firstCardWrapper(page);
 		const img = wrapper.locator("img");
-		await page.waitForTimeout(4000);
 		await expect(page.locator("html")).toHaveClass(/skeleton-on/);
 		await expect(wrapper).not.toHaveAttribute("data-loaded", /.*/);
 		expect(await opacityOf(img)).toBe(0);
 		const background = await wrapper.evaluate((el) => getComputedStyle(el).backgroundColor);
 		expect(background).not.toBe("rgba(0, 0, 0, 0)");
 
+		// domcontentloaded waits for the deferred scripts, so after it they have run
+		releaseScripts();
+		await page.waitForLoadState("domcontentloaded");
+		await expect(wrapper).not.toHaveAttribute("data-loaded", /.*/);
+		expect(await opacityOf(img)).toBe(0);
+
+		releaseImages();
 		await expect(wrapper).toHaveAttribute("data-loaded", "", { timeout: 15_000 });
 		await expect.poll(() => opacityOf(img)).toBe(1);
 	});
@@ -113,7 +137,7 @@ test.describe("image skeletons", () => {
 	}) => {
 		await page.emulateMedia({ reducedMotion: "reduce" });
 		const urls = await firstCardImageUrls(browser);
-		await delayImages(page, 1500, (url) => urls.includes(new URL(url).pathname));
+		const releaseImages = holdImages(page, (url) => urls.includes(new URL(url).pathname));
 		await page.goto(CATEGORY, { waitUntil: "domcontentloaded" });
 
 		const wrapper = firstCardWrapper(page);
@@ -127,6 +151,7 @@ test.describe("image skeletons", () => {
 		expect(await opacityOf(img)).toBe(0);
 
 		// And the picture shows once it has loaded
+		releaseImages();
 		await expect(wrapper).toHaveAttribute("data-loaded", "", { timeout: 10_000 });
 		await expect.poll(() => opacityOf(img)).toBe(1);
 	});
