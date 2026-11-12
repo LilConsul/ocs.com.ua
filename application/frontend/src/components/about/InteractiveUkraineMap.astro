@@ -370,7 +370,7 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 	@media (prefers-reduced-motion: no-preference) {
 		/* Hub card: metric tiles pop in each time a hub is selected */
 		.hub-panel:not([hidden]) .hub-metric {
-			animation: card-rise 0.4s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+			animation: card-rise var(--dur-base) var(--ease-out-quart) backwards;
 			animation-delay: calc(0.05s + var(--mi, 0) * 60ms);
 		}
 
@@ -384,19 +384,20 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 		}
 
 		[data-anim="in"] .map-oblast {
-			animation: map-fade-in 0.7s ease-out both;
+			animation: map-fade-in var(--dur-slow) var(--ease-out-quart) both;
 			animation-delay: var(--delay, 0ms);
 		}
 		[data-anim="in"] .map-outline {
-			animation: map-draw 1.6s ease-in-out 0.2s both;
+			animation: map-draw calc(var(--dur-slow) * 2) var(--ease-out-quart) both;
+			animation-delay: 0.2s;
 		}
 		[data-anim="in"] .map-pin {
-			animation: map-pin-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+			animation: map-pin-pop var(--dur-base) var(--ease-out-expo) both;
 			animation-delay: calc(0.9s + var(--i, 0) * 90ms);
 		}
 
 		.hub-panel:not([hidden]) {
-			animation: hub-panel-in 0.3s ease-out;
+			animation: hub-panel-in var(--dur-base) var(--ease-out-quart);
 		}
 	}
 

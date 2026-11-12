@@ -18,7 +18,7 @@ describe("card hover", () => {
 
 	it("lifts only when reduced motion is not requested", () => {
 		expect(rules).toMatch(
-			/@media \(prefers-reduced-motion: no-preference\)\s*\{\s*\.card-hover:hover\s*\{[^}]*translate:/
+			/@media \(prefers-reduced-motion: no-preference\)\s*\{[^@]*\.card-hover:hover\s*\{[^}]*translate:/
 		);
 	});
 

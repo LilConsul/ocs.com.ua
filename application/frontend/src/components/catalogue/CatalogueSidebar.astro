@@ -234,10 +234,10 @@ const sections = [
 
 	@media (prefers-reduced-motion: no-preference) {
 		.sidebar-panel {
-			transition: grid-template-rows 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+			transition: grid-template-rows var(--dur-base) var(--ease-out-quart);
 		}
 		.sidebar-chevron {
-			transition: rotate 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+			transition: rotate var(--dur-base) var(--ease-out-quart);
 		}
 	}
 </style>

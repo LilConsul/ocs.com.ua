@@ -203,6 +203,52 @@ for (const lang of ["ua", "en"]) {
 			expect(await shownIndex()).toBe((await images.count()) - 1);
 		});
 
+		test("swiping the spotlight photo changes it, and a tap still opens the product", async ({
+			page,
+		}) => {
+			await page.setViewportSize({ width: 390, height: 800 });
+			await openHome(page, `/${lang}`);
+			const stage = visiblePanel(page).locator("article [data-gallery-stage]");
+			await stage.scrollIntoViewIfNeeded();
+			const images = stage.locator("img");
+			const shownIndex = () =>
+				images.evaluateAll((els) => els.findIndex((el) => !(el as HTMLElement).hidden));
+			// Playwright cannot swipe on every engine, so send the touch pointer events directly
+			const swipe = (fromX: number, toX: number) =>
+				stage.evaluate(
+					(el, [from, to]) => {
+						const rect = el.getBoundingClientRect();
+						const y = rect.top + rect.height / 2;
+						const fire = (type: string, x: number) =>
+							el.dispatchEvent(
+								new PointerEvent(type, {
+									pointerType: "touch",
+									pointerId: 7,
+									isPrimary: true,
+									clientX: rect.left + x,
+									clientY: y,
+									bubbles: true,
+									cancelable: true,
+								})
+							);
+						fire("pointerdown", from);
+						fire("pointermove", (from + to) / 2);
+						fire("pointerup", to);
+					},
+					[fromX, toX]
+				);
+			expect(await shownIndex()).toBe(0);
+			await swipe(250, 60);
+			await expect.poll(shownIndex).toBe(1);
+			await swipe(250, 60);
+			await expect.poll(shownIndex).toBe(2);
+			await swipe(60, 250);
+			await expect.poll(shownIndex).toBe(1);
+			// The stage must not block vertical page scrolling
+			const touchAction = await stage.evaluate((el) => getComputedStyle(el).touchAction);
+			expect(touchAction).toBe("pan-y");
+		});
+
 		test("the page does not scroll sideways at phone width", async ({ page }) => {
 			await page.setViewportSize({ width: 375, height: 800 });
 			await page.goto(`/${lang}`);

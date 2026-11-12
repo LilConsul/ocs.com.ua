@@ -70,9 +70,9 @@ ______________________________________________________________________
 
 Reuse these instead of copying class strings (all in `application/frontend/src/styles/global.css`):
 
-- `card-hover` - the one hover treatment for cards (lift, shadow, border highlight).
+- `card-hover` - the one hover treatment for cards (lift, shadow, border highlight). `card-lift` is the same without the border highlight, for cards with their own coloured border or background.
 - `btn-primary`, `btn-secondary`, `btn-sm`, `link-arrow` - buttons and text links. Add `press` in markup for the press feedback.
-- Motion uses three speeds only: `--dur-fast` (150 ms), `--dur-base` (300 ms), `--dur-slow` (700 ms), mirrored in `src/lib/anims/tokens.ts` as `DUR`. In Tailwind use `duration-(--dur-base)` and so on; no `duration-300` and no `transition-all`.
+- Motion uses three speeds only: `--dur-fast` (150 ms), `--dur-base` (300 ms), `--dur-slow` (700 ms), mirrored in `src/lib/anims/tokens.ts` as `DUR`. In Tailwind use `duration-(--dur-base)` and so on; no `duration-300`, no `transition-all`, no raw `ease-out` or `cubic-bezier`, in classes or in component `<style>` blocks (a test checks this).
 - Product pictures do not fade in; the card reveals as a whole.
 
 ______________________________________________________________________

@@ -537,7 +537,7 @@ html.motion-on .eyebrow-rule:not([data-revealed]) {
 		opacity: 0;
 		transition:
 			grid-template-rows var(--dur-base) var(--ease-out-quart),
-			opacity var(--dur-fast) ease;
+			opacity var(--dur-fast) var(--ease-out-quart);
 	}
 	.mobile-menu-shell[data-open="true"] {
 		grid-template-rows: 1fr;
@@ -885,20 +885,28 @@ html.motion-on .eyebrow-rule:not([data-revealed]) {
 	}
 }
 
-/* One hover treatment for every card (product, industry, wiki, partner, client).
- * Unlayered on purpose: it must beat the base `shadow-*` utility on the same element. */
+/* One hover treatment for every card (product, industry, wiki, partner, client). `card-lift`
+ * is the same lift and shadow without the border highlight, for cards that have a coloured
+ * border or background of their own. Unlayered on purpose: it must beat the base `shadow-*`
+ * utility on the same element. */
+.card-lift,
 .card-hover {
 	transition-property: translate, box-shadow, border-color;
 	transition-duration: var(--dur-base);
 	transition-timing-function: var(--ease-out-quart);
 }
 
+.card-lift:hover,
 .card-hover:hover {
-	border-color: color-mix(in oklab, var(--secondary) 40%, transparent);
 	box-shadow: var(--shadow-lg);
 }
 
+.card-hover:hover {
+	border-color: color-mix(in oklab, var(--secondary) 40%, transparent);
+}
+
 @media (prefers-reduced-motion: no-preference) {
+	.card-lift:hover,
 	.card-hover:hover {
 		translate: 0 -2px;
 	}
