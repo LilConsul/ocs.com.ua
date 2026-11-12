@@ -331,6 +331,7 @@ describe("decap cms site-data collection", () => {
 		expect(siteData.files.map((f: any) => f.name)).toEqual([
 			"company-info",
 			"authorization-letters",
+			"privacy-policy",
 			"partner-list",
 			"city-list",
 		]);

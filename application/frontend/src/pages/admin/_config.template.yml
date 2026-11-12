@@ -67,7 +67,7 @@ collections:
     label: "Site Data"
     description: >-
       Company details and other shared site data. Pick a file from the list:
-      Company Information, Authorization Letters, Partners and Clients, or
+      Company Information, Authorization Letters, Privacy Policy, Partners and Clients, or
       Map Cities. These files cannot be created or deleted, only edited.
     delete: false
     editor:
@@ -178,6 +178,67 @@ collections:
             widget: "file"
             required: false
             hint: "Upload the official Mesutronic Authorization Letter (PDF)"
+
+      # Privacy Policy
+      - name: "privacy-policy"
+        label: "Privacy Policy"
+        description: "Text of the Privacy Policy page, one card per section, in English and Ukrainian. Sections appear in the order listed and are numbered automatically."
+        file: "application/frontend/src/data/privacy-policy.json"
+        format: json
+        fields:
+          - { label: "Effective Date", name: "effectiveDate", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD", hint: "Shown at the top of the page. Update it every time the policy text changes." }
+          - label: "Sections"
+            name: "sections"
+            widget: "list"
+            summary: "{{fields.title.en}}"
+            hint: "Each section is one card. Text that says \"Section 6\" refers to the position in this list, so check those references after adding, removing or reordering sections."
+            fields:
+              - label: "Title"
+                name: "title"
+                widget: "object"
+                fields:
+                  - { label: "English", name: "en", widget: "string" }
+                  - { label: "Ukrainian", name: "ua", widget: "string" }
+              - label: "Text"
+                name: "body"
+                widget: "object"
+                hint: "Type {email} or {address} to insert the company email and address from Company Information. Start a line with \"- \" for a bullet point, wrap words in **double asterisks** for bold."
+                fields:
+                  - { label: "English", name: "en", widget: "text" }
+                  - { label: "Ukrainian", name: "ua", widget: "text" }
+              - label: "Table"
+                name: "table"
+                widget: "list"
+                required: false
+                summary: "{{fields.purpose.en}}"
+                hint: "Optional table shown after the text, with the columns Purpose, Information used and Legal basis. Leave empty for no table."
+                fields:
+                  - label: "Purpose"
+                    name: "purpose"
+                    widget: "object"
+                    fields:
+                      - { label: "English", name: "en", widget: "text" }
+                      - { label: "Ukrainian", name: "ua", widget: "text" }
+                  - label: "Information used"
+                    name: "data"
+                    widget: "object"
+                    fields:
+                      - { label: "English", name: "en", widget: "text" }
+                      - { label: "Ukrainian", name: "ua", widget: "text" }
+                  - label: "Legal basis"
+                    name: "basis"
+                    widget: "object"
+                    fields:
+                      - { label: "English", name: "en", widget: "text" }
+                      - { label: "Ukrainian", name: "ua", widget: "text" }
+              - label: "Text After the Table"
+                name: "bodyAfter"
+                widget: "object"
+                required: false
+                hint: "Optional. Shown below the table."
+                fields:
+                  - { label: "English", name: "en", widget: "text", required: false }
+                  - { label: "Ukrainian", name: "ua", widget: "text", required: false }
 
       # Partners. The three sector lists share one field set through a YAML
       # anchor. Cities are picked from the "city-list" file below, so the name

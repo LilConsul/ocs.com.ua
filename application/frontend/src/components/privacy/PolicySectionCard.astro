@@ -1,0 +1,115 @@
+---
+import { getInlineTranslations, type Lang } from "@/i18n";
+import type { PolicySection } from "@/lib/privacy/policy";
+
+interface Props {
+	section: PolicySection;
+	lang: Lang;
+}
+
+const { section, lang } = Astro.props;
+const _ = getInlineTranslations(lang);
+---
+
+<section
+	id={section.id}
+	aria-labelledby={`${section.id}-title`}
+	class="bg-background border-border-subtle/70 hover:border-secondary/40 before:from-secondary relative scroll-mt-24 overflow-hidden rounded-xl border p-5 shadow-xs transition-[box-shadow,border-color] duration-300 before:absolute before:inset-x-0 before:top-0 before:h-0.5 before:bg-linear-to-r before:to-transparent hover:shadow-lg sm:p-8"
+>
+	<header class="border-border-subtle/60 mb-5 flex items-center gap-4 border-b pb-5">
+		<span
+			class="font-technical-data bg-secondary text-primary-foreground flex size-10 shrink-0 items-center justify-center rounded-lg text-sm font-semibold shadow-xs"
+			aria-hidden="true">{String(section.number).padStart(2, "0")}</span
+		>
+		<h2
+			id={`${section.id}-title`}
+			class="font-headline-lg text-foreground m-0 text-xl font-semibold tracking-tight text-balance wrap-break-word"
+		>
+			<span class="sr-only">{section.number}. </span>{section.title}
+		</h2>
+	</header>
+
+	<div class="prose privacy-prose" set:html={section.html} />
+
+	{
+		section.table.length > 0 && (
+			<>
+				<ul class="m-0 my-5 flex list-none flex-col gap-3 p-0 md:hidden">
+					{section.table.map((row) => (
+						<li class="border-border-subtle/70 bg-surface-container/50 rounded-lg border p-4">
+							<p class="text-foreground m-0 mb-3 text-sm font-semibold">{row.purpose}</p>
+							<dl class="m-0 space-y-2 text-sm">
+								<div>
+									<dt class="font-label-caps text-secondary text-[11px] tracking-widest uppercase">
+										{_("Information used")}
+									</dt>
+									<dd class="text-industrial-gray m-0">{row.data}</dd>
+								</div>
+								<div>
+									<dt class="font-label-caps text-secondary text-[11px] tracking-widest uppercase">
+										{_("Legal basis")}
+									</dt>
+									<dd class="text-industrial-gray m-0">{row.basis}</dd>
+								</div>
+							</dl>
+						</li>
+					))}
+				</ul>
+
+				<div class="border-border-subtle/70 my-5 hidden overflow-hidden rounded-lg border md:block">
+					<table class="w-full border-collapse text-left text-sm">
+						<thead class="bg-surface-container">
+							<tr>
+								<th
+									scope="col"
+									class="font-label-caps text-secondary w-[28%] px-4 py-3 text-xs font-semibold tracking-widest uppercase"
+								>
+									{_("Purpose")}
+								</th>
+								<th
+									scope="col"
+									class="font-label-caps text-secondary w-[22%] px-4 py-3 text-xs font-semibold tracking-widest uppercase"
+								>
+									{_("Information used")}
+								</th>
+								<th
+									scope="col"
+									class="font-label-caps text-secondary px-4 py-3 text-xs font-semibold tracking-widest uppercase"
+								>
+									{_("Legal basis")}
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{section.table.map((row) => (
+								<tr class="border-border-subtle/70 even:bg-surface-container/40 border-t align-top">
+									<td class="text-foreground px-4 py-3.5 font-medium">{row.purpose}</td>
+									<td class="text-industrial-gray px-4 py-3.5">{row.data}</td>
+									<td class="text-industrial-gray px-4 py-3.5">{row.basis}</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</div>
+			</>
+		)
+	}
+
+	{section.htmlAfter && <div class="prose privacy-prose" set:html={section.htmlAfter} />}
+</section>
+
+<style is:global>
+	.privacy-prose a {
+		color: var(--color-secondary);
+		text-decoration: underline;
+		text-underline-offset: 2px;
+		overflow-wrap: anywhere;
+	}
+	.privacy-prose a:hover {
+		color: var(--color-foreground);
+	}
+	.privacy-prose p:last-child,
+	.privacy-prose ul:last-child {
+		margin-bottom: 0;
+	}
+</style>

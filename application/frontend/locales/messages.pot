@@ -106,6 +106,11 @@ msgstr ""
 msgid "Browse articles"
 msgstr ""
 
+#: src/components/contact/ContactForm.astro:220
+#: src/components/catalogue/DatasheetModal.astro:164
+msgid "By submitting this form you agree to the processing of your details as described in our"
+msgstr ""
+
 #: src/components/Header.astro:27
 #: src/components/catalogue/RelatedEquipment.astro:33
 #: src/components/catalogue/CategoryHeader.astro:35
@@ -120,10 +125,10 @@ msgstr ""
 msgid "Category navigation"
 msgstr ""
 
+#: src/components/contact/ContactForm.astro:23
 #: src/components/about/InteractiveUkraineMap.astro:22
 #: src/components/about/ClientDirectory.astro:45
 #: src/components/about/AboutHero.astro:39
-#: src/components/contact/ContactForm.astro:23
 msgid "Checkweighers"
 msgstr ""
 
@@ -196,9 +201,9 @@ msgstr ""
 #: src/components/homepage/HeroSection.astro:101
 #: src/components/errors/ServerErrorContent.astro:46
 #: src/components/errors/NotFoundContent.astro:55
-#: src/components/about/AboutCta.astro:35
 #: src/components/contact/ContactHero.astro:28
 #: src/components/catalogue/CatalogueSidebar.astro:201
+#: src/components/about/AboutCta.astro:35
 msgid "Contact Us"
 msgstr ""
 
@@ -259,7 +264,7 @@ msgstr ""
 msgid "Double-click to toggle"
 msgstr ""
 
-#: src/components/catalogue/DatasheetModal.astro:186
+#: src/components/catalogue/DatasheetModal.astro:198
 msgid "Download"
 msgstr ""
 
@@ -274,6 +279,10 @@ msgstr ""
 
 #: src/components/about/ManufacturerCredentials.astro:22
 msgid "Dynamic checkweighers with electromagnetic force compensation technology, X-Ray scanners, and Track & Trace serialization and aggregation systems for the pharmaceutical industry."
+msgstr ""
+
+#: src/pages/[lang]/privacy.astro:87
+msgid "Effective date"
 msgstr ""
 
 #: src/components/contact/ContactInfoCard.astro:59
@@ -357,6 +366,16 @@ msgstr ""
 msgid "Get in Touch"
 msgstr ""
 
+#: src/components/contact/ContactForm.astro:234
+#: src/components/catalogue/DatasheetModal.astro:181
+msgid "Google Privacy Policy"
+msgstr ""
+
+#: src/components/contact/ContactForm.astro:241
+#: src/components/catalogue/DatasheetModal.astro:188
+msgid "Google Terms of Service"
+msgstr ""
+
 #: src/i18n/inline.ts:6
 msgid "Hello, world"
 msgstr ""
@@ -373,6 +392,7 @@ msgstr ""
 msgid "High-speed checkweighers for warehouses and fulfillment centers."
 msgstr ""
 
+#: src/pages/[lang]/privacy.astro:52
 #: src/pages/[lang]/contact.astro:39
 #: src/pages/[lang]/about.astro:56
 #: src/pages/[lang]/wiki/[slug].astro:91
@@ -381,6 +401,10 @@ msgstr ""
 #: src/pages/[lang]/catalogue/equipment/[category]/[slug].astro:119
 #: src/pages/[lang]/catalogue/equipment/[category]/index.astro:133
 msgid "Home"
+msgstr ""
+
+#: src/pages/[lang]/privacy.astro:27
+msgid "How OS-Technology Ukraine collects, uses and protects personal information when you visit our website, request a datasheet or contact us."
 msgstr ""
 
 #: src/components/homepage/IndustriesSection.astro:57
@@ -415,6 +439,11 @@ msgstr ""
 
 #: src/components/catalogue/CatalogueSidebar.astro:40
 msgid "Industry navigation"
+msgstr ""
+
+#: src/components/privacy/PolicySectionCard.astro:44
+#: src/components/privacy/PolicySectionCard.astro:71
+msgid "Information used"
 msgstr ""
 
 #: src/components/about/InteractiveUkraineMap.astro:137
@@ -471,6 +500,15 @@ msgstr ""
 
 #: src/components/catalogue/DatasheetModal.astro:66
 msgid "Leave your details and the download will start right away."
+msgstr ""
+
+#: src/pages/[lang]/privacy.astro:74
+msgid "Legal"
+msgstr ""
+
+#: src/components/privacy/PolicySectionCard.astro:50
+#: src/components/privacy/PolicySectionCard.astro:76
+msgid "Legal basis"
 msgstr ""
 
 #: src/components/about/AboutCta.astro:42
@@ -619,9 +657,9 @@ msgstr ""
 msgid "Open filters"
 msgstr ""
 
-#: src/components/about/ManufacturerCredentials.astro:100
 #: src/components/contact/ContactInfoCard.astro:79
 #: src/components/contact/ContactInfoCard.astro:80
+#: src/components/about/ManufacturerCredentials.astro:100
 msgid "Open in Google Maps"
 msgstr ""
 
@@ -719,9 +757,20 @@ msgid "Price on request"
 msgstr ""
 
 #: src/components/Footer.astro:33
-#: src/components/contact/ContactForm.astro:226
-#: src/components/catalogue/DatasheetModal.astro:169
+#: src/pages/[lang]/privacy.astro:53
+#: src/pages/[lang]/privacy.astro:80
+#: src/pages/[lang]/privacy.astro:96
+#: src/components/contact/ContactForm.astro:222
+#: src/components/catalogue/DatasheetModal.astro:170
 msgid "Privacy Policy"
+msgstr ""
+
+#: src/pages/[lang]/privacy.astro:26
+msgid "Privacy Policy | OS-Technology Ukraine"
+msgstr ""
+
+#: src/pages/[lang]/privacy.astro:128
+msgid "Privacy request"
 msgstr ""
 
 #: src/pages/[lang]/catalogue/equipment/[category]/[slug].astro:181
@@ -738,8 +787,16 @@ msgstr ""
 msgid "Products"
 msgstr ""
 
+#: src/components/privacy/PolicySectionCard.astro:66
+msgid "Purpose"
+msgstr ""
+
 #: src/components/homepage/IndustriesSection.astro:81
 msgid "Quality control and filling inspection systems."
+msgstr ""
+
+#: src/pages/[lang]/privacy.astro:121
+msgid "Questions about your data?"
 msgstr ""
 
 #: src/components/about/ManufacturerCredentials.astro:50
@@ -847,7 +904,7 @@ msgstr ""
 msgid "Submission not allowed from this origin."
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:243
+#: src/components/contact/ContactForm.astro:251
 msgid "Submit Inquiry"
 msgstr ""
 
@@ -893,8 +950,6 @@ msgid "Tell us what you produce and what you need to inspect. We will recommend 
 msgstr ""
 
 #: src/components/Footer.astro:36
-#: src/components/contact/ContactForm.astro:233
-#: src/components/catalogue/DatasheetModal.astro:176
 msgid "Terms of Service"
 msgstr ""
 
@@ -919,8 +974,8 @@ msgstr ""
 msgid "This field is required."
 msgstr ""
 
-#: src/components/contact/ContactForm.astro:220
-#: src/components/catalogue/DatasheetModal.astro:163
+#: src/components/contact/ContactForm.astro:228
+#: src/components/catalogue/DatasheetModal.astro:175
 msgid "This form is protected by reCAPTCHA."
 msgstr ""
 
@@ -1026,6 +1081,10 @@ msgstr ""
 #: src/components/contact/OfficeLocation.astro:75
 #: src/components/contact/ContactInfoCard.astro:112
 msgid "Working Hours"
+msgstr ""
+
+#: src/pages/[lang]/privacy.astro:124
+msgid "Write to us with the subject line “Privacy request”."
 msgstr ""
 
 #: src/components/homepage/StatsSection.astro:16

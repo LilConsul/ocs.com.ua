@@ -215,6 +215,14 @@ const messages = {
 			placeholder={_("Describe your requirements…")}
 		/>
 
+		{/* Our privacy notice */}
+		<p class="text-industrial-gray text-xs">
+			{_("By submitting this form you agree to the processing of your details as described in our")}
+			{" "}
+			<a href={`/${lang}/privacy`} class="hover:text-foreground underline">{_("Privacy Policy")}</a
+			>.
+		</p>
+
 		{/* reCAPTCHA notice (badge hidden via CSS below) */}
 		<p class="text-industrial-gray text-xs">
 			{_("This form is protected by reCAPTCHA.")}
@@ -223,14 +231,14 @@ const messages = {
 				href="https://policies.google.com/privacy"
 				target="_blank"
 				rel="noopener noreferrer"
-				class="hover:text-foreground underline">{_("Privacy Policy")}</a
+				class="hover:text-foreground underline">{_("Google Privacy Policy")}</a
 			>
 			{" "}&amp;{" "}
 			<a
 				href="https://policies.google.com/terms"
 				target="_blank"
 				rel="noopener noreferrer"
-				class="hover:text-foreground underline">{_("Terms of Service")}</a
+				class="hover:text-foreground underline">{_("Google Terms of Service")}</a
 			>
 		</p>
 
