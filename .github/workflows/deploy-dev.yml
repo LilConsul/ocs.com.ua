@@ -323,6 +323,19 @@ jobs:
           asset=$(curl -fsS "${E2E_BASE_URL}/ua/" | grep -o '/_astro/[^"]*\.css' | head -1)
           expect "$asset" cache-control immutable
 
+      # Old WordPress addresses (src/data/legacy-redirects.json) must 301 to their new pages
+      - name: Old WordPress addresses redirect
+        working-directory: .
+        run: |
+          expect_redirect() {
+            read -r code location < <(curl -sS -o /dev/null -w '%{http_code} %{redirect_url}' "${E2E_BASE_URL}$1")
+            echo "$1 -> $code $location"
+            [ "$code" = "301" ] && [ "$location" = "${E2E_BASE_URL}$2" ] || { echo "Expected 301 to $2"; exit 1; }
+          }
+          expect_redirect /kontakty/ /ua/contact/
+          expect_redirect /hc-a /ua/catalogue/equipment/checkweigher/hc-a/
+          expect_redirect /category/x-ray-skanery/model-serii-sc-e/ /ua/catalogue/equipment/x-ray-inspection/
+
       # LLMS_INDEXING=false on dev: nothing may be indexed
       - name: Dev site is not indexable
         working-directory: .

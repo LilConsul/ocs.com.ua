@@ -17,6 +17,7 @@ The repository root also holds `application/infra` (Python/uv deploy tooling), `
 - `docs/info/environment.md` - every environment variable and feature flag
 - `docs/info/deployment.md` - CI, dev deploy pipeline, server layout, GitHub secrets
 - `docs/info/llm-indexing.md` - `/llms.txt`, Markdown page copies, AI crawlers in `robots.txt`
+- `docs/info/production-launch.md` - checklist for switching ocs.com.ua to this site, old WordPress redirects
 
 **Key Requirements:**
 

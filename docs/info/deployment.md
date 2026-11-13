@@ -82,6 +82,12 @@ The `ocs` user may run these commands as root without a password:
 /usr/bin/systemctl reload apache2
 ```
 
+Apache needs `mod_headers` for the headers in `public/.htaccess` (one-year caching of `/_astro/`, `X-Robots-Tag` on dev). The rules sit in `<IfModule mod_headers.c>`, so without the module they are skipped silently and only the verify job notices. It was enabled on this server on 2026-11-13; on a new server run once as root:
+
+```bash
+a2enmod headers && apache2ctl configtest && systemctl reload apache2
+```
+
 Reading the service log needs `journalctl` access. Add the user to the journal group once so the health check can print logs on failure (a passwordless `sudo journalctl` is not configured):
 
 ```bash

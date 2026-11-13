@@ -8,8 +8,12 @@
  */
 
 import { execFileSync } from "node:child_process";
-import { appendFileSync, writeFileSync } from "node:fs";
+import { appendFileSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+
+const LEGACY_REDIRECTS = fileURLToPath(
+	new URL("../src/data/legacy-redirects.json", import.meta.url)
+);
 
 /** Content and data files each kind of page is built from, relative to application/frontend. */
 export function sourcesFor(pathname) {
@@ -88,6 +92,24 @@ export const NOINDEX_HTACCESS = `
 </IfModule>
 `;
 
+const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+/**
+ * Apache rules for the old WordPress addresses (src/data/legacy-redirects.json). Each old path
+ * matches with or without its trailing slash; mod_alias keeps any query string.
+ * @param {Array<{ from: string, to: string }>} redirects
+ */
+export function legacyRedirectRules(redirects) {
+	const lines = redirects.map(({ from, to }) => {
+		const path = from.replace(/\/+$/, "");
+		return `RedirectMatch 301 ^${escapeRegex(path)}/?$ ${to}`;
+	});
+	return `
+# --- Old WordPress addresses, added by the build from src/data/legacy-redirects.json ---
+${lines.join("\n")}
+`;
+}
+
 /** IndexNow keys are 8 to 128 characters of a-z, A-Z, 0-9 and "-". */
 export const isIndexNowKey = (key) => /^[A-Za-z0-9-]{8,128}$/.test(key);
 
@@ -101,6 +123,9 @@ export function seoIntegration({ indexing, indexNowKey }) {
 		hooks: {
 			"astro:build:done": ({ dir, logger }) => {
 				const out = fileURLToPath(dir);
+				const legacy = JSON.parse(readFileSync(LEGACY_REDIRECTS, "utf8"));
+				appendFileSync(`${out}.htaccess`, legacyRedirectRules(legacy.redirects));
+				logger.info(`${legacy.redirects.length} old WordPress addresses redirected`);
 				if (!indexing) {
 					appendFileSync(`${out}.htaccess`, NOINDEX_HTACCESS);
 					logger.info("LLMS_INDEXING=false: every file is served with X-Robots-Tag noindex");
