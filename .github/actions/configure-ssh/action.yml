@@ -12,10 +12,13 @@ inputs:
 runs:
   using: composite
   steps:
+    # The values come in through env, not ${{ }} inside the script, so the shell never parses them
     - name: Write SSH credentials
       shell: bash
+      env:
+        SSH_KEY: ${{ inputs.ssh-key }}
+        KNOWN_HOSTS: ${{ inputs.known-hosts }}
       run: |
         install -m 700 -d ~/.ssh
-        echo "${{ inputs.ssh-key }}" > ~/.ssh/id_ed25519
-        chmod 600 ~/.ssh/id_ed25519
-        echo "${{ inputs.known-hosts }}" > ~/.ssh/known_hosts
+        (umask 077 && printf '%s\n' "$SSH_KEY" > ~/.ssh/id_ed25519)
+        printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts

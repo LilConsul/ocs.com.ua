@@ -31,3 +31,8 @@ RedirectMatch 301 ^/(en|ua)/catalogue/industry/?$ /$1/catalogue/industry/food-be
 
 # Old scheme /{lang}/catalogue/{category}[/{product}] -> /{lang}/catalogue/equipment/...
 RedirectMatch 301 ^/(en|ua)/catalogue/(?!(?:equipment|industry)(?:/|$))([^/]+(?:/[^/]+)?)/?$ /$1/catalogue/equipment/$2/
+
+# --- LLM files ---
+# Markdown copies of the pages (/ua/about.md, linked from /llms.txt) must be served as text.
+# Apache's MIME table may have no .md entry, which would send them as a download.
+AddType "text/markdown; charset=UTF-8" .md

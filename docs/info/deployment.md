@@ -4,12 +4,19 @@ ______________________________________________________________________
 
 ## Pipelines
 
-| Workflow                                                   | Trigger                                                                      | What it does                                                                        |
-| ---------------------------------------------------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| [`ci.yml`](../../.github/workflows/ci.yml)                 | Pull requests touching `frontend/`, `infra/` or the workflow                 | Frontend tests, image check, infra tests                                            |
-| [`deploy-dev.yml`](../../.github/workflows/deploy-dev.yml) | Push to `main` touching `frontend/`, `infra/` or the workflow, or manual run | Test, build, deploy to https://dev.ocs.com.ua, then health check and e2e against it |
+| Workflow                                                   | Trigger                                                                                                                      | What it does                                                                                          |
+| ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| [`ci.yml`](../../.github/workflows/ci.yml)                 | Pull requests touching `frontend/`, `infra/` or the workflow                                                                 | Biome, frontend unit tests, e2e (one job per browser, WebKit in two shards), image check, infra tests |
+| [`deploy-dev.yml`](../../.github/workflows/deploy-dev.yml) | Push to `main` touching `frontend/`, `infra/`, the workflow, `.github/actions/` or `.github/secrets.dev.yaml`, or manual run | Test and build in parallel, deploy to https://dev.ocs.com.ua, then health check and e2e against it    |
 
 CMS publishes are commits to `main`, so content edits deploy the same way as code.
+
+Common to both workflows:
+
+- The Bun version comes from [`application/frontend/.bun-version`](../../application/frontend/.bun-version). Update it together with your local Bun.
+- Actions are pinned to commit SHAs with the tag in a comment. [Dependabot](../../.github/dependabot.yml) opens a weekly PR to update them.
+- The GitHub token is read-only (`permissions: contents: read`) and every job has a `timeout-minutes`.
+- Caches: Bun packages (keyed by `bun.lock`), uv, Playwright browsers (per browser and version) and Astro's resized images (keyed by `src/assets/` and `bun.lock`).
 
 There is no production pipeline yet. Production (`ocs.com.ua`) needs its own workflow, manifest and `PROD_`-prefixed secrets.
 
@@ -17,9 +24,12 @@ ______________________________________________________________________
 
 ## Dev deploy (dev.ocs.com.ua)
 
+### Test job
+
+Runs next to the build job: Biome (`bun run ci`), `bun test` and the infra `pytest` suite. The deploy job waits for both, so a failing test still blocks the deploy.
+
 ### Build job
 
-1. `bun test` and the infra `pytest` suite must pass.
 1. `bun run build` produces `application/frontend/dist/`.
 1. The server bundle is imported once with `node_modules` removed, to prove it is self-contained. Server dependencies are bundled into `dist/server` (`ssr.noExternal` in `astro.config.mjs`); only `sharp` stays external and is never loaded at runtime because images are processed at build time.
 1. `dist/` and `package.json` are uploaded as an artifact (hidden files included, for `dist/client/.htaccess`).
@@ -35,7 +45,7 @@ ______________________________________________________________________
 
 ### Verify job
 
-Runs after the deploy job. It requests `/ua`, `/en` and `/admin/config.yml` on https://dev.ocs.com.ua (through Apache), then runs the Playwright e2e suite (chromium only) against the live site by setting `E2E_BASE_URL`. Without that variable the same suite runs against a local preview server, as in [`ci.yml`](../../.github/workflows/ci.yml).
+Runs after the deploy job. It requests `/ua`, `/en`, `/admin/config.yml`, `/robots.txt` and the LLM files (`/llms.txt`, `/llms-full.txt`, `/ua/index.md`, `/ua/about.md`) on https://dev.ocs.com.ua (through Apache), and checks that `.md` files are served as `text/markdown` (set in `public/.htaccess`). Then it runs the Playwright e2e suite (chromium only) against the live site by setting `E2E_BASE_URL`. Without that variable the same suite runs against a local preview server, as in [`ci.yml`](../../.github/workflows/ci.yml).
 
 ### Static vs on-demand
 
