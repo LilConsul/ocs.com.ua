@@ -57,6 +57,7 @@ jobs:
             fi
             [ -n "$TARGET" ] && [ -d "$TARGET" ] || { echo "No release to go back to"; ls -1 "$DOMAIN_DIR/releases"; exit 1; }
             echo "Switching to: $TARGET"
+            [ -f "$TARGET/release.json" ] && cat "$TARGET/release.json"
             ln -sfn "$TARGET" "$DOMAIN_DIR/app.new"
             mv -T "$DOMAIN_DIR/app.new" "$DOMAIN_DIR/app"
             sudo /usr/bin/systemctl restart "$SERVICE"

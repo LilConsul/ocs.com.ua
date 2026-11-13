@@ -48,11 +48,17 @@ def sitemap_entries(xml: str) -> list[tuple[str, str | None]]:
     return entries
 
 
-def changed_urls(entries: list[tuple[str, str | None]], since: datetime | None) -> list[str]:
+def changed_urls(
+    entries: list[tuple[str, str | None]], since: datetime | None
+) -> list[str]:
     """Pages to submit. A page without <lastmod> is always submitted when --since is used."""
     if since is None:
         return [loc for loc, _ in entries]
-    return [loc for loc, lastmod in entries if lastmod is None or parse_date(lastmod) >= since]
+    return [
+        loc
+        for loc, lastmod in entries
+        if lastmod is None or parse_date(lastmod) >= since
+    ]
 
 
 def payload(site: str, key: str, urls: list[str]) -> dict:
@@ -82,13 +88,21 @@ def collect(site: str) -> list[tuple[str, str | None]]:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("site", help="Deployed site, e.g. https://ocs.com.ua")
-    parser.add_argument("--key", required=True, help="The INDEXNOW_KEY the site was built with")
-    parser.add_argument("--since", help="Only pages with <lastmod> at or after this ISO date")
-    parser.add_argument("--dry-run", action="store_true", help="Print the request, do not send")
+    parser.add_argument(
+        "--key", required=True, help="The INDEXNOW_KEY the site was built with"
+    )
+    parser.add_argument(
+        "--since", help="Only pages with <lastmod> at or after this ISO date"
+    )
+    parser.add_argument(
+        "--dry-run", action="store_true", help="Print the request, do not send"
+    )
     args = parser.parse_args(argv)
 
     if not KEY_RE.match(args.key):
-        print("The key must be 8-128 characters of a-z, A-Z, 0-9 and '-'", file=sys.stderr)
+        print(
+            "The key must be 8-128 characters of a-z, A-Z, 0-9 and '-'", file=sys.stderr
+        )
         return 1
 
     since = parse_date(args.since) if args.since else None
