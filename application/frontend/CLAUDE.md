@@ -16,6 +16,7 @@ The repository root also holds `application/infra` (Python/uv deploy tooling), `
 - `docs/info/development.md` - commands, i18n, content and CMS, git hooks, commit format
 - `docs/info/environment.md` - every environment variable and feature flag
 - `docs/info/deployment.md` - CI, dev deploy pipeline, server layout, GitHub secrets
+- `docs/info/llm-indexing.md` - `/llms.txt`, Markdown page copies, AI crawlers in `robots.txt`
 
 **Key Requirements:**
 

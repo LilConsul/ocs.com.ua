@@ -1,0 +1,126 @@
+import { describe, expect, it } from "bun:test";
+import type { EquipmentEntry } from "@/lib/content-utils";
+import { buildLlmsFullTxt, buildLlmsTxt, productMarkdown, wikiMarkdown } from "@/lib/llms";
+import type { WikiEntry } from "@/lib/wiki-utils";
+
+const SITE = "https://ocs.com.ua";
+
+const product = (id: string, data: Record<string, unknown>, body = "") =>
+	({ id, data, body }) as unknown as EquipmentEntry;
+const article = (id: string, data: Record<string, unknown>, body = "") =>
+	({ id, data, body }) as unknown as WikiEntry;
+
+const equipment = [
+	product(
+		"checkweigher/hc-aua",
+		{
+			title: "Ваги HC-A",
+			description: "Опис\n  HC-A",
+			manufacturer: "Wipotec",
+			industries: ["food-beverage"],
+			specs: [{ title: "Зважування", items: [{ label: "Швидкість", value: "150 | 200" }] }],
+		},
+		"Див. [точність](/ua/wiki/weighing-accuracy)."
+	),
+	product("checkweigher/hc-aen", { title: "HC-A Checkweigher", description: "HC-A text" }),
+	product("checkweigher/_indexua", { title: "Category file" }),
+];
+
+const wiki = [
+	article(
+		"load-cellua",
+		{ title: "Датчик ваги", description: "Про датчик" },
+		"Текст [d](/ua/wiki/d)."
+	),
+	article("load-cellen", { title: "Load cell", description: "About load cells" }, "Body"),
+];
+
+const content = { site: SITE, equipment, wiki };
+
+describe("llms.txt", () => {
+	const txt = buildLlmsTxt(content);
+
+	it("starts with the Ukrainian company name as the H1 and a summary blockquote", () => {
+		const lines = txt.split("\n");
+		expect(lines[0]).toBe("# ОС-Технолоджи Україна (OS-Technology Ukraine)");
+		expect(lines[2].startsWith("> ")).toBe(true);
+	});
+
+	it("links each product and article to its Markdown copy with a one-line description", () => {
+		expect(txt).toContain(
+			`- [Ваги HC-A](${SITE}/ua/catalogue/equipment/checkweigher/hc-a.md): Опис HC-A`
+		);
+		expect(txt).toContain(`- [Датчик ваги](${SITE}/ua/wiki/load-cell.md): Про датчик`);
+	});
+
+	it("lists Ukrainian before English and leaves category files out", () => {
+		expect(txt.indexOf("/ua/wiki/load-cell.md")).toBeLessThan(txt.indexOf("/en/wiki/load-cell.md"));
+		expect(txt).toContain(
+			`- [HC-A Checkweigher](${SITE}/en/catalogue/equipment/checkweigher/hc-a.md)`
+		);
+		expect(txt).not.toContain("Category file");
+		expect(txt).not.toContain("_index");
+	});
+
+	it("links industries, about, contact and the full-text file", () => {
+		expect(txt).toContain(`${SITE}/ua/catalogue/industry/food-beverage)`);
+		expect(txt).toContain(`${SITE}/ua/about)`);
+		expect(txt).toContain(`${SITE}/ua/contact)`);
+		expect(txt).toContain(`${SITE}/llms-full.txt`);
+	});
+
+	it("never points at the CMS or the API", () => {
+		expect(txt).not.toContain("/admin");
+		expect(txt).not.toContain("/api/");
+	});
+
+	it("follows the configured site", () => {
+		expect(buildLlmsTxt({ ...content, site: "https://dev.ocs.com.ua" })).toContain(
+			"https://dev.ocs.com.ua/ua/wiki/load-cell.md"
+		);
+	});
+});
+
+describe("product Markdown copy", () => {
+	const md = productMarkdown(equipment[0], equipment, SITE);
+
+	it("has the title, page link, category, manufacturer and industries", () => {
+		expect(md.startsWith("# Ваги HC-A\n")).toBe(true);
+		expect(md).toContain(`${SITE}/ua/catalogue/equipment/checkweigher/hc-a`);
+		expect(md).toContain("Wipotec");
+		expect(md).toContain(`${SITE}/ua/catalogue/industry/food-beverage`);
+	});
+
+	it("renders specs as a table per group with pipes escaped", () => {
+		expect(md).toContain("### Зважування\n\n| | |\n| --- | --- |\n");
+		expect(md).toContain("| Швидкість | 150 \\| 200 |");
+	});
+
+	it("makes root-relative links in the body absolute", () => {
+		expect(md).toContain(`(${SITE}/ua/wiki/weighing-accuracy)`);
+	});
+
+	it("takes industries from the Ukrainian file for an English product", () => {
+		expect(productMarkdown(equipment[1], equipment, SITE)).toContain(
+			`${SITE}/en/catalogue/industry/food-beverage`
+		);
+	});
+});
+
+describe("wiki Markdown copy and llms-full.txt", () => {
+	it("renders an article with its canonical page and absolute links", () => {
+		const md = wikiMarkdown(wiki[0], SITE);
+		expect(md.startsWith("# Датчик ваги\n")).toBe(true);
+		expect(md).toContain(`${SITE}/ua/wiki/load-cell`);
+		expect(md).toContain(`(${SITE}/ua/wiki/d)`);
+	});
+
+	it("contains every product and article, Ukrainian first", () => {
+		const full = buildLlmsFullTxt(content);
+		for (const t of ["# Ваги HC-A", "# HC-A Checkweigher", "# Датчик ваги", "# Load cell"]) {
+			expect(full).toContain(t);
+		}
+		expect(full.indexOf("# Ваги HC-A")).toBeLessThan(full.indexOf("# HC-A Checkweigher"));
+		expect(full.endsWith("\n")).toBe(true);
+	});
+});
