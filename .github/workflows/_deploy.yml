@@ -454,8 +454,11 @@ jobs:
         if: steps.browsers.outputs.cache-hit == 'true'
         run: bunx playwright install-deps chromium
 
+      # One retry: over the internet a single network hiccup should not fail a deploy that is
+      # already live. A real bug fails twice; Playwright reports a pass on retry as "flaky".
+      # Pull request CI runs without retries, so tests that are flaky on their own still show.
       - name: "[FE] E2E Tests (deployed site)"
-        run: bun run test:e2e --project=chromium
+        run: bun run test:e2e --project=chromium --retries=1
 
       - name: Upload failure artifacts
         if: failure()

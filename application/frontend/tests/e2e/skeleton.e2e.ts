@@ -35,6 +35,18 @@ function holdRequests(
 const holdImages = (page: Page, only?: (url: string) => boolean) =>
 	holdRequests(page, "**/_astro/*.webp", only);
 
+/**
+ * Waits until every stylesheet the page links has loaded. The browser paints nothing before
+ * that, but a test reading computed styles right after `waitUntil: "commit"` can: on a remote
+ * site the CSS arrives after the HTML, and an unstyled picture reports opacity 1.
+ */
+const stylesheetsLoaded = (page: Page) =>
+	page.waitForFunction(() =>
+		[...document.querySelectorAll<HTMLLinkElement>('link[rel="stylesheet"]')].every(
+			(link) => link.sheet !== null
+		)
+	);
+
 const animationOf = (el: Locator) => el.evaluate((node) => getComputedStyle(node).animationName);
 const opacityOf = (el: Locator) => el.evaluate((node) => Number(getComputedStyle(node).opacity));
 
@@ -116,6 +128,7 @@ test.describe("image skeletons", () => {
 		const img = wrapper.locator("img");
 		await expect(page.locator("html")).toHaveClass(/skeleton-on/);
 		await expect(wrapper).not.toHaveAttribute("data-loaded", /.*/);
+		await stylesheetsLoaded(page);
 		expect(await opacityOf(img)).toBe(0);
 		const background = await wrapper.evaluate((el) => getComputedStyle(el).backgroundColor);
 		expect(background).not.toBe("rgba(0, 0, 0, 0)");
