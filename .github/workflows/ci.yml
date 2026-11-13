@@ -46,7 +46,7 @@ jobs:
       - name: "[FE] Unit Tests"
         run: bun test
 
-  # One job per browser, WebKit in two halves: WebKit on Linux runners is several times slower
+  # One job per browser, WebKit in three parts: WebKit on Linux runners is several times slower
   # than the other engines, so a single job spent most of its time waiting on it.
   fe-e2e-test:
     name: fe-e2e-test (${{ matrix.browser }}${{ matrix.shard && format(' {0}', matrix.shard) || '' }})
@@ -59,9 +59,11 @@ jobs:
           - browser: chromium
           - browser: firefox
           - browser: webkit
-            shard: 1/2
+            shard: 1/3
           - browser: webkit
-            shard: 2/2
+            shard: 2/3
+          - browser: webkit
+            shard: 3/3
     defaults:
       run:
         working-directory: application/frontend
