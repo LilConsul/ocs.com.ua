@@ -62,8 +62,8 @@ Load cells are tough, but not unbreakable:
 2. Keep the area around the weighing platform clean, so nothing jams against it.
 3. Use the correct cleaning method for your protection rating. Do not blast water at a cell that is not made for it.
 4. If readings start to drift, jump or never return to zero, have the load cell and its cable checked.
-5. Check the scale with a known test weight regularly. See [weighing accuracy](/en/wiki/weighing-accuracy) for more.
+5. Check the scale with a known test weight regularly. See [weighing accuracy](/en/wiki/weighing-accuracy/) for more.
 
 ## How does this connect to d?
 
-The load cell and the electronics together decide how finely and how exactly the scale can weigh. A good load cell allows a smaller, useful [resolution (d)](/en/wiki/what-is-scale-division). A poor one will give noisy numbers, no matter how many digits the display has.
+The load cell and the electronics together decide how finely and how exactly the scale can weigh. A good load cell allows a smaller, useful [resolution (d)](/en/wiki/what-is-scale-division/). A poor one will give noisy numbers, no matter how many digits the display has.

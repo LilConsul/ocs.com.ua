@@ -59,7 +59,7 @@ const _ = getInlineTranslations(lang);
 									data-wiki-text={`${item.data.title} ${item.data.description ?? ""}`.toLowerCase()}
 								>
 									<a
-										href={`/${lang}/wiki/${slug}`}
+										href={`/${lang}/wiki/${slug}/`}
 										aria-current={active ? "page" : undefined}
 										class:list={[
 											"font-body-md -ml-px block border-l-2 py-1.5 pr-2 pl-4 text-sm leading-snug transition-colors",

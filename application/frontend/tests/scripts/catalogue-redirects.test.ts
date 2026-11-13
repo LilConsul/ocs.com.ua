@@ -14,7 +14,7 @@ describe("catalogue redirects", () => {
 		for (const lang of LANGS) {
 			for (const { slug } of equipmentTypes[lang].categories) {
 				expect(redirects[`/${lang}/catalogue/${slug}`]).toBe(
-					`/${lang}/catalogue/equipment/${slug}`
+					`/${lang}/catalogue/equipment/${slug}/`
 				);
 			}
 		}
@@ -28,7 +28,7 @@ describe("catalogue redirects", () => {
 
 		for (const [from, to] of productRedirects) {
 			const [, lang, , category, product] = from.split("/");
-			expect(to).toBe(`/${lang}/catalogue/equipment/${category}/${product}`);
+			expect(to).toBe(`/${lang}/catalogue/equipment/${category}/${product}/`);
 			expect(existsSync(join(CONTENT_DIR, category, `${product}.${lang}.md`))).toBe(true);
 		}
 	});

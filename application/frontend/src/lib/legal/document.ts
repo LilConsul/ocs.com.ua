@@ -60,8 +60,8 @@ function buildSource(data: RawDocument, lang: Lang): LegalSource {
 		address: [a.street, "office" in a ? a.office : "", a.city, a.postalCode, a.country]
 			.filter(Boolean)
 			.join(", "),
-		privacyUrl: `/${lang}/privacy`,
-		termsUrl: `/${lang}/terms`,
+		privacyUrl: `/${lang}/privacy/`,
+		termsUrl: `/${lang}/terms/`,
 	};
 	const pick = (value: Localized | undefined) => value?.[lang] || value?.en || "";
 	const fill = (text: string) => (text ? fillTokens(text, values) : "");

@@ -46,13 +46,13 @@ export interface LlmsContent {
 
 const LANGS: Lang[] = ["ua", "en"];
 
-export const wikiUrl = (lang: Lang, slug: string) => `/${lang}/wiki/${slug}`;
+export const wikiUrl = (lang: Lang, slug: string) => `/${lang}/wiki/${slug}/`;
 
 /** Absolute URL for a site path. */
 const abs = (path: string, site: URL | string) => new URL(path, site).href;
 
 /** The Markdown copy sits next to the HTML page: /ua/wiki/load-cell -> /ua/wiki/load-cell.md */
-const mdUrl = (path: string, site: URL | string) => abs(`${path}.md`, site);
+const mdUrl = (path: string, site: URL | string) => abs(`${path.replace(/\/+$/, "")}.md`, site);
 
 /** The home page /ua/ has no name to append .md to, so its copy is /ua/index.md */
 export const homeMdUrl = (lang: Lang, site: URL | string) => abs(`/${lang}/index.md`, site);
@@ -75,9 +75,19 @@ const link = (title: string, url: string, note?: string | null) => {
 	return n ? `- [${title}](${url}): ${n}` : `- [${title}](${url})`;
 };
 
-/** Root-relative Markdown links in content (`](/ua/wiki/x)`) become absolute. */
+/** A page path gets its trailing slash; files (/x.pdf) and anchors/queries are left alone. */
+const withSlash = (path: string) => {
+	const [, base, rest] = /^([^?#]*)(.*)$/.exec(path) ?? ["", path, ""];
+	const last = base.split("/").pop() ?? "";
+	return base.endsWith("/") || last.includes(".") ? path : `${base}/${rest}`;
+};
+
+/**
+ * Root-relative Markdown links in content (`](/ua/wiki/x)`) become absolute, with the trailing
+ * slash the pages are served at (CMS editors often leave it out).
+ */
 const absolutizeLinks = (markdown: string, site: URL | string) =>
-	markdown.replace(/\]\((\/[^)\s]*)\)/g, (_m, path: string) => `](${abs(path, site)})`);
+	markdown.replace(/\]\((\/[^)\s]*)\)/g, (_m, path: string) => `](${abs(withSlash(path), site)})`);
 
 // Soft hyphens in UI translations ("Метало-детектори") are layout hints, not text
 const join = (blocks: string[]) =>
@@ -295,7 +305,7 @@ export function aboutMarkdown(lang: Lang, site: URL | string): string {
 	);
 
 	const facts = [
-		`- ${_("Page")}: ${abs(`/${lang}/about`, site)}`,
+		`- ${_("Page")}: ${abs(`/${lang}/about/`, site)}`,
 		`- ${_("Serving Ukraine since 2013")}`,
 		`- ${clientsLine}`,
 		`- ${_("Installed Systems")}: ${formatApprox(stats.systems)}`,
@@ -393,7 +403,7 @@ export function wikiIndexMarkdown(lang: Lang, wiki: WikiEntry[], site: URL | str
 		`# ${_("Wiki")}`,
 		`> ${_("Technical articles, guides, and operational documentation for industrial equipment.")}`,
 		[
-			`- ${_("Page")}: ${abs(`/${lang}/wiki`, site)}`,
+			`- ${_("Page")}: ${abs(`/${lang}/wiki/`, site)}`,
 			`- ${_("Publisher")}: ${companyData.name[lang]}`,
 		].join("\n"),
 		list.join("\n"),
@@ -412,13 +422,13 @@ export function contactMarkdown(lang: Lang, site: URL | string): string {
 		`> ${_(
 			"Contact the OS-Technology Ukraine engineering team. Request a quotation, arrange a product demonstration, or get technical support."
 		)}`,
-		`- ${_("Page")}: ${abs(`/${lang}/contact`, site)}`,
+		`- ${_("Page")}: ${abs(`/${lang}/contact/`, site)}`,
 		`## ${_("Contact Information")}\n\n${[
 			`- ${companyData.name[lang]}`,
 			`- ${companyData.contactPerson[lang].name}`,
 			companyBlock(lang),
 		].join("\n")}`,
-		`## ${_("Send Us a Message")}\n\n${abs(`/${lang}/contact`, site)}`,
+		`## ${_("Send Us a Message")}\n\n${abs(`/${lang}/contact/`, site)}`,
 		letters.length ? `## ${_("Authorized Documentation")}\n\n${letters.join("\n")}` : "",
 		profiles.length ? `## ${_("Company")}\n\n${profiles.join("\n")}` : "",
 	]);
@@ -451,7 +461,7 @@ export function privacyMarkdown(lang: Lang, site: URL | string): string {
 	const _ = getInlineTranslations(lang);
 	return legalMarkdown(
 		_("Privacy Policy"),
-		`/${lang}/privacy`,
+		`/${lang}/privacy/`,
 		getPrivacyPolicySource(lang),
 		lang,
 		site
@@ -461,7 +471,7 @@ export function privacyMarkdown(lang: Lang, site: URL | string): string {
 /** Markdown copy of the terms of use, the same text as the page. */
 export function termsMarkdown(lang: Lang, site: URL | string): string {
 	const _ = getInlineTranslations(lang);
-	return legalMarkdown(_("Terms of Use"), `/${lang}/terms`, getTermsOfUseSource(lang), lang, site);
+	return legalMarkdown(_("Terms of Use"), `/${lang}/terms/`, getTermsOfUseSource(lang), lang, site);
 }
 
 /**

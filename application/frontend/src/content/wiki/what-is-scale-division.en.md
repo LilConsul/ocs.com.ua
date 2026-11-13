@@ -44,7 +44,7 @@ The same with scales:
 * **d** tells you how finely the number is **displayed**.
 * **Accuracy** tells you how close that number is to the **real weight**.
 
-A scale with d = 0.1 g may show `150.2 g` while the product really weighs `150.4 g`. The display is detailed, but not exact. You can read more about this in the article about [weighing accuracy](/en/wiki/weighing-accuracy).
+A scale with d = 0.1 g may show `150.2 g` while the product really weighs `150.4 g`. The display is detailed, but not exact. You can read more about this in the article about [weighing accuracy](/en/wiki/weighing-accuracy/).
 
 ## You may also see "e"
 

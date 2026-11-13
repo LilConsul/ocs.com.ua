@@ -1,7 +1,5 @@
 # Runs tests on pull requests.
 # Pushes to main are covered by the test steps in deploy-dev.yml.
-#
-# Actions are pinned to commit SHAs (the tag is in the comment); Dependabot keeps them current.
 
 name: CI
 
@@ -123,6 +121,11 @@ jobs:
 
       - name: Build
         run: bun run build
+
+      # Links to own pages must end with "/" (pages are served as directories, else a 301)
+      - name: "[FE] Internal links have a trailing slash"
+        if: matrix.browser == 'chromium'
+        run: bun run check:links
 
       # Only the first job saves it: the four jobs build the same pictures
       - name: Save Astro image cache

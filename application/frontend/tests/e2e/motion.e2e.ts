@@ -164,7 +164,7 @@ test.describe("page transitions", () => {
 
 	test("navigation still works and lands on the new page", async ({ page }) => {
 		await page.goto(HOME);
-		await page.locator('#main-header nav a[href$="/wiki"]').click();
+		await page.locator('#main-header nav a[href$="/wiki/"]').click();
 		await expect(page).toHaveURL(/\/ua\/wiki/);
 		await expect(page.locator("h1").first()).toBeVisible();
 	});
@@ -173,7 +173,7 @@ test.describe("page transitions", () => {
 		await recordTransitions(page);
 		await page.goto(HOME);
 		test.skip(!(await supportsPageSwap(page)), "cross-document view transitions unsupported");
-		await page.locator('#main-header nav a[href$="/wiki"]').click();
+		await page.locator('#main-header nav a[href$="/wiki/"]').click();
 		await expect(page).toHaveURL(/\/ua\/wiki/);
 		expect(await page.evaluate(() => sessionStorage.getItem("vt"))).toBe("1");
 	});
@@ -183,7 +183,7 @@ test.describe("page transitions", () => {
 		await recordTransitions(page);
 		await page.goto(HOME);
 		test.skip(!(await supportsPageSwap(page)), "cross-document view transitions unsupported");
-		await page.locator('#main-header nav a[href$="/wiki"]').click();
+		await page.locator('#main-header nav a[href$="/wiki/"]').click();
 		await expect(page).toHaveURL(/\/ua\/wiki/);
 		expect(await page.evaluate(() => sessionStorage.getItem("vt"))).toBe("0");
 	});

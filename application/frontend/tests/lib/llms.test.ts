@@ -130,7 +130,7 @@ describe("product Markdown copy", () => {
 	});
 
 	it("makes root-relative links in the body absolute", () => {
-		expect(md).toContain(`(${SITE}/ua/wiki/weighing-accuracy)`);
+		expect(md).toContain(`(${SITE}/ua/wiki/weighing-accuracy/)`);
 	});
 
 	it("takes industries from the Ukrainian file for an English product", () => {
@@ -145,7 +145,7 @@ describe("wiki Markdown copy and llms-full.txt", () => {
 		const md = wikiMarkdown(wiki[0], SITE);
 		expect(md.startsWith("# Датчик ваги\n")).toBe(true);
 		expect(md).toContain(`${SITE}/ua/wiki/load-cell`);
-		expect(md).toContain(`(${SITE}/ua/wiki/d)`);
+		expect(md).toContain(`(${SITE}/ua/wiki/d/)`);
 	});
 
 	it("contains every product and article, Ukrainian first", () => {
@@ -241,7 +241,7 @@ describe("Markdown copies of the remaining pages", () => {
 			SITE
 		);
 		expect(md.startsWith("# Ваги\n")).toBe(true);
-		expect(md).toContain(`: ${SITE}/ua/catalogue/equipment/checkweigher\n`);
+		expect(md).toContain(`: ${SITE}/ua/catalogue/equipment/checkweigher/\n`);
 		expect(md).toContain(`- [Ваги HC-A](${SITE}/ua/catalogue/equipment/checkweigher/hc-a.md)`);
 		expect(md).not.toContain("/en/");
 	});
@@ -291,6 +291,22 @@ describe("llms.txt coverage", () => {
 		for (const lang of ["ua", "en"] as const) {
 			for (const c of getCategoriesForLocale(lang)) {
 				expect(txt).toContain(`${SITE}/${lang}/catalogue/equipment/${c.slug}.md)`);
+			}
+		}
+	});
+});
+
+describe("page links in the Markdown copies", () => {
+	it("end with a slash, so they hit the page without a redirect", () => {
+		const docs = [
+			buildLlmsFullTxt(content),
+			homeMarkdown("ua", content),
+			wikiIndexMarkdown("ua", wiki, SITE),
+		];
+		for (const doc of docs) {
+			for (const [url] of doc.matchAll(/https:\/\/ocs\.com\.ua\/[^\s)]*/g)) {
+				const last = url.split("/").pop() ?? "";
+				if (!last.includes(".")) expect(url.endsWith("/")).toBe(true);
 			}
 		}
 	});
