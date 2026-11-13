@@ -27,6 +27,47 @@ The text is built in `src/lib/llms.ts`. The manufacturer details come from `src/
 
 A new page under `src/pages/[lang]/` gets the `<head>` link automatically, so it also needs a `.md.ts` route next to it, or the link points at a missing file.
 
+## Coverage
+
+Every route the site has, and how each one is exposed to search engines and AI tools. Counts are per language, taken from the build of November 2026; the content collections and `src/data/*.json` decide the real numbers.
+
+### Public pages
+
+| Page               | Route                                           | Pages                          | Sitemap | Markdown copy      | `/llms.txt` | `/llms-full.txt`      |
+| ------------------ | ----------------------------------------------- | ------------------------------ | ------- | ------------------ | ----------- | --------------------- |
+| Home               | `/{lang}/`                                      | 1                              | yes     | `/{lang}/index.md` | yes         | no, it is a link list |
+| Equipment category | `/{lang}/catalogue/equipment/{category}`        | 6                              | yes     | yes                | yes         | no, it is a link list |
+| Product            | `/{lang}/catalogue/equipment/{category}/{slug}` | 8                              | yes     | yes                | yes         | yes                   |
+| Industry           | `/{lang}/catalogue/industry/{slug}`             | 4                              | yes     | yes                | yes         | yes                   |
+| Wiki index         | `/{lang}/wiki`                                  | 1                              | yes     | yes                | yes         | no, it is a link list |
+| Wiki article       | `/{lang}/wiki/{slug}`                           | 3                              | yes     | yes                | yes         | yes                   |
+| About              | `/{lang}/about`                                 | 1                              | yes     | yes                | yes         | yes                   |
+| Contact            | `/{lang}/contact`                               | 1                              | yes     | yes                | yes         | yes                   |
+| Privacy Policy     | `/{lang}/privacy`                               | 1                              | yes     | yes                | yes         | yes                   |
+| Terms of Use       | `/{lang}/terms`                                 | 1                              | yes     | yes                | yes         | yes                   |
+| **Total**          |                                                 | **27 per language, 54 in all** | **54**  | **54**             | **54**      | **38**                |
+
+Four of the six categories (Metal Detectors, Miscellaneous, Track & Trace, X-Ray Inspection) have no products yet. Their pages and copies still exist and `/llms.txt` still links them, so products added in the CMS appear there on the next deploy.
+
+### Routes that are not indexed
+
+| Route                                                                   | What it is                                             | Why it is left out                                                                                    |
+| ----------------------------------------------------------------------- | ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------- |
+| `/`                                                                     | Redirect to `/ua/`                                     | Not a page.                                                                                           |
+| `/{lang}/catalogue/{category}`, `/{lang}/catalogue/{category}/{slug}`   | Redirects from the old catalogue URLs (28 in all)      | Not pages; they point at the canonical catalogue URLs. Left out of the sitemap in `astro.config.mjs`. |
+| `/404`, `/50x`                                                          | Error pages                                            | No content worth citing. They use `ErrorPageLayout`, so no Markdown link is added.                    |
+| `/admin/`, `/admin/config.yml`                                          | Decap CMS                                              | Private. `Disallow: /admin/` in `robots.txt`.                                                         |
+| `/api/auth`, `/api/contact`, `/api/datasheet-request`, `/api/datasheet` | On-demand endpoints (OAuth, forms, datasheet download) | Not content. `Disallow: /api/` in `robots.txt`. Datasheet PDFs stay behind the lead form.             |
+| `/robots.txt`, `/sitemap-index.xml`, `/llms.txt`, `/llms-full.txt`      | Files for crawlers                                     | They are the index, not pages in it.                                                                  |
+
+To recheck after adding pages, run `bun run build` in `application/frontend`. These three numbers should be equal:
+
+```bash
+grep -o "<loc>" dist/client/sitemap-0.xml | wc -l      # pages in the sitemap
+find dist/client/ua dist/client/en -name "*.md" | wc -l  # Markdown copies
+grep -o "\.md)" dist/client/llms.txt | wc -l            # copies linked from /llms.txt
+```
+
 ## Checklist outside the code
 
 - Register `ocs.com.ua` in Bing Webmaster Tools and submit `sitemap-index.xml`. ChatGPT search and Copilot rely on the Bing index.

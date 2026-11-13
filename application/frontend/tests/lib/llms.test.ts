@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import type { EquipmentEntry } from "@/lib/content-utils";
-import { getIndustriesForLocale } from "@/lib/content-utils";
+import { getCategoriesForLocale, getIndustriesForLocale } from "@/lib/content-utils";
 import { getPrivacyPolicySource, getTermsOfUseSource } from "@/lib/legal/document";
 import {
 	aboutMarkdown,
@@ -282,5 +282,16 @@ describe("Markdown copies of the remaining pages", () => {
 		const _ = getPrivacyPolicySource("ua").sections[0].title;
 		expect(full).toContain(`## 1. ${_}`);
 		expect(full).toContain("Георгій Шевченко");
+	});
+});
+
+describe("llms.txt coverage", () => {
+	it("links every equipment category, also those without products", () => {
+		const txt = buildLlmsTxt(content);
+		for (const lang of ["ua", "en"] as const) {
+			for (const c of getCategoriesForLocale(lang)) {
+				expect(txt).toContain(`${SITE}/${lang}/catalogue/equipment/${c.slug}.md)`);
+			}
+		}
 	});
 });

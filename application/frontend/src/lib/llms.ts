@@ -109,7 +109,10 @@ function linkSections(lang: Lang, { site, equipment, wiki }: LlmsContent): strin
 	const _ = getInlineTranslations(lang);
 	const sections: string[] = [];
 
-	for (const { category, products } of productsByCategory(lang, equipment)) {
+	// Every category, also those without products yet: each has a page and a Markdown copy
+	const localeProducts = filterByLocale(getProducts(equipment), lang);
+	for (const category of getCategoriesForLocale(lang)) {
+		const products = sortByOrder(filterByCategory(localeProducts, category.slug));
 		const lines = products.map((p) =>
 			link(
 				p.data.title,
