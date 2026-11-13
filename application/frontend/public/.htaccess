@@ -45,3 +45,17 @@ AddType "text/markdown; charset=UTF-8" .md
 		Header set Cache-Control "public, max-age=31536000, immutable"
 	</If>
 </IfModule>
+
+# --- Security headers ---
+# HSTS: browsers go straight to https:// for a year (no includeSubDomains: mail.ocs.com.ua and
+# the other hosts on this server are not ours to commit). The rest stop MIME sniffing, keep the
+# site out of other sites' frames, trim the Referer sent to other sites and switch off device
+# APIs the site never uses.
+<IfModule mod_headers.c>
+	Header always set Strict-Transport-Security "max-age=31536000" "expr=%{HTTPS} == 'on'"
+	Header always set X-Content-Type-Options "nosniff"
+	# Only this site and the Plerdy dashboard (heatmaps) may show pages in a frame
+	Header always set Content-Security-Policy "frame-ancestors 'self' https://*.plerdy.com"
+	Header always set Referrer-Policy "strict-origin-when-cross-origin"
+	Header always set Permissions-Policy "camera=(), microphone=(), payment=(), usb=()"
+</IfModule>
