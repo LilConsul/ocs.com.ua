@@ -72,10 +72,10 @@ Feature flags are public booleans that default to `false`. They are inlined when
 
 Build-time values, like the feature flags. Unlike them, `LLMS_INDEXING` defaults to `true`, so a production build is indexable unless told otherwise.
 
-| Variable        | Default | Effect                                                                                                                                                                                                                                                                                                                                                       |
-| --------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `LLMS_INDEXING` | `true`  | `false` keeps every crawler out: `robots.txt` is `Disallow: /`, pages get `<meta name="robots" content="noindex, nofollow">`, and the build adds an `X-Robots-Tag: noindex, nofollow` header for every file (`.md`, `.txt` and PDFs too) to `dist/client/.htaccess`. Fixed to `false` in `deploy-dev.yml`, so dev.ocs.com.ua never competes with ocs.com.ua. |
-| `INDEXNOW_KEY`  | —       | IndexNow key, 8 to 128 characters of `a-z`, `A-Z`, `0-9` and `-` (for example `openssl rand -hex 16`). When set, and indexing is on, the build writes `/<key>.txt`, which [`indexnow.py`](../../application/infra/scripts/indexnow.py) needs. Production only.                                                                                               |
+| Variable        | Default | Effect                                                                                                                                                                                                                                                                                                                                                     |
+| --------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `LLMS_INDEXING` | `true`  | `false` keeps every crawler out: `robots.txt` is `Disallow: /`, pages get `<meta name="robots" content="noindex, nofollow">`, and the build adds an `X-Robots-Tag: noindex, nofollow` header for every file (`.md`, `.txt` and PDFs too) to `dist/client/.htaccess`. Set to `false` by `deploy-dev.yml`, so dev.ocs.com.ua never competes with ocs.com.ua. |
+| `INDEXNOW_KEY`  | —       | IndexNow key, 8 to 128 characters of `a-z`, `A-Z`, `0-9` and `-` (for example `openssl rand -hex 16`). When set, and indexing is on, the build writes `/<key>.txt`, which [`indexnow.py`](../../application/infra/scripts/indexnow.py) needs. Production only.                                                                                             |
 
 ______________________________________________________________________
 
@@ -96,5 +96,5 @@ ______________________________________________________________________
 1. Declare it in the `env.schema` of `astro.config.mjs` with `envField`.
 1. Add it, with a comment, to `application/frontend/.env.example`.
 1. Document it in the tables above.
-1. Pass it to the **Build** job `env:` block in `.github/workflows/deploy-dev.yml` (public/build-time values are inlined there).
+1. Pass it to the **Build** job `env:` block in `.github/workflows/_deploy.yml`, which builds both sites (public/build-time values are inlined there).
 1. If the running server needs it too, or you want the GitHub variable to be mandatory, add it to `.github/secrets.dev.yaml` and see [Deployment](deployment.md#server-env-file). The renderer fails the deploy when a listed name is missing or empty.

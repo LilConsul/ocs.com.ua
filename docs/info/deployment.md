@@ -4,25 +4,28 @@ ______________________________________________________________________
 
 ## Pipelines
 
-| Workflow                                                   | Trigger                                                                                                                      | What it does                                                                                                                       |
-| ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| [`ci.yml`](../../.github/workflows/ci.yml)                 | Pull requests touching `frontend/`, `infra/` or the workflow                                                                 | Biome, frontend unit tests, e2e (one job per browser, WebKit in three shards), trailing-slash link check, image check, infra tests |
-| [`deploy-dev.yml`](../../.github/workflows/deploy-dev.yml) | Push to `main` touching `frontend/`, `infra/`, the workflow, `.github/actions/` or `.github/secrets.dev.yaml`, or manual run | Test and build in parallel, deploy to https://dev.ocs.com.ua, then health check and e2e against it                                 |
+| Workflow                                                     | Trigger                                                                                                                               | What it does                                                                                                                       |
+| ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| [`ci.yml`](../../.github/workflows/ci.yml)                   | Pull requests touching `frontend/`, `infra/` or the workflow                                                                          | Biome, frontend unit tests, e2e (one job per browser, WebKit in three shards), trailing-slash link check, image check, infra tests |
+| [`deploy-prod.yml`](../../.github/workflows/deploy-prod.yml) | Push to `main` touching `frontend/`, `infra/`, the deploy workflows, `.github/actions/` or `.github/secrets.prod.yaml`, or manual run | Deploys https://ocs.com.ua. Needs the `PROD_ENABLED` variable; staged on the server until `PROD_LIVE` is set                       |
+| [`deploy-dev.yml`](../../.github/workflows/deploy-dev.yml)   | Manual run only, on any branch                                                                                                        | Deploys that branch to https://dev.ocs.com.ua to try it on the real server                                                         |
+| [`rollback.yml`](../../.github/workflows/rollback.yml)       | Manual run                                                                                                                            | Puts an earlier release of prod or dev back live, without a build                                                                  |
+| [`monitor.yml`](../../.github/workflows/monitor.yml)         | Every 30 minutes, once `PROD_LIVE` is set                                                                                             | Uptime check of ocs.com.ua (home, Node server, `llms.txt`)                                                                         |
 
-CMS publishes are commits to `main`, so content edits deploy the same way as code.
+`main` is production: every merged PR and every CMS publish (a commit to `main`) deploys ocs.com.ua. To try a branch on a real server first, run **Deploy dev** on it (Actions tab → **Deploy dev** → **Run workflow**, or `gh workflow run deploy-dev.yml --ref <branch>`).
 
-Common to both workflows:
+Both deploy workflows call the shared [`_deploy.yml`](../../.github/workflows/_deploy.yml) with their site's inputs (URL, server directory, service, port, Apache fragment, env manifest, indexing).
+
+Common to all workflows:
 
 - The Bun version comes from [`application/frontend/.bun-version`](../../application/frontend/.bun-version). Update it together with your local Bun.
 - Actions are pinned to commit SHAs with the tag in a comment. [Dependabot](../../.github/dependabot.yml) opens a weekly PR to update them.
 - The GitHub token is read-only (`permissions: contents: read`) and every job has a `timeout-minutes`.
 - Caches: Bun packages (keyed by `bun.lock`), uv, Playwright browsers (per browser and version) and Astro's resized images (keyed by `src/assets/` and `bun.lock`).
 
-There is no production pipeline yet. Production (`ocs.com.ua`) needs its own workflow, manifest and `PROD_`-prefixed secrets.
-
 ______________________________________________________________________
 
-## Dev deploy (dev.ocs.com.ua)
+## Deploy pipeline (`_deploy.yml`)
 
 ### Test job
 
@@ -31,22 +34,35 @@ Runs next to the build job: Biome (`bun run ci`), `bun test` and the infra `pyte
 ### Build job
 
 1. The checkout has the full commit history without file contents (`fetch-depth: 0`, `filter: blob:none`), so the sitemap `<lastmod>` dates can come from git. A shallow clone leaves them out.
-1. `bun run build` produces `application/frontend/dist/`, with `LLMS_INDEXING=false` fixed in the workflow (see [Environment](environment.md#search-and-ai-indexing)).
+1. `bun run build` produces `application/frontend/dist/`. Dev builds with `LLMS_INDEXING=false`, prod with indexing on and the IndexNow key (see [Environment](environment.md#search-and-ai-indexing)).
 1. The server bundle is imported once with `node_modules` removed, to prove it is self-contained. Server dependencies are bundled into `dist/server` (`ssr.noExternal` in `astro.config.mjs`); only `sharp` stays external and is never loaded at runtime because images are processed at build time.
 1. `dist/` and `package.json` are uploaded as an artifact (hidden files included, for `dist/client/.htaccess`).
 
 ### Deploy job
 
+1. **Render env file** — on the runner first, so a missing secret or variable stops the job before the server is touched (see below).
 1. **Configure SSH** — writes the key and `known_hosts` ([`configure-ssh`](../../.github/actions/configure-ssh/action.yml)).
-1. **Sync Apache config** — copies [`dev.ocs.com.ua.ocs.conf`](../../application/infra/apache/dev.ocs.com.ua.ocs.conf) to the server, runs `apache2ctl configtest`, reloads Apache on success and restores the previous file on failure.
-1. **Sync env file** — renders the server env file on the runner and streams it over SSH (see below).
-1. **Upload** — `rsync --delete` of `dist/` and `package.json` into the app directory.
-1. **Restart** — `systemctl restart ocs-dev`.
-1. **Health check** — polls `http://127.0.0.1:4321/admin/config.yml` on the server for up to 20 seconds and prints service status and logs on failure.
+1. **Sync Apache config** — copies the site's proxy fragment from `application/infra/apache/` to the server, runs `apache2ctl configtest`, reloads Apache on success and restores the previous file on failure.
+1. **Sync env file** — streams the rendered file to `<service>.env` on the server.
+1. **Upload release** — `dist/` and `package.json` go into a new directory `releases/<UTC date>-<commit>/`. Files that did not change are hard links to the live release (`rsync --link-dest`), so the upload stays small.
+1. **Activate release** — switches the `app` symlink to the new release in one atomic step and restarts the service.
+1. **Health check** — polls `http://127.0.0.1:<port>/admin/config.yml` for up to 20 seconds. On failure it prints service status and logs, **switches `app` back to the previous release** and fails the job.
+1. **Remove old releases** — keeps the newest five (the live one always stays).
 
-### Verify job
+### Verify jobs
 
-Runs after the deploy job. It requests `/ua`, `/en`, `/admin/config.yml`, `/robots.txt` and the LLM files (`/llms.txt`, `/llms-full.txt`, `/ua/index.md`, `/ua/about.md`) on https://dev.ocs.com.ua (through Apache), and checks the headers set in `public/.htaccess`: `.md` files as `text/markdown`, hashed `/_astro/` files with `Cache-Control: immutable`. It also checks that the dev site cannot be indexed: `robots.txt` is `Disallow: /`, pages carry `noindex`, and HTML, `.md` and `.txt` responses have `X-Robots-Tag: noindex`. The header checks need Apache's `mod_headers`. Then it runs the Playwright e2e suite (chromium only) against the live site by setting `E2E_BASE_URL`. Without that variable the same suite runs against a local preview server, as in [`ci.yml`](../../.github/workflows/ci.yml).
+- **verify** (the public URL serves this deployment: dev always, prod after launch) requests the pages and LLM files through Apache and checks:
+
+  - `.md` served as `text/markdown`, `/_astro/` files with `Cache-Control: immutable`, and the security headers (HSTS, `nosniff`, `frame-ancestors`);
+  - three old WordPress addresses answer `301` to their new pages;
+  - indexing matches the build: dev closed (`Disallow: /`, `noindex`, `X-Robots-Tag`), prod open (sitemap in `robots.txt`, `index, follow`, no `X-Robots-Tag`);
+  - then the Playwright e2e suite (chromium) against the live site, by setting `E2E_BASE_URL`.
+
+  The header checks need Apache's `mod_headers`.
+
+- **verify-staged** (prod before launch) checks over SSH that the release has the built site and that the Node server answers on its port, since ocs.com.ua still serves WordPress.
+
+- **indexnow** (prod after launch) submits the pages whose `<lastmod>` is newer than the commit before the push to IndexNow (Bing, and through it ChatGPT search and Copilot).
 
 ### Static vs on-demand
 
@@ -58,93 +74,111 @@ All public pages are prerendered. The Node server (`node dist/server/entry.mjs`)
 - `/api/datasheet` — streams a datasheet PDF for a valid signed link
 - `/admin/config.yml` — generated Decap config
 
-Apache serves everything else from `dist/client` and proxies these paths to Node (the fragment file in `application/infra/apache/`). A new on-demand route must be added to that fragment too.
+Apache serves everything else from `dist/client` and proxies these paths to Node. A new on-demand route must be added to **both** fragments in `application/infra/apache/` (`dev.ocs.com.ua.ocs.conf` with port 4321, `ocs.com.ua.ocs.conf` with port 4322); `tests/test_apache_fragments.py` fails when they differ.
 
 ______________________________________________________________________
 
 ## Server layout
 
-Debian 13, Virtualmin domain `dev.ocs.com.ua` owned by user `ocs`.
+Debian 13 with Virtualmin. Both sites belong to the user `ocs` and run on the same server.
 
-| Path / unit                                        | Purpose                                                                  |
-| -------------------------------------------------- | ------------------------------------------------------------------------ |
-| `/home/ocs/domains/dev.ocs.com.ua/app/`            | Deployed build (`dist/client` is the Apache document root)               |
-| `/home/ocs/domains/dev.ocs.com.ua/ocs-dev.env`     | Runtime environment file, generated by the deploy                        |
-| `/home/ocs/domains/dev.ocs.com.ua/ocs-apache.conf` | OCS proxy fragment, `Include`d from the Virtualmin vhost (`:80`, `:443`) |
-| `ocs-dev.service` (systemd)                        | `node dist/server/entry.mjs` on `127.0.0.1:4321`                         |
+|                      | dev.ocs.com.ua                                    | ocs.com.ua                                                                      |
+| -------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------- |
+| Site directory       | `/home/ocs/domains/dev.ocs.com.ua/`               | `/home/ocs/domains/ocs.com.ua/`                                                 |
+| Releases             | `releases/<date>-<commit>/`, `app` → the live one | same                                                                            |
+| Apache document root | `public_html` → `app/dist/client`                 | `/home/ocs/public_html` → `app/dist/client` after launch (WordPress until then) |
+| Env file             | `ocs-dev.env`                                     | `ocs-prod.env`                                                                  |
+| Proxy fragment       | `ocs-apache.conf`, `Include`d from the vhost      | `ocs-apache.conf`, `Include`d from the vhost on launch day                      |
+| systemd unit         | `ocs-dev.service`, port 4321                      | `ocs-prod.service`, port 4322                                                   |
 
-Virtualmin owns the vhost file and regenerates it on certificate renewal, so OCS-specific rules live in the separate fragment that Virtualmin never touches. The env file and fragment sit outside `app/` so `rsync --delete` never removes them.
+Virtualmin owns the vhost files, so OCS-specific rules live in the separate fragment it never touches. The env file and fragment sit outside the releases, so a deploy never removes them.
 
 The `ocs` user may run these commands as root without a password:
 
 ```
 /usr/bin/systemctl restart ocs-dev
+/usr/bin/systemctl restart ocs-prod
 /usr/bin/systemctl reload apache2
+/usr/sbin/apache2ctl configtest
 ```
 
-Reading the service log needs `journalctl` access. Add the user to the journal group once so the health check can print logs on failure (a passwordless `sudo journalctl` is not configured):
+Apache needs `mod_headers` for the headers in `public/.htaccess`. The rules sit in `<IfModule mod_headers.c>`, so without the module they are skipped silently and only the verify job notices. It was enabled on this server on 2026-11-13; on a new server run once as root:
+
+```bash
+a2enmod headers && apache2ctl configtest && systemctl reload apache2
+```
+
+Reading the service log needs `journalctl` access. Add the user to the journal group once so the health check can print logs on failure:
 
 ```bash
 sudo usermod -aG systemd-journal ocs
 ```
 
+### Server scripts
+
+Run as root from the repository root, for example `ssh root@<server> 'bash -s' < application/infra/server/setup-prod.sh`.
+
+| Script                                                                        | When                                 | What it does                                                                                                                                                                                                        |
+| ----------------------------------------------------------------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`setup-prod.sh`](../../application/infra/server/setup-prod.sh)               | Once, before the first prod deploy   | Site directory, `ocs-prod.service`, empty fragment and env file, the sudo rule. Does not touch WordPress.                                                                                                           |
+| [`launch-prod.sh`](../../application/infra/server/launch-prod.sh)             | Launch day                           | Includes the fragment in the ocs.com.ua vhost, moves WordPress to `/home/ocs/public_html.wordpress` and points `public_html` at the new site, then checks the site through Apache. Any failure puts WordPress back. |
+| [`restore-wordpress.sh`](../../application/infra/server/restore-wordpress.sh) | If the launch has to be undone later | Serves WordPress again; the new site's releases stay.                                                                                                                                                               |
+
 ______________________________________________________________________
 
 ## GitHub configuration
 
-Set these under **Settings → Secrets and variables → Actions**.
+Set these under **Settings → Secrets and variables → Actions**. Both sites run on the same server as the same user, so they share almost everything.
 
 ### Secrets
 
-| Name                         | Used for                                              |
-| ---------------------------- | ----------------------------------------------------- |
-| `DEV_SSH_HOST`               | Deploy target host                                    |
-| `DEV_SSH_USER`               | Deploy SSH user                                       |
-| `DEV_SSH_KEY`                | Deploy SSH private key                                |
-| `DEV_SSH_KNOWN_HOSTS`        | `known_hosts` entry for the host                      |
-| `DEV_GITHUB_CLIENT_ID`       | OAuth App client ID → `GITHUB_CLIENT_ID`              |
-| `DEV_GITHUB_CLIENT_SECRET`   | OAuth App secret → `GITHUB_CLIENT_SECRET`             |
-| `DEV_RECAPTCHA_SECRET_KEY`   | reCAPTCHA secret → `RECAPTCHA_SECRET_KEY`             |
-| `DEV_DATASHEET_TOKEN_SECRET` | Datasheet link signing key → `DATASHEET_TOKEN_SECRET` |
-| `SMTP_USER`                  | SMTP username                                         |
-| `SMTP_PASS`                  | SMTP password                                         |
+| Name                                                                 | Used for                                                                 |
+| -------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| `DEV_SSH_HOST`, `DEV_SSH_USER`, `DEV_SSH_KEY`, `DEV_SSH_KNOWN_HOSTS` | SSH to the server (both sites)                                           |
+| `DEV_GITHUB_CLIENT_ID`, `DEV_GITHUB_CLIENT_SECRET`                   | OAuth app of dev.ocs.com.ua → `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET` |
+| `PROD_GITHUB_CLIENT_ID`, `PROD_GITHUB_CLIENT_SECRET`                 | OAuth app of ocs.com.ua (callback `https://ocs.com.ua/api/auth`)         |
+| `DEV_RECAPTCHA_SECRET_KEY`                                           | reCAPTCHA secret (both sites) → `RECAPTCHA_SECRET_KEY`                   |
+| `DEV_DATASHEET_TOKEN_SECRET`                                         | Datasheet link signing key (both sites) → `DATASHEET_TOKEN_SECRET`       |
+| `SMTP_USER`, `SMTP_PASS`                                             | SMTP account (both sites)                                                |
+
+A GitHub OAuth app accepts callbacks for one host only, which is why the CMS login is the one thing each site has its own of.
 
 ### Variables
 
-| Name                        | Used for                                                                                         |
-| --------------------------- | ------------------------------------------------------------------------------------------------ |
-| `DEV_CONTACT_TO`            | Contact form recipient → `CONTACT_TO`                                                            |
-| `DEV_RECAPTCHA_SITE_KEY`    | reCAPTCHA public key → `RECAPTCHA_SITE_KEY`                                                      |
-| `CONTACT_FROM`              | Contact form sender                                                                              |
-| `SMTP_HOST`                 | SMTP server                                                                                      |
-| `SMTP_PORT`                 | SMTP port                                                                                        |
-| `SMTP_SECURE`               | SMTP TLS mode                                                                                    |
-| `DEV_SHOW_CLIENT_EQUIPMENT` | Feature flag `SHOW_CLIENT_EQUIPMENT` (`true`/`false`). Listed in the manifest, so it must be set |
-| `DEV_SITE_DEV_NOTICE`       | Feature flag `SITE_DEV_NOTICE` (`true`/`false`). Listed in the manifest, so it must be set       |
+| Name                                               | Used for                                                                                       |
+| -------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `PROD_ENABLED`                                     | `true` to let `deploy-prod.yml` run (set once the `PROD_GITHUB_*` secrets exist)               |
+| `PROD_LIVE`                                        | `true` once `launch-prod.sh` has switched ocs.com.ua (public checks, IndexNow, uptime monitor) |
+| `DEV_RECAPTCHA_SITE_KEY`                           | reCAPTCHA public key (both sites; the key must list both domains)                              |
+| `CONTACT_FROM`                                     | Contact form sender (both sites)                                                               |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`            | SMTP server (both sites)                                                                       |
+| `DEV_CONTACT_TO`                                   | Contact form recipient on dev; prod uses the default `info@ocs.com.ua`                         |
+| `DEV_SHOW_CLIENT_EQUIPMENT`, `DEV_SITE_DEV_NOTICE` | Feature flags on dev (listed in the dev manifest, so they must be set); off on prod            |
 
-Values that differ per environment carry a `DEV_` prefix (later `PROD_`); values shared by environments (SMTP, `CONTACT_FROM`) do not.
-
-Feature flags are build-time only. An unset variable resolves to an empty string, which `astro:env` treats as unset, so the default (`false`) applies. Set the variable to `true` and re-run the deploy to turn a flag on. New flags should follow `SITE_DEV_NOTICE` (workflow `env:` only), not the manifest, so they stay optional.
+Feature flags are build-time only. An unset variable resolves to an empty string, which `astro:env` treats as unset, so the default applies.
 
 ### Server env file
 
-[`.github/secrets.dev.yaml`](../../.github/secrets.dev.yaml) maps GitHub secret and variable names to the environment variable names written to `ocs-dev.env`. It holds no values.
+[`.github/secrets.dev.yaml`](../../.github/secrets.dev.yaml) and [`.github/secrets.prod.yaml`](../../.github/secrets.prod.yaml) map GitHub secret and variable names to the environment variable names written to `ocs-dev.env` / `ocs-prod.env`. They hold no values.
 
-On each deploy, [`render-env.py`](../../application/infra/scripts/render-env.py) reads the manifest and the `secrets` / `vars` contexts (passed as JSON), and prints one `NAME="value"` line per entry. The output is first written to a temporary file on the runner, so a failed render or an empty result stops the job before the server is touched. It is then streamed over SSH to a temporary file on the server and renamed into place with owner-only permissions. Values never appear on a command line.
+On each deploy, [`render-env.py`](../../application/infra/scripts/render-env.py) reads the manifest and the `secrets` / `vars` contexts (passed as JSON), and prints one `NAME="value"` line per entry. The output is written to a temporary file on the runner, so a failed render or an empty result stops the job before the server is touched. It is then streamed over SSH to a temporary file on the server and renamed into place with owner-only permissions. Values never appear on a command line.
 
-Every name listed in the manifest must exist and be non-empty, otherwise the deploy fails before the server is touched. Listing a build-time value such as a feature flag also writes it to the server env file, which the running server does not read. It is harmless, but it makes the variable mandatory.
+Every name listed in a manifest must exist and be non-empty, otherwise the deploy fails before the server is touched.
 
 ______________________________________________________________________
 
 ## Manual operations
 
-Re-run a deploy from the **Actions** tab (**Deploy dev** → **Run workflow**).
+- **Deploy again:** Actions → **Deploy prod** (or **Deploy dev**) → **Run workflow**.
+- **Roll back:** Actions → **Rollback** → pick the site. Empty "release" means the one before the live one.
+- **Launch / undo the launch:** see [Production launch](production-launch.md).
 
 On the server:
 
 ```bash
-sudo systemctl status ocs-dev --no-pager
-sudo journalctl -u ocs-dev -n 100 --no-pager
+sudo systemctl status ocs-prod --no-pager        # or ocs-dev
+sudo journalctl -u ocs-prod -n 100 --no-pager
+ls -l /home/ocs/domains/ocs.com.ua/app /home/ocs/domains/ocs.com.ua/releases
 sudo apache2ctl configtest
 ```
 

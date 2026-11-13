@@ -1,0 +1,545 @@
+{
+	"$comment": "301 redirects from the old WordPress site (ocs.com.ua, wp-sitemap.xml of 2026-11-13) to the new pages. The build turns each entry into a RedirectMatch rule in dist/client/.htaccess (scripts/seo-build.mjs); tests/data/legacy-redirects.test.ts checks that every target page exists. 'review' marks a judgment call: an old page with no exact new counterpart, sent to the closest one.",
+	"redirects": [
+		{ "from": "/o-kompanii/", "to": "/ua/about/" },
+		{ "from": "/nash-opyt/", "to": "/ua/about/" },
+		{ "from": "/nashi-kliyenty/", "to": "/ua/about/" },
+		{ "from": "/kontakty/", "to": "/ua/contact/" },
+		{ "from": "/servis/", "to": "/ua/contact/", "review": "service page, no service page yet" },
+		{
+			"from": "/konfigurator/",
+			"to": "/ua/contact/",
+			"review": "product configurator, no equivalent"
+		},
+		{ "from": "/treningi/", "to": "/ua/contact/", "review": "trainings, no equivalent" },
+		{ "from": "/demozal/", "to": "/ua/contact/", "review": "demo room, no equivalent" },
+		{ "from": "/vakansii/", "to": "/ua/about/", "review": "vacancies, no equivalent" },
+		{
+			"from": "/tekhnologii/",
+			"to": "/ua/wiki/",
+			"review": "technologies page, closest is the wiki"
+		},
+		{ "from": "/novosti/", "to": "/ua/about/", "review": "news, no news section" },
+		{
+			"from": "/pres-relizi-ta-novini/",
+			"to": "/ua/about/",
+			"review": "press releases, no news section"
+		},
+		{ "from": "/zapisi/", "to": "/ua/", "review": "blog posts index" },
+		{ "from": "/395-2/", "to": "/ua/", "review": "untitled WordPress page" },
+		{
+			"from": "/zagolovok-novosti-predannaya-svoemu-delu-komanda-spetsialistov-innovatsionnaya-6/",
+			"to": "/ua/",
+			"review": "placeholder news post"
+		},
+
+		{ "from": "/oborudovanie/", "to": "/ua/catalogue/equipment/checkweigher/" },
+		{ "from": "/kontrolnye-dinamicheskie-vesy/", "to": "/ua/catalogue/equipment/checkweigher/" },
+		{ "from": "/metallodetektory/", "to": "/ua/catalogue/equipment/metal-detectors/" },
+		{ "from": "/x-ray-skanery/", "to": "/ua/catalogue/equipment/x-ray-inspection/" },
+		{ "from": "/track-trace/", "to": "/ua/catalogue/equipment/track-and-trace/" },
+		{
+			"from": "/avtomatizatsiya/",
+			"to": "/ua/catalogue/equipment/miscellaneous/",
+			"review": "automation, closest is Miscellaneous"
+		},
+		{
+			"from": "/testovye-obraztsy/",
+			"to": "/ua/catalogue/equipment/miscellaneous/",
+			"review": "test samples, closest is Miscellaneous"
+		},
+
+		{ "from": "/pishhevaya-promyshlennost/", "to": "/ua/catalogue/industry/food-beverage/" },
+		{ "from": "/pishhevaya-promyshlennost-2/", "to": "/ua/catalogue/industry/food-beverage/" },
+		{
+			"from": "/farmatsevticheskaya-promyshlennost-2/",
+			"to": "/ua/catalogue/industry/pharmaceutical/"
+		},
+		{ "from": "/logistika/", "to": "/ua/catalogue/industry/logistics/" },
+		{
+			"from": "/aerozoli/",
+			"to": "/ua/catalogue/industry/cosmetics/",
+			"review": "aerosols, closest industry is Cosmetics"
+		},
+
+		{ "from": "/ec-e/", "to": "/ua/catalogue/equipment/checkweigher/ec-e/" },
+		{
+			"from": "/ec-e-sl/",
+			"to": "/ua/catalogue/equipment/checkweigher/ec-e/",
+			"review": "EC-E SL variant, sent to EC-E"
+		},
+		{
+			"from": "/ec-e-va/",
+			"to": "/ua/catalogue/equipment/catchweigher/",
+			"review": "EC-E VA (logistics) variant, sent to Catchweighers"
+		},
+		{
+			"from": "/ec-nsw/",
+			"to": "/ua/catalogue/equipment/checkweigher/",
+			"review": "EC-NSW, no product page"
+		},
+		{
+			"from": "/model-ec-m-evo/",
+			"to": "/ua/catalogue/equipment/checkweigher/",
+			"review": "EC-M EVO, no product page"
+		},
+		{ "from": "/hc-a/", "to": "/ua/catalogue/equipment/checkweigher/hc-a/" },
+		{ "from": "/model-hs-a/", "to": "/ua/catalogue/equipment/checkweigher/hc-a/" },
+		{
+			"from": "/hc-a-is/",
+			"to": "/ua/catalogue/equipment/checkweigher/hc-a/",
+			"review": "HC-A IS variant, sent to HC-A"
+		},
+		{
+			"from": "/model-hs-a-is/",
+			"to": "/ua/catalogue/equipment/checkweigher/hc-a/",
+			"review": "HC-A IS variant, sent to HC-A"
+		},
+		{
+			"from": "/hc-a-multitrack/",
+			"to": "/ua/catalogue/equipment/checkweigher/hc-a/",
+			"review": "HC-A multitrack variant, sent to HC-A"
+		},
+		{
+			"from": "/model-hs-a-multi-track/",
+			"to": "/ua/catalogue/equipment/checkweigher/hc-a/",
+			"review": "HC-A multitrack variant, sent to HC-A"
+		},
+		{
+			"from": "/hc-a-v/",
+			"to": "/ua/catalogue/equipment/checkweigher/hc-a/",
+			"review": "HC-A V (vision) variant, sent to HC-A"
+		},
+		{
+			"from": "/hc-a-va/",
+			"to": "/ua/catalogue/equipment/catchweigher/",
+			"review": "HC-A VA (logistics) variant, sent to Catchweighers"
+		},
+		{
+			"from": "/model-hs-a-va-logisticheskie-vesy/",
+			"to": "/ua/catalogue/equipment/catchweigher/",
+			"review": "HC-A VA logistics scale, sent to Catchweighers"
+		},
+		{ "from": "/hc-a-mdi/", "to": "/ua/catalogue/equipment/checkweigher/hc-a-md/" },
+		{ "from": "/hc-a-mdi-2/", "to": "/ua/catalogue/equipment/checkweigher/hc-a-md/" },
+		{
+			"from": "/hc-a-mi/",
+			"to": "/ua/catalogue/equipment/checkweigher/hc-a-md/",
+			"review": "HC-A MI, sent to HC-A-MD"
+		},
+		{
+			"from": "/hc-a-mi-2/",
+			"to": "/ua/catalogue/equipment/checkweigher/hc-a-md/",
+			"review": "HC-A MI, sent to HC-A-MD"
+		},
+		{ "from": "/hc-m/", "to": "/ua/catalogue/equipment/checkweigher/hc-m/" },
+		{ "from": "/model-hs-m/", "to": "/ua/catalogue/equipment/checkweigher/hc-m/" },
+		{
+			"from": "/model-hs-m-wd/",
+			"to": "/ua/catalogue/equipment/checkweigher/hc-m/",
+			"review": "HC-M WD (washdown) variant, sent to HC-M"
+		},
+		{
+			"from": "/model-hs-m-va/",
+			"to": "/ua/catalogue/equipment/catchweigher/",
+			"review": "HC-M VA (logistics) variant, sent to Catchweighers"
+		},
+		{ "from": "/hc-m-mdi/", "to": "/ua/catalogue/equipment/checkweigher/hc-m-mdi/" },
+		{ "from": "/model-hs-m-mdi/", "to": "/ua/catalogue/equipment/checkweigher/hc-m-mdi/" },
+		{
+			"from": "/metallodetektor-hc-m-mdi/",
+			"to": "/ua/catalogue/equipment/checkweigher/hc-m-mdi/"
+		},
+		{
+			"from": "/hc-m-mdi-sl/",
+			"to": "/ua/catalogue/equipment/checkweigher/hc-m-mdi/",
+			"review": "HC-M MDI SL variant, sent to HC-M-MDi"
+		},
+		{
+			"from": "/hc-m-wd-mdi/",
+			"to": "/ua/catalogue/equipment/checkweigher/hc-m-mdi/",
+			"review": "HC-M WD MDI variant, sent to HC-M-MDi"
+		},
+		{
+			"from": "/hc-m-wd-mdi-2/",
+			"to": "/ua/catalogue/equipment/checkweigher/hc-m-mdi/",
+			"review": "HC-M WD MDI variant, sent to HC-M-MDi"
+		},
+		{ "from": "/hc-m-sl/", "to": "/ua/catalogue/equipment/checkweigher/hc-m-sl/" },
+		{
+			"from": "/hc-m-wd-sl/",
+			"to": "/ua/catalogue/equipment/checkweigher/hc-m-sl/",
+			"review": "HC-M WD SL variant, sent to HC-M-SL"
+		},
+		{
+			"from": "/model-hs-m-wd-sl/",
+			"to": "/ua/catalogue/equipment/checkweigher/hc-m-sl/",
+			"review": "HC-M WD SL variant, sent to HC-M-SL"
+		},
+		{
+			"from": "/hc-ex/",
+			"to": "/ua/catalogue/equipment/checkweigher/",
+			"review": "HC-EX, no product page"
+		},
+		{
+			"from": "/model-hc-sl-si-ec-m-sl-si/",
+			"to": "/ua/catalogue/equipment/catchweigher/hc-sl/",
+			"review": "HC-SL SI / EC-M SL SI, sent to HC-SL"
+		},
+		{
+			"from": "/model-dws-compact/",
+			"to": "/ua/catalogue/equipment/catchweigher/",
+			"review": "DWS Compact, no product page"
+		},
+		{
+			"from": "/640-pieces-per-minute-officially-calibrated/",
+			"to": "/ua/catalogue/equipment/checkweigher/",
+			"review": "640 ppm checkweigher post (12 copies), sent to Checkweighers"
+		},
+		{
+			"from": "/640-pieces-per-minute-officially-calibrated-2/",
+			"to": "/ua/catalogue/equipment/checkweigher/",
+			"review": "640 ppm checkweigher post"
+		},
+		{
+			"from": "/640-pieces-per-minute-officially-calibrated-3/",
+			"to": "/ua/catalogue/equipment/checkweigher/",
+			"review": "640 ppm checkweigher post"
+		},
+		{
+			"from": "/640-pieces-per-minute-officially-calibrated-4/",
+			"to": "/ua/catalogue/equipment/checkweigher/",
+			"review": "640 ppm checkweigher post"
+		},
+		{
+			"from": "/640-pieces-per-minute-officially-calibrated-5/",
+			"to": "/ua/catalogue/equipment/checkweigher/",
+			"review": "640 ppm checkweigher post"
+		},
+		{
+			"from": "/640-pieces-per-minute-officially-calibrated-6/",
+			"to": "/ua/catalogue/equipment/checkweigher/",
+			"review": "640 ppm checkweigher post"
+		},
+		{
+			"from": "/640-pieces-per-minute-officially-calibrated-7/",
+			"to": "/ua/catalogue/equipment/checkweigher/",
+			"review": "640 ppm checkweigher post"
+		},
+		{
+			"from": "/640-pieces-per-minute-officially-calibrated-8/",
+			"to": "/ua/catalogue/equipment/checkweigher/",
+			"review": "640 ppm checkweigher post"
+		},
+		{
+			"from": "/640-pieces-per-minute-officially-calibrated-9/",
+			"to": "/ua/catalogue/equipment/checkweigher/",
+			"review": "640 ppm checkweigher post"
+		},
+		{
+			"from": "/640-pieces-per-minute-officially-calibrated-10/",
+			"to": "/ua/catalogue/equipment/checkweigher/",
+			"review": "640 ppm checkweigher post"
+		},
+		{
+			"from": "/640-pieces-per-minute-officially-calibrated-11/",
+			"to": "/ua/catalogue/equipment/checkweigher/",
+			"review": "640 ppm checkweigher post"
+		},
+		{
+			"from": "/640-pieces-per-minute-officially-calibrated-12/",
+			"to": "/ua/catalogue/equipment/checkweigher/",
+			"review": "640 ppm checkweigher post"
+		},
+
+		{
+			"from": "/konvejernyj-metallodetektor-transtron-7/",
+			"to": "/ua/catalogue/equipment/metal-detectors/",
+			"review": "Transtron 07, no product page"
+		},
+		{
+			"from": "/truboprovodnyj-metallodetektor-farsh-meatline-07/",
+			"to": "/ua/catalogue/equipment/metal-detectors/",
+			"review": "Meatline 07, no product page"
+		},
+		{
+			"from": "/truboprovodnyj-metallodetektor-pipeline-07/",
+			"to": "/ua/catalogue/equipment/metal-detectors/",
+			"review": "Pipeline 07, no product page"
+		},
+		{
+			"from": "/gravitatsionnyj-metallodetektor-quicktron-07-rh/",
+			"to": "/ua/catalogue/equipment/metal-detectors/",
+			"review": "Quicktron 07 RH, no product page"
+		},
+		{
+			"from": "/gorlovoj-metallodetektor-metron-07-flatline/",
+			"to": "/ua/catalogue/equipment/metal-detectors/",
+			"review": "Metron 07 FlatLine, no product page"
+		},
+		{
+			"from": "/model-pharmatron-07/",
+			"to": "/ua/catalogue/equipment/metal-detectors/",
+			"review": "Pharmatron 07, no product page"
+		},
+		{
+			"from": "/metron-05c/",
+			"to": "/ua/catalogue/equipment/metal-detectors/",
+			"review": "Metron 05C, no product page"
+		},
+		{
+			"from": "/metron-05-s-sl/",
+			"to": "/ua/catalogue/equipment/metal-detectors/",
+			"review": "Metron 05 S SL, no product page"
+		},
+		{
+			"from": "/metron-05-co/",
+			"to": "/ua/catalogue/equipment/metal-detectors/",
+			"review": "Metron 05 CO, no product page"
+		},
+		{
+			"from": "/metron-05-profiline/",
+			"to": "/ua/catalogue/equipment/metal-detectors/",
+			"review": "Metron 05 ProfiLine, no product page"
+		},
+		{
+			"from": "/plastron-05-k/",
+			"to": "/ua/catalogue/equipment/metal-detectors/",
+			"review": "Plastron 05 K, no product page"
+		},
+		{
+			"from": "/quicktron-03-e-metron-05-powerline/",
+			"to": "/ua/catalogue/equipment/metal-detectors/",
+			"review": "Quicktron 03 E / Metron 05 PowerLine, no product page"
+		},
+
+		{
+			"from": "/model-sc/",
+			"to": "/ua/catalogue/equipment/x-ray-inspection/",
+			"review": "SC, no product page"
+		},
+		{
+			"from": "/model-sc-series/",
+			"to": "/ua/catalogue/equipment/x-ray-inspection/",
+			"review": "SC series, no product page"
+		},
+		{
+			"from": "/model-sc-e/",
+			"to": "/ua/catalogue/equipment/x-ray-inspection/",
+			"review": "SC-E, no product page"
+		},
+		{
+			"from": "/model-sc-s/",
+			"to": "/ua/catalogue/equipment/x-ray-inspection/",
+			"review": "SC-S, no product page"
+		},
+		{
+			"from": "/model-sc-w/",
+			"to": "/ua/catalogue/equipment/x-ray-inspection/",
+			"review": "SC-W, no product page"
+		},
+		{
+			"from": "/model-sc-v/",
+			"to": "/ua/catalogue/equipment/x-ray-inspection/",
+			"review": "SC-V, no product page"
+		},
+		{
+			"from": "/sc-b/",
+			"to": "/ua/catalogue/equipment/x-ray-inspection/",
+			"review": "SC-B, no product page"
+		},
+		{
+			"from": "/sc-3000-sc-4000-sc-5000-sc-6000/",
+			"to": "/ua/catalogue/equipment/x-ray-inspection/",
+			"review": "SC 3000-6000, no product page"
+		},
+
+		{ "from": "/sistema-track-trace-2/", "to": "/ua/catalogue/equipment/track-and-trace/" },
+		{ "from": "/sistema-track-trace-6/", "to": "/ua/catalogue/equipment/track-and-trace/" },
+		{ "from": "/sistema-track-trace-7/", "to": "/ua/catalogue/equipment/track-and-trace/" },
+		{
+			"from": "/model-tqs-sp/",
+			"to": "/ua/catalogue/equipment/track-and-trace/",
+			"review": "TQS-SP, no product page"
+		},
+		{
+			"from": "/model-serii-tqs-hc-a/",
+			"to": "/ua/catalogue/equipment/track-and-trace/",
+			"review": "TQS HC-A, no product page"
+		},
+		{
+			"from": "/modeli-serii-tqs-bp/",
+			"to": "/ua/catalogue/equipment/track-and-trace/",
+			"review": "TQS-BP, no product page"
+		},
+		{
+			"from": "/model-tqs-hc-a-te/",
+			"to": "/ua/catalogue/equipment/track-and-trace/",
+			"review": "TQS HC-A TE, no product page"
+		},
+		{
+			"from": "/model-tqs-cp/",
+			"to": "/ua/catalogue/equipment/track-and-trace/",
+			"review": "TQS-CP, no product page"
+		},
+
+		{ "from": "/vystavka-1/", "to": "/ua/about/", "review": "exhibition post" },
+		{ "from": "/vystavka-2/", "to": "/ua/about/", "review": "exhibition post" },
+		{ "from": "/vystavka-3/", "to": "/ua/about/", "review": "exhibition post" },
+		{
+			"from": "/vidbulasya-ix-mizhnarodna-vistavka-obladnennya-ta-tehnologij-dlya-farmatsevtichnoyi-promislovosti-pharmatechexpo/",
+			"to": "/ua/about/",
+			"review": "PharmaTechExpo news"
+		},
+		{
+			"from": "/sostoyalas-ix-mezhdunarodnaya-vystavka-oborudovaniya-i-tehnologij-dlya-farmatsevticheskoj-promyshlennosti-pharmatechexpo/",
+			"to": "/ua/about/",
+			"review": "PharmaTechExpo news"
+		},
+		{
+			"from": "/vidbulasya-x-yubilejna-mizhnarodna-vistavka-obladnennya-ta-tehnologij-dlya-farmatsevtichnoyi-promislovosti-pharmatechexpo/",
+			"to": "/ua/about/",
+			"review": "PharmaTechExpo news"
+		},
+		{
+			"from": "/sostoyalas-x-yubilejnaya-mezhdunarodnaya-vystavka-oborudovaniya-i-tehnologij-dlya-farmatsevticheskoj-promyshlennosti-pharmatechexpo/",
+			"to": "/ua/about/",
+			"review": "PharmaTechExpo news"
+		},
+		{ "from": "/video/", "to": "/ua/", "review": "video post" },
+		{ "from": "/video-2/", "to": "/ua/", "review": "video post" },
+		{ "from": "/video-3/", "to": "/ua/", "review": "video post" },
+		{ "from": "/video-4/", "to": "/ua/", "review": "video post" },
+		{ "from": "/video-5/", "to": "/ua/", "review": "video post" },
+		{ "from": "/video-6/", "to": "/ua/", "review": "video post" },
+		{ "from": "/video-7/", "to": "/ua/", "review": "video post" },
+
+		{
+			"from": "/category/kontrolnye-dinamicheskie-vesy/",
+			"to": "/ua/catalogue/equipment/checkweigher/"
+		},
+		{
+			"from": "/category/kontrolnye-dinamicheskie-vesy/seriya-ekonom-klassa-essential/",
+			"to": "/ua/catalogue/equipment/checkweigher/"
+		},
+		{
+			"from": "/category/kontrolnye-dinamicheskie-vesy/rasshirennaya-seriya-medium/",
+			"to": "/ua/catalogue/equipment/checkweigher/"
+		},
+		{
+			"from": "/category/kontrolnye-dinamicheskie-vesy/vysshaya-seriya-avantgarde/",
+			"to": "/ua/catalogue/equipment/checkweigher/"
+		},
+		{
+			"from": "/category/kontrolnye-dinamicheskie-vesy/logisticheskie-vesy/",
+			"to": "/ua/catalogue/equipment/catchweigher/"
+		},
+		{ "from": "/category/metallodetektory/", "to": "/ua/catalogue/equipment/metal-detectors/" },
+		{
+			"from": "/category/metallodetektory/metallodetektorys/",
+			"to": "/ua/catalogue/equipment/metal-detectors/"
+		},
+		{ "from": "/category/x-ray-skanery/", "to": "/ua/catalogue/equipment/x-ray-inspection/" },
+		{
+			"from": "/category/x-ray-skanery/modeli-serii-sc/",
+			"to": "/ua/catalogue/equipment/x-ray-inspection/"
+		},
+		{
+			"from": "/category/x-ray-skanery/modeli-serii-sc-e/",
+			"to": "/ua/catalogue/equipment/x-ray-inspection/"
+		},
+		{
+			"from": "/category/x-ray-skanery/model-serii-sc-s/",
+			"to": "/ua/catalogue/equipment/x-ray-inspection/"
+		},
+		{
+			"from": "/category/x-ray-skanery/model-serii-sc-w/",
+			"to": "/ua/catalogue/equipment/x-ray-inspection/"
+		},
+		{
+			"from": "/category/x-ray-skanery/model-serii-sc-v/",
+			"to": "/ua/catalogue/equipment/x-ray-inspection/"
+		},
+		{
+			"from": "/category/x-ray-skanery/model-serii-sc-b/",
+			"to": "/ua/catalogue/equipment/x-ray-inspection/"
+		},
+		{
+			"from": "/category/track-amp-trace/model-serii-tqs-sp/",
+			"to": "/ua/catalogue/equipment/track-and-trace/"
+		},
+		{
+			"from": "/category/track-amp-trace/model-serii-tqs-hc-a/",
+			"to": "/ua/catalogue/equipment/track-and-trace/"
+		},
+		{
+			"from": "/category/track-amp-trace/model-serii-tqs-hc-a-te/",
+			"to": "/ua/catalogue/equipment/track-and-trace/"
+		},
+		{
+			"from": "/category/track-amp-trace/modeli-serii-tqs-bp/",
+			"to": "/ua/catalogue/equipment/track-and-trace/"
+		},
+		{
+			"from": "/category/track-amp-trace/model-serii-tqs-cp/",
+			"to": "/ua/catalogue/equipment/track-and-trace/"
+		},
+		{
+			"from": "/category/product-finder/food/checkweighers/",
+			"to": "/ua/catalogue/industry/food-beverage/"
+		},
+		{
+			"from": "/category/product-finder/food/x-ray-amp-vision/",
+			"to": "/ua/catalogue/industry/food-beverage/"
+		},
+		{
+			"from": "/category/product-finder/food/metal-detection/",
+			"to": "/ua/catalogue/industry/food-beverage/"
+		},
+		{
+			"from": "/category/product-finder/pharmaceutical/checkweighers-pharmaceutical/",
+			"to": "/ua/catalogue/industry/pharmaceutical/"
+		},
+		{
+			"from": "/category/product-finder/pharmaceutical/x-ray/",
+			"to": "/ua/catalogue/industry/pharmaceutical/"
+		},
+		{
+			"from": "/category/product-finder/cosmetics/checkweighers-cosmetics/",
+			"to": "/ua/catalogue/industry/cosmetics/"
+		},
+		{
+			"from": "/category/product-finder/cosmetics/x-ray-cosmetics/",
+			"to": "/ua/catalogue/industry/cosmetics/"
+		},
+		{
+			"from": "/category/product-finder/mail-amp-logistics/checkweighers-mail-amp-logistics/",
+			"to": "/ua/catalogue/industry/logistics/"
+		},
+		{
+			"from": "/category/product-finder/building-amp-mineral-compounts/checkweighers-building-amp-mineral-compounts/",
+			"to": "/ua/catalogue/equipment/checkweigher/",
+			"review": "building and mineral compounds, no such industry"
+		},
+		{ "from": "/category/nash-opyt/", "to": "/ua/about/" },
+		{ "from": "/category/experience/", "to": "/ua/about/" },
+		{ "from": "/category/otchety/", "to": "/ua/about/", "review": "reports category" },
+		{ "from": "/category/novosti/", "to": "/ua/about/", "review": "news category" },
+		{ "from": "/category/vystvvki/", "to": "/ua/about/", "review": "exhibitions category" },
+		{ "from": "/category/video/", "to": "/ua/", "review": "video category" },
+		{ "from": "/category/slider/", "to": "/ua/", "review": "internal slider category" },
+		{ "from": "/category/slider_choice/", "to": "/ua/", "review": "internal slider category" },
+		{ "from": "/category/bez-rubriki/", "to": "/ua/", "review": "uncategorized" },
+
+		{ "from": "/tag/food/", "to": "/ua/catalogue/industry/food-beverage/" },
+		{ "from": "/tag/pharmaceutical/", "to": "/ua/catalogue/industry/pharmaceutical/" },
+		{ "from": "/tag/cosmetics/", "to": "/ua/catalogue/industry/cosmetics/" },
+		{ "from": "/tag/mail-amp-logistics/", "to": "/ua/catalogue/industry/logistics/" },
+		{
+			"from": "/tag/aerozoli/",
+			"to": "/ua/catalogue/industry/cosmetics/",
+			"review": "aerosols tag, closest industry is Cosmetics"
+		},
+		{ "from": "/author/admin1/", "to": "/ua/", "review": "WordPress author archive" }
+	]
+}

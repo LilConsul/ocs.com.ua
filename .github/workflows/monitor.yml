@@ -1,0 +1,41 @@
+# Uptime check of ocs.com.ua every 30 minutes, once the new site is live (PROD_LIVE=true).
+# A failed run is a red X in the Actions tab and an email to whoever last changed this
+# schedule (GitHub's notification for scheduled workflows).
+
+name: Monitor
+
+on:
+  schedule:
+    - cron: "17,47 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  uptime:
+    if: ${{ vars.PROD_LIVE == 'true' }}
+    runs-on: ubuntu-26.04
+    timeout-minutes: 5
+    env:
+      SITE: https://ocs.com.ua
+    steps:
+      # The home page and llms.txt (Apache, static files) and the Node server behind the CMS and
+      # the forms (/admin/config.yml is rendered by it)
+      - name: Site and Node server answer
+        run: |
+          check() {
+            for i in 1 2 3; do
+              code=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 "${SITE}$1" || echo 000)
+              case " $2 " in *" $code "*) echo "OK $1 ($code)"; return 0 ;; esac
+              echo "Attempt $i: $1 answered $code"
+              sleep 10
+            done
+            echo "::error::${SITE}$1 is down (expected $2, got $code)"
+            return 1
+          }
+          status=0
+          check /ua/ "200" || status=1
+          check /admin/config.yml "200" || status=1
+          check /llms.txt "200" || status=1
+          exit $status

@@ -1,0 +1,69 @@
+# Puts an earlier release back live, without building anything. Each deploy keeps the last
+# releases on the server (see _deploy.yml). Pick the site; leave "release" empty for the one
+# before the live one, or give a directory name from the deploy log ("Remove old releases").
+
+name: Rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      site:
+        description: Site to roll back
+        type: choice
+        options: [prod, dev]
+        required: true
+      release:
+        description: Release directory name (empty = the one before the live release)
+        type: string
+        required: false
+
+concurrency:
+  # Never at the same time as a deploy of the same site
+  group: deploy-${{ inputs.site }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  rollback:
+    runs-on: ubuntu-26.04
+    timeout-minutes: 5
+    env:
+      SSH_TARGET: ${{ secrets.DEV_SSH_USER }}@${{ secrets.DEV_SSH_HOST }}
+      DOMAIN_DIR: ${{ inputs.site == 'prod' && '/home/ocs/domains/ocs.com.ua' || '/home/ocs/domains/dev.ocs.com.ua' }}
+      SERVICE: ${{ inputs.site == 'prod' && 'ocs-prod' || 'ocs-dev' }}
+      PORT: ${{ inputs.site == 'prod' && '4322' || '4321' }}
+      RELEASE: ${{ inputs.release }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Configure SSH
+        uses: ./.github/actions/configure-ssh
+        with:
+          ssh-key: ${{ secrets.DEV_SSH_KEY }}
+          known-hosts: ${{ secrets.DEV_SSH_KNOWN_HOSTS }}
+      - name: Switch release
+        run: |
+          ssh "$SSH_TARGET" "DOMAIN_DIR='${DOMAIN_DIR}' SERVICE='${SERVICE}' PORT='${PORT}' RELEASE='${RELEASE}' bash -s" <<'EOF'
+            set -euo pipefail
+            LIVE=$(readlink -f "$DOMAIN_DIR/app")
+            echo "Live: $LIVE"
+            if [ -n "$RELEASE" ]; then
+              case "$RELEASE" in */*|.*) echo "Give a directory name, not a path"; exit 1 ;; esac
+              TARGET="$DOMAIN_DIR/releases/$RELEASE"
+            else
+              # Release names start with their UTC date, so sorting orders them by age
+              TARGET=$(ls -1d "$DOMAIN_DIR"/releases/*/ | sed 's#/$##' | sort -r | awk -v live="$LIVE" 'found { print; exit } $0 == live { found = 1 }')
+            fi
+            [ -n "$TARGET" ] && [ -d "$TARGET" ] || { echo "No release to go back to"; ls -1 "$DOMAIN_DIR/releases"; exit 1; }
+            echo "Switching to: $TARGET"
+            ln -sfn "$TARGET" "$DOMAIN_DIR/app.new"
+            mv -T "$DOMAIN_DIR/app.new" "$DOMAIN_DIR/app"
+            sudo /usr/bin/systemctl restart "$SERVICE"
+            for i in $(seq 1 20); do
+              curl -fsS -o /dev/null "http://127.0.0.1:${PORT}/admin/config.yml" && { echo "Healthy."; exit 0; }
+              sleep 1
+            done
+            echo "The rolled-back release does not answer either"
+            exit 1
+          EOF

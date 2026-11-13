@@ -86,6 +86,15 @@ grep -o "\.md)" dist/client/llms.txt | wc -l            # copies linked from /ll
 
   It reads the live sitemap and submits the pages whose `<lastmod>` is newer, so Bing (and through it ChatGPT search and Copilot) learns about them within minutes. Use `--dry-run` to see the request first. Never run it for the dev site.
 
+## Old WordPress addresses
+
+The WordPress site that ocs.com.ua serves today has 159 addresses in its sitemap (`/hc-a/`, `/kontakty/`, `/category/x-ray-skanery/...`). Search engines, partner sites and AI tools know them. [`src/data/legacy-redirects.json`](../../application/frontend/src/data/legacy-redirects.json) maps each one to its new page; the build turns them into `RedirectMatch 301` rules in `dist/client/.htaccess` (`/` is already redirected to `/ua/`). Each old address matches with or without its trailing slash.
+
+- Entries with a `review` note are judgment calls: an old page with no exact new counterpart (an old model, a news post) sent to the closest page. When a product page is added later, point its old address at it.
+- `tests/data/legacy-redirects.test.ts` fails when a target page does not exist, for example after renaming a product, or when an old address is listed twice.
+- The dev verify job checks three of them on the live site.
+- Addresses that were never in the old sitemap (attachments, feeds, `?p=123`) are not mapped. Watch the 404 report in Search Console after launch and add what shows up.
+
 ## Checklist outside the code
 
 - Register `ocs.com.ua` in Bing Webmaster Tools and submit `sitemap-index.xml`. ChatGPT search and Copilot rely on the Bing index.
