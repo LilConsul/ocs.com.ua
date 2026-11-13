@@ -54,7 +54,9 @@ permissions:
   contents: read
 
 env:
-  SSH_TARGET: ${{ secrets.DEV_SSH_USER }}@${{ secrets.DEV_SSH_HOST }}
+  # The user name is a variable, not a secret: GitHub masks every secret value in the logs, and a
+  # secret "ocs" turned every "ocs.com.ua" into "***.com.ua". The secret is a fallback until removed.
+  SSH_TARGET: ${{ vars.SSH_USER || secrets.DEV_SSH_USER }}@${{ secrets.DEV_SSH_HOST }}
   DOMAIN_DIR: ${{ inputs.domain_dir }}
   SERVICE: ${{ inputs.service }}
   PORT: ${{ inputs.port }}
@@ -206,7 +208,7 @@ jobs:
     # Listed under "Deployments" on the repository page: every deploy with its commit, status and
     # a link to the site, and which commit is live on each site
     environment:
-      name: ${{ inputs.environment == 'prod' && 'production' || 'dev' }}
+      name: ${{ inputs.environment }}
       url: ${{ inputs.site_url }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
