@@ -137,28 +137,29 @@ Set these under **Settings → Secrets and variables → Actions**. Both sites r
 
 ### Secrets
 
-| Name                                                                 | Used for                                                                 |
-| -------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| `DEV_SSH_HOST`, `DEV_SSH_USER`, `DEV_SSH_KEY`, `DEV_SSH_KNOWN_HOSTS` | SSH to the server (both sites)                                           |
-| `DEV_GITHUB_CLIENT_ID`, `DEV_GITHUB_CLIENT_SECRET`                   | OAuth app of dev.ocs.com.ua → `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET` |
-| `PROD_GITHUB_CLIENT_ID`, `PROD_GITHUB_CLIENT_SECRET`                 | OAuth app of ocs.com.ua (callback `https://ocs.com.ua/api/auth`)         |
-| `DEV_RECAPTCHA_SECRET_KEY`                                           | reCAPTCHA secret (both sites) → `RECAPTCHA_SECRET_KEY`                   |
-| `DEV_DATASHEET_TOKEN_SECRET`                                         | Datasheet link signing key (both sites) → `DATASHEET_TOKEN_SECRET`       |
-| `SMTP_USER`, `SMTP_PASS`                                             | SMTP account (both sites)                                                |
+| Name                                                 | Used for                                                                 |
+| ---------------------------------------------------- | ------------------------------------------------------------------------ |
+| `DEV_SSH_HOST`, `DEV_SSH_KEY`, `DEV_SSH_KNOWN_HOSTS` | SSH to the server (both sites)                                           |
+| `DEV_GITHUB_CLIENT_ID`, `DEV_GITHUB_CLIENT_SECRET`   | OAuth app of dev.ocs.com.ua → `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET` |
+| `PROD_GITHUB_CLIENT_ID`, `PROD_GITHUB_CLIENT_SECRET` | OAuth app of ocs.com.ua (callback `https://ocs.com.ua/api/auth`)         |
+| `DEV_RECAPTCHA_SECRET_KEY`                           | reCAPTCHA secret (both sites) → `RECAPTCHA_SECRET_KEY`                   |
+| `DEV_DATASHEET_TOKEN_SECRET`                         | Datasheet link signing key (both sites) → `DATASHEET_TOKEN_SECRET`       |
+| `SMTP_USER`, `SMTP_PASS`                             | SMTP account (both sites)                                                |
 
 A GitHub OAuth app accepts callbacks for one host only, which is why the CMS login is the one thing each site has its own of.
 
 ### Variables
 
-| Name                                               | Used for                                                                                       |
-| -------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| `PROD_ENABLED`                                     | `true` to let `deploy-prod.yml` run (set once the `PROD_GITHUB_*` secrets exist)               |
-| `PROD_LIVE`                                        | `true` once `launch-prod.sh` has switched ocs.com.ua (public checks, IndexNow, uptime monitor) |
-| `DEV_RECAPTCHA_SITE_KEY`                           | reCAPTCHA public key (both sites; the key must list both domains)                              |
-| `CONTACT_FROM`                                     | Contact form sender (both sites)                                                               |
-| `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`            | SMTP server (both sites)                                                                       |
-| `DEV_CONTACT_TO`                                   | Contact form recipient on dev; prod uses the default `info@ocs.com.ua`                         |
-| `DEV_SHOW_CLIENT_EQUIPMENT`, `DEV_SITE_DEV_NOTICE` | Feature flags on dev (listed in the dev manifest, so they must be set); off on prod            |
+| Name                                               | Used for                                                                                                                                                                     |
+| -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `SSH_USER`                                         | SSH user on the server (`ocs`, both sites). A variable, not a secret: GitHub masks secret values in every log, and a secret `ocs` turned each `ocs.com.ua` into `***.com.ua` |
+| `PROD_ENABLED`                                     | `true` to let `deploy-prod.yml` run (set once the `PROD_GITHUB_*` secrets exist)                                                                                             |
+| `PROD_LIVE`                                        | `true` once `launch-prod.sh` has switched ocs.com.ua (public checks, IndexNow, uptime monitor)                                                                               |
+| `DEV_RECAPTCHA_SITE_KEY`                           | reCAPTCHA public key (both sites; the key must list both domains)                                                                                                            |
+| `CONTACT_FROM`                                     | Contact form sender (both sites)                                                                                                                                             |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`            | SMTP server (both sites)                                                                                                                                                     |
+| `DEV_CONTACT_TO`                                   | Contact form recipient on dev; prod uses the default `info@ocs.com.ua`                                                                                                       |
+| `DEV_SHOW_CLIENT_EQUIPMENT`, `DEV_SITE_DEV_NOTICE` | Feature flags on dev (listed in the dev manifest, so they must be set); off on prod                                                                                          |
 
 Feature flags are build-time only. An unset variable resolves to an empty string, which `astro:env` treats as unset, so the default applies.
 

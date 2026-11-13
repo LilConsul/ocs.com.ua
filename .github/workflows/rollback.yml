@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-26.04
     timeout-minutes: 5
     env:
-      SSH_TARGET: ${{ secrets.DEV_SSH_USER }}@${{ secrets.DEV_SSH_HOST }}
+      SSH_TARGET: ${{ vars.SSH_USER || secrets.DEV_SSH_USER }}@${{ secrets.DEV_SSH_HOST }}
       DOMAIN_DIR: ${{ inputs.site == 'prod' && '/home/ocs/domains/ocs.com.ua' || '/home/ocs/domains/dev.ocs.com.ua' }}
       SERVICE: ${{ inputs.site == 'prod' && 'ocs-prod' || 'ocs-dev' }}
       PORT: ${{ inputs.site == 'prod' && '4322' || '4321' }}
