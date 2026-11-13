@@ -25,8 +25,8 @@ After launch, a deploy that fails its health check goes back to the previous rel
 
 - [x] **Server setup** (once, as root): `ssh root@<server> 'bash -s' < application/infra/server/setup-prod.sh`
 - [x] **OAuth app for the CMS** on GitHub (Settings → Developer settings → OAuth Apps), callback `https://ocs.com.ua/api/auth`. Save its ID and secret as the `PROD_GITHUB_CLIENT_ID` and `PROD_GITHUB_CLIENT_SECRET` repository secrets.
-- [ ] **reCAPTCHA:** add `ocs.com.ua` to the allowed domains of the existing key (Google reCAPTCHA admin console). Without it every contact and datasheet form on ocs.com.ua is rejected.
-- [ ] **Turn on prod deploys:** repository variable `PROD_ENABLED=true`, then run **Deploy prod** once. It must end with "Staged release ... is ready".
+- [x] **reCAPTCHA:** add `ocs.com.ua` to the allowed domains of the existing key (Google reCAPTCHA admin console). Without it every contact and datasheet form on ocs.com.ua is rejected.
+- [x] **Turn on prod deploys:** repository variable `PROD_ENABLED=true`, then run **Deploy prod** once. It must end with "Staged release ... is ready".
 - [ ] **Review the old-address map.** Check the entries marked `review` in [`legacy-redirects.json`](../../application/frontend/src/data/legacy-redirects.json); point any old model at its new product page once it exists.
 - [ ] **Content.** Fill or hide the categories without products (Metal Detectors, Miscellaneous, Track & Trace, X-Ray Inspection).
 - [ ] **Privacy policy.** The Plerdy section (sections 6, 7 and 10) is a draft: have it checked, and decide whether a cookie consent banner is needed for analytics cookies.
