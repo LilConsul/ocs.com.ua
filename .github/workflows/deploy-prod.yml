@@ -1,0 +1,48 @@
+# Deploys main to https://ocs.com.ua. CMS publishes are commits to main, so content edits go
+# live the same way.
+#
+# Two repository variables steer it:
+#   PROD_ENABLED=true  deploy at all (set once PROD_GITHUB_CLIENT_ID/SECRET exist)
+#   PROD_LIVE=true     ocs.com.ua serves this site (set on launch day, see
+#                      docs/info/production-launch.md). Until then each release is staged on the
+#                      server and checked there, while ocs.com.ua keeps serving WordPress.
+
+name: Deploy prod
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "application/frontend/**"
+      - "application/infra/**"
+      - ".github/workflows/deploy-prod.yml"
+      - ".github/workflows/_deploy.yml"
+      - ".github/actions/**"
+      # The map of secrets and variables rendered into the server env file
+      - ".github/secrets.prod.yaml"
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-prod
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  prod:
+    if: ${{ vars.PROD_ENABLED == 'true' }}
+    uses: ./.github/workflows/_deploy.yml
+    secrets: inherit
+    with:
+      environment: prod
+      site_url: https://ocs.com.ua
+      domain_dir: /home/ocs/domains/ocs.com.ua
+      service: ocs-prod
+      port: 4322
+      apache_conf: application/infra/apache/ocs.com.ua.ocs.conf
+      manifest: .github/secrets.prod.yaml
+      llms_indexing: true
+      # Public by design: IndexNow checks it at https://ocs.com.ua/<key>.txt
+      indexnow_key: aadc0de3f11757823c84699890a1ee67
+      live: ${{ vars.PROD_LIVE == 'true' }}
