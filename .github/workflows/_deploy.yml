@@ -112,6 +112,8 @@ jobs:
       CMS_BASE_URL: ${{ inputs.site_url }}
       LLMS_INDEXING: ${{ inputs.llms_indexing }}
       INDEXNOW_KEY: ${{ inputs.indexnow_key }}
+      # The CMS commits to main, which is production: only ocs.com.ua/admin may edit content
+      CMS_ENABLED: ${{ inputs.environment == 'prod' && 'true' || 'false' }}
       # reCAPTCHA, datasheet links and SMTP are shared by both sites
       RECAPTCHA_SITE_KEY: ${{ vars.DEV_RECAPTCHA_SITE_KEY }}
       RECAPTCHA_SECRET_KEY: ${{ secrets.DEV_RECAPTCHA_SECRET_KEY }}
@@ -435,6 +437,17 @@ jobs:
           expect_redirect /kontakty/ /ua/contact/
           expect_redirect /hc-a /ua/catalogue/equipment/checkweigher/hc-a/
           expect_redirect /category/x-ray-skanery/model-serii-sc-e/ /ua/catalogue/equipment/x-ray-inspection/
+
+      # Dev has no CMS (CMS_ENABLED=false): /admin points to ocs.com.ua and the login refuses
+      - name: CMS only on production
+        if: ${{ inputs.environment == 'dev' }}
+        working-directory: .
+        run: |
+          admin=$(curl -fsS "${E2E_BASE_URL}/admin/")
+          grep -q 'url=https://ocs.com.ua/admin/' <<<"$admin" || { echo "/admin/ must redirect to https://ocs.com.ua/admin/"; exit 1; }
+          code=$(curl -sS -o /dev/null -w '%{http_code}' "${E2E_BASE_URL}/api/auth")
+          echo "/api/auth -> $code"
+          [ "$code" = "404" ] || { echo "/api/auth must refuse on dev"; exit 1; }
 
       # Indexing must match the build: dev (LLMS_INDEXING=false) closed, prod open
       - name: Indexing matches the build
