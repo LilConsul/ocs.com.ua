@@ -7,10 +7,18 @@ import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, envField } from "astro/config";
 import { loadEnv } from "vite";
+import { seoIntegration, sitemapLastmod } from "./scripts/seo-build.mjs";
 
 // Astro reads .env files only after this config is evaluated, so load them here for `site`.
 // Real environment variables (CI) still take precedence over the files.
-const { SITE_URL } = loadEnv(process.env.NODE_ENV || "production", process.cwd(), "");
+const { SITE_URL, LLMS_INDEXING, INDEXNOW_KEY } = loadEnv(
+	process.env.NODE_ENV || "production",
+	process.cwd(),
+	""
+);
+// Same rule as the astro:env schema below: on unless set to "false"
+const indexing = LLMS_INDEXING?.trim().toLowerCase() !== "false";
+const lastmod = sitemapLastmod(fileURLToPath(new URL(".", import.meta.url)));
 
 // The datasheet PDFs are not part of public/, so Astro does not emit them. Copy them next to
 // dist/client (not into it) so Apache never serves them; the Node server reads them from there.
@@ -43,8 +51,14 @@ export default defineConfig({
 			},
 			// Emits <xhtml:link hreflang> alternates, matching the <link rel="alternate"> tags
 			i18n: { defaultLocale: "ua", locales: { ua: "uk", en: "en" } },
+			// <lastmod> from the git history of the page's content and data files
+			serialize: (item) => {
+				const date = lastmod(item.url);
+				return date ? { ...item, lastmod: date } : item;
+			},
 		}),
 		copyDatasheets,
+		seoIntegration({ indexing, indexNowKey: INDEXNOW_KEY?.trim() || undefined }),
 	],
 	vite: {
 		plugins: [
@@ -104,6 +118,12 @@ export default defineConfig({
 
 			// Show the "website in active development" banner above the header (build-time; hidden by default)
 			SITE_DEV_NOTICE: envField.boolean({ context: "server", access: "public", default: false }),
+			// Let search engines and AI crawlers index the site (build-time). Off on the dev site, so
+			// dev.ocs.com.ua never competes with ocs.com.ua: robots.txt blocks all, pages get noindex.
+			LLMS_INDEXING: envField.boolean({ context: "server", access: "public", default: true }),
+			// IndexNow key (8-128 of a-z, A-Z, 0-9, "-"). When set, the build writes /<key>.txt so
+			// application/infra/scripts/indexnow.py can tell Bing and Yandex about changed pages.
+			INDEXNOW_KEY: envField.string({ context: "server", access: "public", optional: true }),
 
 			// === About page ===
 

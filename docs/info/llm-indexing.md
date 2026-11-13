@@ -68,6 +68,24 @@ find dist/client/ua dist/client/en -name "*.md" | wc -l  # Markdown copies
 grep -o "\.md)" dist/client/llms.txt | wc -l            # copies linked from /llms.txt
 ```
 
+## Crawling rules
+
+- **Indexing on or off:** `LLMS_INDEXING` (default `true`) decides whether crawlers may index the build. The dev deploy fixes it to `false`: `robots.txt` becomes `Disallow: /`, pages get `noindex, nofollow`, and every file is served with `X-Robots-Tag: noindex, nofollow`. See [Environment](environment.md#search-and-ai-indexing).
+
+- **Trailing slash:** pages are served as directories (`/ua/about/`), so every link to them, in HTML, Markdown copies and `/llms.txt`, ends with `/`. A link without it costs a 301 redirect. The URL helpers in `src/lib/catalogue-urls.ts` and `src/lib/llms.ts` add it, the Markdown copies add it to links written in content, and PR CI runs `bun run check:links` on the build.
+
+- **`<lastmod>` in the sitemap:** the date of the last commit touching each page's content or data files (`scripts/seo-build.mjs`). Builds from a shallow clone leave it out instead of dating every page the same.
+
+- **Caching:** hashed `/_astro/` files are cached for a year (`public/.htaccess`). Page speed counts toward search ranking.
+
+- **IndexNow:** with `INDEXNOW_KEY` set, the build writes `/<key>.txt`. After a production deploy, run:
+
+  ```bash
+  uv run application/infra/scripts/indexnow.py https://ocs.com.ua --key "$INDEXNOW_KEY" --since "<time of the previous deploy>"
+  ```
+
+  It reads the live sitemap and submits the pages whose `<lastmod>` is newer, so Bing (and through it ChatGPT search and Copilot) learns about them within minutes. Use `--dry-run` to see the request first. Never run it for the dev site.
+
 ## Checklist outside the code
 
 - Register `ocs.com.ua` in Bing Webmaster Tools and submit `sitemap-index.xml`. ChatGPT search and Copilot rely on the Bing index.

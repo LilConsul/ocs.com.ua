@@ -68,6 +68,15 @@ Feature flags are public booleans that default to `false`. They are inlined when
 | `SITE_DEV_NOTICE`       | `false` | Show the "website in active development" banner above the header |
 | `SHOW_CLIENT_EQUIPMENT` | `false` | Show per-client equipment counts on the About page cards and map |
 
+### Search and AI indexing
+
+Build-time values, like the feature flags. Unlike them, `LLMS_INDEXING` defaults to `true`, so a production build is indexable unless told otherwise.
+
+| Variable        | Default | Effect                                                                                                                                                                                                                                                                                                                                                       |
+| --------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `LLMS_INDEXING` | `true`  | `false` keeps every crawler out: `robots.txt` is `Disallow: /`, pages get `<meta name="robots" content="noindex, nofollow">`, and the build adds an `X-Robots-Tag: noindex, nofollow` header for every file (`.md`, `.txt` and PDFs too) to `dist/client/.htaccess`. Fixed to `false` in `deploy-dev.yml`, so dev.ocs.com.ua never competes with ocs.com.ua. |
+| `INDEXNOW_KEY`  | —       | IndexNow key, 8 to 128 characters of `a-z`, `A-Z`, `0-9` and `-` (for example `openssl rand -hex 16`). When set, and indexing is on, the build writes `/<key>.txt`, which [`indexnow.py`](../../application/infra/scripts/indexnow.py) needs. Production only.                                                                                               |
+
 ______________________________________________________________________
 
 ## GitHub OAuth App (CMS login)

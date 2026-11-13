@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { AI_CRAWLERS, GET } from "@/pages/robots.txt";
+import { AI_CRAWLERS, GET, robotsTxt } from "@/pages/robots.txt";
 
 const render = async (site: string) => {
 	const response = await GET({ site: new URL(site) } as Parameters<typeof GET>[0]);
@@ -49,5 +49,18 @@ describe("robots.txt: AI crawlers", () => {
 		expect(lines).toContain("Allow: /");
 		expect(lines).toContain("Disallow: /admin/");
 		expect(lines).toContain("Disallow: /api/");
+	});
+});
+
+describe("robots.txt: indexing off (dev site)", () => {
+	const body = robotsTxt(new URL("https://dev.ocs.com.ua"), false);
+
+	it("blocks every crawler from the whole site", () => {
+		expect(body).toBe("User-agent: *\nDisallow: /\n");
+	});
+
+	it("names no crawler and no sitemap", () => {
+		expect(body).not.toContain("GPTBot");
+		expect(body).not.toContain("Sitemap:");
 	});
 });

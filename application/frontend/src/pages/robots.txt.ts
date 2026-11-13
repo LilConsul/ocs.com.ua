@@ -1,3 +1,4 @@
+import { LLMS_INDEXING } from "astro:env/server";
 import type { APIRoute } from "astro";
 
 // AI search and training crawlers, named so they are explicitly welcome. A crawler obeys only the
@@ -18,10 +19,14 @@ export const AI_CRAWLERS = [
 // Decap CMS and the on-demand endpoints (OAuth, contact form) are not content
 const PRIVATE = ["Disallow: /admin/", "Disallow: /api/"];
 
-// Built per environment so the Sitemap line always matches the configured `site`
-export const GET: APIRoute = ({ site }) => {
+/**
+ * robots.txt for the given site. With indexing off (LLMS_INDEXING=false, the dev site) every
+ * crawler is kept out, so the dev copy never competes with ocs.com.ua in search or AI answers.
+ */
+export function robotsTxt(site: URL, indexing: boolean): string {
+	if (!indexing) return ["User-agent: *", "Disallow: /", ""].join("\n");
 	const sitemap = new URL("sitemap-index.xml", site);
-	const body = [
+	return [
 		"User-agent: *",
 		...PRIVATE,
 		"",
@@ -32,5 +37,10 @@ export const GET: APIRoute = ({ site }) => {
 		`Sitemap: ${sitemap.href}`,
 		"",
 	].join("\n");
-	return new Response(body, { headers: { "Content-Type": "text/plain; charset=utf-8" } });
-};
+}
+
+// Built per environment so the Sitemap line always matches the configured `site`
+export const GET: APIRoute = ({ site }) =>
+	new Response(robotsTxt(site ?? new URL("https://ocs.com.ua"), LLMS_INDEXING), {
+		headers: { "Content-Type": "text/plain; charset=utf-8" },
+	});

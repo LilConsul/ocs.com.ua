@@ -30,6 +30,7 @@ mock.module("astro:env/server", () => ({
 	CONTACT_FROM: "noreply@ocs.test",
 	CONTACT_TO: "info@ocs.test",
 	DATASHEET_TOKEN_SECRET: "test-datasheet-secret-0123456789abcdef",
+	LLMS_INDEXING: true,
 	RECAPTCHA_SECRET_KEY: "test-secret",
 	SITE_URL: "https://ocs.test",
 	SMTP_HOST: "smtp.ocs.test",

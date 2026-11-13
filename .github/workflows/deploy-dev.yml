@@ -92,8 +92,17 @@ jobs:
       SMTP_PASS: ${{ secrets.SMTP_PASS }}
       SHOW_CLIENT_EQUIPMENT: ${{ vars.DEV_SHOW_CLIENT_EQUIPMENT }}
       SITE_DEV_NOTICE: ${{ vars.DEV_SITE_DEV_NOTICE }}
+      # Fixed here, not a repository variable, so it cannot be switched on by mistake: the dev
+      # site must never compete with ocs.com.ua in search or AI answers (robots.txt blocks all,
+      # every page and file is noindex)
+      LLMS_INDEXING: false
     steps:
+      # Full commit history without file contents (cheap): the sitemap's <lastmod> comes from
+      # the last commit touching each page's content, which a shallow clone cannot tell
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          filter: blob:none
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 22
@@ -285,7 +294,7 @@ jobs:
       - name: Public health check
         working-directory: .
         run: |
-          for path in /ua /en /admin/config.yml /robots.txt /llms.txt /llms-full.txt /ua/index.md /ua/about.md; do
+          for path in /ua/ /en/ /admin/config.yml /robots.txt /llms.txt /llms-full.txt /ua/index.md /ua/about.md; do
             for i in $(seq 1 10); do
               if curl -fsS -o /dev/null "${E2E_BASE_URL}${path}"; then
                 echo "OK ${path}"
@@ -298,17 +307,36 @@ jobs:
             exit 1
           done
 
-      # AI tools read the Markdown page copies as text; a missing type would make them a download
-      - name: Content types of the LLM files
+      # AI tools read the Markdown page copies as text; a missing type would make them a download.
+      # Hashed /_astro/ files must be cached for a year (public/.htaccess, needs mod_headers).
+      - name: Headers of the LLM files and static assets
         working-directory: .
         run: |
-          check() {
-            type=$(curl -fsS -o /dev/null -w '%{content_type}' "${E2E_BASE_URL}$1")
-            echo "$1: $type"
-            case "$type" in "$2"*) ;; *) echo "Expected $2"; exit 1 ;; esac
+          header() { curl -fsS -o /dev/null -D - "${E2E_BASE_URL}$1" | tr -d '\r' | grep -i "^$2:" | cut -d' ' -f2-; }
+          expect() {
+            value=$(header "$1" "$2")
+            echo "$1 $2: ${value:-<none>}"
+            case "$value" in *"$3"*) ;; *) echo "Expected \"$3\""; exit 1 ;; esac
           }
-          check /llms.txt text/plain
-          check /ua/about.md text/markdown
+          expect /llms.txt content-type text/plain
+          expect /ua/about.md content-type text/markdown
+          asset=$(curl -fsS "${E2E_BASE_URL}/ua/" | grep -o '/_astro/[^"]*\.css' | head -1)
+          expect "$asset" cache-control immutable
+
+      # LLMS_INDEXING=false on dev: nothing may be indexed
+      - name: Dev site is not indexable
+        working-directory: .
+        run: |
+          robots=$(curl -fsS "${E2E_BASE_URL}/robots.txt")
+          echo "$robots"
+          echo "$robots" | grep -qx "Disallow: /" || { echo "robots.txt must disallow everything"; exit 1; }
+          curl -fsS "${E2E_BASE_URL}/ua/" | grep -q '<meta name="robots" content="noindex, nofollow">' \
+            || { echo "pages must carry noindex"; exit 1; }
+          for path in /ua/ /ua/about.md /llms.txt; do
+            tag=$(curl -fsS -o /dev/null -D - "${E2E_BASE_URL}${path}" | tr -d '\r' | grep -i '^x-robots-tag:' || true)
+            echo "${path}: ${tag:-<none>}"
+            echo "$tag" | grep -qi noindex || { echo "X-Robots-Tag noindex missing on ${path}"; exit 1; }
+          done
 
       - run: bun install --frozen-lockfile
 

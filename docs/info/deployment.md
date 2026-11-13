@@ -4,10 +4,10 @@ ______________________________________________________________________
 
 ## Pipelines
 
-| Workflow                                                   | Trigger                                                                                                                      | What it does                                                                                          |
-| ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| [`ci.yml`](../../.github/workflows/ci.yml)                 | Pull requests touching `frontend/`, `infra/` or the workflow                                                                 | Biome, frontend unit tests, e2e (one job per browser, WebKit in two shards), image check, infra tests |
-| [`deploy-dev.yml`](../../.github/workflows/deploy-dev.yml) | Push to `main` touching `frontend/`, `infra/`, the workflow, `.github/actions/` or `.github/secrets.dev.yaml`, or manual run | Test and build in parallel, deploy to https://dev.ocs.com.ua, then health check and e2e against it    |
+| Workflow                                                   | Trigger                                                                                                                      | What it does                                                                                                                       |
+| ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| [`ci.yml`](../../.github/workflows/ci.yml)                 | Pull requests touching `frontend/`, `infra/` or the workflow                                                                 | Biome, frontend unit tests, e2e (one job per browser, WebKit in three shards), trailing-slash link check, image check, infra tests |
+| [`deploy-dev.yml`](../../.github/workflows/deploy-dev.yml) | Push to `main` touching `frontend/`, `infra/`, the workflow, `.github/actions/` or `.github/secrets.dev.yaml`, or manual run | Test and build in parallel, deploy to https://dev.ocs.com.ua, then health check and e2e against it                                 |
 
 CMS publishes are commits to `main`, so content edits deploy the same way as code.
 
@@ -30,7 +30,8 @@ Runs next to the build job: Biome (`bun run ci`), `bun test` and the infra `pyte
 
 ### Build job
 
-1. `bun run build` produces `application/frontend/dist/`.
+1. The checkout has the full commit history without file contents (`fetch-depth: 0`, `filter: blob:none`), so the sitemap `<lastmod>` dates can come from git. A shallow clone leaves them out.
+1. `bun run build` produces `application/frontend/dist/`, with `LLMS_INDEXING=false` fixed in the workflow (see [Environment](environment.md#search-and-ai-indexing)).
 1. The server bundle is imported once with `node_modules` removed, to prove it is self-contained. Server dependencies are bundled into `dist/server` (`ssr.noExternal` in `astro.config.mjs`); only `sharp` stays external and is never loaded at runtime because images are processed at build time.
 1. `dist/` and `package.json` are uploaded as an artifact (hidden files included, for `dist/client/.htaccess`).
 
@@ -45,7 +46,7 @@ Runs next to the build job: Biome (`bun run ci`), `bun test` and the infra `pyte
 
 ### Verify job
 
-Runs after the deploy job. It requests `/ua`, `/en`, `/admin/config.yml`, `/robots.txt` and the LLM files (`/llms.txt`, `/llms-full.txt`, `/ua/index.md`, `/ua/about.md`) on https://dev.ocs.com.ua (through Apache), and checks that `.md` files are served as `text/markdown` (set in `public/.htaccess`). Then it runs the Playwright e2e suite (chromium only) against the live site by setting `E2E_BASE_URL`. Without that variable the same suite runs against a local preview server, as in [`ci.yml`](../../.github/workflows/ci.yml).
+Runs after the deploy job. It requests `/ua`, `/en`, `/admin/config.yml`, `/robots.txt` and the LLM files (`/llms.txt`, `/llms-full.txt`, `/ua/index.md`, `/ua/about.md`) on https://dev.ocs.com.ua (through Apache), and checks the headers set in `public/.htaccess`: `.md` files as `text/markdown`, hashed `/_astro/` files with `Cache-Control: immutable`. It also checks that the dev site cannot be indexed: `robots.txt` is `Disallow: /`, pages carry `noindex`, and HTML, `.md` and `.txt` responses have `X-Robots-Tag: noindex`. The header checks need Apache's `mod_headers`. Then it runs the Playwright e2e suite (chromium only) against the live site by setting `E2E_BASE_URL`. Without that variable the same suite runs against a local preview server, as in [`ci.yml`](../../.github/workflows/ci.yml).
 
 ### Static vs on-demand
 
