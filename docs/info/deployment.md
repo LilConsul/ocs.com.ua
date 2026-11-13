@@ -49,7 +49,7 @@ Runs next to the build job: Biome (`bun run ci`), `bun test` and the infra `pyte
 1. **Health check** — polls `http://127.0.0.1:<port>/admin/config.yml` for up to 20 seconds. On failure it prints service status and logs, **switches `app` back to the previous release** and fails the job.
 1. **Remove old releases** — keeps the newest five (the live one always stays) and writes the table of releases left on the server, live one marked, to the run summary ([`releases-summary.py`](../../application/infra/scripts/releases-summary.py)).
 
-The deploy job runs in the GitHub environment `production` or `dev`, so every deploy shows up under **Deployments** on the repository page (and at `/deployments`): commit, time, result, a link to the site, and which commit each site runs now.
+The deploy job runs in the GitHub environment `prod` or `dev` (the same names as the workflow input), so every deploy shows up under **Deployments** on the repository page (and at `/deployments`): commit, time, result, a link to the site, and which commit each site runs now.
 
 ### Verify jobs
 
