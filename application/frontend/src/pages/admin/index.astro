@@ -1,5 +1,10 @@
 ---
 // Decap CMS shell. The CMS itself is bundled from src/cms (no CDN script).
+import { CMS_ENABLED } from "astro:env/server";
+import { MAIN_CMS_URL } from "@/lib/cms-url";
+
+// With the CMS off (dev.ocs.com.ua) editors land in the one CMS that edits the live site
+if (!CMS_ENABLED) return Astro.redirect(MAIN_CMS_URL);
 ---
 
 <!doctype html>

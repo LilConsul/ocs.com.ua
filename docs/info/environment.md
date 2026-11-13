@@ -23,17 +23,18 @@ ______________________________________________________________________
 
 ### CMS (Decap)
 
-| Variable               | Required | Default              | Description                                                              |
-| ---------------------- | -------- | -------------------- | ------------------------------------------------------------------------ |
-| `GITHUB_CLIENT_ID`     | yes      | —                    | GitHub OAuth App client ID (secret)                                      |
-| `GITHUB_CLIENT_SECRET` | yes      | —                    | GitHub OAuth App client secret (secret)                                  |
-| `GITHUB_OWNER`         | no       | `LilConsul`          | Repository owner Decap reads from and commits to                         |
-| `GITHUB_REPO`          | no       | `ocs.com.ua`         | Repository name                                                          |
-| `GITHUB_BRANCH`        | no       | `main`               | Branch to read/write content on                                          |
-| `SITE_URL`             | no       | `https://ocs.com.ua` | Public site URL, used for `site` in Astro and "View live" links          |
-| `CMS_BASE_URL`         | no       | —                    | Host serving `/api/auth`; falls back to the origin `/admin` is opened on |
-| `CMS_LOCALE`           | no       | `en`                 | Decap UI language: `en` or `ua`                                          |
-| `CMS_SEARCH`           | no       | `false`              | Decap entry search; off to avoid exhausting GitHub API rate limits       |
+| Variable               | Required | Default              | Description                                                                                                                                                                                                                                         |
+| ---------------------- | -------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `GITHUB_CLIENT_ID`     | yes      | —                    | GitHub OAuth App client ID (secret)                                                                                                                                                                                                                 |
+| `GITHUB_CLIENT_SECRET` | yes      | —                    | GitHub OAuth App client secret (secret)                                                                                                                                                                                                             |
+| `GITHUB_OWNER`         | no       | `LilConsul`          | Repository owner Decap reads from and commits to                                                                                                                                                                                                    |
+| `GITHUB_REPO`          | no       | `ocs.com.ua`         | Repository name                                                                                                                                                                                                                                     |
+| `GITHUB_BRANCH`        | no       | `main`               | Branch to read/write content on                                                                                                                                                                                                                     |
+| `SITE_URL`             | no       | `https://ocs.com.ua` | Public site URL, used for `site` in Astro and "View live" links                                                                                                                                                                                     |
+| `CMS_BASE_URL`         | no       | —                    | Host serving `/api/auth`; falls back to the origin `/admin` is opened on                                                                                                                                                                            |
+| `CMS_LOCALE`           | no       | `en`                 | Decap UI language: `en` or `ua`                                                                                                                                                                                                                     |
+| `CMS_SEARCH`           | no       | `false`              | Decap entry search; off to avoid exhausting GitHub API rate limits                                                                                                                                                                                  |
+| `CMS_ENABLED`          | no       | `true`               | `false` turns the CMS off: `/admin/` redirects to https://ocs.com.ua/admin/ and `/api/auth` answers 404. Set by the dev deploy, because the CMS commits to `main`, which is production. `/admin/config.yml` stays, the deploy health check uses it. |
 
 ### Contact form
 

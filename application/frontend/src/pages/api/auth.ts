@@ -2,9 +2,11 @@ import {
 	GITHUB_CLIENT_ID as CLIENT_ID,
 	GITHUB_CLIENT_SECRET as CLIENT_SECRET,
 	CMS_BASE_URL,
+	CMS_ENABLED,
 	SITE_URL,
 } from "astro:env/server";
 import type { APIRoute } from "astro";
+import { MAIN_CMS_URL } from "@/lib/cms-url";
 
 // Holds the client secret and exchanges tokens per request, so it must run on the server
 export const prerender = false;
@@ -18,6 +20,9 @@ const text = (body: string, status: number) =>
 const inlineJson = (value: unknown) => JSON.stringify(value).replace(/</g, "\\u003c");
 
 export const GET: APIRoute = async ({ url, redirect, cookies }) => {
+	// No GitHub login where the CMS is off, even if someone loads Decap by hand
+	if (!CMS_ENABLED) return text(`The CMS is not available here. Use ${MAIN_CMS_URL}`, 404);
+
 	// Public origin of this endpoint. Behind a reverse proxy the request URL is the internal
 	// http:// one, so prefer CMS_BASE_URL (must match the OAuth app callback URL).
 	const origin = CMS_BASE_URL ? new URL(CMS_BASE_URL).origin : url.origin;

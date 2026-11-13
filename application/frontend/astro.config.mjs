@@ -113,6 +113,9 @@ export default defineConfig({
 			}),
 			// Decap entry search; off by default to avoid exhausting GitHub API rate limits
 			CMS_SEARCH: envField.boolean({ context: "server", access: "public", default: false }),
+			// The CMS (/admin and its GitHub login). Off on dev.ocs.com.ua: its edits would commit to main,
+			// which is production, so ocs.com.ua/admin stays the only place to edit content.
+			CMS_ENABLED: envField.boolean({ context: "server", access: "public", default: true }),
 
 			// === Site-wide ===
 
