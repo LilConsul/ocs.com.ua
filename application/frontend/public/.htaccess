@@ -10,6 +10,21 @@ ErrorDocument 502 /50x/index.html
 ErrorDocument 503 /50x/index.html
 ErrorDocument 504 /50x/index.html
 
+# --- One address per page: https://ocs.com.ua ---
+# www and plain http answer with one 301 to https://ocs.com.ua (dev: https://dev.ocs.com.ua).
+# Only our own host names: mail.ocs.com.ua, autoconfig and the other mail hosts share this
+# Apache vhost and must keep working over http. Let's Encrypt challenges stay reachable.
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteCond %{REQUEST_URI} !^/\.well-known/
+	RewriteCond %{HTTP_HOST} ^www\.ocs\.com\.ua$ [NC]
+	RewriteRule ^ https://ocs.com.ua%{REQUEST_URI} [R=301,L]
+	RewriteCond %{REQUEST_URI} !^/\.well-known/
+	RewriteCond %{HTTPS} !=on
+	RewriteCond %{HTTP_HOST} ^((dev\.)?ocs\.com\.ua)$ [NC]
+	RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
+</IfModule>
+
 # --- Permanent redirects (mod_alias; needs AllowOverride FileInfo, same as ErrorDocument) ---
 # RedirectMatch runs before Apache maps the URL to a file, so these win over any file in dist.
 # Targets end in "/" so mod_dir does not add a second 301.

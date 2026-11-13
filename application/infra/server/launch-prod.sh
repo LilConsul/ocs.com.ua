@@ -63,7 +63,11 @@ check /ua/ 200
 check /admin/config.yml 200
 check /llms.txt 200
 check /kontakty/ 301
-curl -fsS --resolve ocs.com.ua:443:127.0.0.1 https://ocs.com.ua/ua/ | grep -q 'content="index, follow"'
+# Read the whole page first: `curl | grep -q` would close the pipe at the first match, and
+# pipefail would turn curl's write error into a failed launch
+PAGE=$(curl -fsS --resolve ocs.com.ua:443:127.0.0.1 https://ocs.com.ua/ua/)
+grep -q 'content="index, follow"' <<<"$PAGE"
+echo "https://ocs.com.ua/ua/ is indexable"
 trap - ERR
 
 echo "ocs.com.ua now serves $(readlink -f "$DOCROOT")"

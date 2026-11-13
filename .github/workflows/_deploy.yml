@@ -433,6 +433,18 @@ jobs:
             [ "$code" = "301" ] && [ "$location" = "${E2E_BASE_URL}$2" ] || { echo "Expected 301 to $2"; exit 1; }
           }
           expect_redirect /kontakty/ /ua/contact/
+          # Plain http (and www on prod) answer with one 301 to the https address
+          host="${E2E_BASE_URL#https://}"
+          read -r code location < <(curl -sS -o /dev/null -w '%{http_code} %{redirect_url}' "http://${host}/ua/about/")
+          echo "http://${host}/ua/about/ -> $code $location"
+          [ "$code" = "301" ] && [ "$location" = "${E2E_BASE_URL}/ua/about/" ] || { echo "Expected 301 to https"; exit 1; }
+          if [ "${{ inputs.environment }}" = "prod" ]; then
+            for scheme in http https; do
+              read -r code location < <(curl -sS -o /dev/null -w '%{http_code} %{redirect_url}' "${scheme}://www.${host}/ua/about/")
+              echo "${scheme}://www.${host}/ua/about/ -> $code $location"
+              [ "$code" = "301" ] && [ "$location" = "${E2E_BASE_URL}/ua/about/" ] || { echo "Expected 301 to ${E2E_BASE_URL}"; exit 1; }
+            done
+          fi
           expect_redirect /hc-a /ua/catalogue/equipment/checkweigher/hc-a/
           expect_redirect /category/x-ray-skanery/model-serii-sc-e/ /ua/catalogue/equipment/x-ray-inspection/
 
@@ -445,19 +457,19 @@ jobs:
           robots=$(curl -fsS "${E2E_BASE_URL}/robots.txt")
           page=$(curl -fsS "${E2E_BASE_URL}/ua/")
           if [ "$INDEXING" = "true" ]; then
-            echo "$robots" | grep -qx "Disallow: /" && { echo "robots.txt blocks the whole site"; exit 1; }
-            echo "$robots" | grep -q "^Sitemap: ${E2E_BASE_URL}/sitemap-index.xml" || { echo "robots.txt lacks the sitemap"; exit 1; }
-            echo "$page" | grep -q '<meta name="robots" content="index, follow">' || { echo "pages must be indexable"; exit 1; }
+            grep -qx "Disallow: /" <<<"$robots" && { echo "robots.txt blocks the whole site"; exit 1; }
+            grep -q "^Sitemap: ${E2E_BASE_URL}/sitemap-index.xml" <<<"$robots" || { echo "robots.txt lacks the sitemap"; exit 1; }
+            grep -q '<meta name="robots" content="index, follow">' <<<"$page" || { echo "pages must be indexable"; exit 1; }
             tag=$(curl -fsS -o /dev/null -D - "${E2E_BASE_URL}/ua/" | tr -d '\r' | grep -i '^x-robots-tag:' || true)
             [ -z "$tag" ] || { echo "unexpected ${tag}"; exit 1; }
             echo "Site is indexable."
           else
-            echo "$robots" | grep -qx "Disallow: /" || { echo "robots.txt must disallow everything"; exit 1; }
-            echo "$page" | grep -q '<meta name="robots" content="noindex, nofollow">' || { echo "pages must carry noindex"; exit 1; }
+            grep -qx "Disallow: /" <<<"$robots" || { echo "robots.txt must disallow everything"; exit 1; }
+            grep -q '<meta name="robots" content="noindex, nofollow">' <<<"$page" || { echo "pages must carry noindex"; exit 1; }
             for path in /ua/ /ua/about.md /llms.txt; do
               tag=$(curl -fsS -o /dev/null -D - "${E2E_BASE_URL}${path}" | tr -d '\r' | grep -i '^x-robots-tag:' || true)
               echo "${path}: ${tag:-<none>}"
-              echo "$tag" | grep -qi noindex || { echo "X-Robots-Tag noindex missing on ${path}"; exit 1; }
+              grep -qi noindex <<<"$tag" || { echo "X-Robots-Tag noindex missing on ${path}"; exit 1; }
             done
             echo "Site is closed to crawlers."
           fi
