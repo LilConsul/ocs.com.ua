@@ -433,6 +433,18 @@ jobs:
             [ "$code" = "301" ] && [ "$location" = "${E2E_BASE_URL}$2" ] || { echo "Expected 301 to $2"; exit 1; }
           }
           expect_redirect /kontakty/ /ua/contact/
+          # Plain http (and www on prod) answer with one 301 to the https address
+          host="${E2E_BASE_URL#https://}"
+          read -r code location < <(curl -sS -o /dev/null -w '%{http_code} %{redirect_url}' "http://${host}/ua/about/")
+          echo "http://${host}/ua/about/ -> $code $location"
+          [ "$code" = "301" ] && [ "$location" = "${E2E_BASE_URL}/ua/about/" ] || { echo "Expected 301 to https"; exit 1; }
+          if [ "${{ inputs.environment }}" = "prod" ]; then
+            for scheme in http https; do
+              read -r code location < <(curl -sS -o /dev/null -w '%{http_code} %{redirect_url}' "${scheme}://www.${host}/ua/about/")
+              echo "${scheme}://www.${host}/ua/about/ -> $code $location"
+              [ "$code" = "301" ] && [ "$location" = "${E2E_BASE_URL}/ua/about/" ] || { echo "Expected 301 to ${E2E_BASE_URL}"; exit 1; }
+            done
+          fi
           expect_redirect /hc-a /ua/catalogue/equipment/checkweigher/hc-a/
           expect_redirect /category/x-ray-skanery/model-serii-sc-e/ /ua/catalogue/equipment/x-ray-inspection/
 
