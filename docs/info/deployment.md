@@ -44,21 +44,26 @@ Runs next to the build job: Biome (`bun run ci`), `bun test` and the infra `pyte
 1. **Configure SSH** — writes the key and `known_hosts` ([`configure-ssh`](../../.github/actions/configure-ssh/action.yml)).
 1. **Sync Apache config** — copies the site's proxy fragment from `application/infra/apache/` to the server, runs `apache2ctl configtest`, reloads Apache on success and restores the previous file on failure.
 1. **Sync env file** — streams the rendered file to `<service>.env` on the server.
-1. **Upload release** — `dist/` and `package.json` go into a new directory `releases/<UTC date>-<commit>/`. Files that did not change are hard links to the live release (`rsync --link-dest`), so the upload stays small.
+1. **Upload release** — `dist/`, `package.json` and a `release.json` (commit, branch, commit message, deploy time, link to the run) go into a new directory `releases/<UTC date>-<commit>/`. Files that did not change are hard links to the live release (`rsync --link-dest`), so the upload stays small.
 1. **Activate release** — switches the `app` symlink to the new release in one atomic step and restarts the service.
 1. **Health check** — polls `http://127.0.0.1:<port>/admin/config.yml` for up to 20 seconds. On failure it prints service status and logs, **switches `app` back to the previous release** and fails the job.
-1. **Remove old releases** — keeps the newest five (the live one always stays).
+1. **Remove old releases** — keeps the newest five (the live one always stays) and writes the table of releases left on the server, live one marked, to the run summary ([`releases-summary.py`](../../application/infra/scripts/releases-summary.py)).
+
+The deploy job runs in the GitHub environment `production` or `dev`, so every deploy shows up under **Deployments** on the repository page (and at `/deployments`): commit, time, result, a link to the site, and which commit each site runs now.
 
 ### Verify jobs
 
-- **verify** (the public URL serves this deployment: dev always, prod after launch) requests the pages and LLM files through Apache and checks:
+- **verify** (the public URL serves this deployment: dev always, prod after launch) runs [`verify-site.py`](../../application/infra/scripts/verify-site.py) against the site through Apache. It checks:
 
+  - the pages, the CMS config (Node server) and the LLM files answer;
   - `.md` served as `text/markdown`, `/_astro/` files with `Cache-Control: immutable`, and the security headers (HSTS, `nosniff`, `frame-ancestors`);
-  - three old WordPress addresses answer `301` to their new pages;
+  - three old WordPress addresses, plain http (and www on prod) answer one `301` to the right page;
   - indexing matches the build: dev closed (`Disallow: /`, `noindex`, `X-Robots-Tag`), prod open (sitemap in `robots.txt`, `index, follow`, no `X-Robots-Tag`);
-  - then the Playwright e2e suite (chromium) against the live site, by setting `E2E_BASE_URL`.
+  - dev has no CMS (`/admin/` points to ocs.com.ua, `/api/auth` answers 404).
 
-  The header checks need Apache's `mod_headers`.
+  Run it by hand the same way: `uv run application/infra/scripts/verify-site.py https://ocs.com.ua --environment prod --indexing true`. Then the job runs the Playwright e2e suite (chromium) against the live site, by setting `E2E_BASE_URL`. The header checks need Apache's `mod_headers`.
+
+Checks and summaries live in Python scripts under `application/infra/scripts/` with tests in `application/infra/tests/`; the workflow keeps only the short commands that run on the server (switch the release, restart, clean up).
 
 - **verify-staged** (prod before launch) checks over SSH that the release has the built site and that the Node server answers on its port, since ocs.com.ua still serves WordPress.
 
@@ -170,7 +175,8 @@ ______________________________________________________________________
 ## Manual operations
 
 - **Deploy again:** Actions → **Deploy prod** (or **Deploy dev**) → **Run workflow**.
-- **Roll back:** Actions → **Rollback** → pick the site. Empty "release" means the one before the live one.
+- **Roll back:** Actions → **Rollback** → pick the site. Empty "release" means the one before the live one; release names are in the summary of each deploy run.
+- **See what runs where:** the **Deployments** section of the repository page, or `cat /home/ocs/domains/ocs.com.ua/app/release.json` on the server.
 - **Launch / undo the launch:** see [Production launch](production-launch.md).
 
 On the server:

@@ -203,6 +203,11 @@ jobs:
     runs-on: ubuntu-26.04
     timeout-minutes: 10
     needs: [test, build]
+    # Listed under "Deployments" on the repository page: every deploy with its commit, status and
+    # a link to the site, and which commit is live on each site
+    environment:
+      name: ${{ inputs.environment == 'prod' && 'production' || 'dev' }}
+      url: ${{ inputs.site_url }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
@@ -281,12 +286,22 @@ jobs:
               ln -s "$DOMAIN_DIR/releases/00000000-000000-initial" "$DOMAIN_DIR/app"
             fi
           EOF
+          # What the release is, readable on the server (cat app/release.json) and by Rollback
+          jq -n \
+            --arg commit "$GITHUB_SHA" \
+            --arg ref "$GITHUB_REF_NAME" \
+            --arg run "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" \
+            --arg deployed "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            --arg message "$(git log -1 --format=%s)" \
+            '{commit: $commit, ref: $ref, message: $message, deployed: $deployed, run: $run}' \
+            > application/frontend/release.json
           # The very first deploy has no live release to hard-link against
           link=()
           ssh "$SSH_TARGET" "test -d '${DOMAIN_DIR}/app/'" && link=(--link-dest="${DOMAIN_DIR}/app/")
           rsync -az --delete --no-owner --no-group "${link[@]}" \
             application/frontend/dist \
             application/frontend/package.json \
+            application/frontend/release.json \
             "${SSH_TARGET}:${RELEASE}/"
 
       # The symlink swap is atomic (mv -T); Apache serves the new files right away
@@ -327,16 +342,28 @@ jobs:
             exit 1
           EOF
 
+      # Keeps the newest releases (never the live one), then lists what is left in the run summary
+      # (releases-summary.py), newest first with the live one marked; Rollback takes these names
       - name: Remove old releases
         run: |
-          ssh "$SSH_TARGET" "DOMAIN_DIR='${DOMAIN_DIR}' KEEP='${KEEP_RELEASES}' bash -s" <<'EOF'
+          ssh "$SSH_TARGET" "DOMAIN_DIR='${DOMAIN_DIR}' KEEP='${KEEP_RELEASES}' bash -s" > "$RUNNER_TEMP/releases.tsv" <<'EOF'
             set -euo pipefail
             LIVE=$(readlink -f "$DOMAIN_DIR/app")
             ls -1d "$DOMAIN_DIR"/releases/*/ | sed 's#/$##' | sort -r | tail -n +$((KEEP + 1)) | while read -r old; do
               [ "$(readlink -f "$old")" = "$LIVE" ] || rm -rf "$old"
             done
-            ls -1 "$DOMAIN_DIR/releases"
+            # One line per release: name, "live" or "-", release.json on one line (if any)
+            ls -1d "$DOMAIN_DIR"/releases/*/ | sed 's#/$##' | sort -r | while read -r dir; do
+              live="-"
+              [ "$(readlink -f "$dir")" = "$LIVE" ] && live="live"
+              info=""
+              [ -f "$dir/release.json" ] && info=$(tr -d '\n' < "$dir/release.json")
+              printf '%s\t%s\t%s\n' "$(basename "$dir")" "$live" "$info"
+            done
           EOF
+          uv run application/infra/scripts/releases-summary.py "${{ inputs.site_url }}" \
+            --repo-url "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}" < "$RUNNER_TEMP/releases.tsv" \
+            | tee -a "$GITHUB_STEP_SUMMARY"
 
   # Before launch day the production build runs on the server but ocs.com.ua still serves
   # WordPress, so it can only be checked from inside the server
@@ -389,103 +416,22 @@ jobs:
           key: bun-${{ runner.os }}-${{ hashFiles('application/frontend/bun.lock') }}
           restore-keys: bun-${{ runner.os }}-
 
-      - name: Public health check
-        working-directory: .
-        run: |
-          for path in /ua/ /en/ /admin/config.yml /robots.txt /llms.txt /llms-full.txt /ua/index.md /ua/about.md; do
-            for i in $(seq 1 10); do
-              if curl -fsS -o /dev/null "${E2E_BASE_URL}${path}"; then
-                echo "OK ${path}"
-                continue 2
-              fi
-              echo "Waiting for ${path} ($i/10)..."
-              sleep 3
-            done
-            echo "Public health check failed for ${path}"
-            exit 1
-          done
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          enable-cache: true
+          cache-dependency-glob: |
+            application/infra/uv.lock
+            application/infra/pyproject.toml
+            application/infra/scripts/check-images.py
 
-      # AI tools read the Markdown page copies as text; a missing type would make them a download.
-      # Hashed /_astro/ files must be cached for a year and pages carry the security headers
-      # (public/.htaccess, needs mod_headers).
-      - name: Response headers
+      # Pages and LLM files answer, headers from public/.htaccess, old WordPress and http/www
+      # redirects, indexing matching the build, and no CMS on dev. Details in the script.
+      - name: Live site checks
         working-directory: .
-        run: |
-          header() { curl -fsS -o /dev/null -D - "${E2E_BASE_URL}$1" | tr -d '\r' | grep -i "^$2:" | cut -d' ' -f2-; }
-          expect() {
-            value=$(header "$1" "$2")
-            echo "$1 $2: ${value:-<none>}"
-            case "$value" in *"$3"*) ;; *) echo "Expected \"$3\""; exit 1 ;; esac
-          }
-          expect /llms.txt content-type text/plain
-          expect /ua/about.md content-type text/markdown
-          asset=$(curl -fsS "${E2E_BASE_URL}/ua/" | grep -o '/_astro/[^"]*\.css' | head -1)
-          expect "$asset" cache-control immutable
-          expect /ua/ strict-transport-security max-age=
-          expect /ua/ x-content-type-options nosniff
-          expect /ua/ content-security-policy frame-ancestors
-
-      # Old WordPress addresses (src/data/legacy-redirects.json) must 301 to their new pages
-      - name: Old WordPress addresses redirect
-        working-directory: .
-        run: |
-          expect_redirect() {
-            read -r code location < <(curl -sS -o /dev/null -w '%{http_code} %{redirect_url}' "${E2E_BASE_URL}$1")
-            echo "$1 -> $code $location"
-            [ "$code" = "301" ] && [ "$location" = "${E2E_BASE_URL}$2" ] || { echo "Expected 301 to $2"; exit 1; }
-          }
-          expect_redirect /kontakty/ /ua/contact/
-          # Plain http (and www on prod) answer with one 301 to the https address
-          host="${E2E_BASE_URL#https://}"
-          read -r code location < <(curl -sS -o /dev/null -w '%{http_code} %{redirect_url}' "http://${host}/ua/about/")
-          echo "http://${host}/ua/about/ -> $code $location"
-          [ "$code" = "301" ] && [ "$location" = "${E2E_BASE_URL}/ua/about/" ] || { echo "Expected 301 to https"; exit 1; }
-          if [ "${{ inputs.environment }}" = "prod" ]; then
-            for scheme in http https; do
-              read -r code location < <(curl -sS -o /dev/null -w '%{http_code} %{redirect_url}' "${scheme}://www.${host}/ua/about/")
-              echo "${scheme}://www.${host}/ua/about/ -> $code $location"
-              [ "$code" = "301" ] && [ "$location" = "${E2E_BASE_URL}/ua/about/" ] || { echo "Expected 301 to ${E2E_BASE_URL}"; exit 1; }
-            done
-          fi
-          expect_redirect /hc-a /ua/catalogue/equipment/checkweigher/hc-a/
-          expect_redirect /category/x-ray-skanery/model-serii-sc-e/ /ua/catalogue/equipment/x-ray-inspection/
-
-      # Dev has no CMS (CMS_ENABLED=false): /admin points to ocs.com.ua and the login refuses
-      - name: CMS only on production
-        if: ${{ inputs.environment == 'dev' }}
-        working-directory: .
-        run: |
-          admin=$(curl -fsS "${E2E_BASE_URL}/admin/")
-          grep -q 'url=https://ocs.com.ua/admin/' <<<"$admin" || { echo "/admin/ must redirect to https://ocs.com.ua/admin/"; exit 1; }
-          code=$(curl -sS -o /dev/null -w '%{http_code}' "${E2E_BASE_URL}/api/auth")
-          echo "/api/auth -> $code"
-          [ "$code" = "404" ] || { echo "/api/auth must refuse on dev"; exit 1; }
-
-      # Indexing must match the build: dev (LLMS_INDEXING=false) closed, prod open
-      - name: Indexing matches the build
-        working-directory: .
-        env:
-          INDEXING: ${{ inputs.llms_indexing }}
-        run: |
-          robots=$(curl -fsS "${E2E_BASE_URL}/robots.txt")
-          page=$(curl -fsS "${E2E_BASE_URL}/ua/")
-          if [ "$INDEXING" = "true" ]; then
-            grep -qx "Disallow: /" <<<"$robots" && { echo "robots.txt blocks the whole site"; exit 1; }
-            grep -q "^Sitemap: ${E2E_BASE_URL}/sitemap-index.xml" <<<"$robots" || { echo "robots.txt lacks the sitemap"; exit 1; }
-            grep -q '<meta name="robots" content="index, follow">' <<<"$page" || { echo "pages must be indexable"; exit 1; }
-            tag=$(curl -fsS -o /dev/null -D - "${E2E_BASE_URL}/ua/" | tr -d '\r' | grep -i '^x-robots-tag:' || true)
-            [ -z "$tag" ] || { echo "unexpected ${tag}"; exit 1; }
-            echo "Site is indexable."
-          else
-            grep -qx "Disallow: /" <<<"$robots" || { echo "robots.txt must disallow everything"; exit 1; }
-            grep -q '<meta name="robots" content="noindex, nofollow">' <<<"$page" || { echo "pages must carry noindex"; exit 1; }
-            for path in /ua/ /ua/about.md /llms.txt; do
-              tag=$(curl -fsS -o /dev/null -D - "${E2E_BASE_URL}${path}" | tr -d '\r' | grep -i '^x-robots-tag:' || true)
-              echo "${path}: ${tag:-<none>}"
-              grep -qi noindex <<<"$tag" || { echo "X-Robots-Tag noindex missing on ${path}"; exit 1; }
-            done
-            echo "Site is closed to crawlers."
-          fi
+        run: >-
+          uv run application/infra/scripts/verify-site.py "${E2E_BASE_URL}"
+          --environment "${{ inputs.environment }}"
+          --indexing "${{ inputs.llms_indexing }}"
 
       - run: bun install --frozen-lockfile
 

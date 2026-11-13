@@ -1,4 +1,5 @@
 """Tests for indexnow.py (sitemap parsing, change filter, request body)."""
+
 import importlib.util
 import pathlib
 from datetime import datetime, timezone
