@@ -6,9 +6,9 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/LilConsul/ocs.com.ua/actions/workflows/deploy-dev.yml"><img alt="Deploy dev" src="https://img.shields.io/github/actions/workflow/status/LilConsul/ocs.com.ua/deploy-dev.yml?branch=main&label=deploy&logo=githubactions&logoColor=white&style=for-the-badge&labelColor=0d1117"></a>
-  <a href="https://ocs.com.ua"><img alt="Main site: WIP" src="https://img.shields.io/badge/main%20site-WIP-F59E0B?logo=googlechrome&logoColor=white&style=for-the-badge&labelColor=0d1117"></a>
-  <a href="https://dev.ocs.com.ua"><img alt="Dev site" src="https://img.shields.io/website?url=https%3A%2F%2Fdev.ocs.com.ua%2Fua&label=dev%20site&logo=googlechrome&logoColor=white&style=for-the-badge&labelColor=0d1117"></a>
+  <a href="https://github.com/LilConsul/ocs.com.ua/actions/workflows/deploy-prod.yml"><img alt="Deploy prod" src="https://img.shields.io/github/actions/workflow/status/LilConsul/ocs.com.ua/deploy-prod.yml?branch=main&label=deploy&logo=githubactions&logoColor=white&style=for-the-badge&labelColor=0d1117"></a>
+  <a href="https://ocs.com.ua"><img alt="Main site" src="https://img.shields.io/website?url=https%3A%2F%2Focs.com.ua%2Fua%2F&label=ocs.com.ua&logo=googlechrome&logoColor=white&style=for-the-badge&labelColor=0d1117"></a>
+  <a href="https://dev.ocs.com.ua"><img alt="Dev site" src="https://img.shields.io/website?url=https%3A%2F%2Fdev.ocs.com.ua%2Fua%2F&label=dev%20site&logo=googlechrome&logoColor=white&style=for-the-badge&labelColor=0d1117"></a>
   <a href="https://github.com/LilConsul/ocs.com.ua/commits/main"><img alt="Last commit" src="https://img.shields.io/github/last-commit/LilConsul/ocs.com.ua?logo=git&logoColor=white&style=for-the-badge&labelColor=0d1117&color=6e40c9"></a>
 </p>
 
@@ -34,10 +34,11 @@ ______________________________________________________________________
 ## Project structure
 
 ```
-.github/        # CI, dev deploy workflow and the server env manifest
+.github/        # CI, prod and dev deploys, rollback, uptime monitor, server env manifests
 application/
 ├── frontend/   # Astro site: static pages + on-demand API routes (Node adapter)
-└── infra/      # Python (uv) tooling: Apache fragment, env renderer/sync, image checker
+└── infra/      # Python (uv) tooling and server files: Apache fragments, env renderer/sync,
+                #   image checker, IndexNow submitter, server setup/launch scripts
 docs/
 ├── info/       # Setup, environment and deployment guides (start here)
 ├── design/     # Page designs exported from Stitch
@@ -76,12 +77,25 @@ Run from the repository root.
 
 ______________________________________________________________________
 
+## Deployment
+
+| Site                                     | Deployed                                           | Indexed                             |
+| ---------------------------------------- | -------------------------------------------------- | ----------------------------------- |
+| [ocs.com.ua](https://ocs.com.ua)         | Every push to `main`, CMS publishes included       | Yes: sitemap, `/llms.txt`, IndexNow |
+| [dev.ocs.com.ua](https://dev.ocs.com.ua) | By hand from any branch (Actions → **Deploy dev**) | No: closed to all crawlers          |
+
+Each deploy keeps the previous releases on the server: a failed health check switches back on its own, and **Rollback** in the Actions tab does it by hand. See [Deployment](docs/info/deployment.md).
+
+______________________________________________________________________
+
 ## Documentation
 
-| Guide                                   | Contents                                                                  |
-| --------------------------------------- | ------------------------------------------------------------------------- |
-| [Development](docs/info/development.md) | Commands, i18n workflow, content and CMS, tests, git hooks, commit format |
-| [Environment](docs/info/environment.md) | Every environment variable, feature flags, GitHub OAuth app, `make env`   |
-| [Deployment](docs/info/deployment.md)   | CI, the dev.ocs.com.ua deploy pipeline, server layout, GitHub secrets     |
+| Guide                                               | Contents                                                                                 |
+| --------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| [Development](docs/info/development.md)             | Commands, i18n workflow, content and CMS, tests, git hooks, commit format                |
+| [Environment](docs/info/environment.md)             | Every environment variable, feature flags, indexing, GitHub OAuth app, `make env`        |
+| [Deployment](docs/info/deployment.md)               | CI, the prod and dev pipelines, releases and rollback, server layout, GitHub secrets     |
+| [LLM indexing](docs/info/llm-indexing.md)           | `/llms.txt`, Markdown page copies, crawler rules, page coverage, old WordPress redirects |
+| [Production launch](docs/info/production-launch.md) | How ocs.com.ua was switched from WordPress, and what to watch in the first weeks         |
 
 Contributor notes for AI assistants live in [`application/frontend/CLAUDE.md`](application/frontend/CLAUDE.md).
