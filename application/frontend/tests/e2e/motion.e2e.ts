@@ -7,8 +7,23 @@ test.beforeEach(async ({ page }) => {
 	await page.route(/\/\/a\.plerdy\.com\//, (route) => route.abort());
 });
 
-const HOME = "/ua";
-const CATEGORY = "/ua/catalogue/equipment/checkweigher";
+const HOME = "/ua/";
+const CATEGORY = "/ua/catalogue/equipment/checkweigher/";
+
+/**
+ * Cancels the head script's 3 s failsafe as soon as it is armed, so `html.motion-on` stays on
+ * however long the runtime takes. On a busy CI runner (cold WebKit, parallel workers) the runtime
+ * can arrive after 3 s; the failsafe then shows everything unanimated, which is correct for users
+ * but leaves nothing for a test of the live runtime to check. The failsafe has its own test.
+ */
+const holdFailsafe = (page: Page) =>
+	page.addInitScript(() => {
+		Object.defineProperty(window, "__motionFailsafe", {
+			configurable: true,
+			get: () => undefined,
+			set: (id: number) => window.clearTimeout(id),
+		});
+	});
 
 const opacityOf = (page: Page, selector: string) =>
 	page
@@ -21,6 +36,7 @@ const lastReveal = (page: Page) => page.locator(".reveal").last();
 
 test.describe("scroll reveals", () => {
 	test("hide until scrolled into view, then play once and stay visible", async ({ page }) => {
+		await holdFailsafe(page);
 		await page.goto(HOME, { waitUntil: "domcontentloaded" });
 		await expect(page.locator("html")).toHaveClass(/motion-on/);
 
@@ -90,7 +106,9 @@ test.describe("scroll reveals", () => {
 	});
 
 	test("catalogue search: swapped-in cards are revealed too", async ({ page }) => {
+		await holdFailsafe(page);
 		await page.goto(CATEGORY);
+		await expect(page.locator("html")).toHaveClass(/motion-on/);
 		const word = await page.evaluate(() => {
 			const index = JSON.parse(
 				document.querySelector("[data-product-index]")?.textContent ?? "[]"
@@ -122,6 +140,7 @@ test.describe("no JavaScript", () => {
 
 test.describe("section headings", () => {
 	test("hide until scrolled into view, then rise in after the eyebrow", async ({ page }) => {
+		await holdFailsafe(page);
 		await page.goto(HOME);
 		const heading = page.locator("#partners-heading");
 		await expect(heading).toHaveClass(/reveal-heading/);
