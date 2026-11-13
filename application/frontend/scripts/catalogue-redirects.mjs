@@ -19,7 +19,7 @@ export function buildCatalogueRedirects(root) {
 
 	for (const lang of LANGS) {
 		for (const { slug: category } of types[lang]?.categories ?? []) {
-			redirects[`/${lang}/catalogue/${category}`] = `/${lang}/catalogue/equipment/${category}`;
+			redirects[`/${lang}/catalogue/${category}`] = `/${lang}/catalogue/equipment/${category}/`;
 
 			// A category can exist before it has any product folder
 			const categoryDir = join(contentDir, category);
@@ -29,7 +29,7 @@ export function buildCatalogueRedirects(root) {
 				const match = file.match(new RegExp(`^([^_].*)\\.${lang}\\.md$`));
 				if (!match) continue;
 				redirects[`/${lang}/catalogue/${category}/${match[1]}`] =
-					`/${lang}/catalogue/equipment/${category}/${match[1]}`;
+					`/${lang}/catalogue/equipment/${category}/${match[1]}/`;
 			}
 		}
 	}

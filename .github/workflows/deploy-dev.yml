@@ -1,8 +1,7 @@
 # Builds the frontend on every push to main and deploys it to https://dev.ocs.com.ua.
 # CMS publishes are commits to main too, so content edits go live the same way.
 #
-# Repository secrets: DEV_SSH_HOST, DEV_SSH_USER, DEV_SSH_KEY, DEV_SSH_KNOWN_HOSTS
-# Server layout and setup: see "Deployment" in README.md
+# Actions are pinned to commit SHAs (the tag is in the comment); Dependabot keeps them current.
 
 name: Deploy dev
 
@@ -13,19 +12,66 @@ on:
       - "application/frontend/**"
       - "application/infra/**"
       - ".github/workflows/deploy-dev.yml"
+      - ".github/actions/**"
+      # The map of secrets and variables rendered into the server env file
+      - ".github/secrets.dev.yaml"
   workflow_dispatch:
 
 concurrency:
   group: deploy-dev
   cancel-in-progress: false
 
+# The jobs only read the repository; the server is reached over SSH, not with the GitHub token
+permissions:
+  contents: read
+
 env:
   SSH_TARGET: ${{ secrets.DEV_SSH_USER }}@${{ secrets.DEV_SSH_HOST }}
   DOMAIN_DIR: /home/ocs/domains/dev.ocs.com.ua
 
 jobs:
+  # Runs next to the build instead of before it; deploy waits for both
+  test:
+    runs-on: ubuntu-26.04
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: application/frontend
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version-file: application/frontend/.bun-version
+
+      - name: Cache Bun packages
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: ~/.bun/install/cache
+          key: bun-${{ runner.os }}-${{ hashFiles('application/frontend/bun.lock') }}
+          restore-keys: bun-${{ runner.os }}-
+
+      - run: bun install --frozen-lockfile
+
+      - name: Lint and format (Biome)
+        run: bun run ci
+
+      - name: Test
+        run: bun test
+
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          enable-cache: true
+          cache-dependency-glob: |
+            application/infra/uv.lock
+            application/infra/pyproject.toml
+            application/infra/scripts/check-images.py
+      - name: Test infra scripts
+        working-directory: application/infra
+        run: uv run pytest tests/ -v
+
   build:
     runs-on: ubuntu-26.04
+    timeout-minutes: 15
     defaults:
       run:
         working-directory: application/frontend
@@ -46,15 +92,27 @@ jobs:
       SMTP_PASS: ${{ secrets.SMTP_PASS }}
       SHOW_CLIENT_EQUIPMENT: ${{ vars.DEV_SHOW_CLIENT_EQUIPMENT }}
       SITE_DEV_NOTICE: ${{ vars.DEV_SITE_DEV_NOTICE }}
+      # Fixed here, not a repository variable, so it cannot be switched on by mistake: the dev
+      # site must never compete with ocs.com.ua in search or AI answers (robots.txt blocks all,
+      # every page and file is noindex)
+      LLMS_INDEXING: false
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
+      # Full commit history without file contents (cheap): the sitemap's <lastmod> comes from
+      # the last commit touching each page's content, which a shallow clone cannot tell
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          filter: blob:none
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 22
 
-      - uses: oven-sh/setup-bun@v2
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version-file: application/frontend/.bun-version
 
-      - uses: actions/cache@v6
+      - name: Cache Bun packages
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.bun/install/cache
           key: bun-${{ runner.os }}-${{ hashFiles('application/frontend/bun.lock') }}
@@ -62,16 +120,26 @@ jobs:
 
       - run: bun install --frozen-lockfile
 
-      - name: Test
-        run: bun test
-
-      - uses: astral-sh/setup-uv@v10.3.3
-      - name: Test infra scripts
-        working-directory: application/infra
-        run: uv run pytest tests/ -v
+      # Astro keeps every resized picture here and reuses it on the next build. Entries are named
+      # by content, so a stale cache only holds unused files; the key changes with the pictures
+      # and with bun.lock (the sharp version).
+      - name: Restore Astro image cache
+        id: astro-images
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: application/frontend/node_modules/.astro/assets
+          key: astro-images-${{ runner.os }}-${{ hashFiles('application/frontend/src/assets/**', 'application/frontend/bun.lock') }}
+          restore-keys: astro-images-${{ runner.os }}-
 
       - name: Build
         run: bun run build
+
+      - name: Save Astro image cache
+        if: steps.astro-images.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: application/frontend/node_modules/.astro/assets
+          key: ${{ steps.astro-images.outputs.cache-primary-key }}
 
       - name: Verify production server bundle
         run: |
@@ -87,7 +155,7 @@ jobs:
 
       # Hidden files are skipped by default; dist/client/.htaccess (ErrorDocument, charset) is one
       - name: Upload build artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: frontend-build
           include-hidden-files: true
@@ -98,13 +166,20 @@ jobs:
 
   deploy:
     runs-on: ubuntu-26.04
-    needs: build
+    timeout-minutes: 10
+    needs: [test, build]
     env:
       APP_DIR: /home/ocs/domains/dev.ocs.com.ua/app
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - uses: astral-sh/setup-uv@v10.3.3
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          enable-cache: true
+          cache-dependency-glob: |
+            application/infra/uv.lock
+            application/infra/pyproject.toml
+            application/infra/scripts/check-images.py
 
       - name: Configure SSH
         uses: ./.github/actions/configure-ssh
@@ -154,7 +229,7 @@ jobs:
           rm -f "$ENV_FILE"
 
       - name: Download build artifact
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           name: frontend-build
           path: application/frontend
@@ -196,6 +271,7 @@ jobs:
   # then runs the Playwright e2e suite against it.
   verify:
     runs-on: ubuntu-26.04
+    timeout-minutes: 15
     needs: deploy
     defaults:
       run:
@@ -203,13 +279,22 @@ jobs:
     env:
       E2E_BASE_URL: https://dev.ocs.com.ua
     steps:
-      - uses: actions/checkout@v7
-      - uses: oven-sh/setup-bun@v2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version-file: application/frontend/.bun-version
+
+      - name: Cache Bun packages
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: ~/.bun/install/cache
+          key: bun-${{ runner.os }}-${{ hashFiles('application/frontend/bun.lock') }}
+          restore-keys: bun-${{ runner.os }}-
 
       - name: Public health check
         working-directory: .
         run: |
-          for path in /ua /en /admin/config.yml; do
+          for path in /ua/ /en/ /admin/config.yml /robots.txt /llms.txt /llms-full.txt /ua/index.md /ua/about.md; do
             for i in $(seq 1 10); do
               if curl -fsS -o /dev/null "${E2E_BASE_URL}${path}"; then
                 echo "OK ${path}"
@@ -222,6 +307,37 @@ jobs:
             exit 1
           done
 
+      # AI tools read the Markdown page copies as text; a missing type would make them a download.
+      # Hashed /_astro/ files must be cached for a year (public/.htaccess, needs mod_headers).
+      - name: Headers of the LLM files and static assets
+        working-directory: .
+        run: |
+          header() { curl -fsS -o /dev/null -D - "${E2E_BASE_URL}$1" | tr -d '\r' | grep -i "^$2:" | cut -d' ' -f2-; }
+          expect() {
+            value=$(header "$1" "$2")
+            echo "$1 $2: ${value:-<none>}"
+            case "$value" in *"$3"*) ;; *) echo "Expected \"$3\""; exit 1 ;; esac
+          }
+          expect /llms.txt content-type text/plain
+          expect /ua/about.md content-type text/markdown
+          asset=$(curl -fsS "${E2E_BASE_URL}/ua/" | grep -o '/_astro/[^"]*\.css' | head -1)
+          expect "$asset" cache-control immutable
+
+      # LLMS_INDEXING=false on dev: nothing may be indexed
+      - name: Dev site is not indexable
+        working-directory: .
+        run: |
+          robots=$(curl -fsS "${E2E_BASE_URL}/robots.txt")
+          echo "$robots"
+          echo "$robots" | grep -qx "Disallow: /" || { echo "robots.txt must disallow everything"; exit 1; }
+          curl -fsS "${E2E_BASE_URL}/ua/" | grep -q '<meta name="robots" content="noindex, nofollow">' \
+            || { echo "pages must carry noindex"; exit 1; }
+          for path in /ua/ /ua/about.md /llms.txt; do
+            tag=$(curl -fsS -o /dev/null -D - "${E2E_BASE_URL}${path}" | tr -d '\r' | grep -i '^x-robots-tag:' || true)
+            echo "${path}: ${tag:-<none>}"
+            echo "$tag" | grep -qi noindex || { echo "X-Robots-Tag noindex missing on ${path}"; exit 1; }
+          done
+
       - run: bun install --frozen-lockfile
 
       - name: Read Playwright version
@@ -230,7 +346,7 @@ jobs:
 
       - name: Cache Playwright browsers
         id: browsers
-        uses: actions/cache@v6
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}-chromium
@@ -248,7 +364,7 @@ jobs:
 
       - name: Upload failure artifacts
         if: failure()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: playwright-test-results-dev
           path: application/frontend/test-results

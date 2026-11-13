@@ -93,7 +93,7 @@ const structuredData = createPageGraph({
 	description,
 	breadcrumbs: [
 		{ name: _("Home"), url: new URL(`/${lang}/`, siteUrl).href },
-		{ name: _("Knowledge Base"), url: new URL(`/${lang}/wiki`, siteUrl).href },
+		{ name: _("Knowledge Base"), url: new URL(`/${lang}/wiki/`, siteUrl).href },
 		{ name: title, url: currentUrl },
 	],
 	mainEntities: [articleNode],

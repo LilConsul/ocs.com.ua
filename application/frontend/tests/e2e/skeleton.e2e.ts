@@ -5,7 +5,7 @@ test.beforeEach(async ({ page }) => {
 	await page.route(/\/\/a\.plerdy\.com\//, (route) => route.abort());
 });
 
-const CATEGORY = "/ua/catalogue/equipment/checkweigher";
+const CATEGORY = "/ua/catalogue/equipment/checkweigher/";
 /** Image wrapper of the first product card on a category page */
 const firstCardWrapper = (page: Page) => page.locator("[data-product-item] > a").first();
 
@@ -200,7 +200,7 @@ test.describe("image skeletons", () => {
 	for (const lang of ["ua", "en"]) {
 		test(`home (${lang}): no picture stays hidden after it loads`, async ({ page }) => {
 			await page.setViewportSize({ width: 1440, height: 1000 });
-			await expectNothingStuck(page, `/${lang}`);
+			await expectNothingStuck(page, `/${lang}/`);
 		});
 	}
 

@@ -47,28 +47,43 @@ export function fillTokens(text: string, values: TokenValues): string {
 		.replaceAll(/\{termsUrl\}|%7BtermsUrl%7D/gi, values.termsUrl);
 }
 
-function buildDocument(data: RawDocument, lang: Lang): LegalDocument {
+export interface LegalSource {
+	effectiveDate: string;
+	sections: { title: string; markdown: string }[];
+}
+
+/** The document as Markdown with the tokens filled in (for the page and for its Markdown copy). */
+function buildSource(data: RawDocument, lang: Lang): LegalSource {
 	const a = companyData.address[lang] ?? companyData.address.en;
 	const values: TokenValues = {
 		email: companyData.email,
 		address: [a.street, "office" in a ? a.office : "", a.city, a.postalCode, a.country]
 			.filter(Boolean)
 			.join(", "),
-		privacyUrl: `/${lang}/privacy`,
-		termsUrl: `/${lang}/terms`,
+		privacyUrl: `/${lang}/privacy/`,
+		termsUrl: `/${lang}/terms/`,
 	};
 	const pick = (value: Localized | undefined) => value?.[lang] || value?.en || "";
-	const render = (text: string) =>
-		text ? marked.parse(fillTokens(text, values), { async: false }) : "";
+	const fill = (text: string) => (text ? fillTokens(text, values) : "");
 
-	const sections = data.sections.map((raw, index) => ({
+	return {
+		effectiveDate: data.effectiveDate,
+		sections: data.sections.map((raw) => ({
+			title: pick(raw.title),
+			markdown: fill(pick(raw.body)),
+		})),
+	};
+}
+
+function buildDocument(data: RawDocument, lang: Lang): LegalDocument {
+	const source = buildSource(data, lang);
+	const sections = source.sections.map((section, index) => ({
 		number: index + 1,
 		id: `section-${index + 1}`,
-		title: pick(raw.title),
-		html: render(pick(raw.body)),
+		title: section.title,
+		html: section.markdown ? marked.parse(section.markdown, { async: false }) : "",
 	}));
-
-	return { effectiveDate: data.effectiveDate, sections };
+	return { effectiveDate: source.effectiveDate, sections };
 }
 
 export function getPrivacyPolicy(lang: Lang): LegalDocument {
@@ -77,4 +92,12 @@ export function getPrivacyPolicy(lang: Lang): LegalDocument {
 
 export function getTermsOfUse(lang: Lang): LegalDocument {
 	return buildDocument(termsData as RawDocument, lang);
+}
+
+export function getPrivacyPolicySource(lang: Lang): LegalSource {
+	return buildSource(privacyData as RawDocument, lang);
+}
+
+export function getTermsOfUseSource(lang: Lang): LegalSource {
+	return buildSource(termsData as RawDocument, lang);
 }

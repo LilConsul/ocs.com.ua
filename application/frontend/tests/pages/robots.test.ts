@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { GET } from "@/pages/robots.txt";
+import { AI_CRAWLERS, GET, robotsTxt } from "@/pages/robots.txt";
 
 const render = async (site: string) => {
 	const response = await GET({ site: new URL(site) } as Parameters<typeof GET>[0]);
@@ -37,5 +37,30 @@ describe("robots.txt", () => {
 		const { body } = await render("https://ocs.com.ua");
 		expect(body.endsWith("\n")).toBe(true);
 		expect(body.endsWith("\n\n")).toBe(false);
+	});
+});
+
+describe("robots.txt: AI crawlers", () => {
+	it("names each AI crawler in a group that allows the site but keeps the CMS and API out", async () => {
+		const { body } = await render("https://ocs.com.ua");
+		const group = body.split("\n\n").find((g) => g.includes("User-agent: GPTBot")) ?? "";
+		const lines = group.split("\n");
+		for (const bot of AI_CRAWLERS) expect(lines).toContain(`User-agent: ${bot}`);
+		expect(lines).toContain("Allow: /");
+		expect(lines).toContain("Disallow: /admin/");
+		expect(lines).toContain("Disallow: /api/");
+	});
+});
+
+describe("robots.txt: indexing off (dev site)", () => {
+	const body = robotsTxt(new URL("https://dev.ocs.com.ua"), false);
+
+	it("blocks every crawler from the whole site", () => {
+		expect(body).toBe("User-agent: *\nDisallow: /\n");
+	});
+
+	it("names no crawler and no sitemap", () => {
+		expect(body).not.toContain("GPTBot");
+		expect(body).not.toContain("Sitemap:");
 	});
 });

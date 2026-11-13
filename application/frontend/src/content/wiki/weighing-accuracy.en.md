@@ -27,7 +27,7 @@ A scale can be repeatable but not accurate. For example, it always shows 3 g too
 
 ## Accuracy is not the number of digits
 
-A scale showing `150.23 g` is not automatically more accurate than one showing `150.2 g`. The extra digit is just finer display, which is explained in the article about [resolution (d)](/en/wiki/what-is-scale-division). Accuracy depends on the quality of the whole scale, not on how many digits it shows.
+A scale showing `150.23 g` is not automatically more accurate than one showing `150.2 g`. The extra digit is just finer display, which is explained in the article about [resolution (d)](/en/wiki/what-is-scale-division/). Accuracy depends on the quality of the whole scale, not on how many digits it shows.
 
 ## What makes weighing less accurate?
 
@@ -39,7 +39,7 @@ Think of weighing as a very sensitive measurement. Anything that pushes, shakes 
 * **Dirt and sticking product.** Dust, glue or leftovers on the belt add extra weight.
 * **Uneven or unstable base.** A scale that is not level or stands on a shaky floor gives shaky results.
 * **Moving products.** On a conveyor the product is only on the scale for a fraction of a second, so it is harder than weighing something standing still.
-* **Worn or damaged parts.** The [load cell](/en/wiki/load-cell) can drift or be damaged by overload.
+* **Worn or damaged parts.** The [load cell](/en/wiki/load-cell/) can drift or be damaged by overload.
 
 ## How to keep it accurate
 

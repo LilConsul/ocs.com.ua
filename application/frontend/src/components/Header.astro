@@ -16,7 +16,7 @@ const lang: Lang = currentLang;
 const _ = getInlineTranslations(lang);
 
 const getLanguagePath = (targetLang: string) => {
-	if (!(currentPath && /^\/(en|ua)(\/|$)/.test(currentPath))) return `/${targetLang}`;
+	if (!(currentPath && /^\/(en|ua)(\/|$)/.test(currentPath))) return `/${targetLang}/`;
 	const pathWithoutLang = currentPath.replace(/^\/(en|ua)/, "");
 	return `/${targetLang}${pathWithoutLang}`;
 };
@@ -32,8 +32,8 @@ const navLinks = [
 		label: _("Industries"),
 		pattern: "/catalogue/industry",
 	},
-	{ href: `/${lang}/wiki`, label: _("Wiki"), pattern: "/wiki" },
-	{ href: `/${lang}/about`, label: _("About Us"), pattern: "/about" },
+	{ href: `/${lang}/wiki/`, label: _("Wiki"), pattern: "/wiki" },
+	{ href: `/${lang}/about/`, label: _("About Us"), pattern: "/about" },
 ];
 
 const languageOptions = [
@@ -102,7 +102,7 @@ const isActive = (pattern: string) => {
 	{/* Main Navigation Bar */}
 	<nav class="mx-auto flex h-20 max-w-7xl items-center justify-between px-8">
 		{/* Logo */}
-		<a href={`/${lang}`} class="transition-opacity hover:opacity-80">
+		<a href={`/${lang}/`} class="transition-opacity hover:opacity-80">
 			<img
 				src={`/assets/icons/logo-${lang}.svg`}
 				alt={companyData.name[currentLang as "en" | "ua"] ?? companyData.name.en}
@@ -135,7 +135,7 @@ const isActive = (pattern: string) => {
 		<div class="flex items-center gap-4">
 			{/* Contact Us button — desktop */}
 			<a
-				href={`/${lang}/contact`}
+				href={`/${lang}/contact/`}
 				class={`hidden items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-medium transition-opacity hover:opacity-90 md:inline-flex ${
 					isActive("/contact") ? "bg-secondary text-white" : "bg-primary text-primary-foreground"
 				}`}
@@ -204,7 +204,7 @@ const isActive = (pattern: string) => {
 
 			{/* Contact Us button — mobile */}
 			<a
-				href={`/${lang}/contact`}
+				href={`/${lang}/contact/`}
 				class={`flex w-full items-center justify-center gap-2 rounded-lg px-4 py-3 text-sm font-medium transition-opacity hover:opacity-90 ${
 					isActive("/contact") ? "bg-secondary text-white" : "bg-primary text-primary-foreground"
 				}`}

@@ -23,7 +23,7 @@ const cardClass =
 			class="reveal mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2"
 		>
 			{prev ? (
-				<a href={`/${lang}/wiki/${getWikiSlug(prev)}`} class={`${cardClass} flex flex-col gap-1`}>
+				<a href={`/${lang}/wiki/${getWikiSlug(prev)}/`} class={`${cardClass} flex flex-col gap-1`}>
 					<span class="font-label-caps text-industrial-gray inline-flex items-center gap-2 text-[11px] tracking-widest uppercase">
 						<ArrowLeft
 							class="text-secondary size-4 transition-transform duration-(--dur-fast) group-hover/card:-translate-x-1"
@@ -41,7 +41,7 @@ const cardClass =
 
 			{next && (
 				<a
-					href={`/${lang}/wiki/${getWikiSlug(next)}`}
+					href={`/${lang}/wiki/${getWikiSlug(next)}/`}
 					class={`${cardClass} flex flex-col items-end gap-1 text-right`}
 				>
 					<span class="font-label-caps text-industrial-gray inline-flex items-center gap-2 text-[11px] tracking-widest uppercase">

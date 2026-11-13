@@ -1,4 +1,5 @@
 ---
+import { LLMS_INDEXING } from "astro:env/server";
 import "../styles/global.css";
 import type { ComponentProps } from "astro/types";
 import { SEO } from "astro-seo";
@@ -8,6 +9,7 @@ import Header from "@/components/Header.astro";
 import TechnicalField from "@/components/TechnicalField.astro";
 import companyData from "@/data/company.json";
 import { defaultLang, getIsoLang, getLangFromUrl } from "@/i18n";
+import { markdownPath } from "@/lib/llms";
 import type { SchemaGraph } from "@/lib/structured-data";
 import motionOn from "../lib/anims/motion-on.js?raw";
 import skeletonOn from "../lib/skeleton-on.js?raw";
@@ -57,6 +59,9 @@ const isLocalized = /^\/(en|ua)(\/|$)/.test(currentPath);
 const pathFor = (target: "en" | "ua") => currentPath.replace(/^\/(en|ua)(?=\/|$)/, `/${target}`);
 const urlFor = (target: "en" | "ua") => new URL(pathFor(target), siteUrl).href;
 
+const mdPath = markdownPath(currentPath);
+const markdownUrl = mdPath ? new URL(mdPath, siteUrl).href : undefined;
+
 // Social platforms don't render SVG, so the default share image is a 1200x630 PNG per language
 const ogImage = new URL(image || `/assets/og-${lang}.png`, siteUrl).href;
 const ogImageIsDefault = !image;
@@ -91,6 +96,8 @@ const defaultDescription =
 			title={title}
 			description={description || defaultDescription}
 			canonical={canonicalUrl}
+			noindex={!LLMS_INDEXING}
+			nofollow={!LLMS_INDEXING}
 			openGraph={{
 				basic: {
 					title: title,
@@ -126,6 +133,11 @@ const defaultDescription =
 		/>
 
 		{
+			// Points AI tools at the plain-Markdown copy of this page (see src/lib/llms.ts)
+			markdownUrl && <link rel="alternate" type="text/markdown" href={markdownUrl} />
+		}
+
+		{
 			structuredData && (
 				<script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 			)
@@ -137,7 +149,7 @@ const defaultDescription =
 				if (w.__plerdyCode) return;
 				w.__plerdyCode = 1;
 				w._protocol = w.location.protocol == "https:" ? "https://" : "http://";
-				w._site_hash_code = "722f7e7a90fc3a805c26e6d3b638bc77";
+				w._site_hash_code = "4032906a023912ef8712153f97e74d4c";
 				w._suid = 83066;
 				var s = d.createElement("script");
 				s.async = true;
