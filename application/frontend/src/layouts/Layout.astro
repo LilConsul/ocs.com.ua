@@ -8,6 +8,7 @@ import Header from "@/components/Header.astro";
 import TechnicalField from "@/components/TechnicalField.astro";
 import companyData from "@/data/company.json";
 import { defaultLang, getIsoLang, getLangFromUrl } from "@/i18n";
+import { markdownPath } from "@/lib/llms";
 import type { SchemaGraph } from "@/lib/structured-data";
 import motionOn from "../lib/anims/motion-on.js?raw";
 import skeletonOn from "../lib/skeleton-on.js?raw";
@@ -56,6 +57,9 @@ const companyName = companyData.name[lang as "en" | "ua"] ?? companyData.name.en
 const isLocalized = /^\/(en|ua)(\/|$)/.test(currentPath);
 const pathFor = (target: "en" | "ua") => currentPath.replace(/^\/(en|ua)(?=\/|$)/, `/${target}`);
 const urlFor = (target: "en" | "ua") => new URL(pathFor(target), siteUrl).href;
+
+const mdPath = markdownPath(currentPath);
+const markdownUrl = mdPath ? new URL(mdPath, siteUrl).href : undefined;
 
 // Social platforms don't render SVG, so the default share image is a 1200x630 PNG per language
 const ogImage = new URL(image || `/assets/og-${lang}.png`, siteUrl).href;
@@ -124,6 +128,11 @@ const defaultDescription =
 					]
 				: undefined}
 		/>
+
+		{
+			// Points AI tools at the plain-Markdown copy of this page (see src/lib/llms.ts)
+			markdownUrl && <link rel="alternate" type="text/markdown" href={markdownUrl} />
+		}
 
 		{
 			structuredData && (

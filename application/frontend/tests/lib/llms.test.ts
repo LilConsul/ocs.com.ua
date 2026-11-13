@@ -1,12 +1,20 @@
 import { describe, expect, it } from "bun:test";
 import type { EquipmentEntry } from "@/lib/content-utils";
 import { getIndustriesForLocale } from "@/lib/content-utils";
+import { getPrivacyPolicySource, getTermsOfUseSource } from "@/lib/legal/document";
 import {
 	aboutMarkdown,
 	buildLlmsFullTxt,
 	buildLlmsTxt,
+	categoryMarkdown,
+	contactMarkdown,
+	homeMarkdown,
 	industryMarkdown,
+	markdownPath,
+	privacyMarkdown,
 	productMarkdown,
+	termsMarkdown,
+	wikiIndexMarkdown,
 	wikiMarkdown,
 } from "@/lib/llms";
 import type { WikiEntry } from "@/lib/wiki-utils";
@@ -70,11 +78,28 @@ describe("llms.txt", () => {
 		expect(txt).not.toContain("_index");
 	});
 
-	it("links industries, about, contact and the full-text file", () => {
-		expect(txt).toContain(`${SITE}/ua/catalogue/industry/food-beverage.md)`);
-		expect(txt).toContain(`${SITE}/ua/about.md)`);
-		expect(txt).toContain(`${SITE}/ua/contact)`);
+	it("links the Markdown copy of every kind of page and the full-text file", () => {
+		for (const path of [
+			"/ua/index.md",
+			"/ua/catalogue/equipment/checkweigher.md",
+			"/ua/catalogue/industry/food-beverage.md",
+			"/ua/wiki.md",
+			"/ua/about.md",
+			"/ua/contact.md",
+			"/ua/privacy.md",
+			"/ua/terms.md",
+			"/en/index.md",
+			"/en/terms.md",
+		]) {
+			expect(txt).toContain(`${SITE}${path})`);
+		}
 		expect(txt).toContain(`${SITE}/llms-full.txt`);
+	});
+
+	it("links no HTML page directly", () => {
+		const urls = [...txt.matchAll(/\]\((https?:[^)]+)\)/g)].map((m) => m[1]);
+		expect(urls.length).toBeGreaterThan(0);
+		for (const url of urls) expect(url.endsWith(".md")).toBe(true);
 	});
 
 	it("never points at the CMS or the API", () => {
@@ -184,5 +209,78 @@ describe("About Markdown copy", () => {
 
 	it("contains no soft hyphens", () => {
 		expect(ua).not.toContain("­");
+	});
+});
+
+describe("Markdown copies of the remaining pages", () => {
+	it("maps every localized page path to its copy and skips error pages", () => {
+		expect(markdownPath("/ua/")).toBe("/ua/index.md");
+		expect(markdownPath("/en")).toBe("/en/index.md");
+		expect(markdownPath("/ua/about")).toBe("/ua/about.md");
+		expect(markdownPath("/ua/wiki/")).toBe("/ua/wiki.md");
+		expect(markdownPath("/ua/catalogue/equipment/checkweigher/hc-a/")).toBe(
+			"/ua/catalogue/equipment/checkweigher/hc-a.md"
+		);
+		expect(markdownPath("/404")).toBeUndefined();
+		expect(markdownPath("/admin/")).toBeUndefined();
+	});
+
+	it("home: company, contacts and links to every section", () => {
+		const md = homeMarkdown("ua", content);
+		expect(md.startsWith("# ОС-Технолоджи Україна")).toBe(true);
+		expect(md).toContain("info@ocs.com.ua");
+		expect(md).toContain(`${SITE}/ua/catalogue/equipment/checkweigher/hc-a.md`);
+		expect(md).toContain(`${SITE}/ua/wiki/load-cell.md`);
+	});
+
+	it("category: description and its products only", () => {
+		const md = categoryMarkdown(
+			{ slug: "checkweigher", title: "Ваги", description: "Опис ваг", icon: "scale" },
+			"ua",
+			equipment,
+			SITE
+		);
+		expect(md.startsWith("# Ваги\n")).toBe(true);
+		expect(md).toContain(`: ${SITE}/ua/catalogue/equipment/checkweigher\n`);
+		expect(md).toContain(`- [Ваги HC-A](${SITE}/ua/catalogue/equipment/checkweigher/hc-a.md)`);
+		expect(md).not.toContain("/en/");
+	});
+
+	it("wiki index: every article of the language", () => {
+		const md = wikiIndexMarkdown("en", wiki, SITE);
+		expect(md).toContain(`- [Load cell](${SITE}/en/wiki/load-cell.md): About load cells`);
+		expect(md).not.toContain("/ua/wiki/");
+	});
+
+	it("contact: person, phone, email, address and profiles", () => {
+		const md = contactMarkdown("ua", SITE);
+		for (const t of ["Георгій Шевченко", "+38 067 35 33 853", "info@ocs.com.ua", "Київ"]) {
+			expect(md).toContain(t);
+		}
+		expect(md).toContain("https://www.facebook.com/ocs.com.ua");
+	});
+
+	it("privacy and terms: every section of the document, in order", () => {
+		for (const [md, source] of [
+			[privacyMarkdown("ua", SITE), getPrivacyPolicySource("ua")],
+			[termsMarkdown("en", SITE), getTermsOfUseSource("en")],
+		] as const) {
+			expect(md).toContain(source.effectiveDate);
+			let last = -1;
+			source.sections.forEach((s, i) => {
+				const at = md.indexOf(`## ${i + 1}. ${s.title}`);
+				expect(at).toBeGreaterThan(last);
+				last = at;
+			});
+			expect(md).not.toContain("{email}");
+			expect(md).not.toContain("{address}");
+		}
+	});
+
+	it("llms-full.txt includes the contact page and both legal documents", () => {
+		const full = buildLlmsFullTxt(content);
+		const _ = getPrivacyPolicySource("ua").sections[0].title;
+		expect(full).toContain(`## 1. ${_}`);
+		expect(full).toContain("Георгій Шевченко");
 	});
 });

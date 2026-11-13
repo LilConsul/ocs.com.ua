@@ -6,17 +6,26 @@ How the site is exposed to AI assistants (ChatGPT, Perplexity, Gemini, Claude) a
 
 All files are prerendered from the content collections and `src/data/*.json`, so CMS edits show up on the next deploy.
 
-| URL                                                | Source                                                         | Contents                                                                                       |
-| -------------------------------------------------- | -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| `/llms.txt`                                        | `src/pages/llms.txt.ts`                                        | Map of the site in the [llms.txt](https://llmstxt.org) format. Ukrainian first, English after. |
-| `/llms-full.txt`                                   | `src/pages/llms-full.txt.ts`                                   | Every product and wiki article in full, in one file.                                           |
-| `/{lang}/catalogue/equipment/{category}/{slug}.md` | `src/pages/[lang]/catalogue/equipment/[category]/[slug].md.ts` | Markdown copy of a product page with specs.                                                    |
-| `/{lang}/wiki/{slug}.md`                           | `src/pages/[lang]/wiki/[slug].md.ts`                           | Markdown copy of a wiki article.                                                               |
-| `/{lang}/catalogue/industry/{slug}.md`             | `src/pages/[lang]/catalogue/industry/[slug].md.ts`             | Markdown copy of an industry page with the products used in it.                                |
-| `/{lang}/about.md`                                 | `src/pages/[lang]/about.md.ts`                                 | Markdown copy of the About page: manufacturers, installed base and clients (names only).       |
-| `/robots.txt`                                      | `src/pages/robots.txt.ts`                                      | Allows all crawlers and names the AI search and training crawlers explicitly.                  |
+Every public page has a Markdown copy next to it: add `.md` to the page path (`/ua/about` -> `/ua/about.md`). The home page is the exception, since `/ua/` has no name to extend: its copy is `/ua/index.md`. Each HTML page links its copy in `<head>` with `<link rel="alternate" type="text/markdown">`. Only the 404 and 50x error pages have no copy.
 
-The text is built in `src/lib/llms.ts`; the manufacturer details come from `src/lib/about/manufacturers.ts`, shared with the About page. The Contact page has no copy because its details are already at the top of `/llms.txt`. Labels use `_()` like the pages, so new labels need a `locales/ua.po` translation. The Markdown copies are not in the sitemap; the HTML pages stay canonical.
+| URL                                                | Source (under `src/pages/`)                          | Contents                                                                                                                     |
+| -------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `/llms.txt`                                        | `llms.txt.ts`                                        | Map of the site in the [llms.txt](https://llmstxt.org) format, linking only Markdown copies. Ukrainian first, English after. |
+| `/llms-full.txt`                                   | `llms-full.txt.ts`                                   | Full text of every page in one file. Pages that are only link lists (home, categories, wiki index) are left out.             |
+| `/{lang}/index.md`                                 | `[lang]/index.md.ts`                                 | Home: company, contacts and links to every section.                                                                          |
+| `/{lang}/catalogue/equipment/{category}.md`        | `[lang]/catalogue/equipment/[category].md.ts`        | Equipment category with its products.                                                                                        |
+| `/{lang}/catalogue/equipment/{category}/{slug}.md` | `[lang]/catalogue/equipment/[category]/[slug].md.ts` | Product with specs.                                                                                                          |
+| `/{lang}/catalogue/industry/{slug}.md`             | `[lang]/catalogue/industry/[slug].md.ts`             | Industry with the products used in it.                                                                                       |
+| `/{lang}/wiki.md`                                  | `[lang]/wiki.md.ts`                                  | Wiki index.                                                                                                                  |
+| `/{lang}/wiki/{slug}.md`                           | `[lang]/wiki/[slug].md.ts`                           | Wiki article.                                                                                                                |
+| `/{lang}/about.md`                                 | `[lang]/about.md.ts`                                 | Manufacturers, installed base and clients (names only).                                                                      |
+| `/{lang}/contact.md`                               | `[lang]/contact.md.ts`                               | Contact details, authorization letters, company profiles.                                                                    |
+| `/{lang}/privacy.md`, `/{lang}/terms.md`           | `[lang]/privacy.md.ts`, `[lang]/terms.md.ts`         | Full legal text, the same as the page.                                                                                       |
+| `/robots.txt`                                      | `robots.txt.ts`                                      | Allows all crawlers and names the AI search and training crawlers explicitly.                                                |
+
+The text is built in `src/lib/llms.ts`. The manufacturer details come from `src/lib/about/manufacturers.ts` and the legal text from `src/lib/legal/document.ts`, both shared with the pages. Labels use `_()` like the pages, so new labels need a `locales/ua.po` translation. The Markdown copies are not in the sitemap; the HTML pages stay canonical.
+
+A new page under `src/pages/[lang]/` gets the `<head>` link automatically, so it also needs a `.md.ts` route next to it, or the link points at a missing file.
 
 ## Checklist outside the code
 
