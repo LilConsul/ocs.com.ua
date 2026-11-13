@@ -1,14 +1,19 @@
 /**
  * Builders for the LLM-facing text files: /llms.txt (https://llmstxt.org), /llms-full.txt and the
- * per-page Markdown copies of products and wiki articles. Pure functions over content entries, so
+ * per-page Markdown copies of products, industries, wiki articles and the About page. Pure functions over content entries, so
  * the endpoints stay thin and the output is unit-testable.
  */
 
 import companyData from "@/data/company.json";
+import partnersRaw from "@/data/partners.json";
 import { getInlineTranslations, type Lang } from "@/i18n";
+import { getManufacturers } from "./about/manufacturers";
+import { formatApprox, getSectorBreakdowns, getSiteStats } from "./about/partners-data";
+import type { PartnersData } from "./about/types";
 import { industryUrl, productUrl } from "./catalogue-urls";
 import {
 	type EquipmentEntry,
+	filterByIndustry,
 	filterByLocale,
 	flattenSpecs,
 	getCategoriesForLocale,
@@ -19,6 +24,8 @@ import {
 	getProducts,
 	getSlug,
 	groupByCategory,
+	type Industry,
+	sortByOrder,
 } from "./content-utils";
 import {
 	filterWikiByLocale,
@@ -56,7 +63,9 @@ const link = (title: string, url: string, note?: string | null) => {
 const absolutizeLinks = (markdown: string, site: URL | string) =>
 	markdown.replace(/\]\((\/[^)\s]*)\)/g, (_m, path: string) => `](${abs(path, site)})`);
 
-const join = (blocks: string[]) => `${blocks.filter(Boolean).join("\n\n").trim()}\n`;
+// Soft hyphens in UI translations ("Метало-детектори") are layout hints, not text
+const join = (blocks: string[]) =>
+	`${blocks.filter(Boolean).join("\n\n").replace(/­/g, "").trim()}\n`;
 
 function companyBlock(lang: Lang): string {
 	const _ = getInlineTranslations(lang);
@@ -98,7 +107,7 @@ function linkSections(lang: Lang, { site, equipment, wiki }: LlmsContent): strin
 	}
 
 	const industries = getIndustriesForLocale(lang).map((i) =>
-		link(i.title, abs(industryUrl(lang, i.slug), site), i.description)
+		link(i.title, mdUrl(industryUrl(lang, i.slug), site), i.description)
 	);
 	if (industries.length) sections.push(`## ${_("Industries")}\n\n${industries.join("\n")}`);
 
@@ -109,7 +118,7 @@ function linkSections(lang: Lang, { site, equipment, wiki }: LlmsContent): strin
 
 	sections.push(
 		`## ${_("Company")}\n\n${[
-			link(_("About"), abs(`/${lang}/about`, site)),
+			link(_("About"), mdUrl(`/${lang}/about`, site)),
 			link(_("Contact"), abs(`/${lang}/contact`, site)),
 		].join("\n")}`
 	);
@@ -216,13 +225,116 @@ export function wikiMarkdown(entry: WikiEntry, site: URL | string): string {
 	]);
 }
 
-/** /llms-full.txt: every Ukrainian product and article in full, then the English ones. */
+/** Markdown copy of an industry page: what it is and the products used in it. */
+export function industryMarkdown(
+	industry: Industry,
+	lang: Lang,
+	allEquipment: EquipmentEntry[],
+	site: URL | string
+): string {
+	const _ = getInlineTranslations(lang);
+	const products = getProducts(allEquipment);
+	const used = sortByOrder(
+		filterByIndustry(filterByLocale(products, lang), industry.slug, products)
+	).map((p) =>
+		link(
+			p.data.title,
+			mdUrl(productUrl(lang, getCategory(p), getSlug(p)), site),
+			p.data.description
+		)
+	);
+	return join([
+		`# ${industry.title}`,
+		industry.description ? `> ${oneLine(industry.description)}` : "",
+		[
+			`- ${_("Page")}: ${abs(industryUrl(lang, industry.slug), site)}`,
+			`- ${_("Supplier in Ukraine")}: ${companyData.name[lang]}`,
+		].join("\n"),
+		used.length ? `## ${_("Equipment")}\n\n${used.join("\n")}` : "",
+		`## ${_("Contact")}\n\n${companyBlock(lang)}`,
+	]);
+}
+
+/** Markdown copy of the About page: credentials, installed base and clients. */
+export function aboutMarkdown(lang: Lang, site: URL | string): string {
+	const _ = getInlineTranslations(lang);
+	const partners = partnersRaw as PartnersData;
+	const stats = getSiteStats(partners);
+	const sectors = getSectorBreakdowns(partners);
+	const installed = sectors.reduce(
+		(sum, s) => ({ cw: sum.cw + s.stats.cw, md: sum.md + s.stats.md, tqs: sum.tqs + s.stats.tqs }),
+		{ cw: 0, md: 0, tqs: 0 }
+	);
+	const clientsLine = _("Trusted by {clients} factories across Ukraine").replace(
+		"{clients}",
+		formatApprox(stats.clients)
+	);
+
+	const facts = [
+		`- ${_("Page")}: ${abs(`/${lang}/about`, site)}`,
+		`- ${_("Serving Ukraine since 2013")}`,
+		`- ${clientsLine}`,
+		`- ${_("Installed Systems")}: ${formatApprox(stats.systems)}`,
+		`- ${_("Checkweighers")}: ${formatApprox(installed.cw)}`,
+		`- ${_("Metal Detectors")}: ${formatApprox(installed.md)}`,
+		installed.tqs ? `- ${_("Serialization Stations")}: ${formatApprox(installed.tqs)}` : "",
+	]
+		.filter(Boolean)
+		.join("\n");
+
+	const manufacturers = getManufacturers(lang).map((m) =>
+		[
+			`### ${m.name}`,
+			`${m.description} ${m.details}`,
+			m.features.map((f) => `- ${f}`).join("\n"),
+			[
+				`- ${m.location}`,
+				`- ${m.websiteUrl}`,
+				m.pdfUrl ? `- [${_("Authorization Letter")}](${abs(m.pdfUrl, site)})` : "",
+			]
+				.filter(Boolean)
+				.join("\n"),
+		].join("\n\n")
+	);
+
+	// Client names only: per-client equipment counts stay behind SHOW_CLIENT_EQUIPMENT on the page
+	const clients = sectors
+		.map((sector) => {
+			const names = partners[sector.category].map((p) =>
+				p.website ? `- [${p.name[lang]}](${p.website})` : `- ${p.name[lang]}`
+			);
+			return names.length ? `### ${sector.title[lang]}\n\n${names.join("\n")}` : "";
+		})
+		.filter(Boolean);
+
+	const summary = _(
+		"Official exclusive distributor and certified engineering partner of WIPOTEC GmbH and MESUTRONIC Gerätebau GmbH in Ukraine. {systems} systems installed."
+	).replace("{systems}", formatApprox(stats.systems));
+
+	return join([
+		`# ${companyData.name[lang]}`,
+		`> ${summary}`,
+		_(
+			"OS-Technology Ukraine is the exclusive authorized distributor and certified integration partner of WIPOTEC GmbH and MESUTRONIC Gerätebau GmbH in Ukraine. We supply dynamic checkweighers, industrial metal detectors, X-Ray scanners, and Track & Trace serialization and aggregation systems for the pharmaceutical industry with turnkey commissioning and factory warranty."
+		),
+		facts,
+		`## ${_("Manufacturers")}\n\n${manufacturers.join("\n\n")}`,
+		clients.length ? `## ${_("Our clients")}\n\n${clients.join("\n\n")}` : "",
+		`## ${_("Contact")}\n\n${companyBlock(lang)}`,
+	]);
+}
+
+/** /llms-full.txt: every Ukrainian page copy in full (about, products, industries, articles), then the English ones. */
 export function buildLlmsFullTxt(content: LlmsContent): string {
 	const { site, equipment, wiki } = content;
 	const docs: string[] = [...header("ua")];
 	for (const lang of LANGS) {
+		docs.push(aboutMarkdown(lang, site).trim());
 		for (const { products } of productsByCategory(lang, equipment)) {
 			for (const p of products) docs.push(productMarkdown(p, equipment, site).trim());
+		}
+		for (const i of getIndustriesForLocale(lang)) {
+			docs.push(industryMarkdown(i, lang, equipment, site).trim());
 		}
 		for (const a of articles(lang, wiki)) docs.push(wikiMarkdown(a, site).trim());
 	}

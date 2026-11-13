@@ -12,9 +12,11 @@ All files are prerendered from the content collections and `src/data/*.json`, so
 | `/llms-full.txt`                                   | `src/pages/llms-full.txt.ts`                                   | Every product and wiki article in full, in one file.                                           |
 | `/{lang}/catalogue/equipment/{category}/{slug}.md` | `src/pages/[lang]/catalogue/equipment/[category]/[slug].md.ts` | Markdown copy of a product page with specs.                                                    |
 | `/{lang}/wiki/{slug}.md`                           | `src/pages/[lang]/wiki/[slug].md.ts`                           | Markdown copy of a wiki article.                                                               |
+| `/{lang}/catalogue/industry/{slug}.md`             | `src/pages/[lang]/catalogue/industry/[slug].md.ts`             | Markdown copy of an industry page with the products used in it.                                |
+| `/{lang}/about.md`                                 | `src/pages/[lang]/about.md.ts`                                 | Markdown copy of the About page: manufacturers, installed base and clients (names only).       |
 | `/robots.txt`                                      | `src/pages/robots.txt.ts`                                      | Allows all crawlers and names the AI search and training crawlers explicitly.                  |
 
-The text is built in `src/lib/llms.ts`. Labels use `_()` like the pages, so new labels need a `locales/ua.po` translation. The Markdown copies are not in the sitemap; the HTML pages stay canonical.
+The text is built in `src/lib/llms.ts`; the manufacturer details come from `src/lib/about/manufacturers.ts`, shared with the About page. The Contact page has no copy because its details are already at the top of `/llms.txt`. Labels use `_()` like the pages, so new labels need a `locales/ua.po` translation. The Markdown copies are not in the sitemap; the HTML pages stay canonical.
 
 ## Checklist outside the code
 

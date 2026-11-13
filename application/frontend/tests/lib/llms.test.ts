@@ -1,6 +1,14 @@
 import { describe, expect, it } from "bun:test";
 import type { EquipmentEntry } from "@/lib/content-utils";
-import { buildLlmsFullTxt, buildLlmsTxt, productMarkdown, wikiMarkdown } from "@/lib/llms";
+import { getIndustriesForLocale } from "@/lib/content-utils";
+import {
+	aboutMarkdown,
+	buildLlmsFullTxt,
+	buildLlmsTxt,
+	industryMarkdown,
+	productMarkdown,
+	wikiMarkdown,
+} from "@/lib/llms";
 import type { WikiEntry } from "@/lib/wiki-utils";
 
 const SITE = "https://ocs.com.ua";
@@ -63,8 +71,8 @@ describe("llms.txt", () => {
 	});
 
 	it("links industries, about, contact and the full-text file", () => {
-		expect(txt).toContain(`${SITE}/ua/catalogue/industry/food-beverage)`);
-		expect(txt).toContain(`${SITE}/ua/about)`);
+		expect(txt).toContain(`${SITE}/ua/catalogue/industry/food-beverage.md)`);
+		expect(txt).toContain(`${SITE}/ua/about.md)`);
 		expect(txt).toContain(`${SITE}/ua/contact)`);
 		expect(txt).toContain(`${SITE}/llms-full.txt`);
 	});
@@ -122,5 +130,59 @@ describe("wiki Markdown copy and llms-full.txt", () => {
 		}
 		expect(full.indexOf("# Ваги HC-A")).toBeLessThan(full.indexOf("# HC-A Checkweigher"));
 		expect(full.endsWith("\n")).toBe(true);
+	});
+});
+
+describe("industry Markdown copy", () => {
+	const food = getIndustriesForLocale("ua").find((i) => i.slug === "food-beverage");
+	if (!food) throw new Error("food-beverage industry missing from industries.json");
+	const pharma = getIndustriesForLocale("ua").find((i) => i.slug === "pharmaceutical");
+	if (!pharma) throw new Error("pharmaceutical industry missing from industries.json");
+
+	it("lists the products tagged with the industry, linked to their Markdown copies", () => {
+		const md = industryMarkdown(food, "ua", equipment, SITE);
+		expect(md.startsWith(`# ${food.title}\n`)).toBe(true);
+		expect(md).toContain(`${SITE}/ua/catalogue/industry/food-beverage`);
+		expect(md).toContain(`- [Ваги HC-A](${SITE}/ua/catalogue/equipment/checkweigher/hc-a.md)`);
+		expect(md).toContain("info@ocs.com.ua");
+	});
+
+	it("leaves out the equipment section when no product is tagged", () => {
+		expect(industryMarkdown(pharma, "ua", equipment, SITE)).not.toContain("hc-a.md");
+	});
+
+	it("takes the tags from the Ukrainian file for English products", () => {
+		const en = getIndustriesForLocale("en").find((i) => i.slug === "food-beverage");
+		if (!en) throw new Error("food-beverage industry missing from industries.json");
+		expect(industryMarkdown(en, "en", equipment, SITE)).toContain(
+			`${SITE}/en/catalogue/equipment/checkweigher/hc-a.md`
+		);
+	});
+});
+
+describe("About Markdown copy", () => {
+	const ua = aboutMarkdown("ua", SITE);
+	const en = aboutMarkdown("en", SITE);
+
+	it("names the company and both manufacturers", () => {
+		expect(ua.startsWith("# ОС-Технолоджи Україна\n")).toBe(true);
+		expect(en.startsWith("# OS-Technology Ukraine\n")).toBe(true);
+		for (const md of [ua, en]) {
+			expect(md).toContain("### WIPOTEC GmbH");
+			expect(md).toContain("### MESUTRONIC Gerätebau GmbH");
+		}
+	});
+
+	it("lists clients by name with their websites", () => {
+		expect(ua).toContain("- [Рошен](https://roshen.com)");
+		expect(en).toContain("- [Roshen](https://roshen.com)");
+	});
+
+	it("keeps per-client equipment counts out", () => {
+		expect(en).not.toMatch(/Roshen\]\([^)]*\)\s*[:(\d]/);
+	});
+
+	it("contains no soft hyphens", () => {
+		expect(ua).not.toContain("­");
 	});
 });

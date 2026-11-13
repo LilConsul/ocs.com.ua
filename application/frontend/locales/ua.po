@@ -31,7 +31,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: i18n-extract\n"
 
-#: src/lib/llms.ts:106
+#: src/lib/llms.ts:121
 msgid "About"
 msgstr "Про компанію"
 
@@ -52,7 +52,7 @@ msgstr "Діючі підприємства клієнтів:"
 msgid "Active Factory Installations Across Regional Hubs"
 msgstr "Діючі заводські установки в регіональних хабах"
 
-#: src/lib/llms.ts:68
+#: src/lib/llms.ts:77
 #: src/components/contact/OfficeLocation.astro:50
 #: src/components/contact/ContactInfoCard.astro:86
 msgid "Address"
@@ -89,7 +89,8 @@ msgstr "Сталася непередбачена помилка. Будь ла�
 msgid "Article navigation"
 msgstr "Навігація по статтях"
 
-#: src/components/about/ManufacturerCredentials.astro:156
+#: src/lib/llms.ts:289
+#: src/components/about/ManufacturerCredentials.astro:114
 msgid "Authorization Letter"
 msgstr "Авторизаційний лист"
 
@@ -130,7 +131,7 @@ msgstr "Каталог"
 msgid "Catalogue Filters"
 msgstr "Фільтри каталогу"
 
-#: src/lib/llms.ts:168
+#: src/lib/llms.ts:196
 msgid "Category"
 msgstr "Категорія"
 
@@ -138,6 +139,7 @@ msgstr "Категорія"
 msgid "Category navigation"
 msgstr "Навігація за категоріями"
 
+#: src/lib/llms.ts:272
 #: src/components/contact/ContactForm.astro:23
 #: src/components/about/InteractiveUkraineMap.astro:22
 #: src/components/about/ClientDirectory.astro:45
@@ -153,7 +155,7 @@ msgstr "Контрольно динамічні ваги та інспекцій
 msgid "Checkweighers, Metal Detectors, Serialization & Aggregation Systems"
 msgstr "Контрольно динамічні ваги, металодетектори, системи серіалізації та агрегації"
 
-#: src/lib/llms.ts:119
+#: src/lib/llms.ts:134
 #: src/pages/[lang]/index.astro:32
 msgid "Checkweighers, metal detectors & Track & Trace systems for food, pharmaceutical and logistics industries in Ukraine. Official WIPOTEC & MESUTRONIC partner."
 msgstr "Контрольно-динамічні ваги, металодетектори та системи Track & Trace для харчової промисловості, фармацевтики й логістики. Офіційний партнер WIPOTEC та MESUTRONIC."
@@ -200,13 +202,15 @@ msgstr "Закрити сповіщення"
 msgid "Close preview"
 msgstr "Закрити попередній перегляд"
 
-#: src/lib/llms.ts:105
+#: src/lib/llms.ts:120
 #: src/components/contact/ContactForm.astro:146
 #: src/components/catalogue/DatasheetModal.astro:133
 msgid "Company"
 msgstr "Компанія"
 
-#: src/lib/llms.ts:107
+#: src/lib/llms.ts:122
+#: src/lib/llms.ts:251
+#: src/lib/llms.ts:331
 msgid "Contact"
 msgstr "Контакти"
 
@@ -218,10 +222,10 @@ msgstr "Контактна інформація"
 #: src/components/Header.astro:212
 #: src/pages/[lang]/contact.astro:40
 #: src/components/contact/ContactHero.astro:28
-#: src/components/homepage/HeroSection.astro:103
-#: src/components/catalogue/CatalogueSidebar.astro:198
 #: src/components/errors/ServerErrorContent.astro:43
 #: src/components/errors/NotFoundContent.astro:49
+#: src/components/homepage/HeroSection.astro:103
+#: src/components/catalogue/CatalogueSidebar.astro:198
 #: src/components/about/AboutCta.astro:35
 msgid "Contact Us"
 msgstr "Зв’язатися з нами"
@@ -271,7 +275,7 @@ msgstr "Географія впроваджень"
 msgid "Describe your requirements…"
 msgstr "Опишіть свої потреби…"
 
-#: src/components/about/ManufacturerCredentials.astro:80
+#: src/components/about/ManufacturerCredentials.astro:38
 msgid "Direct Factory Partnership & Certified Distribution"
 msgstr "Пряме партнерство із заводами та сертифікована дистрибуція"
 
@@ -287,8 +291,8 @@ msgstr "Подвійний клік — масштаб"
 msgid "Download"
 msgstr "Завантажити"
 
-#: src/components/about/ManufacturerCredentials.astro:164
-#: src/components/about/ManufacturerCredentials.astro:171
+#: src/components/about/ManufacturerCredentials.astro:122
+#: src/components/about/ManufacturerCredentials.astro:129
 msgid "Download PDF"
 msgstr "Завантажити PDF"
 
@@ -296,7 +300,7 @@ msgstr "Завантажити PDF"
 msgid "Download Technical Datasheet"
 msgstr "Завантажити технічну специфікацію"
 
-#: src/components/about/ManufacturerCredentials.astro:22
+#: src/lib/about/manufacturers.ts:30
 msgid "Dynamic checkweighers with electromagnetic force compensation technology, X-Ray scanners, and Track & Trace serialization and aggregation systems for the pharmaceutical industry."
 msgstr "Контрольні динамічні ваги з технологією електромагнітної компенсації сили, X-Ray сканери та системи серіалізації та агрегації Track & Trace для фармацевтичної промисловості."
 
@@ -315,6 +319,10 @@ msgstr "Технічний запит"
 #: src/components/about/ClientDirectory.astro:100
 msgid "Enterprise Reference Directory"
 msgstr "Довідник підприємств-клієнтів"
+
+#: src/lib/llms.ts:247
+msgid "Equipment"
+msgstr "Обладнання"
 
 #: src/components/catalogue/CatalogueSidebar.astro:32
 msgid "Equipment Categories"
@@ -377,7 +385,7 @@ msgstr "Харчова промисловість"
 msgid "Full Name"
 msgstr "Повне ім'я"
 
-#: src/lib/llms.ts:135
+#: src/lib/llms.ts:150
 msgid "Full text of every product and article"
 msgstr "Повний текст усіх товарів і статей"
 
@@ -415,11 +423,11 @@ msgstr "Умови використання Google"
 msgid "Hello, world"
 msgstr "Привіт, світе!"
 
-#: src/components/about/ManufacturerCredentials.astro:29
+#: src/lib/about/manufacturers.ts:37
 msgid "High-precision dynamic checkweighers (up to 600 - 1000 pcs/min)"
 msgstr "Високоточні контрольні динамічні ваги (до 600 - 1000 шт/хв)"
 
-#: src/components/about/ManufacturerCredentials.astro:30
+#: src/lib/about/manufacturers.ts:38
 msgid "High-resolution industrial X-Ray scanners"
 msgstr "Промислові X-Ray сканери високої роздільної здатності"
 
@@ -459,8 +467,8 @@ msgstr "Перегляд зображення у збільшеному форм
 msgid "Industrial Checkweigher Systems"
 msgstr "Промислові системи контрольного зважування"
 
-#: src/lib/llms.ts:97
-#: src/lib/llms.ts:171
+#: src/lib/llms.ts:112
+#: src/lib/llms.ts:199
 #: src/components/Header.astro:32
 #: src/components/catalogue/CatalogueSidebar.astro:39
 msgid "Industries"
@@ -491,6 +499,7 @@ msgstr "Встановлених систем"
 msgid "Installed Equipment:"
 msgstr "Встановлене обладнання:"
 
+#: src/lib/llms.ts:271
 #: src/components/about/AboutHero.astro:38
 msgid "Installed Systems"
 msgstr "Встановлених систем"
@@ -557,7 +566,7 @@ msgstr "Довгострокове партнерство, засноване н
 msgid "MESUTRONIC Authorized Distributor Certificate"
 msgstr "Сертифікат авторизованого дистриб'ютора MESUTRONIC"
 
-#: src/components/about/ManufacturerCredentials.astro:45
+#: src/lib/about/manufacturers.ts:53
 msgid "MESUTRONIC Gerätebau GmbH develops and manufactures metal detectors in Kirchberg im Wald, Germany."
 msgstr "MESUTRONIC Gerätebau GmbH розробляє та виготовляє металодетектори у місті Кірхбергім-Вальд, Німеччина."
 
@@ -566,11 +575,12 @@ msgstr "MESUTRONIC Gerätebau GmbH розробляє та виготовляє 
 msgid "Main Office"
 msgstr "Головний офіс"
 
-#: src/lib/llms.ts:169
+#: src/lib/llms.ts:197
 msgid "Manufacturer"
 msgstr "Виробник"
 
-#: src/components/about/ManufacturerCredentials.astro:70
+#: src/lib/llms.ts:321
+#: src/components/about/ManufacturerCredentials.astro:28
 msgid "Manufacturers"
 msgstr "Виробники"
 
@@ -578,7 +588,7 @@ msgstr "Виробники"
 msgid "Map showing OS-Technology Ukraine office location"
 msgstr "Карта з розташуванням офісу ОС-Технолоджи Україна"
 
-#: src/components/about/ManufacturerCredentials.astro:49
+#: src/lib/about/manufacturers.ts:57
 msgid "Meatline & Pipeline Metal Inspection For Pumped Products"
 msgstr "Meatline та трубопровідний контроль металу для рідких і пастоподібних продуктів"
 
@@ -590,17 +600,18 @@ msgstr "Повідомлення"
 msgid "Mesutronic Authorization Letter"
 msgstr "Авторизаційний лист Mesutronic"
 
+#: src/lib/llms.ts:273
 #: src/components/about/InteractiveUkraineMap.astro:23
 #: src/components/about/ClientDirectory.astro:46
 #: src/components/about/AboutHero.astro:40
 msgid "Metal Detectors"
 msgstr "Метало­детектори"
 
-#: src/components/about/ManufacturerCredentials.astro:42
+#: src/lib/about/manufacturers.ts:50
 msgid "Metal detectors for food and pharmaceutical production lines. They detect ferrous, non-ferrous and stainless steel contaminants."
 msgstr "Металодетектори для виробничих ліній харчової та фармацевтичної галузей. Виявляють чорні, кольорові метали та нержавіючу сталь."
 
-#: src/components/about/ManufacturerCredentials.astro:51
+#: src/lib/about/manufacturers.ts:59
 msgid "Metron FlatLine & Transtron High-Sensitivity Conveyor Systems"
 msgstr "Конвеєрні системи високої чутливості Metron FlatLine та Transtron"
 
@@ -647,7 +658,8 @@ msgstr "За вашим запитом обладнання не знайден�
 msgid "OS-Technology Ukraine"
 msgstr "ОС-Технолоджи Україна"
 
-#: src/lib/llms.ts:122
+#: src/lib/llms.ts:137
+#: src/lib/llms.ts:317
 #: src/components/about/AboutHero.astro:82
 msgid "OS-Technology Ukraine is the exclusive authorized distributor and certified integration partner of WIPOTEC GmbH and MESUTRONIC Gerätebau GmbH in Ukraine. We supply dynamic checkweighers, industrial metal detectors, X-Ray scanners, and Track & Trace serialization and aggregation systems for the pharmaceutical industry with turnkey commissioning and factory warranty."
 msgstr "ОС-Технолоджи Україна — ексклюзивний авторизований дистриб'ютор та сертифікований інтеграційний партнер WIPOTEC GmbH і MESUTRONIC Gerätebau GmbH в Україні. Ми постачаємо контрольні динамічні ваги, промислові металодетектори, X-Ray сканери та системи серіалізації та агрегації Track & Trace для фармацевтичної промисловості із введенням в експлуатацію під ключ та заводською гарантією."
@@ -656,7 +668,7 @@ msgstr "ОС-Технолоджи Україна — ексклюзивний а
 msgid "OS-Technology Ukraine | Checkweighers & Inspection Systems"
 msgstr "ОС-Технолоджи Україна | Промислові інспекційні системи"
 
-#: src/components/about/ManufacturerCredentials.astro:76
+#: src/components/about/ManufacturerCredentials.astro:34
 msgid "Official German Engineering Credentials"
 msgstr "Офіційні повноваження німецьких виробників"
 
@@ -672,6 +684,7 @@ msgstr "Офіційний партнер Wipotec GmbH"
 msgid "Official distributorship certificates."
 msgstr "Офіційні сертифікати дистриб'ютора."
 
+#: src/lib/llms.ts:314
 #: src/pages/[lang]/about.astro:44
 msgid "Official exclusive distributor and certified engineering partner of WIPOTEC GmbH and MESUTRONIC Gerätebau GmbH in Ukraine. {systems} systems installed."
 msgstr "Офіційний ексклюзивний дистриб'ютор та сертифікований інженерний партнер WIPOTEC GmbH і MESUTRONIC Gerätebau GmbH в Україні. Встановлено систем: {systems}."
@@ -692,7 +705,7 @@ msgstr "Відкрити фільтри"
 
 #: src/components/contact/ContactInfoCard.astro:79
 #: src/components/contact/ContactInfoCard.astro:80
-#: src/components/about/ManufacturerCredentials.astro:100
+#: src/components/about/ManufacturerCredentials.astro:58
 msgid "Open in Google Maps"
 msgstr "Відкрити в Google Maps"
 
@@ -705,6 +718,10 @@ msgstr "Інше"
 msgid "Our Clients"
 msgstr "Наші клієнти"
 
+#: src/lib/llms.ts:326
+msgid "Our clients"
+msgstr "Наші клієнти"
+
 #: src/pages/[lang]/catalogue/equipment/[category]/[slug].astro:217
 msgid "Our engineering team is ready to configure this equipment for your specific production environment."
 msgstr "Наша інженерна команда готова підібрати конфігурацію обладнання відповідно до потреб вашого виробництва."
@@ -713,8 +730,10 @@ msgstr "Наша інженерна команда готова підібрат
 msgid "Our engineers will help you choose the optimal solution for your production line."
 msgstr "Наші інженери допоможуть підібрати оптимальне рішення для вашої виробничої лінії."
 
-#: src/lib/llms.ts:167
 #: src/lib/llms.ts:195
+#: src/lib/llms.ts:223
+#: src/lib/llms.ts:245
+#: src/lib/llms.ts:268
 #: src/components/about/ClientDirectory.astro:287
 msgid "Page"
 msgstr "Сторінка"
@@ -736,7 +755,7 @@ msgstr "Фармацевтична промисловість"
 msgid "Pharmaceuticals"
 msgstr "Фармацевтика"
 
-#: src/lib/llms.ts:66
+#: src/lib/llms.ts:75
 #: src/components/contact/ContactInfoCard.astro:36
 #: src/components/contact/ContactForm.astro:153
 #: src/components/catalogue/DatasheetModal.astro:140
@@ -822,7 +841,7 @@ msgstr "Мініатюри зображень обладнання"
 msgid "Products"
 msgstr "Обладнання"
 
-#: src/lib/llms.ts:195
+#: src/lib/llms.ts:223
 msgid "Publisher"
 msgstr "Видавець"
 
@@ -838,7 +857,7 @@ msgstr "Є запитання щодо цих умов?"
 msgid "Questions about your data?"
 msgstr "Є запитання щодо ваших даних?"
 
-#: src/components/about/ManufacturerCredentials.astro:50
+#: src/lib/about/manufacturers.ts:58
 msgid "Quicktron & Pharma Freefall Gravity Contaminant Separators"
 msgstr "Гравітаційні сепаратори домішок Quicktron та Pharma Freefall"
 
@@ -900,10 +919,12 @@ msgstr "Оберіть галузь…"
 msgid "Send Us a Message"
 msgstr "Надіслати повідомлення"
 
+#: src/lib/llms.ts:274
 #: src/components/about/AboutHero.astro:42
 msgid "Serialization Stations"
 msgstr "Станцій серіалізації"
 
+#: src/lib/llms.ts:269
 #: src/components/about/AboutHero.astro:27
 msgid "Serving Ukraine since 2013"
 msgstr "Працюємо в Україні з 2013 року"
@@ -934,7 +955,7 @@ msgstr "Щось пішло не так"
 msgid "Spare Parts"
 msgstr "Запасні частини"
 
-#: src/lib/llms.ts:183
+#: src/lib/llms.ts:211
 msgid "Specifications"
 msgstr "Технічні характеристики"
 
@@ -951,7 +972,8 @@ msgstr "Відправлення з цього джерела заборонен
 msgid "Submit Inquiry"
 msgstr "Надіслати запит"
 
-#: src/lib/llms.ts:173
+#: src/lib/llms.ts:201
+#: src/lib/llms.ts:246
 msgid "Supplier in Ukraine"
 msgstr "Постачальник в Україні"
 
@@ -1061,7 +1083,7 @@ msgstr "Забагато відправлень. Будь ласка, спроб
 msgid "Track & Trace"
 msgstr "Track & Trace"
 
-#: src/components/about/ManufacturerCredentials.astro:31
+#: src/lib/about/manufacturers.ts:39
 msgid "Track & Trace serialization and aggregation systems"
 msgstr "Системи серіалізації та агрегації Track & Trace"
 
@@ -1073,6 +1095,7 @@ msgstr "Нам довіряють провідні підприємства Ук
 msgid "Trusted by Ukraine's Leading Manufacturers"
 msgstr "Нам довіряють провідні виробники України"
 
+#: src/lib/llms.ts:270
 #: src/components/about/AboutHero.astro:30
 msgid "Trusted by {clients} factories across Ukraine"
 msgstr "Нам довіряють {clients} підприємств по всій Україні"
@@ -1117,7 +1140,7 @@ msgstr "Переглянути обладнання"
 msgid "View image"
 msgstr "Переглянути зображення"
 
-#: src/components/about/ManufacturerCredentials.astro:110
+#: src/components/about/ManufacturerCredentials.astro:68
 msgid "Visit website"
 msgstr "Перейти на сайт"
 
@@ -1129,11 +1152,11 @@ msgstr "Офіційна авторизація дистриб'ютора WIPOTE
 msgid "Website in active development: Information and specifications may not be accurate, pages are still being completed, and all content is subject to change."
 msgstr "Сайт у процесі розробки: інформація та технічні дані можуть бути неточними, сторінки наповнюються та весь вміст може змінюватися."
 
-#: src/components/about/ManufacturerCredentials.astro:25
+#: src/lib/about/manufacturers.ts:33
 msgid "Weighing and inspection systems have been a quality standard for over 30 years, and 95% of components are developed and manufactured in-house in one location in Kaiserslautern."
 msgstr "Системи зважування та контролю понад 30 років є стандартом якості, а 95% компоненти розробляються і виготовляються власними силами в одному місці в Кайзерслаутерні."
 
-#: src/lib/llms.ts:102
+#: src/lib/llms.ts:117
 #: src/components/Header.astro:35
 msgid "Wiki"
 msgstr "База знань"
@@ -1147,7 +1170,7 @@ msgstr "Авторизаційний лист Wipotec"
 msgid "Working Hours"
 msgstr "Режим роботи"
 
-#: src/lib/llms.ts:69
+#: src/lib/llms.ts:78
 msgid "Working hours"
 msgstr "Графік роботи"
 
