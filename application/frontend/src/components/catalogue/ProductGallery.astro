@@ -94,7 +94,7 @@ const thumbBase =
 		data-main-card
 		class="catalogue-trace group/card border-border-subtle/50 hover:border-secondary/40 before:from-secondary relative aspect-4/3 w-full touch-pan-y overflow-hidden rounded-xl border bg-white shadow-xs transition-[box-shadow,border-color] duration-(--dur-base) before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-0.5 before:bg-linear-to-r before:to-transparent hover:shadow-lg"
 	>
-		{/* Badge bar â€” floats over the image */}
+		{/* Badge bar — floats over the image */}
 		<div class="absolute inset-x-0 top-0 z-10 flex items-center justify-between p-3 sm:p-4">
 			{hasMultiple ? (
 				<span class="font-technical-data border-border-subtle/60 bg-background/90 text-industrial-gray inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[11px] tabular-nums shadow-xs backdrop-blur-md">
@@ -122,7 +122,7 @@ const thumbBase =
 			</button>
 		</div>
 
-		{/* Image area â€” full card, even padding on all sides */}
+		{/* Image area — full card, even padding on all sides */}
 		<div
 			data-gallery-stage
 			class="skeleton flex h-full w-full cursor-zoom-in items-center justify-center p-4 md:p-6"
@@ -222,7 +222,7 @@ const thumbBase =
 					<kbd class="border-border-subtle/60 bg-background rounded border px-1.5 py-0.5">
 						{_("Scroll to zoom")}
 					</kbd>
-					<span aria-hidden="true">Â·</span>
+					<span aria-hidden="true">·</span>
 					<kbd class="border-border-subtle/60 bg-background rounded border px-1.5 py-0.5">
 						{_("Double-click to toggle")}
 					</kbd>
@@ -379,7 +379,7 @@ const thumbBase =
 		const isControl = (target: EventTarget | null) =>
 			target instanceof Element && target.closest("button") !== null;
 
-		// â”€â”€ Zoom / pan state â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+		// ── Zoom / pan state ──────────────────────────────────────────────
 		let scale = 1;
 		let translateX = 0;
 		let translateY = 0;
@@ -427,7 +427,7 @@ const thumbBase =
 			applyTransform();
 		};
 
-		// â”€â”€ Active image â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+		// ── Active image ──────────────────────────────────────────────────
 		// With a width-descriptor srcset the browser ignores `src`, so both are set. `sizes` stays.
 		const showPhoto = (img: HTMLImageElement | null, photo: PhotoSource | undefined) => {
 			if (!img || !photo) return;
@@ -490,7 +490,7 @@ const thumbBase =
 		lightboxPrev?.addEventListener("click", () => step(-1));
 		lightboxNext?.addEventListener("click", () => step(1));
 
-		// â”€â”€ Swipe on the main card (touch and mouse) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+		// ── Swipe on the main card (touch and mouse) ──────────────────────
 		let swipeStart: { x: number; y: number } | null = null;
 		let swipedAt = 0;
 		if (card && total > 1) {
@@ -513,7 +513,7 @@ const thumbBase =
 			});
 		}
 
-		// â”€â”€ Lightbox open / close â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+		// ── Lightbox open / close ─────────────────────────────────────────
 		const openLightbox = () => {
 			if (!lightbox) return;
 			// A swipe must not open the lightbox
@@ -544,7 +544,7 @@ const thumbBase =
 			else if (e.key === "ArrowRight") step(1);
 		});
 
-		// â”€â”€ Lightbox gestures: wheel, double-click, drag-pan, pinch, swipe â”€
+		// ── Lightbox gestures: wheel, double-click, drag-pan, pinch, swipe ─
 		if (!viewport) return;
 
 		viewport.addEventListener(
