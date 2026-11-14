@@ -1,17 +1,6 @@
-import type { ImageMetadata } from "astro";
+﻿import type { ImageMetadata } from "astro";
 
 export type ImageSrc = ImageMetadata | string;
-
-/**
- * Stand-in for a product without photos. It is a public file, so <Image> cannot read its size:
- * a plain "/placeholder.svg" string fails the build (MissingImageDimension), this object does not.
- */
-export const PLACEHOLDER_IMAGE: ImageMetadata = {
-	src: "/placeholder.svg",
-	width: 800,
-	height: 600,
-	format: "svg",
-};
 
 function decode(path: string): string {
 	try {
