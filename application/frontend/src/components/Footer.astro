@@ -28,11 +28,33 @@ const currentYear = new Date().getFullYear();
 				)
 			}
 
-			<p class="text-center font-sans text-balance hyphens-none">
-				&copy; {currentYear}{" "}{companyData.name[lang as "en" | "ua"] ?? companyData.name.en}. {
-					_("All rights reserved")
-				}.
-			</p>
+			<div class="flex flex-col items-center gap-1 text-center font-sans text-balance hyphens-none">
+				<p>
+					&copy; {currentYear}{" "}{companyData.name[lang as "en" | "ua"] ?? companyData.name.en}. {
+						_("All rights reserved")
+					}.
+				</p>
+				<p class="text-xs">
+					{_("Website by")} Denys Shevchenko{" · "}
+					<a
+						href="https://www.linkedin.com/in/lilconsul/"
+						target="_blank"
+						rel="noopener noreferrer author"
+						class="hover:text-foreground underline-offset-2 transition-colors hover:underline"
+					>
+						LinkedIn
+					</a>
+					{" · "}
+					<a
+						href="https://github.com/LilConsul"
+						target="_blank"
+						rel="noopener noreferrer author"
+						class="hover:text-foreground underline-offset-2 transition-colors hover:underline"
+					>
+						GitHub
+					</a>
+				</p>
+			</div>
 
 			<nav class="flex flex-wrap items-center justify-center gap-x-8 gap-y-1">
 				<a
