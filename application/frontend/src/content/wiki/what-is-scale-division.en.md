@@ -1,13 +1,15 @@
 ---
 file_name: what-is-scale-division
 title: "Scale Resolution (d): What It Is, in Simple Words"
-description: "What the number 'd' in a scale's specs means, why it is not the same as accuracy, and how to pick the right one for your product."
+description: What the number 'd' in a scale's specs means, why it is not the
+  same as accuracy, and how to pick the right one for your product.
+coverImage: null
 order: 1
-datePublished: "2026-10-31"
-dateModified: "2026-11-13"
+datePublished: 2026-10-31
+dateModified: 2026-11-13
 related:
-  - "weighing-accuracy"
-  - "load-cell"
+  - weighing-accuracy
+  - load-cell
 ---
 
 In every scale's specification you will find a small letter **d**. It is usually called **resolution** or **scale division**. It sounds technical, but the idea is very simple.
