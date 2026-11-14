@@ -2,7 +2,7 @@ import CMS from "decap-cms-app";
 import { categorySlugsListener } from "./category-slugs";
 import { patchGithubRecursiveMedia } from "./github-media";
 import { IconControl, IconPreview } from "./icon-select";
-import { requiredTitlesListener } from "./required-titles";
+import { requiredTitlesListener, requiredTitlesPublishListener } from "./required-titles";
 
 // Material Symbols font for the icon-select widget (also injected into the preview iframe)
 const MATERIAL_SYMBOLS_URL =
@@ -18,6 +18,7 @@ CMS.registerWidget("icon-select", IconControl, IconPreview);
 CMS.registerEventListener(categorySlugsListener);
 
 CMS.registerEventListener(requiredTitlesListener);
+CMS.registerEventListener(requiredTitlesPublishListener);
 
 patchGithubRecursiveMedia(CMS);
 

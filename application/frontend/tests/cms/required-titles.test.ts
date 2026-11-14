@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import { fromJS } from "immutable";
-import { requiredTitlesListener } from "@/cms/required-titles";
+import { requiredTitlesListener, requiredTitlesPublishListener } from "@/cms/required-titles";
 
 const run = (collection: string, data: unknown, i18n: unknown) => {
 	const entry = fromJS({ collection, data, i18n });
@@ -45,5 +45,16 @@ describe("requiredTitlesListener", () => {
 
 	it("ignores other collections", () => {
 		expect(run("site-data", {}, undefined)).toBeUndefined();
+	});
+
+	it("also runs when a draft is published, so a stale editor tab cannot merge a title-less draft", () => {
+		expect(requiredTitlesListener.name).toBe("preSave");
+		expect(requiredTitlesPublishListener.name).toBe("prePublish");
+		const entry = fromJS({
+			collection: "equipment",
+			data: { title: "Система" },
+			i18n: { en: { data: { file_name: "tqs-hc-a-te" } } },
+		});
+		expect(() => (requiredTitlesPublishListener.handler as any)({ entry })).toThrow(/EN/);
 	});
 });

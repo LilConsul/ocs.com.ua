@@ -1,9 +1,10 @@
----
+﻿---
 import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { productUrl } from "@/lib/catalogue-urls";
 import { type EquipmentEntry, flattenSpecs, getCategory, getSlug } from "@/lib/content-utils";
+import { PLACEHOLDER_IMAGE } from "@/lib/placeholder";
 
 interface Props {
 	product: EquipmentEntry;
@@ -24,7 +25,7 @@ const specs = flattenSpecs(product.data.specs)
 	.slice(0, 2)
 	.map((spec) => ({ ...spec, value: spec.value.split(",")[0].trim() }));
 // gallery comes from getGallery(), which already left out images missing from src/assets/
-const firstImage = gallery?.[0] || "/placeholder.svg";
+const firstImage = gallery?.[0] || PLACEHOLDER_IMAGE;
 
 // Build product URL
 const href = productUrl(lang, getCategory(product), getSlug(product));

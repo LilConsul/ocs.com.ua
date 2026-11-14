@@ -1,4 +1,4 @@
----
+﻿---
 import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import { ArrowRight } from "@lucide/astro";
@@ -13,6 +13,7 @@ import {
 	getSlug,
 } from "@/lib/content-utils";
 import { getFeaturedGroups, summarize } from "@/lib/featured-equipment";
+import { PLACEHOLDER_IMAGE } from "@/lib/placeholder";
 
 interface Props {
 	lang: Lang;
@@ -24,9 +25,9 @@ const _ = getInlineTranslations(lang);
 const allEntries = await getCollection("equipment");
 const groups = getFeaturedGroups(allEntries, lang, getCategoriesForLocale(lang));
 
-const image = (entry: EquipmentEntry) => getGallery(entry, allEntries)?.[0] ?? "/placeholder.svg";
+const image = (entry: EquipmentEntry) => getGallery(entry, allEntries)?.[0] ?? PLACEHOLDER_IMAGE;
 const photos = (entry: EquipmentEntry) =>
-	(getGallery(entry, allEntries) ?? ["/placeholder.svg"]).slice(0, 3);
+	(getGallery(entry, allEntries) ?? [PLACEHOLDER_IMAGE]).slice(0, 3);
 const href = (entry: EquipmentEntry) => productUrl(lang, getCategory(entry), getSlug(entry));
 const keySpecs = (entry: EquipmentEntry) =>
 	flattenSpecs(entry.data.specs)

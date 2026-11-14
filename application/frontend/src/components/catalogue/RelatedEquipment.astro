@@ -1,9 +1,10 @@
----
+﻿---
 import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { productUrl } from "@/lib/catalogue-urls";
 import { type EquipmentEntry, flattenSpecs, getCategory, getSlug } from "@/lib/content-utils";
+import { PLACEHOLDER_IMAGE } from "@/lib/placeholder";
 
 interface Props {
 	products: EquipmentEntry[];
@@ -46,7 +47,7 @@ const _ = getInlineTranslations(lang);
 						const itemCategory = getCategory(item);
 						const itemSlug = getSlug(item);
 						const itemUrl = productUrl(lang, itemCategory, itemSlug);
-						const itemImg = galleries[item.id]?.[0] || "/placeholder.svg";
+						const itemImg = galleries[item.id]?.[0] || PLACEHOLDER_IMAGE;
 						const itemSpec = flattenSpecs(item.data.specs)[0];
 
 						return (

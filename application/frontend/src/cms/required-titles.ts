@@ -17,25 +17,31 @@ const LOCALES: { code: string; path: string[] }[] = [
 	{ code: "en", path: ["i18n", "en", "data", "title"] },
 ];
 
+const handler: Listener["handler"] = ({ entry }) => {
+	const e = entry as unknown as Entry;
+	if (!COLLECTIONS.includes(e.get("collection") as string)) return;
+
+	const missing = LOCALES.filter(({ path }) => !String(e.getIn(path) ?? "").trim()).map(
+		({ code }) => code.toUpperCase()
+	);
+	if (missing.length) {
+		throw new Error(
+			`Title is required in every language. Fill in the Title for: ${missing.join(", ")} (switch the language in "Writing in" at the top of the editor).`
+		);
+	}
+};
+
 /**
  * Blocks saving when a locale has no title.
  *
  * Decap only validates `required` for the locale tab that is open, so an entry saved from
  * the UA tab gets an EN file without a title, which then breaks the Astro build.
  */
-export const requiredTitlesListener: Listener = {
-	name: "preSave",
-	handler: ({ entry }) => {
-		const e = entry as unknown as Entry;
-		if (!COLLECTIONS.includes(e.get("collection") as string)) return;
+export const requiredTitlesListener: Listener = { name: "preSave", handler };
 
-		const missing = LOCALES.filter(({ path }) => !String(e.getIn(path) ?? "").trim()).map(
-			({ code }) => code.toUpperCase()
-		);
-		if (missing.length) {
-			throw new Error(
-				`Title is required in every language. Fill in the Title for: ${missing.join(", ")} (switch the language in "Writing in" at the top of the editor).`
-			);
-		}
-	},
-};
+/**
+ * Same check when a draft is published (merged) from the workflow board. An editor tab that
+ * was opened before the preSave check shipped still runs the old code and saves a draft
+ * without a title; this stops that draft from reaching main.
+ */
+export const requiredTitlesPublishListener: Listener = { name: "prePublish", handler };
