@@ -1,7 +1,7 @@
 ---
 file_name: hc-sl
-type: product
-order: 2
+order: 3
+manufacturer: null
 datasheet: null
 title: HC-SL Catchweigher
 description: High-accuracy catchweigher for parcels up to 60 kg. Achieves speeds
@@ -15,8 +15,8 @@ specs:
         value: up to 60 kg
       - label: Accuracy
         value: ±5g
+type: product
 ---
-
 ## High Weighing Accuracy and Throughput of Parcels
 
 Scales of the HC-SL series are designed for products up to a maximum 60 kg. The high level of weighing accuracy (up to 5 g) permits speeds of up to 2.9 m/s in calibrated mode. These excellent values are achieved by the sandwich construction which creates a rigid platform for the parcel to travel over the scale's weigh bridge. It also ensures a noise reduction to below 65 dB.
