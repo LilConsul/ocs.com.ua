@@ -66,14 +66,11 @@ const structuredData = createPageGraph({
 
 <Layout title={title} description={description} structuredData={structuredData}>
 	{/* Hero Banner */}
-	<header
-		class="from-surface-container/40 to-background border-border-subtle relative w-full overflow-hidden border-b bg-linear-to-b py-12 lg:py-20"
-	>
+	<header class="from-surface-container/40 to-background border-border-subtle relative w-full overflow-hidden border-b bg-linear-to-b py-12 lg:py-20">
 		<div
 			class="bg-secondary/10 pointer-events-none absolute -top-32 -right-24 size-120 rounded-full blur-3xl"
 			aria-hidden="true"
-		>
-		</div>
+		></div>
 		<div class="px-edge-margin relative mx-auto max-w-7xl">
 			<div class="max-w-3xl">
 				<p
@@ -117,17 +114,15 @@ const structuredData = createPageGraph({
 	{/* Articles Grid Section */}
 	<section class="px-edge-margin mx-auto max-w-7xl py-12 lg:py-20" aria-label={_("All articles")}>
 		<div id="wiki-index-grid" class="gap-gutter grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-			{
-				sortedArticles.map((article: WikiEntry, i: number) => (
-					<WikiCard
-						entry={article}
-						lang={lang}
-						index={i}
-						readMinutes={calculateReadingMinutes(article.body ?? "")}
-						coverImage={getWikiCoverImage(article, allArticles)}
-					/>
-				))
-			}
+			{sortedArticles.map((article: WikiEntry, i: number) => (
+				<WikiCard
+					entry={article}
+					lang={lang}
+					index={i}
+					readMinutes={calculateReadingMinutes(article.body ?? "")}
+					coverImage={getWikiCoverImage(article, allArticles)}
+				/>
+			))}
 		</div>
 
 		<p

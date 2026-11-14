@@ -124,9 +124,7 @@ const structuredData = createPageGraph({
 	<WikiProgressBar />
 
 	<div class="px-edge-margin mx-auto max-w-7xl py-10 lg:py-14">
-		<div
-			class="gap-gutter grid grid-cols-1 lg:grid-cols-[16rem_minmax(0,1fr)] xl:grid-cols-[16rem_minmax(0,1fr)_14rem]"
-		>
+		<div class="gap-gutter grid grid-cols-1 lg:grid-cols-[16rem_minmax(0,1fr)] xl:grid-cols-[16rem_minmax(0,1fr)_14rem]">
 			{/* Left Column: Sidebar Navigation */}
 			<WikiSidebar articles={localeArticles} currentSlug={slug} lang={lang} />
 
@@ -140,16 +138,14 @@ const structuredData = createPageGraph({
 						{title}
 					</h1>
 
-					{
-						description && (
-							<p
-								class="hero-rise font-body-md text-industrial-gray m-0 mt-4 max-w-prose text-base leading-relaxed lg:text-lg"
-								style="--d:1"
-							>
-								{description}
-							</p>
-						)
-					}
+					{description && (
+						<p
+							class="hero-rise font-body-md text-industrial-gray m-0 mt-4 max-w-prose text-base leading-relaxed lg:text-lg"
+							style="--d:1"
+						>
+							{description}
+						</p>
+					)}
 
 					<div
 						class="hero-rise font-technical-data text-industrial-gray m-0 mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs"
@@ -160,46 +156,39 @@ const structuredData = createPageGraph({
 							{readMinutes}
 							{" " + _("min read")}
 						</span>
-						{
-							datePublished && (
-								<span>
-									{_("Published")}{" "}
-									<time datetime={datePublished}>{formatDate(datePublished)}</time>
-								</span>
-							)
-						}
-						{
-							dateModified && dateModified !== datePublished && (
-								<span>
-									{_("Updated")} <time datetime={dateModified}>{formatDate(dateModified)}</time>
-								</span>
-							)
-						}
+						{datePublished && (
+							<span>
+								{_("Published")} <time datetime={datePublished}>{formatDate(datePublished)}</time>
+							</span>
+						)}
+						{dateModified && dateModified !== datePublished && (
+							<span>
+								{_("Updated")} <time datetime={dateModified}>{formatDate(dateModified)}</time>
+							</span>
+						)}
 					</div>
 				</header>
 
-				{
-					coverImage && (
-						<div
-							class="hero-rise border-border-subtle bg-surface-container mt-8 aspect-video w-full overflow-hidden rounded-xl border"
-							style="--d:3"
-						>
-							{/* Inner box: the outer one runs the hero-rise animation, which the pulse would replace */}
-							<div class="skeleton size-full">
-								<Image
-									src={coverImage}
-									alt={title}
-									width={coverImage.width}
-									height={coverImage.height}
-									widths={[640, 960, 1280]}
-									sizes="(min-width: 1024px) 768px, 100vw"
-									loading="eager"
-									class="size-full object-cover"
-								/>
-							</div>
+				{coverImage && (
+					<div
+						class="hero-rise border-border-subtle bg-surface-container mt-8 aspect-video w-full overflow-hidden rounded-xl border"
+						style="--d:3"
+					>
+						{/* Inner box: the outer one runs the hero-rise animation, which the pulse would replace */}
+						<div class="skeleton size-full">
+							<Image
+								src={coverImage}
+								alt={title}
+								width={coverImage.width}
+								height={coverImage.height}
+								widths={[640, 960, 1280]}
+								sizes="(min-width: 1024px) 768px, 100vw"
+								loading="eager"
+								class="size-full object-cover"
+							/>
 						</div>
-					)
-				}
+					</div>
+				)}
 
 				{/* Mobile TOC */}
 				<WikiToc headings={headings} mobile={true} lang={lang} />
@@ -213,30 +202,28 @@ const structuredData = createPageGraph({
 				<WikiPagination prev={prev} next={next} lang={lang} />
 
 				{/* Related Articles */}
-				{
-					relatedArticles.length > 0 && (
-						<section class="mt-12" aria-labelledby="related-heading">
-							<h2
-								id="related-heading"
-								class="font-label-caps text-industrial-gray m-0 mb-4 flex items-center gap-3 text-xs font-semibold tracking-widest uppercase"
-							>
-								<span class="bg-secondary h-px w-6" aria-hidden="true" />
-								{_("Related articles")}
-							</h2>
-							<div class="gap-gutter grid grid-cols-1 md:grid-cols-2">
-								{relatedArticles.map((rel: WikiEntry, i: number) => (
-									<WikiCard
-										entry={rel}
-										lang={lang}
-										index={i}
-										readMinutes={calculateReadingMinutes(rel.body ?? "")}
-										coverImage={getWikiCoverImage(rel, allArticles)}
-									/>
-								))}
-							</div>
-						</section>
-					)
-				}
+				{relatedArticles.length > 0 && (
+					<section class="mt-12" aria-labelledby="related-heading">
+						<h2
+							id="related-heading"
+							class="font-label-caps text-industrial-gray m-0 mb-4 flex items-center gap-3 text-xs font-semibold tracking-widest uppercase"
+						>
+							<span class="bg-secondary h-px w-6" aria-hidden="true" />
+							{_("Related articles")}
+						</h2>
+						<div class="gap-gutter grid grid-cols-1 md:grid-cols-2">
+							{relatedArticles.map((rel: WikiEntry, i: number) => (
+								<WikiCard
+									entry={rel}
+									lang={lang}
+									index={i}
+									readMinutes={calculateReadingMinutes(rel.body ?? "")}
+									coverImage={getWikiCoverImage(rel, allArticles)}
+								/>
+							))}
+						</div>
+					</section>
+				)}
 
 				{/* Bottom Consultation CTA */}
 				<WikiCta lang={lang} />

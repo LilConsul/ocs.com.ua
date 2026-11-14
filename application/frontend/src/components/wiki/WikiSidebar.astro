@@ -15,9 +15,7 @@ const _ = getInlineTranslations(lang);
 
 <aside class="lg:sticky lg:top-[calc(6rem+var(--banner-h,0px))] lg:self-start">
 	<details data-wiki-nav open class="group/nav">
-		<summary
-			class="bg-surface-lowest border-border-subtle font-label-caps text-foreground flex cursor-pointer list-none items-center justify-between rounded-lg border px-4 py-3 text-xs font-semibold tracking-widest uppercase lg:hidden"
-		>
+		<summary class="bg-surface-lowest border-border-subtle font-label-caps text-foreground flex cursor-pointer list-none items-center justify-between rounded-lg border px-4 py-3 text-xs font-semibold tracking-widest uppercase lg:hidden">
 			<span class="inline-flex items-center gap-2">
 				<BookOpen class="text-secondary size-4" aria-hidden="true" />
 				{_("Browse articles")}
@@ -42,38 +40,34 @@ const _ = getInlineTranslations(lang);
 			</div>
 
 			<nav aria-label={_("All articles")} class="flex flex-col gap-2">
-				<p
-					class="font-label-caps text-industrial-gray m-0 mb-1 flex items-center gap-2 text-[11px] font-semibold tracking-widest uppercase"
-				>
+				<p class="font-label-caps text-industrial-gray m-0 mb-1 flex items-center gap-2 text-[11px] font-semibold tracking-widest uppercase">
 					<BookOpen class="text-secondary size-3.5" aria-hidden="true" />
 					{_("All articles")}
 				</p>
 				<ul class="border-border-subtle m-0 list-none border-l p-0">
-					{
-						articles.map((item) => {
-							const slug = getWikiSlug(item);
-							const active = slug === currentSlug;
-							return (
-								<li
-									data-wiki-nav-item
-									data-wiki-text={`${item.data.title} ${item.data.description ?? ""}`.toLowerCase()}
+					{articles.map((item) => {
+						const slug = getWikiSlug(item);
+						const active = slug === currentSlug;
+						return (
+							<li
+								data-wiki-nav-item
+								data-wiki-text={`${item.data.title} ${item.data.description ?? ""}`.toLowerCase()}
+							>
+								<a
+									href={`/${lang}/wiki/${slug}/`}
+									aria-current={active ? "page" : undefined}
+									class:list={[
+										"font-body-md -ml-px block border-l-2 py-1.5 pr-2 pl-4 text-sm leading-snug transition-colors",
+										active
+											? "border-secondary bg-secondary/5 text-foreground font-semibold"
+											: "text-industrial-gray hover:border-secondary/50 hover:text-foreground border-transparent",
+									]}
 								>
-									<a
-										href={`/${lang}/wiki/${slug}/`}
-										aria-current={active ? "page" : undefined}
-										class:list={[
-											"font-body-md -ml-px block border-l-2 py-1.5 pr-2 pl-4 text-sm leading-snug transition-colors",
-											active
-												? "border-secondary bg-secondary/5 text-foreground font-semibold"
-												: "text-industrial-gray hover:border-secondary/50 hover:text-foreground border-transparent",
-										]}
-									>
-										{item.data.title}
-									</a>
-								</li>
-							);
-						})
-					}
+									{item.data.title}
+								</a>
+							</li>
+						);
+					})}
 				</ul>
 			</nav>
 

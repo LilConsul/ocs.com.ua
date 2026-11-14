@@ -8,16 +8,12 @@ interface Props {
 const { name, value, label } = Astro.props;
 ---
 
-<label
-	class="border-border-subtle bg-surface-muted hover:border-secondary/40 hover:bg-surface-container has-checked:border-secondary has-checked:bg-secondary/5 flex cursor-pointer items-center gap-3 rounded-lg border p-3 transition-colors"
->
+<label class="border-border-subtle bg-surface-muted hover:border-secondary/40 hover:bg-surface-container has-checked:border-secondary has-checked:bg-secondary/5 flex cursor-pointer items-center gap-3 rounded-lg border p-3 transition-colors">
 	<input
 		type="checkbox"
 		name={name}
 		value={value}
 		class="border-border text-primary accent-primary h-4 w-4 rounded"
 	/>
-	<span class="font-technical-data text-technical-data text-foreground leading-tight">
-		{label}
-	</span>
+	<span class="font-technical-data text-technical-data text-foreground leading-tight">{label}</span>
 </label>

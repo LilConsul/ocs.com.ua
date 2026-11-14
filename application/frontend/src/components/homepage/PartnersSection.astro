@@ -94,9 +94,7 @@ const stats = [
 	<div class="px-edge-margin mx-auto max-w-7xl">
 		<header class="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
 			<div>
-				<p
-					class="font-label-caps text-secondary m-0 flex items-center gap-3 text-xs font-semibold tracking-widest uppercase"
-				>
+				<p class="font-label-caps text-secondary m-0 flex items-center gap-3 text-xs font-semibold tracking-widest uppercase">
 					<span class="eyebrow-rule bg-secondary h-px w-8" aria-hidden="true"></span>
 					{_("Our Clients")}
 				</p>
@@ -108,107 +106,101 @@ const stats = [
 				</h2>
 			</div>
 			<p class="font-body-md text-industrial-gray max-w-md text-sm leading-relaxed md:text-right">
-				{
-					_(
-						"Supplying and servicing precision weighing equipment for major food, pharmaceutical, and chemical companies since 2013."
-					)
-				}
+				{_(
+					"Supplying and servicing precision weighing equipment for major food, pharmaceutical, and chemical companies since 2013."
+				)}
 			</p>
 		</header>
 
 		{/* Logo marquee */}
 		<div class="border-border-subtle/60 divide-border-subtle/50 divide-y border-y">
-			{
-				carouselRows.map(({ label, items, repeats, direction }) => (
-					<div class="marquee py-6" data-marquee>
-						<p class="font-label-caps text-industrial-gray m-0 mb-4 flex items-center gap-3 text-[11px] uppercase">
-							<span class="eyebrow-rule bg-secondary h-px w-6" aria-hidden="true" />
-							{label}
-						</p>
+			{carouselRows.map(({ label, items, repeats, direction }) => (
+				<div class="marquee py-6" data-marquee>
+					<p class="font-label-caps text-industrial-gray m-0 mb-4 flex items-center gap-3 text-[11px] uppercase">
+						<span class="eyebrow-rule bg-secondary h-px w-6" aria-hidden="true" />
+						{label}
+					</p>
 
-						<div
-							class="marquee-mask marquee-viewport relative w-full cursor-grab touch-pan-y overflow-hidden select-none"
-							data-marquee-viewport
-						>
-							<div class="marquee-track flex w-max" data-speed={SPEED} data-direction={direction}>
-								{[0, 1].map((copy) => (
-									<div
-										class="marquee-group flex shrink-0"
-										aria-hidden={copy === 1 ? "true" : undefined}
-									>
-										{Array.from({ length: repeats }).flatMap((_r, ri) =>
-											items.map(({ partner, dims }) => {
-												// Only the very first logo of each row is exposed to assistive tech and the keyboard
-												const hidden = copy === 1 || ri > 0;
-												return (
-													<a
-														href={partner.website}
-														target="_blank"
-														rel="noopener noreferrer"
-														aria-label={hidden ? undefined : partner.name[lang]}
-														aria-hidden={hidden ? "true" : undefined}
-														tabindex={hidden ? -1 : undefined}
-														class="marquee-logo focus-visible:outline-secondary mr-12 flex h-16 w-44 shrink-0 items-center justify-center opacity-60 mix-blend-multiply grayscale transition-[opacity,filter,scale] duration-(--dur-base) hover:opacity-100 hover:grayscale-0 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:grayscale-0 motion-safe:hover:scale-105"
-													>
-														{/* Skeleton box inside the fixed w-44 slot, so the marquee maths stay as they are */}
-														<span class="skeleton flex h-12 w-full items-center justify-center">
-															<Image
-																src={partner.logo as ImageMetadata}
-																alt={partner.name[lang]}
-																width={dims.width}
-																height={dims.height}
-																widths={[176, 352]}
-																sizes="176px"
-																class="max-h-12 max-w-full object-contain"
-																loading="lazy"
-															/>
-														</span>
-													</a>
-												);
-											})
-										)}
-									</div>
-								))}
-							</div>
+					<div
+						class="marquee-mask marquee-viewport relative w-full cursor-grab touch-pan-y overflow-hidden select-none"
+						data-marquee-viewport
+					>
+						<div class="marquee-track flex w-max" data-speed={SPEED} data-direction={direction}>
+							{[0, 1].map((copy) => (
+								<div
+									class="marquee-group flex shrink-0"
+									aria-hidden={copy === 1 ? "true" : undefined}
+								>
+									{Array.from({ length: repeats }).flatMap((_r, ri) =>
+										items.map(({ partner, dims }) => {
+											// Only the very first logo of each row is exposed to assistive tech and the keyboard
+											const hidden = copy === 1 || ri > 0;
+											return (
+												<a
+													href={partner.website}
+													target="_blank"
+													rel="noopener noreferrer"
+													aria-label={hidden ? undefined : partner.name[lang]}
+													aria-hidden={hidden ? "true" : undefined}
+													tabindex={hidden ? -1 : undefined}
+													class="marquee-logo focus-visible:outline-secondary mr-12 flex h-16 w-44 shrink-0 items-center justify-center opacity-60 mix-blend-multiply grayscale transition-[opacity,filter,scale] duration-(--dur-base) hover:opacity-100 hover:grayscale-0 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:grayscale-0 motion-safe:hover:scale-105"
+												>
+													{/* Skeleton box inside the fixed w-44 slot, so the marquee maths stay as they are */}
+													<span class="skeleton flex h-12 w-full items-center justify-center">
+														<Image
+															src={partner.logo as ImageMetadata}
+															alt={partner.name[lang]}
+															width={dims.width}
+															height={dims.height}
+															widths={[176, 352]}
+															sizes="176px"
+															class="max-h-12 max-w-full object-contain"
+															loading="lazy"
+														/>
+													</span>
+												</a>
+											);
+										})
+									)}
+								</div>
+							))}
 						</div>
 					</div>
-				))
-			}
+				</div>
+			))}
 		</div>
 
 		{/* Stats */}
 		<div class="gap-gutter mt-12 grid grid-cols-1 md:grid-cols-3">
-			{
-				stats.map(({ Icon, value, label, text, featured }) => (
-					<div
-						class:list={[
-							"card-hover group/stat border-border-subtle/70 flex flex-col-reverse justify-end gap-1 rounded-xl border p-5 shadow-xs sm:p-6",
-							featured
-								? "border-l-secondary from-secondary/10 to-background border-l-4 bg-linear-to-br"
-								: "bg-background",
-						]}
-					>
-						<p class="font-body-md text-industrial-gray m-0 mt-3 text-sm leading-relaxed">{text}</p>
-						<p class="font-label-caps text-industrial-gray m-0 text-[11px] uppercase">{label}</p>
-						<div class="mb-1 flex items-center justify-between gap-3">
-							<span
-								class:list={[
-									"font-technical-data text-4xl leading-none font-bold tabular-nums sm:text-5xl",
-									featured ? "text-secondary" : "text-foreground",
-								]}
-							>
-								{value}
-							</span>
-							<span
-								class="bg-surface-container text-secondary border-border-subtle/50 group-hover/stat:bg-secondary group-hover/stat:text-background group-hover/stat:border-secondary shrink-0 rounded-lg border p-3 transition-colors duration-(--dur-base)"
-								aria-hidden="true"
-							>
-								<Icon class="h-6 w-6" />
-							</span>
-						</div>
+			{stats.map(({ Icon, value, label, text, featured }) => (
+				<div
+					class:list={[
+						"card-hover group/stat border-border-subtle/70 flex flex-col-reverse justify-end gap-1 rounded-xl border p-5 shadow-xs sm:p-6",
+						featured
+							? "border-l-secondary from-secondary/10 to-background border-l-4 bg-linear-to-br"
+							: "bg-background",
+					]}
+				>
+					<p class="font-body-md text-industrial-gray m-0 mt-3 text-sm leading-relaxed">{text}</p>
+					<p class="font-label-caps text-industrial-gray m-0 text-[11px] uppercase">{label}</p>
+					<div class="mb-1 flex items-center justify-between gap-3">
+						<span
+							class:list={[
+								"font-technical-data text-4xl leading-none font-bold tabular-nums sm:text-5xl",
+								featured ? "text-secondary" : "text-foreground",
+							]}
+						>
+							{value}
+						</span>
+						<span
+							class="bg-surface-container text-secondary border-border-subtle/50 group-hover/stat:bg-secondary group-hover/stat:text-background group-hover/stat:border-secondary shrink-0 rounded-lg border p-3 transition-colors duration-(--dur-base)"
+							aria-hidden="true"
+						>
+							<Icon class="h-6 w-6" />
+						</span>
 					</div>
-				))
-			}
+				</div>
+			))}
 		</div>
 	</div>
 </section>

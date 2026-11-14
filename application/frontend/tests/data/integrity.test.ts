@@ -78,6 +78,45 @@ describe("equipment content", () => {
 		expect(schema.safeParse({ title: "X", manufacturer: "Siemens" }).success).toBe(false);
 	});
 
+	it("falls back to '???' when title or spec fields are missing or empty", () => {
+		const eqSchema = (collections.equipment as any).schema;
+		const emptyTitle = eqSchema.parse({ title: "" });
+		expect(emptyTitle.title).toBe("???");
+
+		const missingTitle = eqSchema.parse({});
+		expect(missingTitle.title).toBe("???");
+
+		// Flat specs with fallback
+		const flatSpecsFallback = eqSchema.parse({
+			title: "Product",
+			specs: [{ label: "", value: "10kg" }, { label: "Speed" }],
+		});
+		expect(flatSpecsFallback.specs[0].label).toBe("???");
+		expect(flatSpecsFallback.specs[0].value).toBe("10kg");
+		expect(flatSpecsFallback.specs[1].label).toBe("Speed");
+		expect(flatSpecsFallback.specs[1].value).toBe("???");
+
+		// Grouped specs with fallback
+		const groupedSpecs = eqSchema.parse({
+			title: "Product",
+			specs: [
+				{
+					title: "Group 1",
+					items: [{ label: "Max Speed", value: "150 ppm" }, { label: "" }],
+				},
+			],
+		});
+		expect(groupedSpecs.specs[0].title).toBe("Group 1");
+		expect(groupedSpecs.specs[0].items[0].label).toBe("Max Speed");
+		expect(groupedSpecs.specs[0].items[0].value).toBe("150 ppm");
+		expect(groupedSpecs.specs[0].items[1].label).toBe("???");
+		expect(groupedSpecs.specs[0].items[1].value).toBe("???");
+
+		const wikiSchema = (collections.wiki as any).schema;
+		const wikiMissingTitle = wikiSchema.parse({});
+		expect(wikiMissingTitle.title).toBe("???");
+	});
+
 	it("uses the same order in both languages of a product", () => {
 		const mismatched = files
 			.filter((f) => f.endsWith(".en.md"))

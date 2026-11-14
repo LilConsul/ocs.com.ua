@@ -49,14 +49,11 @@ const kpis = [
 });
 ---
 
-<header
-	class="from-surface-container/40 to-background border-border-subtle/60 relative w-full overflow-hidden border-b bg-linear-to-b py-12 lg:py-20"
->
+<header class="from-surface-container/40 to-background border-border-subtle/60 relative w-full overflow-hidden border-b bg-linear-to-b py-12 lg:py-20">
 	<div
 		class="bg-secondary/10 pointer-events-none absolute -top-32 -right-24 size-120 rounded-full blur-3xl"
 		aria-hidden="true"
-	>
-	</div>
+	></div>
 
 	<div class="px-edge-margin relative mx-auto max-w-7xl">
 		<div class="gap-gutter grid grid-cols-1 items-center lg:grid-cols-12">
@@ -78,32 +75,28 @@ const kpis = [
 					class="hero-rise font-body-md text-industrial-gray max-w-prose text-base leading-relaxed wrap-break-word lg:text-lg"
 					style="--d:2"
 				>
-					{
-						_(
-							"OS-Technology Ukraine is the exclusive authorized distributor and certified integration partner of WIPOTEC GmbH and MESUTRONIC Gerätebau GmbH in Ukraine. We supply dynamic checkweighers, industrial metal detectors, X-Ray scanners, and Track & Trace serialization and aggregation systems for the pharmaceutical industry with turnkey commissioning and factory warranty."
-						)
-					}
+					{_(
+						"OS-Technology Ukraine is the exclusive authorized distributor and certified integration partner of WIPOTEC GmbH and MESUTRONIC Gerätebau GmbH in Ukraine. We supply dynamic checkweighers, industrial metal detectors, X-Ray scanners, and Track & Trace serialization and aggregation systems for the pharmaceutical industry with turnkey commissioning and factory warranty."
+					)}
 				</p>
 
 				<ul
 					class="hero-rise m-0 mt-8 grid list-none grid-cols-1 gap-4 p-0 sm:grid-cols-2"
 					style="--d:3"
 				>
-					{
-						highlights.map(({ Icon, text }) => (
-							<li class="flex items-center gap-3">
-								<span
-									class="bg-surface-container text-secondary border-border-subtle/50 shrink-0 rounded-lg border p-2"
-									aria-hidden="true"
-								>
-									<Icon class="h-5 w-5" />
-								</span>
-								<span class="font-body-md text-foreground min-w-0 text-sm font-semibold wrap-break-word">
-									{text}
-								</span>
-							</li>
-						))
-					}
+					{highlights.map(({ Icon, text }) => (
+						<li class="flex items-center gap-3">
+							<span
+								class="bg-surface-container text-secondary border-border-subtle/50 shrink-0 rounded-lg border p-2"
+								aria-hidden="true"
+							>
+								<Icon class="h-5 w-5" />
+							</span>
+							<span class="font-body-md text-foreground min-w-0 text-sm font-semibold wrap-break-word">
+								{text}
+							</span>
+						</li>
+					))}
 				</ul>
 
 				<div class="hero-rise flex flex-col gap-3 pt-8 sm:flex-row" style="--d:4">
@@ -122,42 +115,40 @@ const kpis = [
 
 			<div class="lg:col-span-5">
 				<dl class="m-0 grid grid-cols-1 gap-3 p-0 sm:grid-cols-2 sm:gap-4">
-					{
-						kpis.map(({ Icon, label, value, featured, countTo, countSuffix }, i) => (
+					{kpis.map(({ Icon, label, value, featured, countTo, countSuffix }, i) => (
+						<div
+							class:list={[
+								"card-hover hero-rise group/kpi border-border-subtle/60 flex items-center gap-4 rounded-lg border p-4 shadow-xs",
+								featured
+									? "border-l-secondary from-secondary/10 to-surface-container border-l-4 bg-linear-to-br"
+									: "bg-surface-container",
+							]}
+							style={`--d:${3 + i}`}
+						>
 							<div
-								class:list={[
-									"card-hover hero-rise group/kpi border-border-subtle/60 flex items-center gap-4 rounded-lg border p-4 shadow-xs",
-									featured
-										? "border-l-secondary from-secondary/10 to-surface-container border-l-4 bg-linear-to-br"
-										: "bg-surface-container",
-								]}
-								style={`--d:${3 + i}`}
+								class="bg-background text-secondary border-border-subtle/50 group-hover/kpi:bg-secondary group-hover/kpi:text-background group-hover/kpi:border-secondary shrink-0 rounded-lg border p-3 transition-colors duration-(--dur-base)"
+								aria-hidden="true"
 							>
-								<div
-									class="bg-background text-secondary border-border-subtle/50 group-hover/kpi:bg-secondary group-hover/kpi:text-background group-hover/kpi:border-secondary shrink-0 rounded-lg border p-3 transition-colors duration-(--dur-base)"
-									aria-hidden="true"
-								>
-									<Icon class="h-6 w-6" />
-								</div>
-								<div class="flex min-w-0 flex-col-reverse justify-end gap-1">
-									<dt class="font-label-caps text-industrial-gray text-xs uppercase" title={label}>
-										{label}
-									</dt>
-									<dd
-										class:list={[
-											"font-technical-data m-0 text-2xl font-bold tabular-nums sm:text-3xl",
-											featured ? "text-secondary" : "text-foreground",
-										]}
-										data-count-to={countTo}
-										data-count-suffix={countSuffix}
-										data-count-delay={400 + i * 120}
-									>
-										{value}
-									</dd>
-								</div>
+								<Icon class="h-6 w-6" />
 							</div>
-						))
-					}
+							<div class="flex min-w-0 flex-col-reverse justify-end gap-1">
+								<dt class="font-label-caps text-industrial-gray text-xs uppercase" title={label}>
+									{label}
+								</dt>
+								<dd
+									class:list={[
+										"font-technical-data m-0 text-2xl font-bold tabular-nums sm:text-3xl",
+										featured ? "text-secondary" : "text-foreground",
+									]}
+									data-count-to={countTo}
+									data-count-suffix={countSuffix}
+									data-count-delay={400 + i * 120}
+								>
+									{value}
+								</dd>
+							</div>
+						</div>
+					))}
 				</dl>
 			</div>
 		</div>

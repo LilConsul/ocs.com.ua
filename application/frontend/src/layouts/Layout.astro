@@ -87,7 +87,9 @@ const defaultDescription =
 			crossorigin
 		/>
 		<link rel="sitemap" href="/sitemap-index.xml" />
-		<noscript><style is:inline set:html={noJsCss}></style></noscript>
+		<noscript>
+			<style is:inline set:html={noJsCss}></style>
+		</noscript>
 		<script is:inline set:html={motionOn} />
 		<script is:inline set:html={skeletonOn} />
 		<meta name="generator" content={Astro.generator} />
@@ -122,14 +124,16 @@ const defaultDescription =
 				image: ogImage,
 				imageAlt: title,
 			}}
-			languageAlternates={isLocalized
-				? [
-						{ href: urlFor("ua"), hrefLang: getIsoLang("ua") },
-						{ href: urlFor("en"), hrefLang: getIsoLang("en") },
-						// Same fallback on every page: the site's default language
-						{ href: urlFor(defaultLang), hrefLang: "x-default" },
-					]
-				: undefined}
+			languageAlternates={
+				isLocalized
+					? [
+							{ href: urlFor("ua"), hrefLang: getIsoLang("ua") },
+							{ href: urlFor("en"), hrefLang: getIsoLang("en") },
+							// Same fallback on every page: the site's default language
+							{ href: urlFor(defaultLang), hrefLang: "x-default" },
+						]
+					: undefined
+			}
 		/>
 
 		{
@@ -137,11 +141,9 @@ const defaultDescription =
 			markdownUrl && <link rel="alternate" type="text/markdown" href={markdownUrl} />
 		}
 
-		{
-			structuredData && (
-				<script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
-			)
-		}
+		{structuredData && (
+			<script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+		)}
 
 		<!-- BEGIN PLERDY CODE -->
 		<script is:inline data-plerdy_code="1">

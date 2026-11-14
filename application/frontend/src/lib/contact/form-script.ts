@@ -17,7 +17,7 @@ declare global {
 	}
 }
 
-// Personal-mail domains â€” shows a soft note, never blocks submission
+// Personal-mail domains — shows a soft note, never blocks submission
 const FREE_MAIL = new Set([
 	"gmail.com",
 	"yahoo.com",

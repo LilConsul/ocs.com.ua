@@ -56,9 +56,9 @@ const tocHeadings = doc.sections.map((section) => ({
 			>
 				<CalendarDays class="text-secondary size-4" aria-hidden="true" />
 				{_("Effective date")}:
-				<time datetime={doc.effectiveDate} class="text-foreground font-medium whitespace-nowrap"
-					>{effectiveDate}</time
-				>
+				<time datetime={doc.effectiveDate} class="text-foreground font-medium whitespace-nowrap">
+					{effectiveDate}
+				</time>
 			</p>
 		</header>
 	</div>
@@ -74,13 +74,11 @@ const tocHeadings = doc.sections.map((section) => ({
 
 			<div class="max-w-4xl min-w-0 xl:col-start-2 xl:row-start-1">
 				<ol class="m-0 flex list-none flex-col gap-5 p-0">
-					{
-						doc.sections.map((section) => (
-							<li class="reveal" style="--i:0;--reveal-duration:0.3">
-								<LegalSectionCard section={section} />
-							</li>
-						))
-					}
+					{doc.sections.map((section) => (
+						<li class="reveal" style="--i:0;--reveal-duration:0.3">
+							<LegalSectionCard section={section} />
+						</li>
+					))}
 				</ol>
 
 				<aside

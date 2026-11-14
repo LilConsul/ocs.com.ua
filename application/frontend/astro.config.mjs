@@ -2,10 +2,12 @@
 
 import { cpSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import { unified } from "@astrojs/markdown-remark";
 import node from "@astrojs/node";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, envField } from "astro/config";
+import rehypeSanitize from "rehype-sanitize";
 import { loadEnv } from "vite";
 import { seoIntegration, sitemapLastmod } from "./scripts/seo-build.mjs";
 
@@ -40,6 +42,11 @@ export default defineConfig({
 	output: "static",
 	adapter: node({ mode: "standalone" }),
 	prefetch: { prefetchAll: true, defaultStrategy: "hover" },
+	markdown: {
+		processor: unified({
+			rehypePlugins: [rehypeSanitize],
+		}),
+	},
 	integrations: [
 		sitemap({
 			// Keep the CMS, the error pages, the "/" redirect to /ua and the old catalogue

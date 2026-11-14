@@ -16,7 +16,7 @@ const rules = css.replace(/\/\*[\s\S]*?\*\//g, "");
 describe("no-JS fallback: wiring", () => {
 	it("is injected from Layout inside <noscript>, so it never applies when JS runs", () => {
 		expect(layout).toContain('import noJsCss from "../styles/no-js.css?raw"');
-		expect(layout).toMatch(/<noscript><style[^>]*set:html=\{noJsCss\}/);
+		expect(layout).toMatch(/<noscript>\s*<style[^>]*set:html=\{noJsCss\}/);
 	});
 
 	it("is not imported as a regular stylesheet", () => {

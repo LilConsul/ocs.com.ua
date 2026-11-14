@@ -153,25 +153,23 @@ const structuredData = createPageGraph({
 		productSearchIndex={productSearchIndex}
 	>
 		<section aria-label={_("Products")}>
-			{
-				sortedProducts.length > 0 ? (
-					<div data-product-grid class="gap-gutter grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-						{sortedProducts.map((product, index) => (
-							<ProductCard
-								product={product}
-								lang={lang as Lang}
-								index={index}
-								eager={index < 3}
-								gallery={galleries[product.id]}
-							/>
-						))}
-					</div>
-				) : (
-					<div class="text-industrial-gray py-24 text-center">
-						<p class="text-lg">{_("No products available in this category")}</p>
-					</div>
-				)
-			}
+			{sortedProducts.length > 0 ? (
+				<div data-product-grid class="gap-gutter grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+					{sortedProducts.map((product, index) => (
+						<ProductCard
+							product={product}
+							lang={lang as Lang}
+							index={index}
+							eager={index < 3}
+							gallery={galleries[product.id]}
+						/>
+					))}
+				</div>
+			) : (
+				<div class="text-industrial-gray py-24 text-center">
+					<p class="text-lg">{_("No products available in this category")}</p>
+				</div>
+			)}
 		</section>
 	</CatalogueBand>
 </Layout>

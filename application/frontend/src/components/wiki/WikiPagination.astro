@@ -16,46 +16,44 @@ const cardClass =
 	"card-hover group/card bg-surface-lowest border-border-subtle focus-visible:outline-secondary rounded-xl border p-4 sm:p-5 shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2";
 ---
 
-{
-	(prev || next) && (
-		<nav
-			aria-label={_("Article navigation")}
-			class="reveal mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2"
-		>
-			{prev ? (
-				<a href={`/${lang}/wiki/${getWikiSlug(prev)}/`} class={`${cardClass} flex flex-col gap-1`}>
-					<span class="font-label-caps text-industrial-gray inline-flex items-center gap-2 text-[11px] tracking-widest uppercase">
-						<ArrowLeft
-							class="text-secondary size-4 transition-transform duration-(--dur-fast) group-hover/card:-translate-x-1"
-							aria-hidden="true"
-						/>
-						{_("Previous article")}
-					</span>
-					<span class="font-headline-lg text-foreground text-sm font-semibold">
-						{prev.data.title}
-					</span>
-				</a>
-			) : (
-				<div class="hidden sm:block" />
-			)}
+{(prev || next) && (
+	<nav
+		aria-label={_("Article navigation")}
+		class="reveal mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2"
+	>
+		{prev ? (
+			<a href={`/${lang}/wiki/${getWikiSlug(prev)}/`} class={`${cardClass} flex flex-col gap-1`}>
+				<span class="font-label-caps text-industrial-gray inline-flex items-center gap-2 text-[11px] tracking-widest uppercase">
+					<ArrowLeft
+						class="text-secondary size-4 transition-transform duration-(--dur-fast) group-hover/card:-translate-x-1"
+						aria-hidden="true"
+					/>
+					{_("Previous article")}
+				</span>
+				<span class="font-headline-lg text-foreground text-sm font-semibold">
+					{prev.data.title}
+				</span>
+			</a>
+		) : (
+			<div class="hidden sm:block" />
+		)}
 
-			{next && (
-				<a
-					href={`/${lang}/wiki/${getWikiSlug(next)}/`}
-					class={`${cardClass} flex flex-col items-end gap-1 text-right`}
-				>
-					<span class="font-label-caps text-industrial-gray inline-flex items-center gap-2 text-[11px] tracking-widest uppercase">
-						{_("Next article")}
-						<ArrowRight
-							class="text-secondary size-4 transition-transform duration-(--dur-fast) group-hover/card:translate-x-1"
-							aria-hidden="true"
-						/>
-					</span>
-					<span class="font-headline-lg text-foreground text-sm font-semibold">
-						{next.data.title}
-					</span>
-				</a>
-			)}
-		</nav>
-	)
-}
+		{next && (
+			<a
+				href={`/${lang}/wiki/${getWikiSlug(next)}/`}
+				class={`${cardClass} flex flex-col items-end gap-1 text-right`}
+			>
+				<span class="font-label-caps text-industrial-gray inline-flex items-center gap-2 text-[11px] tracking-widest uppercase">
+					{_("Next article")}
+					<ArrowRight
+						class="text-secondary size-4 transition-transform duration-(--dur-fast) group-hover/card:translate-x-1"
+						aria-hidden="true"
+					/>
+				</span>
+				<span class="font-headline-lg text-foreground text-sm font-semibold">
+					{next.data.title}
+				</span>
+			</a>
+		)}
+	</nav>
+)}
