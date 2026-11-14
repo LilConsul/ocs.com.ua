@@ -1,26 +1,14 @@
-diff --git a/node_modules/decap-cms-core/.bun-tag-306e1c7957a06ed b/.bun-tag-306e1c7957a06ed
-new file mode 100644
-index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
-diff --git a/node_modules/decap-cms-core/.bun-tag-b683dbca80a99a4 b/.bun-tag-b683dbca80a99a4
-new file mode 100644
-index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
-diff --git a/node_modules/decap-cms-core/.bun-tag-b845d9a24725503c b/.bun-tag-b845d9a24725503c
-new file mode 100644
-index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
-diff --git a/node_modules/decap-cms-core/.bun-tag-dd4b9c5934619de5 b/.bun-tag-dd4b9c5934619de5
-new file mode 100644
-index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
 diff --git a/dist/esm/actions/editorialWorkflow.js b/dist/esm/actions/editorialWorkflow.js
-index 70f2b62ee4dd958d6061d1b1727946c9f082400d..2fb25c7d26b86e92d52faa3e7608798838c8fb4d 100644
+index 3231352412544174dfd39d7430f9f5a94a128190..a78140a158d85d99e2ef0ee1d78b1b63a834a259 100644
 --- a/dist/esm/actions/editorialWorkflow.js
 +++ b/dist/esm/actions/editorialWorkflow.js
 @@ -1,4 +1,5 @@
  import get from 'lodash/get';
 +import { selectCustomPath } from '../reducers/entryDraft';
  import { Map, List } from 'immutable';
- import { EDITORIAL_WORKFLOW_ERROR } from 'decap-cms-lib-util';
+ import { EDITORIAL_WORKFLOW_ERROR, generateContentKey } from 'decap-cms-lib-util';
  import { currentBackend, slugFromCustomPath } from '../backend';
-@@ -329,6 +330,10 @@ export function persistUnpublishedEntry(collection, existingUnpublishedEntry) {
+@@ -360,6 +361,10 @@ export function persistUnpublishedEntry(collection, existingUnpublishedEntry) {
        if (entry.get('slug') !== newSlug) {
          await dispatch(loadUnpublishedEntry(collection, newSlug));
          navigateToEntry(collection.get('name'), newSlug);
@@ -32,19 +20,19 @@ index 70f2b62ee4dd958d6061d1b1727946c9f082400d..2fb25c7d26b86e92d52faa3e76087988
      } catch (error) {
        dispatch(addNotification({
 diff --git a/dist/esm/backend.js b/dist/esm/backend.js
-index f00af56701b35a80c8d0f29ac537ccbe1966bb5a..6e67b1759284f9b7c3bbd8a049807a830da0310c 100644
+index 2a6123bf2b6da59b46d156c49a3dfa596f238a57..362b55706e40d486fd73b30251d367293b297a4d 100644
 --- a/dist/esm/backend.js
 +++ b/dist/esm/backend.js
-@@ -23,7 +23,7 @@ import { commitMessageFormatter, slugFormatter, previewUrlFormatter } from './li
+@@ -24,7 +24,7 @@ import { commitMessageFormatter, getSlugFormatter, previewUrlFormatter, slugByte
  import { status } from './constants/publishModes';
  import { FOLDER, FILES } from './constants/collectionTypes';
  import { selectCustomPath } from './reducers/entryDraft';
--import { getI18nFilesDepth, getI18nFiles, hasI18n, getFilePaths, getI18nEntry, groupEntries, getI18nDataFiles, getI18nBackup, formatI18nBackup, getI18nInfo, I18N_STRUCTURE } from './lib/i18n';
-+import { getI18nFilesDepth, getI18nFiles, hasI18n, getFilePaths, getI18nEntry, groupEntries, getI18nDataFiles, getI18nBackup, formatI18nBackup, getI18nInfo, I18N_STRUCTURE, normalizeFilePath, getLocaleFromPath } from './lib/i18n';
+-import { getI18nFilesDepth, getI18nFiles, hasI18n, getFilePath, getI18nFilesToDelete, getI18nEntry, groupEntries, getI18nDataFiles, getI18nBackup, formatI18nBackup, getI18nInfo, I18N_STRUCTURE } from './lib/i18n';
++import { getI18nFilesDepth, getI18nFiles, hasI18n, getFilePath, getFilePaths, getI18nFilesToDelete, getI18nEntry, groupEntries, getI18nDataFiles, getI18nBackup, formatI18nBackup, getI18nInfo, I18N_STRUCTURE, normalizeFilePath, getLocaleFromPath } from './lib/i18n';
  const {
    extractTemplateVars,
    dateParsers,
-@@ -797,12 +797,28 @@ export class Backend {
+@@ -897,12 +897,28 @@ export class Backend {
        return formatData(loadedEntry.data, loadedEntry.file.path, false);
      } else if (hasI18n(collection)) {
        // we need to read all locales files and not just the changes
@@ -75,7 +63,7 @@ index f00af56701b35a80c8d0f29ac537ccbe1966bb5a..6e67b1759284f9b7c3bbd8a049807a83
      } else {
        const entryWithFormat = await readAndFormatDataFile(dataFiles[0]);
        return entryWithFormat;
-@@ -960,6 +976,17 @@ export class Backend {
+@@ -1068,6 +1084,17 @@ export class Backend {
      } else {
        const slug = entryDraft.getIn(['entry', 'slug']);
        const path = entryDraft.getIn(['entry', 'path']);
@@ -94,10 +82,10 @@ index f00af56701b35a80c8d0f29ac537ccbe1966bb5a..6e67b1759284f9b7c3bbd8a049807a83
          path,
          // for workflow entries we refresh the slug on publish
 diff --git a/dist/esm/reducers/entryDraft.js b/dist/esm/reducers/entryDraft.js
-index 2a5a8c3e75eb51dcb636a063f60d494e5aa925a0..9716afb6a0964598af05445355fe86f664c098c0 100644
+index 9a388c1a4aadfcd157e2dbf562543f225c68642e..b41c8a41e844d2cca32aaf89c3075dea336c6c54 100644
 --- a/dist/esm/reducers/entryDraft.js
 +++ b/dist/esm/reducers/entryDraft.js
-@@ -220,19 +220,19 @@ export function selectCustomPath(collection, entryDraft) {
+@@ -243,19 +243,19 @@ export function selectCustomPath(collection, entryDraft) {
      return customPath;
    }
 

@@ -87,6 +87,8 @@ ______________________________________________________________________
 
 Debian 13 with Virtualmin. Both sites belong to the user `ocs` and run on the same server.
 
+Both Node services (`ocs-dev`, `ocs-prod`) run the host's `/usr/bin/node`; the deploy ships only `dist/`, not Node. Node comes from NodeSource (`/etc/apt/sources.list.d/nodesource.sources`, currently `node_26.x`) and should match the `node-version` of the build job in `_deploy.yml`. After a Node upgrade, restart both services: a running service keeps the old binary until then.
+
 |                      | dev.ocs.com.ua                                    | ocs.com.ua                                                                      |
 | -------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------- |
 | Site directory       | `/home/ocs/domains/dev.ocs.com.ua/`               | `/home/ocs/domains/ocs.com.ua/`                                                 |

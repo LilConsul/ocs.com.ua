@@ -4,7 +4,7 @@ import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 
 const root = join(import.meta.dir, "../..");
-const PATCH_KEY = "decap-cms-core@3.19.1";
+const PATCH_KEY = "decap-cms-core@3.20.2";
 
 const pkg = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
 // decap-cms-core is a transitive dependency, so it is not hoisted under bun's isolated linker (CI).
@@ -26,7 +26,7 @@ describe("decap-cms-core patch (file_name names and renames product files)", () 
 	});
 
 	it("is pinned to the Decap version it was written for", () => {
-		expect(JSON.parse(installed("package.json")).version).toBe("3.19.1");
+		expect(JSON.parse(installed("package.json")).version).toBe("3.20.2");
 	});
 
 	it("is applied to the installed Decap (run bun install if this fails)", () => {
