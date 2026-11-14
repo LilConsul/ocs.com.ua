@@ -1,10 +1,10 @@
----
+﻿---
 import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { productUrl } from "@/lib/catalogue-urls";
 import { type EquipmentEntry, flattenSpecs, getCategory, getSlug } from "@/lib/content-utils";
-import { PLACEHOLDER_IMAGE } from "@/lib/image-resolver";
+import { PLACEHOLDER_IMAGE } from "@/lib/placeholder";
 
 interface Props {
 	products: EquipmentEntry[];
