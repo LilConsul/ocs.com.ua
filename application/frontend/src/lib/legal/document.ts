@@ -1,8 +1,8 @@
-import { marked } from "marked";
 import companyData from "@/data/company.json";
 import privacyData from "@/data/privacy-policy.json";
 import termsData from "@/data/terms-of-use.json";
 import type { Lang } from "@/i18n";
+import { renderMarkdownSync } from "@/lib/render-markdown";
 
 type Localized = { en: string; ua: string };
 
@@ -81,7 +81,7 @@ function buildDocument(data: RawDocument, lang: Lang): LegalDocument {
 		number: index + 1,
 		id: `section-${index + 1}`,
 		title: section.title,
-		html: section.markdown ? marked.parse(section.markdown, { async: false }) : "",
+		html: section.markdown ? renderMarkdownSync(section.markdown) : "",
 	}));
 	return { effectiveDate: source.effectiveDate, sections };
 }
