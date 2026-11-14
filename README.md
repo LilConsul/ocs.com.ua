@@ -50,7 +50,7 @@ ______________________________________________________________________
 
 ## Quick start
 
-Requirements: **Node.js** ≥ 22.12, **Bun**, **uv**, **make** and **pre-commit**.
+Requirements: **Node.js** ≥ 26, **Bun**, **uv**, **make** and **pre-commit**.
 
 ```bash
 make install-dev    # bun install, uv sync, install git hooks

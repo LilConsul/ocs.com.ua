@@ -4,7 +4,7 @@ ______________________________________________________________________
 
 ## Requirements
 
-- **Node.js** ≥ 22.12
+- **Node.js** ≥ 22.23
 - **Bun** — package manager and test runner for the frontend
 - **uv** — runs the Python infra scripts and tests
 - **make** and **pre-commit**
