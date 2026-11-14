@@ -599,7 +599,13 @@ html.skeleton-on .skeleton:not([data-loaded]) > picture > img {
 		opacity: 1;
 	}
 	.mobile-menu-shell > div {
+		min-height: 0;
 		overflow: hidden;
+	}
+	@media (min-width: 768px) {
+		.mobile-menu-shell {
+			display: none;
+		}
 	}
 
 	/* Display typography - Category titles */
