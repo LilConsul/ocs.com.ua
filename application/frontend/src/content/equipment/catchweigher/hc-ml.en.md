@@ -1,6 +1,6 @@
 ---
 file_name: hc-ml
-order: 3
+order: 2
 manufacturer: Wipotec
 datasheet: null
 ---
