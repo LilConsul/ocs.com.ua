@@ -1,6 +1,7 @@
-# Keeps the SHA-pinned GitHub Actions in .github/workflows and .github/actions up to date
+# Keeps GitHub Actions, frontend dependencies, and Python infra dependencies up to date
 version: 2
 updates:
+  # GitHub Actions workflows and custom composite actions
   - package-ecosystem: github-actions
     directories:
       - "/"
@@ -12,4 +13,26 @@ updates:
         patterns: ["*"]
     commit-message:
       prefix: ci
+      include: scope
+
+  - package-ecosystem: npm
+    directory: "/application/frontend"
+    schedule:
+      interval: weekly
+    groups:
+      npm-dependencies:
+        patterns: ["*"]
+    commit-message:
+      prefix: deps
+      include: scope
+
+  - package-ecosystem: pip
+    directory: "/application/infra"
+    schedule:
+      interval: weekly
+    groups:
+      python-dependencies:
+        patterns: ["*"]
+    commit-message:
+      prefix: deps
       include: scope
