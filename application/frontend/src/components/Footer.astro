@@ -20,9 +20,7 @@ const phoneHref = `tel:${companyData.phone.replace(/[^\d+]/g, "")}`;
 <footer class="border-border-subtle bg-background border-t">
 	<div class="container mx-auto max-w-7xl px-6">
 		{/* Equal outer columns keep the middle block centered on the page (and over the credit row) */}
-		<div
-			class="text-industrial-gray flex flex-col items-center gap-5 py-8 text-sm xl:grid xl:grid-cols-[1fr_auto_1fr] xl:gap-6 xl:py-6"
-		>
+		<div class="text-industrial-gray flex flex-col items-center gap-5 py-8 text-sm xl:grid xl:grid-cols-[1fr_auto_1fr] xl:gap-6 xl:py-6">
 			{/* Always rendered so the grid keeps its columns on pages without share links */}
 			<div
 				class:list={[
@@ -35,15 +33,17 @@ const phoneHref = `tel:${companyData.phone.replace(/[^\d+]/g, "")}`;
 
 			<div class="flex flex-col items-center gap-1.5 text-center font-sans text-balance hyphens-none">
 				<p>
-					&copy; {currentYear}{" "}{companyData.name[lang as "en" | "ua"] ?? companyData.name.en}. {
-						_("All rights reserved")
-					}.
+					&copy; {currentYear} {companyData.name[lang as "en" | "ua"] ?? companyData.name.en}.{" "}
+					{_("All rights reserved")}.
 				</p>
-				<address
-					class="text-industrial-gray/80 flex flex-wrap items-center justify-center gap-x-3 gap-y-0.5 text-xs not-italic"
-				>
-					<span>{address.street}, {address.city}, {address.postalCode}, {address.country}</span>
-					<span class="hidden size-[3px] rounded-full bg-current opacity-50 sm:block" aria-hidden="true"></span>
+				<address class="text-industrial-gray/80 flex flex-wrap items-center justify-center gap-x-3 gap-y-0.5 text-xs not-italic">
+					<span>
+						{address.street}, {address.city}, {address.postalCode}, {address.country}
+					</span>
+					<span
+						class="hidden size-[3px] rounded-full bg-current opacity-50 sm:block"
+						aria-hidden="true"
+					></span>
 					<a href={phoneHref} class="hover:text-foreground whitespace-nowrap transition-colors">
 						{companyData.phone}
 					</a>
@@ -67,9 +67,7 @@ const phoneHref = `tel:${companyData.phone.replace(/[^\d+]/g, "")}`;
 		</div>
 
 		{/* Credit sits in its own row so it reads as separate from the company details */}
-		<div
-			class="border-border-subtle/60 text-industrial-gray/70 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border-t py-4 text-xs"
-		>
+		<div class="border-border-subtle/60 text-industrial-gray/70 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border-t py-4 text-xs">
 			<span>{_("Website by")} Denys Shevchenko</span>
 			<span class="size-[3px] rounded-full bg-current opacity-50" aria-hidden="true"></span>
 			<a

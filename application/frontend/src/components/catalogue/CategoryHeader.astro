@@ -22,8 +22,7 @@ const description = categoryData.description;
 	<div
 		class="bg-secondary/10 pointer-events-none absolute -top-32 -right-24 size-120 rounded-full blur-3xl"
 		aria-hidden="true"
-	>
-	</div>
+	></div>
 
 	<div class="px-edge-margin relative mx-auto max-w-[1600px]">
 		<div class="max-w-3xl">
@@ -40,16 +39,14 @@ const description = categoryData.description;
 			>
 				{title}
 			</h1>
-			{
-				description && (
-					<p
-						class="hero-rise font-body-md text-industrial-gray max-w-2xl text-base leading-relaxed wrap-break-word lg:text-lg"
-						style="--d:2"
-					>
-						{description}
-					</p>
-				)
-			}
+			{description && (
+				<p
+					class="hero-rise font-body-md text-industrial-gray max-w-2xl text-base leading-relaxed wrap-break-word lg:text-lg"
+					style="--d:2"
+				>
+					{description}
+				</p>
+			)}
 		</div>
 	</div>
 </header>

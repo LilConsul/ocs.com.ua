@@ -150,35 +150,30 @@ const structuredData = createPageGraph({
 		productSearchIndex={productSearchIndex}
 	>
 		<section aria-label={_("Products")} class="space-y-12">
-			{
-				groups.map(({ category, products }, groupIndex) => (
-					<section aria-labelledby={`industry-group-${category.slug}`}>
-						<h2
-							id={`industry-group-${category.slug}`}
-							class="font-headline-lg text-foreground mb-6 flex items-center gap-3 text-xl font-semibold tracking-tight"
-						>
-							<span class="material-symbols-outlined text-secondary text-[22px]" aria-hidden="true">
-								{category.icon || "category"}
-							</span>
-							{category.title}
-						</h2>
-						<div
-							data-product-grid
-							class="gap-gutter grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
-						>
-							{products.map((product, index) => (
-								<ProductCard
-									product={product}
-									lang={lang as Lang}
-									index={index}
-									eager={groupIndex === 0 && index < 3}
-									gallery={galleries[product.id]}
-								/>
-							))}
-						</div>
-					</section>
-				))
-			}
+			{groups.map(({ category, products }, groupIndex) => (
+				<section aria-labelledby={`industry-group-${category.slug}`}>
+					<h2
+						id={`industry-group-${category.slug}`}
+						class="font-headline-lg text-foreground mb-6 flex items-center gap-3 text-xl font-semibold tracking-tight"
+					>
+						<span class="material-symbols-outlined text-secondary text-[22px]" aria-hidden="true">
+							{category.icon || "category"}
+						</span>
+						{category.title}
+					</h2>
+					<div data-product-grid class="gap-gutter grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+						{products.map((product, index) => (
+							<ProductCard
+								product={product}
+								lang={lang as Lang}
+								index={index}
+								eager={groupIndex === 0 && index < 3}
+								gallery={galleries[product.id]}
+							/>
+						))}
+					</div>
+				</section>
+			))}
 		</section>
 	</CatalogueBand>
 </Layout>

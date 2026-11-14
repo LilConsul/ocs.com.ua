@@ -66,8 +66,7 @@ const messages = {
 					{_("Leave your details and the download will start right away.")}
 				</p>
 				<p id="datasheet-saved-note" class="text-industrial-gray mt-2 mb-0 hidden text-xs">
-					{_("Your details are saved on this device for next time.")}
-					{" "}
+					{_("Your details are saved on this device for next time.")}{" "}
 					<button
 						type="button"
 						id="datasheet-clear-saved"
@@ -83,7 +82,9 @@ const messages = {
 				aria-label={_("Close")}
 				class="text-industrial-gray hover:text-foreground focus-visible:outline-secondary shrink-0 rounded-lg p-1.5 focus-visible:outline-2"
 			>
-				<span class="material-symbols-outlined block" aria-hidden="true">close</span>
+				<span class="material-symbols-outlined block" aria-hidden="true">
+					close
+				</span>
 			</button>
 		</header>
 
@@ -93,8 +94,7 @@ const messages = {
 			aria-live="polite"
 			aria-atomic="true"
 			class="font-technical-data text-technical-data mb-5 hidden rounded-lg p-4"
-		>
-		</div>
+		></div>
 
 		<form
 			id="datasheet-form"
@@ -155,42 +155,49 @@ const messages = {
 			/>
 
 			<FormField id="sector" label={_("Industry Sector")} type="select" required>
-				<option value="" disabled selected>{_("Select sector…")}</option>
-				{sectorOptions.map(({ value, label }) => <option value={value}>{label}</option>)}
+				<option value="" disabled selected>
+					{_("Select sector…")}
+				</option>
+				{sectorOptions.map(({ value, label }) => (
+					<option value={value}>{label}</option>
+				))}
 			</FormField>
 
 			<p class="text-industrial-gray text-xs">
-				{
-					_(
-						"By submitting this form you agree to the processing of your details as described in our"
-					)
-				}
-				{" "}
-				<a href={`/${lang}/privacy/`} class="hover:text-foreground underline"
-					>{_("Privacy Policy")}</a
-				>.
+				{_(
+					"By submitting this form you agree to the processing of your details as described in our"
+				)}{" "}
+				<a href={`/${lang}/privacy/`} class="hover:text-foreground underline">
+					{_("Privacy Policy")}
+				</a>
+				.
 			</p>
 
 			<p class="text-industrial-gray text-xs">
-				{_("This form is protected by reCAPTCHA.")}
-				{" "}
+				{_("This form is protected by reCAPTCHA.")}{" "}
 				<a
 					href="https://policies.google.com/privacy"
 					target="_blank"
 					rel="noopener noreferrer"
-					class="hover:text-foreground underline">{_("Google Privacy Policy")}</a
+					class="hover:text-foreground underline"
 				>
-				{" "}&amp;{" "}
+					{_("Google Privacy Policy")}
+				</a>{" "}
+				&amp;{" "}
 				<a
 					href="https://policies.google.com/terms"
 					target="_blank"
 					rel="noopener noreferrer"
-					class="hover:text-foreground underline">{_("Google Terms of Service")}</a
+					class="hover:text-foreground underline"
 				>
+					{_("Google Terms of Service")}
+				</a>
 			</p>
 
 			<button type="submit" id="datasheet-submit" class="btn-primary press group w-full">
-				<span class="material-symbols-outlined text-[18px]" aria-hidden="true">download</span>
+				<span class="material-symbols-outlined text-[18px]" aria-hidden="true">
+					download
+				</span>
 				{_("Download")}
 			</button>
 		</form>

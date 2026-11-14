@@ -65,9 +65,7 @@ const messages = {
 >
 	<header class="flex items-center justify-between pb-6">
 		<div class="min-w-0">
-			<p
-				class="font-label-caps text-secondary m-0 flex items-center gap-3 text-xs font-semibold tracking-widest uppercase"
-			>
+			<p class="font-label-caps text-secondary m-0 flex items-center gap-3 text-xs font-semibold tracking-widest uppercase">
 				<span class="eyebrow-rule bg-secondary h-px w-8" aria-hidden="true"></span>
 				{_("Engineering Inquiry")}
 			</p>
@@ -93,8 +91,7 @@ const messages = {
 		aria-live="polite"
 		aria-atomic="true"
 		class="font-technical-data text-technical-data mb-6 hidden rounded-lg p-4"
-	>
-	</div>
+	></div>
 
 	{/* Shown only without JS, where the form below is hidden (see styles/no-js.css) */}
 	<noscript>
@@ -102,8 +99,7 @@ const messages = {
 			role="note"
 			class="font-technical-data text-technical-data text-foreground bg-surface-container border-border-subtle/50 rounded-lg border p-4"
 		>
-			{_("JavaScript is required to send this form. Please call or email us instead:")}
-			{" "}
+			{_("JavaScript is required to send this form. Please call or email us instead:")}{" "}
 			<a href={`tel:${companyData.phone.replace(/[^\d+]/g, "")}`} class="font-semibold underline">
 				{companyData.phone}
 			</a>
@@ -179,8 +175,12 @@ const messages = {
 
 		{/* Row 4: Sector */}
 		<FormField id="sector" label={_("Industry Sector")} type="select" required>
-			<option value="" disabled selected>{_("Select sector…")}</option>
-			{sectorOptions.map(({ value, label }) => <option value={value}>{label}</option>)}
+			<option value="" disabled selected>
+				{_("Select sector…")}
+			</option>
+			{sectorOptions.map(({ value, label }) => (
+				<option value={value}>{label}</option>
+			))}
 		</FormField>
 
 		{/* Row 5: Equipment (optional checkboxes) */}
@@ -190,19 +190,16 @@ const messages = {
 				<span class="text-industrial-gray ml-1 text-xs">({_("optional")})</span>
 			</legend>
 			<div class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
-				{
-					equipmentOptions.map(({ value, label }) => (
-						<CheckboxCard name="equipment" value={value} label={label} />
-					))
-				}
+				{equipmentOptions.map(({ value, label }) => (
+					<CheckboxCard name="equipment" value={value} label={label} />
+				))}
 			</div>
 			<p
 				id="equipment-error"
 				role="alert"
 				class="text-destructive mt-2 hidden text-xs font-medium"
 				data-field-error="equipment"
-			>
-			</p>
+			></p>
 		</fieldset>
 
 		{/* Row 6: Message */}
@@ -217,29 +214,33 @@ const messages = {
 
 		{/* Our privacy notice */}
 		<p class="text-industrial-gray text-xs">
-			{_("By submitting this form you agree to the processing of your details as described in our")}
-			{" "}
-			<a href={`/${lang}/privacy/`} class="hover:text-foreground underline">{_("Privacy Policy")}</a
-			>.
+			{_("By submitting this form you agree to the processing of your details as described in our")}{" "}
+			<a href={`/${lang}/privacy/`} class="hover:text-foreground underline">
+				{_("Privacy Policy")}
+			</a>
+			.
 		</p>
 
 		{/* reCAPTCHA notice (badge hidden via CSS below) */}
 		<p class="text-industrial-gray text-xs">
-			{_("This form is protected by reCAPTCHA.")}
-			{" "}
+			{_("This form is protected by reCAPTCHA.")}{" "}
 			<a
 				href="https://policies.google.com/privacy"
 				target="_blank"
 				rel="noopener noreferrer"
-				class="hover:text-foreground underline">{_("Google Privacy Policy")}</a
+				class="hover:text-foreground underline"
 			>
-			{" "}&amp;{" "}
+				{_("Google Privacy Policy")}
+			</a>{" "}
+			&amp;{" "}
 			<a
 				href="https://policies.google.com/terms"
 				target="_blank"
 				rel="noopener noreferrer"
-				class="hover:text-foreground underline">{_("Google Terms of Service")}</a
+				class="hover:text-foreground underline"
 			>
+				{_("Google Terms of Service")}
+			</a>
 		</p>
 
 		{/* Submit */}
@@ -247,8 +248,10 @@ const messages = {
 			{_("Submit Inquiry")}
 			<span
 				class="material-symbols-outlined transition-transform duration-(--dur-fast) group-hover:translate-x-1"
-				aria-hidden="true">arrow_forward</span
+				aria-hidden="true"
 			>
+				arrow_forward
+			</span>
 		</button>
 	</form>
 </section>

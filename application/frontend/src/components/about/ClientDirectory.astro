@@ -93,9 +93,7 @@ const orderedPartners = SHOW_CLIENT_EQUIPMENT
 	<div class="px-edge-margin mx-auto max-w-7xl">
 		<header class="mb-12 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
 			<div class="max-w-2xl">
-				<p
-					class="font-label-caps text-secondary m-0 flex items-center gap-3 text-xs font-semibold tracking-widest uppercase"
-				>
+				<p class="font-label-caps text-secondary m-0 flex items-center gap-3 text-xs font-semibold tracking-widest uppercase">
 					<span class="eyebrow-rule bg-secondary h-px w-8" aria-hidden="true"></span>
 					{_("Enterprise Reference Directory")}
 				</p>
@@ -106,11 +104,9 @@ const orderedPartners = SHOW_CLIENT_EQUIPMENT
 					{_("Trusted by Ukraine's Industrial Flagships")}
 				</h2>
 				<p class="font-body-md text-industrial-gray mt-4 text-sm leading-relaxed sm:text-base">
-					{
-						_(
-							"Explore verified German inspection equipment installations across leading food, pharmaceutical, and consumer goods manufacturers in Ukraine."
-						)
-					}
+					{_(
+						"Explore verified German inspection equipment installations across leading food, pharmaceutical, and consumer goods manufacturers in Ukraine."
+					)}
 				</p>
 			</div>
 
@@ -121,22 +117,20 @@ const orderedPartners = SHOW_CLIENT_EQUIPMENT
 				class="flex flex-wrap items-center gap-2 lg:max-w-md lg:justify-end"
 				id="clientFilterGroup"
 			>
-				{
-					tabs.map((tab, index) => (
-						<button
-							type="button"
-							aria-pressed={index === 0 ? "true" : "false"}
-							aria-controls="clientCardsContainer"
-							class={tabClass}
-							data-filter={tab.filter}
-						>
-							<span>{tab.label}</span>
-							<span class="bg-secondary/10 text-secondary rounded-full px-1.5 py-px text-[11px] font-bold tabular-nums">
-								{tab.count}
-							</span>
-						</button>
-					))
-				}
+				{tabs.map((tab, index) => (
+					<button
+						type="button"
+						aria-pressed={index === 0 ? "true" : "false"}
+						aria-controls="clientCardsContainer"
+						class={tabClass}
+						data-filter={tab.filter}
+					>
+						<span>{tab.label}</span>
+						<span class="bg-secondary/10 text-secondary rounded-full px-1.5 py-px text-[11px] font-bold tabular-nums">
+							{tab.count}
+						</span>
+					</button>
+				))}
 			</div>
 		</header>
 
@@ -146,136 +140,131 @@ const orderedPartners = SHOW_CLIENT_EQUIPMENT
 			id="clientCardsContainer"
 			aria-live="polite"
 		>
-			{
-				orderedPartners.map((partner, pi) => {
-					const clientName = partner.name[lang];
-					const eq = partner.equipment;
-					const totalUnits = unitsOf(partner);
-					const hasData = SHOW_CLIENT_EQUIPMENT && totalUnits > 0;
-					const CategoryIcon = categoryIcons[partner.category];
+			{orderedPartners.map((partner, pi) => {
+				const clientName = partner.name[lang];
+				const eq = partner.equipment;
+				const totalUnits = unitsOf(partner);
+				const hasData = SHOW_CLIENT_EQUIPMENT && totalUnits > 0;
+				const CategoryIcon = categoryIcons[partner.category];
 
-					return (
-						<article
-							class="card-hover client-card reveal group/card bg-background border-border-subtle/70 flex flex-col overflow-hidden rounded-xl border shadow-xs"
-							data-category={partner.category}
-							style={`--i:${pi % 3}`}
+				return (
+					<article
+						class="card-hover client-card reveal group/card bg-background border-border-subtle/70 flex flex-col overflow-hidden rounded-xl border shadow-xs"
+						data-category={partner.category}
+						style={`--i:${pi % 3}`}
+					>
+						{/* Logo band: fixed height so every card starts the same, logos get room to breathe */}
+						<figure
+							class:list={[
+								"border-border-subtle/40 m-0 flex h-28 items-center justify-center border-b bg-white px-8 py-4 sm:h-32",
+								partner.logo && "skeleton",
+							]}
 						>
-							{/* Logo band: fixed height so every card starts the same, logos get room to breathe */}
-							<figure
-								class:list={[
-									"border-border-subtle/40 m-0 flex h-28 items-center justify-center border-b bg-white px-8 py-4 sm:h-32",
-									partner.logo && "skeleton",
-								]}
-							>
-								{partner.logo ? (
-									<Image
-										src={partner.logo}
-										alt={`${clientName} Logo`}
-										width={partner.logo.width}
-										widths={[160, 320]}
-										sizes="160px"
-										height={partner.logo.height}
-										class="max-h-full max-w-full object-contain"
-										loading="lazy"
-										decoding="async"
-									/>
-								) : (
-									<BuildingComplex class="text-industrial-gray/60 h-10 w-10" aria-hidden="true" />
-								)}
-							</figure>
+							{partner.logo ? (
+								<Image
+									src={partner.logo}
+									alt={`${clientName} Logo`}
+									width={partner.logo.width}
+									widths={[160, 320]}
+									sizes="160px"
+									height={partner.logo.height}
+									class="max-h-full max-w-full object-contain"
+									loading="lazy"
+									decoding="async"
+								/>
+							) : (
+								<BuildingComplex class="text-industrial-gray/60 h-10 w-10" aria-hidden="true" />
+							)}
+						</figure>
 
-							<div class="flex flex-1 flex-col p-4 sm:p-6">
-								<header class="flex items-start justify-between gap-2.5 sm:gap-3">
-									<div class="min-w-0">
-										<h3 class="font-headline-lg text-foreground m-0 text-base leading-snug font-semibold text-balance wrap-break-word sm:text-lg">
-											{clientName}
-										</h3>
-										<p class="font-technical-data text-industrial-gray m-0 mt-1.5 flex items-center gap-1.5 text-xs">
-											<CategoryIcon
-												class="text-secondary h-3.5 w-3.5 shrink-0"
-												aria-hidden="true"
-											/>
-											<span class="truncate">{categoryLabels[partner.category]}</span>
-										</p>
-									</div>
-									{hasData && (
-										<span class={badgeClass}>
-											{formatApprox(totalUnits)} {_("Units")}
-										</span>
-									)}
-								</header>
-
-								{/* Clients without unit counts simply have no equipment block */}
+						<div class="flex flex-1 flex-col p-4 sm:p-6">
+							<header class="flex items-start justify-between gap-2.5 sm:gap-3">
+								<div class="min-w-0">
+									<h3 class="font-headline-lg text-foreground m-0 text-base leading-snug font-semibold text-balance wrap-break-word sm:text-lg">
+										{clientName}
+									</h3>
+									<p class="font-technical-data text-industrial-gray m-0 mt-1.5 flex items-center gap-1.5 text-xs">
+										<CategoryIcon class="text-secondary h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+										<span class="truncate">{categoryLabels[partner.category]}</span>
+									</p>
+								</div>
 								{hasData && (
-									<div class="mt-auto pt-4 sm:pt-5">
-										<div
-											class="bg-border-subtle/50 h-1.5 overflow-hidden rounded-full"
-											aria-hidden="true"
-										>
-											<div
-												class="reveal-bar from-secondary/60 to-secondary h-full origin-left rounded-full bg-linear-to-r"
-												style={`width:${Math.max(6, Math.round((totalUnits / maxUnits) * 100))}%`}
-											/>
-										</div>
-
-										<p class="font-label-caps text-industrial-gray m-0 mt-3 text-[11px] uppercase sm:mt-4">
-											{_("Installed Equipment:")}
-										</p>
-
-										<dl class="m-0 mt-2 flex flex-col gap-2 p-0">
-											{metrics.map(({ key, Icon, label }) => {
-												const value = eq?.[key] ?? 0;
-												return (
-													<div
-														class:list={[
-															rowClass,
-															"group-hover/card:border-secondary/30",
-															value === 0 && "opacity-50",
-														]}
-													>
-														<dt class="font-body-md text-industrial-gray flex min-w-0 items-center gap-2 text-xs">
-															<Icon class="text-secondary h-4 w-4 shrink-0" aria-hidden="true" />
-															<span class="truncate">{label}</span>
-														</dt>
-														<dd class="font-technical-data text-foreground m-0 shrink-0 text-base leading-none font-bold tabular-nums sm:text-lg">
-															{formatApprox(value)}
-														</dd>
-													</div>
-												);
-											})}
-										</dl>
-									</div>
-								)}
-							</div>
-
-							<footer class="bg-surface-container border-border-subtle/40 font-technical-data text-industrial-gray flex items-center justify-between gap-3 border-t px-4 py-3 text-xs sm:px-6">
-								<address class="flex min-w-0 items-center gap-1.5 not-italic">
-									<MapPin class="text-secondary h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-									<span class="truncate">
-										{partner.adres && partner.adres.length > 0
-											? partner.adres
-													.map((city) => getCityCoordinates(city)?.name[lang] ?? city)
-													.join(", ")
-											: _("Ukraine")}
+									<span class={badgeClass}>
+										{formatApprox(totalUnits)} {_("Units")}
 									</span>
-								</address>
-								{partner.website && (
-									<a
-										href={partner.website}
-										target="_blank"
-										rel="noopener noreferrer"
-										class="text-foreground hover:text-secondary focus-visible:outline-secondary inline-flex shrink-0 items-center gap-1 font-medium transition-colors hover:underline focus-visible:outline-2 focus-visible:outline-offset-2"
-										aria-label={`${clientName} Website`}
-									>
-										<span>{_("Site")}</span>
-										<ExternalLink class="text-secondary h-3 w-3" aria-hidden="true" />
-									</a>
 								)}
-							</footer>
-						</article>
-					);
-				})
-			}
+							</header>
+
+							{/* Clients without unit counts simply have no equipment block */}
+							{hasData && (
+								<div class="mt-auto pt-4 sm:pt-5">
+									<div
+										class="bg-border-subtle/50 h-1.5 overflow-hidden rounded-full"
+										aria-hidden="true"
+									>
+										<div
+											class="reveal-bar from-secondary/60 to-secondary h-full origin-left rounded-full bg-linear-to-r"
+											style={`width:${Math.max(6, Math.round((totalUnits / maxUnits) * 100))}%`}
+										/>
+									</div>
+
+									<p class="font-label-caps text-industrial-gray m-0 mt-3 text-[11px] uppercase sm:mt-4">
+										{_("Installed Equipment:")}
+									</p>
+
+									<dl class="m-0 mt-2 flex flex-col gap-2 p-0">
+										{metrics.map(({ key, Icon, label }) => {
+											const value = eq?.[key] ?? 0;
+											return (
+												<div
+													class:list={[
+														rowClass,
+														"group-hover/card:border-secondary/30",
+														value === 0 && "opacity-50",
+													]}
+												>
+													<dt class="font-body-md text-industrial-gray flex min-w-0 items-center gap-2 text-xs">
+														<Icon class="text-secondary h-4 w-4 shrink-0" aria-hidden="true" />
+														<span class="truncate">{label}</span>
+													</dt>
+													<dd class="font-technical-data text-foreground m-0 shrink-0 text-base leading-none font-bold tabular-nums sm:text-lg">
+														{formatApprox(value)}
+													</dd>
+												</div>
+											);
+										})}
+									</dl>
+								</div>
+							)}
+						</div>
+
+						<footer class="bg-surface-container border-border-subtle/40 font-technical-data text-industrial-gray flex items-center justify-between gap-3 border-t px-4 py-3 text-xs sm:px-6">
+							<address class="flex min-w-0 items-center gap-1.5 not-italic">
+								<MapPin class="text-secondary h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+								<span class="truncate">
+									{partner.adres && partner.adres.length > 0
+										? partner.adres
+												.map((city) => getCityCoordinates(city)?.name[lang] ?? city)
+												.join(", ")
+										: _("Ukraine")}
+								</span>
+							</address>
+							{partner.website && (
+								<a
+									href={partner.website}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="text-foreground hover:text-secondary focus-visible:outline-secondary inline-flex shrink-0 items-center gap-1 font-medium transition-colors hover:underline focus-visible:outline-2 focus-visible:outline-offset-2"
+									aria-label={`${clientName} Website`}
+								>
+									<span>{_("Site")}</span>
+									<ExternalLink class="text-secondary h-3 w-3" aria-hidden="true" />
+								</a>
+							)}
+						</footer>
+					</article>
+				);
+			})}
 		</div>
 
 		{/* Revealed by the script only when the current filter has more than one page */}
@@ -297,13 +286,9 @@ const orderedPartners = SHOW_CLIENT_EQUIPMENT
 			</button>
 		</nav>
 
-		<p
-			class="font-body-md text-industrial-gray m-0 mt-8 flex items-start gap-2 text-xs leading-relaxed sm:text-sm"
-		>
+		<p class="font-body-md text-industrial-gray m-0 mt-8 flex items-start gap-2 text-xs leading-relaxed sm:text-sm">
 			<Info class="text-secondary mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-			<span>
-				{_("This list is not exhaustive: not all of our clients are shown here.")}
-			</span>
+			<span>{_("This list is not exhaustive: not all of our clients are shown here.")}</span>
 		</p>
 	</div>
 </section>

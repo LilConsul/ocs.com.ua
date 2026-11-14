@@ -54,44 +54,37 @@ const href = productUrl(lang, getCategory(product), getSlug(product));
 	</a>
 
 	<div class="flex flex-1 flex-col p-5 sm:p-6">
-		<h3
-			class="font-headline-lg text-foreground m-0 mb-2 text-lg leading-snug font-semibold text-balance wrap-break-word"
-		>
+		<h3 class="font-headline-lg text-foreground m-0 mb-2 text-lg leading-snug font-semibold text-balance wrap-break-word">
 			{title}
 		</h3>
-		<p
-			class="font-body-md text-industrial-gray m-0 mb-5 line-clamp-2 text-sm leading-relaxed wrap-break-word"
-		>
+		<p class="font-body-md text-industrial-gray m-0 mb-5 line-clamp-2 text-sm leading-relaxed wrap-break-word">
 			{description}
 		</p>
 
 		<div class="mt-auto">
-			{
-				specs.length > 0 && (
-					<dl class="m-0 mb-5 grid grid-cols-2 gap-2 p-0">
-						{specs.map((spec: { label: string; value: string }) => (
-							<div class="bg-surface-container border-border-subtle/50 min-w-0 rounded-lg border px-2.5 py-2 sm:px-3">
-								<dt class="font-label-caps text-industrial-gray mb-0.5 truncate text-[10px] uppercase">
-									{spec.label}
-								</dt>
-								<dd class="font-technical-data text-foreground m-0 truncate text-xs font-bold sm:text-sm">
-									{spec.value}
-								</dd>
-							</div>
-						))}
-					</dl>
-				)
-			}
+			{specs.length > 0 && (
+				<dl class="m-0 mb-5 grid grid-cols-2 gap-2 p-0">
+					{specs.map((spec: { label: string; value: string }) => (
+						<div class="bg-surface-container border-border-subtle/50 min-w-0 rounded-lg border px-2.5 py-2 sm:px-3">
+							<dt class="font-label-caps text-industrial-gray mb-0.5 truncate text-[10px] uppercase">
+								{spec.label}
+							</dt>
+							<dd class="font-technical-data text-foreground m-0 truncate text-xs font-bold sm:text-sm">
+								{spec.value}
+							</dd>
+						</div>
+					))}
+				</dl>
+			)}
 
 			<a
 				href={href}
 				class="border-secondary/40 text-secondary group-hover:border-secondary group-hover:bg-secondary/5 focus-visible:outline-secondary font-technical-data flex w-full items-center justify-center gap-2 rounded-lg border py-2.5 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
 			>
 				{_("Technical Details")}
-				<span
-					class="material-symbols-outlined text-[16px] transition-transform group-hover:translate-x-1"
-					>arrow_forward</span
-				>
+				<span class="material-symbols-outlined text-[16px] transition-transform group-hover:translate-x-1">
+					arrow_forward
+				</span>
 			</a>
 		</div>
 	</div>

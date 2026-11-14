@@ -26,9 +26,7 @@ const encodedDescription = encodeURIComponent(description);
 
 <div class="flex items-center gap-3">
 	<span class="font-sans">{_("Share")}:</span>
-	<div
-		class="text-industrial-gray flex items-center gap-3 [&_a]:transition-opacity [&_a:hover]:opacity-70 [&_svg]:h-5 [&_svg]:w-5 [&_svg]:fill-current"
-	>
+	<div class="text-industrial-gray flex items-center gap-3 [&_a]:transition-opacity [&_a:hover]:opacity-70 [&_svg]:h-5 [&_svg]:w-5 [&_svg]:fill-current">
 		<LinkedInShareButton url={url} title={encodedTitle} description={encodedDescription} />
 		<FacebookShareButton url={url} title={encodedTitle} description={encodedDescription} />
 		<TwitterShareButton url={url} title={encodedTitle} description={encodedDescription} />

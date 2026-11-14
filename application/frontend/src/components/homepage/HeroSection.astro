@@ -18,9 +18,7 @@ const _ = getInlineTranslations(lang);
 const partners = [_("Official Partner of Wipotec GmbH"), _("Official Partner of Mesutronic GmbH")];
 ---
 
-<section
-	class="border-border-subtle/60 relative flex min-h-136 w-full items-center overflow-hidden border-b pt-20 pb-16 md:min-h-180"
->
+<section class="border-border-subtle/60 relative flex min-h-136 w-full items-center overflow-hidden border-b pt-20 pb-16 md:min-h-180">
 	{/* Background image + readability overlay */}
 	<div class="absolute inset-0 z-0">
 		<Image
@@ -38,19 +36,16 @@ const partners = [_("Official Partner of Wipotec GmbH"), _("Official Partner of 
 		<div
 			class="from-background via-background/90 to-background/50 md:via-background/85 pointer-events-none absolute inset-0 bg-linear-to-b md:bg-linear-to-r md:to-transparent"
 			aria-hidden="true"
-		>
-		</div>
+		></div>
 		{/* Soft fade into the next section */}
 		<div
 			class="to-background pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-linear-to-b from-transparent"
 			aria-hidden="true"
-		>
-		</div>
+		></div>
 		<div
 			class="bg-secondary/10 pointer-events-none absolute -top-32 -left-24 size-112 rounded-full blur-3xl"
 			aria-hidden="true"
-		>
-		</div>
+		></div>
 		<TechnicalField class="hero-technical-field z-0 mix-blend-multiply" opacity={0.45} />
 	</div>
 
@@ -59,17 +54,15 @@ const partners = [_("Official Partner of Wipotec GmbH"), _("Official Partner of 
 		<div class="flex max-w-3xl flex-col gap-6">
 			{/* Partner badges */}
 			<ul class="hero-rise m-0 flex list-none flex-col items-start gap-2 p-0" style="--d:0">
-				{
-					partners.map((label) => (
-						<li class="bg-background/80 border-border-subtle/60 font-label-caps text-industrial-gray inline-flex max-w-full items-center gap-2.5 rounded-full border px-4 py-1.5 text-[11px] tracking-widest uppercase shadow-xs backdrop-blur-sm">
-							<span class="relative flex size-2 shrink-0" aria-hidden="true">
-								<span class="bg-secondary/40 absolute inset-0 rounded-full motion-safe:animate-pulse" />
-								<span class="bg-secondary relative size-2 rounded-full" />
-							</span>
-							<span class="text-balance">{label}</span>
-						</li>
-					))
-				}
+				{partners.map((label) => (
+					<li class="bg-background/80 border-border-subtle/60 font-label-caps text-industrial-gray inline-flex max-w-full items-center gap-2.5 rounded-full border px-4 py-1.5 text-[11px] tracking-widest uppercase shadow-xs backdrop-blur-sm">
+						<span class="relative flex size-2 shrink-0" aria-hidden="true">
+							<span class="bg-secondary/40 absolute inset-0 rounded-full motion-safe:animate-pulse" />
+							<span class="bg-secondary relative size-2 rounded-full" />
+						</span>
+						<span class="text-balance">{label}</span>
+					</li>
+				))}
 			</ul>
 
 			{/* Title */}
@@ -90,11 +83,9 @@ const partners = [_("Official Partner of Wipotec GmbH"), _("Official Partner of 
 				class="hero-rise font-body-md text-industrial-gray m-0 max-w-xl text-base leading-relaxed lg:text-lg"
 				style="--d:2"
 			>
-				{
-					_(
-						"Advanced checkweighers and Track & Trace systems for food, pharma, and logistics. Trusted by {clients} Ukrainian manufacturers since 2013."
-					).replace("{clients}", formatApprox(siteStats.clients))
-				}
+				{_(
+					"Advanced checkweighers and Track & Trace systems for food, pharma, and logistics. Trusted by {clients} Ukrainian manufacturers since 2013."
+				).replace("{clients}", formatApprox(siteStats.clients))}
 			</p>
 
 			{/* CTA buttons */}

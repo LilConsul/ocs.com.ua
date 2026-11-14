@@ -1,6 +1,5 @@
 ---
 import { getCollection } from "astro:content";
-import { marked } from "marked";
 import CatalogueSidebar from "@/components/catalogue/CatalogueSidebar.astro";
 import DatasheetModal from "@/components/catalogue/DatasheetModal.astro";
 import ProductGallery from "@/components/catalogue/ProductGallery.astro";
@@ -24,6 +23,7 @@ import {
 	sortByOrder,
 } from "@/lib/content-utils";
 import { hasDatasheet } from "@/lib/datasheet/files";
+import { renderMarkdown } from "@/lib/render-markdown";
 import { shareImageUrl } from "@/lib/share-image";
 import { createPageGraph, productSchema } from "@/lib/structured-data";
 
@@ -86,7 +86,7 @@ const datasheetAvailable = hasDatasheet(product.data.datasheet);
 const title = product.data.title ?? "";
 const description = product.data.description ?? "";
 const bodyMarkdown = product.body ?? "";
-const body = await marked.parse(bodyMarkdown);
+const body = await renderMarkdown(bodyMarkdown);
 
 const categoryObj = allCategories.find((c) => c.slug === category);
 const categoryTitle = categoryObj?.title ?? category;
@@ -140,14 +140,11 @@ const shareImage = shareImages[0];
 	structuredData={structuredData}
 >
 	{/* Hero band: breadcrumb, eyebrow and title */}
-	<header
-		class="from-surface-container/40 to-background border-border-subtle/60 relative w-full overflow-hidden border-b bg-linear-to-b py-10 lg:py-16"
-	>
+	<header class="from-surface-container/40 to-background border-border-subtle/60 relative w-full overflow-hidden border-b bg-linear-to-b py-10 lg:py-16">
 		<div
 			class="bg-secondary/10 pointer-events-none absolute -top-32 -right-24 size-120 rounded-full blur-3xl"
 			aria-hidden="true"
-		>
-		</div>
+		></div>
 
 		<div class="px-edge-margin relative mx-auto max-w-[1600px]">
 			<p
@@ -190,16 +187,14 @@ const shareImage = shareImages[0];
 					</div>
 
 					<div class="gap-gutter flex flex-col lg:col-span-5">
-						{
-							description && (
-								<p
-									class="reveal font-body-md text-industrial-gray text-sm leading-relaxed md:text-base"
-									style="--i:1"
-								>
-									{description}
-								</p>
-							)
-						}
+						{description && (
+							<p
+								class="reveal font-body-md text-industrial-gray text-sm leading-relaxed md:text-base"
+								style="--i:1"
+							>
+								{description}
+							</p>
+						)}
 
 						{/* Consultation card */}
 						<div
@@ -207,37 +202,31 @@ const shareImage = shareImages[0];
 							style="--i:2"
 						>
 							<div>
-								<h3
-									class="font-headline-lg text-foreground mb-1.5 text-lg font-semibold tracking-tight"
-								>
+								<h3 class="font-headline-lg text-foreground mb-1.5 text-lg font-semibold tracking-tight">
 									{_("Planning to upgrade your production line?")}
 								</h3>
 								<p class="font-body-md text-industrial-gray text-xs leading-relaxed">
-									{
-										_(
-											"Our engineering team is ready to configure this equipment for your specific production environment."
-										)
-									}
+									{_(
+										"Our engineering team is ready to configure this equipment for your specific production environment."
+									)}
 								</p>
 							</div>
 
 							{/* Direct Technical Sales Contact Info */}
 							<div class="border-border-subtle/60 space-y-2 border-t pt-4">
-								<p
-									class="font-label-caps text-industrial-gray text-[11px] font-semibold tracking-wider uppercase"
-								>
+								<p class="font-label-caps text-industrial-gray text-[11px] font-semibold tracking-wider uppercase">
 									{_("Direct Technical Sales")}
 								</p>
-								{
-									contactPerson && (
-										<p class="text-foreground text-sm font-medium">{contactPerson.name}</p>
-									)
-								}
+								{contactPerson && (
+									<p class="text-foreground text-sm font-medium">{contactPerson.name}</p>
+								)}
 								<div class="flex items-center gap-2">
 									<span
 										class="material-symbols-outlined text-secondary text-[18px]"
-										aria-hidden="true">call</span
+										aria-hidden="true"
 									>
+										call
+									</span>
 									<a
 										href={`tel:${companyData.phone.replace(/[^\d+]/g, "")}`}
 										class="font-technical-data text-foreground hover:text-secondary text-sm font-semibold transition-colors"
@@ -245,27 +234,23 @@ const shareImage = shareImages[0];
 										{companyData.phone}
 									</a>
 								</div>
-								{
-									companyData.email && (
-										<div class="flex items-center gap-2">
-											<span
-												class="material-symbols-outlined text-secondary text-[18px]"
-												aria-hidden="true"
-											>
-												mail
-											</span>
-											<a
-												href={`mailto:${companyData.email}`}
-												class="font-technical-data text-industrial-gray hover:text-secondary text-xs font-medium transition-colors"
-											>
-												{companyData.email}
-											</a>
-										</div>
-									)
-								}
-								<p class="text-industrial-gray text-[11px]">
-									{workingHours}
-								</p>
+								{companyData.email && (
+									<div class="flex items-center gap-2">
+										<span
+											class="material-symbols-outlined text-secondary text-[18px]"
+											aria-hidden="true"
+										>
+											mail
+										</span>
+										<a
+											href={`mailto:${companyData.email}`}
+											class="font-technical-data text-industrial-gray hover:text-secondary text-xs font-medium transition-colors"
+										>
+											{companyData.email}
+										</a>
+									</div>
+								)}
+								<p class="text-industrial-gray text-[11px]">{workingHours}</p>
 							</div>
 
 							{/* Action CTAs */}
@@ -274,45 +259,45 @@ const shareImage = shareImages[0];
 									{_("Request Consultation")}
 									<span
 										class="material-symbols-outlined text-[18px] transition-transform duration-(--dur-fast) group-hover:translate-x-1"
-										aria-hidden="true">arrow_forward</span
+										aria-hidden="true"
 									>
+										arrow_forward
+									</span>
 								</a>
 
-								{
-									datasheetAvailable && (
-										<>
-											<button id="datasheet-open" type="button" class="btn-secondary press w-full">
-												<span class="material-symbols-outlined text-[18px]" aria-hidden="true">
-													download
-												</span>
-												{_("Technical Datasheet")}
-											</button>
-											<noscript>
-												<p class="font-technical-data text-industrial-gray m-0 text-xs">
-													{_(
-														"JavaScript is required to send this form. Please call or email us instead:"
-													)}{" "}
-													<a
-														href={`tel:${companyData.phone.replace(/[^\d+]/g, "")}`}
-														class="font-semibold underline"
-													>
-														{companyData.phone}
-													</a>
-													{" · "}
-													<a href={`mailto:${companyData.email}`} class="font-semibold underline">
-														{companyData.email}
-													</a>
-												</p>
-											</noscript>
-											<DatasheetModal
-												lang={lang as Lang}
-												category={category}
-												slug={getSlug(product)}
-												title={title}
-											/>
-										</>
-									)
-								}
+								{datasheetAvailable && (
+									<>
+										<button id="datasheet-open" type="button" class="btn-secondary press w-full">
+											<span class="material-symbols-outlined text-[18px]" aria-hidden="true">
+												download
+											</span>
+											{_("Technical Datasheet")}
+										</button>
+										<noscript>
+											<p class="font-technical-data text-industrial-gray m-0 text-xs">
+												{_(
+													"JavaScript is required to send this form. Please call or email us instead:"
+												)}{" "}
+												<a
+													href={`tel:${companyData.phone.replace(/[^\d+]/g, "")}`}
+													class="font-semibold underline"
+												>
+													{companyData.phone}
+												</a>
+												{" · "}
+												<a href={`mailto:${companyData.email}`} class="font-semibold underline">
+													{companyData.email}
+												</a>
+											</p>
+										</noscript>
+										<DatasheetModal
+											lang={lang as Lang}
+											category={category}
+											slug={getSlug(product)}
+											title={title}
+										/>
+									</>
+								)}
 							</div>
 						</div>
 					</div>
@@ -324,16 +309,14 @@ const shareImage = shareImages[0];
 				</div>
 
 				{/* Markdown Documentation Body */}
-				{
-					body && (
-						<section
-							class="reveal bg-background border-border-subtle/70 rounded-xl border p-6 shadow-xs sm:p-8"
-							style="--i:0"
-						>
-							<div class="prose prose-neutral dark:prose-invert max-w-none" set:html={body} />
-						</section>
-					)
-				}
+				{body && (
+					<section
+						class="reveal bg-background border-border-subtle/70 rounded-xl border p-6 shadow-xs sm:p-8"
+						style="--i:0"
+					>
+						<div class="prose prose-neutral dark:prose-invert max-w-none" set:html={body} />
+					</section>
+				)}
 			</div>
 		</div>
 	</section>

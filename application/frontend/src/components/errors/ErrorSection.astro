@@ -21,32 +21,23 @@ const { lang, code, title, description } = Astro.props;
 	<div
 		aria-hidden="true"
 		class="absolute inset-0 -z-10 bg-[radial-gradient(var(--border)_1px,transparent_1px)] mask-[radial-gradient(ellipse_at_center,black_30%,transparent_75%)] bg-size-[24px_24px]"
-	>
-	</div>
+	></div>
 
 	<div class="mx-auto flex w-full max-w-3xl flex-col items-center text-center">
 		{/* Glass panel: brand glows behind a frosted surface, same treatment as the header */}
 		<div aria-hidden="true" class="relative mb-10 select-none">
 			<div class="absolute inset-0 -z-10 flex items-center justify-center">
-				<span class="bg-secondary/15 absolute -left-4 size-24 rounded-full blur-3xl md:size-32"
-				></span>
-				<span class="bg-primary/10 absolute -right-4 size-20 rounded-full blur-3xl md:size-28"
-				></span>
+				<span class="bg-secondary/15 absolute -left-4 size-24 rounded-full blur-3xl md:size-32"></span>
+				<span class="bg-primary/10 absolute -right-4 size-20 rounded-full blur-3xl md:size-28"></span>
 			</div>
-			<div
-				class="bg-background/60 border-border/60 rounded-2xl border px-8 py-4 shadow-[0_8px_40px_-12px_oklch(0_0_0/0.15)] backdrop-blur-xl md:px-14 md:py-6"
-			>
-				<p
-					class="text-foreground/80 font-mono text-[96px] leading-none font-medium tracking-tighter md:text-[168px]"
-				>
+			<div class="bg-background/60 border-border/60 rounded-2xl border px-8 py-4 shadow-[0_8px_40px_-12px_oklch(0_0_0/0.15)] backdrop-blur-xl md:px-14 md:py-6">
+				<p class="text-foreground/80 font-mono text-[96px] leading-none font-medium tracking-tighter md:text-[168px]">
 					{code}
 				</p>
 			</div>
 		</div>
 
-		<h1
-			class="font-heading text-foreground mb-4 text-[28px] leading-9 font-semibold tracking-[-0.02em] md:text-[42px] md:leading-12.5"
-		>
+		<h1 class="font-heading text-foreground mb-4 text-[28px] leading-9 font-semibold tracking-[-0.02em] md:text-[42px] md:leading-12.5">
 			{title}
 		</h1>
 
