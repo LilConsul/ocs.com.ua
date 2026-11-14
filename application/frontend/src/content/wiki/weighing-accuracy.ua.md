@@ -3,6 +3,8 @@ file_name: weighing-accuracy
 title: "Точність зважування простими словами"
 description: "Що насправді означає «точне зважування», чому ваги можуть помилятися, навіть коли виглядають детальними, і що робить результат кращим чи гіршим."
 order: 2
+datePublished: "2026-10-31"
+dateModified: "2026-11-13"
 related:
   - "what-is-scale-division"
   - "load-cell"

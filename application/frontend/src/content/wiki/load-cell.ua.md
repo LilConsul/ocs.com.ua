@@ -3,6 +3,8 @@ file_name: load-cell
 title: "Датчик ваги (тензодатчик) простими словами"
 description: "Що таке датчик ваги, як він перетворює вагу на число, які бувають типи та як за ним доглядати."
 order: 3
+datePublished: "2026-10-31"
+dateModified: "2026-11-13"
 related:
   - "what-is-scale-division"
   - "weighing-accuracy"

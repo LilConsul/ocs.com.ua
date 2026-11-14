@@ -555,5 +555,7 @@ collections:
           height: null
           aspect_ratio: 16x9
       - { label: "Order", name: "order", widget: "number", value_type: "int", default: 0, required: false, i18n: duplicate, hint: "Sorting priority (lower numbers appear first)" }
+      - { label: "Published Date", name: "datePublished", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD", required: false, i18n: duplicate, hint: "Shown under the article title and sent to search engines. Set it once, when the article is first published." }
+      - { label: "Updated Date", name: "dateModified", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD", required: false, i18n: duplicate, hint: "Optional. Set it whenever the article text is meaningfully revised. Leave empty if never revised." }
       - { label: "Related Articles", name: "related", widget: "relation", collection: "wiki", search_fields: ["title"], value_field: "{{slug}}", display_fields: ["title"], multiple: true, required: false, i18n: duplicate, hint: "Other articles to suggest alongside this one. The link breaks if a listed article's File name is changed." }
       - { label: "Body", name: "body", widget: "markdown", required: true, i18n: true, hint: "The article text, written in Markdown." }

@@ -11,6 +11,10 @@ export interface ArticleSchemaInput {
 	image?: string | null;
 	readMinutes?: number;
 	wordCount?: number;
+	/** ISO date (YYYY-MM-DD) */
+	datePublished?: string;
+	/** ISO date (YYYY-MM-DD) */
+	dateModified?: string;
 }
 
 export function articleSchema({
@@ -22,6 +26,8 @@ export function articleSchema({
 	image,
 	readMinutes,
 	wordCount,
+	datePublished,
+	dateModified,
 }: ArticleSchemaInput): SchemaNode {
 	return {
 		"@type": "TechArticle",
@@ -32,6 +38,8 @@ export function articleSchema({
 		image: image ? [absUrl(image, site)] : undefined,
 		timeRequired: readMinutes ? `PT${readMinutes}M` : undefined,
 		wordCount,
+		datePublished,
+		dateModified,
 		author: {
 			"@id": organizationId(site),
 		},

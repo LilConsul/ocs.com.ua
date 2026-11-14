@@ -50,6 +50,9 @@ const wiki = defineCollection({
 		coverImage: z.string().nullish(),
 		order: z.number().nullish(),
 		related: z.array(z.string()).nullish(),
+		// Accepts both quoted strings and unquoted YAML dates (what the CMS writes)
+		datePublished: z.coerce.date().nullish(),
+		dateModified: z.coerce.date().nullish(),
 	}),
 });
 

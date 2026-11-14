@@ -946,6 +946,12 @@ html.skeleton-on .skeleton:not([data-loaded]) > picture > img {
 	}
 }
 
+@media (prefers-reduced-motion: no-preference) {
+	html:has(.wiki-content) {
+		scroll-behavior: smooth;
+	}
+}
+
 /* One hover treatment for every card (product, industry, wiki, partner, client). `card-lift`
  * is the same lift and shadow without the border highlight, for cards that have a coloured
  * border or background of their own. Unlayered on purpose: it must beat the base `shadow-*`

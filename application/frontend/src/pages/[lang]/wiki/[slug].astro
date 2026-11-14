@@ -74,6 +74,18 @@ const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
 
 const shareImage = await shareImageUrl(coverImage, siteUrl);
 
+// Dates are parsed as UTC midnight (YAML dates), so format in UTC to avoid off-by-one days
+const toIsoDate = (date?: Date | null) => (date ? date.toISOString().slice(0, 10) : undefined);
+const datePublished = toIsoDate(article.data.datePublished);
+const dateModified = toIsoDate(article.data.dateModified);
+const formatDate = (iso: string) =>
+	new Intl.DateTimeFormat(lang === "ua" ? "uk-UA" : "en-GB", {
+		day: "numeric",
+		month: "long",
+		year: "numeric",
+		timeZone: "UTC",
+	}).format(new Date(`${iso}T00:00:00Z`));
+
 const articleNode = articleSchema({
 	headline: title,
 	description,
@@ -83,6 +95,8 @@ const articleNode = articleSchema({
 	image: shareImage,
 	readMinutes,
 	wordCount: (article.body ?? "").split(/\s+/).filter(Boolean).length,
+	datePublished,
+	dateModified,
 });
 
 const structuredData = createPageGraph({
@@ -146,6 +160,21 @@ const structuredData = createPageGraph({
 							{readMinutes}
 							{" " + _("min read")}
 						</span>
+						{
+							datePublished && (
+								<span>
+									{_("Published")}{" "}
+									<time datetime={datePublished}>{formatDate(datePublished)}</time>
+								</span>
+							)
+						}
+						{
+							dateModified && dateModified !== datePublished && (
+								<span>
+									{_("Updated")} <time datetime={dateModified}>{formatDate(dateModified)}</time>
+								</span>
+							)
+						}
 					</div>
 				</header>
 

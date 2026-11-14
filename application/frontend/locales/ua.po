@@ -31,7 +31,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: i18n-extract\n"
 
-#: src/lib/llms.ts:140
+#: src/lib/llms.ts:153
 msgid "About"
 msgstr "Про компанію"
 
@@ -52,7 +52,7 @@ msgstr "Діючі підприємства клієнтів:"
 msgid "Active Factory Installations Across Regional Hubs"
 msgstr "Діючі заводські установки в регіональних хабах"
 
-#: src/lib/llms.ts:93
+#: src/lib/llms.ts:103
 #: src/components/contact/OfficeLocation.astro:50
 #: src/components/contact/ContactInfoCard.astro:86
 msgid "Address"
@@ -76,7 +76,7 @@ msgstr "Усі галузі"
 msgid "All articles"
 msgstr "Всі статті"
 
-#: src/components/Footer.astro:33
+#: src/components/Footer.astro:36
 msgid "All rights reserved"
 msgstr "Усі права захищено"
 
@@ -89,8 +89,8 @@ msgstr "Сталася непередбачена помилка. Будь ла�
 msgid "Article navigation"
 msgstr "Навігація по статтях"
 
-#: src/lib/llms.ts:314
-#: src/lib/llms.ts:405
+#: src/lib/llms.ts:327
+#: src/lib/llms.ts:418
 #: src/components/about/ManufacturerCredentials.astro:114
 msgid "Authorization Letter"
 msgstr "Авторизаційний лист"
@@ -100,7 +100,7 @@ msgstr "Авторизаційний лист"
 msgid "Authorization Letter — PDF"
 msgstr "Авторизаційний лист — PDF"
 
-#: src/lib/llms.ts:419
+#: src/lib/llms.ts:432
 #: src/components/contact/DocumentsCard.astro:33
 msgid "Authorized Documentation"
 msgstr "Авторизована документація"
@@ -133,7 +133,7 @@ msgstr "Каталог"
 msgid "Catalogue Filters"
 msgstr "Фільтри каталогу"
 
-#: src/lib/llms.ts:217
+#: src/lib/llms.ts:230
 msgid "Category"
 msgstr "Категорія"
 
@@ -141,7 +141,7 @@ msgstr "Категорія"
 msgid "Category navigation"
 msgstr "Навігація за категоріями"
 
-#: src/lib/llms.ts:299
+#: src/lib/llms.ts:312
 #: src/components/contact/ContactForm.astro:23
 #: src/components/about/InteractiveUkraineMap.astro:22
 #: src/components/about/ClientDirectory.astro:45
@@ -157,7 +157,7 @@ msgstr "Контрольно динамічні ваги та інспекцій
 msgid "Checkweighers, Metal Detectors, Serialization & Aggregation Systems"
 msgstr "Контрольно динамічні ваги, металодетектори, системи серіалізації та агрегації"
 
-#: src/lib/llms.ts:155
+#: src/lib/llms.ts:168
 #: src/pages/[lang]/index.astro:32
 msgid "Checkweighers, metal detectors & Track & Trace systems for food, pharmaceutical and logistics industries in Ukraine. Official WIPOTEC & MESUTRONIC partner."
 msgstr "Контрольно-динамічні ваги, металодетектори та системи Track & Trace для харчової промисловості, фармацевтики й логістики. Офіційний партнер WIPOTEC та MESUTRONIC."
@@ -204,35 +204,36 @@ msgstr "Закрити сповіщення"
 msgid "Close preview"
 msgstr "Закрити попередній перегляд"
 
-#: src/lib/llms.ts:138
-#: src/lib/llms.ts:420
+#: src/lib/llms.ts:151
+#: src/lib/llms.ts:433
 #: src/components/contact/ContactForm.astro:146
 #: src/components/catalogue/DatasheetModal.astro:133
 msgid "Company"
 msgstr "Компанія"
 
-#: src/lib/llms.ts:141
-#: src/lib/llms.ts:275
-#: src/lib/llms.ts:344
-#: src/lib/llms.ts:379
+#: src/lib/llms.ts:154
+#: src/lib/llms.ts:288
+#: src/lib/llms.ts:357
+#: src/lib/llms.ts:392
 msgid "Contact"
 msgstr "Контакти"
 
-#: src/lib/llms.ts:413
+#: src/lib/llms.ts:426
 #: src/components/contact/ContactInfoCard.astro:29
 msgid "Contact Information"
 msgstr "Контактна інформація"
 
-#: src/lib/llms.ts:408
-#: src/components/Header.astro:143
-#: src/components/Header.astro:212
+#: src/lib/llms.ts:421
+#: src/components/Header.astro:142
+#: src/components/Header.astro:155
+#: src/components/Header.astro:250
 #: src/pages/[lang]/contact.astro:40
-#: src/components/homepage/HeroSection.astro:103
 #: src/components/errors/ServerErrorContent.astro:43
 #: src/components/errors/NotFoundContent.astro:49
+#: src/components/homepage/HeroSection.astro:103
 #: src/components/contact/ContactHero.astro:28
-#: src/components/about/AboutCta.astro:35
 #: src/components/catalogue/CatalogueSidebar.astro:198
+#: src/components/about/AboutCta.astro:35
 msgid "Contact Us"
 msgstr "Зв’язатися з нами"
 
@@ -244,7 +245,7 @@ msgstr "Зв'яжіться з нами | ОС-Технолоджи Україн
 msgid "Contact our engineering team to discuss equipment selection, request a quotation, or arrange a product demonstration."
 msgstr "Зверніться до нашої інженерної команди для обговорення вибору обладнання, запиту комерційної пропозиції або організації демонстрації."
 
-#: src/lib/llms.ts:409
+#: src/lib/llms.ts:422
 #: src/pages/[lang]/contact.astro:27
 msgid "Contact the OS-Technology Ukraine engineering team. Request a quotation, arrange a product demonstration, or get technical support."
 msgstr "Зверніться до інженерної команди ОС-Технолоджи Україна. Запросіть комерційну пропозицію, домовтеся про демонстрацію обладнання або отримайте технічну підтримку."
@@ -311,7 +312,7 @@ msgstr "Завантажити технічну специфікацію"
 msgid "Dynamic checkweighers with electromagnetic force compensation technology, X-Ray scanners, and Track & Trace serialization and aggregation systems for the pharmaceutical industry."
 msgstr "Контрольні динамічні ваги з технологією електромагнітної компенсації сили, X-Ray сканери та системи серіалізації та агрегації Track & Trace для фармацевтичної промисловості."
 
-#: src/lib/llms.ts:436
+#: src/lib/llms.ts:449
 #: src/components/legal/LegalDocumentView.astro:58
 msgid "Effective date"
 msgstr "Дата набрання чинності"
@@ -328,8 +329,8 @@ msgstr "Технічний запит"
 msgid "Enterprise Reference Directory"
 msgstr "Довідник підприємств-клієнтів"
 
-#: src/lib/llms.ts:274
-#: src/lib/llms.ts:378
+#: src/lib/llms.ts:287
+#: src/lib/llms.ts:391
 msgid "Equipment"
 msgstr "Обладнання"
 
@@ -394,7 +395,7 @@ msgstr "Харчова промисловість"
 msgid "Full Name"
 msgstr "Повне ім'я"
 
-#: src/lib/llms.ts:171
+#: src/lib/llms.ts:184
 msgid "Full text of every product and article"
 msgstr "Повний текст усіх товарів і статей"
 
@@ -444,12 +445,12 @@ msgstr "Промислові X-Ray сканери високої розділь�
 msgid "High-speed checkweighers for warehouses and fulfillment centers."
 msgstr "Високошвидкісні контрольно динамічні ваги для складів і центрів комплектації замовлень."
 
-#: src/lib/llms.ts:139
+#: src/lib/llms.ts:152
 #: src/pages/[lang]/terms.astro:35
 #: src/pages/[lang]/privacy.astro:35
 #: src/pages/[lang]/contact.astro:39
 #: src/pages/[lang]/about.astro:56
-#: src/pages/[lang]/wiki/[slug].astro:95
+#: src/pages/[lang]/wiki/[slug].astro:109
 #: src/pages/[lang]/wiki/index.astro:60
 #: src/pages/[lang]/catalogue/industry/[slug].astro:134
 #: src/pages/[lang]/catalogue/equipment/[category]/[slug].astro:124
@@ -477,8 +478,8 @@ msgstr "Перегляд зображення у збільшеному форм
 msgid "Industrial Checkweigher Systems"
 msgstr "Промислові системи контрольного зважування"
 
-#: src/lib/llms.ts:129
-#: src/lib/llms.ts:220
+#: src/lib/llms.ts:142
+#: src/lib/llms.ts:233
 #: src/components/Header.astro:32
 #: src/components/catalogue/CatalogueSidebar.astro:39
 msgid "Industries"
@@ -509,7 +510,7 @@ msgstr "Встановлених систем"
 msgid "Installed Equipment:"
 msgstr "Встановлене обладнання:"
 
-#: src/lib/llms.ts:298
+#: src/lib/llms.ts:311
 #: src/components/about/AboutHero.astro:38
 msgid "Installed Systems"
 msgstr "Встановлених систем"
@@ -528,7 +529,7 @@ msgstr "Для надсилання цієї форми потрібен JavaScr
 msgid "Job Title"
 msgstr "Посада"
 
-#: src/pages/[lang]/wiki/[slug].astro:96
+#: src/pages/[lang]/wiki/[slug].astro:110
 #: src/pages/[lang]/wiki/index.astro:31
 #: src/pages/[lang]/wiki/index.astro:43
 #: src/pages/[lang]/wiki/index.astro:61
@@ -541,7 +542,7 @@ msgstr "База знань"
 msgid "Kyiv Office"
 msgstr "Київський офіс"
 
-#: src/components/Header.astro:217
+#: src/components/Header.astro:255
 msgid "Language"
 msgstr "Мова"
 
@@ -585,11 +586,11 @@ msgstr "MESUTRONIC Gerätebau GmbH розробляє та виготовляє 
 msgid "Main Office"
 msgstr "Головний офіс"
 
-#: src/lib/llms.ts:218
+#: src/lib/llms.ts:231
 msgid "Manufacturer"
 msgstr "Виробник"
 
-#: src/lib/llms.ts:342
+#: src/lib/llms.ts:355
 #: src/components/about/ManufacturerCredentials.astro:28
 msgid "Manufacturers"
 msgstr "Виробники"
@@ -610,7 +611,7 @@ msgstr "Повідомлення"
 msgid "Mesutronic Authorization Letter"
 msgstr "Авторизаційний лист Mesutronic"
 
-#: src/lib/llms.ts:300
+#: src/lib/llms.ts:313
 #: src/components/about/InteractiveUkraineMap.astro:23
 #: src/components/about/ClientDirectory.astro:46
 #: src/components/about/AboutHero.astro:40
@@ -663,13 +664,13 @@ msgstr "У цій категорії поки немає обладнання"
 msgid "No products match your search. Try browsing another category."
 msgstr "За вашим запитом обладнання не знайдено. Спробуйте іншу категорію."
 
-#: src/pages/[lang]/wiki/[slug].astro:104
+#: src/pages/[lang]/wiki/[slug].astro:118
 #: src/pages/[lang]/wiki/index.astro:31
 msgid "OS-Technology Ukraine"
 msgstr "ОС-Технолоджи Україна"
 
-#: src/lib/llms.ts:158
-#: src/lib/llms.ts:338
+#: src/lib/llms.ts:171
+#: src/lib/llms.ts:351
 #: src/components/about/AboutHero.astro:82
 msgid "OS-Technology Ukraine is the exclusive authorized distributor and certified integration partner of WIPOTEC GmbH and MESUTRONIC Gerätebau GmbH in Ukraine. We supply dynamic checkweighers, industrial metal detectors, X-Ray scanners, and Track & Trace serialization and aggregation systems for the pharmaceutical industry with turnkey commissioning and factory warranty."
 msgstr "ОС-Технолоджи Україна — ексклюзивний авторизований дистриб'ютор та сертифікований інтеграційний партнер WIPOTEC GmbH і MESUTRONIC Gerätebau GmbH в Україні. Ми постачаємо контрольні динамічні ваги, промислові металодетектори, X-Ray сканери та системи серіалізації та агрегації Track & Trace для фармацевтичної промисловості із введенням в експлуатацію під ключ та заводською гарантією."
@@ -694,7 +695,7 @@ msgstr "Офіційний партнер Wipotec GmbH"
 msgid "Official distributorship certificates."
 msgstr "Офіційні сертифікати дистриб'ютора."
 
-#: src/lib/llms.ts:331
+#: src/lib/llms.ts:344
 #: src/pages/[lang]/about.astro:44
 msgid "Official exclusive distributor and certified engineering partner of WIPOTEC GmbH and MESUTRONIC Gerätebau GmbH in Ukraine. {systems} systems installed."
 msgstr "Офіційний ексклюзивний дистриб'ютор та сертифікований інженерний партнер WIPOTEC GmbH і MESUTRONIC Gerätebau GmbH в Україні. Встановлено систем: {systems}."
@@ -728,7 +729,7 @@ msgstr "Інше"
 msgid "Our Clients"
 msgstr "Наші клієнти"
 
-#: src/lib/llms.ts:343
+#: src/lib/llms.ts:356
 msgid "Our clients"
 msgstr "Наші клієнти"
 
@@ -740,15 +741,15 @@ msgstr "Наша інженерна команда готова підібрат
 msgid "Our engineers will help you choose the optimal solution for your production line."
 msgstr "Наші інженери допоможуть підібрати оптимальне рішення для вашої виробничої лінії."
 
-#: src/lib/llms.ts:216
-#: src/lib/llms.ts:244
-#: src/lib/llms.ts:271
-#: src/lib/llms.ts:295
-#: src/lib/llms.ts:353
-#: src/lib/llms.ts:375
-#: src/lib/llms.ts:393
-#: src/lib/llms.ts:412
-#: src/lib/llms.ts:435
+#: src/lib/llms.ts:229
+#: src/lib/llms.ts:257
+#: src/lib/llms.ts:284
+#: src/lib/llms.ts:308
+#: src/lib/llms.ts:366
+#: src/lib/llms.ts:388
+#: src/lib/llms.ts:406
+#: src/lib/llms.ts:425
+#: src/lib/llms.ts:448
 #: src/components/about/ClientDirectory.astro:287
 msgid "Page"
 msgstr "Сторінка"
@@ -770,7 +771,7 @@ msgstr "Фармацевтична промисловість"
 msgid "Pharmaceuticals"
 msgstr "Фармацевтика"
 
-#: src/lib/llms.ts:91
+#: src/lib/llms.ts:101
 #: src/components/contact/ContactInfoCard.astro:36
 #: src/components/contact/ContactForm.astro:153
 #: src/components/catalogue/DatasheetModal.astro:140
@@ -826,9 +827,9 @@ msgstr "Попередня сторінка"
 msgid "Price on request"
 msgstr "Ціна за запитом"
 
-#: src/lib/llms.ts:142
-#: src/lib/llms.ts:448
-#: src/components/Footer.astro:42
+#: src/lib/llms.ts:155
+#: src/lib/llms.ts:463
+#: src/components/Footer.astro:72
 #: src/pages/[lang]/privacy.astro:36
 #: src/pages/[lang]/privacy.astro:45
 #: src/components/contact/ContactForm.astro:222
@@ -858,9 +859,13 @@ msgstr "Мініатюри зображень обладнання"
 msgid "Products"
 msgstr "Обладнання"
 
-#: src/lib/llms.ts:244
-#: src/lib/llms.ts:394
-#: src/lib/llms.ts:437
+#: src/pages/[lang]/wiki/[slug].astro:166
+msgid "Published"
+msgstr "Опубліковано"
+
+#: src/lib/llms.ts:257
+#: src/lib/llms.ts:407
+#: src/lib/llms.ts:450
 msgid "Publisher"
 msgstr "Видавець"
 
@@ -888,7 +893,7 @@ msgstr "Читати статтю"
 msgid "Related Equipment"
 msgstr "Схоже обладнання"
 
-#: src/pages/[lang]/wiki/[slug].astro:195
+#: src/pages/[lang]/wiki/[slug].astro:224
 msgid "Related articles"
 msgstr "Схожі статті"
 
@@ -933,18 +938,18 @@ msgstr "Перевірку безпеки не пройдено. Оновіть 
 msgid "Select sector…"
 msgstr "Оберіть галузь…"
 
-#: src/lib/llms.ts:418
+#: src/lib/llms.ts:431
 #: src/pages/[lang]/contact.astro:51
 #: src/components/contact/ContactForm.astro:78
 msgid "Send Us a Message"
 msgstr "Надіслати повідомлення"
 
-#: src/lib/llms.ts:301
+#: src/lib/llms.ts:314
 #: src/components/about/AboutHero.astro:42
 msgid "Serialization Stations"
 msgstr "Станцій серіалізації"
 
-#: src/lib/llms.ts:296
+#: src/lib/llms.ts:309
 #: src/components/about/AboutHero.astro:27
 msgid "Serving Ukraine since 2013"
 msgstr "Працюємо в Україні з 2013 року"
@@ -975,7 +980,7 @@ msgstr "Щось пішло не так"
 msgid "Spare Parts"
 msgstr "Запасні частини"
 
-#: src/lib/llms.ts:232
+#: src/lib/llms.ts:245
 msgid "Specifications"
 msgstr "Технічні характеристики"
 
@@ -992,9 +997,9 @@ msgstr "Відправлення з цього джерела заборонен
 msgid "Submit Inquiry"
 msgstr "Надіслати запит"
 
-#: src/lib/llms.ts:222
-#: src/lib/llms.ts:272
-#: src/lib/llms.ts:376
+#: src/lib/llms.ts:235
+#: src/lib/llms.ts:285
+#: src/lib/llms.ts:389
 msgid "Supplier in Ukraine"
 msgstr "Постачальник в Україні"
 
@@ -1028,7 +1033,7 @@ msgstr "Технічні характеристики"
 msgid "Technical Specs"
 msgstr "Технічні характеристики"
 
-#: src/lib/llms.ts:391
+#: src/lib/llms.ts:404
 #: src/pages/[lang]/wiki/index.astro:32
 msgid "Technical articles, guides, and operational documentation for industrial equipment."
 msgstr "Технічні статті, інструкції та керівництва з експлуатації промислового обладнання."
@@ -1041,9 +1046,9 @@ msgstr "Технічна експертиза та сервісна підтри
 msgid "Tell us what you produce and what you need to inspect. We will recommend suitable equipment and prepare a quote."
 msgstr "Розкажіть, що ви виробляєте і що потрібно контролювати. Ми підберемо відповідне обладнання та підготуємо комерційну пропозицію."
 
-#: src/lib/llms.ts:143
-#: src/lib/llms.ts:454
-#: src/components/Footer.astro:45
+#: src/lib/llms.ts:156
+#: src/lib/llms.ts:474
+#: src/components/Footer.astro:78
 #: src/pages/[lang]/terms.astro:36
 #: src/pages/[lang]/terms.astro:45
 #: src/pages/[lang]/terms.astro:48
@@ -1093,7 +1098,7 @@ msgstr "Цей перелік не є вичерпним: тут показан�
 msgid "This value is too long."
 msgstr "Це значення занадто довге."
 
-#: src/components/Header.astro:173
+#: src/components/Header.astro:210
 msgid "Toggle menu"
 msgstr "Відкрити або закрити меню"
 
@@ -1119,7 +1124,7 @@ msgstr "Нам довіряють провідні підприємства Ук
 msgid "Trusted by Ukraine's Leading Manufacturers"
 msgstr "Нам довіряють провідні виробники України"
 
-#: src/lib/llms.ts:289
+#: src/lib/llms.ts:302
 #: src/components/about/AboutHero.astro:30
 msgid "Trusted by {clients} factories across Ukraine"
 msgstr "Нам довіряють {clients} підприємств по всій Україні"
@@ -1142,6 +1147,10 @@ msgstr "Українська підтримка."
 #: src/components/about/ClientDirectory.astro:203
 msgid "Units"
 msgstr "од."
+
+#: src/pages/[lang]/wiki/[slug].astro:174
+msgid "Updated"
+msgstr "Оновлено"
 
 #: src/components/about/InteractiveUkraineMap.astro:118
 msgid "Verified Ukrainian Industrial Footprint"
@@ -1172,6 +1181,10 @@ msgstr "Перейти на сайт"
 msgid "WIPOTEC Official Distributor Authorization"
 msgstr "Офіційна авторизація дистриб'ютора WIPOTEC"
 
+#: src/components/Footer.astro:46
+msgid "Website by"
+msgstr "Сайт створив"
+
 #: src/components/Header.astro:82
 msgid "Website in active development: Information and specifications may not be accurate, pages are still being completed, and all content is subject to change."
 msgstr "Сайт у процесі розробки: інформація та технічні дані можуть бути неточними, сторінки наповнюються та весь вміст може змінюватися."
@@ -1180,9 +1193,9 @@ msgstr "Сайт у процесі розробки: інформація та �
 msgid "Weighing and inspection systems have been a quality standard for over 30 years, and 95% of components are developed and manufactured in-house in one location in Kaiserslautern."
 msgstr "Системи зважування та контролю понад 30 років є стандартом якості, а 95% компоненти розробляються і виготовляються власними силами в одному місці в Кайзерслаутерні."
 
-#: src/lib/llms.ts:134
-#: src/lib/llms.ts:135
-#: src/lib/llms.ts:390
+#: src/lib/llms.ts:147
+#: src/lib/llms.ts:148
+#: src/lib/llms.ts:403
 #: src/components/Header.astro:35
 msgid "Wiki"
 msgstr "База знань"
@@ -1191,7 +1204,7 @@ msgstr "База знань"
 msgid "Wipotec Authorization Letter"
 msgstr "Авторизаційний лист Wipotec"
 
-#: src/lib/llms.ts:94
+#: src/lib/llms.ts:104
 #: src/components/contact/OfficeLocation.astro:75
 #: src/components/contact/ContactInfoCard.astro:112
 msgid "Working Hours"
@@ -1237,7 +1250,7 @@ msgid "e.g. Oleksii Kovalenko"
 msgstr "напр., Олексій Коваленко"
 
 #: src/components/wiki/WikiCard.astro:57
-#: src/pages/[lang]/wiki/[slug].astro:147
+#: src/pages/[lang]/wiki/[slug].astro:161
 msgid "min read"
 msgstr "хв читання"
 

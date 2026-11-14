@@ -414,6 +414,28 @@ describe("structured-data: articleSchema", () => {
 		expect(article.publisher).toEqual({ "@id": "https://ocs.com.ua/#organization" });
 		expect(article.mainEntityOfPage).toEqual({ "@id": `${pageUrl}#webpage` });
 	});
+
+	it("includes datePublished and dateModified only when given", () => {
+		const base = {
+			headline: "Load cell",
+			description: "What a load cell is",
+			url: "https://ocs.com.ua/en/wiki/load-cell/",
+			lang: "en" as const,
+			site: SITE,
+		};
+
+		const dated = articleSchema({
+			...base,
+			datePublished: "2026-10-31",
+			dateModified: "2026-11-13",
+		});
+		expect(dated.datePublished).toBe("2026-10-31");
+		expect(dated.dateModified).toBe("2026-11-13");
+
+		const undated = articleSchema(base);
+		expect(undated.datePublished).toBeUndefined();
+		expect(undated.dateModified).toBeUndefined();
+	});
 });
 
 import { createPageGraph } from "@/lib/structured-data";
