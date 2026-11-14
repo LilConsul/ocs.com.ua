@@ -3,6 +3,8 @@ file_name: what-is-scale-division
 title: "Дискретність ваг (d) простими словами"
 description: "Що означає літера d у характеристиках ваг, чому це не те саме, що точність, і як вибрати потрібну дискретність для вашого продукту."
 order: 1
+datePublished: "2026-10-31"
+dateModified: "2026-11-13"
 related:
   - "weighing-accuracy"
   - "load-cell"
