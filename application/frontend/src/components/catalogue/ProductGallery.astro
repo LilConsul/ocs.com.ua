@@ -3,6 +3,7 @@ import { getImage, Image } from "astro:assets";
 import { ChevronLeft, ChevronRight, Maximize2, X } from "@lucide/astro";
 import type { ImageMetadata } from "astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
+import { PLACEHOLDER_IMAGE } from "@/lib/image-resolver";
 
 interface Props {
 	images?: ImageMetadata[] | null;
@@ -13,10 +14,9 @@ interface Props {
 const { images = [], title, lang } = Astro.props;
 const _ = getInlineTranslations(lang);
 
-const galleryImages: (ImageMetadata | string)[] =
-	images && images.length > 0 ? images : ["/placeholder.svg"];
+const galleryImages: ImageMetadata[] = images && images.length > 0 ? images : [PLACEHOLDER_IMAGE];
 // Plain URLs for the microdata
-const imageUrls = galleryImages.map((img) => (typeof img === "string" ? img : img.src));
+const imageUrls = galleryImages.map((img) => img.src);
 const hasMultiple = galleryImages.length > 1;
 
 // The main and the lightbox picture: one set of props each, shared by the rendered first photo
@@ -43,7 +43,7 @@ interface PhotoSource {
 const toSources = (props: typeof mainProps | typeof lightboxProps) =>
 	Promise.all(
 		galleryImages.map(async (img): Promise<PhotoSource> => {
-			if (typeof img === "string") return { src: img };
+			if (img === PLACEHOLDER_IMAGE) return { src: img.src };
 			const processed = await getImage({ src: img, ...props, widths: [...props.widths] });
 			const srcset = processed.srcSet.attribute;
 			return srcset ? { src: processed.src, srcset } : { src: processed.src };
