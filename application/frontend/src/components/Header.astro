@@ -102,7 +102,7 @@ const isActive = (pattern: string) => {
 	{/* Main Navigation Bar */}
 	<nav class="mx-auto flex h-20 max-w-7xl items-center justify-between px-8">
 		{/* Logo */}
-		<a href={`/${lang}/`} class="transition-opacity hover:opacity-80">
+		<a href={`/${lang}/`} class="shrink-0 transition-opacity hover:opacity-80">
 			<img
 				src={`/assets/icons/logo-${lang}.svg`}
 				alt={companyData.name[currentLang as "en" | "ua"] ?? companyData.name.en}
@@ -113,12 +113,12 @@ const isActive = (pattern: string) => {
 		</a>
 
 		{/* Desktop Navigation */}
-		<div class="hidden items-center gap-8 md:flex">
+		<div class="hidden items-center gap-4 md:flex lg:gap-6 xl:gap-8">
 			{
 				navLinks.map((link) => (
 					<a
 						href={link.href}
-						class={`relative text-sm font-medium transition-colors ${
+						class={`relative text-sm font-medium whitespace-nowrap transition-colors ${
 							isActive(link.pattern)
 								? "text-foreground after:bg-primary after:absolute after:right-0 after:-bottom-2 after:left-0 after:h-0.5 after:content-['']"
 								: "text-muted-foreground hover:text-foreground"
@@ -129,14 +129,26 @@ const isActive = (pattern: string) => {
 					</a>
 				))
 			}
+			{/* Contact link in navbar when prominent CTA button is hidden on medium screens */}
+			<a
+				href={`/${lang}/contact/`}
+				class={`relative text-sm font-medium whitespace-nowrap transition-colors xl:hidden ${
+					isActive("/contact")
+						? "text-foreground after:bg-primary after:absolute after:right-0 after:-bottom-2 after:left-0 after:h-0.5 after:content-['']"
+						: "text-muted-foreground hover:text-foreground"
+				}`}
+				aria-current={isActive("/contact") ? "page" : undefined}
+			>
+				{_("Contact Us")}
+			</a>
 		</div>
 
 		{/* Right Side Actions */}
-		<div class="flex items-center gap-4">
-			{/* Contact Us button — desktop */}
+		<div class="flex shrink-0 items-center gap-3 lg:gap-4">
+			{/* Contact Us button — desktop (shown on xl+ screens where there is ample room) */}
 			<a
 				href={`/${lang}/contact/`}
-				class={`hidden items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-medium transition-opacity hover:opacity-90 md:inline-flex ${
+				class={`hidden shrink-0 items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-medium whitespace-nowrap transition-opacity hover:opacity-90 xl:inline-flex ${
 					isActive("/contact") ? "bg-secondary text-white" : "bg-primary text-primary-foreground"
 				}`}
 			>
@@ -146,7 +158,7 @@ const isActive = (pattern: string) => {
 
 			{/* Language Switcher */}
 			<div
-				class="bg-muted/50 border-border/50 hidden items-center gap-1 rounded-lg border p-1 md:flex"
+				class="bg-muted/50 border-border/50 hidden shrink-0 items-center gap-1 rounded-lg border p-1 md:flex"
 			>
 				{
 					languageOptions.map((langOption) => (
@@ -160,7 +172,7 @@ const isActive = (pattern: string) => {
 						>
 							{langOption.code === "ua" ? (
 								<svg
-									class="h-3.5 w-5 shrink-0 rounded-[2px] shadow-xs"
+									class="h-3.5 w-5 shrink-0 rounded-xs shadow-xs"
 									viewBox="0 0 20 14"
 									fill="none"
 									xmlns="http://www.w3.org/2000/svg"
@@ -171,7 +183,7 @@ const isActive = (pattern: string) => {
 								</svg>
 							) : (
 								<svg
-									class="h-3.5 w-5 shrink-0 rounded-[2px] shadow-xs"
+									class="h-3.5 w-5 shrink-0 rounded-xs shadow-xs"
 									viewBox="0 0 20 14"
 									fill="none"
 									xmlns="http://www.w3.org/2000/svg"
@@ -251,7 +263,7 @@ const isActive = (pattern: string) => {
 							>
 								{langOption.code === "ua" ? (
 									<svg
-										class="h-4 w-6 shrink-0 rounded-[2px] shadow-xs"
+										class="h-4 w-6 shrink-0 rounded-xs shadow-xs"
 										viewBox="0 0 20 14"
 										fill="none"
 										xmlns="http://www.w3.org/2000/svg"
@@ -262,7 +274,7 @@ const isActive = (pattern: string) => {
 									</svg>
 								) : (
 									<svg
-										class="h-4 w-6 shrink-0 rounded-[2px] shadow-xs"
+										class="h-4 w-6 shrink-0 rounded-xs shadow-xs"
 										viewBox="0 0 20 14"
 										fill="none"
 										xmlns="http://www.w3.org/2000/svg"
