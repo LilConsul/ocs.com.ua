@@ -1,13 +1,15 @@
 ---
 file_name: load-cell
-title: "The Load Cell (Weight Sensor) in Simple Words"
-description: "What a load cell is, how it turns weight into a number, which types exist, and how to look after it."
+title: The Load Cell (Weight Sensor) in Simple Words
+description: What a load cell is, how it turns weight into a number, which types
+  exist, and how to look after it.
+coverImage: null
 order: 3
-datePublished: "2026-10-31"
-dateModified: "2026-11-13"
+datePublished: 2026-10-31
+dateModified: 2026-11-13
 related:
-  - "what-is-scale-division"
-  - "weighing-accuracy"
+  - what-is-scale-division
+  - weighing-accuracy
 ---
 
 Inside every electronic scale there is a small metal part that actually "feels" the weight. It is called a **load cell**, or simply a **weight sensor**. Without it, a scale is just a plate with a screen.
