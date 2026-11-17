@@ -33,4 +33,16 @@ specs:
         value: 400 мм
       - label: Ширина
         value: 200 мм
+  - title: Конвеєр, що зважує
+    items:
+      - label: Довжина
+        value: 200 мм
+      - label: Ширина
+        value: 200 мм
+  - title: Відвідний конвеєр для відбракування продукції
+    items:
+      - label: Довжина
+        value: 400 мм
+      - label: Ширина
+        value: 200 мм
 ---
