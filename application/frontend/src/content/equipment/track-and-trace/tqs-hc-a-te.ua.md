@@ -45,4 +45,8 @@ specs:
         value: 400 мм
       - label: Ширина
         value: 200 мм
+  - title: Система маркування
+    items:
+      - label: Принтер OCS InkPrint
+        value: Висота друку на один картридж 12.7 мм
 ---
