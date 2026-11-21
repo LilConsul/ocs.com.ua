@@ -1,13 +1,15 @@
 ---
 file_name: weighing-accuracy
-title: "Weighing Accuracy in Simple Words"
-description: "What 'accurate weighing' really means, why a scale can be wrong even when it looks precise, and what makes the result better or worse."
-order: 2
-datePublished: "2026-10-31"
-dateModified: "2026-11-13"
+title: Weighing Accuracy in Simple Words
+description: What 'accurate weighing' really means, why a scale can be wrong
+  even when it looks precise, and what makes the result better or worse.
+coverImage: null
+order: 3
+datePublished: 2026-10-31
+dateModified: 2026-11-13
 related:
-  - "what-is-scale-division"
-  - "load-cell"
+  - what-is-scale-division
+  - load-cell
 ---
 
 "This scale is accurate" is something everyone says, but what does it actually mean? Let's make it clear.
