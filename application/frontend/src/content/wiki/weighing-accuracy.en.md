@@ -3,7 +3,7 @@ file_name: weighing-accuracy
 title: Weighing Accuracy in Simple Words
 description: What 'accurate weighing' really means, why a scale can be wrong
   even when it looks precise, and what makes the result better or worse.
-coverImage: null
+coverImage: /assets/wiki/2026-11-22-14.13.53.webp
 order: 3
 datePublished: 2026-10-31
 dateModified: 2026-11-13

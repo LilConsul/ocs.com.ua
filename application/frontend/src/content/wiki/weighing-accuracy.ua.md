@@ -2,6 +2,7 @@
 file_name: weighing-accuracy
 title: Чинники, що впливають на точність динамічного зважування
 description: ""
+coverImage: /assets/wiki/2026-11-22-14.13.53.webp
 order: 3
 datePublished: 2026-10-31
 dateModified: 2026-11-13
