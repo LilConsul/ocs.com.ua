@@ -9,11 +9,18 @@ import {
 } from "@/lib/contact/spam";
 
 describe("getClientIp", () => {
-	it("extracts the first IP from X-Forwarded-For header", () => {
+	it("trusts only the last X-Forwarded-For entry, the one the proxy appended", () => {
 		const req = new Request("http://localhost:4321", {
-			headers: { "x-forwarded-for": "203.0.113.195, 70.41.3.18, 150.172.238.178" },
+			headers: { "x-forwarded-for": "1.2.3.4, 70.41.3.18, 150.172.238.178" },
 		});
-		expect(getClientIp(req, "127.0.0.1")).toBe("203.0.113.195");
+		expect(getClientIp(req, "127.0.0.1")).toBe("150.172.238.178");
+	});
+
+	it("ignores a spoofed leading address sent by the client", () => {
+		const req = new Request("http://localhost:4321", {
+			headers: { "x-forwarded-for": "9.9.9.9, 198.51.100.7" },
+		});
+		expect(getClientIp(req, "127.0.0.1")).toBe("198.51.100.7");
 	});
 
 	it("falls back to clientAddress when X-Forwarded-For is missing", () => {

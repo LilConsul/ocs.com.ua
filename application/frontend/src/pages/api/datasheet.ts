@@ -2,12 +2,12 @@ import { DATASHEET_TOKEN_SECRET } from "astro:env/server";
 import { readFile } from "node:fs/promises";
 import type { APIRoute } from "astro";
 import { resolveDatasheet } from "@/lib/datasheet/files";
-import { verifyToken } from "@/lib/datasheet/token";
+import { DATASHEET_COOKIE, verifyToken } from "@/lib/datasheet/token";
 
 export const prerender = false;
 
-export const GET: APIRoute = async ({ request }) => {
-	const token = new URL(request.url).searchParams.get("token") ?? "";
+export const GET: APIRoute = async ({ cookies }) => {
+	const token = cookies.get(DATASHEET_COOKIE)?.value ?? "";
 	const file = verifyToken(token, DATASHEET_TOKEN_SECRET);
 	if (!file) return new Response("Forbidden", { status: 403 });
 

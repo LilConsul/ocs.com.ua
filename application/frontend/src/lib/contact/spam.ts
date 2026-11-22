@@ -26,13 +26,15 @@ const SPAM_KEYWORDS_REGEX =
 const URL_REGEX = /(?:https?:\/\/|www\.)[^\s/$.?#].[^\s]*/gi;
 
 /**
- * Extracts real client IP when behind a reverse proxy (Virtualmin / Apache / Nginx).
+ * Extracts the client IP behind a reverse proxy (Apache mod_proxy with ProxyAddLHeaders).
+ * Apache appends the address it received the connection from as the LAST X-Forwarded-For
+ * entry; anything earlier was sent by the client and can be forged, so only the last is trusted.
  */
 export function getClientIp(request: Request, clientAddress?: string): string {
 	const forwarded = request.headers.get("x-forwarded-for");
 	if (forwarded) {
-		const firstIp = forwarded.split(",")[0]?.trim();
-		if (firstIp) return firstIp;
+		const lastIp = forwarded.split(",").pop()?.trim();
+		if (lastIp) return lastIp;
 	}
 	return clientAddress ?? "unknown";
 }

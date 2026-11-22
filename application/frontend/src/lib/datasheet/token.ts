@@ -3,6 +3,9 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 // Long enough to start (or retry) a download, short enough that a leaked link is useless
 export const TOKEN_TTL_SECONDS = 300;
 
+// Carries the signed token to /api/datasheet, so the token never appears in a URL
+export const DATASHEET_COOKIE = "datasheet_token";
+
 const encode = (value: Buffer | string) => Buffer.from(value).toString("base64url");
 
 function mac(body: string, secret: string): Buffer {

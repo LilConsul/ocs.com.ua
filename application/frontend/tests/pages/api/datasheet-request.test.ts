@@ -44,8 +44,22 @@ async function call({ origin = ORIGIN, body, rawBody, headers = {}, ip }: CallOp
 		headers: { "content-type": "application/json", ...(origin ? { origin } : {}), ...headers },
 		body: rawBody ?? JSON.stringify(body ?? validBody()),
 	});
-	const response = await POST({ request, clientAddress: ip ?? `10.1.0.${++ipCounter}` } as any);
-	return { status: response.status, json: (await response.json()) as Record<string, any> };
+	const setCookies: string[] = [];
+	const cookies = {
+		set: (name: string, value: string) =>
+			setCookies.push(`${name}=${value}; HttpOnly; SameSite=Strict`),
+		get: () => undefined,
+	};
+	const response = await POST({
+		request,
+		cookies,
+		clientAddress: ip ?? `10.1.0.${++ipCounter}`,
+	} as any);
+	return {
+		status: response.status,
+		json: (await response.json()) as Record<string, any>,
+		headers: new Headers({ "set-cookie": setCookies.join(", ") }),
+	};
 }
 
 beforeEach(() => {
@@ -191,7 +205,12 @@ describe("POST /api/datasheet-request: sending", () => {
 
 		const url = new URL(res.json.url, ORIGIN);
 		expect(url.pathname).toBe("/api/datasheet");
-		expect(verifyToken(url.searchParams.get("token") ?? "", SECRET)).toBe("hc-m.pdf");
+		const cookie = res.headers.get("set-cookie") ?? "";
+		const token = /datasheet_token=([^;]+)/.exec(cookie)?.[1] ?? "";
+		expect(cookie).toContain("HttpOnly");
+		expect(cookie).toContain("SameSite=Strict");
+		expect(url.search).toBe("");
+		expect(verifyToken(token, SECRET)).toBe("hc-m.pdf");
 
 		expect(sentMails).toHaveLength(1);
 		expect(sentMails[0]).toMatchObject({
