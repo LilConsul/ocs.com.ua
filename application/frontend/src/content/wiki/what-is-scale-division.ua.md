@@ -3,6 +3,7 @@ file_name: what-is-scale-division
 title: "Дискретність ваг (d) та ціна повірочної поділки (e): у чому різниця?"
 description: "Під час вибору вагового обладнання можна зустріти два позначення:
   `d` — дискретність та `e` — ціна повірочної поділки."
+coverImage: /assets/wiki/2026-11-22-14.26.35.webp
 order: 1
 datePublished: 2026-10-31
 dateModified: 2026-11-13
