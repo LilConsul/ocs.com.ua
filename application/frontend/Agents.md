@@ -107,7 +107,7 @@ Language codes are `ua` and `en`; the HTML `lang` attribute and hreflang use ISO
 
 - **Astro components** (`.astro`) are the default for layouts, pages and sections.
 - Interactivity is a `<script>` tag inside the Astro component (see `Header.astro`, `CatalogueSidebar.astro`). Do not add UI frameworks, React islands or `client:*` directives. React is a dependency of Decap CMS only (`src/cms/`).
-- Icons come from `@lucide/astro` (`import { ArrowRight } from "@lucide/astro"`, sized with `class`).
+- Icons: `@lucide/astro` is the default (`import { ArrowRight } from "@lucide/astro"`, sized with `class`). Material Symbols is also used and self-hosted: the font is `public/assets/fonts/material-symbols-outlined.woff2`, declared in `src/styles/global.css` and preloaded in `Layout.astro`. Do not load it from a CDN.
 - Components are grouped by area: `homepage/`, `about/`, `catalogue/`, `contact/`, `wiki/`, `errors/`.
 - `src/layouts/Layout.astro` wraps every page (SEO tags, hreflang, header, footer). The `<main>` has `pt-20` to clear the fixed header.
 

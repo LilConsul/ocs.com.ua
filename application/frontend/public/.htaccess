@@ -69,8 +69,10 @@ AddType "text/markdown; charset=UTF-8" .md
 <IfModule mod_headers.c>
 	Header always set Strict-Transport-Security "max-age=31536000" "expr=%{HTTPS} == 'on'"
 	Header always set X-Content-Type-Options "nosniff"
-	# Only this site and the Plerdy dashboard (heatmaps) may show pages in a frame
-	Header always set Content-Security-Policy "frame-ancestors 'self' https://*.plerdy.com"
+	# Only this site and the Plerdy dashboard (heatmaps) may show pages in a frame. Scripts and
+	# styles are not restricted yet: the site uses inline scripts and style attributes that need
+	# nonces or hashes first. The rest blocks plugins, base-tag hijacking and off-site form posts.
+	Header always set Content-Security-Policy "object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self' https://*.plerdy.com"
 	Header always set Referrer-Policy "strict-origin-when-cross-origin"
 	Header always set Permissions-Policy "camera=(), microphone=(), payment=(), usb=()"
 </IfModule>

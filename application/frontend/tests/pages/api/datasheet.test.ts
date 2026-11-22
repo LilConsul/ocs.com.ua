@@ -7,8 +7,22 @@ import { GET } from "@/pages/api/datasheet";
 const SECRET = "test-datasheet-secret-0123456789abcdef";
 
 async function get(token?: string) {
-	const url = `http://localhost:4321/api/datasheet${token === undefined ? "" : `?token=${token}`}`;
-	return GET({ request: new Request(url) } as any);
+	const headers: Record<string, string> = {};
+	if (token !== undefined) headers.cookie = `datasheet_token=${token}`;
+	const request = new Request("http://localhost:4321/api/datasheet", { headers });
+	return GET({ request, cookies: parseCookies(request) } as any);
+}
+
+// Minimal cookie reader matching the Astro `cookies.get(name)` shape the route uses
+function parseCookies(request: Request) {
+	const header = request.headers.get("cookie") ?? "";
+	const jar = new Map(
+		header.split(";").map((part) => {
+			const [name, ...rest] = part.trim().split("=");
+			return [name, rest.join("=")];
+		})
+	);
+	return { get: (name: string) => (jar.has(name) ? { value: jar.get(name) } : undefined) };
 }
 
 describe("GET /api/datasheet", () => {

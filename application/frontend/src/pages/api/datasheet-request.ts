@@ -13,13 +13,14 @@ import {
 } from "astro:env/server";
 import type { APIRoute } from "astro";
 import { productUrl } from "@/lib/catalogue-urls";
+import { BodyTooLargeError, readLimitedJson } from "@/lib/contact/body";
 import { createRateLimiter } from "@/lib/contact/rateLimit";
 import { getClientIp, isSpamSubmission } from "@/lib/contact/spam";
 import { type LeadFormData, validateLeadFields } from "@/lib/contact/validate";
 import { getCategory, getLocale, getSlug, isProduct } from "@/lib/content-utils";
 import { datasheetFileName, resolveDatasheet } from "@/lib/datasheet/files";
 import { sendDatasheetEmail } from "@/lib/datasheet/mailer";
-import { signToken } from "@/lib/datasheet/token";
+import { DATASHEET_COOKIE, signToken, TOKEN_TTL_SECONDS } from "@/lib/datasheet/token";
 
 export const prerender = false;
 
@@ -64,7 +65,7 @@ function isDatasheetPayload(value: unknown): value is DatasheetPayload {
 	return STRING_FIELDS.every((key) => typeof record[key] === "string");
 }
 
-export const POST: APIRoute = async ({ request, clientAddress }) => {
+export const POST: APIRoute = async ({ request, clientAddress, cookies }) => {
 	// 1. Origin check. Behind a reverse proxy the request URL is the internal http:// one,
 	// so also accept the public SITE_URL origin.
 	const reqOrigin = request.headers.get("origin");
@@ -81,8 +82,11 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 
 	let body: unknown;
 	try {
-		body = await request.json();
-	} catch {
+		body = await readLimitedJson(request, BODY_LIMIT);
+	} catch (err) {
+		if (err instanceof BodyTooLargeError) {
+			return json({ ok: false, error: "payload_too_large" }, 413);
+		}
 		return json({ ok: false, error: "invalid_json" }, 400);
 	}
 	if (!isDatasheetPayload(body)) {
@@ -182,7 +186,15 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 		return json({ ok: false, error: "smtp_error" }, 502);
 	}
 
-	// 9. Hand out the short-lived download link
+	// 9. Hand out the short-lived download. The token goes into an HttpOnly cookie, not the URL,
+	// so it stays out of browser history, referrers and access logs.
 	const token = signToken(file, DATASHEET_TOKEN_SECRET);
-	return json({ ok: true, url: `/api/datasheet?token=${token}` });
+	cookies.set(DATASHEET_COOKIE, token, {
+		httpOnly: true,
+		sameSite: "strict",
+		secure: new URL(request.url).protocol === "https:",
+		path: "/api/datasheet",
+		maxAge: TOKEN_TTL_SECONDS,
+	});
+	return json({ ok: true, url: "/api/datasheet" });
 };

@@ -88,10 +88,13 @@ for (const lang of ["ua", "en"]) {
 			await page.setViewportSize({ width: 1440, height: 1000 });
 			await openHome(page, `/${lang}`);
 			const tablist = page.locator(`${BAND} [role="tablist"]`);
-			const metrics = await tablist.evaluate((el) => ({
-				verticalBar: el.offsetWidth - el.clientWidth,
-				overflowY: el.scrollHeight - el.clientHeight,
-			}));
+			const metrics = await tablist.evaluate((el) => {
+				const box = el as HTMLElement;
+				return {
+					verticalBar: box.offsetWidth - box.clientWidth,
+					overflowY: box.scrollHeight - box.clientHeight,
+				};
+			});
 			// A vertical scrollbar would take width from the bar and let it scroll up and down
 			expect(metrics.verticalBar).toBeLessThanOrEqual(0);
 			expect(metrics.overflowY).toBeLessThanOrEqual(0);

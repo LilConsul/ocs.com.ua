@@ -10,6 +10,7 @@ import {
 	SMTP_USER,
 } from "astro:env/server";
 import type { APIRoute } from "astro";
+import { BodyTooLargeError, readLimitedJson } from "@/lib/contact/body";
 import { sendContactEmail } from "@/lib/contact/mailer";
 import { createRateLimiter } from "@/lib/contact/rateLimit";
 import { getClientIp, isSpamSubmission } from "@/lib/contact/spam";
@@ -73,8 +74,11 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 
 	let body: unknown;
 	try {
-		body = await request.json();
-	} catch {
+		body = await readLimitedJson(request, BODY_LIMIT);
+	} catch (err) {
+		if (err instanceof BodyTooLargeError) {
+			return json({ ok: false, error: "payload_too_large" }, 413);
+		}
 		return json({ ok: false, error: "invalid_json" }, 400);
 	}
 

@@ -111,7 +111,7 @@ const sections = [
 			is:inline
 			type="application/json"
 			data-product-index
-			set:html={JSON.stringify(productSearchIndex)}
+			set:html={JSON.stringify(productSearchIndex).replace(/</g, "\\u003c")}
 		/>
 		{/* Exclusive accordion: opening one section closes the other */}
 		<div class="space-y-3">
@@ -504,6 +504,15 @@ const sections = [
 		}
 	}
 
+	function escapeHtml(value: string): string {
+		return value
+			.replace(/&/g, "&amp;")
+			.replace(/</g, "&lt;")
+			.replace(/>/g, "&gt;")
+			.replace(/"/g, "&quot;")
+			.replace(/'/g, "&#39;");
+	}
+
 	function renderSearchResults(
 		matches: ProductEntry[],
 		labelDetails: string,
@@ -511,38 +520,42 @@ const sections = [
 	): string {
 		if (matches.length === 0) {
 			return `<div class="text-industrial-gray py-24 text-center">
-				<p class="text-lg">${labelNoResults}</p>
+				<p class="text-lg">${escapeHtml(labelNoResults)}</p>
 			</div>`;
 		}
 		const cards = matches
-			.map(
-				(p, i) => `
+			.map((p, i) => {
+				const title = escapeHtml(p.title);
+				const description = escapeHtml(p.description);
+				const url = escapeHtml(p.url);
+				const image = escapeHtml(p.image || "/placeholder.svg");
+				return `
 			<article
 				class="card-hover product-card reveal group bg-background border-border-subtle/70 flex flex-col overflow-hidden rounded-xl border shadow-xs"
 				style="--i:${i % 3}"
 				data-product-item
-				data-product-text="${(p.title + " " + p.description).toLowerCase().replace(/"/g, "&quot;")}"
+				data-product-text="${escapeHtml((p.title + " " + p.description).toLowerCase())}"
 			>
-				<a href="${p.url}" class="border-border-subtle/40 focus-visible:outline-secondary relative flex aspect-4/3 items-center justify-center border-b bg-white p-4 focus-visible:outline-2 focus-visible:-outline-offset-2" aria-label="${p.title.replace(/"/g, "&quot;")}">
-					<img src="${p.image || "/placeholder.svg"}" alt="${p.title.replace(/"/g, "&quot;")}"
+				<a href="${url}" class="border-border-subtle/40 focus-visible:outline-secondary relative flex aspect-4/3 items-center justify-center border-b bg-white p-4 focus-visible:outline-2 focus-visible:-outline-offset-2" aria-label="${title}">
+					<img src="${image}" alt="${title}"
 						width="800" height="600"
 						class="h-full w-full object-contain mix-blend-multiply"
 						loading="lazy" />
 				</a>
 				<div class="flex flex-1 flex-col p-5 sm:p-6">
-					<h3 class="font-headline-lg text-foreground m-0 mb-2 text-lg leading-snug font-semibold text-balance">${p.title}</h3>
-					${p.description ? `<p class="font-body-md text-industrial-gray m-0 mb-5 line-clamp-2 text-sm leading-relaxed">${p.description}</p>` : ""}
+					<h3 class="font-headline-lg text-foreground m-0 mb-2 text-lg leading-snug font-semibold text-balance">${title}</h3>
+					${p.description ? `<p class="font-body-md text-industrial-gray m-0 mb-5 line-clamp-2 text-sm leading-relaxed">${description}</p>` : ""}
 					<div class="mt-auto">
-						<a href="${p.url}"
+						<a href="${url}"
 							class="border-secondary/40 text-secondary group-hover:border-secondary group-hover:bg-secondary/5 focus-visible:outline-secondary font-technical-data flex w-full items-center justify-center gap-2 rounded-lg border py-2.5 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
 						>
-							${labelDetails}
+							${escapeHtml(labelDetails)}
 							<span class="material-symbols-outlined text-[16px] transition-transform group-hover:translate-x-1">arrow_forward</span>
 						</a>
 					</div>
 				</div>
-			</article>`
-			)
+			</article>`;
+			})
 			.join("");
 		return `<section aria-label="Search results">
 			<div data-product-grid class="gap-gutter grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
