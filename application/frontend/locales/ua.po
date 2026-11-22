@@ -44,25 +44,25 @@ msgstr "Про нас"
 msgid "About Us | OS-Technology Ukraine"
 msgstr "Про нас | ОС-Технолоджи Україна"
 
-#: src/components/about/InteractiveUkraineMap.astro:262
+#: src/components/about/InteractiveUkraineMap.astro:252
 msgid "Active Client Facilities:"
 msgstr "Діючі підприємства клієнтів:"
 
-#: src/components/about/InteractiveUkraineMap.astro:123
+#: src/components/about/InteractiveUkraineMap.astro:121
 msgid "Active Factory Installations Across Regional Hubs"
 msgstr "Діючі заводські установки в регіональних хабах"
 
 #: src/lib/llms.ts:103
-#: src/components/contact/OfficeLocation.astro:50
-#: src/components/contact/ContactInfoCard.astro:86
+#: src/components/contact/OfficeLocation.astro:42
+#: src/components/contact/ContactInfoCard.astro:80
 msgid "Address"
 msgstr "Адреса"
 
-#: src/components/homepage/HeroSection.astro:94
+#: src/components/homepage/HeroSection.astro:86
 msgid "Advanced checkweighers and Track & Trace systems for food, pharma, and logistics. Trusted by {clients} Ukrainian manufacturers since 2013."
 msgstr "Сучасні контрольно динамічні ваги та системи Track & Trace для харчової промисловості, фармацевтики й логістики. З 2013 року нам довіряють {clients} українських виробників."
 
-#: src/components/homepage/IndustriesSection.astro:98
+#: src/components/homepage/IndustriesSection.astro:92
 msgid "All Industries"
 msgstr "Усі галузі"
 
@@ -70,13 +70,13 @@ msgstr "Усі галузі"
 msgid "All Sectors"
 msgstr "Усі галузі"
 
-#: src/components/wiki/WikiSidebar.astro:44
-#: src/components/wiki/WikiSidebar.astro:49
-#: src/pages/[lang]/wiki/index.astro:118
+#: src/components/wiki/WikiSidebar.astro:42
+#: src/components/wiki/WikiSidebar.astro:45
+#: src/pages/[lang]/wiki/index.astro:115
 msgid "All articles"
 msgstr "Всі статті"
 
-#: src/components/Footer.astro:36
+#: src/components/Footer.astro:37
 msgid "All rights reserved"
 msgstr "Усі права захищено"
 
@@ -85,13 +85,13 @@ msgstr "Усі права захищено"
 msgid "An unexpected error occurred. Please try again."
 msgstr "Сталася непередбачена помилка. Будь ласка, спробуйте ще раз."
 
-#: src/components/wiki/WikiPagination.astro:22
+#: src/components/wiki/WikiPagination.astro:21
 msgid "Article navigation"
 msgstr "Навігація по статтях"
 
 #: src/lib/llms.ts:327
 #: src/lib/llms.ts:418
-#: src/components/about/ManufacturerCredentials.astro:114
+#: src/components/about/ManufacturerCredentials.astro:111
 msgid "Authorization Letter"
 msgstr "Авторизаційний лист"
 
@@ -101,7 +101,7 @@ msgid "Authorization Letter — PDF"
 msgstr "Авторизаційний лист — PDF"
 
 #: src/lib/llms.ts:432
-#: src/components/contact/DocumentsCard.astro:33
+#: src/components/contact/DocumentsCard.astro:31
 msgid "Authorized Documentation"
 msgstr "Авторизована документація"
 
@@ -114,22 +114,22 @@ msgstr "На головну"
 msgid "Browse Catalogue"
 msgstr "Каталог обладнання"
 
-#: src/components/wiki/WikiSidebar.astro:23
+#: src/components/wiki/WikiSidebar.astro:21
 msgid "Browse articles"
 msgstr "Переглянути статті"
 
-#: src/components/contact/ContactForm.astro:220
-#: src/components/catalogue/DatasheetModal.astro:164
+#: src/components/contact/ContactForm.astro:217
+#: src/components/catalogue/DatasheetModal.astro:167
 msgid "By submitting this form you agree to the processing of your details as described in our"
 msgstr "Надсилаючи цю форму, ви погоджуєтеся на обробку ваших даних, як описано в нашій"
 
 #: src/components/Header.astro:27
 #: src/components/catalogue/RelatedEquipment.astro:34
-#: src/components/catalogue/CategoryHeader.astro:35
+#: src/components/catalogue/CategoryHeader.astro:34
 msgid "Catalogue"
 msgstr "Каталог"
 
-#: src/components/catalogue/CatalogueSidebar.astro:84
+#: src/components/catalogue/CatalogueSidebar.astro:81
 msgid "Catalogue Filters"
 msgstr "Фільтри каталогу"
 
@@ -149,11 +149,11 @@ msgstr "Навігація за категоріями"
 msgid "Checkweighers"
 msgstr "Контрольно динамічні ваги"
 
-#: src/components/homepage/IndustriesSection.astro:46
+#: src/components/homepage/IndustriesSection.astro:41
 msgid "Checkweighers and inspection systems meeting FDA, IFS, BRC, and GMP standards — engineered for Ukrainian manufacturers."
 msgstr "Контрольно динамічні ваги та інспекційні системи, що відповідають вимогам FDA, IFS, BRC і GMP та призначені для українських виробників."
 
-#: src/components/homepage/HeroSection.astro:80
+#: src/components/homepage/HeroSection.astro:73
 msgid "Checkweighers, Metal Detectors, Serialization & Aggregation Systems"
 msgstr "Контрольно динамічні ваги, металодетектори, системи серіалізації та агрегації"
 
@@ -167,11 +167,11 @@ msgstr "Контрольно-динамічні ваги, металодетек
 msgid "Chemicals & Packaging"
 msgstr "Побутова хімія та пакування"
 
-#: src/components/catalogue/DatasheetModal.astro:76
+#: src/components/catalogue/DatasheetModal.astro:75
 msgid "Clear"
 msgstr "Очистити"
 
-#: src/components/about/InteractiveUkraineMap.astro:140
+#: src/components/about/InteractiveUkraineMap.astro:134
 msgid "Click a pin or region to inspect"
 msgstr "Натисніть на мітку або область для перегляду"
 
@@ -183,30 +183,30 @@ msgstr "Утримання клієнтів"
 msgid "Clients"
 msgstr "Клієнтів"
 
-#: src/components/about/ClientDirectory.astro:284
+#: src/components/about/ClientDirectory.astro:273
 msgid "Clients pagination"
 msgstr "Сторінки списку клієнтів"
 
-#: src/components/catalogue/DatasheetModal.astro:83
+#: src/components/catalogue/DatasheetModal.astro:82
 msgid "Close"
 msgstr "Закрити"
 
-#: src/components/catalogue/CatalogueSidebar.astro:77
+#: src/components/catalogue/CatalogueSidebar.astro:74
 msgid "Close filters"
 msgstr "Закрити фільтри"
 
+#: src/components/Header.astro:91
 #: src/components/Header.astro:92
-#: src/components/Header.astro:93
 msgid "Close notification"
 msgstr "Закрити сповіщення"
 
-#: src/components/catalogue/ProductGallery.astro:251
+#: src/components/catalogue/ProductGallery.astro:235
 msgid "Close preview"
 msgstr "Закрити попередній перегляд"
 
 #: src/lib/llms.ts:151
 #: src/lib/llms.ts:433
-#: src/components/contact/ContactForm.astro:146
+#: src/components/contact/ContactForm.astro:142
 #: src/components/catalogue/DatasheetModal.astro:133
 msgid "Company"
 msgstr "Компанія"
@@ -219,21 +219,21 @@ msgid "Contact"
 msgstr "Контакти"
 
 #: src/lib/llms.ts:426
-#: src/components/contact/ContactInfoCard.astro:29
+#: src/components/contact/ContactInfoCard.astro:25
 msgid "Contact Information"
 msgstr "Контактна інформація"
 
 #: src/lib/llms.ts:421
-#: src/components/Header.astro:142
-#: src/components/Header.astro:155
-#: src/components/Header.astro:250
+#: src/components/Header.astro:138
+#: src/components/Header.astro:151
+#: src/components/Header.astro:240
 #: src/pages/[lang]/contact.astro:40
+#: src/components/homepage/HeroSection.astro:94
 #: src/components/errors/ServerErrorContent.astro:43
 #: src/components/errors/NotFoundContent.astro:49
-#: src/components/homepage/HeroSection.astro:103
-#: src/components/contact/ContactHero.astro:28
-#: src/components/catalogue/CatalogueSidebar.astro:198
-#: src/components/about/AboutCta.astro:35
+#: src/components/contact/ContactHero.astro:25
+#: src/components/catalogue/CatalogueSidebar.astro:194
+#: src/components/about/AboutCta.astro:32
 msgid "Contact Us"
 msgstr "Зв’язатися з нами"
 
@@ -241,7 +241,7 @@ msgstr "Зв’язатися з нами"
 msgid "Contact Us | OS-Technology Ukraine"
 msgstr "Зв'яжіться з нами | ОС-Технолоджи Україна"
 
-#: src/components/contact/ContactHero.astro:41
+#: src/components/contact/ContactHero.astro:37
 msgid "Contact our engineering team to discuss equipment selection, request a quotation, or arrange a product demonstration."
 msgstr "Зверніться до нашої інженерної команди для обговорення вибору обладнання, запиту комерційної пропозиції або організації демонстрації."
 
@@ -254,12 +254,12 @@ msgstr "Зверніться до інженерної команди ОС-Те�
 msgid "Contact us"
 msgstr "Зв'язатися з нами"
 
-#: src/components/contact/ContactForm.astro:164
+#: src/components/contact/ContactForm.astro:160
 #: src/components/catalogue/DatasheetModal.astro:150
 msgid "Corporate Email"
 msgstr "Корпоративний email"
 
-#: src/components/homepage/IndustriesSection.astro:80
+#: src/components/homepage/IndustriesSection.astro:74
 #: src/components/contact/ContactForm.astro:32
 #: src/components/catalogue/DatasheetModal.astro:22
 msgid "Cosmetics"
@@ -275,32 +275,32 @@ msgstr "Не вдалося завершити перевірку безпеки
 msgid "Could not send your message. Please try again later or email us directly."
 msgstr "Не вдалося надіслати повідомлення. Спробуйте пізніше або напишіть нам на пошту."
 
-#: src/components/about/InteractiveUkraineMap.astro:112
+#: src/components/about/InteractiveUkraineMap.astro:110
 msgid "Deployment Breakdown"
 msgstr "Географія впроваджень"
 
-#: src/components/contact/ContactForm.astro:215
+#: src/components/contact/ContactForm.astro:212
 msgid "Describe your requirements…"
 msgstr "Опишіть свої потреби…"
 
-#: src/components/about/ManufacturerCredentials.astro:38
+#: src/components/about/ManufacturerCredentials.astro:36
 msgid "Direct Factory Partnership & Certified Distribution"
 msgstr "Пряме партнерство із заводами та сертифікована дистрибуція"
 
-#: src/pages/[lang]/catalogue/equipment/[category]/[slug].astro:229
+#: src/pages/[lang]/catalogue/equipment/[category]/[slug].astro:218
 msgid "Direct Technical Sales"
 msgstr "Прямі продажі технічного обладнання"
 
-#: src/components/catalogue/ProductGallery.astro:243
+#: src/components/catalogue/ProductGallery.astro:227
 msgid "Double-click to toggle"
 msgstr "Подвійний клік — масштаб"
 
-#: src/components/catalogue/DatasheetModal.astro:194
+#: src/components/catalogue/DatasheetModal.astro:201
 msgid "Download"
 msgstr "Завантажити"
 
-#: src/components/about/ManufacturerCredentials.astro:122
-#: src/components/about/ManufacturerCredentials.astro:129
+#: src/components/about/ManufacturerCredentials.astro:119
+#: src/components/about/ManufacturerCredentials.astro:126
 msgid "Download PDF"
 msgstr "Завантажити PDF"
 
@@ -317,15 +317,15 @@ msgstr "Контрольні динамічні ваги з технологіє
 msgid "Effective date"
 msgstr "Дата набрання чинності"
 
-#: src/components/contact/ContactInfoCard.astro:59
+#: src/components/contact/ContactInfoCard.astro:53
 msgid "Email"
 msgstr "Email"
 
-#: src/components/contact/ContactForm.astro:72
+#: src/components/contact/ContactForm.astro:70
 msgid "Engineering Inquiry"
 msgstr "Технічний запит"
 
-#: src/components/about/ClientDirectory.astro:100
+#: src/components/about/ClientDirectory.astro:98
 msgid "Enterprise Reference Directory"
 msgstr "Довідник підприємств-клієнтів"
 
@@ -350,16 +350,16 @@ msgstr "Категорії обладнання"
 msgid "Equipment of Interest"
 msgstr "Обладнання, що цікавить"
 
-#: src/components/catalogue/ProductGallery.astro:121
-#: src/components/catalogue/ProductGallery.astro:122
+#: src/components/catalogue/ProductGallery.astro:117
+#: src/components/catalogue/ProductGallery.astro:118
 msgid "Expand image"
 msgstr "Збільшити зображення"
 
-#: src/components/homepage/IndustriesSection.astro:99
+#: src/components/homepage/IndustriesSection.astro:93
 msgid "Explore industry-specific solutions"
 msgstr "Ознайомтеся з рішеннями для вашої галузі"
 
-#: src/components/about/ClientDirectory.astro:110
+#: src/components/about/ClientDirectory.astro:107
 msgid "Explore verified German inspection equipment installations across leading food, pharmaceutical, and consumer goods manufacturers in Ukraine."
 msgstr "Перегляньте підтверджені установки німецького інспекційного обладнання на провідних харчових, фармацевтичних та споживчих підприємствах України."
 
@@ -367,11 +367,11 @@ msgstr "Перегляньте підтверджені установки ні�
 msgid "Featured Equipment"
 msgstr "Популярне обладнання"
 
-#: src/components/about/InteractiveUkraineMap.astro:360
+#: src/components/about/InteractiveUkraineMap.astro:344
 msgid "Figures are approximate and may not reflect exact numbers. Not all clients are shown on this page."
 msgstr "Наведені цифри є орієнтовними та можуть не відображати точну кількість обладнання. На цій сторінці показано не всіх клієнтів."
 
-#: src/components/about/ClientDirectory.astro:120
+#: src/components/about/ClientDirectory.astro:116
 msgid "Filter clients by sector"
 msgstr "Фільтр клієнтів за галуззю"
 
@@ -380,7 +380,7 @@ msgid "Filters"
 msgstr "Фільтри"
 
 #: src/components/homepage/PartnersSection.astro:61
-#: src/components/homepage/IndustriesSection.astro:56
+#: src/components/homepage/IndustriesSection.astro:50
 #: src/components/about/ClientDirectory.astro:33
 msgid "Food & Beverage"
 msgstr "Харчова промисловість і виробництво напоїв"
@@ -390,7 +390,7 @@ msgstr "Харчова промисловість і виробництво на
 msgid "Food Industry"
 msgstr "Харчова промисловість"
 
-#: src/components/contact/ContactForm.astro:128
+#: src/components/contact/ContactForm.astro:124
 #: src/components/catalogue/DatasheetModal.astro:116
 msgid "Full Name"
 msgstr "Повне ім'я"
@@ -403,29 +403,25 @@ msgstr "Повний текст усіх товарів і статей"
 msgid "German Hardware"
 msgstr "Німецьке обладнання"
 
-#: src/components/about/AboutHero.astro:75
-msgid "German Precision Engineering. Official Ukrainian Distributor."
-msgstr "Німецька точність. Офіційний дистриб'ютор в Україні."
-
-#: src/components/homepage/HeroSection.astro:82
+#: src/components/homepage/HeroSection.astro:75
 msgid "German Precision."
 msgstr "Німецька точність."
 
-#: src/components/contact/OfficeLocation.astro:89
+#: src/components/contact/OfficeLocation.astro:82
 msgid "Get Route"
 msgstr "Прокласти маршрут"
 
-#: src/components/contact/ContactHero.astro:34
+#: src/components/contact/ContactHero.astro:31
 msgid "Get in Touch"
 msgstr "Зв'яжіться з нами"
 
-#: src/components/contact/ContactForm.astro:234
-#: src/components/catalogue/DatasheetModal.astro:181
+#: src/components/contact/ContactForm.astro:233
+#: src/components/catalogue/DatasheetModal.astro:184
 msgid "Google Privacy Policy"
 msgstr "Політика конфіденційності Google"
 
-#: src/components/contact/ContactForm.astro:241
-#: src/components/catalogue/DatasheetModal.astro:188
+#: src/components/contact/ContactForm.astro:242
+#: src/components/catalogue/DatasheetModal.astro:193
 msgid "Google Terms of Service"
 msgstr "Умови використання Google"
 
@@ -441,7 +437,7 @@ msgstr "Високоточні контрольні динамічні ваги 
 msgid "High-resolution industrial X-Ray scanners"
 msgstr "Промислові X-Ray сканери високої роздільної здатності"
 
-#: src/components/homepage/IndustriesSection.astro:90
+#: src/components/homepage/IndustriesSection.astro:84
 msgid "High-speed checkweighers for warehouses and fulfillment centers."
 msgstr "Високошвидкісні контрольно динамічні ваги для складів і центрів комплектації замовлень."
 
@@ -462,19 +458,19 @@ msgstr "Головна"
 msgid "How OS-Technology Ukraine collects, uses and protects personal information when you visit our website, request a datasheet or contact us."
 msgstr "Як ОС-Технолоджи Україна збирає, використовує та захищає персональні дані, коли ви відвідуєте наш сайт, запитуєте специфікацію або зв'язуєтеся з нами."
 
-#: src/components/homepage/IndustriesSection.astro:57
+#: src/components/homepage/IndustriesSection.astro:51
 msgid "Hygienic checkweighers meeting food safety standards (FDA, IFS, BRC). Built for production lines."
 msgstr "Гігієнічні контрольно динамічні ваги, що відповідають вимогам харчової безпеки (FDA, IFS, BRC) та призначені для виробничих ліній."
 
-#: src/components/catalogue/ProductGallery.astro:108
+#: src/components/catalogue/ProductGallery.astro:105
 msgid "Image"
 msgstr "Зображення"
 
-#: src/components/catalogue/ProductGallery.astro:210
+#: src/components/catalogue/ProductGallery.astro:202
 msgid "Image lightbox"
 msgstr "Перегляд зображення у збільшеному форматі"
 
-#: src/components/homepage/HeroSection.astro:28
+#: src/components/homepage/HeroSection.astro:26
 msgid "Industrial Checkweigher Systems"
 msgstr "Промислові системи контрольного зважування"
 
@@ -485,11 +481,11 @@ msgstr "Промислові системи контрольного зважу�
 msgid "Industries"
 msgstr "Галузі"
 
-#: src/components/homepage/IndustriesSection.astro:33
+#: src/components/homepage/IndustriesSection.astro:31
 msgid "Industries We Serve"
 msgstr "Галузі, для яких ми працюємо"
 
-#: src/components/contact/ContactForm.astro:181
+#: src/components/contact/ContactForm.astro:177
 #: src/components/catalogue/DatasheetModal.astro:157
 msgid "Industry Sector"
 msgstr "Галузь"
@@ -498,7 +494,7 @@ msgstr "Галузь"
 msgid "Industry navigation"
 msgstr "Навігація за галузями"
 
-#: src/components/about/InteractiveUkraineMap.astro:137
+#: src/components/about/InteractiveUkraineMap.astro:131
 msgid "Installation Map of Ukraine"
 msgstr "Карта установок в Україні"
 
@@ -506,7 +502,7 @@ msgstr "Карта установок в Україні"
 msgid "Installations"
 msgstr "Встановлених систем"
 
-#: src/components/about/ClientDirectory.astro:222
+#: src/components/about/ClientDirectory.astro:212
 msgid "Installed Equipment:"
 msgstr "Встановлене обладнання:"
 
@@ -515,16 +511,16 @@ msgstr "Встановлене обладнання:"
 msgid "Installed Systems"
 msgstr "Встановлених систем"
 
-#: src/components/about/InteractiveUkraineMap.astro:149
+#: src/components/about/InteractiveUkraineMap.astro:143
 msgid "Interactive Map of Ukraine Installations"
 msgstr "Інтерактивна карта установок в Україні"
 
-#: src/components/contact/ContactForm.astro:105
-#: src/pages/[lang]/catalogue/equipment/[category]/[slug].astro:292
+#: src/components/contact/ContactForm.astro:102
+#: src/pages/[lang]/catalogue/equipment/[category]/[slug].astro:278
 msgid "JavaScript is required to send this form. Please call or email us instead:"
 msgstr "Для надсилання цієї форми потрібен JavaScript. Будь ласка, зателефонуйте або напишіть нам:"
 
-#: src/components/contact/ContactForm.astro:135
+#: src/components/contact/ContactForm.astro:131
 #: src/components/catalogue/DatasheetModal.astro:123
 msgid "Job Title"
 msgstr "Посада"
@@ -533,21 +529,21 @@ msgstr "Посада"
 #: src/pages/[lang]/wiki/index.astro:31
 #: src/pages/[lang]/wiki/index.astro:43
 #: src/pages/[lang]/wiki/index.astro:61
-#: src/pages/[lang]/wiki/index.astro:84
-#: src/pages/[lang]/wiki/index.astro:90
+#: src/pages/[lang]/wiki/index.astro:81
+#: src/pages/[lang]/wiki/index.astro:87
 msgid "Knowledge Base"
 msgstr "База знань"
 
-#: src/components/contact/OfficeLocation.astro:33
+#: src/components/contact/OfficeLocation.astro:29
 msgid "Kyiv Office"
 msgstr "Київський офіс"
 
-#: src/components/Header.astro:255
+#: src/components/Header.astro:245
 msgid "Language"
 msgstr "Мова"
 
-#: src/components/homepage/IndustriesSection.astro:61
-#: src/components/homepage/IndustriesSection.astro:73
+#: src/components/homepage/IndustriesSection.astro:55
+#: src/components/homepage/IndustriesSection.astro:67
 msgid "Learn More"
 msgstr "Дізнатися більше"
 
@@ -559,11 +555,11 @@ msgstr "Залиште свої дані, і завантаження розпо
 msgid "Legal"
 msgstr "Правова інформація"
 
-#: src/components/about/AboutCta.astro:42
+#: src/components/about/AboutCta.astro:39
 msgid "Let's Talk About Your Production Line"
 msgstr "Обговоримо вашу виробничу лінію"
 
-#: src/components/homepage/IndustriesSection.astro:89
+#: src/components/homepage/IndustriesSection.astro:83
 #: src/components/contact/ContactForm.astro:33
 #: src/components/catalogue/DatasheetModal.astro:23
 msgid "Logistics & Distribution"
@@ -582,7 +578,7 @@ msgid "MESUTRONIC Gerätebau GmbH develops and manufactures metal detectors in K
 msgstr "MESUTRONIC Gerätebau GmbH розробляє та виготовляє металодетектори у місті Кірхбергім-Вальд, Німеччина."
 
 #: src/pages/[lang]/contact.astro:74
-#: src/components/contact/OfficeLocation.astro:38
+#: src/components/contact/OfficeLocation.astro:32
 msgid "Main Office"
 msgstr "Головний офіс"
 
@@ -591,11 +587,11 @@ msgid "Manufacturer"
 msgstr "Виробник"
 
 #: src/lib/llms.ts:355
-#: src/components/about/ManufacturerCredentials.astro:28
+#: src/components/about/ManufacturerCredentials.astro:26
 msgid "Manufacturers"
 msgstr "Виробники"
 
-#: src/components/contact/OfficeLocation.astro:99
+#: src/components/contact/OfficeLocation.astro:90
 msgid "Map showing OS-Technology Ukraine office location"
 msgstr "Карта з розташуванням офісу ОС-Технолоджи Україна"
 
@@ -603,7 +599,7 @@ msgstr "Карта з розташуванням офісу ОС-Техноло�
 msgid "Meatline & Pipeline Metal Inspection For Pumped Products"
 msgstr "Meatline та трубопровідний контроль металу для рідких і пастоподібних продуктів"
 
-#: src/components/contact/ContactForm.astro:211
+#: src/components/contact/ContactForm.astro:208
 msgid "Message"
 msgstr "Повідомлення"
 
@@ -626,7 +622,7 @@ msgstr "Металодетектори для виробничих ліній х
 msgid "Metron FlatLine & Transtron High-Sensitivity Conveyor Systems"
 msgstr "Конвеєрні системи високої чутливості Metron FlatLine та Transtron"
 
-#: src/components/about/InteractiveUkraineMap.astro:274
+#: src/components/about/InteractiveUkraineMap.astro:264
 msgid "Multiple facilities active"
 msgstr "Діє кілька підприємств"
 
@@ -638,29 +634,29 @@ msgstr "Потрібна допомога з вибором обладнання
 msgid "Need technical consultation?"
 msgstr "Потрібна консультація щодо обладнання?"
 
-#: src/components/wiki/WikiPagination.astro:48
+#: src/components/wiki/WikiPagination.astro:47
 msgid "Next article"
 msgstr "Наступна стаття"
 
-#: src/components/catalogue/ProductGallery.astro:162
-#: src/components/catalogue/ProductGallery.astro:294
+#: src/components/catalogue/ProductGallery.astro:157
+#: src/components/catalogue/ProductGallery.astro:275
 msgid "Next image"
 msgstr "Наступне зображення"
 
-#: src/components/about/ClientDirectory.astro:295
+#: src/components/about/ClientDirectory.astro:284
 msgid "Next page"
 msgstr "Наступна сторінка"
 
-#: src/components/wiki/WikiSidebar.astro:81
-#: src/pages/[lang]/wiki/index.astro:139
+#: src/components/wiki/WikiSidebar.astro:75
+#: src/pages/[lang]/wiki/index.astro:134
 msgid "No articles match your search."
 msgstr "За вашим запитом статей не знайдено."
 
-#: src/pages/[lang]/catalogue/equipment/[category]/index.astro:171
+#: src/pages/[lang]/catalogue/equipment/[category]/index.astro:170
 msgid "No products available in this category"
 msgstr "У цій категорії поки немає обладнання"
 
-#: src/components/catalogue/CatalogueSidebar.astro:105
+#: src/components/catalogue/CatalogueSidebar.astro:104
 msgid "No products match your search. Try browsing another category."
 msgstr "За вашим запитом обладнання не знайдено. Спробуйте іншу категорію."
 
@@ -671,7 +667,7 @@ msgstr "ОС-Технолоджи Україна"
 
 #: src/lib/llms.ts:171
 #: src/lib/llms.ts:351
-#: src/components/about/AboutHero.astro:82
+#: src/components/about/AboutHero.astro:78
 msgid "OS-Technology Ukraine is the exclusive authorized distributor and certified integration partner of WIPOTEC GmbH and MESUTRONIC Gerätebau GmbH in Ukraine. We supply dynamic checkweighers, industrial metal detectors, X-Ray scanners, and Track & Trace serialization and aggregation systems for the pharmaceutical industry with turnkey commissioning and factory warranty."
 msgstr "ОС-Технолоджи Україна — ексклюзивний авторизований дистриб'ютор та сертифікований інтеграційний партнер WIPOTEC GmbH і MESUTRONIC Gerätebau GmbH в Україні. Ми постачаємо контрольні динамічні ваги, промислові металодетектори, X-Ray сканери та системи серіалізації та агрегації Track & Trace для фармацевтичної промисловості із введенням в експлуатацію під ключ та заводською гарантією."
 
@@ -679,7 +675,7 @@ msgstr "ОС-Технолоджи Україна — ексклюзивний а
 msgid "OS-Technology Ukraine | Checkweighers & Inspection Systems"
 msgstr "ОС-Технолоджи Україна | Промислові інспекційні системи"
 
-#: src/components/about/ManufacturerCredentials.astro:34
+#: src/components/about/ManufacturerCredentials.astro:32
 msgid "Official German Engineering Credentials"
 msgstr "Офіційні повноваження німецьких виробників"
 
@@ -691,7 +687,11 @@ msgstr "Офіційний партнер Mesutronic GmbH"
 msgid "Official Partner of Wipotec GmbH"
 msgstr "Офіційний партнер Wipotec GmbH"
 
-#: src/components/contact/DocumentsCard.astro:36
+#: src/components/about/AboutHero.astro:72
+msgid "Official Ukrainian Distributor."
+msgstr "Офіційний дистриб'ютор в Україні."
+
+#: src/components/contact/DocumentsCard.astro:34
 msgid "Official distributorship certificates."
 msgstr "Офіційні сертифікати дистриб'ютора."
 
@@ -700,9 +700,9 @@ msgstr "Офіційні сертифікати дистриб'ютора."
 msgid "Official exclusive distributor and certified engineering partner of WIPOTEC GmbH and MESUTRONIC Gerätebau GmbH in Ukraine. {systems} systems installed."
 msgstr "Офіційний ексклюзивний дистриб'ютор та сертифікований інженерний партнер WIPOTEC GmbH і MESUTRONIC Gerätebau GmbH в Україні. Встановлено систем: {systems}."
 
-#: src/components/wiki/WikiToc.astro:26
-#: src/components/wiki/WikiToc.astro:49
-#: src/components/wiki/WikiToc.astro:55
+#: src/components/wiki/WikiToc.astro:25
+#: src/components/wiki/WikiToc.astro:48
+#: src/components/wiki/WikiToc.astro:54
 msgid "On this page"
 msgstr "Зміст статті"
 
@@ -714,9 +714,9 @@ msgstr "Один або кілька обраних типів обладнан�
 msgid "Open filters"
 msgstr "Відкрити фільтри"
 
-#: src/components/contact/ContactInfoCard.astro:79
-#: src/components/contact/ContactInfoCard.astro:80
-#: src/components/about/ManufacturerCredentials.astro:58
+#: src/components/contact/ContactInfoCard.astro:71
+#: src/components/contact/ContactInfoCard.astro:72
+#: src/components/about/ManufacturerCredentials.astro:55
 msgid "Open in Google Maps"
 msgstr "Відкрити в Google Maps"
 
@@ -725,7 +725,7 @@ msgstr "Відкрити в Google Maps"
 msgid "Other"
 msgstr "Інше"
 
-#: src/components/homepage/PartnersSection.astro:101
+#: src/components/homepage/PartnersSection.astro:99
 msgid "Our Clients"
 msgstr "Наші клієнти"
 
@@ -733,7 +733,7 @@ msgstr "Наші клієнти"
 msgid "Our clients"
 msgstr "Наші клієнти"
 
-#: src/pages/[lang]/catalogue/equipment/[category]/[slug].astro:217
+#: src/pages/[lang]/catalogue/equipment/[category]/[slug].astro:209
 msgid "Our engineering team is ready to configure this equipment for your specific production environment."
 msgstr "Наша інженерна команда готова підібрати конфігурацію обладнання відповідно до потреб вашого виробництва."
 
@@ -750,7 +750,7 @@ msgstr "Наші інженери допоможуть підібрати опт
 #: src/lib/llms.ts:406
 #: src/lib/llms.ts:425
 #: src/lib/llms.ts:448
-#: src/components/about/ClientDirectory.astro:287
+#: src/components/about/ClientDirectory.astro:276
 msgid "Page"
 msgstr "Сторінка"
 
@@ -760,7 +760,7 @@ msgstr "Сторінка"
 msgid "Page Not Found"
 msgstr "Сторінку не знайдено"
 
-#: src/components/homepage/IndustriesSection.astro:68
+#: src/components/homepage/IndustriesSection.astro:62
 #: src/components/contact/ContactForm.astro:31
 #: src/components/catalogue/DatasheetModal.astro:21
 msgid "Pharmaceutical"
@@ -772,13 +772,13 @@ msgid "Pharmaceuticals"
 msgstr "Фармацевтика"
 
 #: src/lib/llms.ts:101
-#: src/components/contact/ContactInfoCard.astro:36
-#: src/components/contact/ContactForm.astro:153
+#: src/components/contact/ContactInfoCard.astro:32
+#: src/components/contact/ContactForm.astro:149
 #: src/components/catalogue/DatasheetModal.astro:140
 msgid "Phone"
 msgstr "Телефон"
 
-#: src/pages/[lang]/catalogue/equipment/[category]/[slug].astro:213
+#: src/pages/[lang]/catalogue/equipment/[category]/[slug].astro:206
 msgid "Planning to upgrade your production line?"
 msgstr "Плануєте модернізувати виробничу лінію?"
 
@@ -802,24 +802,24 @@ msgstr "Будь ласка, введіть коректний номер тел
 msgid "Please select a valid sector."
 msgstr "Будь ласка, оберіть коректну галузь."
 
-#: src/components/contact/ContactForm.astro:176
+#: src/components/contact/ContactForm.astro:172
 msgid "Please use your company email address if possible."
 msgstr "Будь ласка, за можливості використовуйте корпоративну електронну адресу."
 
-#: src/components/homepage/IndustriesSection.astro:69
+#: src/components/homepage/IndustriesSection.astro:63
 msgid "Precision checkweighers with Track & Trace serialization. GMP-compliant and audit-ready."
 msgstr "Високоточні контрольно динамічні ваги із системами серіалізації Track & Trace, що відповідають вимогам GMP та готові до аудиту."
 
-#: src/components/wiki/WikiPagination.astro:32
+#: src/components/wiki/WikiPagination.astro:31
 msgid "Previous article"
 msgstr "Попередня стаття"
 
-#: src/components/catalogue/ProductGallery.astro:154
-#: src/components/catalogue/ProductGallery.astro:286
+#: src/components/catalogue/ProductGallery.astro:149
+#: src/components/catalogue/ProductGallery.astro:267
 msgid "Previous image"
 msgstr "Попереднє зображення"
 
-#: src/components/about/ClientDirectory.astro:291
+#: src/components/about/ClientDirectory.astro:280
 msgid "Previous page"
 msgstr "Попередня сторінка"
 
@@ -829,11 +829,11 @@ msgstr "Ціна за запитом"
 
 #: src/lib/llms.ts:155
 #: src/lib/llms.ts:463
-#: src/components/Footer.astro:72
+#: src/components/Footer.astro:58
 #: src/pages/[lang]/privacy.astro:36
 #: src/pages/[lang]/privacy.astro:45
-#: src/components/contact/ContactForm.astro:222
-#: src/components/catalogue/DatasheetModal.astro:170
+#: src/components/contact/ContactForm.astro:219
+#: src/components/catalogue/DatasheetModal.astro:171
 msgid "Privacy Policy"
 msgstr "Політика конфіденційності"
 
@@ -845,12 +845,12 @@ msgstr "Політика конфіденційності | ОС-Техноло�
 msgid "Privacy request"
 msgstr "Запит щодо конфіденційності"
 
-#: src/pages/[lang]/catalogue/equipment/[category]/[slug].astro:186
+#: src/pages/[lang]/catalogue/equipment/[category]/[slug].astro:183
 msgid "Product Overview"
 msgstr "Огляд обладнання"
 
-#: src/components/catalogue/ProductGallery.astro:174
-#: src/components/catalogue/ProductGallery.astro:307
+#: src/components/catalogue/ProductGallery.astro:167
+#: src/components/catalogue/ProductGallery.astro:286
 msgid "Product image thumbnails"
 msgstr "Мініатюри зображень обладнання"
 
@@ -859,7 +859,7 @@ msgstr "Мініатюри зображень обладнання"
 msgid "Products"
 msgstr "Обладнання"
 
-#: src/pages/[lang]/wiki/[slug].astro:166
+#: src/pages/[lang]/wiki/[slug].astro:161
 msgid "Published"
 msgstr "Опубліковано"
 
@@ -869,7 +869,7 @@ msgstr "Опубліковано"
 msgid "Publisher"
 msgstr "Видавець"
 
-#: src/components/homepage/IndustriesSection.astro:81
+#: src/components/homepage/IndustriesSection.astro:75
 msgid "Quality control and filling inspection systems."
 msgstr "Системи контролю якості та перевірки рівня наповнення."
 
@@ -885,7 +885,7 @@ msgstr "Є запитання щодо ваших даних?"
 msgid "Quicktron & Pharma Freefall Gravity Contaminant Separators"
 msgstr "Гравітаційні сепаратори домішок Quicktron та Pharma Freefall"
 
-#: src/components/wiki/WikiCard.astro:78
+#: src/components/wiki/WikiCard.astro:68
 msgid "Read article"
 msgstr "Читати статтю"
 
@@ -893,36 +893,36 @@ msgstr "Читати статтю"
 msgid "Related Equipment"
 msgstr "Схоже обладнання"
 
-#: src/pages/[lang]/wiki/[slug].astro:224
+#: src/pages/[lang]/wiki/[slug].astro:212
 msgid "Related articles"
 msgstr "Схожі статті"
 
-#: src/pages/[lang]/catalogue/equipment/[category]/[slug].astro:274
+#: src/pages/[lang]/catalogue/equipment/[category]/[slug].astro:259
 msgid "Request Consultation"
 msgstr "Замовити консультацію"
 
-#: src/components/about/AboutHero.astro:111
-#: src/components/about/AboutCta.astro:58
+#: src/components/about/AboutHero.astro:104
+#: src/components/about/AboutCta.astro:53
 msgid "Request a quote"
 msgstr "Запросити пропозицію"
 
-#: src/components/errors/NotFoundContent.astro:27
+#: src/components/errors/NotFoundContent.astro:25
 msgid "Requested path"
 msgstr "Запитана адреса"
 
-#: src/components/catalogue/ProductGallery.astro:239
+#: src/components/catalogue/ProductGallery.astro:223
 msgid "Scroll to zoom"
 msgstr "Прокрутка — масштаб"
 
+#: src/components/catalogue/CatalogueSidebar.astro:100
 #: src/components/catalogue/CatalogueSidebar.astro:101
-#: src/components/catalogue/CatalogueSidebar.astro:102
 msgid "Search products…"
 msgstr "Пошук обладнання…"
 
-#: src/components/wiki/WikiSidebar.astro:37
-#: src/components/wiki/WikiSidebar.astro:38
-#: src/pages/[lang]/wiki/index.astro:108
-#: src/pages/[lang]/wiki/index.astro:109
+#: src/components/wiki/WikiSidebar.astro:35
+#: src/components/wiki/WikiSidebar.astro:36
+#: src/pages/[lang]/wiki/index.astro:105
+#: src/pages/[lang]/wiki/index.astro:106
 msgid "Search the wiki…"
 msgstr "Пошук у базі знань…"
 
@@ -933,14 +933,14 @@ msgstr "Пошук у базі знань…"
 msgid "Security check failed. Please refresh and try again."
 msgstr "Перевірку безпеки не пройдено. Оновіть сторінку та спробуйте ще раз."
 
-#: src/components/contact/ContactForm.astro:182
-#: src/components/catalogue/DatasheetModal.astro:158
+#: src/components/contact/ContactForm.astro:179
+#: src/components/catalogue/DatasheetModal.astro:159
 msgid "Select sector…"
 msgstr "Оберіть галузь…"
 
 #: src/lib/llms.ts:431
 #: src/pages/[lang]/contact.astro:51
-#: src/components/contact/ContactForm.astro:78
+#: src/components/contact/ContactForm.astro:76
 msgid "Send Us a Message"
 msgstr "Надіслати повідомлення"
 
@@ -958,7 +958,7 @@ msgstr "Працюємо в Україні з 2013 року"
 msgid "Share"
 msgstr "Поділитися"
 
-#: src/components/about/ClientDirectory.astro:270
+#: src/components/about/ClientDirectory.astro:260
 msgid "Site"
 msgstr "Сайт"
 
@@ -966,7 +966,7 @@ msgstr "Сайт"
 msgid "Software"
 msgstr "Програмне забезпечення"
 
-#: src/components/homepage/IndustriesSection.astro:39
+#: src/components/homepage/IndustriesSection.astro:37
 msgid "Solutions for Every Industry"
 msgstr "Рішення для кожної галузі"
 
@@ -993,7 +993,7 @@ msgstr "Проблема не зникає?"
 msgid "Submission not allowed from this origin."
 msgstr "Відправлення з цього джерела заборонено."
 
-#: src/components/contact/ContactForm.astro:247
+#: src/components/contact/ContactForm.astro:248
 msgid "Submit Inquiry"
 msgstr "Надіслати запит"
 
@@ -1003,7 +1003,7 @@ msgstr "Надіслати запит"
 msgid "Supplier in Ukraine"
 msgstr "Постачальник в Україні"
 
-#: src/components/homepage/PartnersSection.astro:112
+#: src/components/homepage/PartnersSection.astro:109
 msgid "Supplying and servicing precision weighing equipment for major food, pharmaceutical, and chemical companies since 2013."
 msgstr "З 2013 року постачаємо й обслуговуємо високоточне вагове обладнання для провідних підприємств харчової, фармацевтичної та хімічної промисловості."
 
@@ -1015,21 +1015,21 @@ msgstr "Встановлених систем"
 msgid "Systems operating across Ukrainian manufacturing facilities."
 msgstr "Наше обладнання працює на виробничих підприємствах по всій Україні."
 
-#: src/pages/[lang]/catalogue/equipment/[category]/[slug].astro:288
+#: src/pages/[lang]/catalogue/equipment/[category]/[slug].astro:274
 msgid "Technical Datasheet"
 msgstr "Технічна специфікація"
 
-#: src/components/homepage/FeaturedEquipment.astro:162
-#: src/components/catalogue/ProductCard.astro:89
-#: src/components/catalogue/CatalogueSidebar.astro:104
+#: src/components/homepage/FeaturedEquipment.astro:160
+#: src/components/catalogue/ProductCard.astro:84
+#: src/components/catalogue/CatalogueSidebar.astro:103
 msgid "Technical Details"
 msgstr "Технічні деталі"
 
-#: src/components/catalogue/ProductSpecsTable.astro:38
+#: src/components/catalogue/ProductSpecsTable.astro:37
 msgid "Technical Specifications"
 msgstr "Технічні характеристики"
 
-#: src/components/catalogue/CatalogueSidebar.astro:87
+#: src/components/catalogue/CatalogueSidebar.astro:84
 msgid "Technical Specs"
 msgstr "Технічні характеристики"
 
@@ -1042,13 +1042,13 @@ msgstr "Технічні статті, інструкції та керівни�
 msgid "Technical expertise and service support since 2013."
 msgstr "Технічна експертиза та сервісна підтримка з 2013 року."
 
-#: src/components/about/AboutCta.astro:49
+#: src/components/about/AboutCta.astro:45
 msgid "Tell us what you produce and what you need to inspect. We will recommend suitable equipment and prepare a quote."
 msgstr "Розкажіть, що ви виробляєте і що потрібно контролювати. Ми підберемо відповідне обладнання та підготуємо комерційну пропозицію."
 
 #: src/lib/llms.ts:156
 #: src/lib/llms.ts:474
-#: src/components/Footer.astro:78
+#: src/components/Footer.astro:64
 #: src/pages/[lang]/terms.astro:36
 #: src/pages/[lang]/terms.astro:45
 #: src/pages/[lang]/terms.astro:48
@@ -1084,12 +1084,12 @@ msgstr "Ця специфікація зараз недоступна. Будь 
 msgid "This field is required."
 msgstr "Це поле обов'язкове."
 
-#: src/components/contact/ContactForm.astro:228
-#: src/components/catalogue/DatasheetModal.astro:175
+#: src/components/contact/ContactForm.astro:226
+#: src/components/catalogue/DatasheetModal.astro:177
 msgid "This form is protected by reCAPTCHA."
 msgstr "Ця форма захищена reCAPTCHA."
 
-#: src/components/about/ClientDirectory.astro:305
+#: src/components/about/ClientDirectory.astro:291
 msgid "This list is not exhaustive: not all of our clients are shown here."
 msgstr "Цей перелік не є вичерпним: тут показано не всіх наших клієнтів."
 
@@ -1098,7 +1098,7 @@ msgstr "Цей перелік не є вичерпним: тут показан�
 msgid "This value is too long."
 msgstr "Це значення занадто довге."
 
-#: src/components/Header.astro:210
+#: src/components/Header.astro:202
 msgid "Toggle menu"
 msgstr "Відкрити або закрити меню"
 
@@ -1116,11 +1116,11 @@ msgstr "Track & Trace"
 msgid "Track & Trace serialization and aggregation systems"
 msgstr "Системи серіалізації та агрегації Track & Trace"
 
-#: src/components/about/ClientDirectory.astro:106
+#: src/components/about/ClientDirectory.astro:104
 msgid "Trusted by Ukraine's Industrial Flagships"
 msgstr "Нам довіряють провідні підприємства України"
 
-#: src/components/homepage/PartnersSection.astro:107
+#: src/components/homepage/PartnersSection.astro:105
 msgid "Trusted by Ukraine's Leading Manufacturers"
 msgstr "Нам довіряють провідні виробники України"
 
@@ -1133,47 +1133,47 @@ msgstr "Нам довіряють {clients} підприємств по всій
 msgid "Try Again"
 msgstr "Спробувати ще раз"
 
-#: src/components/about/ClientDirectory.astro:259
+#: src/components/about/ClientDirectory.astro:249
 msgid "Ukraine"
 msgstr "Україна"
 
-#: src/components/homepage/HeroSection.astro:84
+#: src/components/homepage/HeroSection.astro:77
 msgid "Ukrainian Support."
 msgstr "Українська підтримка."
 
-#: src/components/about/InteractiveUkraineMap.astro:190
-#: src/components/about/InteractiveUkraineMap.astro:235
-#: src/components/about/InteractiveUkraineMap.astro:312
-#: src/components/about/ClientDirectory.astro:203
+#: src/components/about/InteractiveUkraineMap.astro:182
+#: src/components/about/InteractiveUkraineMap.astro:225
+#: src/components/about/InteractiveUkraineMap.astro:300
+#: src/components/about/ClientDirectory.astro:193
 msgid "Units"
 msgstr "од."
 
-#: src/pages/[lang]/wiki/[slug].astro:174
+#: src/pages/[lang]/wiki/[slug].astro:166
 msgid "Updated"
 msgstr "Оновлено"
 
-#: src/components/about/InteractiveUkraineMap.astro:118
+#: src/components/about/InteractiveUkraineMap.astro:116
 msgid "Verified Ukrainian Industrial Footprint"
 msgstr "Підтверджена присутність на промислових підприємствах України"
 
-#: src/components/homepage/HeroSection.astro:110
+#: src/components/homepage/HeroSection.astro:101
 msgid "View Products"
 msgstr "Переглянути обладнання"
 
-#: src/components/homepage/FeaturedEquipment.astro:242
+#: src/components/homepage/FeaturedEquipment.astro:240
 msgid "View all {category}"
 msgstr "Переглянути все: {category}"
 
-#: src/components/about/AboutHero.astro:118
+#: src/components/about/AboutHero.astro:111
 msgid "View equipment"
 msgstr "Переглянути обладнання"
 
-#: src/components/catalogue/ProductGallery.astro:185
-#: src/components/catalogue/ProductGallery.astro:314
+#: src/components/catalogue/ProductGallery.astro:178
+#: src/components/catalogue/ProductGallery.astro:293
 msgid "View image"
 msgstr "Переглянути зображення"
 
-#: src/components/about/ManufacturerCredentials.astro:68
+#: src/components/about/ManufacturerCredentials.astro:65
 msgid "Visit website"
 msgstr "Перейти на сайт"
 
@@ -1181,11 +1181,11 @@ msgstr "Перейти на сайт"
 msgid "WIPOTEC Official Distributor Authorization"
 msgstr "Офіційна авторизація дистриб'ютора WIPOTEC"
 
-#: src/components/Footer.astro:46
+#: src/components/Footer.astro:71
 msgid "Website by"
 msgstr "Сайт створив"
 
-#: src/components/Header.astro:82
+#: src/components/Header.astro:81
 msgid "Website in active development: Information and specifications may not be accurate, pages are still being completed, and all content is subject to change."
 msgstr "Сайт у процесі розробки: інформація та технічні дані можуть бути неточними, сторінки наповнюються та весь вміст може змінюватися."
 
@@ -1205,8 +1205,8 @@ msgid "Wipotec Authorization Letter"
 msgstr "Авторизаційний лист Wipotec"
 
 #: src/lib/llms.ts:104
-#: src/components/contact/OfficeLocation.astro:75
-#: src/components/contact/ContactInfoCard.astro:112
+#: src/components/contact/OfficeLocation.astro:66
+#: src/components/contact/ContactInfoCard.astro:105
 msgid "Working Hours"
 msgstr "Режим роботи"
 
@@ -1234,23 +1234,23 @@ msgstr "Ваші дані збережено на цьому пристрої д
 msgid "Your inquiry has been sent. We will contact you shortly."
 msgstr "Ваш запит надіслано. Ми зв'яжемося з вами найближчим часом."
 
-#: src/components/contact/ContactForm.astro:138
+#: src/components/contact/ContactForm.astro:134
 #: src/components/catalogue/DatasheetModal.astro:126
 msgid "e.g. Chief Engineer"
 msgstr "напр., Головний інженер"
 
-#: src/components/contact/ContactForm.astro:149
+#: src/components/contact/ContactForm.astro:145
 #: src/components/catalogue/DatasheetModal.astro:136
 msgid "e.g. Farmak PJSC"
 msgstr "напр., ПАТ «Фармак»"
 
-#: src/components/contact/ContactForm.astro:131
+#: src/components/contact/ContactForm.astro:127
 #: src/components/catalogue/DatasheetModal.astro:119
 msgid "e.g. Oleksii Kovalenko"
 msgstr "напр., Олексій Коваленко"
 
-#: src/components/wiki/WikiCard.astro:57
-#: src/pages/[lang]/wiki/[slug].astro:161
+#: src/components/wiki/WikiCard.astro:53
+#: src/pages/[lang]/wiki/[slug].astro:157
 msgid "min read"
 msgstr "хв читання"
 
