@@ -1,441 +1,550 @@
 {
-	"food": [
-		{
-			"name": {
-				"en": "Roshen",
-				"ua": "Рошен"
-			},
-			"website": "https://roshen.com",
-			"logo": "/assets/partners/roshen.webp",
-			"equipment": {
-				"md": 51,
-				"cw": 44,
-				"tqs": 0
-			},
-			"adres": ["Kyiv", "Vinnytsia"]
-		},
-		{
-			"name": {
-				"en": "Grona",
-				"ua": "Grona"
-			},
-			"website": "https://grona.ua",
-			"logo": "/assets/partners/grona.webp",
-			"equipment": {
-				"md": 8,
-				"cw": 4,
-				"tqs": 0
-			},
-			"adres": ["Kyiv"]
-		},
-		{
-			"name": {
-				"en": "Zolote Zerno",
-				"ua": "Золоте Зерно"
-			},
-			"website": "https://zolote-zerno.com.ua",
-			"logo": "/assets/partners/zolote-zerno.webp"
-		},
-		{
-			"name": {
-				"en": "Zveni Gora",
-				"ua": "Звени Гора"
-			},
-			"website": "https://zvenigora.com/",
-			"logo": "/assets/partners/zveni-gora.webp"
-		},
-		{
-			"name": {
-				"en": "Legko",
-				"ua": "Легко!"
-			},
-			"website": "https://legko.ua",
-			"logo": "/assets/partners/legko.webp",
-			"equipment": {
-				"md": 1,
-				"cw": 0,
-				"tqs": 0
-			},
-			"adres": ["Kyiv"]
-		},
-		{
-			"name": {
-				"en": "Mondelez International",
-				"ua": "Mondelez International"
-			},
-			"website": "https://www.mondelezinternational.com/ukraine/",
-			"logo": "/assets/partners/mondelez.webp",
-			"equipment": {
-				"md": 2,
-				"cw": 9,
-				"tqs": 0
-			},
-			"adres": ["Sumy"]
-		},
-		{
-			"name": {
-				"en": "Halka",
-				"ua": "Галка"
-			},
-			"website": "https://galca.com.ua/",
-			"logo": "/assets/partners/halka.webp",
-			"equipment": {
-				"md": 1,
-				"cw": 0,
-				"tqs": 0
-			},
-			"adres": ["Lviv"]
-		},
-		{
-			"name": {
-				"en": "Jacobs",
-				"ua": "Jacobs"
-			},
-			"website": "https://jacobs.ua",
-			"logo": "/assets/partners/jacobs.webp",
-			"equipment": {
-				"md": 8,
-				"cw": 4,
-				"tqs": 0
-			},
-			"adres": ["Sumy"]
-		},
-		{
-			"name": {
-				"en": "MHP",
-				"ua": "МХП"
-			},
-			"website": "https://mhp.com.ua",
-			"logo": "/assets/partners/mxp.webp"
-		},
-		{
-			"name": {
-				"en": "Euro Food Service",
-				"ua": "Євро Фуд Сервіс (EFS)"
-			},
-			"website": "https://www.eufservice.com/",
-			"logo": "/assets/partners/euro-food-service.webp",
-			"equipment": {
-				"md": 0,
-				"cw": 3,
-				"tqs": 0
-			},
-			"adres": ["Kyiv"]
-		},
-		{
-			"name": {
-				"en": "MacCoffee",
-				"ua": "MacCoffee"
-			},
-			"website": "https://maccoffee.ua",
-			"logo": "/assets/partners/maccoffee.webp",
-			"equipment": {
-				"md": 0,
-				"cw": 1,
-				"tqs": 0
-			},
-			"adres": ["Cherkasy"]
-		},
-		{
-			"name": {
-				"en": "Lantmännen",
-				"ua": "Lantmännen"
-			},
-			"website": "https://lantmannen.ua",
-			"logo": "/assets/partners/lantmannen.webp",
-			"equipment": {
-				"md": 2,
-				"cw": 1,
-				"tqs": 0
-			},
-			"adres": ["Kyiv"]
-		},
-		{
-			"name": {
-				"en": "Borysfen Trade",
-				"ua": "Борисфен Трейд"
-			},
-			"website": "https://www.borysfentrade.com.ua/",
-			"logo": "/assets/partners/borysfen.webp",
-			"equipment": {
-				"md": 3,
-				"cw": 4,
-				"tqs": 0
-			},
-			"adres": ["Cherkasy"]
-		},
-		{
-			"name": {
-				"en": "Suziria",
-				"ua": "Сузірʼя"
-			},
-			"website": "https://suziria.ua/",
-			"logo": "/assets/partners/suziria.webp"
-		},
-		{
-			"name": {
-				"en": "Kormotech",
-				"ua": "Кормотех"
-			},
-			"website": "https://kormotech.com",
-			"logo": "/assets/partners/kormotech.webp"
-		},
-		{
-			"name": {
-				"en": "Carpathian Pet Food",
-				"ua": "Харчові Технології Закарпаття"
-			},
-			"website": "http://carpathianpetfood.com/",
-			"logo": "/assets/partners/hft.webp"
-		},
-		{
-			"name": {
-				"en": "AST",
-				"ua": "АСТ"
-			},
-			"equipment": {
-				"md": 1,
-				"cw": 0,
-				"tqs": 0
-			},
-			"website": "https://ast.ua/",
-			"logo": "/assets/partners/ast.webp",
-			"adres": ["Lviv"]
-		},
-		{
-			"name": {
-				"en": "DKPK",
-				"ua": "ДКПК"
-			},
-			"equipment": {
-				"md": 2,
-				"cw": 0,
-				"tqs": 0
-			},
-			"website": "https://www.dkpk.dp.ua/",
-			"logo": "/assets/partners/dkpk.webp",
-			"adres": ["Dnipro"]
-		},
-		{
-			"name": {
-				"en": "KPD",
-				"ua": "КПД"
-			},
-			"equipment": {
-				"md": 5,
-				"cw": 8,
-				"tqs": 0
-			},
-			"website": "https://biosphere-corp.com/proizvodstvo-4/",
-			"adres": ["Dnipro"]
-		},
-		{
-			"name": {
-				"en": "Logrus",
-				"ua": "Логрус"
-			},
-			"equipment": {
-				"md": 3,
-				"cw": 5,
-				"tqs": 0
-			},
-			"website": "https://logrus.ua/",
-			"logo": "/assets/partners/logrus.webp",
-			"adres": ["Zakarpattia"]
-		},
-		{
-			"name": {
-				"en": "Nadiya",
-				"ua": "Надія"
-			},
-			"equipment": {
-				"md": 1,
-				"cw": 1,
-				"tqs": 0
-			},
-			"adres": ["Kryvyi Rih"]
-		},
-		{
-			"name": {
-				"en": "Skvyryanka",
-				"ua": "Сквирянка"
-			},
-			"equipment": {
-				"md": 5,
-				"cw": 0,
-				"tqs": 0
-			},
-			"website": "https://skviryanka.com.ua/uk/",
-			"logo": "/assets/partners/skviranka.webp",
-			"adres": ["Kyiv"]
-		}
-	],
-	"household": [
-		{
-			"name": {
-				"en": "CEMARK",
-				"ua": "CEMARK"
-			},
-			"website": "https://www.cemark.ua/",
-			"logo": "/assets/partners/cemark.webp"
-		},
-		{
-			"name": {
-				"en": "Rozetka",
-				"ua": "Розетка"
-			},
-			"website": "https://rozetka.com.ua",
-			"logo": "/assets/partners/rozetka.webp",
-			"equipment": {
-				"md": 0,
-				"cw": 4,
-				"tqs": 0
-			},
-			"adres": ["Kyiv"]
-		},
-		{
-			"name": {
-				"en": "Biosphere Corporation",
-				"ua": "Biosphere Corporation"
-			},
-			"website": "https://biosphere-corp.com/",
-			"logo": "/assets/partners/biosphere.webp"
-		},
-		{
-			"name": {
-				"en": "Eva",
-				"ua": "Eva"
-			},
-			"website": "https://eva.ua",
-			"logo": "/assets/partners/eva.webp",
-			"equipment": {
-				"md": 0,
-				"cw": 8,
-				"tqs": 0
-			},
-			"adres": ["Kyiv", "Odesa", "Lviv"]
-		},
-		{
-			"name": {
-				"en": "P&G",
-				"ua": "P&G"
-			},
-			"website": "https://pg.com.ua",
-			"logo": "/assets/partners/P&G.webp",
-			"equipment": {
-				"md": 0,
-				"cw": 20,
-				"tqs": 0
-			},
-			"adres": ["Kyiv"]
-		},
-		{
-			"name": {
-				"en": "Verallia",
-				"ua": "Verallia"
-			},
-			"website": "https://ua.verallia.com",
-			"logo": "/assets/partners/verallia.webp",
-			"equipment": {
-				"md": 4,
-				"cw": 0,
-				"tqs": 0
-			},
-			"adres": ["Rivne"]
-		}
-	],
-	"pharma": [
-		{
-			"name": {
-				"en": "BaDM",
-				"ua": "БаДМ"
-			},
-			"website": "https://www.badm.ua",
-			"logo": "/assets/partners/badm.webp",
-			"equipment": {
-				"md": 0,
-				"cw": 1,
-				"tqs": 0
-			},
-			"adres": ["Kyiv"]
-		},
-		{
-			"name": {
-				"en": "Yuria-Pharm",
-				"ua": "Юрія-Фарм"
-			},
-			"website": "https://www.uf.ua",
-			"logo": "/assets/partners/yuria-pharm.webp",
-			"equipment": {
-				"md": 0,
-				"cw": 1,
-				"tqs": 3
-			},
-			"adres": ["Cherkasy"]
-		},
-		{
-			"name": {
-				"en": "Farmak",
-				"ua": "Фармак"
-			},
-			"website": "https://farmak.ua",
-			"logo": "/assets/partners/farmak.webp",
-			"equipment": {
-				"md": 0,
-				"cw": 6,
-				"tqs": 1
-			},
-			"adres": ["Kyiv"]
-		},
-		{
-			"name": {
-				"en": "DARNYTSIA",
-				"ua": "Дарниця"
-			},
-			"website": "https://darnitsa.ua",
-			"logo": "/assets/partners/DARNYTSIA.webp",
-			"equipment": {
-				"md": 0,
-				"cw": 5,
-				"tqs": 1
-			},
-			"adres": ["Kyiv"]
-		},
-		{
-			"name": {
-				"en": "Arterium",
-				"ua": "Артеріум"
-			},
-			"website": "https://arterium.ua",
-			"logo": "/assets/partners/arterium.webp"
-		},
-		{
-			"name": {
-				"en": "Acino",
-				"ua": "Acino"
-			},
-			"website": "https://acino.ua",
-			"logo": "/assets/partners/acino.webp",
-			"equipment": {
-				"md": 0,
-				"cw": 0,
-				"tqs": 4
-			},
-			"adres": ["Kyiv"]
-		},
-		{
-			"name": {
-				"en": "Optima Pharm",
-				"ua": "Оптіма Фарм"
-			},
-			"website": "https://optimapharm.ua",
-			"logo": "/assets/partners/optimapharm.webp",
-			"equipment": {
-				"md": 0,
-				"cw": 43,
-				"tqs": 0
-			},
-			"adres": ["Kyiv", "Zhytomyr", "Lviv", "Odesa"]
-		}
-	]
+  "food": [
+    {
+      "name": {
+        "en": "Roshen",
+        "ua": "Рошен"
+      },
+      "website": "https://roshen.com",
+      "logo": "/assets/partners/roshen.webp",
+      "equipment": {
+        "md": 51,
+        "cw": 44,
+        "tqs": 0
+      },
+      "adres": [
+        "Kyiv",
+        "Vinnytsia"
+      ]
+    },
+    {
+      "name": {
+        "en": "Grona",
+        "ua": "Grona"
+      },
+      "website": "https://grona.ua",
+      "logo": "/assets/partners/grona.webp",
+      "equipment": {
+        "md": 8,
+        "cw": 4,
+        "tqs": 0
+      },
+      "adres": [
+        "Kyiv"
+      ]
+    },
+    {
+      "name": {
+        "en": "Zolote Zerno",
+        "ua": "Золоте Зерно"
+      },
+      "website": "https://zolote-zerno.com.ua",
+      "logo": "/assets/partners/zolote-zerno.webp",
+      "equipment": {
+        "md": 1,
+        "cw": 0,
+        "tqs": 0
+      }
+    },
+    {
+      "name": {
+        "en": "Zveni Gora",
+        "ua": "Звени Гора"
+      },
+      "website": "https://zvenigora.com/",
+      "logo": "/assets/partners/zveni-gora.webp",
+      "equipment": {
+        "md": 1,
+        "cw": 0,
+        "tqs": 0
+      }
+    },
+    {
+      "name": {
+        "en": "Legko",
+        "ua": "Легко!"
+      },
+      "website": "https://legko.ua",
+      "logo": "/assets/partners/legko.webp",
+      "equipment": {
+        "md": 1,
+        "cw": 0,
+        "tqs": 0
+      },
+      "adres": [
+        "Kyiv"
+      ]
+    },
+    {
+      "name": {
+        "en": "Mondelez International",
+        "ua": "Mondelez International"
+      },
+      "website": "https://www.mondelezinternational.com/ukraine/",
+      "logo": "/assets/partners/mondelez.webp",
+      "equipment": {
+        "md": 2,
+        "cw": 9,
+        "tqs": 0
+      },
+      "adres": [
+        "Sumy"
+      ]
+    },
+    {
+      "name": {
+        "en": "Halka",
+        "ua": "Галка"
+      },
+      "website": "https://galca.com.ua/",
+      "logo": "/assets/partners/halka.webp",
+      "equipment": {
+        "md": 1,
+        "cw": 0,
+        "tqs": 0
+      },
+      "adres": [
+        "Lviv"
+      ]
+    },
+    {
+      "name": {
+        "en": "Jacobs",
+        "ua": "Jacobs"
+      },
+      "website": "https://jacobs.ua",
+      "logo": "/assets/partners/jacobs.webp",
+      "equipment": {
+        "md": 8,
+        "cw": 4,
+        "tqs": 0
+      },
+      "adres": [
+        "Sumy"
+      ]
+    },
+    {
+      "name": {
+        "en": "MHP",
+        "ua": "МХП"
+      },
+      "website": "https://mhp.com.ua",
+      "logo": "/assets/partners/mxp.webp",
+      "equipment": {
+        "md": 1,
+        "cw": 0,
+        "tqs": 0
+      }
+    },
+    {
+      "name": {
+        "en": "Euro Food Service",
+        "ua": "Євро Фуд Сервіс (EFS)"
+      },
+      "website": "https://www.eufservice.com/",
+      "logo": "/assets/partners/euro-food-service.webp",
+      "equipment": {
+        "md": 0,
+        "cw": 3,
+        "tqs": 0
+      },
+      "adres": [
+        "Kyiv"
+      ]
+    },
+    {
+      "name": {
+        "en": "MacCoffee",
+        "ua": "MacCoffee"
+      },
+      "website": "https://maccoffee.ua",
+      "logo": "/assets/partners/maccoffee.webp",
+      "equipment": {
+        "md": 0,
+        "cw": 1,
+        "tqs": 0
+      },
+      "adres": [
+        "Cherkasy"
+      ]
+    },
+    {
+      "name": {
+        "en": "Lantmännen",
+        "ua": "Lantmännen"
+      },
+      "website": "https://lantmannen.ua",
+      "logo": "/assets/partners/lantmannen.webp",
+      "equipment": {
+        "md": 2,
+        "cw": 1,
+        "tqs": 0
+      },
+      "adres": [
+        "Kyiv"
+      ]
+    },
+    {
+      "name": {
+        "en": "Borysfen Trade",
+        "ua": "Борисфен Трейд"
+      },
+      "website": "https://www.borysfentrade.com.ua/",
+      "logo": "/assets/partners/borysfen.webp",
+      "equipment": {
+        "md": 3,
+        "cw": 4,
+        "tqs": 0
+      },
+      "adres": [
+        "Cherkasy"
+      ]
+    },
+    {
+      "name": {
+        "en": "Suziria",
+        "ua": "Сузірʼя"
+      },
+      "website": "https://suziria.ua/",
+      "logo": "/assets/partners/suziria.webp",
+      "equipment": {
+        "cw": 2,
+        "md": 0,
+        "tqs": 0
+      }
+    },
+    {
+      "name": {
+        "en": "Kormotech",
+        "ua": "Кормотех"
+      },
+      "website": "https://kormotech.com",
+      "logo": "/assets/partners/kormotech.webp",
+      "equipment": {
+        "md": 1,
+        "cw": 0,
+        "tqs": 0
+      }
+    },
+    {
+      "name": {
+        "en": "Carpathian Pet Food",
+        "ua": "Харчові Технології Закарпаття"
+      },
+      "website": "http://carpathianpetfood.com/",
+      "logo": "/assets/partners/hft.webp",
+      "equipment": {
+        "md": 4,
+        "cw": 4,
+        "tqs": 0
+      }
+    },
+    {
+      "name": {
+        "en": "AST",
+        "ua": "АСТ"
+      },
+      "equipment": {
+        "md": 1,
+        "cw": 0,
+        "tqs": 0
+      },
+      "website": "https://ast.ua/",
+      "logo": "/assets/partners/ast.webp",
+      "adres": [
+        "Lviv"
+      ]
+    },
+    {
+      "name": {
+        "en": "DKPK",
+        "ua": "ДКПК"
+      },
+      "equipment": {
+        "md": 2,
+        "cw": 0,
+        "tqs": 0
+      },
+      "website": "https://www.dkpk.dp.ua/",
+      "logo": "/assets/partners/dkpk.webp",
+      "adres": [
+        "Dnipro"
+      ]
+    },
+    {
+      "name": {
+        "en": "KPD",
+        "ua": "КПД"
+      },
+      "equipment": {
+        "md": 5,
+        "cw": 8,
+        "tqs": 0
+      },
+      "website": "https://biosphere-corp.com/proizvodstvo-4/",
+      "adres": [
+        "Dnipro"
+      ]
+    },
+    {
+      "name": {
+        "en": "Logrus",
+        "ua": "Логрус"
+      },
+      "equipment": {
+        "md": 3,
+        "cw": 5,
+        "tqs": 0
+      },
+      "website": "https://logrus.ua/",
+      "logo": "/assets/partners/logrus.webp",
+      "adres": [
+        "Zakarpattia"
+      ]
+    },
+    {
+      "name": {
+        "en": "Nadiya",
+        "ua": "Надія"
+      },
+      "equipment": {
+        "md": 1,
+        "cw": 1,
+        "tqs": 0
+      },
+      "adres": [
+        "Kryvyi Rih"
+      ]
+    },
+    {
+      "name": {
+        "en": "Skvyryanka",
+        "ua": "Сквирянка"
+      },
+      "equipment": {
+        "md": 5,
+        "cw": 0,
+        "tqs": 0
+      },
+      "website": "https://skviryanka.com.ua/uk/",
+      "logo": "/assets/partners/skviranka.webp",
+      "adres": [
+        "Kyiv"
+      ]
+    }
+  ],
+  "household": [
+    {
+      "name": {
+        "en": "CEMARK",
+        "ua": "CEMARK"
+      },
+      "website": "https://www.cemark.ua/",
+      "logo": "/assets/partners/cemark.webp",
+      "equipment": {
+        "cw": 1,
+        "md": 0,
+        "tqs": 0
+      },
+      "adres": [
+        "Lviv"
+      ]
+    },
+    {
+      "name": {
+        "en": "Rozetka",
+        "ua": "Розетка"
+      },
+      "website": "https://rozetka.com.ua",
+      "logo": "/assets/partners/rozetka.webp",
+      "equipment": {
+        "md": 0,
+        "cw": 4,
+        "tqs": 0
+      },
+      "adres": [
+        "Kyiv"
+      ]
+    },
+    {
+      "name": {
+        "en": "Biosphere Corporation",
+        "ua": "Biosphere Corporation"
+      },
+      "website": "https://biosphere-corp.com/",
+      "logo": "/assets/partners/biosphere.webp",
+      "equipment": {
+        "tqs": 0,
+        "md": 4,
+        "cw": 8
+      }
+    },
+    {
+      "name": {
+        "en": "Eva",
+        "ua": "Eva"
+      },
+      "website": "https://eva.ua",
+      "logo": "/assets/partners/eva.webp",
+      "equipment": {
+        "md": 0,
+        "cw": 8,
+        "tqs": 0
+      },
+      "adres": [
+        "Kyiv",
+        "Odesa",
+        "Lviv"
+      ]
+    },
+    {
+      "name": {
+        "en": "P&G",
+        "ua": "P&G"
+      },
+      "website": "https://pg.com.ua",
+      "logo": "/assets/partners/P&G.webp",
+      "equipment": {
+        "md": 0,
+        "cw": 20,
+        "tqs": 0
+      },
+      "adres": [
+        "Kyiv"
+      ]
+    },
+    {
+      "name": {
+        "en": "Verallia",
+        "ua": "Verallia"
+      },
+      "website": "https://ua.verallia.com",
+      "logo": "/assets/partners/verallia.webp",
+      "equipment": {
+        "md": 4,
+        "cw": 0,
+        "tqs": 0
+      },
+      "adres": [
+        "Rivne"
+      ]
+    }
+  ],
+  "pharma": [
+    {
+      "name": {
+        "en": "BaDM",
+        "ua": "БаДМ"
+      },
+      "website": "https://www.badm.ua",
+      "logo": "/assets/partners/badm.webp",
+      "equipment": {
+        "md": 0,
+        "cw": 3,
+        "tqs": 0
+      },
+      "adres": [
+        "Kyiv"
+      ]
+    },
+    {
+      "name": {
+        "en": "Yuria-Pharm",
+        "ua": "Юрія-Фарм"
+      },
+      "website": "https://www.uf.ua",
+      "logo": "/assets/partners/yuria-pharm.webp",
+      "equipment": {
+        "md": 0,
+        "cw": 1,
+        "tqs": 3
+      },
+      "adres": [
+        "Cherkasy"
+      ]
+    },
+    {
+      "name": {
+        "en": "Farmak",
+        "ua": "Фармак"
+      },
+      "website": "https://farmak.ua",
+      "logo": "/assets/partners/farmak.webp",
+      "equipment": {
+        "md": 0,
+        "cw": 6,
+        "tqs": 1
+      },
+      "adres": [
+        "Kyiv"
+      ]
+    },
+    {
+      "name": {
+        "en": "DARNYTSIA",
+        "ua": "Дарниця"
+      },
+      "website": "https://darnitsa.ua",
+      "logo": "/assets/partners/DARNYTSIA.webp",
+      "equipment": {
+        "md": 0,
+        "cw": 6,
+        "tqs": 1
+      },
+      "adres": [
+        "Kyiv"
+      ]
+    },
+    {
+      "name": {
+        "en": "Arterium",
+        "ua": "Артеріум"
+      },
+      "website": "https://arterium.ua",
+      "logo": "/assets/partners/arterium.webp",
+      "equipment": {
+        "cw": 2,
+        "md": 0,
+        "tqs": 0
+      },
+      "adres": [
+        "Kyiv"
+      ]
+    },
+    {
+      "name": {
+        "en": "Acino",
+        "ua": "Acino"
+      },
+      "website": "https://acino.ua",
+      "logo": "/assets/partners/acino.webp",
+      "equipment": {
+        "md": 0,
+        "cw": 0,
+        "tqs": 8
+      },
+      "adres": [
+        "Kyiv"
+      ]
+    },
+    {
+      "name": {
+        "en": "Optima Pharm",
+        "ua": "Оптіма Фарм"
+      },
+      "website": "https://optimapharm.ua",
+      "logo": "/assets/partners/optimapharm.webp",
+      "equipment": {
+        "md": 0,
+        "cw": 43,
+        "tqs": 0
+      },
+      "adres": [
+        "Kyiv",
+        "Zhytomyr",
+        "Lviv",
+        "Odesa"
+      ]
+    }
+  ]
 }
