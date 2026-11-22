@@ -1,6 +1,6 @@
 ---
 file_name: tqs-hc-a-te
-order: 1
+order: 3
 manufacturer: Wipotec
 gallery:
   - /assets/equipment/image_17375dc5.webp
