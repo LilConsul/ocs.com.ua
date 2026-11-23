@@ -101,7 +101,7 @@ ______________________________________________________________________
 - run i18n extract/compile, Biome with fix and Prettier on frontend changes;
 - format content Markdown with remark;
 - re-encode oversized or mislabeled images in `public/` and `src/assets/`;
-- run Ruff on `application/backend/` if it exists.
+- run Ruff (lint and format) on the Python in `application/infra/`.
 
 On push they also run `biome ci`.
 

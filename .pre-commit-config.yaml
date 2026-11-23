@@ -47,17 +47,17 @@ repos:
           - mdformat-tables  # Better table formatting
         exclude: *exclude-content-md
 
-  # Ruff for Python backend code
+  # Ruff for the Python infra tooling (config in application/infra/pyproject.toml)
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.9.1
+    rev: v0.17.6
     hooks:
       - id: ruff
-        name: "[BE] Ruff Check"
+        name: "[INFRA] Ruff Check"
         args: [--fix]
-        files: ^application/backend/
+        files: ^application/infra/.*\.py$
       - id: ruff-format
-        name: "[BE] Ruff Format"
-        files: ^application/backend/
+        name: "[INFRA] Ruff Format"
+        files: ^application/infra/.*\.py$
 
   # Local hooks for frontend (Biome, Prettier)
   - repo: local

@@ -1,4 +1,5 @@
 """Tests for render-env.py — mirrors the cases from the old JS test."""
+
 import importlib.util
 import pathlib
 

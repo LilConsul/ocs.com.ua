@@ -56,9 +56,7 @@ def table(site: str, repo_url: str, releases: list[dict]) -> str:
         link = f"[`{short}`]({repo_url}/commit/{commit})" if is_commit else ""
         message = cell(r.get("message", ""))
         live = "**live**" if r["live"] else ""
-        rows.append(
-            f"| `{r['name']}` | {live} | {link} {message} | {r.get('deployed', '')} |"
-        )
+        rows.append(f"| `{r['name']}` | {live} | {link} {message} | {r.get('deployed', '')} |")
     rows += [
         "",
         "Roll back with **Actions → Rollback**, giving a release name (empty = the one before the live one).",
@@ -74,9 +72,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("site")
     parser.add_argument("--repo-url", required=True)
     args = parser.parse_args(argv)
-    sys.stdout.write(
-        table(args.site, args.repo_url.rstrip("/"), parse(sys.stdin.readlines()))
-    )
+    sys.stdout.write(table(args.site, args.repo_url.rstrip("/"), parse(sys.stdin.readlines())))
     return 0
 
 

@@ -2,7 +2,12 @@
 
 ## Reporting a vulnerability
 
-Do not open a public issue for a security problem. Email **info@ocs.com.ua** with the subject `Security: ocs.com.ua` and include:
+Do not open a public issue for a security problem. Use either of:
+
+- [Report a vulnerability privately](https://github.com/LilConsul/ocs.com.ua/security/advisories/new) on GitHub.
+- Email **info@ocs.com.ua** with the subject `Security: ocs.com.ua`.
+
+Include:
 
 - what you found and where (URL, route or file);
 - steps to reproduce, and the impact you expect;

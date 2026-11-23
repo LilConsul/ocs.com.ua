@@ -92,7 +92,7 @@ def test_applies_overrides_when_key_commented_in_example():
 
 
 def test_applies_overrides_when_key_custom():
-    new, added, custom, overridden = sync_env(
+    new, _added, custom, overridden = sync_env(
         EXAMPLE, "FOO=local_foo\nBAZ=local_baz\n", {"CUSTOM_VAR": "custom_val"}
     )
     assert "CUSTOM_VAR=custom_val" in new

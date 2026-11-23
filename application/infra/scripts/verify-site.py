@@ -64,7 +64,7 @@ class Response:
 
 
 class _NoRedirect(urllib.request.HTTPRedirectHandler):
-    def redirect_request(self, *args, **kwargs):  # noqa: ANN002, ANN003
+    def redirect_request(self, *args, **kwargs):
         return None
 
 
@@ -77,9 +77,7 @@ def fetch(url: str, timeout: float = 20) -> Response:
     try:
         with _opener.open(request, timeout=timeout) as r:
             body = r.read().decode("utf-8", "replace")
-            return Response(
-                r.status, {k.lower(): v for k, v in r.headers.items()}, body
-            )
+            return Response(r.status, {k.lower(): v for k, v in r.headers.items()}, body)
     except urllib.error.HTTPError as e:
         body = e.read().decode("utf-8", "replace") if e.fp else ""
         return Response(e.code, {k.lower(): v for k, v in e.headers.items()}, body)
@@ -141,9 +139,7 @@ def indexing_problems(
 # --- Checks against the live site ---
 
 
-def check_health(
-    site: str, report: Report, attempts: int = 10, wait: float = 3
-) -> None:
+def check_health(site: str, report: Report, attempts: int = 10, wait: float = 3) -> None:
     for path in HEALTH_PATHS:
         status = 0
         for attempt in range(attempts):
@@ -163,9 +159,7 @@ def check_headers(site: str, report: Report) -> None:
     expect("/llms.txt", "content-type", "text/plain")
     expect("/ua/about.md", "content-type", "text/markdown")
     asset = find_asset(fetch(site + "/ua/").body)
-    if report.check(
-        asset is not None, "hashed stylesheet linked from /ua/", asset or ""
-    ):
+    if report.check(asset is not None, "hashed stylesheet linked from /ua/", asset or ""):
         expect(asset, "cache-control", "immutable")
     expect("/ua/", "strict-transport-security", "max-age=")
     expect("/ua/", "x-content-type-options", "nosniff")
@@ -182,17 +176,13 @@ def check_redirects(site: str, environment: str, report: Report) -> None:
         variants += [f"http://www.{host}", f"https://www.{host}"]
     for origin in variants:
         problem = redirect_problem(fetch(origin + "/ua/about/"), site + "/ua/about/")
-        report.check(
-            problem is None, f"{origin}/ua/about/ -> {site}/ua/about/", problem or ""
-        )
+        report.check(problem is None, f"{origin}/ua/about/ -> {site}/ua/about/", problem or "")
 
 
 def check_indexing(site: str, indexing: bool, report: Report) -> None:
     robots = fetch(site + "/robots.txt").body
     page = fetch(site + "/ua/")
-    problems = indexing_problems(
-        robots, page.body, page.header("x-robots-tag"), indexing, site
-    )
+    problems = indexing_problems(robots, page.body, page.header("x-robots-tag"), indexing, site)
     report.check(
         not problems,
         f"indexing {'open' if indexing else 'closed'}",

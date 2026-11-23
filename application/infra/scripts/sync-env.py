@@ -38,6 +38,7 @@ def _git(*args: str) -> str:
         cwd=REPO_ROOT,
         capture_output=True,
         text=True,
+        check=False,
     )
     return result.stdout.strip()
 

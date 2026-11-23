@@ -2,7 +2,7 @@
 
 import importlib.util
 import pathlib
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 _script = pathlib.Path(__file__).parents[1] / "scripts" / "indexnow.py"
 _spec = importlib.util.spec_from_file_location("indexnow", _script)
@@ -40,7 +40,7 @@ def test_without_since_submits_every_page():
 
 
 def test_since_keeps_changed_pages_and_pages_without_lastmod():
-    since = datetime(2026, 11, 1, tzinfo=timezone.utc)
+    since = datetime(2026, 11, 1, tzinfo=UTC)
     urls = _mod.changed_urls(_mod.sitemap_entries(SITEMAP), since)
     assert urls == ["https://ocs.com.ua/ua/", "https://ocs.com.ua/ua/contact/"]
 

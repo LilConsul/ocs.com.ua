@@ -1,5 +1,5 @@
 blank_issues_enabled: false
 contact_links:
   - name: Security vulnerability
-    url: https://github.com/LilConsul/ocs.com.ua/blob/main/SECURITY.md
-    about: Do not open a public issue. Follow the steps in SECURITY.md.
+    url: https://github.com/LilConsul/ocs.com.ua/security/advisories/new
+    about: Do not open a public issue. Report it privately, see SECURITY.md.
