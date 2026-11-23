@@ -55,6 +55,20 @@ def test_inline_raises_footnote_marks_inside_text():
     assert inline("6 bar [5:3:3]") == "6 bar [5:3:3]"
 
 
+def test_inline_leaves_closing_parenthesis_alone():
+    assert inline("(опційно ще 3)") == "(опційно ще 3)"
+    assert inline("**Вага** 2) (до 5)") == "<strong>Вага</strong><sup>2)</sup> (до 5)"
+
+
+def test_hero_without_image_has_no_img(doc, company, branding, fixture_paths):
+    doc["pages"][0]["blocks"][2]["image"] = ""
+    html = render_html(
+        doc, work_dir=fixture_paths.work_dir, company=company, branding=branding, today=TODAY
+    )
+    assert 'class="hero-image"' in html
+    assert "photo-1-1.jpg" not in html and html.count("<img") == 1  # the drawing only
+
+
 def test_bold_heading_markup_rendered(html):
     assert "<strong>Базові</strong> дані" in html
 

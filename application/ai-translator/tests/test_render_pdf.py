@@ -1,11 +1,14 @@
+import hashlib
 import json
 from datetime import date
 
 import pymupdf
+import pytest
 from playwright.sync_api import sync_playwright
 
+from translator.cli import main
 from translator.model import load_doc, save_doc
-from translator.render.pdf import run_render
+from translator.render.pdf import RenderError, run_render
 
 TODAY = date(2026, 11, 23)
 
@@ -70,3 +73,39 @@ def test_grid_cells_keep_model_codes_on_one_line(fixture_paths):
         )
         browser.close()
     assert lines and max(lines) == 1
+
+
+def test_report_records_ua_yaml_hash(fixture_paths):
+    report = run_render(fixture_paths, today=TODAY)
+    assert report["ua_sha256"] == hashlib.sha256(fixture_paths.ua_yaml.read_bytes()).hexdigest()
+
+
+def test_page_content_overflow_names_the_block_that_spills(fixture_paths):
+    doc = load_doc(fixture_paths.ua_yaml)
+    doc["pages"][1]["blocks"][2]["items"] = ["1) Дуже довга примітка. " * 2000]
+    save_doc(doc, fixture_paths.ua_yaml)
+    report = run_render(fixture_paths, today=TODAY)
+    paths = [o["path"] for o in report["overflow"] if o["page"] == 2]
+    assert paths and all(p.startswith("block[5]") for p in paths)
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "",
+        "- a\n- list\n",
+        "pages: [unclosed\n",
+        "product: {}\npages: [{blocks: [{type: banner}]}]\n",
+    ],
+)
+def test_render_rejects_malformed_ua(fixture_paths, text):
+    fixture_paths.ua_yaml.write_text(text, encoding="utf-8")
+    with pytest.raises(RenderError, match="ua.yaml"):
+        run_render(fixture_paths, today=TODAY)
+    assert not fixture_paths.output_pdf.exists()
+
+
+def test_cli_render_malformed_ua_prints_error(fixture_paths, capsys):
+    fixture_paths.ua_yaml.write_text("", encoding="utf-8")
+    assert main(["render", "sample", "--root", str(fixture_paths.root)]) == 1
+    assert capsys.readouterr().err.startswith("error: ")

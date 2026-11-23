@@ -1,15 +1,17 @@
 """Print the rendered datasheet HTML to PDF, write page previews and an overflow report."""
 
+import hashlib
 import json
 from datetime import date
 from pathlib import Path
 
 import pymupdf
 import yaml
+from jinja2 import TemplateError
 from playwright.sync_api import Error as PlaywrightError
 from playwright.sync_api import sync_playwright
 
-from translator.model import load_doc
+from translator.model import validate
 from translator.paths import FRONTEND, ROOT, DatasheetPaths
 from translator.render.html import render_html
 
@@ -24,7 +26,16 @@ _OVERFLOW_JS = """
     const dy = el.scrollHeight - el.clientHeight;
     if (dx <= tolerance && dy <= tolerance) continue;
     const holder = el.closest("section.page");
-    const own = el.hasAttribute("data-path") ? el : el.querySelector("[data-path]");
+    let own = el.hasAttribute("data-path") ? el : null;
+    if (!own) {
+      // The first text that reaches past the box's bottom or right edge is where it spills.
+      const box = el.getBoundingClientRect();
+      const inner = Array.from(el.querySelectorAll("[data-path]"));
+      own = inner.find((t) => {
+        const r = t.getBoundingClientRect();
+        return r.bottom > box.bottom + tolerance || r.right > box.right + tolerance;
+      }) || inner[0] || null;
+    }
     out.push({
       page: holder ? pages.indexOf(holder) + 1 : 0,
       path: own ? own.getAttribute("data-path") : null,
@@ -85,16 +96,32 @@ def write_previews(pdf: Path, out_dir: Path, dpi: int = 110) -> list[Path]:
 def run_render(paths: DatasheetPaths, today: date | None = None) -> dict:
     """Render ua.yaml to HTML, PDF, previews and the report; return the report."""
     today = today or date.today()
-    doc = load_doc(paths.ua_yaml)
+    raw = paths.ua_yaml.read_bytes()
+    try:
+        doc = yaml.safe_load(raw.decode("utf-8"))
+    except (UnicodeDecodeError, yaml.YAMLError) as err:
+        raise RenderError(
+            f"{paths.ua_yaml}: ua.yaml is not valid YAML: {' '.join(str(err).split())}"
+        ) from err
+    problems = validate(doc)
+    if problems:
+        raise RenderError(f"{paths.ua_yaml}: invalid ua.yaml: {'; '.join(problems)}")
     company = json.loads((FRONTEND / "src" / "data" / "company.json").read_text(encoding="utf-8"))
     branding = yaml.safe_load((ROOT / "branding.yaml").read_text(encoding="utf-8"))
-    html = render_html(
-        doc, work_dir=paths.work_dir, company=company, branding=branding, today=today
-    )
+    try:
+        html = render_html(
+            doc, work_dir=paths.work_dir, company=company, branding=branding, today=today
+        )
+    except (TemplateError, TypeError, KeyError, AttributeError) as err:
+        raise RenderError(f"{paths.ua_yaml}: cannot render ua.yaml: {err!r}") from err
     paths.html.write_text(html, encoding="utf-8")
     overflow = print_pdf(paths.html, paths.output_pdf)
     previews = write_previews(paths.output_pdf, paths.preview_dir)
-    report = {"pages": len(previews), "overflow": overflow}
+    report = {
+        "pages": len(previews),
+        "overflow": overflow,
+        "ua_sha256": hashlib.sha256(raw).hexdigest(),
+    }
     paths.render_report.write_text(
         json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )

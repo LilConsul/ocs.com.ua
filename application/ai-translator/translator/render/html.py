@@ -10,22 +10,38 @@ from jinja2 import Environment, FileSystemLoader
 from markupsafe import Markup, escape
 
 from translator.paths import FRONTEND, ROOT
+from translator.text import footnote_mark_spans
 
 TEMPLATES = ROOT / "templates"
 FONTS = ROOT / "fonts"
 LOGO = FRONTEND / "public" / "assets" / "icons" / "logo-ua.svg"
 
 _BOLD = re.compile(r"\*\*(.+?)\*\*")
-# A footnote mark after a word or number, as in "400 mm 1)" or "400 2) mm"; a mark at the
-# start of the text ("1) Water from above") is the footnote's own number and stays as it is.
-_FOOTNOTE_MARK = re.compile(r"(?<=\S) (\d)\)(?=[\s,;]|$)")
+_SUP_OPEN, _SUP_CLOSE = "\x01", "\x02"  # placeholders that survive HTML escaping
 _XML_DECL = re.compile(r"^\s*<\?xml[^>]*\?>\s*")
+
+
+def _raise_marks(text: str) -> str:
+    """Wrap the footnote marks inside text in placeholders, dropping the space before each.
+
+    Marks are found by the rule lint uses (text.footnote_mark_spans); a mark at the start of
+    the text ("1) Water from above") is the footnote's own number and stays as it is.
+    """
+    out, last = [], 0
+    for a, b in footnote_mark_spans(text):
+        if not text[:a].strip():
+            out.append(text[last:b])
+        else:
+            out.append(text[last:a].rstrip() + _SUP_OPEN + text[a:b] + _SUP_CLOSE)
+        last = b
+    out.append(text[last:])
+    return "".join(out)
 
 
 def inline(text: str) -> Markup:
     """HTML-escape text, turn `**x**` into `<strong>x</strong>` and footnote marks into `<sup>`."""
-    html = _BOLD.sub(r"<strong>\1</strong>", str(escape(text)))
-    return Markup(_FOOTNOTE_MARK.sub(r"<sup>\1)</sup>", html))
+    html = _BOLD.sub(r"<strong>\1</strong>", str(escape(_raise_marks(text))))
+    return Markup(html.replace(_SUP_OPEN, "<sup>").replace(_SUP_CLOSE, "</sup>"))
 
 
 def qr_svg(url: str) -> str:

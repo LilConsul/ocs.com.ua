@@ -1,6 +1,8 @@
 <div class="block block-hero" data-block="hero">
   <div class="hero-image">
+    {% if block.image %}
     <img src="{{ block.image | asset }}" alt="{{ product.model }}">
+    {% endif %}
   </div>
   <div class="hero-aside fit">
     {% for box in block.aside %}
