@@ -1,0 +1,92 @@
+source: files/en/sample.pdf
+lang: ua
+product:
+  model: HC-A
+  variant: BASIS
+  category: Контрольні ваги
+  url: https://ocs.com.ua/ua/catalogue
+pages:
+- title:
+  - Для найвищих стандартів
+  - динамічного зважування
+  blocks:
+  - type: lead
+    text: Контрольні ваги серії **HC-A** забезпечують точність і продуктивність до 600 виробів за хвилину.
+  - type: columns
+    paragraphs:
+    - Модель розширює можливості застосування лінійки продуктів.
+    - Модульна конструкція спрощує впровадження індивідуальних рішень.
+    - Ваги допомагають зменшити дороге переповнення упаковок.
+  - type: hero
+    image: images/photo-1-1.jpg
+    aside:
+    - style: light
+      title: Основні **характеристики**
+      items:
+      - Міцна рама з нержавіючої сталі
+      - Ваговимірювальна комірка WIPOTEC EMFR
+    - style: dark
+      title: Ваші **переваги**
+      items:
+      - Продуктивність до 600 шт/хв
+- title:
+  - Технічні
+  - дані
+  blocks:
+  - type: table
+    title: '**Базові** дані'
+    rows:
+    - label: Маса машини
+      value: 250 кг
+    - label: Клас захисту
+      value: IP54
+      note: 1
+  - type: grid
+    title: '**Параметри** зважування'
+    header:
+    - ''
+    - Ваговимірювальна комірка
+    - Межа зважування
+    rows:
+    - - HC-A-2000-2
+      - EC-2000-2
+      - 750 г
+    - - HC-A-3000-1
+      - EC-3000-1
+      - 7500 г
+  - type: footnotes
+    items:
+    - 1) Вода зверху
+- title:
+  - Габарити
+  - машини
+  blocks:
+  - type: note
+    text: '**Розміри** конвеєра'
+  - type: matrix
+    title: Розміри вагового конвеєра
+    corner: ширина довжина
+    header:
+    - 120 мм
+    - 150 мм
+    rows:
+    - label: 200 мм
+      cells:
+      - x
+      - '-'
+    - label: 300 мм
+      cells:
+      - x
+      - x
+  - type: drawing
+    image: images/drawing-3.svg
+    clip:
+    - 0.0
+    - 0.0
+    - 400.0
+    - 250.0
+    page: 3
+    labels:
+    - text: напрямок руху
+      x: 5.0
+      y: 10.0

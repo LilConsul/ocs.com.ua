@@ -1,0 +1,10 @@
+{% set w = block.clip[2] - block.clip[0] %}
+{% set h = block.clip[3] - block.clip[1] %}
+<div class="block block-drawing" data-block="drawing">
+  <div class="drawing" style="aspect-ratio: {{ w }} / {{ h }}; width: min(100cqw, 100cqh * {{ w }} / {{ h }})">
+    <img src="{{ block.image | asset }}" alt="">
+    {% for label in block.labels %}
+    <span class="drawing-label" style="left: {{ label.x }}%; top: {{ label.y }}%" data-path="{{ p }}.labels[{{ loop.index0 }}].text">{{ label.text | inline }}</span>
+    {% endfor %}
+  </div>
+</div>

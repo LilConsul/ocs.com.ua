@@ -1,0 +1,7 @@
+<div class="block block-columns" data-block="columns">
+  <p class="columns">
+    {% for text in block.paragraphs %}
+    <span data-path="{{ p }}.paragraphs[{{ loop.index0 }}]">{{ text | inline }}</span>
+    {% endfor %}
+  </p>
+</div>

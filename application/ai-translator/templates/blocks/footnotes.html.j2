@@ -1,0 +1,7 @@
+<div class="block block-footnotes" data-block="footnotes">
+  <ol class="footnotes">
+    {% for text in block["items"] %}
+    <li data-path="{{ p }}.items[{{ loop.index0 }}]">{{ text | inline }}</li>
+    {% endfor %}
+  </ol>
+</div>

@@ -1,0 +1,21 @@
+<div class="block block-hero" data-block="hero">
+  <div class="hero-image">
+    <img src="{{ block.image | asset }}" alt="{{ product.model }}">
+  </div>
+  <div class="hero-aside">
+    {% for box in block.aside %}
+    {% set k = loop.index0 %}
+    <div class="aside aside-{{ box.style }}">
+      <h3 class="heading" data-path="{{ p }}.aside[{{ k }}].title">{{ box.title | inline }}</h3>
+      <ul class="checks">
+        {% for text in box["items"] %}
+        <li>
+          <svg class="check" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="m8 12.5 2.8 2.8L16.5 9" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span data-path="{{ p }}.aside[{{ k }}].items[{{ loop.index0 }}]">{{ text | inline }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endfor %}
+  </div>
+</div>

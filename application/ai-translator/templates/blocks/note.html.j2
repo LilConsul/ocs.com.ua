@@ -1,0 +1,9 @@
+{% if "**" in block.text %}
+<div class="block block-note" data-block="note">
+  <h2 class="heading block-title" data-path="{{ p }}.text">{{ block.text | inline }}</h2>
+</div>
+{% else %}
+<div class="block block-note" data-block="note">
+  <p class="note" data-path="{{ p }}.text">{{ block.text | inline }}</p>
+</div>
+{% endif %}

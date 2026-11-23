@@ -1,0 +1,34 @@
+<div class="block block-matrix" data-block="matrix">
+  <table class="data matrix">
+    <thead>
+      <tr>
+        <th class="matrix-blank"></th>
+        <th class="matrix-title" colspan="{{ block.header | length }}" data-path="{{ p }}.title">{{ block.title | inline }}</th>
+      </tr>
+      <tr>
+        {% set corner = block.corner.split(" ", 1) %}
+        <th class="corner" data-path="{{ p }}.corner">
+          {% if corner | length == 2 %}
+          <span class="corner-top">{{ corner[0] | inline }}</span>
+          <span class="corner-bottom">{{ corner[1] | inline }}</span>
+          {% else %}
+          {{ block.corner | inline }}
+          {% endif %}
+        </th>
+        {% for text in block.header %}
+        <th scope="col" data-path="{{ p }}.header[{{ loop.index0 }}]">{{ text | inline }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in block.rows %}
+      <tr>
+        <th scope="row" data-path="{{ p }}.rows[{{ loop.index0 }}].label">{{ row.label | inline }}</th>
+        {% for cell in row.cells %}
+        <td>{{ cell }}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

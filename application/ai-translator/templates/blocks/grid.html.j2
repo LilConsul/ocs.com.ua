@@ -1,0 +1,22 @@
+<div class="block block-grid" data-block="grid">
+  {% include "blocks/title.html.j2" %}
+  <table class="data grid">
+    <thead>
+      <tr>
+        {% for text in block.header %}
+        <th scope="col" data-path="{{ p }}.header[{{ loop.index0 }}]">{{ text | inline }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in block.rows %}
+      {% set r = loop.index0 %}
+      <tr>
+        {% for text in row %}
+        <td data-path="{{ p }}.rows[{{ r }}][{{ loop.index0 }}]">{{ text | inline }}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

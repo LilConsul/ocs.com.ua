@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="{{ html_lang }}">
+<head>
+<meta charset="utf-8">
+<title>{{ product.model }}{% if product.variant %} {{ product.variant }}{% endif %}</title>
+<style>
+{% for family, file, weight in [
+  ("IBM Plex Sans", "IBMPlexSans-Light.woff2", 300),
+  ("IBM Plex Sans", "IBMPlexSans-Regular.woff2", 400),
+  ("IBM Plex Sans", "IBMPlexSans-SemiBold.woff2", 600),
+  ("IBM Plex Sans", "IBMPlexSans-Bold.woff2", 700),
+  ("IBM Plex Sans Condensed", "IBMPlexSansCondensed-Regular.woff2", 400),
+  ("IBM Plex Sans Condensed", "IBMPlexSansCondensed-SemiBold.woff2", 600),
+] %}
+@font-face {
+  font-family: "{{ family }}";
+  src: url("{{ fonts_base }}{{ file }}") format("woff2");
+  font-weight: {{ weight }};
+  font-style: normal;
+}
+{% endfor %}
+{% include "style.css" %}
+</style>
+</head>
+<body>
+{% for page in pages %}
+<section class="page" data-page="{{ loop.index }}">
+  <header class="band">
+    <div class="band-title fit">
+      {% if loop.first and product.category %}
+      <p class="category" data-path="product.category">{{ product.category }}</p>
+      {% endif %}
+      <h1>
+        {% for line in page.title %}
+        <span class="title-line" data-path="page[{{ page.i }}].title[{{ loop.index0 }}]">{{ line }}</span>
+        {% endfor %}
+      </h1>
+    </div>
+    <div class="band-model">
+      <span class="model">{{ product.model }}</span>
+      {% if product.variant %}<span class="variant">{{ product.variant }}</span>{% endif %}
+    </div>
+  </header>
+
+  <div class="page-content fit">
+    {% for item in page.blocks %}
+    {% set n = item.n %}
+    {% set block = item.block %}
+    {% set p = "block[" ~ n ~ "]" %}
+    {% include "blocks/" ~ block.type ~ ".html.j2" %}
+    {% endfor %}
+  </div>
+
+  {% if loop.last %}
+  <aside class="contact">
+    <div class="qr" data-qr="{{ qr_url }}">{{ qr }}</div>
+    <div class="contact-body">
+      <p class="contact-name">{{ company.name }}</p>
+      <p>{{ company.address }}</p>
+      <p>{{ company.phone }} &middot; {{ company.email }} &middot; {{ branding.site }}</p>
+      <p class="disclaimer">{{ branding.disclaimer }}</p>
+    </div>
+  </aside>
+  {% endif %}
+
+  <footer class="page-footer">
+    <div class="logo">{{ logo }}</div>
+    <div class="footer-contacts">
+      <p class="footer-name">{{ company.name }}</p>
+      <p>{{ company.address }}</p>
+      <p>{{ company.phone }} &middot; {{ company.email }}</p>
+    </div>
+    <div class="footer-site">
+      <p class="site">{{ branding.site }}</p>
+      <p class="page-no">{{ loop.index }} / {{ loop.length }}</p>
+    </div>
+  </footer>
+  <div class="rights">{{ rights }}</div>
+</section>
+{% endfor %}
+</body>
+</html>
