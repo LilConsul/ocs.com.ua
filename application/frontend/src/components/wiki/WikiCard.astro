@@ -4,7 +4,8 @@ import { ArrowRight, BookOpen } from "@lucide/astro";
 import type { ImageMetadata } from "astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { summarize } from "@/lib/featured-equipment";
-import { articleExcerpt, getWikiSlug, type WikiEntry } from "@/lib/wiki-utils";
+import { articleExcerpt, getWikiSlug, stripInlineCode, type WikiEntry } from "@/lib/wiki-utils";
+import InlineCodeText from "./InlineCodeText.astro";
 
 interface Props {
 	entry: WikiEntry;
@@ -22,8 +23,6 @@ const title = entry.data.title;
 const description = entry.data.description;
 // Whole sentences, never cut; an article without a description falls back to its first paragraph
 const summary = summarize(description?.trim() || articleExcerpt(entry.body), 160);
-// Inline code (`d`) is shown as code, not as raw backticks
-const summaryParts = summary.split(/`([^`]+)`/);
 
 // Dates are parsed as UTC midnight (YAML dates), so format in UTC to avoid off-by-one days
 const updated = entry.data.dateModified ?? entry.data.datePublished;
@@ -44,7 +43,7 @@ const updatedText = updated
 	class="card-hover catalogue-trace reveal group bg-background border-border-subtle/70 focus-visible:outline-secondary relative row-span-4 grid grid-rows-subgrid gap-y-0 overflow-hidden rounded-xl border shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2"
 	style={`--i:${index % 3}`}
 	data-wiki-item
-	data-wiki-text={`${title} ${description ?? ""}`.toLowerCase()}
+	data-wiki-text={`${title} ${stripInlineCode(description)}`.toLowerCase()}
 >
 	{coverImage ? (
 		<div class="skeleton border-border-subtle/40 bg-surface-container aspect-video w-full overflow-hidden border-b">
@@ -88,7 +87,7 @@ const updatedText = updated
 	</div>
 
 	<p class="font-body-md text-industrial-gray m-0 px-5 pt-2.5 text-sm leading-relaxed text-pretty sm:px-6">
-		{summaryParts.map((part, i) => (i % 2 === 1 ? <code class="inline-code">{part}</code> : part))}
+		<InlineCodeText text={summary} />
 	</p>
 
 	<div class="text-secondary flex items-end px-5 pt-4 pb-5 text-[15px] font-medium sm:px-6 sm:pb-6">

@@ -12,6 +12,7 @@ import {
 	getWikiCoverImage,
 	getWikiSlug,
 	sortWikiArticles,
+	stripInlineCode,
 	type WikiEntry,
 } from "@/lib/wiki-utils";
 
@@ -44,7 +45,7 @@ const { itemList } = collectionPageSchema({
 	description,
 	items: sortedArticles.map((article) => ({
 		name: article.data.title,
-		description: article.data.description ?? undefined,
+		description: stripInlineCode(article.data.description) || undefined,
 		url: new URL(`/${lang}/wiki/${getWikiSlug(article)}/`, siteUrl).href,
 	})),
 });

@@ -793,7 +793,7 @@ html.skeleton-on .skeleton:not([data-loaded]) > picture > img {
 	.inline-code {
 		font-family: "JetBrains Mono", monospace;
 		font-size: 0.84em;
-		font-weight: 600;
+		font-weight: 500;
 		font-variant-numeric: tabular-nums;
 		color: var(--color-secondary);
 		background-color: color-mix(in oklab, var(--color-secondary) 7%, transparent);

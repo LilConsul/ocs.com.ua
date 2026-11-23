@@ -78,6 +78,24 @@ export function articleExcerpt(body: string | null | undefined): string {
 	return "";
 }
 
+const INLINE_CODE = /`([^`]+)`/;
+
+/**
+ * Splits text with Markdown inline code ("`d` is the resolution") into plain and code parts,
+ * so a description can show `d` as code instead of raw backticks. Empty parts are dropped.
+ */
+export function splitInlineCode(text: string): { text: string; code: boolean }[] {
+	return text
+		.split(new RegExp(INLINE_CODE.source, "g"))
+		.map((part, i) => ({ text: part, code: i % 2 === 1 }))
+		.filter((part) => part.text !== "");
+}
+
+/** The same text without backticks, for meta descriptions and structured data */
+export function stripInlineCode(text: string | null | undefined): string {
+	return (text ?? "").replace(new RegExp(INLINE_CODE.source, "g"), "$1");
+}
+
 /**
  * Find matching translation for a wiki article
  */

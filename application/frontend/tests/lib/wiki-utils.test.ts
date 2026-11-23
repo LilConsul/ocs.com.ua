@@ -8,6 +8,8 @@ import {
 	getWikiLocale,
 	getWikiSlug,
 	sortWikiArticles,
+	splitInlineCode,
+	stripInlineCode,
 	type WikiEntry,
 } from "@/lib/wiki-utils";
 import { imageFixtures } from "../helpers/mocks";
@@ -169,5 +171,33 @@ describe("articleExcerpt", () => {
 	it("returns an empty string when there is no prose", () => {
 		expect(articleExcerpt(undefined)).toBe("");
 		expect(articleExcerpt("## Only a heading\n\n* a list")).toBe("");
+	});
+});
+
+describe("inline code in descriptions", () => {
+	const text = "Two marks: `d` — resolution and `e` — interval.";
+
+	it("splits text into plain and code parts", () => {
+		expect(splitInlineCode(text)).toEqual([
+			{ text: "Two marks: ", code: false },
+			{ text: "d", code: true },
+			{ text: " — resolution and ", code: false },
+			{ text: "e", code: true },
+			{ text: " — interval.", code: false },
+		]);
+	});
+
+	it("returns one plain part when there is no code", () => {
+		expect(splitInlineCode("Plain.")).toEqual([{ text: "Plain.", code: false }]);
+		expect(splitInlineCode("")).toEqual([]);
+	});
+
+	it("leaves an unmatched backtick as text", () => {
+		expect(splitInlineCode("a ` b")).toEqual([{ text: "a ` b", code: false }]);
+	});
+
+	it("strips the backticks for meta tags and structured data", () => {
+		expect(stripInlineCode(text)).toBe("Two marks: d — resolution and e — interval.");
+		expect(stripInlineCode(null)).toBe("");
 	});
 });
