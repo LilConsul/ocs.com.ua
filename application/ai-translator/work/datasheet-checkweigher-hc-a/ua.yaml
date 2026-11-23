@@ -5,6 +5,15 @@ product:
   variant: BASIS
   category: Контрольно динамічні ваги
   url: https://ocs.com.ua/ua/catalogue/equipment/checkweigher/hc-a
+cover:
+  image: images/cover.svg
+  clip:
+  - 194.4
+  - 201.4
+  - 422.2
+  - 642.6
+  subtitle: Технічні дані
+  label: CW
 pages:
 - title:
   - Найвищі стандарти
@@ -310,6 +319,7 @@ pages:
   - type: note
     text: Ці характеристики є довідковими значеннями для стандартної машини без додаткових вузлів для
       конкретного застосування або зважування. Усі розміри в мм | Креслення наведено як приклад конструкції
-- title:
-  - Контакти
-  blocks: []
+notes:
+  title:
+  - Особисті
+  - нотатки

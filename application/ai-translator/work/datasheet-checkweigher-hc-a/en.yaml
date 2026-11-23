@@ -5,6 +5,15 @@ product:
   variant: BASIS
   category: ''
   url: ''
+cover:
+  image: images/cover.svg
+  clip:
+  - 194.4
+  - 201.4
+  - 422.2
+  - 642.6
+  subtitle: Technical data
+  label: CW
 pages:
 - title:
   - FOR THE HIGHEST STANDARDS
@@ -312,3 +321,7 @@ pages:
   - type: note
     text: These specifications are reference values of the standard machine excluding application- or
       weighing-specific add-on parts. All entries in mm | Drawing shows design example
+notes:
+  title:
+  - PERSONAL
+  - NOTES
