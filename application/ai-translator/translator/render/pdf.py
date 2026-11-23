@@ -48,7 +48,10 @@ def print_pdf(html_path: Path, out_pdf: Path) -> list[dict]:
         try:
             browser = pw.chromium.launch()
         except PlaywrightError as err:
-            raise RenderError("Chromium missing: run uv run playwright install chromium") from err
+            message = "Chromium missing: run uv run playwright install chromium"
+            if "Executable doesn't exist" not in str(err):
+                message = f"{message} ({str(err).strip().splitlines()[0]})"
+            raise RenderError(message) from err
         try:
             page = browser.new_page()
             page.goto(Path(html_path).absolute().as_uri())
