@@ -305,8 +305,10 @@ h1 {
   background: var(--zebra);
 }
 
+/* Cells hold codes and values ("HC-A-2000-2", "≥ 0.01 г"); only the headers may wrap. */
 .grid td {
   border-left: 0.25mm solid var(--rule);
+  white-space: nowrap;
 }
 
 .grid td:first-child {

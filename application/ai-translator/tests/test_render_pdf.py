@@ -2,6 +2,7 @@ import json
 from datetime import date
 
 import pymupdf
+from playwright.sync_api import sync_playwright
 
 from translator.model import load_doc, save_doc
 from translator.render.pdf import run_render
@@ -47,3 +48,25 @@ def test_render_report_json_matches_returned_report(fixture_paths):
     saved = json.loads(fixture_paths.render_report.read_text(encoding="utf-8"))
     assert saved == report
     assert isinstance(saved["pages"], int) and isinstance(saved["overflow"], list)
+
+
+def test_grid_cells_keep_model_codes_on_one_line(fixture_paths):
+    doc = load_doc(fixture_paths.ua_yaml)
+    grid = next(b for p in doc["pages"] for b in p["blocks"] if b["type"] == "grid")
+    grid["header"] = ["", *["Дуже довгий заголовок колонки з кількома словами"] * 7]
+    grid["rows"] = [[row[0], row[1], *["від 50 мг"] * 6] for row in grid["rows"]]
+    save_doc(doc, fixture_paths.ua_yaml)
+    run_render(fixture_paths, today=TODAY)
+    with sync_playwright() as pw:
+        browser = pw.chromium.launch()
+        page = browser.new_page()
+        page.goto(fixture_paths.html.absolute().as_uri())
+        lines = page.evaluate(
+            """() => Array.from(document.querySelectorAll(".grid td")).map((td) => {
+                const range = document.createRange();
+                range.selectNodeContents(td);
+                return new Set(Array.from(range.getClientRects()).map((r) => r.top)).size;
+            })"""
+        )
+        browser.close()
+    assert lines and max(lines) == 1
