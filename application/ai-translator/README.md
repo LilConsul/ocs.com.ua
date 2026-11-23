@@ -23,18 +23,20 @@ uv run playwright install chromium
 `datasheet-checkweigher-hc-a`. A path to the PDF works too
 (`.\files\en\datasheet-checkweigher-hc-a.pdf`): the folder and `.pdf` are dropped.
 
-| Command                                                        | What it does                                                                                      |
-| -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| `uv run translator extract <name> [--force]`                   | Drafts `work/<name>/en.yaml`, extracts `images/`, writes `contact-sheet.png` and `preview-en/`    |
-| `uv run translator drawing <name> --page N --clip x0,y0,x1,y1` | Re-exports the vector drawing of page N with a new clip (PDF points) and updates `en.yaml`        |
-| `uv run translator render <name>`                              | Prints `work/<name>/ua.yaml` to `files/ua/<name>.pdf`, writes `preview/` and `render-report.json` |
-| `uv run translator lint <name>`                                | Checks `ua.yaml` against `en.yaml`, `glossary.md` and the render report; exits 1 on errors        |
-| `uv run translator all <name>`                                 | `render`, then `lint`                                                                             |
-| `uv run pytest`                                                | Tests (the render tests need Chromium)                                                            |
-| `uv run ruff check . && uv run ruff format --check .`          | Lint and format check                                                                             |
+| Command                                                        | What it does                                                                                               |
+| -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `uv run translator extract <name> [--force]`                   | Drafts `work/<name>/en.yaml`, extracts `images/`, writes `contact-sheet.png` and `preview-en/`             |
+| `uv run translator drawing <name> --page N --clip x0,y0,x1,y1` | Re-exports the vector drawing of page N with a new clip (PDF points) and updates `en.yaml`                 |
+| `uv run translator cover <name> [--clip x0,y0,x1,y1]`          | Re-exports the cover drawing (page 1, clip auto-detected by default) and updates only `cover` in `en.yaml` |
+| `uv run translator render <name>`                              | Prints `work/<name>/ua.yaml` to `files/ua/<name>.pdf`, writes `preview/` and `render-report.json`          |
+| `uv run translator lint <name>`                                | Checks `ua.yaml` against `en.yaml`, `glossary.md` and the render report; exits 1 on errors                 |
+| `uv run translator all <name>`                                 | `render`, then `lint`                                                                                      |
+| `uv run pytest`                                                | Tests (the render tests need Chromium)                                                                     |
+| `uv run ruff check . && uv run ruff format --check .`          | Lint and format check                                                                                      |
 
 Lint errors: changed block structure or non-text values (`product.model`/`variant`, images,
-drawing clips and pages, row `note` numbers, matrix cells), numbers or footnote marks that differ
+drawing clips and pages, row `note` numbers, matrix cells, the cover `image`/`clip`/`label`), a
+`cover` or `notes` present in only one of `en.yaml` and `ua.yaml`, numbers or footnote marks that differ
 from `en.yaml`, numbers in `en.yaml` that are not in the source PDF, decimal commas, `Avoid`
 fragments from the glossary, WIPOTEC branding, text overflowing its box, a stale render (the
 output PDF is missing or `ua.yaml` changed since `render`; the report stores its SHA-256),
@@ -75,6 +77,8 @@ Company contacts come from `application/frontend/src/data/company.json` at rende
 source: files/en/<name>.pdf
 lang: en | ua
 product: {model: HC-A, variant: BASIS, category: "", url: ""}   # variant, url optional
+cover: {image: images/cover.svg, clip: [x0, y0, x1, y1],        # optional cover page
+        subtitle: "Technical data", label: CW}
 pages:
   - title: ["Technical", "data"]          # header band lines
     blocks:
@@ -90,10 +94,19 @@ pages:
          labels: [{text: str, x: float, y: float}]}   # x, y in % of the drawing box
       - {type: footnotes, items: [str]}
       - {type: note, text: str}            # with **bold** markup it renders as a heading
+notes: {title: ["PERSONAL", "NOTES"]}     # optional personal-notes page
 ```
+
+`cover` prints a first page like the source cover: the model, the letter-spaced `subtitle`
+(translated), the product-line `label` in a black square (a code, kept as it is) and the cover
+drawing `image` cut from page 1 at `clip`; it has no footer. `notes` prints a last page with the
+`title` in the header band, 15 lines for notes and the contact block with the QR code; without
+`notes` the contact block sits on the last content page. Page numbers count every PDF page,
+the cover included. The phone, e-mail, site and QR code are links in the PDF.
 
 Headings use `**bold**` markup for the bold word (`"**BASE** DATA"`). A table row's `note: N`
 prints the footnote mark `N)` after the label; a mark written inside text (`400 mm 1)`: one
 digit and `)`, not glued to a word or number and not closing a parenthesis) is printed as a
 superscript too, and lint compares marks separately from the other numbers. Lint and the overflow report address text by a
-path with a flat block index across all pages, for example `block[4].rows[2].value`.
+path with a flat block index across all pages, for example `block[4].rows[2].value`; the cover
+and notes texts are `cover.subtitle` and `notes.title[j]`.

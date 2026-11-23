@@ -60,6 +60,12 @@ def _address(address: dict) -> str:
     return ", ".join(p for p in (*parts, city, address.get("country")) if p)
 
 
+def _tel(phone: str) -> str:
+    """A `tel:` URI: the digits of phone with its leading +."""
+    digits = re.sub(r"\D", "", phone)
+    return f"tel:+{digits}" if phone.strip().startswith("+") else f"tel:{digits}"
+
+
 def _pages(doc: dict) -> list[dict]:
     """Pages with their blocks numbered by the flat index used in text paths."""
     pages, n = [], 0
@@ -89,14 +95,21 @@ def render_html(doc: dict, *, work_dir: Path, company: dict, branding: dict, tod
     product = doc.get("product", {})
     url = product.get("url") or branding["fallback_url"]
     template = _environment(work_dir).get_template("datasheet.html.j2")
+    pages = _pages(doc)
+    cover, notes = doc.get("cover"), doc.get("notes")
     return template.render(
         product=product,
-        pages=_pages(doc),
+        pages=pages,
+        cover=cover,
+        notes=notes,
+        first_number=2 if cover else 1,
+        total=len(pages) + bool(cover) + bool(notes),
         html_lang="uk" if doc.get("lang") == "ua" else doc.get("lang", "en"),
         fonts_base=FONTS.resolve().as_uri() + "/",
         company={
             "name": company["name"]["ua"],
             "phone": company["phone"],
+            "tel": _tel(company["phone"]),
             "email": company["email"],
             "address": _address(company["address"]["ua"]),
         },

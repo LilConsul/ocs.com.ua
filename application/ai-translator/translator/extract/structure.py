@@ -3,11 +3,12 @@
 import re
 from collections import Counter
 from dataclasses import dataclass
+from itertools import pairwise
 
 import pymupdf
 
 from translator.config import SourceConfig, is_branding
-from translator.extract.images import ExtractedImage, Label
+from translator.extract.images import ExtractedImage, Label, find_cover_clip
 from translator.extract.pdf import Span, page_spans, table_cells_text
 from translator.text import normalise_text
 
@@ -22,6 +23,8 @@ MAX_BULLET = 10
 WIDTH_TOLERANCE = 3
 FOOTNOTE_RE = re.compile(r"^\d\)")
 GLUED_NOTE_RE = re.compile(r"^(.*?)\s*(\d)\)$")
+NOTES_RE = re.compile(r"personal\s+notes", re.IGNORECASE)
+COVER_IMAGE = "images/cover.svg"
 
 Drawings = dict[int, tuple[str, pymupdf.Rect, list[Label]]]
 
@@ -237,6 +240,43 @@ def is_branding_page(page: pymupdf.Page, cfg: SourceConfig) -> bool:
     return is_branding(" ".join(title), cfg)
 
 
+def _letter_spaced(page: pymupdf.Page, span: Span) -> str:
+    """Span text with letter spacing ("T E C H N I C A L D A T A") joined into words by the
+    gaps between the letters: "Technical data". Other text is returned as it is."""
+    if not all(len(token) == 1 for token in span.text.split()):
+        return span.text
+    letters = sorted(page.get_text("words", clip=pymupdf.Rect(span.bbox)), key=lambda w: w[0])
+    if len(letters) < 2:
+        return span.text
+    gaps = [b[0] - a[2] for a, b in pairwise(letters)]
+    step = sorted(gaps)[len(gaps) // 2]
+    words = [letters[0][4]]
+    for gap, letter in zip(gaps, letters[1:], strict=True):
+        if gap > 1.8 * step:
+            words.append("")
+        words[-1] += letter[4]
+    return " ".join(words).capitalize()
+
+
+def cover_page(page: pymupdf.Page) -> dict | None:
+    """The cover's subtitle, product-line label and drawing clip; None without a drawing."""
+    clip = find_cover_clip(page)
+    if clip is None:
+        return None
+    spans = [s for s in page_spans(page) if s.bbox[3] < HEADER_BOTTOM]
+    right = [s for s in spans if s.bbox[0] > RIGHT_FRACTION * page.rect.width]
+    left = sorted(
+        (s for s in spans if s.bbox[0] <= RIGHT_FRACTION * page.rect.width),
+        key=lambda s: -s.size,
+    )
+    return {
+        "image": COVER_IMAGE,
+        "clip": [round(v, 1) for v in clip],
+        "subtitle": " ".join(_letter_spaced(page, s) for s in left[1:]),
+        "label": " ".join(s.text for s in right),
+    }
+
+
 def _build_page(
     page: pymupdf.Page,
     spans: list[Span],
@@ -319,15 +359,21 @@ def build_draft(
 ) -> dict:
     product = {"model": "", "variant": "", "category": "", "url": ""}
     pages: list[dict] = []
+    cover: dict | None = None
+    notes: dict | None = None
     for page in doc:
         spans = page_spans(page)
         title, right = _header(spans, page.rect.width)
         if is_branding(" ".join(title), cfg):
+            if NOTES_RE.search(" ".join(title)):
+                notes = {"title": title}
             continue
         photos = [im for im in images if im.page == page.number + 1]
         drawing = drawings.get(page.number)
         tables = page.find_tables().tables
         if not tables and not photos and drawing is None and len(spans) < MIN_CONTENT_SPANS:
+            if page.number == 0:
+                cover = cover_page(page)
             continue
         if not product["model"] and right:
             product["model"] = right[0].text
@@ -335,4 +381,10 @@ def build_draft(
                 product["variant"] = right[1].text
         blocks = _build_page(page, spans, tables, cfg, photos, drawing)
         pages.append({"title": title, "blocks": blocks})
-    return {"source": source, "lang": "en", "product": product, "pages": pages}
+    draft: dict = {"source": source, "lang": "en", "product": product}
+    if cover is not None:
+        draft["cover"] = cover
+    draft["pages"] = pages
+    if notes is not None:
+        draft["notes"] = notes
+    return draft

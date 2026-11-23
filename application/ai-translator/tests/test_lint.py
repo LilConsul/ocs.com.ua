@@ -349,6 +349,42 @@ def test_non_mapping_ua_reports_instead_of_crashing(en, glossary, cfg, ok_report
     assert "not a mapping" in found[0].message
 
 
+COVER = {"image": "images/cover.svg", "clip": [194.4, 201.4, 422.2, 642.6], "label": "CW"}
+
+
+def add_cover_and_notes(en, ua):
+    en["cover"] = {**COVER, "subtitle": "Technical data"}
+    ua["cover"] = {**COVER, "subtitle": "Технічні дані"}
+    en["notes"] = {"title": ["Personal", "notes"]}
+    ua["notes"] = {"title": ["Особисті", "нотатки"]}
+
+
+def test_cover_and_notes_pair_cleanly(en, ua, glossary, cfg, ok_report):
+    add_cover_and_notes(en, ua)
+    assert lint(en, ua, glossary, cfg, ok_report, "") == []
+
+
+@pytest.mark.parametrize("key", ["cover", "notes"])
+def test_cover_and_notes_must_exist_in_both(en, ua, glossary, cfg, ok_report, key):
+    add_cover_and_notes(en, ua)
+    missing = copy.deepcopy(ua)
+    del missing[key]
+    assert error_paths(lint(en, missing, glossary, cfg, ok_report, "")) == [key]
+    extra = copy.deepcopy(en)
+    del extra[key]
+    assert error_paths(lint(extra, ua, glossary, cfg, ok_report, "")) == [key]
+
+
+@pytest.mark.parametrize(
+    ("key", "value"),
+    [("image", "images/other.svg"), ("clip", [0, 0, 10, 10]), ("label", "КВ")],
+)
+def test_cover_facts_must_match(en, ua, glossary, cfg, ok_report, key, value):
+    add_cover_and_notes(en, ua)
+    ua["cover"][key] = value
+    assert error_paths(lint(en, ua, glossary, cfg, ok_report, "")) == [f"cover.{key}"]
+
+
 GLOSSARY_MD = """## Terms
 
 | EN | UA | Avoid | Note | Status |

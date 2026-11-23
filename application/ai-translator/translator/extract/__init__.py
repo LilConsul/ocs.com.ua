@@ -12,7 +12,7 @@ from translator.extract.images import (
     extract_rasters,
     find_drawing_clip,
 )
-from translator.extract.structure import Drawings, build_draft
+from translator.extract.structure import Drawings, build_draft, cover_page
 from translator.model import flat_blocks, save_doc, validate
 from translator.paths import DatasheetPaths
 
@@ -48,11 +48,16 @@ def run_extract(paths: DatasheetPaths, cfg: SourceConfig, force: bool = False) -
     with pymupdf.open(paths.source_pdf) as doc:
         images, drawings = collect_media(doc, paths.images_dir)
         draft = build_draft(doc, cfg, images, drawings, _source_path(paths))
+        if "cover" in draft:
+            cover = draft["cover"]
+            export_drawing(doc, 0, pymupdf.Rect(cover["clip"]), paths.work_dir / cover["image"])
         paths.source_preview_dir.mkdir(parents=True, exist_ok=True)
         for page in doc:
             pix = page.get_pixmap(dpi=PREVIEW_DPI)
             pix.save(paths.source_preview_dir / f"page-{page.number + 1}.png")
     media = [im.path for im in images] + [paths.work_dir / d[0] for d in drawings.values()]
+    if "cover" in draft:
+        media.insert(0, paths.work_dir / draft["cover"]["image"])
     if media:
         contact_sheet(media, paths.contact_sheet)
     else:
@@ -81,4 +86,29 @@ def redo_drawing(paths: DatasheetPaths, doc_yaml: dict, page_no: int, clip: pymu
     block["image"] = f"images/{name}"
     block["clip"] = [round(v, 1) for v in clip]
     block["labels"] = [{"text": lb.text, "x": lb.x, "y": lb.y} for lb in labels]
+    return doc_yaml
+
+
+def redo_cover(paths: DatasheetPaths, doc_yaml: dict, clip: pymupdf.Rect | None = None) -> dict:
+    """Re-export the cover drawing of page 1 (clip None: auto-detected) and set `cover` in
+    doc_yaml. A subtitle or label already in doc_yaml is kept; nothing else changes."""
+    with pymupdf.open(paths.source_pdf) as doc:
+        found = cover_page(doc[0])
+        if found is None and clip is None:
+            raise LookupError(f"no cover drawing found on page 1 of {paths.source_pdf}")
+        cover = dict(found or {"image": "images/cover.svg", "subtitle": "", "label": ""})
+        if clip is not None:
+            cover["clip"] = [round(v, 1) for v in clip]
+        export_drawing(doc, 0, pymupdf.Rect(cover["clip"]), paths.work_dir / cover["image"])
+    old = doc_yaml.get("cover") or {}
+    for key in ("subtitle", "label"):
+        if old.get(key):
+            cover[key] = old[key]
+    if "cover" in doc_yaml or "pages" not in doc_yaml:
+        doc_yaml["cover"] = cover
+        return doc_yaml
+    items = list(doc_yaml.items())  # a new cover goes before `pages`, as extract writes it
+    at = [key for key, _ in items].index("pages")
+    doc_yaml.clear()
+    doc_yaml.update([*items[:at], ("cover", cover), *items[at:]])
     return doc_yaml

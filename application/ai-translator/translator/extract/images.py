@@ -12,6 +12,9 @@ MIN_PIXELS = 64
 TOUCH_TOLERANCE = 2.0
 HEADER_BOTTOM = 125
 MIN_DRAWING_OPS = 150
+COVER_TOP = 150  # the cover drawing lies between the model title and the logo
+COVER_BOTTOM = 760
+CLIP_PAD = 4
 THUMB_WIDTH = 300
 NEAR_WHITE = 245  # grey level from which a pixel counts as blank background
 TRIM_PAD = 8  # px of background kept around the trimmed photo
@@ -149,6 +152,20 @@ def find_drawing_clip(page: pymupdf.Page) -> pymupdf.Rect | None:
         return None
     union.x0, union.y0, union.x1, union.y1 = union.x0 - 4, union.y0 - 4, union.x1 + 4, union.y1 + 4
     return union & page.rect
+
+
+def find_cover_clip(page: pymupdf.Page) -> pymupdf.Rect | None:
+    """The machine drawing on the cover: every path inside the page between the title and
+    the logo, padded by CLIP_PAD points."""
+    union: pymupdf.Rect | None = None
+    for d in page.get_drawings():
+        r = pymupdf.Rect(d["rect"])
+        if r.y0 > COVER_TOP and r.y1 < COVER_BOTTOM and page.rect.contains(r):
+            union = pymupdf.Rect(r) if union is None else union | r
+    if union is None:
+        return None
+    p = CLIP_PAD
+    return pymupdf.Rect(union.x0 - p, union.y0 - p, union.x1 + p, union.y1 + p) & page.rect
 
 
 def _is_word(text: str) -> bool:

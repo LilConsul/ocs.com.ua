@@ -26,7 +26,8 @@ uv run translator extract <name>
 ```
 
 This writes `work/<name>/en.yaml` (a draft), `images/`, `contact-sheet.png` and
-`preview-en/page-N.png`. If `en.yaml` already exists the command refuses; add `--force` only when
+`preview-en/page-N.png`. The source cover (page 1) becomes `cover` (its drawing is
+`images/cover.svg`) and the "Personal notes" page becomes `notes`; neither turns into blocks. If `en.yaml` already exists the command refuses; add `--force` only when
 you want to throw the existing `en.yaml` away.
 
 ## 3. Fix en.yaml
@@ -57,6 +58,15 @@ source page:
 uv run translator drawing <name> --page 5 --clip 61,164,591,627
 ```
 
+Check `cover` against `preview-en/page-1.png`: `subtitle` is the letter-spaced line under the
+model written as normal words (`Technical data`), `label` is the code in the black square. If
+the cover drawing is cut wrongly or includes the WIPOTEC logo, re-export only the cover (no
+`--clip`: auto-detected; an existing `subtitle` and `label` are kept):
+
+```bash
+uv run translator cover <name> --clip 194,201,422,643
+```
+
 ## 4. Read the glossary
 
 Read `glossary.md` in full before translating: the terms table and the style rules. Its `UA`
@@ -70,6 +80,9 @@ order, block types, list lengths, `product.model`, `product.variant`, images, cl
 `page`, `note` numbers or matrix `x`/`-` cells; lint reports each change as an error.
 
 - Set `lang: ua`.
+- Translate `cover.subtitle` (`Технічні дані`) and `notes.title` (`Особисті`, `нотатки`); keep
+  `cover.image`, `cover.clip` and `cover.label` as they are. Keep `cover` and `notes` exactly
+  when `en.yaml` has them.
 - Set `product.category` to the Ukrainian product type (for example `Контрольно динамічні ваги`).
 - Set `product.url` to `https://ocs.com.ua/ua/catalogue/equipment/<category>/<slug>` when the
   product exists in `application/frontend/src/content/equipment/<category>/<slug>.ua.md`; reuse
@@ -99,16 +112,16 @@ uv run translator all <name>
 This prints `files/ua/<name>.pdf`, writes `work/<name>/preview/page-N.png` and lints `ua.yaml`
 against `en.yaml`, the glossary and the render report. Then look at every `preview/page-N.png`
 and compare it with `preview-en/`. Check that no text is clipped, overflowing or awkwardly
-broken, every page has the OS-Technology footer, no WIPOTEC contacts appear, and the last page
-has the QR code.
+broken, every page but the cover has the OS-Technology footer, no WIPOTEC contacts appear, and
+the last page has the QR code (with `notes` it is the personal-notes page).
 
 Fix problems by editing the Ukrainian text (shorter wording) or by moving blocks between pages
 (or onto a new page) in `ua.yaml`; the order of blocks across all pages must stay the same as in
 `en.yaml`. A drawing that renders small (its dimension figures hard to read) needs more of
 the page: give it a page with fewer blocks. A drawing label that is longer in Ukrainian may be
-moved by changing its `x`/`y` in `ua.yaml` so it covers no lines. The last page always carries
-the contact block; if the content leaves it no room, a last page with only a title (for
-example `Контакти`) and no blocks is fine. Never shrink fonts or change the template to make
+moved by changing its `x`/`y` in `ua.yaml` so it covers no lines. With `notes` the contact block is on the
+notes page. Without it the last content page carries the contact block; if the content leaves
+it no room, a last page with only a title (for example `Контакти`) and no blocks is fine. Never shrink fonts or change the template to make
 text fit. Repeat this step until lint reports no errors and every
 page looks right.
 

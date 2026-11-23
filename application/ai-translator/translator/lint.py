@@ -15,7 +15,7 @@ import yaml
 from translator.config import SourceConfig, is_branding, load_config
 from translator.extract.structure import is_branding_page
 from translator.glossary import Glossary, GlossaryError, load_glossary
-from translator.model import flat_blocks, iter_text, load_doc, shape, validate
+from translator.model import COVER_FACTS, flat_blocks, iter_text, load_doc, shape, validate
 from translator.paths import DatasheetPaths
 from translator.text import all_numbers, footnote_marks, number_style_errors, numbers
 
@@ -69,6 +69,16 @@ def _structure(en: dict, ua: dict) -> list[Issue]:
         for key in ("model", "variant")
         if (en_value := en["product"].get(key, "")) != (ua_value := ua["product"].get(key, ""))
     ]
+    for key, what in (("cover", "cover page"), ("notes", "personal-notes page")):
+        if (key in en) != (key in ua):
+            where = "en.yaml" if key in en else "ua.yaml"
+            issues.append(Issue("error", key, f"{what} present only in {where}"))
+    if "cover" in en and "cover" in ua:
+        issues.extend(
+            Issue("error", f"cover.{key}", f"{ua_value!r} differs from en {en_value!r}")
+            for key in COVER_FACTS
+            if (en_value := en["cover"].get(key)) != (ua_value := ua["cover"].get(key))
+        )
     en_blocks, ua_blocks = flat_blocks(en), flat_blocks(ua)
     if len(en_blocks) != len(ua_blocks):
         issues.append(

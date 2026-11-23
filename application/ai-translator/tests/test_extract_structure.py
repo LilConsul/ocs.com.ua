@@ -88,3 +88,16 @@ def test_no_branding_and_valid(draft):
     cfg = load_config()
     assert not any(is_branding(t, cfg) for _, t in iter_text(draft))
     assert validate(draft) == []
+
+
+def test_cover_texts_and_clip(draft):
+    cover = draft["cover"]
+    assert cover["subtitle"] == "Technical data" and cover["label"] == "CW"
+    assert cover["image"] == "images/cover.svg"
+    expected = (198.4, 205.4, 418.2, 638.6)  # union of the machine drawing on page 1
+    assert all(abs(a - b) <= 5 for a, b in zip(cover["clip"], expected, strict=True))
+
+
+def test_notes_title_from_personal_notes_page(draft):
+    assert draft["notes"] == {"title": ["PERSONAL", "NOTES"]}
+    assert list(draft) == ["source", "lang", "product", "cover", "pages", "notes"]

@@ -126,3 +126,31 @@ def test_save_load_roundtrip_keeps_cyrillic(tmp_path, doc):
     save_doc(doc, tmp_path / "d.yaml")
     assert "Контрольні ваги" in (tmp_path / "d.yaml").read_text(encoding="utf-8")
     assert load_doc(tmp_path / "d.yaml") == doc
+
+
+COVER = {
+    "image": "images/cover.svg",
+    "clip": [194.4, 201.4, 422.2, 642.6],
+    "subtitle": "Technical data",
+    "label": "CW",
+}
+
+
+def test_iter_text_cover_subtitle_and_notes_title(doc):
+    doc["cover"] = dict(COVER)
+    doc["notes"] = {"title": ["Personal", "notes"]}
+    paths = dict(iter_text(doc))
+    assert paths["cover.subtitle"] == "Technical data"
+    assert paths["notes.title[0]"] == "Personal" and paths["notes.title[1]"] == "notes"
+    assert not any(p.startswith("cover.") and p != "cover.subtitle" for p in paths)
+
+
+def test_validate_cover_and_notes(doc):
+    doc["cover"] = dict(COVER)
+    doc["notes"] = {"title": ["Personal", "notes"]}
+    assert validate(doc) == []
+    del doc["cover"]["label"]
+    doc["notes"] = {"title": "Personal notes"}
+    assert validate(doc) == ["cover.label: missing", "notes.title: not a list"]
+    doc["cover"] = "cover.svg"
+    assert validate(doc)[0] == "cover: not a mapping"

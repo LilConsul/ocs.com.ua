@@ -109,3 +109,31 @@ def test_cli_render_malformed_ua_prints_error(fixture_paths, capsys):
     fixture_paths.ua_yaml.write_text("", encoding="utf-8")
     assert main(["render", "sample", "--root", str(fixture_paths.root)]) == 1
     assert capsys.readouterr().err.startswith("error: ")
+
+
+def test_cover_and_notes_pages_render_without_overflow(fixture_paths):
+    doc = load_doc(fixture_paths.ua_yaml)
+    doc["cover"] = {
+        "image": "images/drawing-3.svg",
+        "clip": [10, 10, 210, 410],
+        "subtitle": "Технічні дані",
+        "label": "CW",
+    }
+    doc["notes"] = {"title": ["Особисті", "нотатки"]}
+    save_doc(doc, fixture_paths.ua_yaml)
+    report = run_render(fixture_paths, today=TODAY)
+    assert report["pages"] == len(doc["pages"]) + 2
+    assert report["overflow"] == []
+    with pymupdf.open(fixture_paths.output_pdf) as pdf:
+        cover, last = pdf[0].get_text(), pdf[-1].get_text()
+    assert "CW" in cover and "HC-A" in cover and "/" not in cover  # no page number
+    assert "ОСОБИСТІ" in last and f"{report['pages']} / {report['pages']}" in last
+
+
+def test_pdf_keeps_contact_and_qr_links(fixture_paths, branding):
+    run_render(fixture_paths, today=TODAY)
+    with pymupdf.open(fixture_paths.output_pdf) as pdf:
+        pages = [{link.get("uri") for link in page.get_links()} for page in pdf]
+    for uris in pages:
+        assert {"tel:+380673533853", "mailto:info@ocs.com.ua", branding["fallback_url"]} <= uris
+    assert "https://ocs.com.ua/ua/catalogue" in pages[-1]

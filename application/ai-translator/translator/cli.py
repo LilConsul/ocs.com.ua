@@ -1,4 +1,4 @@
-"""Command line entry point: `translator extract <name>`, `translator drawing <name>`, `translator render <name>`."""
+"""Command line entry point: `translator extract|drawing|cover|render|lint|all <name>`."""
 
 import argparse
 import sys
@@ -7,7 +7,7 @@ from pathlib import Path
 import pymupdf
 
 from translator.config import load_config
-from translator.extract import redo_drawing, run_extract
+from translator.extract import redo_cover, redo_drawing, run_extract
 from translator.lint import run_lint
 from translator.model import load_doc, save_doc
 from translator.paths import ROOT, paths_for
@@ -43,6 +43,9 @@ def _parser() -> argparse.ArgumentParser:
     drawing.add_argument("name", type=_datasheet_name, help="datasheet name or path to its PDF")
     drawing.add_argument("--page", type=int, required=True, help="1-based page number")
     drawing.add_argument("--clip", type=_parse_clip, required=True, help="x0,y0,x1,y1")
+    cover = sub.add_parser("cover", parents=[common], help="re-export the cover drawing")
+    cover.add_argument("name", type=_datasheet_name, help="datasheet name or path to its PDF")
+    cover.add_argument("--clip", type=_parse_clip, help="x0,y0,x1,y1 (default: auto-detected)")
     render = sub.add_parser("render", parents=[common], help="print ua.yaml to the branded PDF")
     render.add_argument("name", type=_datasheet_name, help="datasheet name or path to its PDF")
     lint = sub.add_parser("lint", parents=[common], help="check ua.yaml and the rendered PDF")
@@ -77,6 +80,21 @@ def _drawing(args: argparse.Namespace, root: Path) -> int:
         return 1
     save_doc(doc, paths.en_yaml)
     print(f"updated drawing on page {args.page} in {paths.en_yaml}")
+    return 0
+
+
+def _cover(args: argparse.Namespace, root: Path) -> int:
+    paths = paths_for(args.name, root)
+    if not paths.en_yaml.exists() or not paths.source_pdf.exists():
+        print(f"error: run `translator extract {args.name}` first", file=sys.stderr)
+        return 1
+    try:
+        doc = redo_cover(paths, load_doc(paths.en_yaml), args.clip)
+    except LookupError as err:
+        print(f"error: {err}", file=sys.stderr)
+        return 1
+    save_doc(doc, paths.en_yaml)
+    print(f"updated cover in {paths.en_yaml}")
     return 0
 
 
@@ -127,6 +145,8 @@ def main(argv: list[str] | None = None) -> int:
         return _lint(args, root)
     if args.command == "all":
         return _all(args, root)
+    if args.command == "cover":
+        return _cover(args, root)
     return _drawing(args, root)
 
 

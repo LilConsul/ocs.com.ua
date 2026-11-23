@@ -113,3 +113,77 @@ def test_empty_block_title_keeps_its_path(doc, company, branding, fixture_paths)
         doc, work_dir=fixture_paths.work_dir, company=company, branding=branding, today=TODAY
     )
     assert 'data-path="block[3].title"' in html
+
+
+def with_cover_and_notes(doc):
+    doc["cover"] = {
+        "image": "images/drawing-3.svg",
+        "clip": [10, 10, 210, 410],
+        "subtitle": "Технічні дані",
+        "label": "CW",
+    }
+    doc["notes"] = {"title": ["Особисті", "нотатки"]}
+    return doc
+
+
+@pytest.fixture
+def full_html(doc, company, branding, fixture_paths):
+    return render_html(
+        with_cover_and_notes(doc),
+        work_dir=fixture_paths.work_dir,
+        company=company,
+        branding=branding,
+        today=TODAY,
+    )
+
+
+def sections(html):
+    return html.split('<section class="page')[1:]
+
+
+def test_cover_is_the_first_page_without_footer(doc, full_html):
+    pages = sections(full_html)
+    assert len(pages) == len(doc["pages"]) + 2
+    cover = pages[0]
+    assert cover.startswith(' cover"') and 'data-path="cover.subtitle"' in cover
+    assert "Технічні дані" in cover and ">CW<" in cover and "drawing-3.svg" in cover
+    assert "page-footer" not in cover and "rights" not in cover and "page-no" not in cover
+    assert "<svg" in cover  # the OS-Technology logo
+
+
+def test_content_pages_are_numbered_against_all_pages(doc, full_html):
+    total = len(doc["pages"]) + 2
+    for number, page in enumerate(sections(full_html)[1:], start=2):
+        assert f"{number} / {total}" in page
+
+
+def test_notes_page_is_last_with_rules_and_contacts(doc, full_html):
+    pages = sections(full_html)
+    notes = pages[-1]
+    assert notes.count('class="notes-rule"') == 15
+    assert 'data-path="notes.title[0]"' in notes and 'data-path="notes.title[1]"' in notes
+    assert "data-qr=" in notes and "page-footer" in notes and "notes-icon" in notes
+    assert 'class="band-title fit"' in notes and 'class="variant fit"' in notes
+    assert full_html.count('class="contact"') == 1  # no separate contacts on a content page
+    assert all("data-qr=" not in page for page in pages[:-1])
+
+
+def test_without_notes_contacts_stay_on_last_content_page(doc, html):
+    pages = sections(html)
+    assert len(pages) == len(doc["pages"])
+    assert "data-qr=" in pages[-1] and 'class="notes-rule"' not in html
+    assert 'class="page cover"' not in html
+
+
+def test_category_stays_on_the_first_content_page(full_html):
+    pages = sections(full_html)
+    assert 'data-path="product.category"' in pages[1]
+    assert 'data-path="product.category"' not in pages[0]
+
+
+def test_contacts_and_qr_are_links(html, branding):
+    pages = sections(html)
+    for page in pages:
+        assert 'href="tel:+380673533853"' in page and 'href="mailto:info@ocs.com.ua"' in page
+        assert f'href="{branding["fallback_url"]}"' in page
+    assert '<a class="qr" href="https://ocs.com.ua/ua/catalogue"' in pages[-1]

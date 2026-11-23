@@ -16,6 +16,8 @@ BLOCK_TYPES: dict[str, tuple[str, ...]] = {
     "footnotes": ("items",),
     "note": ("text",),
 }
+COVER_KEYS = ("image", "clip", "subtitle", "label")
+COVER_FACTS = ("image", "clip", "label")
 
 
 def load_doc(path: Path) -> dict:
@@ -31,10 +33,28 @@ def flat_blocks(doc: dict) -> list[dict]:
     return [block for page in doc.get("pages", []) for block in page.get("blocks", [])]
 
 
+def _validate_extras(doc: dict) -> list[str]:
+    """The optional cover and personal-notes pages."""
+    errors: list[str] = []
+    if "cover" in doc:
+        cover = doc["cover"]
+        if not isinstance(cover, dict):
+            errors.append("cover: not a mapping")
+        else:
+            errors.extend(f"cover.{key}: missing" for key in COVER_KEYS if key not in cover)
+    if "notes" in doc:
+        notes = doc["notes"]
+        if not isinstance(notes, dict):
+            errors.append("notes: not a mapping")
+        elif not isinstance(notes.get("title"), list):
+            errors.append("notes.title: not a list")
+    return errors
+
+
 def validate(doc: object) -> list[str]:
     if not isinstance(doc, dict):
         return ["document is not a mapping"]
-    errors: list[str] = []
+    errors: list[str] = _validate_extras(doc)
     if not isinstance(doc.get("product"), dict):
         errors.append("product: missing")
     if not isinstance(doc.get("pages"), list):
@@ -143,8 +163,12 @@ def iter_text(doc: dict) -> Iterator[tuple[str, str]]:
     product = doc.get("product", {})
     if product.get("category"):
         yield "product.category", product["category"]
+    if "cover" in doc:
+        yield "cover.subtitle", doc["cover"]["subtitle"]
     for i, page in enumerate(doc.get("pages", [])):
         for j, text in enumerate(page.get("title", [])):
             yield f"page[{i}].title[{j}]", text
     for n, block in enumerate(flat_blocks(doc)):
         yield from _block_text(n, block)
+    for j, text in enumerate(doc.get("notes", {}).get("title", [])):
+        yield f"notes.title[{j}]", text

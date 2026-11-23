@@ -23,16 +23,15 @@
 </style>
 </head>
 <body>
-{% for page in pages %}
-<section class="page" data-page="{{ loop.index }}">
+{% macro band(title, title_path, category) %}
   <header class="band">
     <div class="band-title fit">
-      {% if loop.first and product.category %}
-      <p class="category" data-path="product.category">{{ product.category }}</p>
+      {% if category %}
+      <p class="category" data-path="product.category">{{ category }}</p>
       {% endif %}
       <h1>
-        {% for line in page.title %}
-        <span class="title-line" data-path="page[{{ page.i }}].title[{{ loop.index0 }}]">{{ line }}</span>
+        {% for line in title %}
+        <span class="title-line" data-path="{{ title_path }}[{{ loop.index0 }}]">{{ line }}</span>
         {% endfor %}
       </h1>
     </div>
@@ -41,7 +40,54 @@
       {% if product.variant %}<span class="variant fit" data-path="product.variant">{{ product.variant }}</span>{% endif %}
     </div>
   </header>
-
+{% endmacro %}
+{% macro contact() %}
+  <aside class="contact">
+    <a class="qr" href="{{ qr_url }}" data-qr="{{ qr_url }}">{{ qr }}</a>
+    <div class="contact-body">
+      <p class="contact-name">{{ company.name }}</p>
+      <p>{{ company.address }}</p>
+      <p><a href="{{ company.tel }}">{{ company.phone }}</a> &middot; <a href="mailto:{{ company.email }}">{{ company.email }}</a> &middot; <a href="{{ branding.fallback_url }}">{{ branding.site }}</a></p>
+      <p class="disclaimer">{{ branding.disclaimer }}</p>
+    </div>
+  </aside>
+{% endmacro %}
+{% macro footer(number) %}
+  <footer class="page-footer">
+    <div class="logo">{{ logo }}</div>
+    <div class="footer-contacts">
+      <p class="footer-name">{{ company.name }}</p>
+      <p>{{ company.address }}</p>
+      <p><a href="{{ company.tel }}">{{ company.phone }}</a> &middot; <a href="mailto:{{ company.email }}">{{ company.email }}</a></p>
+    </div>
+    <div class="footer-site">
+      <p class="site"><a href="{{ branding.fallback_url }}">{{ branding.site }}</a></p>
+      <p class="page-no">{{ number }} / {{ total }}</p>
+    </div>
+  </footer>
+  <div class="rights">{{ rights }}</div>
+{% endmacro %}
+{% if cover %}
+{% set w = cover.clip[2] - cover.clip[0] %}
+{% set h = cover.clip[3] - cover.clip[1] %}
+<section class="page cover" data-page="1">
+  <header class="cover-head">
+    <div class="cover-title">
+      <p class="cover-model">{{ product.model }}</p>
+      <p class="cover-subtitle fit" data-path="cover.subtitle">{{ cover.subtitle }}</p>
+    </div>
+    <div class="cover-label">{{ cover.label }}</div>
+  </header>
+  <div class="cover-drawing">
+    <img src="{{ cover.image | asset }}" alt="{{ product.model }}" style="aspect-ratio: {{ w }} / {{ h }}">
+  </div>
+  <div class="cover-logo">{{ logo }}</div>
+</section>
+{% endif %}
+{% for page in pages %}
+{% set number = loop.index + first_number - 1 %}
+<section class="page" data-page="{{ number }}">
+{{ band(page.title, "page[" ~ page.i ~ "].title", product.category if page.i == 0 else "") }}
   <div class="page-content fit">
     {% for item in page.blocks %}
     {% set n = item.n %}
@@ -50,33 +96,26 @@
     {% include "blocks/" ~ block.type ~ ".html.j2" %}
     {% endfor %}
   </div>
-
-  {% if loop.last %}
-  <aside class="contact">
-    <div class="qr" data-qr="{{ qr_url }}">{{ qr }}</div>
-    <div class="contact-body">
-      <p class="contact-name">{{ company.name }}</p>
-      <p>{{ company.address }}</p>
-      <p>{{ company.phone }} &middot; {{ company.email }} &middot; {{ branding.site }}</p>
-      <p class="disclaimer">{{ branding.disclaimer }}</p>
-    </div>
-  </aside>
+  {% if loop.last and not notes %}
+{{ contact() }}
   {% endif %}
-
-  <footer class="page-footer">
-    <div class="logo">{{ logo }}</div>
-    <div class="footer-contacts">
-      <p class="footer-name">{{ company.name }}</p>
-      <p>{{ company.address }}</p>
-      <p>{{ company.phone }} &middot; {{ company.email }}</p>
-    </div>
-    <div class="footer-site">
-      <p class="site">{{ branding.site }}</p>
-      <p class="page-no">{{ loop.index }} / {{ loop.length }}</p>
-    </div>
-  </footer>
-  <div class="rights">{{ rights }}</div>
+{{ footer(number) }}
 </section>
 {% endfor %}
+{% if notes %}
+<section class="page notes" data-page="{{ total }}">
+{{ band(notes.title, "notes.title", "") }}
+  <div class="page-content notes-content fit">
+    <svg class="notes-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg>
+    <div class="notes-rules">
+      {% for _ in range(15) %}
+      <div class="notes-rule"></div>
+      {% endfor %}
+    </div>
+  </div>
+{{ contact() }}
+{{ footer(total) }}
+</section>
+{% endif %}
 </body>
 </html>
