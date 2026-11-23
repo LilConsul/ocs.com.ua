@@ -54,10 +54,10 @@ repos:
       - id: ruff
         name: "[INFRA] Ruff Check"
         args: [--fix]
-        files: ^application/infra/.*\.py$
+        files: ^application/(infra|ai-translator)/.*\.py$
       - id: ruff-format
         name: "[INFRA] Ruff Format"
-        files: ^application/infra/.*\.py$
+        files: ^application/(infra|ai-translator)/.*\.py$
 
   # Local hooks for frontend (Biome, Prettier)
   - repo: local

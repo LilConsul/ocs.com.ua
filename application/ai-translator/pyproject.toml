@@ -1,0 +1,30 @@
+[project]
+name = "ai-translator"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "jinja2==3.1.6",
+    "pillow==13.0.0",
+    "playwright==1.65.2",
+    "pymupdf==2.1",
+    "pyyaml==6.0.4",
+    "qrcode==8.2",
+]
+
+[project.scripts]
+translator = "translator.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["translator"]
+
+[tool.ruff]
+line-length = 100
+
+[dependency-groups]
+dev = [
+    "pytest==9.2.0",
+]
