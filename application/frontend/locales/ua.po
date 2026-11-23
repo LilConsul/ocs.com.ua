@@ -229,12 +229,12 @@ msgstr "Контактна інформація"
 #: src/components/Header.astro:151
 #: src/components/Header.astro:240
 #: src/pages/[lang]/contact.astro:40
+#: src/components/homepage/HeroSection.astro:94
 #: src/components/errors/ServerErrorContent.astro:43
 #: src/components/errors/NotFoundContent.astro:49
-#: src/components/homepage/HeroSection.astro:94
 #: src/components/contact/ContactHero.astro:25
-#: src/components/about/AboutCta.astro:32
 #: src/components/catalogue/CatalogueSidebar.astro:197
+#: src/components/about/AboutCta.astro:32
 msgid "Contact Us"
 msgstr "Зв’язатися з нами"
 
@@ -453,9 +453,9 @@ msgstr "Високошвидкісні контрольно динамічні �
 #: src/pages/[lang]/about.astro:56
 #: src/pages/[lang]/wiki/[slug].astro:109
 #: src/pages/[lang]/wiki/index.astro:60
-#: src/pages/[lang]/catalogue/industry/[slug].astro:124
+#: src/pages/[lang]/catalogue/industry/[slug].astro:123
 #: src/pages/[lang]/catalogue/equipment/[category]/[slug].astro:124
-#: src/pages/[lang]/catalogue/equipment/[category]/index.astro:127
+#: src/pages/[lang]/catalogue/equipment/[category]/index.astro:126
 msgid "Home"
 msgstr "Головна"
 
@@ -657,7 +657,7 @@ msgstr "Наступна сторінка"
 msgid "No articles match your search."
 msgstr "За вашим запитом статей не знайдено."
 
-#: src/pages/[lang]/catalogue/equipment/[category]/index.astro:161
+#: src/pages/[lang]/catalogue/equipment/[category]/index.astro:160
 msgid "No products available in this category"
 msgstr "У цій категорії поки немає обладнання"
 
@@ -859,8 +859,8 @@ msgstr "Огляд обладнання"
 msgid "Product image thumbnails"
 msgstr "Мініатюри зображень обладнання"
 
-#: src/pages/[lang]/catalogue/industry/[slug].astro:143
-#: src/pages/[lang]/catalogue/equipment/[category]/index.astro:146
+#: src/pages/[lang]/catalogue/industry/[slug].astro:142
+#: src/pages/[lang]/catalogue/equipment/[category]/index.astro:145
 msgid "Products"
 msgstr "Обладнання"
 
@@ -890,7 +890,7 @@ msgstr "Є запитання щодо ваших даних?"
 msgid "Quicktron & Pharma Freefall Gravity Contaminant Separators"
 msgstr "Гравітаційні сепаратори домішок Quicktron та Pharma Freefall"
 
-#: src/components/wiki/WikiCard.astro:68
+#: src/components/wiki/WikiCard.astro:110
 msgid "Read article"
 msgstr "Читати статтю"
 
@@ -1025,7 +1025,7 @@ msgid "Technical Datasheet"
 msgstr "Технічна специфікація"
 
 #: src/components/homepage/FeaturedEquipment.astro:160
-#: src/components/catalogue/ProductCard.astro:91
+#: src/components/catalogue/ProductCard.astro:89
 msgid "Technical Details"
 msgstr "Технічні деталі"
 
@@ -1152,6 +1152,7 @@ msgstr "Українська підтримка."
 msgid "Units"
 msgstr "од."
 
+#: src/components/wiki/WikiCard.astro:84
 #: src/pages/[lang]/wiki/[slug].astro:166
 msgid "Updated"
 msgstr "Оновлено"
@@ -1253,7 +1254,7 @@ msgstr "напр., ПАТ «Фармак»"
 msgid "e.g. Oleksii Kovalenko"
 msgstr "напр., Олексій Коваленко"
 
-#: src/components/wiki/WikiCard.astro:53
+#: src/components/wiki/WikiCard.astro:77
 #: src/pages/[lang]/wiki/[slug].astro:157
 msgid "min read"
 msgstr "хв читання"

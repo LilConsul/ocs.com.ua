@@ -225,12 +225,12 @@ msgstr ""
 #: src/components/Header.astro:151
 #: src/components/Header.astro:240
 #: src/pages/[lang]/contact.astro:40
+#: src/components/homepage/HeroSection.astro:94
 #: src/components/errors/ServerErrorContent.astro:43
 #: src/components/errors/NotFoundContent.astro:49
-#: src/components/homepage/HeroSection.astro:94
 #: src/components/contact/ContactHero.astro:25
-#: src/components/about/AboutCta.astro:32
 #: src/components/catalogue/CatalogueSidebar.astro:197
+#: src/components/about/AboutCta.astro:32
 msgid "Contact Us"
 msgstr ""
 
@@ -449,9 +449,9 @@ msgstr ""
 #: src/pages/[lang]/about.astro:56
 #: src/pages/[lang]/wiki/[slug].astro:109
 #: src/pages/[lang]/wiki/index.astro:60
-#: src/pages/[lang]/catalogue/industry/[slug].astro:124
+#: src/pages/[lang]/catalogue/industry/[slug].astro:123
 #: src/pages/[lang]/catalogue/equipment/[category]/[slug].astro:124
-#: src/pages/[lang]/catalogue/equipment/[category]/index.astro:127
+#: src/pages/[lang]/catalogue/equipment/[category]/index.astro:126
 msgid "Home"
 msgstr ""
 
@@ -653,7 +653,7 @@ msgstr ""
 msgid "No articles match your search."
 msgstr ""
 
-#: src/pages/[lang]/catalogue/equipment/[category]/index.astro:161
+#: src/pages/[lang]/catalogue/equipment/[category]/index.astro:160
 msgid "No products available in this category"
 msgstr ""
 
@@ -855,8 +855,8 @@ msgstr ""
 msgid "Product image thumbnails"
 msgstr ""
 
-#: src/pages/[lang]/catalogue/industry/[slug].astro:143
-#: src/pages/[lang]/catalogue/equipment/[category]/index.astro:146
+#: src/pages/[lang]/catalogue/industry/[slug].astro:142
+#: src/pages/[lang]/catalogue/equipment/[category]/index.astro:145
 msgid "Products"
 msgstr ""
 
@@ -886,7 +886,7 @@ msgstr ""
 msgid "Quicktron & Pharma Freefall Gravity Contaminant Separators"
 msgstr ""
 
-#: src/components/wiki/WikiCard.astro:68
+#: src/components/wiki/WikiCard.astro:110
 msgid "Read article"
 msgstr ""
 
@@ -1021,7 +1021,7 @@ msgid "Technical Datasheet"
 msgstr ""
 
 #: src/components/homepage/FeaturedEquipment.astro:160
-#: src/components/catalogue/ProductCard.astro:91
+#: src/components/catalogue/ProductCard.astro:89
 msgid "Technical Details"
 msgstr ""
 
@@ -1148,6 +1148,7 @@ msgstr ""
 msgid "Units"
 msgstr ""
 
+#: src/components/wiki/WikiCard.astro:84
 #: src/pages/[lang]/wiki/[slug].astro:166
 msgid "Updated"
 msgstr ""
@@ -1249,7 +1250,7 @@ msgstr ""
 msgid "e.g. Oleksii Kovalenko"
 msgstr ""
 
-#: src/components/wiki/WikiCard.astro:53
+#: src/components/wiki/WikiCard.astro:77
 #: src/pages/[lang]/wiki/[slug].astro:157
 msgid "min read"
 msgstr ""

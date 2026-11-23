@@ -55,6 +55,29 @@ export function calculateReadingMinutes(content: string): number {
 	return Math.max(1, Math.ceil(words / 200));
 }
 
+/** Blocks that are not prose: headings, lists, images, quotes, tables, HTML, fences, rules */
+const NOT_PROSE = /^(#|[-*+]\s|\d+[.)]\s|!\[|>|\||<|```|~~~|---|\*\*\*)/;
+
+/**
+ * The first prose paragraph of an article body as plain text, for cards whose article has no
+ * description. Links keep their text, bold and italic markers go, inline code keeps its
+ * backticks so the card can render it. Returns "" when the body has no prose paragraph.
+ */
+export function articleExcerpt(body: string | null | undefined): string {
+	for (const block of (body ?? "").split(/\n\s*\n/)) {
+		const text = block.trim();
+		if (!text || NOT_PROSE.test(text)) continue;
+		return text
+			.replace(/!\[[^\]]*\]\([^)]*\)/g, "")
+			.replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+			.replace(/(\*\*|__)(.+?)\1/g, "$2")
+			.replace(/(^|[\s(])[*_](\S(?:.*?\S)?)[*_](?=[\s).,;:!?]|$)/g, "$1$2")
+			.replace(/\s+/g, " ")
+			.trim();
+	}
+	return "";
+}
+
 /**
  * Find matching translation for a wiki article
  */
