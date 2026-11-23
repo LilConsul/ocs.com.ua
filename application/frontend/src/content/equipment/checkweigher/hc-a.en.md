@@ -3,11 +3,7 @@ file_name: hc-a
 order: 1
 datasheet: null
 title: HC-A Checkweigher
-description: HC-A series checkweighers are high-performance, premium-class
-  equipment designed for 100% weight control of products directly on the
-  production line. The series is built for high speeds and heavy production
-  loads, delivering maximum weighing accuracy even with an intensive product
-  flow.
+description: "Premium class for 100% weight control on high-speed lines with an intensive product flow, with a 15-inch touchscreen."
 specs:
   - title: Weighing
     items:
@@ -29,7 +25,8 @@ specs:
         value: 200 mm, 250 mm, 300 mm, 400 mm, 500 mm, 600 mm
       - label: Width
         value: 120 mm, 150 mm, 200 mm, 300 mm, 400 mm
-  - items:
+  - title: General Information
+    items:
       - label: Conveyor Working Height
         value: 700 - 850 mm, 800 - 950 mm, 900 - 1050 mm
       - label: Ingress Protection Rating
@@ -42,13 +39,12 @@ specs:
         value: Electromagnetic Force Restoration (EMFR)
       - label: "Automatic rejection of products with incorrect weight"
         value: Directed air blast, pneumatic pusher, rotary arm, etc.
-    title: General Information
 type: product
 ---
 
 ## High-Speed Checkweighers for Maximum Performance
 
-HC-A series checkweighers combine high weighing accuracy and throughput, meeting the demands of modern dynamic weighing technology in full compliance with GMP and HACCP requirements. Thanks to a well-thought-out design and advanced engineering solutions, the equipment provides an optimal basis for implementing complex tasks of automated control and regulation of production processes.
+HC-A series checkweighers combine high weighing accuracy and throughput, meeting the demands of modern dynamic weighing technology in full compliance with GMP and HACCP requirements. Thanks to a well-thought-out design and advanced engineering, the equipment provides an optimal basis for complex tasks of automated control and production process regulation.
 
 ## Key Features
 
@@ -75,7 +71,7 @@ The weigh cell has no parts that create friction. This ensures its durability an
 
 **Design and Vibration Protection**
 
-The scale frame and the electrical cabinet with the control terminal are made of stainless steel in accordance with hygienic requirements. A massive, stable frame weighing about 150 kg provides additional vibration protection, which has a positive effect on weighing accuracy.
+The scale frame and the electrical cabinet with the control terminal are made of stainless steel in accordance with hygienic requirements. The massive, stable frame weighing about 150 kg provides additional protection against vibration, which improves weighing accuracy.
 
 **Ease of Maintenance**
 

@@ -3,9 +3,15 @@ file_name: hc-a-md
 order: 4
 datasheet: null
 title: HC-A-MD Checkweigher with Metal Detector
-description: HC-A-MD series checkweighers with an integrated metal detector
-  combine high-precision dynamic weighing with ultra-sensitive metal detection
-  in a single compact system for maximum product safety and throughput.
+description: >-
+  The HC-A-MD with metal detection stands for high-precision weighing
+  combined with an ultra-sensitive metal detector for optimal efficiency. This
+  practical combination of technologies is aimed at improving consumer safety:
+  the scale and the metal detector are combined in one compact unit. It is
+  operated through a single operator interface (HMI) and integrates easily into
+  any production line. High-tech WIPOTEC weigh cells working on the principle of
+  electromagnetic force restoration (EMFR) guarantee optimal weighing results
+  thanks to advanced technology.
 specs:
   - title: Weighing
     items:
@@ -47,12 +53,11 @@ specs:
         value: Electromagnetic Force Restoration (EMFR)
       - label: "Automatic rejection of products with incorrect weight and metal contamination"
         value: Directed air blast, pneumatic pusher, rotary arm, etc.
-type: product
 ---
 
 ## High-Speed Checkweighers with Metal Detector for Maximum Performance
 
-HC-A-MD series checkweighers with an integrated metal detector combine high weighing accuracy and throughput, meeting the demands of modern dynamic weighing technology in full compliance with GMP and HACCP requirements. Thanks to a well-thought-out design and advanced engineering solutions, the equipment provides an optimal basis for implementing complex tasks of automated control and regulation of production processes.
+HC-A-MD series checkweighers with an integrated metal detector combine high weighing accuracy and throughput, meeting the demands of modern dynamic weighing technology in full compliance with GMP and HACCP requirements. Thanks to a well-thought-out design and advanced engineering, the equipment provides an optimal basis for complex tasks of automated control and production process regulation.
 
 ## Key Features
 
@@ -79,7 +84,7 @@ The weigh cell has no parts that create friction. This ensures its durability an
 
 **Design and Vibration Protection**
 
-The scale frame and the electrical cabinet with the control terminal are made of stainless steel in accordance with hygienic requirements. A massive, stable frame weighing about 150 kg provides additional vibration protection, which has a positive effect on weighing accuracy.
+The scale frame and the electrical cabinet with the control terminal are made of stainless steel in accordance with hygienic requirements. The massive, stable frame weighing about 150 kg provides additional protection against vibration, which improves weighing accuracy.
 
 **Ease of Maintenance**
 

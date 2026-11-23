@@ -3,9 +3,17 @@ file_name: hc-m-mdi
 order: 5
 datasheet: null
 title: HC-M-MDi Checkweigher with Metal Detector
-description: HC-M-MDi series checkweighers with an integrated metal detector
-  combine high-accuracy dynamic weighing and reliable metal detection in a
-  single space-saving housing for optimal mid-range production line safety.
+description: >-
+  If high-precision weighing of your products is not enough and you also need
+  reliable inspection for metal contaminants, choose the HC-M-MDi.
+
+  This unit is a high-tech combination of a checkweigher and a metal detector in
+  one compact block that sets quality standards in product safety.
+
+  The whole system is operated through the user-friendly checkweigher interface.
+  The central control point makes it easy to set product parameters, keep logs
+  and track production statistics. This model combines a high-precision weighing
+  instrument and a fully integrated metal detector, all in one compact housing.
 specs:
   - title: Weighing
     items:
@@ -43,12 +51,11 @@ specs:
         value: 10"
       - label: Weigh Cell
         value: Electromagnetic Force Restoration (EMFR)
-type: product
 ---
 
 ## High-Speed Checkweighers with Metal Detector
 
-HC-M-MDi series checkweighers with an integrated metal detector combine high weighing accuracy and throughput, meeting the demands of modern dynamic weighing technology in full compliance with GMP and HACCP requirements. Thanks to a well-thought-out design and advanced engineering solutions, the equipment provides an optimal basis for implementing complex tasks of automated control and regulation of production processes.
+HC-M-MDi series checkweighers with an integrated metal detector combine high weighing accuracy and throughput, meeting the demands of modern dynamic weighing technology in full compliance with GMP and HACCP requirements. Thanks to a well-thought-out design and advanced engineering, the equipment provides an optimal basis for complex tasks of automated control and production process regulation.
 
 ## Key Features
 
@@ -75,7 +82,7 @@ The weigh cell has no parts that create friction. This ensures its durability an
 
 **Design and Vibration Protection**
 
-The scale frame and the electrical cabinet with the control terminal are made of stainless steel in accordance with hygienic requirements. A massive, stable frame weighing about 150 kg provides additional vibration protection, which has a positive effect on weighing accuracy.
+The scale frame and the electrical cabinet with the control terminal are made of stainless steel in accordance with hygienic requirements. The massive, stable frame weighing about 150 kg provides additional protection against vibration, which improves weighing accuracy.
 
 **Ease of Maintenance**
 

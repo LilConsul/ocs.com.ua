@@ -1,8 +1,8 @@
 ---
 file_name: weighing-accuracy
-title: Weighing Accuracy in Simple Words
-description: What 'accurate weighing' really means, why a scale can be wrong
-  even when it looks precise, and what makes the result better or worse.
+title: Factors Affecting the Accuracy of Dynamic Weighing
+description: Which external, mechanical and process factors affect the accuracy
+  and repeatability of dynamic weighing on a production line.
 coverImage: /assets/wiki/2026-11-22-14.13.53.webp
 order: 3
 datePublished: 2026-10-31
@@ -12,54 +12,68 @@ related:
   - load-cell
 ---
 
-"This scale is accurate" is something everyone says, but what does it actually mean? Let's make it clear.
+The accuracy of in-motion weighing depends not only on the characteristics of the weighing system, but also on how it is installed, how the product is transported and how the production line operates. In dynamic weighing, the measurement result can be affected by mechanical vibration, external interference, air movement, conveyor speed and other factors.
 
-## The short version
+Let us look at the main factors that can affect the accuracy and repeatability of weighing results.
 
-**Accuracy is how close the scale's number is to the real weight.**
+## External Factors and Operating Conditions
 
-If a product really weighs 500 g and the scale shows 500 g, great. If it shows 503 g, the scale is off by 3 g. That 3 g is the **error**. The smaller the error, the more accurate the scale.
+Measurement stability can be affected by environmental factors and by the way the equipment is installed:
 
-## Think of darts
+* **Floor and structural vibration** — vibration transmitted to the weighing system from other production equipment, vehicles or building structures.
+* **Air currents** — air movement from ventilation, air conditioning, cooling systems and other sources.
+* **Movement of personnel** — mechanical vibration caused by contact with the system's supporting structure.
+* **Conveyor cleanliness** — product residue, dust and other contamination can affect belt movement, balance and stable operation.
+* **Magnetic fields and electromagnetic interference** — can disturb sensitive electronic and measuring components.
+* **Room humidity and temperature** — significant changes in ambient conditions can affect individual equipment components.
+* **Static electricity** — electrical charge building up on products, the conveyor belt and equipment parts can cause unwanted electrical interference.
 
-Imagine throwing darts at a target:
+## Product Transport
 
-* **Accurate:** darts land close to the bullseye.
-* **Repeatable (precise):** darts land close *to each other*, but maybe far from the bullseye.
+As the product moves through the weighing section, it is important to keep it in a stable position and moving evenly.
 
-A scale can be repeatable but not accurate. For example, it always shows 3 g too much. The numbers look stable and trustworthy, but they are all wrong in the same way. This is why scales need to be checked against a known weight from time to time.
+Weighing accuracy can be affected by:
 
-## Accuracy is not the number of digits
+* **Air currents** — especially noticeable when transporting light products or items with a large surface area.
+* **Height differences and transfers between conveyors** — can cause impacts, speed changes and additional product movement.
+* **Product swaying and rocking** — an unstable product position while passing the weighing section can scatter the measurement results.
+* **Unstable product position on the belt** — the item shifting, rotating or changing orientation during weighing.
+* **Uneven product feed** — insufficient spacing between items or items touching each other can make it hard to determine individual weights correctly.
 
-A scale showing `150.23 g` is not automatically more accurate than one showing `150.2 g`. The extra digit is just finer display, which is explained in the article about [resolution (d)](/en/wiki/what-is-scale-division/). Accuracy depends on the quality of the whole scale, not on how many digits it shows.
+## Mechanical Factors Related to the Weighing System
 
-## What makes weighing less accurate?
+The equipment's own mechanical vibration can be transmitted to the weighing module and affect measurement stability.
 
-Think of weighing as a very sensitive measurement. Anything that pushes, shakes or heats the scale can spoil it:
+The main sources of such vibration are moving and rotating parts:
 
-* **Vibration.** Motors, nearby machines, a person walking by.
-* **Air drafts.** A fan or an open door can push on a light product.
-* **Temperature changes.** The sensor inside the scale reacts slightly to heat and cold.
-* **Dirt and sticking product.** Dust, glue or leftovers on the belt add extra weight.
-* **Uneven or unstable base.** A scale that is not level or stands on a shaky floor gives shaky results.
-* **Moving products.** On a conveyor the product is only on the scale for a fraction of a second, so it is harder than weighing something standing still.
-* **Worn or damaged parts.** The [load cell](/en/wiki/load-cell/) can drift or be damaged by overload.
+* electric motors and gearboxes;
+* drive and tension shafts;
+* toothed belts and pulleys;
+* conveyor belts;
+* bearing assemblies and other moving mechanical components.
 
-## How to keep it accurate
+Correct balancing of moving parts, installation quality, the technical condition of the mechanisms and the absence of excessive mechanical play are particularly important.
 
-You don't need to be an expert. A few habits help a lot:
+## Influence of the Reject Device
 
-1. **Install the scale properly.** Level, stable, away from strong vibration and drafts.
-2. **Keep it clean.** Wipe off dirt and product residue.
-3. **Don't overload it.** Never put more than the maximum weight on it, and avoid hits and drops.
-4. **Let it warm up** for a few minutes after switching on.
-5. **Check it regularly** with a known test weight. If the number is wrong, adjust (calibrate) the scale.
+The operation of the reject mechanism can also affect weighing accuracy, especially at high line throughput.
 
-## How much error is OK?
+The main sources of influence:
 
-It depends on what you are weighing. Ask yourself: *how many grams of difference can I accept in one pack?*
+* **Mechanical vibration** — vibration that occurs when pneumatic or mechanical actuators are triggered.
+* **Air currents** — compressed air pulses from pneumatic pushers, nozzles and other devices.
+* **Mechanical impact on the conveyor structure** — shocks and loads that can be transmitted to the weighing section.
 
-* If you pack 500 g bags and can accept ±5 g, a scale with a 1 g error is plenty good.
-* If you weigh medicine doses of 2 g, you need a much finer and more accurate scale.
+To minimise these effects, it is important to position the reject device correctly relative to the weighing conveyor and to provide sufficient mechanical isolation.
 
-Choose the scale based on your tolerance, not on the biggest possible number of digits.
+## Influence of Production Line Speed
+
+Conveyor speed is one of the key parameters affecting the accuracy of dynamic weighing.
+
+All other conditions being equal, the standard deviation of measurement results generally increases as conveyor speed increases. This is because the product spends less time on the weighing section, leaving less time for the measuring signal to settle.
+
+So when choosing a weighing system, you need to consider not only the required throughput (products per minute), but also the characteristics of the product itself: its weight, dimensions, positional stability and permissible error limits.
+
+***
+
+**Conclusion:** the accuracy of dynamic weighing results from the interaction of many factors. Proper production line design, correct equipment installation, optimal parameter settings and modern vibration compensation technologies minimise the influence of external interference and ensure stable weighing results even at high throughput.

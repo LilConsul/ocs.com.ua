@@ -3,18 +3,16 @@ file_name: ec-e
 order: 3
 datasheet: null
 title: EC-E Checkweigher
-description: Reliable checkweigher for fully automatic weight control and data
-  acquisition. Capable of 150 weight measurements per minute with intuitive
-  control via an 8-inch touchscreen.
+description: "Entry-level checkweigher for automatic weight control and data acquisition, operated via an 8-inch touchscreen."
 specs:
-  - items:
+  - title: Weighing
+    items:
       - label: Max Speed
         value: 150 ppm
       - label: Resolution
         value: 0.2 - 1.0 g
       - label: Maximum Weighing Capacity
         value: 1500 g, 3000 g, 6000 g
-    title: Weighing
   - title: Infeed and Outfeed Conveyors
     items:
       - label: Length
@@ -46,7 +44,7 @@ type: product
 
 ## Entry-Level Checkweighers
 
-EC-Essential is a cost-effective solution for dynamic weight control of products on lines with a throughput of up to 150 pcs/min. A variety of configuration options provides the flexibility to integrate the equipment into most production lines according to the customer's needs.
+EC-Essential is a cost-effective solution for dynamic weight control of products on lines with a throughput of up to 150 pcs/min. A wide range of configuration options allows flexible integration into most production lines according to customer requirements.
 
 ## Key Features
 
@@ -73,7 +71,7 @@ The weigh cell has no parts that create friction. This ensures its durability an
 
 **Design and Vibration Protection**
 
-The scale frame and the electrical cabinet with the control terminal are made of stainless steel in accordance with hygienic requirements. A massive, stable frame weighing about 150 kg provides additional vibration protection, which has a positive effect on weighing accuracy.
+The scale frame and the electrical cabinet with the control terminal are made of stainless steel in accordance with hygienic requirements. The massive, stable frame weighing about 150 kg provides additional protection against vibration, which improves weighing accuracy.
 
 **Ease of Maintenance**
 
