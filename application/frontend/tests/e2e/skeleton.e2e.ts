@@ -7,7 +7,7 @@ test.beforeEach(async ({ page }) => {
 
 const CATEGORY = "/ua/catalogue/equipment/checkweigher/";
 /** Image wrapper of the first product card on a category page */
-const firstCardWrapper = (page: Page) => page.locator("[data-product-item] > a").first();
+const firstCardWrapper = (page: Page) => page.locator("[data-product-item] .skeleton").first();
 
 /**
  * Holds back the requests that match `pattern` (and `only` accepts, or all of them) until the
@@ -219,7 +219,7 @@ test.describe("image skeletons", () => {
 
 	test("product page: no picture stays hidden after it loads", async ({ page }) => {
 		await page.goto(CATEGORY);
-		const href = await page.locator("[data-product-item] > a").first().getAttribute("href");
+		const href = await page.locator("a[data-product-item]").first().getAttribute("href");
 		if (!href) throw new Error("no product link");
 		await expectNothingStuck(page, href);
 	});

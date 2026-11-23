@@ -52,3 +52,26 @@ export function summarize(text: string | null | undefined, max = 230): string {
 	}
 	return out.trim();
 }
+
+const escapeRegExp = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+/**
+ * The title without the model code, for cards that already show the code above it:
+ * "HC-A Checkweigher" with model "HC-A" gives "Checkweigher". Case does not matter, a "model" or
+ * "модель" right before the code goes too, and a code that is only part of a longer one
+ * ("HC-A" in "TQS-HC-A") is left alone. Returns the full title if nothing would be left.
+ */
+export function shortTitle(title: string, model: string): string {
+	const flat = title.replace(/\s+/g, " ").trim();
+	if (!model) return flat;
+	const code = new RegExp(
+		`(?:,?\\s*(?:model|модель)\\s+)?(?<![\\p{L}\\p{N}-])${escapeRegExp(model)}(?![\\p{L}\\p{N}-])`,
+		"iu"
+	);
+	const rest = flat
+		.replace(code, " ")
+		.replace(/\s+/g, " ")
+		.trim()
+		.replace(/^[,\s]+|[,\s]+$/g, "");
+	return rest ? rest.charAt(0).toUpperCase() + rest.slice(1) : flat;
+}

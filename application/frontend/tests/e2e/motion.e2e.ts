@@ -110,12 +110,11 @@ test.describe("scroll reveals", () => {
 		await page.goto(CATEGORY);
 		await expect(page.locator("html")).toHaveClass(/motion-on/);
 		const word = await page.evaluate(() => {
-			const index = JSON.parse(
-				document.querySelector("[data-product-index]")?.textContent ?? "[]"
-			) as { title: string }[];
-			return index[0]?.title.split(/\s+/)[0] ?? "";
+			const template = document.querySelector<HTMLTemplateElement>("template[data-product-cards]");
+			const card = template?.content.querySelector<HTMLElement>("[data-product-item]");
+			return card?.dataset.productText?.split(/\s+/)[0] ?? "";
 		});
-		test.skip(!word, "no product index on this page");
+		test.skip(!word, "no product cards on this page");
 
 		await page.locator("[data-product-search-input]").fill(word);
 		const card = page.locator("[data-product-item]").first();

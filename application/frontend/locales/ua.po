@@ -124,20 +124,21 @@ msgid "By submitting this form you agree to the processing of your details as de
 msgstr "Надсилаючи цю форму, ви погоджуєтеся на обробку ваших даних, як описано в нашій"
 
 #: src/components/Header.astro:27
-#: src/components/catalogue/RelatedEquipment.astro:34
+#: src/components/catalogue/RelatedEquipment.astro:43
 #: src/components/catalogue/CategoryHeader.astro:34
 msgid "Catalogue"
 msgstr "Каталог"
 
-#: src/components/catalogue/CatalogueSidebar.astro:81
+#: src/components/catalogue/CatalogueSidebar.astro:86
 msgid "Catalogue Filters"
 msgstr "Фільтри каталогу"
 
 #: src/lib/llms.ts:230
+#: src/components/catalogue/ProductCard.astro:43
 msgid "Category"
 msgstr "Категорія"
 
-#: src/components/catalogue/CatalogueSidebar.astro:33
+#: src/components/catalogue/CatalogueSidebar.astro:38
 msgid "Category navigation"
 msgstr "Навігація за категоріями"
 
@@ -191,7 +192,7 @@ msgstr "Сторінки списку клієнтів"
 msgid "Close"
 msgstr "Закрити"
 
-#: src/components/catalogue/CatalogueSidebar.astro:74
+#: src/components/catalogue/CatalogueSidebar.astro:79
 msgid "Close filters"
 msgstr "Закрити фільтри"
 
@@ -228,12 +229,12 @@ msgstr "Контактна інформація"
 #: src/components/Header.astro:151
 #: src/components/Header.astro:240
 #: src/pages/[lang]/contact.astro:40
-#: src/components/homepage/HeroSection.astro:94
 #: src/components/errors/ServerErrorContent.astro:43
 #: src/components/errors/NotFoundContent.astro:49
+#: src/components/homepage/HeroSection.astro:94
 #: src/components/contact/ContactHero.astro:25
-#: src/components/catalogue/CatalogueSidebar.astro:194
 #: src/components/about/AboutCta.astro:32
+#: src/components/catalogue/CatalogueSidebar.astro:197
 msgid "Contact Us"
 msgstr "Зв’язатися з нами"
 
@@ -334,7 +335,7 @@ msgstr "Довідник підприємств-клієнтів"
 msgid "Equipment"
 msgstr "Обладнання"
 
-#: src/components/catalogue/CatalogueSidebar.astro:32
+#: src/components/catalogue/CatalogueSidebar.astro:37
 msgid "Equipment Categories"
 msgstr "Категорії обладнання"
 
@@ -375,7 +376,7 @@ msgstr "Наведені цифри є орієнтовними та можут�
 msgid "Filter clients by sector"
 msgstr "Фільтр клієнтів за галуззю"
 
-#: src/components/catalogue/CatalogueSidebar.astro:54
+#: src/components/catalogue/CatalogueSidebar.astro:59
 msgid "Filters"
 msgstr "Фільтри"
 
@@ -394,6 +395,10 @@ msgstr "Харчова промисловість"
 #: src/components/catalogue/DatasheetModal.astro:116
 msgid "Full Name"
 msgstr "Повне ім'я"
+
+#: src/components/catalogue/ProductCard.astro:35
+msgid "Full specifications and configurations are on the product page."
+msgstr "Повні характеристики та конфігурації на сторінці товару."
 
 #: src/lib/llms.ts:184
 msgid "Full text of every product and article"
@@ -448,9 +453,9 @@ msgstr "Високошвидкісні контрольно динамічні �
 #: src/pages/[lang]/about.astro:56
 #: src/pages/[lang]/wiki/[slug].astro:109
 #: src/pages/[lang]/wiki/index.astro:60
-#: src/pages/[lang]/catalogue/industry/[slug].astro:134
+#: src/pages/[lang]/catalogue/industry/[slug].astro:124
 #: src/pages/[lang]/catalogue/equipment/[category]/[slug].astro:124
-#: src/pages/[lang]/catalogue/equipment/[category]/index.astro:137
+#: src/pages/[lang]/catalogue/equipment/[category]/index.astro:127
 msgid "Home"
 msgstr "Головна"
 
@@ -477,7 +482,7 @@ msgstr "Промислові системи контрольного зважу�
 #: src/lib/llms.ts:142
 #: src/lib/llms.ts:233
 #: src/components/Header.astro:32
-#: src/components/catalogue/CatalogueSidebar.astro:39
+#: src/components/catalogue/CatalogueSidebar.astro:44
 msgid "Industries"
 msgstr "Галузі"
 
@@ -490,7 +495,7 @@ msgstr "Галузі, для яких ми працюємо"
 msgid "Industry Sector"
 msgstr "Галузь"
 
-#: src/components/catalogue/CatalogueSidebar.astro:40
+#: src/components/catalogue/CatalogueSidebar.astro:45
 msgid "Industry navigation"
 msgstr "Навігація за галузями"
 
@@ -652,11 +657,11 @@ msgstr "Наступна сторінка"
 msgid "No articles match your search."
 msgstr "За вашим запитом статей не знайдено."
 
-#: src/pages/[lang]/catalogue/equipment/[category]/index.astro:170
+#: src/pages/[lang]/catalogue/equipment/[category]/index.astro:161
 msgid "No products available in this category"
 msgstr "У цій категорії поки немає обладнання"
 
-#: src/components/catalogue/CatalogueSidebar.astro:104
+#: src/components/catalogue/CatalogueSidebar.astro:108
 msgid "No products match your search. Try browsing another category."
 msgstr "За вашим запитом обладнання не знайдено. Спробуйте іншу категорію."
 
@@ -710,7 +715,7 @@ msgstr "Зміст статті"
 msgid "One or more selected equipment types are invalid."
 msgstr "Один або кілька обраних типів обладнання недійсні."
 
-#: src/components/catalogue/CatalogueSidebar.astro:51
+#: src/components/catalogue/CatalogueSidebar.astro:56
 msgid "Open filters"
 msgstr "Відкрити фільтри"
 
@@ -854,8 +859,8 @@ msgstr "Огляд обладнання"
 msgid "Product image thumbnails"
 msgstr "Мініатюри зображень обладнання"
 
-#: src/pages/[lang]/catalogue/industry/[slug].astro:152
-#: src/pages/[lang]/catalogue/equipment/[category]/index.astro:155
+#: src/pages/[lang]/catalogue/industry/[slug].astro:143
+#: src/pages/[lang]/catalogue/equipment/[category]/index.astro:146
 msgid "Products"
 msgstr "Обладнання"
 
@@ -889,7 +894,7 @@ msgstr "Гравітаційні сепаратори домішок Quicktron �
 msgid "Read article"
 msgstr "Читати статтю"
 
-#: src/components/catalogue/RelatedEquipment.astro:40
+#: src/components/catalogue/RelatedEquipment.astro:49
 msgid "Related Equipment"
 msgstr "Схоже обладнання"
 
@@ -914,8 +919,8 @@ msgstr "Запитана адреса"
 msgid "Scroll to zoom"
 msgstr "Прокрутка — масштаб"
 
-#: src/components/catalogue/CatalogueSidebar.astro:100
-#: src/components/catalogue/CatalogueSidebar.astro:101
+#: src/components/catalogue/CatalogueSidebar.astro:105
+#: src/components/catalogue/CatalogueSidebar.astro:106
 msgid "Search products…"
 msgstr "Пошук обладнання…"
 
@@ -1020,8 +1025,7 @@ msgid "Technical Datasheet"
 msgstr "Технічна специфікація"
 
 #: src/components/homepage/FeaturedEquipment.astro:160
-#: src/components/catalogue/ProductCard.astro:84
-#: src/components/catalogue/CatalogueSidebar.astro:103
+#: src/components/catalogue/ProductCard.astro:91
 msgid "Technical Details"
 msgstr "Технічні деталі"
 
@@ -1029,7 +1033,7 @@ msgstr "Технічні деталі"
 msgid "Technical Specifications"
 msgstr "Технічні характеристики"
 
-#: src/components/catalogue/CatalogueSidebar.astro:84
+#: src/components/catalogue/CatalogueSidebar.astro:89
 msgid "Technical Specs"
 msgstr "Технічні характеристики"
 

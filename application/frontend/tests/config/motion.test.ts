@@ -123,8 +123,9 @@ describe("motion: dynamic markup", () => {
 		expect(sidebar).toMatch(/import\s*\{\s*observeReveals\s*\}\s*from\s*"@\/lib\/anims\/reveal"/);
 	});
 
-	it("re-scans after every innerHTML assignment that inserts reveal cards", () => {
-		const inserts = sidebar.match(/(results|hero)\.innerHTML = [^;]+;/g) ?? [];
+	it("re-scans after every insert of reveal cards", () => {
+		const inserts =
+			sidebar.match(/(results|hero)\.(innerHTML = [^;]+|replaceChildren\([^;]+\));/g) ?? [];
 		expect(inserts.length).toBe(4);
 		for (const stmt of inserts) {
 			const after = sidebar.slice(sidebar.indexOf(stmt) + stmt.length);

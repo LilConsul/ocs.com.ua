@@ -977,6 +977,12 @@ html.skeleton-on .skeleton:not([data-loaded]) > picture > img {
 	.card-hover:hover {
 		translate: 0 -2px;
 	}
+
+	/* Equipment cards stay put: the border trace is their one hover movement */
+	.product-card:hover,
+	.catalogue-trace:hover {
+		translate: none;
+	}
 }
 
 /* Shared buttons and text links. Layout-only classes (width, margin, alignment) stay on the

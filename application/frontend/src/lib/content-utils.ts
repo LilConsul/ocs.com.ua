@@ -17,13 +17,6 @@ import { resolveImages } from "./images";
 export type Locale = "en" | "ua";
 export type EquipmentEntry = CollectionEntry<"equipment">;
 
-export interface ProductSearchEntry {
-	title: string;
-	description: string;
-	url: string;
-	image: string;
-}
-
 export interface EquipmentType {
 	slug: string;
 	title: string;

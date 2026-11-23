@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import type { EquipmentEntry, EquipmentType } from "@/lib/content-utils";
-import { getFeaturedGroups, summarize } from "@/lib/featured-equipment";
+import { getFeaturedGroups, shortTitle, summarize } from "@/lib/featured-equipment";
 
 // The glob loader strips the dot before the locale, so "hc-a.en.md" has the id "hc-aen"
 const entry = (id: string, order?: number) =>
@@ -110,5 +110,43 @@ describe("summarize", () => {
 
 	it("does not split on decimals or units", () => {
 		expect(summarize("Weighs 0.1 g to 7.5 kg. Fast.", 24)).toBe("Weighs 0.1 g to 7.5 kg.");
+	});
+});
+
+describe("shortTitle", () => {
+	it("drops a leading or trailing model code", () => {
+		expect(shortTitle("HC-A Checkweigher", "HC-A")).toBe("Checkweigher");
+		expect(shortTitle("Контрольно динамічні ваги з металодетектором HC-A-MD", "HC-A-MD")).toBe(
+			"Контрольно динамічні ваги з металодетектором"
+		);
+	});
+
+	it("matches the model whatever its case", () => {
+		expect(shortTitle("HC-M-MDi Checkweigher with Metal Detector", "HC-M-MDI")).toBe(
+			"Checkweigher with Metal Detector"
+		);
+	});
+
+	it("drops the word model before the code", () => {
+		expect(shortTitle("Serialization system with checkweighing, model TQS-HC-A", "TQS-HC-A")).toBe(
+			"Serialization system with checkweighing"
+		);
+		expect(shortTitle("Система серіалізації з вагами модель TQS-HC-A", "TQS-HC-A")).toBe(
+			"Система серіалізації з вагами"
+		);
+	});
+
+	it("capitalises the first letter and collapses spaces", () => {
+		expect(shortTitle("система серіалізації TQS-SP", "TQS-SP")).toBe("Система серіалізації");
+		expect(shortTitle("Tamper evidence  TQS-HC-A-TE", "TQS-HC-A-TE")).toBe("Tamper evidence");
+	});
+
+	it("does not strip a code that is only part of a longer code", () => {
+		expect(shortTitle("TQS-HC-A Line", "HC-A")).toBe("TQS-HC-A Line");
+	});
+
+	it("keeps the full title when nothing would be left", () => {
+		expect(shortTitle("HC-A", "HC-A")).toBe("HC-A");
+		expect(shortTitle("", "HC-A")).toBe("");
 	});
 });
