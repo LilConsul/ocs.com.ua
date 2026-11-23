@@ -45,8 +45,8 @@ specs:
         value: 15”
       - label: Weigh Cell
         value: Electromagnetic Force Restoration (EMFR)
-      - label: "Automatic rejection of products with incorrect weight and metal contamination:"
-        value: directed air blast, pneumatic pusher, rotary arm, etc.
+      - label: "Automatic rejection of products with incorrect weight and metal contamination"
+        value: Directed air blast, pneumatic pusher, rotary arm, etc.
 type: product
 ---
 

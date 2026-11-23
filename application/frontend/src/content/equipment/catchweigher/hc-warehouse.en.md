@@ -12,7 +12,7 @@ specs:
       - label: Max Speed
         value: 1.2 m/s
       - label: Resolution
-        value: from 5 g
+        value: From 5 g
 ---
 
 ## Attractively Priced Catchweigher for Warehouse and Intralogistics Sector

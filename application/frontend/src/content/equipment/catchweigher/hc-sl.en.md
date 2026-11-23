@@ -12,7 +12,7 @@ specs:
       - label: Max Speed
         value: 2.9 m/s
       - label: Weighing Range
-        value: up to 60 kg
+        value: Up to 60 kg
       - label: Accuracy
         value: ±5g
 type: product
@@ -26,7 +26,7 @@ Scales of the HC-SL series are designed for products up to a maximum 60 kg. The 
 
 * Sandwich construction for maximum rigidity
 * Weighing range up to 60 kg (optionally 150 kg)
-* Calibration value above ±5g
+* Calibration value above ±5 g
 * Low noise level not exceeding 65 dB
 * Communication protocols: Ethernet/IP, Profinet, Profibus
 * Symmetrical belt construction for bidirectional use

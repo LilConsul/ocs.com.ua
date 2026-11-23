@@ -9,9 +9,9 @@ description: HC-M series checkweighers for medium performance ranges. Positioned
 specs:
   - items:
       - label: Max Speed
-        value: up to 250 ppm
+        value: Up to 250 ppm
       - label: Resolution
-        value: from 0.1 g - 1.0 g
+        value: From 0.1 g - 1.0 g
       - label: Maximum Weighing Capacity
         value: 750 g - 7500 g
     title: Weighing
@@ -39,8 +39,8 @@ specs:
         value: 10.4”
       - label: Weigh Cell
         value: Electromagnetic Force Restoration (EMFR)
-      - label: "Automatic rejection of products with incorrect weight:"
-        value: directed air blast, pneumatic pusher, rotary arm, etc.
+      - label: "Automatic rejection of products with incorrect weight"
+        value: Directed air blast, pneumatic pusher, rotary arm, etc.
 type: product
 ---
 

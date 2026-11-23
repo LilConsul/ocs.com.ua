@@ -10,9 +10,9 @@ specs:
   - title: Weighing
     items:
       - label: Max Speed
-        value: up to 250 ppm
+        value: Up to 250 ppm
       - label: Resolution
-        value: from 0.1 g - 0.5 g
+        value: From 0.1 g - 0.5 g
       - label: Maximum Weighing Capacity
         value: 750 g - 3750 g
   - title: Metal Detector Infeed Conveyor
