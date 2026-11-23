@@ -1,6 +1,10 @@
 import copy
+import hashlib
+import json
 import re
+from collections import Counter
 
+import pymupdf
 import pytest
 
 from translator.cli import main
@@ -191,6 +195,160 @@ def test_latin_word_next_to_digits_still_warns(en, ua, glossary, cfg, ok_report)
     assert "inch" in issues[0].message
 
 
+MATRIX = {
+    "type": "matrix",
+    "title": "Sizes",
+    "corner": "w l",
+    "header": ["120 mm", "150 mm"],
+    "rows": [{"label": "200 mm", "cells": ["x", "-"]}],
+}
+HERO = {"type": "hero", "image": "images/photo-1.jpg", "aside": []}
+DRAWING = {
+    "type": "drawing",
+    "image": "images/drawing-3.svg",
+    "clip": [0.0, 0.0, 400.0, 250.0],
+    "page": 3,
+    "labels": [{"text": "flow", "x": 5.0, "y": 10.0}],
+}
+
+
+def add_blocks(en, ua, *blocks):
+    """Append copies of blocks to the last page of both documents (flat index 3 onwards)."""
+    for doc in (en, ua):
+        doc["pages"][-1]["blocks"].extend(copy.deepcopy(b) for b in blocks)
+
+
+def error_paths(issues):
+    return [i.path for i in errors(issues)]
+
+
+def test_matrix_cells_must_match(en, ua, glossary, cfg, ok_report):
+    add_blocks(en, ua, MATRIX)
+    ua["pages"][1]["blocks"][1]["title"] = "Розміри"
+    ua["pages"][1]["blocks"][1]["corner"] = "ш д"
+    ua["pages"][1]["blocks"][1]["header"] = ["120 мм", "150 мм"]
+    ua["pages"][1]["blocks"][1]["rows"][0]["label"] = "200 мм"
+    assert lint(en, ua, glossary, cfg, ok_report, "") == []
+    ua["pages"][1]["blocks"][1]["rows"][0]["cells"] = ["-", "x"]
+    assert error_paths(lint(en, ua, glossary, cfg, ok_report, "")) == ["block[3].rows[0].cells"]
+
+
+def test_table_row_note_must_match(en, ua, glossary, cfg, ok_report):
+    en["pages"][0]["blocks"][0]["rows"][0]["note"] = 1
+    ua["pages"][0]["blocks"][0]["rows"][0]["note"] = 1
+    assert lint(en, ua, glossary, cfg, ok_report, "") == []
+    ua["pages"][0]["blocks"][0]["rows"][0]["note"] = 2
+    assert error_paths(lint(en, ua, glossary, cfg, ok_report, "")) == ["block[0].rows[0].note"]
+    del ua["pages"][0]["blocks"][0]["rows"][0]["note"]
+    assert error_paths(lint(en, ua, glossary, cfg, ok_report, "")) == ["block[0].rows[0].note"]
+
+
+def test_product_model_and_variant_must_match(en, ua, glossary, cfg, ok_report):
+    en["product"]["variant"] = "BASIS"
+    ua["product"]["variant"] = "BASIS"
+    ua["product"]["model"] = "HC-B"
+    assert error_paths(lint(en, ua, glossary, cfg, ok_report, "")) == ["product.model"]
+    ua["product"]["model"] = "HC-A"
+    ua["product"]["variant"] = "PRO"
+    assert error_paths(lint(en, ua, glossary, cfg, ok_report, "")) == ["product.variant"]
+
+
+def test_hero_and_drawing_media_must_match(en, ua, glossary, cfg, ok_report):
+    add_blocks(en, ua, HERO, DRAWING)
+    ua["pages"][1]["blocks"][2]["labels"][0]["text"] = "потік"
+    ua["pages"][1]["blocks"][2]["labels"][0]["x"] = 30.0  # label position stays free
+    assert lint(en, ua, glossary, cfg, ok_report, "") == []
+    ua["pages"][1]["blocks"][1]["image"] = "images/photo-2.jpg"
+    ua["pages"][1]["blocks"][2]["image"] = "images/drawing-4.svg"
+    ua["pages"][1]["blocks"][2]["clip"] = [0.0, 0.0, 300.0, 250.0]
+    ua["pages"][1]["blocks"][2]["page"] = 4
+    assert error_paths(lint(en, ua, glossary, cfg, ok_report, "")) == [
+        "block[3].image",
+        "block[4].image",
+        "block[4].clip",
+        "block[4].page",
+    ]
+
+
+def test_changed_footnote_mark_is_error(en, ua, glossary, cfg, ok_report):
+    en["pages"][0]["blocks"][0]["rows"][0]["value"] = "750 g, up to 5)"
+    ua["pages"][0]["blocks"][0]["rows"][0]["value"] = "750 г, до 5)"
+    assert lint(en, ua, glossary, cfg, ok_report, "") == []
+    ua["pages"][0]["blocks"][0]["rows"][0]["value"] = "750 г, до 6)"
+    found = errors(lint(en, ua, glossary, cfg, ok_report, ""))
+    assert [i.path for i in found] == ["block[0].rows[0].value"]
+    assert "footnote marks differ" in found[0].message
+
+
+def test_number_closing_a_parenthesis_is_compared(en, ua, glossary, cfg, ok_report):
+    en["pages"][0]["blocks"][0]["rows"][0]["value"] = "750 g (optionally 3)"
+    ua["pages"][0]["blocks"][0]["rows"][0]["value"] = "750 г (опційно ще 4)"
+    assert error_paths(lint(en, ua, glossary, cfg, ok_report, "")) == ["block[0].rows[0].value"]
+
+
+def test_stale_render_is_error(en, ua, glossary, cfg, ok_report):
+    ok_report["ua_sha256"] = "aaa"
+    assert lint(en, ua, glossary, cfg, ok_report, "", ua_sha256="aaa") == []
+    found = errors(lint(en, ua, glossary, cfg, ok_report, "", ua_sha256="bbb"))
+    assert [i.path for i in found] == ["render"] and "stale render" in found[0].message
+    del ok_report["ua_sha256"]
+    assert error_paths(lint(en, ua, glossary, cfg, ok_report, "", ua_sha256="aaa")) == ["render"]
+
+
+def test_missing_output_pdf_is_error(en, ua, glossary, cfg, ok_report):
+    found = errors(lint(en, ua, glossary, cfg, ok_report, None))
+    assert [i.path for i in found] == ["render"] and "stale render" in found[0].message
+
+
+def test_en_numbers_checked_against_source(en, ua, glossary, cfg, ok_report):
+    source = Counter({"750": 1, "2": 1})
+    assert lint(en, ua, glossary, cfg, ok_report, "", source_numbers=source) == []
+    en["pages"][0]["blocks"][0]["rows"][0]["value"] = "760 g"
+    ua["pages"][0]["blocks"][0]["rows"][0]["value"] = "760 г"
+    issues = lint(en, ua, glossary, cfg, ok_report, "", source_numbers=source)
+    assert [(i.level, i.path) for i in issues] == [
+        ("error", "en.block[0].rows[0].value"),
+        ("warning", "source"),
+    ]
+    assert "760" in issues[0].message and "750" in issues[1].message
+
+
+def test_en_row_notes_and_model_count_as_source_numbers(en, ua, glossary, cfg, ok_report):
+    for doc in (en, ua):
+        doc["product"]["model"] = "HC-A 2"
+        doc["pages"][0]["blocks"][0]["rows"][0]["note"] = 1
+    source = Counter({"750": 1, "2": 2, "1": 1})
+    assert lint(en, ua, glossary, cfg, ok_report, "", source_numbers=source) == []
+
+
+def test_drawing_labels_and_clip_text_skip_the_source_check(en, ua, glossary, cfg, ok_report):
+    add_blocks(en, ua, DRAWING)
+    for doc in (en, ua):
+        doc["pages"][1]["blocks"][1]["labels"][0]["text"] = "Ø 51"
+    source = Counter({"750": 1, "2": 1})
+    assert lint(en, ua, glossary, cfg, ok_report, "", source_numbers=source) == []
+
+
+def test_short_glossary_word_matches_inflected_form(en, ua, cfg, ok_report):
+    glossary = Glossary([Term("scales", "ваги", (), "", "approved")], "")
+    en["pages"][0]["blocks"][1]["text"] = "The scales use Profibus."
+    ua["pages"][0]["blocks"][1]["text"] = "Вагами керує Profibus."
+    assert lint(en, ua, glossary, cfg, ok_report, "") == []
+
+
+def test_page_titles_not_paired_when_page_count_differs(en, ua, glossary, cfg, ok_report):
+    en["pages"][1]["title"] = ["Line 2"]
+    ua["pages"][1]["title"] = ["Лінія 2"]
+    ua["pages"].insert(1, {"title": ["Контакти"], "blocks": []})
+    assert lint(en, ua, glossary, cfg, ok_report, "") == []
+
+
+def test_non_mapping_ua_reports_instead_of_crashing(en, glossary, cfg, ok_report):
+    found = errors(lint(en, None, glossary, cfg, ok_report, ""))
+    assert [i.path for i in found] == ["ua"]
+    assert "not a mapping" in found[0].message
+
+
 GLOSSARY_MD = """## Terms
 
 | EN | UA | Avoid | Note | Status |
@@ -203,16 +361,30 @@ none
 """
 
 
+def write_pdf(path, lines):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with pymupdf.open() as document:
+        page = document.new_page()
+        for k, line in enumerate(lines):
+            page.insert_text((72, 300 + 20 * k), line)
+        document.save(path)
+
+
+def write_report(paths, report):
+    digest = hashlib.sha256(paths.ua_yaml.read_bytes()).hexdigest()
+    paths.render_report.write_text(json.dumps({**report, "ua_sha256": digest}), encoding="utf-8")
+
+
 @pytest.fixture
 def lint_root(tmp_path, en, ua, ok_report):
-    import json
-
     paths = paths_for("sheet", tmp_path)
     paths.work_dir.mkdir(parents=True)
     save_doc(en, paths.en_yaml)
     save_doc(ua, paths.ua_yaml)
     (tmp_path / "glossary.md").write_text(GLOSSARY_MD, encoding="utf-8")
-    paths.render_report.write_text(json.dumps(ok_report), encoding="utf-8")
+    write_report(paths, ok_report)
+    write_pdf(paths.source_pdf, ["Weight 750 g", "Fast, 2 lanes"])
+    write_pdf(paths.output_pdf, ["OS-Technology"])
     return paths
 
 
@@ -228,6 +400,7 @@ def test_run_lint_prints_error_line_and_exits_one(lint_root, ua, capsys):
 
     ua["pages"][0]["blocks"][0]["rows"][0]["value"] = "75 г"
     save_doc(ua, lint_root.ua_yaml)
+    write_report(lint_root, OK_REPORT)
     assert run_lint(lint_root) == 1
     out = capsys.readouterr().out.splitlines()
     assert len(out) == 1
@@ -239,6 +412,7 @@ def test_run_lint_warnings_only_exits_zero(lint_root, ua, capsys):
 
     ua["pages"][0]["blocks"][1]["text"] = "Контрольні ваги conveyor з Profibus."
     save_doc(ua, lint_root.ua_yaml)
+    write_report(lint_root, OK_REPORT)
     assert run_lint(lint_root) == 0
     out = capsys.readouterr().out
     assert f"{lint_root.ua_yaml}:block[1].text: warning: " in out
@@ -254,13 +428,78 @@ def test_run_lint_missing_glossary_is_error(lint_root, capsys):
 
 
 def test_run_lint_reports_overflow_from_report_file(lint_root, capsys):
-    import json
-
     from translator.lint import run_lint
 
     report = {"pages": 2, "overflow": [{"page": 1, "path": "block[1].text", "dx": 0, "dy": 9}]}
-    lint_root.render_report.write_text(json.dumps(report), encoding="utf-8")
+    write_report(lint_root, report)
     assert run_lint(lint_root) == 1
     assert (
         f"{lint_root.ua_yaml}:block[1].text: error: overflow on page 1" in capsys.readouterr().out
     )
+
+
+def test_run_lint_stale_render_is_error(lint_root, ua, capsys):
+    from translator.lint import run_lint
+
+    ua["pages"][0]["blocks"][1]["text"] = "Контрольні ваги з Profibus."
+    save_doc(ua, lint_root.ua_yaml)
+    assert run_lint(lint_root) == 1
+    assert f"{lint_root.ua_yaml}:render: error: stale render" in capsys.readouterr().out
+
+
+def test_run_lint_missing_output_pdf_is_error(lint_root, capsys):
+    from translator.lint import run_lint
+
+    lint_root.output_pdf.unlink()
+    assert run_lint(lint_root) == 1
+    assert f"{lint_root.ua_yaml}:render: error: stale render" in capsys.readouterr().out
+
+
+def test_run_lint_checks_en_numbers_against_source_pdf(lint_root, capsys):
+    from translator.lint import run_lint
+
+    write_pdf(lint_root.source_pdf, ["Weight 760 g", "Fast, 2 lanes", "www.wipotec.com 9999"])
+    assert run_lint(lint_root) == 1
+    out = capsys.readouterr().out
+    assert f"{lint_root.ua_yaml}:en.block[0].rows[0].value: error: " in out
+    assert f"{lint_root.ua_yaml}:source: warning: " in out and "760" in out
+    assert "9999" not in out  # the branding line is skipped
+
+
+def test_run_lint_missing_source_pdf_is_error(lint_root, capsys):
+    from translator.lint import run_lint
+
+    lint_root.source_pdf.unlink()
+    assert run_lint(lint_root) == 1
+    assert f"{lint_root.ua_yaml}:source: error: source PDF not found" in capsys.readouterr().out
+
+
+def test_run_lint_bad_glossary_is_error_line(lint_root, capsys):
+    from translator.lint import run_lint
+
+    (lint_root.root / "glossary.md").write_text("## Terms\n\n| a | b |\n", encoding="utf-8")
+    assert run_lint(lint_root) == 1
+    assert f"{lint_root.ua_yaml}:glossary: error: " in capsys.readouterr().out
+
+
+@pytest.mark.parametrize("text", ["", "- just\n- a list\n", "pages: [unclosed\n"])
+def test_run_lint_malformed_ua_is_error_line(lint_root, capsys, text):
+    from translator.lint import run_lint
+
+    lint_root.ua_yaml.write_text(text, encoding="utf-8")
+    write_report(lint_root, OK_REPORT)
+    assert run_lint(lint_root) == 1
+    assert f"{lint_root.ua_yaml}:ua: error: " in capsys.readouterr().out
+
+
+def test_source_numbers_skip_drawing_dimensions_and_notes_page(hc_a_pdf):
+    from translator.config import load_config
+    from translator.lint import source_numbers
+    from translator.model import load_doc
+    from translator.paths import ROOT
+
+    en_doc = load_doc(ROOT / "work" / "datasheet-checkweigher-hc-a" / "en.yaml")
+    found = source_numbers(hc_a_pdf, en_doc, load_config())
+    assert found["600"] >= 1  # body text counts
+    assert found["1591"] == 0 and found["440"] == 0  # drawing dimensions inside the clip
+    assert found["190715"] == 0  # date code on the "Personal notes" page

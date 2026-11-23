@@ -105,6 +105,18 @@ def test_validate_reports_unknown_type_and_missing_key(doc):
     assert any("block[1]" in e and "aside" in e for e in errors)
 
 
+def test_validate_rejects_non_mapping_documents():
+    assert validate(None) == ["document is not a mapping"]
+    assert validate(["a"]) == ["document is not a mapping"]
+
+
+def test_validate_reports_malformed_pages_and_blocks():
+    errors = validate({"product": {}, "pages": ["x", {"blocks": "y"}]})
+    assert errors == ["page[0]: not a mapping", "page[1].blocks: not a list"]
+    errors = validate({"product": {}, "pages": [{"blocks": ["z"]}]})
+    assert errors == ["block[0]: not a mapping"]
+
+
 def test_validate_clean_doc(doc):
     assert validate(doc) == []
 

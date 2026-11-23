@@ -31,14 +31,29 @@ def flat_blocks(doc: dict) -> list[dict]:
     return [block for page in doc.get("pages", []) for block in page.get("blocks", [])]
 
 
-def validate(doc: dict) -> list[str]:
+def validate(doc: object) -> list[str]:
+    if not isinstance(doc, dict):
+        return ["document is not a mapping"]
     errors: list[str] = []
     if not isinstance(doc.get("product"), dict):
         errors.append("product: missing")
     if not isinstance(doc.get("pages"), list):
         errors.append("pages: missing")
         return errors
+    pages_ok = True
+    for i, page in enumerate(doc["pages"]):
+        if not isinstance(page, dict):
+            errors.append(f"page[{i}]: not a mapping")
+            pages_ok = False
+        elif not isinstance(page.get("blocks", []), list):
+            errors.append(f"page[{i}].blocks: not a list")
+            pages_ok = False
+    if not pages_ok:
+        return errors
     for n, block in enumerate(flat_blocks(doc)):
+        if not isinstance(block, dict):
+            errors.append(f"block[{n}]: not a mapping")
+            continue
         kind = block.get("type")
         if kind not in BLOCK_TYPES:
             errors.append(f"block[{n}]: unknown type {kind!r}")

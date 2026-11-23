@@ -231,6 +231,12 @@ def _header(spans: list[Span], width: float) -> tuple[list[str], list[Span]]:
     return [line.text for line in _lines(left)], right
 
 
+def is_branding_page(page: pymupdf.Page, cfg: SourceConfig) -> bool:
+    """A page whose header title is branding (the "Personal notes" page): it is not extracted."""
+    title, _ = _header(page_spans(page), page.rect.width)
+    return is_branding(" ".join(title), cfg)
+
+
 def _build_page(
     page: pymupdf.Page,
     spans: list[Span],
