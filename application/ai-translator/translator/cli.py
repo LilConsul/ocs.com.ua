@@ -8,6 +8,7 @@ import pymupdf
 
 from translator.config import load_config
 from translator.extract import redo_drawing, run_extract
+from translator.lint import run_lint
 from translator.model import load_doc, save_doc
 from translator.paths import ROOT, paths_for
 from translator.render.pdf import RenderError, run_render
@@ -34,6 +35,10 @@ def _parser() -> argparse.ArgumentParser:
     drawing.add_argument("--clip", type=_parse_clip, required=True, help="x0,y0,x1,y1")
     render = sub.add_parser("render", parents=[common], help="print ua.yaml to the branded PDF")
     render.add_argument("name")
+    lint = sub.add_parser("lint", parents=[common], help="check ua.yaml and the rendered PDF")
+    lint.add_argument("name")
+    everything = sub.add_parser("all", parents=[common], help="render, then lint")
+    everything.add_argument("name")
     return parser
 
 
@@ -82,6 +87,21 @@ def _render(args: argparse.Namespace, root: Path) -> int:
     return 0
 
 
+def _lint(args: argparse.Namespace, root: Path) -> int:
+    paths = paths_for(args.name, root)
+    for path in (paths.en_yaml, paths.ua_yaml):
+        if not path.exists():
+            print(f"error: {path} not found", file=sys.stderr)
+            return 1
+    return run_lint(paths)
+
+
+def _all(args: argparse.Namespace, root: Path) -> int:
+    if _render(args, root) != 0:
+        return 1
+    return _lint(args, root)
+
+
 def main(argv: list[str] | None = None) -> int:
     args = _parser().parse_args(argv)
     root = getattr(args, "root", ROOT)
@@ -89,6 +109,10 @@ def main(argv: list[str] | None = None) -> int:
         return _extract(args, root)
     if args.command == "render":
         return _render(args, root)
+    if args.command == "lint":
+        return _lint(args, root)
+    if args.command == "all":
+        return _all(args, root)
     return _drawing(args, root)
 
 
