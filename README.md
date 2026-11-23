@@ -41,8 +41,7 @@ application/
                 #   image checker, IndexNow submitter, server setup/launch scripts
 docs/
 ├── info/       # Setup, environment and deployment guides (start here)
-├── design/     # Page designs exported from Stitch
-└── superpowers/# Feature specs and implementation plans
+└── superpowers/# Feature specs and implementation plans, and the Stitch page designs (design/)
 Makefile        # Shortcuts for setup, env sync and tests
 ```
 
