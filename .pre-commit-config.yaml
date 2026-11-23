@@ -45,6 +45,7 @@ repos:
         additional_dependencies:
           - mdformat-gfm     # GitHub Flavored Markdown
           - mdformat-tables  # Better table formatting
+          - mdformat-frontmatter  # Keep YAML frontmatter (agent skills in .claude/skills/)
         exclude: *exclude-content-md
 
   # Ruff for the Python infra tooling (config in application/infra/pyproject.toml)
