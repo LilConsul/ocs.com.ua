@@ -6,21 +6,38 @@ from translator.extract.images import (
     export_drawing,
     extract_rasters,
     find_drawing_clip,
+    trim_white,
 )
 
 
 def test_photo_tiles_are_stitched_into_one_image(hc_a_pdf, tmp_path):
-    imgs = extract_rasters(pymupdf.open(hc_a_pdf), tmp_path)
+    imgs = extract_rasters(pymupdf.open(hc_a_pdf), tmp_path, trim=False)
     photos = [i for i in imgs if i.page == 2]
     assert len(photos) == 1
     assert 2280 <= photos[0].width <= 2310 and 1680 <= photos[0].height <= 1700
 
 
 def test_repeated_xref_fills_every_position(hc_a_pdf, tmp_path):
-    img = Image.open(extract_rasters(pymupdf.open(hc_a_pdf), tmp_path)[0].path).convert("L")
+    imgs = extract_rasters(pymupdf.open(hc_a_pdf), tmp_path, trim=False)
+    img = Image.open(imgs[0].path).convert("L")
     w, h = img.size
     for fy in (0.1, 0.35, 0.6, 0.85):
         assert img.getpixel((int(w * 0.95), int(h * fy))) > 200
+
+
+def test_stitched_photo_is_trimmed_to_the_machine(hc_a_pdf, tmp_path):
+    photo = extract_rasters(pymupdf.open(hc_a_pdf), tmp_path)[0]
+    img = Image.open(photo.path)
+    assert img.size == (photo.width, photo.height)
+    assert 1250 <= photo.width <= 1320 and photo.height >= 1650
+
+
+def test_trim_white_keeps_a_margin_and_ignores_blank_images():
+    img = Image.new("RGB", (100, 50), "white")
+    img.paste((0, 0, 0), (40, 10, 60, 20))
+    assert trim_white(img).size == (20 + 16, 10 + 16)
+    blank = Image.new("RGB", (30, 30), "white")
+    assert trim_white(blank) is blank
 
 
 def test_footer_strips_and_qr_are_dropped(hc_a_pdf, tmp_path):

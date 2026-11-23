@@ -13,6 +13,8 @@ TOUCH_TOLERANCE = 2.0
 HEADER_BOTTOM = 125
 MIN_DRAWING_OPS = 150
 THUMB_WIDTH = 300
+NEAR_WHITE = 245  # grey level from which a pixel counts as blank background
+TRIM_PAD = 8  # px of background kept around the trimmed photo
 WORD_RE = re.compile(r"[^\W\d_]{2,}")
 RADIUS_RE = re.compile(r"^R\d+$")
 
@@ -67,7 +69,27 @@ def _tile_image(doc: pymupdf.Document, xref: int) -> Image.Image:
     return Image.frombytes(mode, (pix.width, pix.height), pix.samples).convert("RGB")
 
 
-def extract_rasters(doc: pymupdf.Document, out_dir: Path) -> list[ExtractedImage]:
+def trim_white(img: Image.Image) -> Image.Image:
+    """Crop near-white borders (blank stitched tiles), keeping TRIM_PAD px of margin."""
+    mask = img.convert("L").point(lambda v: 255 if v < NEAR_WHITE else 0)
+    box = mask.getbbox()
+    if box is None:
+        return img
+    x0, y0, x1, y1 = box
+    w, h = img.size
+    box = (
+        max(x0 - TRIM_PAD, 0),
+        max(y0 - TRIM_PAD, 0),
+        min(x1 + TRIM_PAD, w),
+        min(y1 + TRIM_PAD, h),
+    )
+    return img if box == (0, 0, w, h) else img.crop(box)
+
+
+def extract_rasters(
+    doc: pymupdf.Document, out_dir: Path, trim: bool = True
+) -> list[ExtractedImage]:
+    """Stitch touching image tiles per page into photos; trim their near-white borders."""
     out_dir.mkdir(parents=True, exist_ok=True)
     result: list[ExtractedImage] = []
     for page in doc:
@@ -98,10 +120,14 @@ def extract_rasters(doc: pymupdf.Document, out_dir: Path) -> list[ExtractedImage
                 y1 = round((g["rect"].y1 - box.y0) * scale)
                 tile = cache[g["xref"]].resize((max(x1 - x0, 1), max(y1 - y0, 1)), Image.LANCZOS)
                 canvas.paste(tile, (x0, y0))
+            if trim:
+                canvas = trim_white(canvas)
             image_id = f"photo-{page.number + 1}-{k}"
             path = out_dir / f"{image_id}.jpg"
             canvas.save(path, quality=90)
-            result.append(ExtractedImage(image_id, page.number + 1, path, width, height))
+            result.append(
+                ExtractedImage(image_id, page.number + 1, path, canvas.width, canvas.height)
+            )
     return result
 
 
