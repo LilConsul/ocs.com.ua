@@ -4,7 +4,7 @@ ______________________________________________________________________
 
 ## Requirements
 
-- **Node.js** ≥ 22.23
+- **Node.js** ≥ 26 (the `engines` field in `application/frontend/package.json`; CI and the server run the same major, see [Deployment](deployment.md))
 - **Bun** — package manager and test runner for the frontend
 - **uv** — runs the Python infra scripts and tests
 - **make** and **pre-commit**
@@ -62,7 +62,7 @@ The site is bilingual. Write English text in components with `_("…")`, then:
 bun run i18n         # update locales/*.po and regenerate src/i18n/ui.ts
 ```
 
-Edit the `msgstr` values in `locales/ua.po`. `locales/messages.pot` and `src/i18n/ui.ts` are generated; do not edit them by hand. More detail is in [`application/frontend/CLAUDE.md`](../../application/frontend/CLAUDE.md).
+Edit the `msgstr` values in `locales/ua.po`. `locales/messages.pot` and `src/i18n/ui.ts` are generated; do not edit them by hand. More detail is in [`AGENTS.md`](../../AGENTS.md).
 
 ______________________________________________________________________
 
@@ -117,8 +117,9 @@ The repository ships a template in [`.gitmessage`](../../.gitmessage):
 type(scope): subject
 ```
 
-- Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`, `ci`, `perf`.
-- Scopes: `frontend`, `backend`, `root`, `docs`, `ci`, optionally nested (`frontend/ui`).
+- Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`, `ci`, `perf`, `deps`.
+- Scopes: `frontend`, `infra`, `ci`, `docs`, `root`, `i18n`, `cms`, `catalogue`, `anims`, `content`, optionally nested (`frontend/ui`). The scope is optional.
 - Imperative mood, lowercase first letter, no trailing period, at most 72 characters.
+- Generated commits keep their own format and are not hand-written: `[CMS] Create|Update|Delete: …` (Decap CMS, see `commit_messages` in `_config.template.yml`) and `deps(deps): …` / `deps(deps-dev): …` / `ci(deps): …` (Dependabot).
 
 Enable the template with `git config commit.template .gitmessage`.

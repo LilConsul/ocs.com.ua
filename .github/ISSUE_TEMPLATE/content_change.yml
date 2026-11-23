@@ -1,0 +1,27 @@
+name: Content or translation change
+description: Wrong or missing text, product data, partner or image
+labels: [content]
+body:
+  - type: input
+    id: url
+    attributes:
+      label: Page
+      description: The URL with the problem
+    validations:
+      required: true
+  - type: dropdown
+    id: lang
+    attributes:
+      label: Language
+      options:
+        - ua
+        - en
+        - both
+    validations:
+      required: true
+  - type: textarea
+    id: change
+    attributes:
+      label: Current text and the text it should have
+    validations:
+      required: true

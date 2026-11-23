@@ -98,4 +98,12 @@ ______________________________________________________________________
 | [LLM indexing](docs/info/llm-indexing.md)           | `/llms.txt`, Markdown page copies, crawler rules, page coverage, old WordPress redirects |
 | [Production launch](docs/info/production-launch.md) | How ocs.com.ua was switched from WordPress, and what to watch in the first weeks         |
 
-Contributor notes for AI assistants live in [`application/frontend/CLAUDE.md`](application/frontend/CLAUDE.md).
+Contributor notes for AI assistants live in [`AGENTS.md`](AGENTS.md).
+
+______________________________________________________________________
+
+## Contributing and security
+
+- Commit format and local setup: [Development](docs/info/development.md). Pull requests use the [template](.github/PULL_REQUEST_TEMPLATE.md); reviews are routed by [`CODEOWNERS`](.github/CODEOWNERS).
+- Report vulnerabilities privately, see [`SECURITY.md`](SECURITY.md).
+- The code is proprietary, see [`LICENSE`](LICENSE).

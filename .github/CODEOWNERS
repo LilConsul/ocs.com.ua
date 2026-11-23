@@ -1,0 +1,12 @@
+# Routes review requests. The last matching pattern wins.
+# The "main-protected" ruleset does not require code owner review, so this only requests reviewers.
+
+* @LilConsul
+
+# Paths Decap CMS publishes to (see application/frontend/src/pages/admin/_config.template.yml).
+# No owner, so CMS pull requests do not request a review.
+/application/frontend/src/data/
+/application/frontend/src/content/
+/application/frontend/src/assets/
+/application/frontend/public/assets/
+/application/frontend/private/datasheets/

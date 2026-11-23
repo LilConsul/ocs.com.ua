@@ -175,6 +175,20 @@ Every name listed in a manifest must exist and be non-empty, otherwise the deplo
 
 ______________________________________________________________________
 
+## Branch protection
+
+`main` deploys to production on every push, and Decap CMS publishes by merging its own PRs into `main`. The `main-protected` repository ruleset (squash merges only, no deletion, no force push, required check `fe-unit-test`) is therefore **not enforced**: it has no target branches, because CMS publishing did not work with it enabled.
+
+What guards `main` today:
+
+- **CI on every PR.** The `CI` workflow runs on each pull request, CMS ones included, and Decap opens a PR for each publish. Merge only when it is green.
+- **Rollback.** A bad commit that reaches prod is undone with **Rollback** (see below), without a build.
+- **Failed health check.** A deploy that fails its health check switches back on its own.
+
+Before enabling the ruleset, check that it still lets the CMS merge: the CMS account (`gshevchenko2002-arch`, write access) must be able to merge a PR whose checks passed, and `required_status_checks` must list only checks that run for CMS PRs (the `CI` workflow is filtered by `paths`, so a PR that touches no listed path never reports one, and a required check would block it forever). Test on a throwaway CMS edit and turn it off again if publishing fails.
+
+______________________________________________________________________
+
 ## Manual operations
 
 - **Deploy again:** Actions → **Deploy prod** (or **Deploy dev**) → **Run workflow**.
