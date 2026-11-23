@@ -41,3 +41,14 @@ def test_repo_glossary_is_valid_draft():
     assert len(g.terms) >= 25
     assert {t.status for t in g.terms} <= {"draft", "ok"}
     assert "decimal point" in g.style_rules.lower()
+
+
+def test_repo_glossary_avoid_fragments_never_hit_ua_cells():
+    terms = load_glossary(ROOT / "glossary.md").terms
+    hits = [
+        (fragment, term.ua)
+        for fragment in (a.lower() for t in terms for a in t.avoid)
+        for term in terms
+        if fragment in term.ua.lower()
+    ]
+    assert hits == []
