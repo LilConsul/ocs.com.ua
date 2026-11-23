@@ -32,9 +32,14 @@ uv run playwright install chromium
 | `uv run pytest`                                                | Tests (the render tests need Chromium)                                                            |
 | `uv run ruff check . && uv run ruff format --check .`          | Lint and format check                                                                             |
 
-Lint errors: changed block structure, numbers that differ from the source, decimal commas,
-`Avoid` fragments from the glossary, WIPOTEC branding, text overflowing its box. Lint warnings:
-glossary terms not rendered with the glossary wording, untranslated Latin words.
+Lint errors: changed block structure or non-text values (`product.model`/`variant`, images,
+drawing clips and pages, row `note` numbers, matrix cells), numbers or footnote marks that differ
+from `en.yaml`, numbers in `en.yaml` that are not in the source PDF, decimal commas, `Avoid`
+fragments from the glossary, WIPOTEC branding, text overflowing its box, a stale render (the
+output PDF is missing or `ua.yaml` changed since `render`; the report stores its SHA-256),
+malformed YAML or glossary. Lint warnings: source PDF numbers missing from `en.yaml` (branding
+lines, drawing dimensions and the "Personal notes" page are not counted), glossary terms not
+rendered with the glossary wording, untranslated Latin words. `render` validates `ua.yaml` first.
 
 ## Folder layout
 
@@ -87,6 +92,7 @@ pages:
 ```
 
 Headings use `**bold**` markup for the bold word (`"**BASE** DATA"`). A table row's `note: N`
-prints the footnote mark `N)` after the label; a mark written inside text after a space
-(`400 mm 1)`) is printed as a superscript too. Lint and the overflow report address text by a
+prints the footnote mark `N)` after the label; a mark written inside text (`400 mm 1)`: one
+digit and `)`, not glued to a word or number and not closing a parenthesis) is printed as a
+superscript too, and lint compares marks separately from the other numbers. Lint and the overflow report address text by a
 path with a flat block index across all pages, for example `block[4].rows[2].value`.

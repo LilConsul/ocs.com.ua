@@ -45,6 +45,11 @@ is a heuristic; typical fixes:
 
 Leave source typos (`lenght`) in `en.yaml` if you like; you fix them in the translation.
 
+Lint later compares the numbers in `en.yaml` with the source PDF text: a number in `en.yaml` that
+the source does not have is an error, a source number missing from `en.yaml` is a warning (fix
+it unless it is a leftover you can explain). Branding lines, dimensions inside the drawing clip
+and the "Personal notes" page are not counted.
+
 If a drawing is clipped wrongly, re-export it with a clip rectangle in PDF points, read from the
 source page:
 
@@ -61,7 +66,8 @@ wording is required, its `Avoid` fragments are errors. Names listed under `never
 ## 5. Write ua.yaml
 
 Copy `en.yaml` to `work/<name>/ua.yaml` and translate only the text fields. Do not change block
-order, block types, list lengths, images, clips or `note` numbers.
+order, block types, list lengths, `product.model`, `product.variant`, images, clips, drawing
+`page`, `note` numbers or matrix `x`/`-` cells; lint reports each change as an error.
 
 - Set `lang: ua`.
 - Set `product.category` to the Ukrainian product type (for example `Контрольно динамічні ваги`).
@@ -80,8 +86,9 @@ Translation rules:
 - Do not add or drop content: every heading, row, item, footnote and number has exactly one
   Ukrainian counterpart.
 - Headings keep their `**bold**` markup on the word that is bold in the source.
-- Lint reads a digit directly followed by `)` as a footnote mark and skips it when it compares
-  numbers, so do not end a parenthesis with a number (`(опційно ще 3)`); reword instead.
+- Keep footnote marks (`400 мм 1)`) where the source has them: lint compares them separately
+  from the other numbers, so a changed or dropped mark is an error. A digit that closes a
+  parenthesis (`(опційно ще 3)`) is an ordinary number, not a mark.
 
 ## 6. Render, lint and review
 
