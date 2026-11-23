@@ -80,6 +80,6 @@
 		"yaml": "^2.9.1"
 	},
 	"patchedDependencies": {
-		"decap-cms-core@3.20.2": "patches/decap-cms-core@3.20.2.patch"
+		"decap-cms-core@3.21.0": "patches/decap-cms-core@3.21.0.patch"
 	}
 }
