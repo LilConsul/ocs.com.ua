@@ -1,4 +1,4 @@
-"""Command line entry point: `translator extract <name>`, `translator drawing <name>`."""
+"""Command line entry point: `translator extract <name>`, `translator drawing <name>`, `translator render <name>`."""
 
 import argparse
 import sys
@@ -10,6 +10,7 @@ from translator.config import load_config
 from translator.extract import redo_drawing, run_extract
 from translator.model import load_doc, save_doc
 from translator.paths import ROOT, paths_for
+from translator.render.pdf import RenderError, run_render
 
 
 def _parse_clip(value: str) -> pymupdf.Rect:
@@ -31,6 +32,8 @@ def _parser() -> argparse.ArgumentParser:
     drawing.add_argument("name")
     drawing.add_argument("--page", type=int, required=True, help="1-based page number")
     drawing.add_argument("--clip", type=_parse_clip, required=True, help="x0,y0,x1,y1")
+    render = sub.add_parser("render", parents=[common], help="print ua.yaml to the branded PDF")
+    render.add_argument("name")
     return parser
 
 
@@ -62,11 +65,30 @@ def _drawing(args: argparse.Namespace, root: Path) -> int:
     return 0
 
 
+def _render(args: argparse.Namespace, root: Path) -> int:
+    paths = paths_for(args.name, root)
+    if not paths.ua_yaml.exists():
+        print(f"error: {paths.ua_yaml} not found", file=sys.stderr)
+        return 1
+    try:
+        report = run_render(paths)
+    except RenderError as err:
+        print(f"error: {err}", file=sys.stderr)
+        return 1
+    print(f"wrote {paths.output_pdf}")
+    print(f"pages: {report['pages']}")
+    for item in report["overflow"]:
+        print(f"page {item['page']} {item['path']}: +{item['dx']:g}/+{item['dy']:g} px")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     args = _parser().parse_args(argv)
     root = getattr(args, "root", ROOT)
     if args.command == "extract":
         return _extract(args, root)
+    if args.command == "render":
+        return _render(args, root)
     return _drawing(args, root)
 
 
