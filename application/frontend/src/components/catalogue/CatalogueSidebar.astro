@@ -1,7 +1,9 @@
 ---
+import type { ImageMetadata } from "astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { categoryUrl, industryUrl } from "@/lib/catalogue-urls";
-import type { EquipmentType, Industry, ProductSearchEntry } from "@/lib/content-utils";
+import type { EquipmentEntry, EquipmentType, Industry } from "@/lib/content-utils";
+import ProductCard from "./ProductCard.astro";
 
 interface Props {
 	allCategories: EquipmentType[];
@@ -11,8 +13,10 @@ interface Props {
 	/** Slug of the active category (equipment) or industry (industry) */
 	activeSlug: string;
 	lang: Lang;
-	/** All locale products for cross-category search */
-	productSearchIndex?: ProductSearchEntry[];
+	/** All locale products for cross-category search, prerendered as cards */
+	searchProducts?: EquipmentEntry[];
+	/** Galleries of `searchProducts`, keyed by entry id */
+	searchGalleries?: Record<string, ImageMetadata[]>;
 }
 
 const {
@@ -21,7 +25,8 @@ const {
 	section,
 	activeSlug,
 	lang,
-	productSearchIndex = [],
+	searchProducts = [],
+	searchGalleries = {},
 } = Astro.props;
 const _ = getInlineTranslations(lang);
 
@@ -100,19 +105,17 @@ const sections = [
 					placeholder={_("Search products…")}
 					aria-label={_("Search products…")}
 					data-product-search-input
-					data-label-technical-details={_("Technical Details")}
 					data-label-no-results={_("No products match your search. Try browsing another category.")}
 				/>
 			</div>
 		</div>
 
-		{/* JSON index for cross-category search — read by the sidebar script */}
-		<script
-			is:inline
-			type="application/json"
-			data-product-index
-			set:html={JSON.stringify(productSearchIndex).replace(/</g, "\\u003c")}
-		/>
+		{/* Every product as a real card, cloned into the results by the search script */}
+		<template data-product-cards>
+			{searchProducts.map((product) => (
+				<ProductCard product={product} lang={lang} gallery={searchGalleries[product.id]} />
+			))}
+		</template>
 		{/* Exclusive accordion: opening one section closes the other */}
 		<div class="space-y-3">
 			{sections.map((s) => {
@@ -482,86 +485,41 @@ const sections = [
 
 	/*
 	 * Cross-category product search.
-	 * When query is non-empty: searches the JSON index embedded at build time and renders
-	 * matching cards into [data-catalogue-results], saving the original HTML for restoration.
-	 * When query is cleared: restores the saved original HTML.
+	 * Every product of the locale is prerendered as a real ProductCard inside
+	 * <template data-product-cards>. A non-empty query clones the matching cards into
+	 * [data-catalogue-results], saving the original HTML for restoration. Clearing the query
+	 * restores it.
 	 */
-
-	interface ProductEntry {
-		title: string;
-		description: string;
-		url: string;
-		image: string;
+	function getSearchCards(): HTMLElement[] {
+		const template = document.querySelector<HTMLTemplateElement>("template[data-product-cards]");
+		return Array.from(template?.content.querySelectorAll<HTMLElement>("[data-product-item]") ?? []);
 	}
 
-	function getProductIndex(): ProductEntry[] {
-		const el = document.querySelector<HTMLScriptElement>("[data-product-index]");
-		if (!el) return [];
-		try {
-			return JSON.parse(el.textContent ?? "[]") as ProductEntry[];
-		} catch {
-			return [];
-		}
-	}
-
-	function escapeHtml(value: string): string {
-		return value
-			.replace(/&/g, "&amp;")
-			.replace(/</g, "&lt;")
-			.replace(/>/g, "&gt;")
-			.replace(/"/g, "&quot;")
-			.replace(/'/g, "&#39;");
-	}
-
-	function renderSearchResults(
-		matches: ProductEntry[],
-		labelDetails: string,
-		labelNoResults: string
-	): string {
+	function renderSearchResults(query: string, labelNoResults: string): HTMLElement {
+		const matches = getSearchCards().filter((card) =>
+			(card.dataset.productText ?? "").includes(query)
+		);
 		if (matches.length === 0) {
-			return `<div class="text-industrial-gray py-24 text-center">
-				<p class="text-lg">${escapeHtml(labelNoResults)}</p>
-			</div>`;
+			const empty = document.createElement("div");
+			empty.className = "text-industrial-gray py-24 text-center";
+			const text = document.createElement("p");
+			text.className = "text-lg";
+			text.textContent = labelNoResults;
+			empty.append(text);
+			return empty;
 		}
-		const cards = matches
-			.map((p, i) => {
-				const title = escapeHtml(p.title);
-				const description = escapeHtml(p.description);
-				const url = escapeHtml(p.url);
-				const image = escapeHtml(p.image || "/placeholder.svg");
-				return `
-			<article
-				class="card-hover product-card reveal group bg-background border-border-subtle/70 flex flex-col overflow-hidden rounded-xl border shadow-xs"
-				style="--i:${i % 3}"
-				data-product-item
-				data-product-text="${escapeHtml((p.title + " " + p.description).toLowerCase())}"
-			>
-				<a href="${url}" class="border-border-subtle/40 focus-visible:outline-secondary relative flex aspect-4/3 items-center justify-center border-b bg-white p-4 focus-visible:outline-2 focus-visible:-outline-offset-2" aria-label="${title}">
-					<img src="${image}" alt="${title}"
-						width="800" height="600"
-						class="h-full w-full object-contain mix-blend-multiply"
-						loading="lazy" />
-				</a>
-				<div class="flex flex-1 flex-col p-5 sm:p-6">
-					<h3 class="font-headline-lg text-foreground m-0 mb-2 text-lg leading-snug font-semibold text-balance">${title}</h3>
-					${p.description ? `<p class="font-body-md text-industrial-gray m-0 mb-5 line-clamp-2 text-sm leading-relaxed">${description}</p>` : ""}
-					<div class="mt-auto">
-						<a href="${url}"
-							class="border-secondary/40 text-secondary group-hover:border-secondary group-hover:bg-secondary/5 focus-visible:outline-secondary font-technical-data flex w-full items-center justify-center gap-2 rounded-lg border py-2.5 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
-						>
-							${escapeHtml(labelDetails)}
-							<span class="material-symbols-outlined text-[16px] transition-transform group-hover:translate-x-1">arrow_forward</span>
-						</a>
-					</div>
-				</div>
-			</article>`;
-			})
-			.join("");
-		return `<section aria-label="Search results">
-			<div data-product-grid class="gap-gutter grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-				${cards}
-			</div>
-		</section>`;
+		const section = document.createElement("section");
+		section.setAttribute("aria-label", "Search results");
+		const grid = document.createElement("div");
+		grid.dataset.productGrid = "";
+		grid.className = "gap-gutter grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3";
+		matches.forEach((card, i) => {
+			const clone = card.cloneNode(true) as HTMLElement;
+			clone.style.setProperty("--i", String(i % 3));
+			grid.append(clone);
+		});
+		section.append(grid);
+		return section;
 	}
 
 	let savedResultsHTML: string | null = null;
@@ -571,7 +529,6 @@ const sections = [
 		if (!results) return;
 
 		const input = document.querySelector<HTMLInputElement>("[data-product-search-input]");
-		const labelDetails = input?.dataset.labelTechnicalDetails ?? "Technical Details";
 		const labelNoResults =
 			input?.dataset.labelNoResults ??
 			"No products match your search. Try browsing another category.";
@@ -592,13 +549,9 @@ const sections = [
 			savedResultsHTML = results.innerHTML;
 		}
 
-		const index = getProductIndex();
-		const matches = index.filter(
-			(p) => p.title.toLowerCase().includes(query) || p.description.toLowerCase().includes(query)
-		);
-
-		results.innerHTML = renderSearchResults(matches, labelDetails, labelNoResults);
+		results.replaceChildren(renderSearchResults(query, labelNoResults));
 		observeReveals(results);
+		initImageSkeletons(results);
 	}
 
 	function setupProductSearch(): void {

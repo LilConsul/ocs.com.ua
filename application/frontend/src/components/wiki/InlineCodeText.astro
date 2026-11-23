@@ -1,0 +1,14 @@
+---
+import { splitInlineCode } from "@/lib/wiki-utils";
+
+interface Props {
+	/** Plain text that may contain Markdown inline code, such as an article description */
+	text: string;
+}
+
+const { text } = Astro.props;
+---
+
+{splitInlineCode(text).map((part) =>
+	part.code ? <code class="inline-code">{part.text}</code> : part.text
+)}

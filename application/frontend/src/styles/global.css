@@ -787,15 +787,19 @@ html.skeleton-on .skeleton:not([data-loaded]) > picture > img {
 		color: var(--color-industrial-gray);
 		text-decoration: line-through;
 	}
-	.prose code {
+	/* Inline code (symbols like d, readings like 150.2 g): a quiet tinted chip that keeps the
+	 * line rhythm, also inside bold text. `.inline-code` is the same chip outside articles. */
+	.prose code,
+	.inline-code {
 		font-family: "JetBrains Mono", monospace;
-		font-size: 0.875em;
+		font-size: 0.84em;
 		font-weight: 500;
-		color: var(--color-foreground);
-		background-color: var(--color-surface-container);
-		border: 1px solid var(--color-border-subtle);
-		border-radius: 0.375rem;
-		padding: 0.125rem 0.375rem;
+		font-variant-numeric: tabular-nums;
+		color: var(--color-secondary);
+		background-color: color-mix(in oklab, var(--color-secondary) 7%, transparent);
+		border-radius: 0.25rem;
+		padding: 0.05em 0.35em;
+		white-space: nowrap;
 		hyphens: manual;
 		-webkit-hyphens: manual;
 	}
@@ -821,6 +825,9 @@ html.skeleton-on .skeleton:not([data-loaded]) > picture > img {
 	}
 	.prose pre code {
 		font-size: inherit;
+		font-weight: inherit;
+		color: inherit;
+		white-space: inherit;
 		background: none;
 		border: 0;
 		border-radius: 0;
@@ -976,6 +983,12 @@ html.skeleton-on .skeleton:not([data-loaded]) > picture > img {
 	.card-lift:hover,
 	.card-hover:hover {
 		translate: 0 -2px;
+	}
+
+	/* Equipment cards stay put: the border trace is their one hover movement */
+	.product-card:hover,
+	.catalogue-trace:hover {
+		translate: none;
 	}
 }
 

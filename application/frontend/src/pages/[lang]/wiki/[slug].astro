@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 import { getCollection, render } from "astro:content";
 import { Clock } from "@lucide/astro";
+import InlineCodeText from "@/components/wiki/InlineCodeText.astro";
 import WikiCard from "@/components/wiki/WikiCard.astro";
 import WikiCta from "@/components/wiki/WikiCta.astro";
 import WikiPagination from "@/components/wiki/WikiPagination.astro";
@@ -19,6 +20,7 @@ import {
 	getWikiLocale,
 	getWikiSlug,
 	sortWikiArticles,
+	stripInlineCode,
 	type WikiEntry,
 } from "@/lib/wiki-utils";
 
@@ -65,7 +67,9 @@ const _ = getInlineTranslations(lang);
 const { Content, headings } = await render(article);
 
 const title = article.data.title;
-const description = article.data.description ?? "";
+// Raw description shows inline code in the header; meta tags and structured data get plain text
+const rawDescription = article.data.description ?? "";
+const description = stripInlineCode(rawDescription);
 const readMinutes = calculateReadingMinutes(article.body ?? "");
 const coverImage = getWikiCoverImage(article, allArticles);
 
@@ -138,12 +142,12 @@ const structuredData = createPageGraph({
 						{title}
 					</h1>
 
-					{description && (
+					{rawDescription && (
 						<p
 							class="hero-rise font-body-md text-industrial-gray m-0 mt-4 max-w-prose text-base leading-relaxed lg:text-lg"
 							style="--d:1"
 						>
-							{description}
+							<InlineCodeText text={rawDescription} />
 						</p>
 					)}
 

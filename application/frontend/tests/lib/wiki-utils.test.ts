@@ -1,5 +1,6 @@
 import { describe, expect, it, spyOn } from "bun:test";
 import {
+	articleExcerpt,
 	calculateReadingMinutes,
 	filterWikiByLocale,
 	findWikiTranslation,
@@ -7,6 +8,8 @@ import {
 	getWikiLocale,
 	getWikiSlug,
 	sortWikiArticles,
+	splitInlineCode,
+	stripInlineCode,
 	type WikiEntry,
 } from "@/lib/wiki-utils";
 import { imageFixtures } from "../helpers/mocks";
@@ -134,5 +137,67 @@ describe("wiki-utils: getWikiCoverImage", () => {
 		const entry = makeEntry("gone-article-ua", { coverImage: "/assets/deleted-in-cms.webp" });
 		expect(getWikiCoverImage(entry, [entry])).toBeUndefined();
 		warn.mockRestore();
+	});
+});
+
+describe("articleExcerpt", () => {
+	it("returns the first prose paragraph as plain text", () => {
+		const body = "## Intro\n\nFirst **bold** paragraph with a [link](/x).\n\nSecond paragraph.";
+		expect(articleExcerpt(body)).toBe("First bold paragraph with a link.");
+	});
+
+	it("skips headings, lists, images, quotes, tables and HTML", () => {
+		const body = [
+			"# Title",
+			"![cover](/a.webp)",
+			"* item one\n* item two",
+			"1. step",
+			"> quote",
+			"| a | b |",
+			"<div>raw</div>",
+			"Real text here.",
+		].join("\n\n");
+		expect(articleExcerpt(body)).toBe("Real text here.");
+	});
+
+	it("keeps inline code backticks for the card to render", () => {
+		expect(articleExcerpt("Two marks: `d` and `e`.")).toBe("Two marks: `d` and `e`.");
+	});
+
+	it("joins a wrapped paragraph into one line", () => {
+		expect(articleExcerpt("Line one\nline two.")).toBe("Line one line two.");
+	});
+
+	it("returns an empty string when there is no prose", () => {
+		expect(articleExcerpt(undefined)).toBe("");
+		expect(articleExcerpt("## Only a heading\n\n* a list")).toBe("");
+	});
+});
+
+describe("inline code in descriptions", () => {
+	const text = "Two marks: `d` — resolution and `e` — interval.";
+
+	it("splits text into plain and code parts", () => {
+		expect(splitInlineCode(text)).toEqual([
+			{ text: "Two marks: ", code: false },
+			{ text: "d", code: true },
+			{ text: " — resolution and ", code: false },
+			{ text: "e", code: true },
+			{ text: " — interval.", code: false },
+		]);
+	});
+
+	it("returns one plain part when there is no code", () => {
+		expect(splitInlineCode("Plain.")).toEqual([{ text: "Plain.", code: false }]);
+		expect(splitInlineCode("")).toEqual([]);
+	});
+
+	it("leaves an unmatched backtick as text", () => {
+		expect(splitInlineCode("a ` b")).toEqual([{ text: "a ` b", code: false }]);
+	});
+
+	it("strips the backticks for meta tags and structured data", () => {
+		expect(stripInlineCode(text)).toBe("Two marks: d — resolution and e — interval.");
+		expect(stripInlineCode(null)).toBe("");
 	});
 });

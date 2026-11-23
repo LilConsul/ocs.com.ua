@@ -24,7 +24,6 @@ describe("card hover", () => {
 
 	const cards = [
 		"components/catalogue/ProductCard.astro",
-		"components/catalogue/CatalogueSidebar.astro",
 		"components/catalogue/RelatedEquipment.astro",
 		"components/homepage/atoms/IndustryCard.astro",
 		"components/homepage/atoms/IndustryCardSmall.astro",

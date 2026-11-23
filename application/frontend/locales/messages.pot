@@ -120,20 +120,21 @@ msgid "By submitting this form you agree to the processing of your details as de
 msgstr ""
 
 #: src/components/Header.astro:27
-#: src/components/catalogue/RelatedEquipment.astro:34
+#: src/components/catalogue/RelatedEquipment.astro:43
 #: src/components/catalogue/CategoryHeader.astro:34
 msgid "Catalogue"
 msgstr ""
 
-#: src/components/catalogue/CatalogueSidebar.astro:81
+#: src/components/catalogue/CatalogueSidebar.astro:86
 msgid "Catalogue Filters"
 msgstr ""
 
 #: src/lib/llms.ts:230
+#: src/components/catalogue/ProductCard.astro:43
 msgid "Category"
 msgstr ""
 
-#: src/components/catalogue/CatalogueSidebar.astro:33
+#: src/components/catalogue/CatalogueSidebar.astro:38
 msgid "Category navigation"
 msgstr ""
 
@@ -187,7 +188,7 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: src/components/catalogue/CatalogueSidebar.astro:74
+#: src/components/catalogue/CatalogueSidebar.astro:79
 msgid "Close filters"
 msgstr ""
 
@@ -228,7 +229,7 @@ msgstr ""
 #: src/components/errors/ServerErrorContent.astro:43
 #: src/components/errors/NotFoundContent.astro:49
 #: src/components/contact/ContactHero.astro:25
-#: src/components/catalogue/CatalogueSidebar.astro:194
+#: src/components/catalogue/CatalogueSidebar.astro:197
 #: src/components/about/AboutCta.astro:32
 msgid "Contact Us"
 msgstr ""
@@ -330,7 +331,7 @@ msgstr ""
 msgid "Equipment"
 msgstr ""
 
-#: src/components/catalogue/CatalogueSidebar.astro:32
+#: src/components/catalogue/CatalogueSidebar.astro:37
 msgid "Equipment Categories"
 msgstr ""
 
@@ -371,7 +372,7 @@ msgstr ""
 msgid "Filter clients by sector"
 msgstr ""
 
-#: src/components/catalogue/CatalogueSidebar.astro:54
+#: src/components/catalogue/CatalogueSidebar.astro:59
 msgid "Filters"
 msgstr ""
 
@@ -389,6 +390,10 @@ msgstr ""
 #: src/components/contact/ContactForm.astro:124
 #: src/components/catalogue/DatasheetModal.astro:116
 msgid "Full Name"
+msgstr ""
+
+#: src/components/catalogue/ProductCard.astro:35
+msgid "Full specifications and configurations are on the product page."
 msgstr ""
 
 #: src/lib/llms.ts:184
@@ -444,9 +449,9 @@ msgstr ""
 #: src/pages/[lang]/about.astro:56
 #: src/pages/[lang]/wiki/[slug].astro:109
 #: src/pages/[lang]/wiki/index.astro:60
-#: src/pages/[lang]/catalogue/industry/[slug].astro:134
+#: src/pages/[lang]/catalogue/industry/[slug].astro:123
 #: src/pages/[lang]/catalogue/equipment/[category]/[slug].astro:124
-#: src/pages/[lang]/catalogue/equipment/[category]/index.astro:137
+#: src/pages/[lang]/catalogue/equipment/[category]/index.astro:126
 msgid "Home"
 msgstr ""
 
@@ -473,7 +478,7 @@ msgstr ""
 #: src/lib/llms.ts:142
 #: src/lib/llms.ts:233
 #: src/components/Header.astro:32
-#: src/components/catalogue/CatalogueSidebar.astro:39
+#: src/components/catalogue/CatalogueSidebar.astro:44
 msgid "Industries"
 msgstr ""
 
@@ -486,7 +491,7 @@ msgstr ""
 msgid "Industry Sector"
 msgstr ""
 
-#: src/components/catalogue/CatalogueSidebar.astro:40
+#: src/components/catalogue/CatalogueSidebar.astro:45
 msgid "Industry navigation"
 msgstr ""
 
@@ -648,11 +653,11 @@ msgstr ""
 msgid "No articles match your search."
 msgstr ""
 
-#: src/pages/[lang]/catalogue/equipment/[category]/index.astro:170
+#: src/pages/[lang]/catalogue/equipment/[category]/index.astro:160
 msgid "No products available in this category"
 msgstr ""
 
-#: src/components/catalogue/CatalogueSidebar.astro:104
+#: src/components/catalogue/CatalogueSidebar.astro:108
 msgid "No products match your search. Try browsing another category."
 msgstr ""
 
@@ -706,7 +711,7 @@ msgstr ""
 msgid "One or more selected equipment types are invalid."
 msgstr ""
 
-#: src/components/catalogue/CatalogueSidebar.astro:51
+#: src/components/catalogue/CatalogueSidebar.astro:56
 msgid "Open filters"
 msgstr ""
 
@@ -850,8 +855,8 @@ msgstr ""
 msgid "Product image thumbnails"
 msgstr ""
 
-#: src/pages/[lang]/catalogue/industry/[slug].astro:152
-#: src/pages/[lang]/catalogue/equipment/[category]/index.astro:155
+#: src/pages/[lang]/catalogue/industry/[slug].astro:142
+#: src/pages/[lang]/catalogue/equipment/[category]/index.astro:145
 msgid "Products"
 msgstr ""
 
@@ -881,11 +886,11 @@ msgstr ""
 msgid "Quicktron & Pharma Freefall Gravity Contaminant Separators"
 msgstr ""
 
-#: src/components/wiki/WikiCard.astro:68
+#: src/components/wiki/WikiCard.astro:110
 msgid "Read article"
 msgstr ""
 
-#: src/components/catalogue/RelatedEquipment.astro:40
+#: src/components/catalogue/RelatedEquipment.astro:49
 msgid "Related Equipment"
 msgstr ""
 
@@ -910,8 +915,8 @@ msgstr ""
 msgid "Scroll to zoom"
 msgstr ""
 
-#: src/components/catalogue/CatalogueSidebar.astro:100
-#: src/components/catalogue/CatalogueSidebar.astro:101
+#: src/components/catalogue/CatalogueSidebar.astro:105
+#: src/components/catalogue/CatalogueSidebar.astro:106
 msgid "Search products…"
 msgstr ""
 
@@ -1016,8 +1021,7 @@ msgid "Technical Datasheet"
 msgstr ""
 
 #: src/components/homepage/FeaturedEquipment.astro:160
-#: src/components/catalogue/ProductCard.astro:84
-#: src/components/catalogue/CatalogueSidebar.astro:103
+#: src/components/catalogue/ProductCard.astro:89
 msgid "Technical Details"
 msgstr ""
 
@@ -1025,7 +1029,7 @@ msgstr ""
 msgid "Technical Specifications"
 msgstr ""
 
-#: src/components/catalogue/CatalogueSidebar.astro:84
+#: src/components/catalogue/CatalogueSidebar.astro:89
 msgid "Technical Specs"
 msgstr ""
 
@@ -1144,6 +1148,7 @@ msgstr ""
 msgid "Units"
 msgstr ""
 
+#: src/components/wiki/WikiCard.astro:84
 #: src/pages/[lang]/wiki/[slug].astro:166
 msgid "Updated"
 msgstr ""
@@ -1245,7 +1250,7 @@ msgstr ""
 msgid "e.g. Oleksii Kovalenko"
 msgstr ""
 
-#: src/components/wiki/WikiCard.astro:53
+#: src/components/wiki/WikiCard.astro:77
 #: src/pages/[lang]/wiki/[slug].astro:157
 msgid "min read"
 msgstr ""

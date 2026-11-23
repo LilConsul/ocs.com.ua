@@ -55,6 +55,47 @@ export function calculateReadingMinutes(content: string): number {
 	return Math.max(1, Math.ceil(words / 200));
 }
 
+/** Blocks that are not prose: headings, lists, images, quotes, tables, HTML, fences, rules */
+const NOT_PROSE = /^(#|[-*+]\s|\d+[.)]\s|!\[|>|\||<|```|~~~|---|\*\*\*)/;
+
+/**
+ * The first prose paragraph of an article body as plain text, for cards whose article has no
+ * description. Links keep their text, bold and italic markers go, inline code keeps its
+ * backticks so the card can render it. Returns "" when the body has no prose paragraph.
+ */
+export function articleExcerpt(body: string | null | undefined): string {
+	for (const block of (body ?? "").split(/\n\s*\n/)) {
+		const text = block.trim();
+		if (!text || NOT_PROSE.test(text)) continue;
+		return text
+			.replace(/!\[[^\]]*\]\([^)]*\)/g, "")
+			.replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+			.replace(/(\*\*|__)(.+?)\1/g, "$2")
+			.replace(/(^|[\s(])[*_](\S(?:.*?\S)?)[*_](?=[\s).,;:!?]|$)/g, "$1$2")
+			.replace(/\s+/g, " ")
+			.trim();
+	}
+	return "";
+}
+
+const INLINE_CODE = /`([^`]+)`/;
+
+/**
+ * Splits text with Markdown inline code ("`d` is the resolution") into plain and code parts,
+ * so a description can show `d` as code instead of raw backticks. Empty parts are dropped.
+ */
+export function splitInlineCode(text: string): { text: string; code: boolean }[] {
+	return text
+		.split(new RegExp(INLINE_CODE.source, "g"))
+		.map((part, i) => ({ text: part, code: i % 2 === 1 }))
+		.filter((part) => part.text !== "");
+}
+
+/** The same text without backticks, for meta descriptions and structured data */
+export function stripInlineCode(text: string | null | undefined): string {
+	return (text ?? "").replace(new RegExp(INLINE_CODE.source, "g"), "$1");
+}
+
 /**
  * Find matching translation for a wiki article
  */
