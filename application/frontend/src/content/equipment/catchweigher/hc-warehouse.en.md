@@ -1,42 +1,51 @@
 ---
 file_name: hc-warehouse
-type: product
 order: 1
 datasheet: null
 title: HC-Warehouse Catchweigher
-description: Attractively priced catchweigher for warehouse and intralogistics.
-  Weighing range up to 50 kg with transport speeds up to 1.2 m/s. Features
-  predictive maintenance concept for maximum uptime.
+description: HC-Warehouse is the ideal solution for weighing in warehouses and
+  intralogistics. Wipotec has created the first scale in this price segment
+  without compromising on quality and durability. Thanks to the innovative use
+  of a single central strain gauge weigh cell, the HC-Warehouse is highly robust
+  and reliable. At the same time, this design allows fast and easy maintenance.
 specs:
-  - items:
+  - title: Weighing
+    items:
       - label: Max Speed
         value: 1.2 m/s
       - label: Resolution
-        value: from 5 g
+        value: From 5 g
+      - label: Maximum Weighing Capacity
+        value: Up to 50 000 g
+  - title: Weighing Conveyor
+    items:
+      - label: Length
+        value: 600 mm, 700 mm, 800 mm, 900 mm, 1000 mm
+      - label: Width
+        value: 400 mm, 500 mm, 600 mm, 700 mm
+  - title: General Information
+    items:
+      - label: Conveyor Working Height
+        value: 500 - 620 mm, 600 - 720 mm, 700 - 1020 mm, 1000 - 1320 mm
+      - label: Ingress Protection Rating
+        value: IP54
+      - label: Operating Temperature Range
+        value: +5°C .... +40°C
+      - label: Touchscreen Diagonal
+        value: 5.7”
+      - label: Weigh Cell
+        value: Strain gauge load cell
+type: product
 ---
 
-## Attractively Priced Catchweigher for Warehouse and Intralogistics Sector
+## Cost-Effective Catchweigher for the Warehouse and Intralogistics Sector
 
-The HC-Warehouse is the ideal solution for weighing applications in the warehouse and intralogistics sector. Wipotec has thus created the first scale in this price segment without compromising on quality and durability. Due to the innovative use of only one central strain gauge Weigh Cell, the HC-Warehouse is very robust and reliable. At the same time, it enables fast and uncomplicated maintenance.
+**HC-Warehouse** is the ideal solution for weighing in warehouse logistics and in-house intralogistics. Wipotec has thus created the first scale in this price segment that does not compromise on quality and durability. Thanks to the innovative use of just one central strain gauge sensor (Weigh Cell), the HC-Warehouse stands out for its high robustness and reliability. At the same time, the design allows fast and easy maintenance.
 
-## Key Features
+The predictive maintenance system of the HC-Warehouse determines the optimal time for service work, avoiding unplanned downtime. The system also provides valuable process data, including line throughput and motor current.
 
-* Transport speeds up to 1.2 m/s
-* Weighing range up to 50 kg
-* Predictive maintenance concept
-* Communication protocols Ethernet/IP, Profinet and Profibus
-* Protection class IP54
+The **HC-Warehouse** dynamic scale is designed for a weighing range of **up to 50 kg**. Thanks to a powder-coated steel frame made by sheet metal bending, the scale offers high mechanical strength and load resistance, ensuring reliable control of picking and shipping units.
 
-## Your Benefits
+Available weighing conveyor lengths from 600 to 1000 mm and belt widths from 400 to 700 mm allow flexible integration into existing or planned transport systems.
 
-* Very good price-performance ratio
-* Fewer breaks in production due to predictive maintenance
-* Especially robust due to the Wipotec weighing bridge
-
-The predictive maintenance of the HC-Warehouse determines the optimal time for maintenance work and thus avoids unplanned downtimes. It also provides valuable process data such as throughput and motor current.
-
-Designed for a weighing range of up to 50 kg and extremely resilient due to a powder-coated steel frame in sheet metal bending construction, the HC-Warehouse dynamic scale allows reliable control of picking and shipping units. Available weighing belt lengths from 600 to 1,000 millimetres and belt widths from 400 to 700 millimetres allow flexible integration into existing or planned transport systems. The HC-Warehouse is prepared for the communication protocols Ethernet/IP, Profinet and Profibus.
-
-## Further Information on the Topic of Catchweighers
-
-Active Vibration Compensation and Weighing Accuracy Analytics technologies ensure consistent performance in demanding warehouse environments.
+**HC-Warehouse** supports the industrial communication protocols **Ethernet/IP, Profinet and Profibus**.

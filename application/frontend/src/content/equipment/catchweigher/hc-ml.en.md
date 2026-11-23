@@ -11,7 +11,7 @@ description: >-
   resolution, for products weighing up to 15 kilograms each.
 
   These weighing systems are an ideal solution for weighing small and
-  medium-sized items that nevertheless have considerable dimensions.
+  medium-weight loads that nevertheless have considerable dimensions.
 specs:
   - title: Weighing
     items:
@@ -31,19 +31,19 @@ specs:
     items:
       - label: Conveyor Working Height
         value: 500 - 1250 mm
-      - label: Ingress Protection Class
+      - label: Ingress Protection Rating
         value: IP54
       - label: Operating Temperature Range
         value: +0°C .... +40°C
-      - label: Touch Display Diagonal
+      - label: Touchscreen Diagonal
         value: 5.7” / 10.4”
       - label: Weigh Cell
         value: Electromagnetic Force Restoration (EMFR)
 ---
 
-## High Weighing Accuracy and Throughput of Parcels
+## High Weighing Accuracy and Parcel Throughput
 
-Scales of the HC-ML series are designed for products up to a maximum 60 kg. The high level of weighing accuracy (up to 5 g) permits speeds of up to 2.0 m/s in calibrated mode. These excellent values are achieved by the sandwich construction which creates a rigid platform for the parcel to travel over the scale's weigh bridge. It also ensures a noise reduction to below 65 dB.
+HC-ML series scales are designed for products weighing up to 60 kg. The high weighing accuracy (up to 5 g) allows speeds of up to 2.0 m/s in calibrated mode. These excellent figures are achieved thanks to a sandwich construction that creates a rigid platform for the parcel travelling across the weighing bridge. It also keeps the noise level below 65 dB.
 
 ## Key Features
 
@@ -56,7 +56,7 @@ Scales of the HC-ML series are designed for products up to a maximum 60 kg. The 
 
 ## Your Benefits
 
-* EMFR weigh cells for best weighing results
+* EMFR weigh cells for the best weighing results
 * Double the speed compared to standard machines
 * Maintenance-free and wear-free operation
 * Weighing during acceleration/deceleration and on slopes
@@ -64,14 +64,14 @@ Scales of the HC-ML series are designed for products up to a maximum 60 kg. The 
 
 ## Robust Design for Demanding Environments
 
-EMFR weigh cells are absolutely maintenance- and wear-free, ensuring long-term reliability in high-throughput logistics environments.
+EMFR weigh cells are completely maintenance-free and wear-free, ensuring long-term reliability in high-throughput logistics environments.
 
-The catchweighers can weigh accurately during acceleration and deceleration phases, and on ascending or descending slopes. The scales can be used from both sides due to the symmetrical belt construction. Exit side finger protection is fitted as standard for operator safety.
+The catchweighers can weigh accurately during acceleration and deceleration phases, as well as on inclines or declines. The scales can be used from both sides thanks to the symmetrical belt construction. Finger protection at the outfeed is fitted as standard for operator safety.
 
-The drive motor can be mounted optionally on the left or right in the belt's direction of travel. An internal belt drive (optional) can be used where a particularly narrow design is important, maximizing space efficiency in tight warehouse layouts.
+The drive motor can optionally be mounted on the left or right in the direction of belt travel. An internal belt drive (optional) can be used where a particularly narrow design matters, maximising space efficiency in tight warehouse layouts.
 
 ## Advanced Weighing Technology
 
-Active Vibration Compensation (AVC) technologies ensure consistent performance even in environments with significant vibrations from nearby sorting equipment or heavy traffic.
+Active Vibration Compensation (AVC) technologies ensure stable performance even in environments with significant vibration from nearby sorting equipment or heavy traffic.
 
-The available weighing belt lengths and widths allow flexible integration into existing or planned transport systems, making the HC-ML an ideal solution for modern distribution centers and logistics operations.
+The available weighing belt lengths and widths allow flexible integration into existing or planned transport systems, making the HC-ML an ideal solution for modern distribution centres and logistics operations.

@@ -1,8 +1,8 @@
 ---
 file_name: what-is-scale-division
-title: "Scale Resolution (d): What It Is, in Simple Words"
-description: What the number 'd' in a scale's specs means, why it is not the
-  same as accuracy, and how to pick the right one for your product.
+title: "Scale Interval (d) and Verification Scale Interval (e): What Is the Difference?"
+description: "When choosing weighing equipment, you will come across two
+  symbols: d, the scale interval, and e, the verification scale interval."
 coverImage: /assets/wiki/2026-11-22-14.26.35.webp
 order: 1
 datePublished: 2026-10-31
@@ -12,73 +12,67 @@ related:
   - load-cell
 ---
 
-In every scale's specification you will find a small letter **d**. It is usually called **resolution** or **scale division**. It sounds technical, but the idea is very simple.
+In the specifications of any scale you will see a small letter `d`. It is called the **scale interval** or **resolution**. It sounds complicated, but the idea is very simple.
 
-## The short version
+## What Is the Scale Interval (d)?
 
-**d is the smallest step the display can show.**
+**The scale interval `d` is the difference between two consecutive mass values shown by the scale's digital indicator.**
 
-That's it. It is how finely the scale "rounds" the number on the screen.
+Put simply, it is the smallest step by which the scale reading changes.
 
-## Think of a ruler
+For example:
 
-Imagine two rulers:
+| Scale          | What the display can show              |
+| -------------- | -------------------------------------- |
+| **d = 1 g**    | 100 g → 101 g → 102 g (never 100.5 g)  |
+| **d = 0.1 g**  | 100.0 g → 100.1 g → 100.2 g            |
+| **d = 0.01 g** | 100.00 g → 100.01 g → 100.02 g         |
 
-* Ruler A has marks only every **1 cm**. You can only say "12 cm" or "13 cm". Anything in between, you have to guess.
-* Ruler B has marks every **1 mm**. Now you can say "12.3 cm".
+## What Is the Verification Scale Interval (e)?
 
-Scales work the same way:
+**The verification scale interval `e` is a metrological parameter used to classify scales and to determine the maximum permissible errors when assessing their metrological characteristics.**
 
-| Scale | What the display can show |
-| :--- | :--- |
-| **d = 1 g** | 100 g → 101 g → 102 g (never 100.5 g) |
-| **d = 0.1 g** | 100.0 g → 100.1 g → 100.2 g |
-| **d = 0.01 g** | 100.00 g → 100.01 g → 100.02 g |
+Unlike `d`, this parameter does not simply describe the display step. It is directly related to the metrological requirements the scale must meet.
 
-A smaller d means the scale shows finer detail.
+It is on the basis of `e` and the instrument's other characteristics that its accuracy class and maximum permissible errors are determined under the applicable regulations.
 
-## Important: d is NOT accuracy
+The values of `d` and `e` can be the same, but they are not always equal. Their ratio depends on the design, type and regulatory requirements of the specific weighing instrument.
 
-This is the most common mistake. A scale can show many digits and still be wrong.
+## Scale Interval and Verification Scale Interval of Checkweighers
 
-> **Example:** A clock that shows seconds is not necessarily more *correct* than a clock that shows only minutes. It just shows more detail. If it is set 5 minutes wrong, the seconds don't help.
+Unlike conventional static scales, checkweighers determine the weight of individual items while they move along a conveyor, without stopping the product on the weighing platform.
 
-The same with scales:
+So when choosing a checkweigher, it is important to consider not only the scale interval `d`, but also the actual dynamic weighing error and the permissible limits of that error.
 
-* **d** tells you how finely the number is **displayed**.
-* **Accuracy** tells you how close that number is to the **real weight**.
+For example, two checkweighers can have the same scale interval of 1 g but deliver different results under the same production conditions. This depends on the design of the weighing module, the sensor characteristics, the signal processing algorithms and the equipment settings.
 
-A scale with d = 0.1 g may show `150.2 g` while the product really weighs `150.4 g`. The display is detailed, but not exact. You can read more about this in the article about [weighing accuracy](/en/wiki/weighing-accuracy/).
+The display resolution therefore cannot be used as the only criterion for assessing the accuracy of checkweighers.
 
-## You may also see "e"
+## What Should You Know About Metrological Requirements in Ukraine?
 
-On certified scales you will often see two letters, **d** and **e**:
+In Ukraine, requirements for measuring instruments are set, in particular, by the Law of Ukraine "On Metrology and Metrological Activity" and the relevant technical regulations.
 
-* **d** is the step of the display.
-* **e** is the step used by the inspectors when they officially check the scale and decide how much error is allowed.
+Automatic weighing instruments are covered by the Technical Regulation on Measuring Instruments, approved by Resolution of the Cabinet of Ministers of Ukraine No. 163 of 24 February 2016.
 
-Usually **e = d**, or sometimes **e = 10 × d**. If you are not doing official trade weighing, you can mostly just look at d.
+Automatic checkweighers form a separate category of automatic weighing instruments. Their metrological characteristics are assessed taking into account the specifics of automatic, and in particular dynamic, weighing.
 
-## Which d do I need?
+It is important to distinguish between the conformity assessment of a measuring instrument against the technical regulation and periodic verification. Whether verification is required depends on how the equipment is used and on the legal requirements for legally controlled measuring instruments.
 
-A simple rule: **d should be about 3 to 5 times smaller than the weight tolerance you allow for your product.**
+So when choosing a checkweigher for production, you need to consider not only its technical characteristics, but also the purpose of the equipment and the requirements for its use.
 
-Example: your bag should weigh 500 g, and you accept ±5 g. Then d of **1 g** is a good choice (5 times smaller than the tolerance). A d of 0.01 g would be pointless.
+## What to Look for When Choosing a Checkweigher
 
-Typical values:
+When choosing a checkweigher, it is recommended to consider a set of characteristics:
 
-| What you weigh | Typical weight | Good d |
-| :--- | :--- | :--- |
-| Pills, vials | up to 100 g | 0.01 – 0.05 g |
-| Coffee, sweets, dry goods | 100 g – 1 kg | 0.1 – 0.2 g |
-| Meat trays, food packs | 1 – 5 kg | 0.5 – 1 g |
-| Boxes, big bags | 10 – 60 kg | 5 – 10 g |
+* **Scale interval `d`** — the step in which the weighing result is displayed.
+* **Verification scale interval `e`** — a parameter used for metrological classification and for assessing permissible errors.
+* **Maximum and minimum product weight** — the working weighing range.
+* **Permissible weighing error** — the deviation of the measurement result from the true mass.
+* **Line throughput** — the number of items per minute and the conveyor speed.
+* **Operating conditions** — vibration, mechanical loads, temperature and the specifics of the equipment installation.
 
-## Why not just take the smallest d possible?
+A correctly selected checkweigher should deliver the required weighing accuracy at the specified production line throughput.
 
-It sounds like "smaller is always better", but on a moving production line it is not:
+***
 
-* **Too sensitive.** The scale starts to react to belt vibration, motors and even drafts. The numbers jump around.
-* **Slower.** To get a very fine number, the scale needs more time to "calm down", so fewer products per minute can pass.
-
-Pick a d that is fine enough for your tolerance, and no finer.
+**Conclusion:** the scale interval `d` describes the step in which the scale reading changes, while the verification scale interval `e` is a metrological parameter used to classify the instrument and determine permissible errors. For checkweighers, these values must be considered together with the actual weighing error and the operating conditions of the production line.

@@ -3,18 +3,16 @@ file_name: hc-m
 order: 2
 datasheet: /datasheets/hc-m.pdf
 title: HC-M Checkweigher
-description: HC-M series checkweighers for medium performance ranges. Positioned
-  between the EC-E and HC-A series, they provide up to 250 weight measurements
-  per minute.
+description: "Mid-range performance for 100% weight control on most production lines, with a 10.4-inch touchscreen."
 specs:
-  - items:
+  - title: Weighing
+    items:
       - label: Max Speed
-        value: up to 250 ppm
+        value: Up to 250 ppm
       - label: Resolution
-        value: from 0.1 g - 1.0 g
+        value: From 0.1 g - 1.0 g
       - label: Maximum Weighing Capacity
         value: 750 g - 7500 g
-    title: Weighing
   - title: Infeed and Outfeed Conveyors
     items:
       - label: Length
@@ -39,14 +37,14 @@ specs:
         value: 10.4”
       - label: Weigh Cell
         value: Electromagnetic Force Restoration (EMFR)
-      - label: "Automatic rejection of products with incorrect weight:"
-        value: directed air blast, pneumatic pusher, rotary arm, etc.
+      - label: "Automatic rejection of products with incorrect weight"
+        value: Directed air blast, pneumatic pusher, rotary arm, etc.
 type: product
 ---
 
 ## Checkweighers for Medium Performance Ranges
 
-HC-M series checkweighers provide the ideal weighing technology for demanding mid-range applications. They are the link between the EC-E and HC-A series of scales and provide up to 250 weight measurements per minute, covering the complete medium range of checkweighers.
+HC-M series checkweighers provide ideal weighing technology for demanding mid-range applications. They bridge the EC-E and HC-A series and deliver up to 250 weight measurements per minute across the full mid-range of checkweighers.
 
 ## Key Features
 
@@ -73,7 +71,7 @@ The weigh cell has no parts that create friction. This ensures its durability an
 
 **Design and Vibration Protection**
 
-The scale frame and the electrical cabinet with the control terminal are made of stainless steel in accordance with hygienic requirements. A massive, stable frame weighing about 150 kg provides additional vibration protection, which has a positive effect on weighing accuracy.
+The scale frame and the electrical cabinet with the control terminal are made of stainless steel in accordance with hygienic requirements. The massive, stable frame weighing about 150 kg provides additional protection against vibration, which improves weighing accuracy.
 
 **Ease of Maintenance**
 

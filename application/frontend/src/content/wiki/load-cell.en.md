@@ -1,8 +1,8 @@
 ---
 file_name: load-cell
-title: The Load Cell (Weight Sensor) in Simple Words
-description: What a load cell is, how it turns weight into a number, which types
-  exist, and how to look after it.
+title: Weigh Cell with Electromagnetic Force Restoration (EMFR) Technology
+description: How the WIPOTEC weigh cell with electromagnetic force restoration
+  (EMFR) works and how AVC technology keeps weighing accurate despite vibration.
 coverImage: /assets/wiki/2026-11-19-18.34.32.webp
 order: 3
 datePublished: 2026-10-31
@@ -12,62 +12,48 @@ related:
   - weighing-accuracy
 ---
 
-Inside every electronic scale there is a small metal part that actually "feels" the weight. It is called a **load cell**, or simply a **weight sensor**. Without it, a scale is just a plate with a screen.
+WIPOTEC GmbH has been manufacturing its own weigh cells for more than 30 years. They are used for precise static and dynamic weighing.
 
-## The short version
+**EMFR (Electro-Magnetic Force Restoration)** is a high-precision weighing technology based on a combination of electronic and mechanical components. At the heart of the weighing system is a balance mechanism made up of a position sensor, an electronic controller and an electromagnetic actuator.
 
-**A load cell turns pressure from weight into a tiny electrical signal.** The scale's electronics then turn that signal into the number you see on the display.
+The principle can be compared to a conventional beam balance. When the weight of a product acts on one side of the measuring lever, the opposite side tends to move relative to the magnetic field. An optical position sensor detects even the smallest deflection and sends a signal to the control system. In response, the electronic controller adjusts the current in the coil, creating the electromagnetic force needed to return the lever to its initial position and keep it in balance.
 
-## How does it work?
+The current is measured with a precision resistor, and a microprocessor system converts the data into a digital weight value.
 
-Think of a metal ruler that you press on the edge of a table. The harder you press, the more it bends. It bends only a tiny bit, but it does bend.
+## High Accuracy and Measuring Speed
 
-A load cell works in a similar way:
+Thanks to the principle of electromagnetic force restoration (EMFR), WIPOTEC weighing systems deliver extremely high resolution, excellent repeatability and minimal settling time.
 
-1. You put a product on the scale. The weight pushes on the load cell.
-2. The metal body of the cell bends **a tiny, invisible amount**.
-3. Small sensors glued to the metal (called **strain gauges**) stretch or squeeze with it.
-4. When they stretch or squeeze, their electrical resistance changes slightly.
-5. The electronics measure this change, calculate the weight, and show it on the screen.
+Compared with conventional strain gauge sensors, EMFR technology produces high-precision results much faster and more accurately. This is especially important for dynamic weighing, both on high-speed production lines, where every millisecond counts, and at low speeds when transporting heavy boxes.
 
-Heavier product means more bending, a bigger signal, and a bigger number.
+The compact design of the weighing modules also makes them easy to integrate into equipment, without requiring much installation space or complex engineering.
 
-## The main types
+Depending on the equipment series, WIPOTEC systems with EMFR technology weigh from 1 microgram to 120 kg.
 
-| Type | How to picture it | Where it is used |
-| :--- | :--- | :--- |
-| **Strain gauge** | A metal block with tiny sensors glued on. The most common type. | Almost everywhere: floor scales, platform scales, conveyors, checkweighers |
-| **Electromagnetic force restoration (EMFR)** | A coil and magnet hold the weighing pan in place. The more current needed to hold it, the heavier the product. | Very fine and fast weighing, e.g. small packs on high-speed lines |
+## Continuous Technology Improvement
 
-For most factories, a strain gauge load cell is the standard choice.
+WIPOTEC continuously improves all key components of the EMFR system: the magnet system, electronics, signal readout circuits, control boards, algorithms for determining measured values and specialised data interfaces.
 
-## What the numbers on a load cell mean
+An additional advantage is AVC (Active Vibration Compensation), which helps improve the stability and accuracy of weighing results even under external mechanical influences.
 
-When you read the specs, you will mostly meet these:
+It is this combination of high-precision mechanics, modern electronics and continuous technological improvement that has earned WIPOTEC weighing systems recognition worldwide.
 
-* **Capacity.** The maximum weight it is designed to measure. Pick a load cell so your normal load is well below this value.
-* **Overload limit.** How much beyond capacity it survives without damage. Going past it can bend the metal permanently.
-* **Accuracy class.** How exact the cell is. Better class means smaller error.
-* **Protection rating (IP).** How well it resists dust and water. Washdown areas need a high rating, such as IP67 or IP69K.
+## Three-Dimensional Vibration Compensation with AVC Technology
 
-## What can damage a load cell?
+**AVC (Active Vibration Compensation)** is a patented sensor technology for active vibration compensation, developed by WIPOTEC to ensure maximum weighing accuracy even in demanding production conditions.
 
-Load cells are tough, but not unbreakable:
+The AVC system detects and compensates for various types of vibration and mechanical influences that can occur while production equipment is running. AVC sensors can be supplied separately for integration with weighing systems, and they are also built into them as a standard component.
 
-* **Overloading or shock.** Dropping a heavy box onto the scale is the number one killer.
-* **Water and moisture** getting into a cell that is not sealed well.
-* **Extreme heat or cold**, and sudden temperature changes.
-* **Electrical problems.** Lightning, welding currents or wrong wiring.
-* **Side forces.** Pushing or pulling sideways when the cell is made only for pushing down.
+Combined with a weighing module whose housing is made from a solid milled aluminium monoblock, AVC technology delivers stable and reliable weighing results even under the significant vibration typical of industrial production halls.
 
-## Simple care tips
+## Compensation for Both Heavy Shocks and the Smallest Vibrations
 
-1. Never exceed the maximum load, and avoid dropping things on the scale.
-2. Keep the area around the weighing platform clean, so nothing jams against it.
-3. Use the correct cleaning method for your protection rating. Do not blast water at a cell that is not made for it.
-4. If readings start to drift, jump or never return to zero, have the load cell and its cable checked.
-5. Check the scale with a known test weight regularly. See [weighing accuracy](/en/wiki/weighing-accuracy/) for more.
+AVC effectively detects and compensates for short impulse loads that can occur, for example, when feed mechanism drives run at high accelerations. The system also neutralises external disturbances transmitted to the weighing equipment through the foundation or the structures of the production line.
 
-## How does this connect to d?
+In addition, AVC technology compensates for even minor vibrations caused by machine drives or by imbalance in rotating parts right next to the weighing module.
 
-The load cell and the electronics together decide how finely and how exactly the scale can weigh. A good load cell allows a smaller, useful [resolution (d)](/en/wiki/what-is-scale-division/). A poor one will give noisy numbers, no matter how many digits the display has.
+As a result, the system delivers accurate and stable weighing results without having to extend the measuring time or sacrifice its quality.
+
+***
+
+**Conclusion:** EMFR technology provides high resolution and fast settling, while AVC compensates for vibration and shock loads. Together they deliver reliable, high-accuracy weighing even in demanding production conditions.
