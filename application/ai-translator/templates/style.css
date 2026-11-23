@@ -79,8 +79,12 @@ sup {
   padding: 0 var(--gutter) 8mm;
 }
 
+/* Fixed height, content at the bottom: overflow is measured against the full box. */
 .band-title {
-  max-height: 34mm;
+  display: flex;
+  flex-direction: column;
+  height: 34mm;
+  justify-content: flex-end;
 }
 
 .band-title::before {
@@ -133,9 +137,9 @@ h1 {
   font-size: 11pt;
   font-weight: 700;
   line-height: 1;
-  min-height: 26mm;
-  min-width: 26mm;
+  height: 26mm;
   padding: 0 2.5mm 1.2mm;
+  width: 30mm;
   text-transform: uppercase;
 }
 
@@ -175,11 +179,14 @@ h1 {
 
 /* Hero: photo with feature boxes */
 
+/* The hero takes the free height; its single row is bounded by it, so the aside boxes
+   (each a .fit) shrink and report their own overflow instead of spilling over the page. */
 .block-hero {
   display: grid;
   flex: 1 1 auto;
   gap: 6mm;
   grid-template-columns: 1fr 90mm;
+  grid-template-rows: minmax(0, 1fr);
   min-height: 0;
 }
 
@@ -197,11 +204,13 @@ h1 {
   width: 100%;
 }
 
+/* Rows grow from 0 up to their content in equal shares, so a box that fits keeps its
+   height and only a box that is too long clips and reports overflow. */
 .hero-aside {
-  display: flex;
-  flex-direction: column;
+  align-content: end;
+  display: grid;
   gap: 6mm;
-  justify-content: flex-end;
+  grid-auto-rows: minmax(0, max-content);
 }
 
 .aside {
@@ -302,7 +311,6 @@ h1 {
 
 .grid td:first-child {
   font-weight: 600;
-  white-space: nowrap;
 }
 
 .matrix th,

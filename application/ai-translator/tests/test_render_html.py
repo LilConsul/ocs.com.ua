@@ -74,3 +74,20 @@ def test_qr_falls_back_when_url_empty(doc, company, branding, tmp_path):
     html = render_html(doc, work_dir=tmp_path, company=company, branding=branding, today=TODAY)
     assert html.count("<svg") >= 2  # logo + QR
     assert 'data-qr="https://ocs.com.ua/ua"' in html
+
+
+def test_overflow_hooks_carry_fit(html):
+    assert html.count('class="aside aside-light fit"') == 1
+    assert html.count('class="aside aside-dark fit"') == 1
+    assert 'class="hero-aside fit"' in html
+    assert 'class="variant fit"' in html
+    assert html.count('class="band-title fit"') == 3
+    assert html.count('class="page-content fit"') == 3
+
+
+def test_empty_block_title_keeps_its_path(doc, company, branding, fixture_paths):
+    doc["pages"][1]["blocks"][0]["title"] = ""
+    html = render_html(
+        doc, work_dir=fixture_paths.work_dir, company=company, branding=branding, today=TODAY
+    )
+    assert 'data-path="block[3].title"' in html
