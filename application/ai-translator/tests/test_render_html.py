@@ -47,6 +47,14 @@ def test_inline_escapes_then_bolds():
     assert inline("**Base** <data>") == "<strong>Base</strong> &lt;data&gt;"
 
 
+def test_inline_raises_footnote_marks_inside_text():
+    assert inline("400 mm 1)") == "400 mm<sup>1)</sup>"
+    assert inline("120 / 400 2) mm") == "120 / 400<sup>2)</sup> mm"
+    assert inline("Standard deviation 3) (1s)") == "Standard deviation<sup>3)</sup> (1s)"
+    assert inline("1) Optionally, surcharge") == "1) Optionally, surcharge"
+    assert inline("6 bar [5:3:3]") == "6 bar [5:3:3]"
+
+
 def test_bold_heading_markup_rendered(html):
     assert "<strong>Базові</strong> дані" in html
 

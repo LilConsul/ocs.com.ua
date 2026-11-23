@@ -16,12 +16,16 @@ FONTS = ROOT / "fonts"
 LOGO = FRONTEND / "public" / "assets" / "icons" / "logo-ua.svg"
 
 _BOLD = re.compile(r"\*\*(.+?)\*\*")
+# A footnote mark after a word or number, as in "400 mm 1)" or "400 2) mm"; a mark at the
+# start of the text ("1) Water from above") is the footnote's own number and stays as it is.
+_FOOTNOTE_MARK = re.compile(r"(?<=\S) (\d)\)(?=[\s,;]|$)")
 _XML_DECL = re.compile(r"^\s*<\?xml[^>]*\?>\s*")
 
 
 def inline(text: str) -> Markup:
-    """HTML-escape text, then turn `**x**` into `<strong>x</strong>`."""
-    return Markup(_BOLD.sub(r"<strong>\1</strong>", str(escape(text))))
+    """HTML-escape text, turn `**x**` into `<strong>x</strong>` and footnote marks into `<sup>`."""
+    html = _BOLD.sub(r"<strong>\1</strong>", str(escape(text)))
+    return Markup(_FOOTNOTE_MARK.sub(r"<sup>\1)</sup>", html))
 
 
 def qr_svg(url: str) -> str:
