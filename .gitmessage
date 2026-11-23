@@ -4,11 +4,16 @@
 #
 # [optional footer]
 
-# TYPES: feat, fix, docs, style, refactor, test, chore, ci, perf
+# TYPES: feat, fix, docs, style, refactor, test, chore, ci, perf, deps
 
-# SCOPES:
-# Project: frontend, backend, root, docs, ci
-# Nested: frontend/ui, backend/api, etc.
+# SCOPES (optional):
+# Project: frontend, infra, ci, docs, root
+# Area:    i18n, cms, catalogue, anims, content
+# Nested:  frontend/ui, infra/apache, etc.
+
+# GENERATED (do not write by hand):
+# [CMS] Create|Update|Delete: ...   Decap CMS publishes
+# deps(deps): ..., ci(deps): ...    Dependabot
 
 # RULES:
 # - Imperative mood ("add" not "added")
@@ -18,5 +23,6 @@
 
 # EXAMPLES:
 # feat(frontend/ui): add dark mode toggle
-# fix(backend/api): resolve auth timeout
+# fix(infra): resolve apache fragment mismatch
+# chore(i18n): sync po file line references
 # docs(root): update setup instructions

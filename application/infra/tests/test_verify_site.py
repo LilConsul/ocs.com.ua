@@ -22,9 +22,7 @@ def test_open_site_passes():
 
 
 def test_open_site_must_not_block_or_carry_noindex():
-    problems = _mod.indexing_problems(
-        CLOSED_ROBOTS, NOINDEX_PAGE, "noindex, nofollow", True, SITE
-    )
+    problems = _mod.indexing_problems(CLOSED_ROBOTS, NOINDEX_PAGE, "noindex, nofollow", True, SITE)
     assert "robots.txt blocks the whole site" in problems
     assert "robots.txt lacks the sitemap" in problems
     assert "page is not index, follow" in problems
@@ -33,10 +31,7 @@ def test_open_site_must_not_block_or_carry_noindex():
 
 def test_closed_site_passes():
     assert (
-        _mod.indexing_problems(
-            CLOSED_ROBOTS, NOINDEX_PAGE, "noindex, nofollow", False, SITE
-        )
-        == []
+        _mod.indexing_problems(CLOSED_ROBOTS, NOINDEX_PAGE, "noindex, nofollow", False, SITE) == []
     )
 
 
@@ -57,9 +52,7 @@ def test_disallow_of_a_path_is_not_disallow_all():
 
 
 def test_finds_the_hashed_stylesheet():
-    html = (
-        '<link rel="stylesheet" href="/_astro/Layout.DPIW7Cof.css"><link href="/x.css">'
-    )
+    html = '<link rel="stylesheet" href="/_astro/Layout.DPIW7Cof.css"><link href="/x.css">'
     assert _mod.find_asset(html) == "/_astro/Layout.DPIW7Cof.css"
     assert _mod.find_asset("<p>no styles</p>") is None
 
@@ -78,7 +71,7 @@ def test_redirect_must_be_one_301_to_the_target():
 
 
 class _Handler(BaseHTTPRequestHandler):
-    def do_GET(self):  # noqa: N802
+    def do_GET(self):
         if self.path == "/old":
             self.send_response(301)
             self.send_header("Location", "/new/")

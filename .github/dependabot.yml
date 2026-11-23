@@ -22,7 +22,9 @@ updates:
       npm-dependencies:
         patterns: ["*"]
     ignore:
-      # `astro check` does not support TypeScript 7 yet
+      # `astro check` does not support TypeScript 7 yet.
+      # REVISIT by 2027-02-23 (the README badge and package.json are on TypeScript 6): check whether
+      # @astrojs/check and astro support TypeScript 7, then remove this ignore and bump.
       - dependency-name: "typescript"
         update-types: ["version-update:semver-major"]
     commit-message:

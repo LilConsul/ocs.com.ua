@@ -38,7 +38,9 @@ def find_problems(path: Path) -> list[str]:
     problems = []
     with Image.open(path) as img:
         if img.format != expected:
-            problems.append(f"is {img.format} data but named {path.suffix.lower()} (expected {expected})")
+            problems.append(
+                f"is {img.format} data but named {path.suffix.lower()} (expected {expected})"
+            )
         if max(img.size) > MAX_SIDE:
             problems.append(f"is {img.width}x{img.height} px, max side is {MAX_SIDE} px")
     size = path.stat().st_size
@@ -139,7 +141,9 @@ def main(argv: list[str] | None = None) -> int:
         failed += bool(problems)
 
     if failed and not args.fix:
-        print(f"\n{failed} image(s) failed. Run: uv run application/infra/scripts/check-images.py --fix")
+        print(
+            f"\n{failed} image(s) failed. Run: uv run application/infra/scripts/check-images.py --fix"
+        )
     elif not failed:
         result = f"fixed {fixed}" if fixed else "all OK"
         print(f"checked {len(files)} image(s), {result}")

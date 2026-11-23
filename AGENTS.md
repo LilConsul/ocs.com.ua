@@ -1,6 +1,6 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to AI coding agents (Claude Code, Codex, Bob and others) when working with code in this repository. `CLAUDE.md` points here.
 
 **Important Rules:**
 
@@ -24,7 +24,7 @@ The repository root also holds `application/infra` (Python/uv deploy tooling), `
 - Language paths `/en` and `/ua`, every page exists in both languages
 - Best-in-class SEO and LLM indexing (structured data, hreflang, sitemap)
 - Maximum loading speed: public pages are prerendered static HTML
-- Design from the Stitch design system (see `docs/design/`)
+- Design from the Stitch design system (see `docs/superpowers/design/`)
 - Strict code quality with Biome
 
 ## Essential Commands
