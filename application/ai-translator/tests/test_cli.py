@@ -1,8 +1,20 @@
+import io
+import sys
+
 from translator.cli import main
 from translator.model import flat_blocks, load_doc
 from translator.paths import paths_for
 
 NAME = "datasheet-checkweigher-hc-a"
+
+
+def test_cli_prints_cyrillic_on_a_cp1252_console(tmp_path, monkeypatch):
+    # Windows consoles (Git Bash, older PowerShell) default to cp1252; Cyrillic must not crash
+    raw = io.BytesIO()
+    monkeypatch.setattr(sys, "stderr", io.TextIOWrapper(raw, encoding="cp1252"))
+    assert main(["extract", "вага", "--root", str(tmp_path)]) == 1
+    sys.stderr.flush()
+    assert "вага".encode() in raw.getvalue()
 
 
 def test_cli_extract_refuses_overwrite(tmp_root):

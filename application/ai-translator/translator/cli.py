@@ -113,6 +113,10 @@ def _all(args: argparse.Namespace, root: Path) -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
+    # Messages quote Ukrainian text; a cp1252 Windows console would raise UnicodeEncodeError
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8")
     args = _parser().parse_args(argv)
     root = getattr(args, "root", ROOT)
     if args.command == "extract":
