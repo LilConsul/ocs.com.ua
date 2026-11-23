@@ -21,24 +21,34 @@ def _parse_clip(value: str) -> pymupdf.Rect:
     return pymupdf.Rect(*parts)
 
 
+def _datasheet_name(value: str) -> str:
+    """Accept a bare name or a path to the PDF (`.\\files\\en\\x.pdf`) and return the name `x`."""
+    name = value.replace("\\", "/").rstrip("/").rsplit("/", 1)[-1]
+    if name.lower().endswith(".pdf"):
+        name = name[:-4]
+    if not name:
+        raise argparse.ArgumentTypeError(f"not a datasheet name or PDF path: {value!r}")
+    return name
+
+
 def _parser() -> argparse.ArgumentParser:
     common = argparse.ArgumentParser(add_help=False)
     common.add_argument("--root", type=Path, default=argparse.SUPPRESS, help=argparse.SUPPRESS)
     parser = argparse.ArgumentParser(prog="translator", parents=[common])
     sub = parser.add_subparsers(dest="command", required=True)
     extract = sub.add_parser("extract", parents=[common], help="draft en.yaml from the PDF")
-    extract.add_argument("name")
+    extract.add_argument("name", type=_datasheet_name, help="datasheet name or path to its PDF")
     extract.add_argument("--force", action="store_true", help="overwrite an existing en.yaml")
     drawing = sub.add_parser("drawing", parents=[common], help="re-export one drawing")
-    drawing.add_argument("name")
+    drawing.add_argument("name", type=_datasheet_name, help="datasheet name or path to its PDF")
     drawing.add_argument("--page", type=int, required=True, help="1-based page number")
     drawing.add_argument("--clip", type=_parse_clip, required=True, help="x0,y0,x1,y1")
     render = sub.add_parser("render", parents=[common], help="print ua.yaml to the branded PDF")
-    render.add_argument("name")
+    render.add_argument("name", type=_datasheet_name, help="datasheet name or path to its PDF")
     lint = sub.add_parser("lint", parents=[common], help="check ua.yaml and the rendered PDF")
-    lint.add_argument("name")
+    lint.add_argument("name", type=_datasheet_name, help="datasheet name or path to its PDF")
     everything = sub.add_parser("all", parents=[common], help="render, then lint")
-    everything.add_argument("name")
+    everything.add_argument("name", type=_datasheet_name, help="datasheet name or path to its PDF")
     return parser
 
 

@@ -19,6 +19,16 @@ def test_cli_extract_missing_pdf(tmp_path, capsys):
     assert "nope.pdf" in capsys.readouterr().err
 
 
+def test_cli_accepts_pdf_path_as_name(tmp_path, capsys):
+    # A path such as .\files\en\x.pdf (tab completion) resolves to the name "x"
+    for arg in ["files/en/nope.pdf", ".\\files\\en\\nope.pdf", "files/en/nope", "nope.PDF"]:
+        assert main(["extract", arg, "--root", str(tmp_path)]) == 1
+        err = capsys.readouterr().err
+        assert "files/en/files" not in err.replace("\\", "/")
+        assert "nope.pdf.pdf" not in err
+        assert "nope" in err
+
+
 def test_cli_drawing_updates_block(tmp_root):
     assert main(["extract", NAME, "--root", str(tmp_root)]) == 0
     args = ["drawing", NAME, "--page", "5", "--clip", "61,164,400,500", "--root", str(tmp_root)]

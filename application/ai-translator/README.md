@@ -20,7 +20,8 @@ uv run playwright install chromium
 ## Commands
 
 `<name>` is the file stem of a source PDF in `files/en/`, for example
-`datasheet-checkweigher-hc-a`.
+`datasheet-checkweigher-hc-a`. A path to the PDF works too
+(`.\files\en\datasheet-checkweigher-hc-a.pdf`): the folder and `.pdf` are dropped.
 
 | Command                                                        | What it does                                                                                      |
 | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
