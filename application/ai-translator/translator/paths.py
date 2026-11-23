@@ -8,6 +8,7 @@ FRONTEND = ROOT.parent / "frontend"
 @dataclass(frozen=True)
 class DatasheetPaths:
     name: str
+    root: Path
     source_pdf: Path
     work_dir: Path
     en_yaml: Path
@@ -25,6 +26,7 @@ def paths_for(name: str, root: Path = ROOT) -> DatasheetPaths:
     work = root / "work" / name
     return DatasheetPaths(
         name=name,
+        root=root,
         source_pdf=root / "files" / "en" / f"{name}.pdf",
         work_dir=work,
         en_yaml=work / "en.yaml",

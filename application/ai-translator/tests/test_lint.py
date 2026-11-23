@@ -7,6 +7,8 @@ from translator.cli import main
 from translator.config import SourceConfig
 from translator.glossary import Glossary, Term
 from translator.lint import lint
+from translator.model import save_doc
+from translator.paths import paths_for
 
 OK_REPORT = {"pages": 2, "overflow": []}
 
@@ -172,3 +174,93 @@ def test_cli_lint_requires_yaml(tmp_path, capsys):
 
 def test_cli_all_returns_one_when_render_fails(tmp_path):
     assert main(["all", "nope", "--root", str(tmp_path)]) == 1
+
+
+def test_shape_error_does_not_hide_number_error_elsewhere(en, ua, glossary, cfg, ok_report):
+    ua["pages"][0]["blocks"][0]["rows"].append({"label": "x", "value": "1"})
+    ua["pages"][1]["blocks"][0]["text"] = "Швидко, 3 доріжки"
+    found = errors(lint(en, ua, glossary, cfg, ok_report, ""))
+    assert [i.path for i in found] == ["block[0]", "block[2].text"]
+
+
+def test_latin_word_next_to_digits_still_warns(en, ua, glossary, cfg, ok_report):
+    en["pages"][0]["blocks"][1]["text"] = 'The checkweigher has a 15" display.'
+    ua["pages"][0]["blocks"][1]["text"] = "Контрольні ваги мають 15-inch дисплей."
+    issues = lint(en, ua, glossary, cfg, ok_report, "")
+    assert [(i.level, i.path) for i in issues] == [("warning", "block[1].text")]
+    assert "inch" in issues[0].message
+
+
+GLOSSARY_MD = """## Terms
+
+| EN | UA | Avoid | Note | Status |
+| --- | --- | --- | --- | --- |
+| checkweigher | контрольні ваги | розитну | | approved |
+
+## Style rules
+
+none
+"""
+
+
+@pytest.fixture
+def lint_root(tmp_path, en, ua, ok_report):
+    import json
+
+    paths = paths_for("sheet", tmp_path)
+    paths.work_dir.mkdir(parents=True)
+    save_doc(en, paths.en_yaml)
+    save_doc(ua, paths.ua_yaml)
+    (tmp_path / "glossary.md").write_text(GLOSSARY_MD, encoding="utf-8")
+    paths.render_report.write_text(json.dumps(ok_report), encoding="utf-8")
+    return paths
+
+
+def test_run_lint_clean_exits_zero(lint_root, capsys):
+    from translator.lint import run_lint
+
+    assert run_lint(lint_root) == 0
+    assert capsys.readouterr().out == ""
+
+
+def test_run_lint_prints_error_line_and_exits_one(lint_root, ua, capsys):
+    from translator.lint import run_lint
+
+    ua["pages"][0]["blocks"][0]["rows"][0]["value"] = "75 г"
+    save_doc(ua, lint_root.ua_yaml)
+    assert run_lint(lint_root) == 1
+    out = capsys.readouterr().out.splitlines()
+    assert len(out) == 1
+    assert out[0].startswith(f"{lint_root.ua_yaml}:block[0].rows[0].value: error: numbers differ")
+
+
+def test_run_lint_warnings_only_exits_zero(lint_root, ua, capsys):
+    from translator.lint import run_lint
+
+    ua["pages"][0]["blocks"][1]["text"] = "Контрольні ваги conveyor з Profibus."
+    save_doc(ua, lint_root.ua_yaml)
+    assert run_lint(lint_root) == 0
+    out = capsys.readouterr().out
+    assert f"{lint_root.ua_yaml}:block[1].text: warning: " in out
+
+
+def test_run_lint_missing_glossary_is_error(lint_root, capsys):
+    from translator.lint import run_lint
+
+    (lint_root.root / "glossary.md").unlink()
+    assert run_lint(lint_root) == 1
+    out = capsys.readouterr().out
+    assert out.startswith(f"{lint_root.ua_yaml}:glossary: error: glossary.md not found at ")
+
+
+def test_run_lint_reports_overflow_from_report_file(lint_root, capsys):
+    import json
+
+    from translator.lint import run_lint
+
+    report = {"pages": 2, "overflow": [{"page": 1, "path": "block[1].text", "dx": 0, "dy": 9}]}
+    lint_root.render_report.write_text(json.dumps(report), encoding="utf-8")
+    assert run_lint(lint_root) == 1
+    assert (
+        f"{lint_root.ua_yaml}:block[1].text: error: overflow on page 1" in capsys.readouterr().out
+    )

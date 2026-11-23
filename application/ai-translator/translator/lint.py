@@ -2,7 +2,6 @@
 
 import json
 import re
-import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Literal
@@ -32,8 +31,6 @@ def _stems(ua: str) -> list[str]:
 def _latin_words(text: str, cfg: SourceConfig) -> list[str]:
     found = []
     for token in text.split():
-        if any(ch.isdigit() for ch in token):
-            continue
         for word in _LATIN_WORD.findall(token):
             if word.isupper() or word in cfg.never_translate or token in cfg.never_translate:
                 continue
@@ -81,7 +78,9 @@ def lint(
             issues.append(Issue("error", "product.category", "category is empty"))
         structure = _structure(en, ua)
         issues.extend(structure)
-        issues.extend(_text_rules(en, ua, glossary, cfg, shaped=not structure))
+        count_ok = len(flat_blocks(en)) == len(flat_blocks(ua))
+        bad = {i.path for i in structure} if count_ok else None
+        issues.extend(_text_rules(en, ua, glossary, cfg, bad))
     for line in (pdf_text or "").splitlines():
         if is_branding(line, cfg):
             issues.append(Issue("error", "pdf", f"branding in output PDF: {line.strip()!r}"))
@@ -100,7 +99,7 @@ def lint(
 
 
 def _text_rules(
-    en: dict, ua: dict, glossary: Glossary, cfg: SourceConfig, shaped: bool
+    en: dict, ua: dict, glossary: Glossary, cfg: SourceConfig, bad_blocks: set[str] | None
 ) -> list[Issue]:
     issues: list[Issue] = []
     en_text = dict(iter_text(en))
@@ -125,7 +124,7 @@ def _text_rules(
         source = en_text.get(path)
         if source is None:
             continue
-        if shaped:
+        if bad_blocks is not None and path.split(".")[0] not in bad_blocks:
             n_en, n_ua = numbers(source), numbers(text)
             if n_en != n_ua:
                 missing, extra = n_en - n_ua, n_ua - n_en
@@ -152,13 +151,11 @@ def _pdf_text(pdf: Path) -> str:
 
 
 def run_lint(paths: DatasheetPaths) -> int:
-    root = paths.source_pdf.parent.parent.parent
-    glossary_path = root / "glossary.md"
-    if glossary_path.exists():
-        glossary = load_glossary(glossary_path)
-    else:
-        print(f"warning: {glossary_path} not found, using an empty glossary", file=sys.stderr)
-        glossary = Glossary([], "")
+    glossary_path = paths.root / "glossary.md"
+    if not glossary_path.exists():
+        print(f"{paths.ua_yaml}:glossary: error: glossary.md not found at {glossary_path}")
+        return 1
+    glossary = load_glossary(glossary_path)
     report = None
     if paths.render_report.exists():
         report = json.loads(paths.render_report.read_text(encoding="utf-8"))

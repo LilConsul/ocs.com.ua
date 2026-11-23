@@ -33,6 +33,7 @@ def test_number_style_errors():
 
 def test_paths_for(tmp_path):
     p = paths_for("x", root=tmp_path)
+    assert p.root == tmp_path
     assert p.source_pdf == tmp_path / "files/en/x.pdf"
     assert p.output_pdf == tmp_path / "files/ua/x.pdf"
     assert p.ua_yaml == tmp_path / "work/x/ua.yaml"
