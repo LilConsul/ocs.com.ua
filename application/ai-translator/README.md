@@ -1,0 +1,92 @@
+# AI datasheet translator
+
+Turns English WIPOTEC datasheet PDFs into OS-Technology branded Ukrainian PDFs. Python scripts
+extract the source into YAML, render the Ukrainian YAML to a PDF and lint the result; an AI agent
+fixes the extracted structure, translates and reviews the pages. The agent workflow is the skill
+in `.claude/skills/translate-datasheet/SKILL.md` at the repository root.
+
+Every output is reviewed by a human who reads Ukrainian. Nothing is published automatically: once
+approved, the PDF is copied by hand to the website (`application/frontend/private/datasheets/`).
+
+## Setup
+
+Requires [uv](https://docs.astral.sh/uv/). From this folder:
+
+```bash
+uv sync
+uv run playwright install chromium
+```
+
+## Commands
+
+`<name>` is the file stem of a source PDF in `files/en/`, for example
+`datasheet-checkweigher-hc-a`.
+
+| Command                                                        | What it does                                                                                      |
+| -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `uv run translator extract <name> [--force]`                   | Drafts `work/<name>/en.yaml`, extracts `images/`, writes `contact-sheet.png` and `preview-en/`    |
+| `uv run translator drawing <name> --page N --clip x0,y0,x1,y1` | Re-exports the vector drawing of page N with a new clip (PDF points) and updates `en.yaml`        |
+| `uv run translator render <name>`                              | Prints `work/<name>/ua.yaml` to `files/ua/<name>.pdf`, writes `preview/` and `render-report.json` |
+| `uv run translator lint <name>`                                | Checks `ua.yaml` against `en.yaml`, `glossary.md` and the render report; exits 1 on errors        |
+| `uv run translator all <name>`                                 | `render`, then `lint`                                                                             |
+| `uv run pytest`                                                | Tests (the render tests need Chromium)                                                            |
+| `uv run ruff check . && uv run ruff format --check .`          | Lint and format check                                                                             |
+
+Lint errors: changed block structure, numbers that differ from the source, decimal commas,
+`Avoid` fragments from the glossary, WIPOTEC branding, text overflowing its box. Lint warnings:
+glossary terms not rendered with the glossary wording, untranslated Latin words.
+
+## Folder layout
+
+```
+files/en/<name>.pdf        source datasheets (never edited)
+files/ua/<name>.pdf        translated output for human review (committed)
+work/<name>/
+  en.yaml                  extracted source, fixed by the agent (committed)
+  ua.yaml                  the translation (committed)
+  images/                  extracted photos and drawings (committed)
+  contact-sheet.png        every extracted image with its file name (ignored)
+  preview-en/page-N.png    source pages (ignored)
+  preview/page-N.png       rendered output pages (ignored)
+  datasheet.html, render-report.json   render by-products (ignored)
+glossary.md                translation terms and style rules, edited by the human
+sources.yaml               WIPOTEC branding patterns and names never translated
+branding.yaml              OS-Technology rights, disclaimer and site texts
+templates/                 Jinja2 page template, block partials and CSS
+fonts/                     bundled IBM Plex fonts (OFL)
+translator/                the Python package
+```
+
+Company contacts come from `application/frontend/src/data/company.json` at render time.
+
+## YAML format
+
+`en.yaml` and `ua.yaml` have the same structure; `ua.yaml` differs only in text, `lang` and
+`product.category`/`product.url`. Pages are fixed A4 sheets: content never flows between pages, the
+`pages` list decides the page breaks.
+
+```yaml
+source: files/en/<name>.pdf
+lang: en | ua
+product: {model: HC-A, variant: BASIS, category: "", url: ""}   # variant, url optional
+pages:
+  - title: ["Technical", "data"]          # header band lines
+    blocks:
+      - {type: lead, text: str}
+      - {type: columns, paragraphs: [str]}
+      - {type: hero, image: images/photo-2-1.jpg,
+         aside: [{style: light|dark, title: str, items: [str]}]}
+      - {type: table, title: str, rows: [{label: str, value: str, note: int?}]}
+      - {type: grid, title: str, header: [str], rows: [[str]]}
+      - {type: matrix, title: str, corner: str, header: [str],
+         rows: [{label: str, cells: ["x" | "-"]}]}
+      - {type: drawing, image: images/drawing-5.svg, clip: [x0, y0, x1, y1], page: 5,
+         labels: [{text: str, x: float, y: float}]}   # x, y in % of the drawing box
+      - {type: footnotes, items: [str]}
+      - {type: note, text: str}            # with **bold** markup it renders as a heading
+```
+
+Headings use `**bold**` markup for the bold word (`"**BASE** DATA"`). A table row's `note: N`
+prints the footnote mark `N)` after the label; a mark written inside text after a space
+(`400 mm 1)`) is printed as a superscript too. Lint and the overflow report address text by a
+path with a flat block index across all pages, for example `block[4].rows[2].value`.
