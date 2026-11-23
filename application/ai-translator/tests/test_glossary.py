@@ -1,6 +1,7 @@
 import pytest
 
 from translator.glossary import GlossaryError, Term, load_glossary
+from translator.paths import ROOT
 
 GLOSSARY = """# Glossary
 
@@ -33,3 +34,10 @@ def test_load_glossary_rejects_bad_row(tmp_path):
     p.write_text(GLOSSARY.replace("| site | ok |", "| ok |"), encoding="utf-8")
     with pytest.raises(GlossaryError, match="line 8"):
         load_glossary(p)
+
+
+def test_repo_glossary_is_valid_draft():
+    g = load_glossary(ROOT / "glossary.md")
+    assert len(g.terms) >= 25
+    assert {t.status for t in g.terms} <= {"draft", "ok"}
+    assert "decimal point" in g.style_rules.lower()
