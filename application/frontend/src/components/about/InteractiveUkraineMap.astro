@@ -228,17 +228,19 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 
 								<dl class="m-0 mt-4 grid grid-cols-3 gap-1.5 p-0 sm:mt-5 sm:gap-2">
 									{metrics.map(({ key, label }, mi) => (
-										<div
-											class:list={["hub-metric", tileClass, hub.stats[key] === 0 && "opacity-50"]}
-											style={`--mi:${mi}`}
-										>
+										<div class:list={["hub-metric", tileClass]} style={`--mi:${mi}`}>
 											<dt
 												class="font-label-caps text-industrial-gray text-[10px] leading-tight uppercase sm:text-[11px]"
 												title={label}
 											>
 												{label}
 											</dt>
-											<dd class="font-technical-data text-foreground m-0 text-lg leading-none font-bold tabular-nums sm:text-2xl">
+											<dd
+												class:list={[
+													"font-technical-data m-0 text-lg leading-none font-bold tabular-nums sm:text-2xl",
+													hub.stats[key] === 0 ? "text-industrial-gray" : "text-foreground",
+												]}
+											>
 												{formatApprox(hub.stats[key])}
 											</dd>
 										</div>
@@ -313,20 +315,19 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 
 							<dl class="m-0 mt-4 grid grid-cols-3 gap-1.5 p-0 sm:mt-5 sm:gap-2">
 								{metrics.map(({ key, label }) => (
-									<div
-										class:list={[
-											tileClass,
-											"group-hover/card:border-secondary/30",
-											sector.stats[key] === 0 && "opacity-50",
-										]}
-									>
+									<div class:list={[tileClass, "group-hover/card:border-secondary/30"]}>
 										<dt
 											class="font-label-caps text-industrial-gray text-[10px] leading-tight uppercase sm:text-[11px]"
 											title={label}
 										>
 											{label}
 										</dt>
-										<dd class="font-technical-data text-foreground m-0 text-lg leading-none font-bold tabular-nums sm:text-2xl">
+										<dd
+											class:list={[
+												"font-technical-data m-0 text-lg leading-none font-bold tabular-nums sm:text-2xl",
+												sector.stats[key] === 0 ? "text-industrial-gray" : "text-foreground",
+											]}
+										>
 											{formatApprox(sector.stats[key])}
 										</dd>
 									</div>
