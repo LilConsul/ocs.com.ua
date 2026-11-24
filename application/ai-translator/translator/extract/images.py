@@ -11,7 +11,9 @@ FOOTER_FRACTION = 0.88
 MIN_PIXELS = 64
 TOUCH_TOLERANCE = 2.0
 HEADER_BOTTOM = 125
-MIN_DRAWING_OPS = 150
+FOOTER_STRIP = 40  # pt; a lower image in the footer zone is a footer strip, not a photo tile
+MIN_DRAWING_ITEMS = 1000  # path segments; tables and boxes have a few hundred at most
+INK_INSET = 6  # pt kept off the header band and the table below a drawing
 COVER_TOP = 150  # the cover drawing lies between the model title and the logo
 COVER_BOTTOM = 760
 CLIP_PAD = 4
@@ -96,17 +98,22 @@ def extract_rasters(
     out_dir.mkdir(parents=True, exist_ok=True)
     result: list[ExtractedImage] = []
     for page in doc:
+        footer = FOOTER_FRACTION * page.rect.height
         items = []
         for info in page.get_image_info(xrefs=True):
             rect = pymupdf.Rect(info["bbox"])
-            if not info["xref"] or rect.y0 >= FOOTER_FRACTION * page.rect.height:
+            if not info["xref"]:
                 continue
             if info["width"] < MIN_PIXELS or info["height"] < MIN_PIXELS:
+                continue
+            if rect.y0 >= footer and rect.height < FOOTER_STRIP:
                 continue
             items.append(
                 {"rect": rect, "xref": info["xref"], "w": info["width"], "h": info["height"]}
             )
-        for k, group in enumerate(_clusters(items), start=1):
+        # a cluster that starts in the footer zone is a logo or QR code, not a photo
+        groups = [g for g in _clusters(items) if min(x["rect"].y0 for x in g) < footer]
+        for k, group in enumerate(groups, start=1):
             box = pymupdf.Rect(group[0]["rect"])
             for g in group[1:]:
                 box |= g["rect"]
@@ -135,23 +142,36 @@ def extract_rasters(
 
 
 def find_drawing_clip(page: pymupdf.Page) -> pymupdf.Rect | None:
-    drawings = page.get_drawings()
-    if len(drawings) < MIN_DRAWING_OPS:
-        return None
+    """The line drawing between the header band and the first table, or None.
+
+    The path count separates drawings from tables. The clip is the visible ink: some CAD
+    exports carry paths far outside the page, so path rectangles cannot be trusted."""
     for info in page.get_image_info():
         if info["width"] >= MIN_PIXELS and info["height"] >= MIN_PIXELS:
             return None
     tables = page.find_tables().tables
     limit = min(t.bbox[1] for t in tables) if tables else page.rect.height - 60
-    union: pymupdf.Rect | None = None
-    for d in drawings:
-        r = pymupdf.Rect(d["rect"])
-        if r.y0 > HEADER_BOTTOM and r.y1 < limit and page.rect.contains(r):
-            union = pymupdf.Rect(r) if union is None else union | r
-    if union is None:
+    region = pymupdf.Rect(
+        INK_INSET, HEADER_BOTTOM + INK_INSET, page.rect.width - INK_INSET, limit - INK_INSET
+    )
+    if region.is_empty:
         return None
-    union.x0, union.y0, union.x1, union.y1 = union.x0 - 4, union.y0 - 4, union.x1 + 4, union.y1 + 4
-    return union & page.rect
+    count = 0
+    for drawing in page.get_drawings():
+        for item in drawing["items"]:
+            points = [p for p in item[1:] if isinstance(p, pymupdf.Point)]
+            count += bool(points) and all(p in region for p in points)
+    if count < MIN_DRAWING_ITEMS:
+        return None
+    pix = page.get_pixmap(clip=region, alpha=False)
+    gray = Image.frombytes("RGB", (pix.width, pix.height), pix.samples).convert("L")
+    box = gray.point(lambda v: 255 if v < NEAR_WHITE else 0).getbbox()
+    if box is None:
+        return None
+    x0, y0, x1, y1 = box
+    return region & pymupdf.Rect(
+        pix.x + x0 - CLIP_PAD, pix.y + y0 - CLIP_PAD, pix.x + x1 + CLIP_PAD, pix.y + y1 + CLIP_PAD
+    )
 
 
 def find_cover_clip(page: pymupdf.Page) -> pymupdf.Rect | None:

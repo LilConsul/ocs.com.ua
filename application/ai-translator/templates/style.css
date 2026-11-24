@@ -257,6 +257,10 @@ h1 {
   text-align: justify;
 }
 
+.columns p + p {
+  margin-top: 2mm;
+}
+
 /* Hero: photo with feature boxes */
 
 /* The hero takes the free height; its single row is bounded by it, so the aside boxes

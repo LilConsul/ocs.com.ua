@@ -1,4 +1,5 @@
 import pymupdf
+import pytest
 from PIL import Image
 
 from translator.extract.images import (
@@ -69,3 +70,30 @@ def test_contact_sheet_renders_images_and_svg(hc_a_pdf, tmp_path):
     out = tmp_path / "sheet.png"
     contact_sheet([imgs[0].path, svg], out)
     assert out.exists() and Image.open(out).width >= 300
+
+
+@pytest.mark.parametrize(
+    ("name", "page"),
+    [
+        ("checkweigher-hc-a", 5),
+        ("checkweigher-hc-m", 5),
+        ("checkweigher-ec-e", 5),
+        ("checkweigher-metal-detector-hc-m-mdi", 5),
+        ("catchweigher-hc-warehouse", 4),
+    ],
+)
+def test_drawing_is_found_on_the_drawing_page_only(source_pdf, name, page):
+    with pymupdf.open(source_pdf(name)) as doc:
+        found = [p.number + 1 for p in doc if p.number and find_drawing_clip(p) is not None]
+        clip = find_drawing_clip(doc[page - 1])
+        assert found == [page]
+        assert clip.y0 > 125 and doc[page - 1].rect.contains(clip)
+        assert clip.width > 350 and clip.height > 380
+
+
+def test_photo_keeps_low_tiles_that_continue_it(source_pdf, tmp_path):
+    # the last EC-E tile row starts below the footer line but belongs to the photo
+    with pymupdf.open(source_pdf("checkweigher-ec-e")) as doc:
+        images = extract_rasters(doc, tmp_path, trim=False)
+    assert [i.page for i in images] == [2]  # the QR code on page 6 stays out
+    assert 1670 < images[0].height < 1685  # 1258 without the last row

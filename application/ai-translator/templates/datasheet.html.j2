@@ -76,7 +76,7 @@
       <p class="cover-model">{{ product.model }}</p>
       <p class="cover-subtitle fit" data-path="cover.subtitle">{{ cover.subtitle }}</p>
     </div>
-    <div class="cover-label">{{ cover.label }}</div>
+    {% if cover.label %}<div class="cover-label">{{ cover.label }}</div>{% endif %}
   </header>
   <div class="cover-drawing">
     <img src="{{ cover.image | asset }}" alt="{{ product.model }}" style="aspect-ratio: {{ w }} / {{ h }}">

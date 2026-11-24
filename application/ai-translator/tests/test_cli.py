@@ -85,3 +85,18 @@ def test_cli_cover_updates_only_the_cover(tmp_root):
     cover = load_doc(paths.en_yaml)["cover"]
     assert cover["clip"] == [190.0, 200.0, 420.0, 640.0]
     assert cover["subtitle"] == "Hand-fixed subtitle"
+
+
+def test_cli_drawing_adds_a_missing_block(tmp_root):
+    assert main(["extract", NAME, "--root", str(tmp_root)]) == 0
+    paths = paths_for(NAME, tmp_root)
+    doc = load_doc(paths.en_yaml)
+    for page in doc["pages"]:
+        page["blocks"] = [b for b in page["blocks"] if b["type"] != "drawing"]
+    save_doc(doc, paths.en_yaml)
+    args = ["drawing", NAME, "--page", "5", "--clip", "61,164,591,627", "--root", str(tmp_root)]
+    assert main(args) == 0
+    doc = load_doc(paths.en_yaml)
+    block = doc["pages"][-1]["blocks"][-1]
+    assert block["type"] == "drawing" and block["page"] == 5
+    assert [lb["text"] for lb in block["labels"]] == ["working direction"]

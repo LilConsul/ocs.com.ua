@@ -1,3 +1,4 @@
+import re
 from datetime import date
 
 import pytest
@@ -187,3 +188,21 @@ def test_contacts_and_qr_are_links(html, branding):
         assert 'href="tel:+380673533853"' in page and 'href="mailto:info@ocs.com.ua"' in page
         assert f'href="{branding["fallback_url"]}"' in page
     assert '<a class="qr" href="https://ocs.com.ua/ua/catalogue"' in pages[-1]
+
+
+def test_cover_without_label_has_no_black_square(doc, company, branding, fixture_paths):
+    doc = with_cover_and_notes(doc)
+    doc["cover"]["label"] = ""
+    html = render_html(
+        doc, work_dir=fixture_paths.work_dir, company=company, branding=branding, today=TODAY
+    )
+    assert 'class="cover-label"' not in html
+
+
+def test_column_paragraphs_are_separate_paragraphs(doc, company, branding, fixture_paths):
+    block = next(b for p in doc["pages"] for b in p["blocks"] if b["type"] == "columns")
+    block["paragraphs"] = ["Перший.", "Другий."]
+    html = render_html(
+        doc, work_dir=fixture_paths.work_dir, company=company, branding=branding, today=TODAY
+    )
+    assert re.search(r"<p [^>]*>Перший\.</p>\s*<p [^>]*>Другий\.</p>", html)

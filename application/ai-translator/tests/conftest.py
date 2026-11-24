@@ -18,6 +18,12 @@ def hc_a_pdf():
 
 
 @pytest.fixture
+def source_pdf():
+    """Path of a source datasheet by file stem, without the "datasheet-" prefix."""
+    return lambda name: ROOT / "files" / "en" / f"datasheet-{name}.pdf"
+
+
+@pytest.fixture
 def tmp_root(tmp_path, hc_a_pdf):
     """A temporary project root holding a copy of the HC-A PDF at files/en/."""
     target = tmp_path / "files" / "en"

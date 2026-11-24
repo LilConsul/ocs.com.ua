@@ -24,7 +24,8 @@ def collect_media(doc: pymupdf.Document, images_dir: Path) -> tuple[list[Extract
     images = extract_rasters(doc, images_dir)
     drawings: Drawings = {}
     for page in doc:
-        clip = find_drawing_clip(page)
+        # a drawing on the first page is the cover's and is exported with the cover
+        clip = find_drawing_clip(page) if page.number else None
         if clip is None:
             continue
         name = f"drawing-{page.number + 1}.svg"
@@ -73,13 +74,15 @@ def run_extract(paths: DatasheetPaths, cfg: SourceConfig, force: bool = False) -
 
 
 def redo_drawing(paths: DatasheetPaths, doc_yaml: dict, page_no: int, clip: pymupdf.Rect) -> dict:
-    """Re-export the drawing on 1-based page `page_no` and update its block in place."""
+    """Re-export the drawing on 1-based page `page_no` and update its block in place; without
+    such a block, add one at the end of the last page (the agent moves it)."""
     block = next(
         (b for b in flat_blocks(doc_yaml) if b["type"] == "drawing" and b["page"] == page_no),
         None,
     )
     if block is None:
-        raise LookupError(f"no drawing block for page {page_no} in {paths.en_yaml}")
+        block = {"type": "drawing", "page": page_no}
+        doc_yaml["pages"][-1]["blocks"].append(block)
     name = f"drawing-{page_no}.svg"
     with pymupdf.open(paths.source_pdf) as doc:
         labels = export_drawing(doc, page_no - 1, clip, paths.images_dir / name)

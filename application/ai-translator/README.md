@@ -26,7 +26,7 @@ uv run playwright install chromium
 | Command                                                        | What it does                                                                                               |
 | -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
 | `uv run translator extract <name> [--force]`                   | Drafts `work/<name>/en.yaml`, extracts `images/`, writes `contact-sheet.png` and `preview-en/`             |
-| `uv run translator drawing <name> --page N --clip x0,y0,x1,y1` | Re-exports the vector drawing of page N with a new clip (PDF points) and updates `en.yaml`                 |
+| `uv run translator drawing <name> --page N --clip x0,y0,x1,y1` | Re-exports the vector drawing of page N with a clip (PDF points); adds a missing block to the last page    |
 | `uv run translator cover <name> [--clip x0,y0,x1,y1]`          | Re-exports the cover drawing (page 1, clip auto-detected by default) and updates only `cover` in `en.yaml` |
 | `uv run translator render <name>`                              | Prints `work/<name>/ua.yaml` to `files/ua/<name>.pdf`, writes `preview/` and `render-report.json`          |
 | `uv run translator lint <name>`                                | Checks `ua.yaml` against `en.yaml`, `glossary.md` and the render report; exits 1 on errors                 |
