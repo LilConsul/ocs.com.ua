@@ -1,0 +1,22 @@
+---
+import { iconShape } from "@/lib/material-symbols";
+
+interface Props {
+	name: string;
+	class?: string;
+}
+
+const { name, class: className } = Astro.props;
+const { viewBox, body } = iconShape(name);
+---
+
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	viewBox={viewBox}
+	width="24"
+	height="24"
+	fill="currentColor"
+	aria-hidden="true"
+	class:list={["inline-block shrink-0 align-[-0.2em]", className]}
+	set:html={body}
+/>

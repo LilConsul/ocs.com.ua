@@ -1,4 +1,5 @@
 ---
+import MaterialIcon from "@/components/MaterialIcon.astro";
 import companyData from "@/data/company.json";
 import { getInlineTranslations, type Lang } from "@/i18n";
 
@@ -47,9 +48,7 @@ const phoneHref = `tel:${companyData.phone.replace(/[^\d+]/g, "")}`;
 		{/* Email */}
 		<div>
 			<dt class="font-label-caps text-label-caps text-industrial-gray mb-0.5 flex items-center gap-2 uppercase">
-				<span class="material-symbols-outlined text-xl" aria-hidden="true">
-					mail
-				</span>
+				<MaterialIcon name="mail" />
 				{_("Email")}
 			</dt>
 			<dd>
@@ -73,9 +72,7 @@ const phoneHref = `tel:${companyData.phone.replace(/[^\d+]/g, "")}`;
 					title={_("Open in Google Maps")}
 					class="text-secondary hover:text-foreground col-start-1 row-span-2 row-start-1 self-start transition-colors"
 				>
-					<span class="material-symbols-outlined" aria-hidden="true">
-						location_on
-					</span>
+					<MaterialIcon name="location_on" />
 				</a>
 				<span class="col-start-2 row-start-1">{_("Address")}</span>
 			</dt>
@@ -99,12 +96,10 @@ const phoneHref = `tel:${companyData.phone.replace(/[^\d+]/g, "")}`;
 		{/* Working hours */}
 		<div class="bg-surface-container border-border-subtle/50 font-technical-data text-technical-data text-industrial-gray grid grid-cols-[auto_1fr] grid-rows-[auto_1fr] gap-x-3 gap-y-1 rounded-lg border p-4">
 			<dt class="text-foreground col-span-2 col-start-1 row-span-2 row-start-1 grid grid-cols-subgrid grid-rows-subgrid font-medium">
-				<span
-					class="material-symbols-outlined text-secondary col-start-1 row-span-2 row-start-1 self-start"
-					aria-hidden="true"
-				>
-					schedule
-				</span>
+				<MaterialIcon
+					name="schedule"
+					class="text-secondary col-start-1 row-span-2 row-start-1 self-start"
+				/>
 				<span class="col-start-2 row-start-1">{_("Working Hours")}</span>
 			</dt>
 			<dd class="col-start-2 row-start-2">{workingHours}</dd>

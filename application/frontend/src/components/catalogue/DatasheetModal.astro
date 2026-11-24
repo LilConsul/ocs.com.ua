@@ -1,6 +1,7 @@
 ---
 import { RECAPTCHA_SITE_KEY } from "astro:env/client";
 import FormField from "@/components/contact/FormField.astro";
+import MaterialIcon from "@/components/MaterialIcon.astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { SECTORS } from "@/lib/contact/options";
 import { EMAIL_REGEX, PHONE_REGEX } from "@/lib/contact/validate";
@@ -82,9 +83,7 @@ const messages = {
 				aria-label={_("Close")}
 				class="text-industrial-gray hover:text-foreground focus-visible:outline-secondary shrink-0 rounded-lg p-1.5 focus-visible:outline-2"
 			>
-				<span class="material-symbols-outlined block" aria-hidden="true">
-					close
-				</span>
+				<MaterialIcon name="close" />
 			</button>
 		</header>
 
@@ -195,9 +194,7 @@ const messages = {
 			</p>
 
 			<button type="submit" id="datasheet-submit" class="btn-primary press group w-full">
-				<span class="material-symbols-outlined text-[18px]" aria-hidden="true">
-					download
-				</span>
+				<MaterialIcon name="download" />
 				{_("Download")}
 			</button>
 		</form>

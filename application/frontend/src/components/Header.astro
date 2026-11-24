@@ -1,6 +1,7 @@
 ---
 import { SITE_DEV_NOTICE } from "astro:env/server";
 import { ArrowRight, Menu, X } from "@lucide/astro";
+import MaterialIcon from "@/components/MaterialIcon.astro";
 import companyData from "@/data/company.json";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { categoryUrl, industryUrl } from "@/lib/catalogue-urls";
@@ -91,7 +92,7 @@ const isActive = (pattern: string) => {
 					aria-label={_("Close notification")}
 					title={_("Close notification")}
 				>
-					<span class="material-symbols-outlined block text-[18px]">close</span>
+					<MaterialIcon name="close" />
 				</button>
 			</div>
 		</aside>

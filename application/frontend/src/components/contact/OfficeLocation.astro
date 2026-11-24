@@ -1,4 +1,5 @@
 ---
+import MaterialIcon from "@/components/MaterialIcon.astro";
 import companyData from "@/data/company.json";
 import { getInlineTranslations, type Lang } from "@/i18n";
 
@@ -36,12 +37,10 @@ const embedUrl = `https://maps.google.com/maps?q=${mapsQuery}&output=embed`;
 				<dl class="space-y-4">
 					<div class="bg-background border-border-subtle/50 font-technical-data text-technical-data text-industrial-gray grid grid-cols-[auto_1fr] grid-rows-[auto_1fr] gap-x-3 gap-y-1 rounded-lg border p-4">
 						<dt class="text-foreground col-span-2 col-start-1 row-span-2 row-start-1 grid grid-cols-subgrid grid-rows-subgrid font-medium">
-							<span
-								class="material-symbols-outlined text-secondary col-start-1 row-span-2 row-start-1 self-start"
-								aria-hidden="true"
-							>
-								location_on
-							</span>
+							<MaterialIcon
+								name="location_on"
+								class="text-secondary col-start-1 row-span-2 row-start-1 self-start"
+							/>
 							<span class="col-start-2 row-start-1">{_("Address")}</span>
 						</dt>
 						<dd class="col-start-2 row-start-2">
@@ -63,12 +62,10 @@ const embedUrl = `https://maps.google.com/maps?q=${mapsQuery}&output=embed`;
 
 					<div class="bg-background border-border-subtle/50 font-technical-data text-technical-data text-industrial-gray grid grid-cols-[auto_1fr] grid-rows-[auto_1fr] gap-x-3 gap-y-1 rounded-lg border p-4">
 						<dt class="text-foreground col-span-2 col-start-1 row-span-2 row-start-1 grid grid-cols-subgrid grid-rows-subgrid font-medium">
-							<span
-								class="material-symbols-outlined text-secondary col-start-1 row-span-2 row-start-1 self-start"
-								aria-hidden="true"
-							>
-								schedule
-							</span>
+							<MaterialIcon
+								name="schedule"
+								class="text-secondary col-start-1 row-span-2 row-start-1 self-start"
+							/>
 							<span class="col-start-2 row-start-1">{_("Working Hours")}</span>
 						</dt>
 						<dd class="col-start-2 row-start-2">{workingHours}</dd>
@@ -82,9 +79,7 @@ const embedUrl = `https://maps.google.com/maps?q=${mapsQuery}&output=embed`;
 				rel="noopener noreferrer"
 				class="btn-secondary press w-full self-start sm:w-auto"
 			>
-				<span class="material-symbols-outlined text-base" aria-hidden="true">
-					directions
-				</span>
+				<MaterialIcon name="directions" />
 				{_("Get Route")}
 			</a>
 		</div>

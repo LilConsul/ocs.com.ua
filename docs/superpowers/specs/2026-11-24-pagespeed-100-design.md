@@ -76,8 +76,9 @@ page shows none of its icons.
 - Any name in `icons.json` must resolve, because a CMS publish goes straight to production. An
   unknown name falls back to `category`, as today. A unit test checks that every name in
   `icons.json`, and every fixed name, has a shape.
-- Source: `@material-symbols/svg-400` (Apache-2.0) as a dev dependency, read at build time. Only the
-  icons on a page reach its HTML.
+- Source: shapes are extracted from the previous font file (kept as `scripts/icons/material-symbols-outlined.woff2`,
+  not served) by `scripts/icon-shapes.py` into `src/data/icon-shapes.json`, so they match the old
+  glyphs exactly. Only the icons on a page reach its HTML.
 - Icons that only sat next to text are `aria-hidden`, so the icon name ("mail", "location_on") no
   longer appears as text to screen readers and AI agents.
 - Delete the font file, its preload, its `@font-face` and the `.material-symbols-outlined` CSS.
