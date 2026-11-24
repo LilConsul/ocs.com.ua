@@ -9,3 +9,16 @@ export function containScale(image: { width: number; height: number }, boxAspect
 	// Round off float noise before rounding up, so 0.73 does not become 0.74
 	return Math.min(1, Math.ceil(Number((scale * 100).toFixed(6))) / 100);
 }
+
+/**
+ * Painted width in px of an `object-contain` picture in a box `height` px tall (at most
+ * `height` times its aspect, rounded). Null for an unknown size: the picture is then not limited
+ * by its aspect, so the caller leaves the term out and the column width decides.
+ */
+export function containedWidth(
+	image: { width: number; height: number },
+	height: number
+): number | null {
+	if (!(image.width > 0 && image.height > 0 && height > 0)) return null;
+	return Math.round((height * image.width) / image.height);
+}
