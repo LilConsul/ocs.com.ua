@@ -1,7 +1,7 @@
 ---
 file_name: hc-m-mdi
 order: 5
-datasheet: null
+datasheet: /datasheets/hc-m-mdi.pdf
 title: HC-M-MDi Checkweigher with Metal Detector
 description: >-
   If high-precision weighing of your products is not enough and you also need

@@ -5,6 +5,7 @@ gallery:
   - /assets/equipment/image_fbc5e3af.webp
   - /assets/equipment/image_3faf47df.webp
   - /assets/equipment/image_d487131.webp
+datasheet: /datasheets/hc-m-sl.pdf
 industries:
   - food-beverage
   - cosmetics
