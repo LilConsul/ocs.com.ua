@@ -136,7 +136,7 @@ Language codes are `ua` and `en`; the HTML `lang` attribute and hreflang use ISO
 
 ### Design System
 
-- Fonts: headings `IBM Plex Sans Variable` (`--font-heading`), body `Inter Variable` (`--font-sans`), code and labels `JetBrains Mono`.
+- Fonts: headings `IBM Plex Sans Variable` (`--font-heading`), body `Inter Variable` (`--font-sans`), code and labels `JetBrains Mono`. Loaded from `src/styles/fonts.css` (Latin and Cyrillic subsets only, `font-display: swap`); `Layout.astro` preloads Inter and IBM Plex Sans in the page language's subset. Do not import `@fontsource` CSS directly.
 - Colors are CSS custom properties in `src/styles/global.css` in `oklch()`, with light and dark (`.dark`) values. Primary and secondary are pink-magenta; check the file for the exact tokens instead of hardcoding hex values.
 - Tailwind 4 with `@theme inline` tokens.
 - Aesthetic: Corporate Modern, minimalist, white space first, glassmorphism accents. Match it in new components and verify layouts in both languages (Ukrainian text is longer).
