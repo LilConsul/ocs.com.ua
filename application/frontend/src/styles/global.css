@@ -216,14 +216,14 @@
 }
 
 /* Shared entrance animations.
- * Hero intros are time-based CSS keyframes that run on load.
+ * Hero intros are time-based CSS keyframes that run on load. They move (transform) but never
+ * fade: nothing in the first screen starts transparent, so the largest element counts at once.
  * Scroll reveals are played once by src/lib/anims/reveal.ts (the `motion` package). Elements are
  * hidden only while `html.motion-on` is set, which motion-on.js adds in <head> when reduced
  * motion is off and IntersectionObserver exists, and removes after 3 seconds if the runtime
  * never loads. Without JavaScript, with reduced motion, or after reveal, nothing is hidden. */
 @keyframes rise {
 	from {
-		opacity: 0;
 		transform: translateY(18px);
 	}
 }
@@ -247,11 +247,9 @@
 
 @keyframes hero-media-in {
 	from {
-		opacity: 0.75;
 		transform: scale(1.035);
 	}
 	to {
-		opacity: 1;
 		transform: scale(1);
 	}
 }
@@ -475,7 +473,9 @@ html.motion-on .eyebrow-rule:not([data-revealed]) {
 }
 
 /* Picture loading skeletons (shadcn style). Put `skeleton` on the box that holds a picture:
- * while the picture loads the box is a gray block and the picture is transparent;
+ * while the picture loads the box is a gray block and the picture is transparent (except an
+ * eager picture, `loading="eager"`: it can be the largest element of the first screen, and
+ * Lighthouse ignores an element until it is visible, so it paints as it arrives);
  * src/lib/image-skeleton.ts sets [data-loaded] on load (or error), the box gets its own
  * background back and the picture shows. This applies only under `html.skeleton-on`, which
  * skeleton-on.js sets in <head> whenever JavaScript runs, so without JavaScript pictures simply
@@ -492,8 +492,8 @@ html.skeleton-on .skeleton:not([data-loaded]) {
 	background-color: var(--color-skeleton);
 }
 
-html.skeleton-on .skeleton:not([data-loaded]) > img,
-html.skeleton-on .skeleton:not([data-loaded]) > picture > img {
+html.skeleton-on .skeleton:not([data-loaded]) > img:not([loading="eager"]),
+html.skeleton-on .skeleton:not([data-loaded]) > picture > img:not([loading="eager"]) {
 	opacity: 0;
 }
 

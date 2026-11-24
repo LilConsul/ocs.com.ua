@@ -269,3 +269,52 @@ test.describe("header scroll state", () => {
 		await expect.poll(shadowAlpha).toBe(0);
 	});
 });
+
+test.describe("first screen from the first frame", () => {
+	// Lighthouse ignores an element until it is visible, so nothing that can be the largest
+	// element of the first screen may start transparent. The scripts are blocked and the page is
+	// sampled as soon as the stylesheet is in, well before the 3 s failsafe could show anything.
+	const PAGES = [
+		"/ua/",
+		"/ua/contact/",
+		"/ua/about/",
+		CATEGORY,
+		"/ua/catalogue/equipment/checkweigher/hc-a/",
+		"/ua/wiki/load-cell/",
+	];
+
+	for (const path of PAGES) {
+		test(`${path}: hero, eager pictures and the first cards are opaque`, async ({ page }) => {
+			await page.route("**/_astro/**/*.js", (route) => route.abort());
+			await page.goto(path, { waitUntil: "commit" });
+			await page.waitForFunction(() =>
+				[...document.querySelectorAll<HTMLLinkElement>('link[rel="stylesheet"]')].every(
+					(link) => link.sheet !== null
+				)
+			);
+			await expect(page.locator("html")).toHaveClass(/motion-on/);
+
+			const effective = await page
+				.locator(
+					'.hero-rise, .hero-media, img[loading="eager"], [data-product-item]:nth-of-type(-n+3)'
+				)
+				.evaluateAll((els) =>
+					els.map((el) => {
+						let opacity = 1;
+						for (let node: Element | null = el; node; node = node.parentElement) {
+							opacity *= Number(getComputedStyle(node).opacity);
+						}
+						const own = el as HTMLElement;
+						return {
+							name: `${el.tagName.toLowerCase()}.${own.className}`.slice(0, 80),
+							opacity,
+						};
+					})
+				);
+			// Still hidden-state mode: the failsafe has not shown everything yet, so this is not a pass by timeout
+			await expect(page.locator("html")).toHaveClass(/motion-on/);
+			expect(effective.length).toBeGreaterThan(0);
+			expect(effective.filter((item) => item.opacity !== 1)).toEqual([]);
+		});
+	}
+});
