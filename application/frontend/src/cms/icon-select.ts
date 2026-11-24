@@ -1,6 +1,6 @@
 import { createElement as e, type MouseEventHandler, type ReactNode } from "react";
 
-const ACCENT = "#009AA3";
+const ACCENT = "#c6005c";
 
 type Option = string | { get(key: string): string };
 
@@ -39,7 +39,7 @@ function tile(
 				cursor: "pointer",
 				borderRadius: "6px",
 				border: active ? `2px solid ${ACCENT}` : "1px solid #ccc",
-				background: active ? "rgba(0,154,163,0.12)" : "#fff",
+				background: active ? "rgba(198,0,92,0.12)" : "#fff",
 				color: active ? ACCENT : "#444",
 			},
 		},
