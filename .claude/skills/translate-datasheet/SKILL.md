@@ -101,7 +101,7 @@ Translation rules:
 - Headings keep their `**bold**` markup on the word that is bold in the source.
 - Keep footnote marks (`400 мм 1)`) where the source has them: lint compares them separately
   from the other numbers, so a changed or dropped mark is an error. A digit that closes a
-  parenthesis (`(опційно ще 3)`) is an ordinary number, not a mark.
+  parenthesis (`(опціонально ще 3)`) is an ordinary number, not a mark.
 
 ## 6. Render, lint and review
 
