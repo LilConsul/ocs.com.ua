@@ -5,7 +5,7 @@ gallery:
   - /assets/equipment/image_c2afd3b1.webp
   - /assets/equipment/image_ccc86c14.webp
   - /assets/equipment/image_343ad479.webp
-datasheet: null
+datasheet: /datasheets/hc-warehouse.pdf
 industries:
   - logistics
 title: Кетчвейєр HC-Warehouse

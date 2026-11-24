@@ -1,0 +1,13 @@
+<div class="block block-table" data-block="table">
+  {% include "blocks/title.html.j2" %}
+  <table class="data kv">
+    <tbody>
+      {% for row in block.rows %}
+      <tr>
+        <th scope="row"><span data-path="{{ p }}.rows[{{ loop.index0 }}].label">{{ row.label | inline }}</span>{% if row.note %}<sup>{{ row.note }})</sup>{% endif %}</th>
+        <td data-path="{{ p }}.rows[{{ loop.index0 }}].value">{{ row.value | inline }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

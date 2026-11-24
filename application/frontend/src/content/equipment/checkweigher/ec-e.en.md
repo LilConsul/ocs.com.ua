@@ -1,7 +1,7 @@
 ---
 file_name: ec-e
 order: 3
-datasheet: null
+datasheet: /datasheets/ec-e.pdf
 title: EC-E Checkweigher
 description: "Entry-level checkweigher for automatic weight control and data acquisition, operated via an 8-inch touchscreen."
 specs:

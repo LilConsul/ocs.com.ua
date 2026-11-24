@@ -1,0 +1,290 @@
+source: files/en/datasheet-checkweigher-hc-m-sl.pdf
+lang: en
+product:
+  model: HC-M-SL
+  variant: ''
+  category: ''
+  url: ''
+cover:
+  image: images/cover.svg
+  clip:
+  - 108.1
+  - 203.3
+  - 526.2
+  - 631.5
+  subtitle: Technical data
+  label: CW
+pages:
+- title:
+  - HEAVY LOAD CHECKWEIGHER
+  - FOR PRECISE WEIGHT DETERMINATION
+  blocks:
+  - type: lead
+    text: For products individually weighing up to 60 kg, the WIPOTEC-OCS heavy load checkweigher **HC-M-SL**
+      offers optimum conditions for highly dynamic checking of current product weights or carrying out
+      completeness checks. With belt speeds up to 2 meters per second, it can be integrated into high-speed
+      production lines.
+  - type: columns
+    paragraphs:
+    - The lightweight, patented conveyor systems and the particularly carefully balanced drive concept
+      ensure maximum smoothness with smooth running and fast, safe product transport. The HC-M-SL is available
+      in a wide range of conveyor length and conveyor width combinations, enabling individually tailored
+      solutions for a wide range of product shapes.
+    - A wide and sophisticated range of optional rejection and sorting devices (e.g. pushers, flap conveyor,
+      etc.) are available for the heavy load checkweighers to reliably reject products with incorrect
+      weight. All models are supplied as a complete system with base frame and control cabinet in stainless
+      steel and meet the specifications according to protection class IP54.
+  - type: hero
+    image: images/photo-2-1.jpg
+    aside:
+    - style: light
+      title: KEY **FEATURES**
+      items:
+      - Maintenance-free asynchronous motors
+      - Type approval (MID)
+      - WIPOTEC EMFR Weigh Cell
+      - Easy, menu-driven operation via 10.4“ colour TFT display with touchscreen
+      - Easy belt and conveyor replacement
+      - Flexible integration into production lines
+      - Line synchronisation with dry-contact I/O signals
+    - style: dark
+      title: YOUR **BENEFITS**
+      items:
+      - Complete system for precise weight determination/completeness check
+      - Belt speeds up to 2 m/s
+      - Easy, user-friendly operation
+      - Low-noise conveyor system
+- title:
+  - TECHNICAL
+  - DATA
+  blocks:
+  - type: table
+    title: '**BASE** DATA'
+    rows:
+    - label: Material of machine
+      value: Frame in solid stainless steel design
+    - label: Machine weight (standard application)
+      value: 150 kg
+    - label: Shipping weight (standard application)
+      value: 250 kg
+    - label: Protection class
+      value: IP54
+    - label: Temperature range
+      value: +5 °C to +40 °C
+    - label: Display and operation
+      value: Cabinet with tiltable 10.4“ colour TFT touch screen (optionally free-standing cabinet)
+    - label: Available dialog languages
+      value: Bosnian, Chinese, Croatian, Czech, Danish, Dutch, English, Finnish, French, German, Greek,
+        Hungarian, Italian, Japanese, Latvian, Lithuanian, Polish, Portuguese, Russian, Slovak, Slovenian,
+        Spanish, Swedish, Turkish (other languages on request)
+    - label: Interfaces
+      value: 'Optionally: RS232, RS422, RS485, Ethernet, USB (for printer and backup)'
+      note: 1
+    - label: Rate of speed
+      value: 'HC-M-SL-1: max. 1.0 m/s (optional to 2.0 m/s) | HC-M-SL-2: max. 2.0 m/s'
+    - label: Digital I/O
+      value: 8xE + 8xA (optionally extendible)
+    - label: Product parameter storage
+      value: 100 PPS (optionally 200 / 400 PPS)
+    - label: Drive
+      value: Asynchronous motor with frequency inverter
+    - label: Noise level
+      value: A-weighted emission sound pressure level under 70dB(A)
+      note: 2
+    - label: Rated voltage
+      value: L1/N/PE, alternatively 115 VAC or 230 VAC
+    - label: Rated frequency
+      value: 50/60 Hz
+    - label: Connect load (power capacity)
+      value: Approx. 1.8 kVA
+    - label: Compressed air supply (Option)
+      value: 6 bar approx. 16Nl/min quality class (according to ISO 8573-1) [5:3:3]
+    - label: Possible maximum numbers of connected motors
+      value: 1 motor (optionally 2 extendible)
+    - label: EU-type examination certificate
+      value: DE-18-MI006-PTB001 (MID)
+  - type: grid
+    title: '**WEIGHING** DETAILS'
+    header:
+    - ''
+    - Weigh Cell (type)
+    - GWR (Gross weight range)
+    - Dead load max.
+    - e (Min. calibration value)
+    - d (Displayed value)
+    - Standard deviation 2) (1s)
+    - n (Scale division)
+    rows:
+    - - HC-M-SL-1
+      - IW-B-60k
+      - 30,000 g
+      - 60,000 g
+      - ≥ 5.0 g
+      - ≥ 0.5 g
+      - from 500 mg
+      - 6,000
+    - - HC-M-SL-2
+      - IW-B-150k
+      - 60,000 g
+      - 150,000 g
+      - ≥ 10.0 g
+      - ≥ 1.0 g
+      - from 500 mg
+      - 6,000
+  - type: footnotes
+    items:
+    - 1) Optionally, surcharge
+    - 2) Depending on product shape, product behavior, transport speed and environmental condition
+- title:
+  - TECHNICAL
+  - DATA
+  blocks:
+  - type: note
+    text: '**CONVEYOR** DIMENSIONS'
+  - type: matrix
+    title: 'HC-M-SL-1: conveyor type SL60 (first three columns) | HC-M-SL-2: conveyor type SL80S (last
+      two columns)'
+    corner: width length
+    header:
+    - 400 mm
+    - 500 mm
+    - 600 mm
+    - 600 mm
+    - 800 mm
+    rows:
+    - label: 600 mm
+      cells:
+      - x
+      - x
+      - '-'
+      - '-'
+      - '-'
+    - label: 700 mm
+      cells:
+      - x
+      - x
+      - x
+      - '-'
+      - '-'
+    - label: 800 mm
+      cells:
+      - x
+      - x
+      - x
+      - '-'
+      - '-'
+    - label: 900 mm
+      cells:
+      - x
+      - x
+      - x
+      - '-'
+      - '-'
+    - label: 1,000 mm
+      cells:
+      - x
+      - x
+      - x
+      - x
+      - x
+    - label: 1,100 mm
+      cells:
+      - '-'
+      - '-'
+      - '-'
+      - x
+      - x
+    - label: 1,200 mm
+      cells:
+      - '-'
+      - '-'
+      - '-'
+      - x
+      - x
+    - label: 1,300 mm
+      cells:
+      - '-'
+      - '-'
+      - '-'
+      - x
+      - x
+- title:
+  - MACHINE DIMENSIONS
+  - HC-M-SL-1
+  blocks:
+  - type: drawing
+    image: images/drawing-5.svg
+    clip:
+    - 59.0
+    - 138.0
+    - 499.0
+    - 610.0
+    page: 5
+    labels:
+    - text: working direction
+      x: 1.25
+      y: 11.54
+  - type: table
+    title: ''
+    rows:
+    - label: A = Working height
+      value: 600-750 / 700-850 / 800-950 mm (optionally 550-650 / 900-1,050 mm)
+      note: 1
+    - label: B = Conveyor width
+      value: 400 / 500 / 600 mm
+    - label: conveyor type SL60
+      value: roller diameter 60 mm
+    - label: C = Weighing conveyor length
+      value: 600 / 700 / 800 / 900 / 1,000 mm
+    - label: D = Total length
+      value: C + 5 mm
+    - label: E = Total depth
+      value: 955 mm to B = 400 mm; 1,005 mm to B = 500 mm; 1,055 mm to B = 600 mm
+  - type: footnotes
+    items:
+    - 1) Specify working height when ordering.
+  - type: note
+    text: These specifications are reference values of the standard machine excluding application- or
+      weighing-specific add-on parts. All entries in mm | Drawing shows design example
+- title:
+  - MACHINE DIMENSIONS
+  - HC-M-SL-2
+  blocks:
+  - type: drawing
+    image: images/drawing-6.svg
+    clip:
+    - 55.0
+    - 138.0
+    - 505.0
+    - 612.0
+    page: 6
+    labels:
+    - text: working direction
+      x: 1.7
+      y: 11.37
+  - type: table
+    title: ''
+    rows:
+    - label: A = Working height
+      value: 600-750 / 700-850 / 800-950 mm (optionally 550-650 / 900-1,050 mm)
+      note: 1
+    - label: B = Conveyor width
+      value: 600 / 800 mm
+    - label: conveyor type SL80S
+      value: roller diameter 80 mm
+    - label: C = Weighing conveyor length
+      value: 1,000 / 1,100 / 1,200 / 1,300 mm
+    - label: D = Total length
+      value: C + 5 mm
+    - label: E = Total depth
+      value: 1,161 mm to B = 600 mm; 1,261 mm to B = 800 mm
+  - type: footnotes
+    items:
+    - 1) Specify working height when ordering.
+  - type: note
+    text: These specifications are reference values of the standard machine excluding application- or
+      weighing-specific add-on parts. All entries in mm | Drawing shows design example
+notes:
+  title:
+  - PERSONAL
+  - NOTES

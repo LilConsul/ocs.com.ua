@@ -36,11 +36,12 @@ ______________________________________________________________________
 ```
 .github/        # CI, prod and dev deploys, rollback, uptime monitor, server env manifests
 application/
-├── frontend/   # Astro site: static pages + on-demand API routes (Node adapter)
-└── infra/      # Python (uv) tooling and server files: Apache fragments, env renderer/sync,
-                #   image checker, IndexNow submitter, server setup/launch scripts
+├── ai-translator/  # Python (uv) tool: English WIPOTEC datasheet PDFs to Ukrainian branded PDFs
+├── frontend/       # Astro site: static pages + on-demand API routes (Node adapter)
+└── infra/          # Python (uv) tooling and server files: Apache fragments, env renderer/sync,
+                    #   image checker, IndexNow submitter, server setup/launch scripts
 docs/
-├── info/       # Setup, environment and deployment guides (start here)
+├── info/       # Setup, environment, deployment and datasheet translator guides (start here)
 └── superpowers/# Feature specs and implementation plans, and the Stitch page designs (design/)
 Makefile        # Shortcuts for setup, env sync and tests
 ```
@@ -66,13 +67,20 @@ ______________________________________________________________________
 
 Run from the repository root.
 
-| Target             | Description                                                                             |
-| ------------------ | --------------------------------------------------------------------------------------- |
-| `make install-dev` | Install frontend deps (`bun`), infra deps (`uv sync`) and the pre-commit/pre-push hooks |
-| `make env`         | Create `.env.local` from `.env.example`, or merge new keys into it keeping your values  |
-| `make test`        | Run frontend and infra tests                                                            |
-| `make test-fe`     | Frontend tests only (`bun test`)                                                        |
-| `make test-infra`  | Infra tests only (`pytest`)                                                             |
+| Target                 | Description                                                                                               |
+| ---------------------- | --------------------------------------------------------------------------------------------------------- |
+| `make install-dev`     | Install frontend deps (`bun`), infra and ai-translator deps (`uv sync`) and the pre-commit/pre-push hooks |
+| `make env`             | Create `.env.local` from `.env.example`, or merge new keys into it keeping your values                    |
+| `make test`            | Run frontend, infra and ai-translator tests (needs Chromium, see `make test-translator`)                  |
+| `make test-fe`         | Frontend tests only (`bun test`)                                                                          |
+| `make test-infra`      | Infra tests only (`pytest`)                                                                               |
+| `make test-translator` | AI translator tests only (`pytest`; run `uv run playwright install chromium` in its folder once)          |
+
+______________________________________________________________________
+
+## Datasheet translator
+
+`application/ai-translator` turns English WIPOTEC datasheet PDFs into Ukrainian PDFs with OS-Technology branding. Scripts extract the content, print the new PDF and check numbers, terms and layout; an AI agent translates by a glossary the owner reviews. A human approves every PDF and copies it to the site by hand. See [Datasheet translator](docs/info/datasheet-translator.md).
 
 ______________________________________________________________________
 
@@ -89,13 +97,14 @@ ______________________________________________________________________
 
 ## Documentation
 
-| Guide                                               | Contents                                                                                 |
-| --------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| [Development](docs/info/development.md)             | Commands, i18n workflow, content and CMS, tests, git hooks, commit format                |
-| [Environment](docs/info/environment.md)             | Every environment variable, feature flags, indexing, GitHub OAuth app, `make env`        |
-| [Deployment](docs/info/deployment.md)               | CI, the prod and dev pipelines, releases and rollback, server layout, GitHub secrets     |
-| [LLM indexing](docs/info/llm-indexing.md)           | `/llms.txt`, Markdown page copies, crawler rules, page coverage, old WordPress redirects |
-| [Production launch](docs/info/production-launch.md) | How ocs.com.ua was switched from WordPress, and what to watch in the first weeks         |
+| Guide                                                     | Contents                                                                                      |
+| --------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| [Development](docs/info/development.md)                   | Commands, i18n workflow, content and CMS, tests, git hooks, commit format                     |
+| [Environment](docs/info/environment.md)                   | Every environment variable, feature flags, indexing, GitHub OAuth app, `make env`             |
+| [Deployment](docs/info/deployment.md)                     | CI, the prod and dev pipelines, releases and rollback, server layout, GitHub secrets          |
+| [LLM indexing](docs/info/llm-indexing.md)                 | `/llms.txt`, Markdown page copies, crawler rules, page coverage, old WordPress redirects      |
+| [Datasheet translator](docs/info/datasheet-translator.md) | How datasheets are translated, the glossary, lint checks and their limits, adding a datasheet |
+| [Production launch](docs/info/production-launch.md)       | How ocs.com.ua was switched from WordPress, and what to watch in the first weeks              |
 
 Contributor notes for AI assistants live in [`AGENTS.md`](AGENTS.md).
 

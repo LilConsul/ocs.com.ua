@@ -1,7 +1,7 @@
 ---
 file_name: hc-warehouse
 order: 1
-datasheet: null
+datasheet: /datasheets/hc-warehouse.pdf
 title: HC-Warehouse Catchweigher
 description: HC-Warehouse is the ideal solution for weighing in warehouses and
   intralogistics. Wipotec has created the first scale in this price segment

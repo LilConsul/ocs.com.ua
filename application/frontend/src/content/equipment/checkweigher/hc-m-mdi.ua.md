@@ -5,7 +5,7 @@ gallery:
   - /assets/equipment/image_b25be6f8.webp
   - /assets/equipment/image_95cd7356.webp
   - /assets/equipment/image_17e0bd32.webp
-datasheet: null
+datasheet: /datasheets/hc-m-mdi.pdf
 industries:
   - food-beverage
   - cosmetics

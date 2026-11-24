@@ -1,7 +1,7 @@
 ---
 file_name: hc-a
 order: 1
-datasheet: null
+datasheet: /datasheets/hc-a.pdf
 title: HC-A Checkweigher
 description: "Premium class for 100% weight control on high-speed lines with an intensive product flow, with a 15-inch touchscreen."
 specs:

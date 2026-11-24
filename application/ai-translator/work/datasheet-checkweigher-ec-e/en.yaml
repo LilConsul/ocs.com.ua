@@ -1,0 +1,258 @@
+source: files/en/datasheet-checkweigher-ec-e.pdf
+lang: en
+product:
+  model: EC-E
+  variant: BASIS
+  category: ''
+  url: ''
+cover:
+  image: images/cover.svg
+  clip:
+  - 153.9
+  - 204.6
+  - 505.2
+  - 633.0
+  subtitle: Technical data
+  label: CW
+pages:
+- title:
+  - COMPACT DESIGN,
+  - BIG PERFORMANCE
+  blocks:
+  - type: lead
+    text: Reliability and transparency of production data are the basis of all planning. The **EC-E**
+      checkweigher from WIPOTEC-OCS guarantees 100% data capture in ongoing production.
+  - type: columns
+    paragraphs:
+    - Capable of 150 weight values per minute, the EC-E is the right choice for you. The intuitive user
+      interface ensures convenient operation via a clearly structured, 8-inch colour touchscreen. The
+      EC-E checkweigher precisely weighs each individual product, records individual values, and ejects
+      incorrect weight packages via the fully automated sorter. Your data is correctly and completely
+      collected and you have the certainty that only factory compliant products leave your production
+      halls.
+    - The checkweigher‘s ease of use virtually excludes all incorrect entries. A reliable hightech machine,
+      especially in the dry foods sector, with a very good price-performance ratio in the EMFR entry segment.
+  - type: hero
+    image: images/photo-2-1.jpg
+    aside:
+    - style: light
+      title: MAIN **FEATURES**
+      items:
+      - WIPOTEC Weighing Technology EMFR Weigh Cells
+      - Stainless steel frame
+      - Stainless steel cabinet with integrated control system
+      - Three NT30 belts (infeed, weighing and outfeed conveyors); Lightweight construction
+      - Maintenance-free servo drives
+      - One sorter attachment (air blast)
+      - User friendly interface via 8“ colour TFT touchscreen display
+      - Memory for 50 different product parameters (option to expand to 200)
+      - Line synchronisation with potential-free switching contacts/binary signals
+      - Extensive statistical functions/histograms
+    - style: dark
+      title: YOUR **BENEFITS**
+      items:
+      - High throughput rate of up to 150 pcs/min
+      - Precise and reliable weighing results to increase plant efficiency
+      - Very good price-performance ratio
+      - Requirements-based modularity for the greatest flexibility
+- title:
+  - TECHNICAL
+  - DATA
+  blocks:
+  - type: table
+    title: '**BASE** DATA'
+    rows:
+    - label: Material of machine
+      value: Frame stainless steel V2A/AISI 304
+    - label: Machine weight (standard application)
+      value: 100 kg
+    - label: Shipping weight (standard application)
+      value: 140 kg
+    - label: Protection class
+      value: IP65
+    - label: Temperature range
+      value: +5 °C to +40 °C
+    - label: Display and operation
+      value: 8“ colour TFT display with touchscreen
+    - label: Available dialog languages
+      value: Bosnian, Chinese, Croatian, Danish, Dutch, English, Finnish, French, German, Greek, Italian,
+        Japanese, Latvian, Lithuanian, Polish, Portuguese, Russian, Swedish (other languages on request)
+    - label: Interfaces
+      value: 'Optionally: Ethernet, RS232, RS422, RS485'
+      note: 1
+    - label: Max. output
+      value: 150 pcs/min
+      note: 2
+    - label: Digital I/O
+      value: 8xI + 12xO
+    - label: Product parameter storage
+      value: 50 PPS (optionally 100 / 200 PPS)
+    - label: Drive
+      value: Servo-Technology
+    - label: Noise level
+      value: A-weighted emission sound pressure level under 70dB(A)
+      note: 2
+    - label: Rated voltage
+      value: L1/N/PE; 100-240 VAC
+    - label: Rated frequency
+      value: 50/60 Hz
+    - label: Connect load (power capacity)
+      value: Approx. 0.8 kVA
+    - label: Compressed air supply (option)
+      value: 8 bar approx. 10Nl/min quality class (according to ISO 8573-1) [5:3:3]
+    - label: Possible maximum numbers of connected motors
+      value: 3 motors (optionally 1 extendible)
+    - label: EU-type examination certificate
+      value: DE-18-MI006-PTB001 (MID)
+  - type: grid
+    title: '**WEIGHING** DETAILS'
+    header:
+    - ''
+    - Weigh Cell (Type)
+    - GWR (Gross weighing rage)
+    - Dead load max.
+    - e (min. calibration value)
+    - d (Displayed value)
+    - Standard deviation 2) (1s)
+    - n (Scale division)
+    rows:
+    - - EC-E-1
+      - EC 4000-E
+      - 1,500 g
+      - 8,500 g
+      - ≥ 0.5 g
+      - ≥ 0.2 g
+      - from 150 mg
+      - 3,000
+    - - EC-E-2
+      - EC 4000-E
+      - 3,000 g
+      - 8,500 g
+      - ≥ 1.0 g
+      - ≥ 0.5 g
+      - from 150 mg
+      - 3,000
+    - - EC-E-3
+      - EC 4000-E
+      - 6,000 g
+      - 8,500 g
+      - ≥ 2.0 g
+      - ≥ 1.0 g
+      - from 150 mg
+      - 3,000
+  - type: footnotes
+    items:
+    - 1) Optionally, surcharge
+    - 2) Depending on product shape, product behavior, transport speed and environmental condition
+- title:
+  - TECHNICAL
+  - DATA
+  blocks:
+  - type: note
+    text: '**CONVEYOR** DIMENSIONS'
+  - type: matrix
+    title: Dimensions weighing conveyor
+    corner: width length
+    header:
+    - 150 mm
+    - 200 mm
+    - 300 mm 1)
+    rows:
+    - label: 200 mm
+      cells:
+      - x
+      - '-'
+      - '-'
+    - label: 300 mm
+      cells:
+      - x
+      - x
+      - '-'
+    - label: 400 mm
+      cells:
+      - x
+      - x
+      - x
+    - label: 500 mm 1)
+      cells:
+      - x
+      - x
+      - x
+  - type: matrix
+    title: Dimensions infeed / outfeed conveyor
+    corner: width length
+    header:
+    - 150 mm
+    - 200 mm
+    - 300 mm 1)
+    rows:
+    - label: 300 mm
+      cells:
+      - x
+      - x
+      - '-'
+    - label: 400 mm
+      cells:
+      - x
+      - x
+      - x
+    - label: 500 mm
+      cells:
+      - x
+      - x
+      - x
+    - label: 600 mm
+      cells:
+      - x
+      - x
+      - x
+  - type: footnotes
+    items:
+    - 1) Optionally, surcharge
+- title:
+  - MACHINE
+  - DIMENSIONS
+  blocks:
+  - type: drawing
+    image: images/drawing-5.svg
+    clip:
+    - 30.0
+    - 145.0
+    - 567.0
+    - 621.0
+    page: 5
+    labels:
+    - text: working direction
+      x: 5.65
+      y: 6.46
+  - type: table
+    title: ''
+    rows:
+    - label: A = Working height
+      value: 650-800 2) / 750-900 / 850-1,000 / 950-1,100 2) mm
+      note: 1
+    - label: B = Conveyor width
+      value: 150 / 200 / 300 2) mm
+    - label: Conveyor technology NT 30
+      value: Roller diameter 30 mm
+    - label: C = Weighing conveyor lenght
+      value: 200 / 300 / 400 / 500 2) mm
+    - label: D = Infeed conveyor lenght
+      value: 300 / 400 / 500 / 600 mm
+    - label: E = Outfeed conveyor lenght
+      value: 300 / 400 / 500 / 600 mm
+    - label: F = Total length
+      value: D + C + E + 10 mm
+    - label: G = Total width
+      value: 670 mm depending on machine configuration
+  - type: footnotes
+    items:
+    - 1) Working height must be specified when ordering
+    - 2) Optionally, surcharge
+  - type: note
+    text: These specifications are reference values of the standard machine excluding application- or
+      weighing-specific add-on parts. All entries in mm | Drawing shows design example
+notes:
+  title:
+  - PERSONAL
+  - NOTES

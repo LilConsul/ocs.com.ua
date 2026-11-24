@@ -11,7 +11,7 @@ This file provides guidance to AI coding agents (Claude Code, Codex, Bob and oth
 
 This is the frontend of OS-Technology Ukraine's B2B industrial weighing equipment website, in `application/frontend`. It is built with **Astro 7**, **Tailwind 4** and **Decap CMS**. It is bilingual (`/ua` default, `/en`) and optimized for SEO and LLM indexing.
 
-The repository root also holds `application/infra` (Python/uv deploy tooling), `docs/info` (setup, environment and deployment guides), `.github` (CI and deploy) and a `Makefile`. Read the guides in `docs/info/` before changing environment variables, deployment or CI:
+The repository root also holds `application/infra` (Python/uv deploy tooling), `application/ai-translator` (Python/uv tool that translates WIPOTEC datasheet PDFs into Ukrainian), `docs/info` (setup, environment and deployment guides), `.github` (CI and deploy) and a `Makefile`. Read the guides in `docs/info/` before changing environment variables, deployment or CI:
 
 - `docs/info/development.md` - commands, i18n, content and CMS, git hooks, commit format
 - `docs/info/environment.md` - every environment variable and feature flag
@@ -200,6 +200,13 @@ Configured in `tsconfig.json` and `components.json`. Common prefixes: `@/compone
 
 - Extends `astro/tsconfigs/strict`; `jsx: react-jsx`
 - Test types come from `bun`
+
+## AI datasheet translator
+
+- `application/ai-translator` turns English WIPOTEC datasheet PDFs (`files/en/`) into OS-Technology branded Ukrainian PDFs (`files/ua/`). Scripts extract, render and lint; the agent fixes the extracted YAML, translates it and reviews the rendered pages.
+- To translate a datasheet, follow the skill `.claude/skills/translate-datasheet/SKILL.md`. Setup, commands and the YAML format are in `application/ai-translator/README.md`.
+- `glossary.md` there is the translation authority. Never edit it without the human's approval; propose new rows instead.
+- Outputs are reviewed by a human and copied to the website by hand.
 
 ## Deployment Notes
 

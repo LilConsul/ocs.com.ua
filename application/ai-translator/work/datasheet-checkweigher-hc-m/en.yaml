@@ -1,0 +1,324 @@
+source: files/en/datasheet-checkweigher-hc-m.pdf
+lang: en
+product:
+  model: HC-M
+  variant: BASIS
+  category: ''
+  url: ''
+cover:
+  image: images/cover.svg
+  clip:
+  - 173.9
+  - 204.0
+  - 419.6
+  - 640.7
+  subtitle: Technical data
+  label: CW
+pages:
+- title:
+  - HIGH PRECISION WEIGHING FOR
+  - MEDIUM SPEED APPLICATIONS
+  blocks:
+  - type: lead
+    text: The dynamic **HC-M** checkweigher is the ideal medium speed weighing solution for a wide range
+      of checking, regulation and control tasks. The HC-M checkweighers are the next step up on the performance
+      curve from the entry level EC-E machines. HC-M machines are capable of 250 weighing operations per
+      minute.
+  - type: columns
+    paragraphs:
+    - The HC-M checkweigher offers you operator-friendly solutions. It doesn’t matter whether you want
+      to check the current actual weight, carry out a completeness check on your products or perform sorting
+      or classification. The sturdy base frame made of stainless steel enables high weighing accuracy
+      at medium belt speeds or throughput rates. Checkweighers from WIPOTEC-OCS are a byword for 100%
+      product monitoring.
+    - The lightweight, patented conveyor systems and the particularly carefully coordinated drive concept
+      ensure optimum smoothness with quiet running and fast, safe product transport. Individually adapted
+      solutions can be implemented in a modular fashion for a wide range of product shapes. A sophisticated
+      and wide spectrum of sorting devices (e.g. pusher, air blast nozzles) is available to reject products
+      with incorrect weight reliably and without disturbing production.
+  - type: hero
+    image: images/photo-2-1.jpg
+    aside:
+    - style: light
+      title: MAIN **FEATURES**
+      items:
+      - Entire machine in stainless steel housing with infeed, weighing, and outfeed belts (NT30)
+      - One sorter attachment (air blast)
+      - Maintenance-free servo drives
+      - Certified (MID)
+      - WIPOTEC EMFR Weigh Cells
+      - Simple, menu-directed operation on 10.4“ colour TFT touchscreen
+      - Memory for 100 product parameters
+      - Easy, tool-free exchange of belts and conveyors
+      - Flexible integration in production lines
+      - Line synchronisation with potential-free I/O signals
+      - Extensive statistical functions/histograms for production documentation
+    - style: dark
+      title: YOUR **BENEFITS**
+      items:
+      - Maximum throughput 250 pcs/min
+      - Exact fill results for higher productivity
+      - Efficiency improvement through simple and user-friendly controls
+      - Requirements-based modularity for the greatest flexibility
+- title:
+  - TECHNICAL
+  - DATA
+  blocks:
+  - type: table
+    title: '**BASE** DATA'
+    rows:
+    - label: Material of machine
+      value: Frame stainless steel V2A/AISI 304
+    - label: Machine weight (standard application)
+      value: 230 kg
+    - label: Shipping weight (standard application)
+      value: 300 kg
+    - label: Protection class
+      value: IP54
+      note: 1
+    - label: Temperature range
+      value: +5 °C to +40 °C
+    - label: Display and operation
+      value: Tiltable 10,4“ colour TFT display with touchscreen
+    - label: Available dialog languages
+      value: Bosnian, Chinese, Croatian, Czech, Danish, Dutch, English, Finnish, French, German, Greek,
+        Hungarian, Italian, Japanese, Latvian, Lithuanian, Polish, Portuguese, Russian, Slovak, Slovenian,
+        Spanish, Swedish, Turkish (other languages on request)
+    - label: Interfaces
+      value: 'Optionally: Ethernet, OPC, Profibus, ProfiNet, EtherNet/IP, RS232, RS422, RS485'
+      note: 2
+    - label: Max. output
+      value: 250 pcs/min
+      note: 3
+    - label: Digital I/O
+      value: 8xI + 8xO (optionally extendible)
+    - label: Product parameter storage
+      value: 100 PPS (optionally 200 / 400 PPS)
+    - label: Drive
+      value: Servo-Technology
+    - label: Noise level
+      value: A-weighted emission sound pressure level under 70dB(A)
+      note: 3
+    - label: Rated voltage
+      value: L1/N/PE; 100-240 VAC
+    - label: Rated frequency
+      value: 50/60 Hz
+    - label: Connect load (power capacity)
+      value: Approx. 0.8 kVA
+    - label: Compressed air supply (option)
+      value: 6 bar approx. 16Nl/min quality class (according to ISO 8573-1) [5:3:3]
+    - label: Possible maximum numbers of connected motors
+      value: 3 motors (optionally 2 extendible)
+    - label: EU-type examination certificate
+      value: DE-18-MI006-PTB001 (MID)
+  - type: grid
+    title: '**WEIGHING** DETAILS'
+    header:
+    - ''
+    - Weigh Cell (Type)
+    - GWR (Gross weighing range)
+    - Dead load max.
+    - e (Min. calibration value)
+    - d (Displayed value)
+    - Standard deviation 3) (1s)
+    - n (Scale division)
+    rows:
+    - - HC-M-2000-2
+      - EC-2000-2
+      - 750 g
+      - 4,000 g
+      - ≥ 0.1 g
+      - ≥ 0.01 g
+      - from 100 mg
+      - 7,500
+    - - HC-M-2000-1
+      - EC-2000-1
+      - 1,500 g
+      - 4,000 g
+      - ≥ 0.2 g
+      - ≥ 0.02 g
+      - from 100 mg
+      - 7,500
+    - - HC-M-3000-3
+      - EC-3000-3
+      - 1,500 g
+      - 8,500 g
+      - ≥ 0.2 g
+      - ≥ 0.02 g
+      - from 100 mg
+      - 7,500
+    - - HC-M-3000-2
+      - EC-3000-2
+      - 3,750 g
+      - 8,500 g
+      - ≥ 0.5 g
+      - ≥ 0.05 g
+      - from 100 mg
+      - 7,500
+    - - HC-M-3000-1
+      - EC-3000-1
+      - 7,500 g
+      - 8,500 g
+      - ≥ 1.0 g
+      - ≥ 0.1 g
+      - from 100 mg
+      - 7,500
+    - - HC-M-4000-2
+      - EC-4000-2
+      - 7,500 g
+      - 15,000 g
+      - ≥ 1.0 g
+      - ≥ 0.1 g
+      - from 100 mg
+      - 7,500
+  - type: footnotes
+    items:
+    - 1) Water from above, for IP65 full protection, see VA-application or WD-application (IP69K)
+    - 2) Optionally, surcharge
+    - 3) Depending on product shape, product behavior, transport speed and environmental condition
+- title:
+  - TECHNICAL
+  - DATA
+  blocks:
+  - type: note
+    text: '**CONVEYOR** DIMENSIONS'
+  - type: matrix
+    title: Dimensions weighing conveyor
+    corner: width length
+    header:
+    - 120 mm
+    - 150 mm
+    - 200 mm
+    - 300 mm 1)
+    - 400 mm 1)
+    rows:
+    - label: 200 mm
+      cells:
+      - x
+      - x
+      - '-'
+      - '-'
+      - '-'
+    - label: 250 mm 1)
+      cells:
+      - x
+      - x
+      - x
+      - '-'
+      - '-'
+    - label: 300 mm
+      cells:
+      - x
+      - x
+      - x
+      - '-'
+      - '-'
+    - label: 400 mm
+      cells:
+      - x
+      - x
+      - x
+      - x
+      - '-'
+    - label: 500 mm 1)
+      cells:
+      - x
+      - x
+      - x
+      - x
+      - x
+  - type: matrix
+    title: Dimensions infeed / outfeed conveyor
+    corner: width length
+    header:
+    - 120 mm
+    - 150 mm
+    - 200 mm
+    - 300 mm 1)
+    - 400 mm 1)
+    rows:
+    - label: 200 mm
+      cells:
+      - x
+      - x
+      - '-'
+      - '-'
+      - '-'
+    - label: 300 mm
+      cells:
+      - x
+      - x
+      - x
+      - '-'
+      - '-'
+    - label: 400 mm
+      cells:
+      - x
+      - x
+      - x
+      - x
+      - '-'
+    - label: 500 mm
+      cells:
+      - x
+      - x
+      - x
+      - x
+      - x
+    - label: 600 mm
+      cells:
+      - x
+      - x
+      - x
+      - x
+      - x
+  - type: footnotes
+    items:
+    - 1) Optionally, surcharge
+- title:
+  - MACHINE
+  - DIMENSIONS
+  blocks:
+  - type: drawing
+    image: images/drawing-5.svg
+    clip:
+    - 56.0
+    - 160.0
+    - 541.0
+    - 600.0
+    page: 5
+    labels:
+    - text: working direction
+      x: 5.74
+      y: 16.18
+  - type: table
+    title: ''
+    rows:
+    - label: A = Working height
+      value: 700-850 / 800-950 / 900-1,050 mm
+      note: 1
+    - label: B = Conveyor width
+      value: 120 / 150 / 200 / 300 2) / 400 2) mm
+    - label: Conveyor technology NT 30
+      value: roller diameter 30 mm
+    - label: C = Weighing conveyor length
+      value: 200 / 250 2) / 300 / 400 / 500 2) mm
+    - label: D = Infeed conveyor length
+      value: 200 / 300 / 400 / 500 / 600 mm
+    - label: E = Outfeed conveyor length
+      value: 200 / 300 / 400 / 500 / 600 mm
+    - label: F = Total length
+      value: D + C + E + 10 mm
+    - label: G = Total width
+      value: 700 mm depending on machine configuration
+  - type: footnotes
+    items:
+    - 1) Working height must be specified when ordering
+    - 2) Optionally, surcharge
+  - type: note
+    text: These specifications are reference values of the standard machine excluding application- or
+      weighing-specific add-on parts. All entries in mm | Drawing shows design example
+notes:
+  title:
+  - PERSONAL
+  - NOTES

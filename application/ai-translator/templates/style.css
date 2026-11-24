@@ -1,0 +1,604 @@
+/* OS-Technology datasheet: A4 pages, grey header band, IBM Plex type. */
+
+:root {
+  --accent: #c6005c;
+  --band: #d9d9d9;
+  --zebra: #e6e6e6;
+  --dark: #444;
+  --ink: #1a1a1a;
+  --muted: #666;
+  --rule: #777;
+  --gutter: 15mm;
+}
+
+@page {
+  size: A4;
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+body {
+  background: #fff;
+  color: var(--ink);
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 9pt;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+strong {
+  font-weight: 700;
+}
+
+/* Links (phone, e-mail, site, QR) keep the text look; they are clickable in the PDF. */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+sup {
+  font-size: 0.65em;
+  line-height: 0;
+  margin-left: 0.15em;
+}
+
+/* Page frame */
+
+.page {
+  break-after: page;
+  display: flex;
+  flex-direction: column;
+  height: 297mm;
+  overflow: hidden;
+  position: relative;
+  width: 210mm;
+}
+
+.page:last-child {
+  break-after: auto;
+}
+
+.fit {
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Cover */
+
+.cover {
+  background: var(--band);
+  padding: 17mm 19mm 15mm;
+}
+
+.cover-head {
+  align-items: flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  gap: 8mm;
+  justify-content: space-between;
+}
+
+.cover-title {
+  min-width: 0;
+  padding-top: 5mm;
+}
+
+.cover-model {
+  font-size: 36pt;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.cover-subtitle {
+  color: #6e6e6e;
+  font-size: 9pt;
+  letter-spacing: 0.45em;
+  margin-top: 2mm;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.cover-label {
+  align-items: center;
+  background: #000;
+  color: #fff;
+  display: flex;
+  flex: 0 0 23mm;
+  font-size: 24pt;
+  font-weight: 700;
+  height: 23mm;
+  justify-content: center;
+  line-height: 1;
+}
+
+.cover-drawing {
+  align-items: center;
+  display: flex;
+  flex: 1 1 0;
+  justify-content: center;
+  min-height: 0;
+  padding: 18mm 0 14mm;
+}
+
+.cover-drawing img {
+  display: block;
+  height: 100%;
+  max-width: 100%;
+}
+
+.cover-logo {
+  align-self: flex-end;
+  flex: 0 0 auto;
+}
+
+.cover-logo svg {
+  display: block;
+  height: auto;
+  width: 72mm;
+}
+
+/* Header band */
+
+.band {
+  align-items: flex-end;
+  background: var(--band);
+  display: flex;
+  flex: 0 0 44mm;
+  gap: 8mm;
+  justify-content: space-between;
+  padding: 0 var(--gutter) 8mm;
+}
+
+/* Fixed height, content at the bottom: overflow is measured against the full box. */
+.band-title {
+  display: flex;
+  flex-direction: column;
+  height: 34mm;
+  justify-content: flex-end;
+}
+
+.band-title::before {
+  background: var(--accent);
+  content: "";
+  display: block;
+  height: 1mm;
+  margin-bottom: 3mm;
+  width: 14mm;
+}
+
+.category {
+  color: var(--muted);
+  font-size: 8pt;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  margin-bottom: 1.5mm;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-size: 17pt;
+  font-weight: 700;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+.title-line {
+  display: block;
+}
+
+.band-model {
+  align-items: flex-end;
+  display: flex;
+  flex: 0 0 auto;
+  gap: 2mm;
+}
+
+.model {
+  font-size: 17pt;
+  font-weight: 700;
+  line-height: 1;
+  padding-bottom: 1mm;
+}
+
+.variant {
+  align-items: flex-end;
+  border: 0.4mm solid var(--accent);
+  display: flex;
+  font-size: 11pt;
+  font-weight: 700;
+  line-height: 1;
+  height: 26mm;
+  padding: 0 2.5mm 1.2mm;
+  width: 30mm;
+  text-transform: uppercase;
+}
+
+/* Content area */
+
+.page-content {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  gap: 5mm;
+  padding: 8mm var(--gutter) 4mm;
+}
+
+.heading {
+  font-size: 13pt;
+  font-weight: 300;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.block-title {
+  margin-bottom: 2.5mm;
+}
+
+.lead {
+  font-size: 10.5pt;
+  font-weight: 300;
+  line-height: 1.45;
+}
+
+.columns {
+  column-count: 3;
+  column-gap: 6mm;
+  hyphens: auto;
+  text-align: justify;
+}
+
+.columns p + p {
+  margin-top: 2mm;
+}
+
+/* Hero: photo with feature boxes */
+
+/* The hero takes the free height; its single row is bounded by it, so the aside boxes
+   (each a .fit) shrink and report their own overflow instead of spilling over the page. */
+.block-hero {
+  display: grid;
+  flex: 1 1 auto;
+  gap: 6mm;
+  grid-template-columns: 1fr 90mm;
+  grid-template-rows: minmax(0, 1fr);
+  min-height: 0;
+}
+
+.hero-image {
+  min-height: 0;
+  position: relative;
+}
+
+.hero-image img {
+  height: 100%;
+  inset: 0;
+  object-fit: contain;
+  object-position: center bottom;
+  position: absolute;
+  width: 100%;
+}
+
+/* Rows grow from 0 up to their content in equal shares, so a box that fits keeps its
+   height and only a box that is too long clips and reports overflow. */
+.hero-aside {
+  align-content: end;
+  display: grid;
+  gap: 6mm;
+  grid-auto-rows: minmax(0, max-content);
+}
+
+.aside {
+  padding: 4mm 5mm;
+}
+
+.aside-light {
+  background: var(--zebra);
+}
+
+.aside-dark {
+  background: var(--dark);
+  color: #fff;
+}
+
+.aside-dark .check {
+  color: #f0479a;
+}
+
+.aside .heading {
+  font-size: 13pt;
+  margin-bottom: 2.5mm;
+}
+
+.checks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8mm;
+  list-style: none;
+}
+
+.checks li {
+  align-items: flex-start;
+  display: flex;
+  font-size: 8.5pt;
+  font-weight: 600;
+  gap: 2mm;
+  line-height: 1.3;
+}
+
+.check {
+  color: var(--accent);
+  flex: 0 0 3.4mm;
+  height: 3.4mm;
+  margin-top: 0.3mm;
+  width: 3.4mm;
+}
+
+/* Tables, grids and matrices */
+
+.data {
+  border: 0.25mm solid var(--rule);
+  border-collapse: collapse;
+  font-family: "IBM Plex Sans Condensed", "IBM Plex Sans", sans-serif;
+  font-size: 8.5pt;
+  line-height: 1.3;
+  width: 100%;
+}
+
+.data th,
+.data td {
+  font-weight: 400;
+  padding: 0.6mm 2mm;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.data th {
+  font-weight: 600;
+}
+
+.data tbody tr:nth-child(odd) {
+  background: var(--zebra);
+}
+
+.kv th {
+  border-right: 0.25mm solid var(--rule);
+  width: 42%;
+}
+
+.grid thead th {
+  background: var(--zebra);
+  border: 0.25mm solid var(--rule);
+  vertical-align: top;
+}
+
+.grid tbody tr:nth-child(odd) {
+  background: #fff;
+}
+
+.grid tbody tr:nth-child(even) {
+  background: var(--zebra);
+}
+
+/* Cells hold codes and values ("HC-A-2000-2", "≥ 0.01 г"); only the headers may wrap. */
+.grid td {
+  border-left: 0.25mm solid var(--rule);
+  white-space: nowrap;
+}
+
+.grid td:first-child {
+  font-weight: 600;
+}
+
+.matrix th,
+.matrix td {
+  border-left: 0.25mm solid var(--rule);
+  text-align: center;
+}
+
+.matrix thead th {
+  border-bottom: 0.25mm solid var(--rule);
+}
+
+.matrix-title {
+  background: var(--zebra);
+  padding: 2mm;
+}
+
+.matrix-blank {
+  background: var(--zebra);
+}
+
+.matrix .corner {
+  background: linear-gradient(
+    to top right,
+    transparent calc(50% - 0.15mm),
+    var(--rule) 50%,
+    transparent calc(50% + 0.15mm)
+  );
+  font-weight: 400;
+  padding: 0.4mm 1.5mm;
+  width: 18%;
+}
+
+.corner-top,
+.corner-bottom {
+  display: block;
+  line-height: 1.1;
+}
+
+.corner-top {
+  text-align: right;
+}
+
+.corner-bottom {
+  text-align: left;
+}
+
+.matrix tbody th {
+  font-weight: 400;
+}
+
+/* Drawing with positioned labels */
+
+/* The drawing takes the free height of the page and keeps its aspect ratio. */
+.block-drawing {
+  container-type: size;
+  flex: 1 1 0;
+  min-height: 60mm;
+}
+
+.drawing {
+  margin: 0 auto;
+  position: relative;
+}
+
+.drawing img {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.drawing-label {
+  background: #fff;
+  font-size: 6.5pt;
+  line-height: 1.1;
+  position: absolute;
+  white-space: nowrap;
+}
+
+/* Footnotes and notes */
+
+.block-footnotes {
+  margin-top: auto;
+}
+
+.block-footnotes ~ .block-footnotes {
+  margin-top: 0;
+}
+
+.footnotes,
+.note {
+  color: var(--muted);
+  font-size: 7pt;
+  line-height: 1.35;
+  list-style: none;
+}
+
+/* Personal-notes page */
+
+.notes-icon {
+  color: #888;
+  flex: 0 0 auto;
+  height: 12mm;
+  width: 12mm;
+}
+
+.notes-rule {
+  border-top: 0.75pt solid #888;
+  height: 10mm;
+}
+
+/* Last-page contact block */
+
+.contact {
+  align-items: center;
+  background: var(--zebra);
+  border-top: 0.6mm solid var(--accent);
+  display: grid;
+  flex: 0 0 auto;
+  gap: 6mm;
+  grid-template-columns: 24mm 1fr;
+  margin: 0 var(--gutter) 4mm;
+  padding: 4mm 5mm;
+}
+
+.qr {
+  display: block;
+}
+
+.qr svg {
+  display: block;
+  height: 24mm;
+  width: 24mm;
+}
+
+.contact-body {
+  font-size: 8.5pt;
+  line-height: 1.45;
+}
+
+.contact-name {
+  font-size: 11pt;
+  font-weight: 700;
+  margin-bottom: 1mm;
+}
+
+.disclaimer {
+  color: var(--muted);
+  font-size: 7pt;
+  margin-top: 2mm;
+}
+
+/* Footer */
+
+.page-footer {
+  align-items: center;
+  border-top: 0.3mm solid #bbb;
+  display: grid;
+  flex: 0 0 18mm;
+  font-size: 7pt;
+  gap: 6mm;
+  grid-template-columns: 46mm 1fr auto;
+  line-height: 1.35;
+  margin: 0 var(--gutter);
+}
+
+.logo svg {
+  display: block;
+  height: auto;
+  width: 46mm;
+}
+
+.logo text,
+.cover-logo text {
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.logo text + text,
+.cover-logo text + text {
+  font-family: "IBM Plex Sans Condensed", "IBM Plex Sans", sans-serif;
+}
+
+.footer-name {
+  font-weight: 600;
+}
+
+.footer-site {
+  text-align: right;
+}
+
+.site {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.page-no {
+  color: var(--muted);
+}
+
+.rights {
+  color: var(--muted);
+  flex: 0 0 7mm;
+  font-size: 6.5pt;
+  padding: 0 var(--gutter);
+}

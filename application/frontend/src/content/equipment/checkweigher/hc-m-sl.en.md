@@ -1,7 +1,7 @@
 ---
 file_name: hc-m-sl
 order: 6
-datasheet: null
+datasheet: /datasheets/hc-m-sl.pdf
 title: HC-M-SL Checkweigher
 description: >-
   For products weighing up to 60 kg, the HC-M-SL checkweigher provides optimal

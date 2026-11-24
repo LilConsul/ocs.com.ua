@@ -1,0 +1,21 @@
+# Source-specific rules for WIPOTEC datasheets. Patterns are matched case-insensitively.
+branding:
+  - 'WIPOTEC-OCS\s+GMBH'
+  - 'wipotec(-ocs)?\.com'
+  - 'all rights reserved'
+  - 'kaiserslautern'
+  - 'adam-hoffmann'
+  - '\+49'
+  - 'headquarters'
+  - 'your sales\s+partner'
+  - 'personal\s+notes'
+  - 'all errors and misprints reserved'
+  - '^(DE|EN|ES|FR|IT)(\s+(DE|EN|ES|FR|IT))+$'
+
+# Mixed-case names allowed in Ukrainian text (product, protocol and brand names only).
+never_translate:
+  - WIPOTEC
+  - Ethernet
+  - EtherNet/IP
+  - Profibus
+  - ProfiNet
