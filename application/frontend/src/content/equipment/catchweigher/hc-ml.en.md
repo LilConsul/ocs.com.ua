@@ -10,8 +10,7 @@ description: >-
   choose the HC-ML benefit from this high speed combined with increased
   resolution, for products weighing up to 15 kilograms each.
 
-  These weighing systems are an ideal solution for weighing small and
-  medium-weight loads that nevertheless have considerable dimensions.
+  These weighing systems are an ideal solution for weighing small and medium-weight loads that nevertheless have considerable dimensions.
 specs:
   - title: Weighing
     items:

@@ -8,7 +8,7 @@ gallery:
   - /assets/equipment/image_59a8d54d.webp
 industries:
   - logistics
-title: Кетчвейєр HC-ML
+title: Test Кетчвейєр HC-ML
 description: >-
   У наступному класі обладнання ці вагові системи відрізняються швидкістю
   транспортування до двох метрів на секунду та вдвічі вищою точністю. Клієнти,
