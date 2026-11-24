@@ -154,3 +154,9 @@ def test_validate_cover_and_notes(doc):
     assert validate(doc) == ["cover.label: missing", "notes.title: not a list"]
     doc["cover"] = "cover.svg"
     assert validate(doc)[0] == "cover: not a mapping"
+
+
+def test_shape_sees_a_missing_grid_cell():
+    grid = {"type": "grid", "title": "G", "header": ["a", "b"], "rows": [["1", "2"], ["3", "4"]]}
+    cut = {**grid, "rows": [["1", "2"], ["3"]]}
+    assert shape(grid) != shape(cut)

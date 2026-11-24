@@ -102,7 +102,8 @@ def shape(block: dict) -> tuple:
     if kind == "table":
         return (kind, len(block.get("rows", [])))
     if kind == "grid":
-        return (kind, len(block.get("header", [])), len(block.get("rows", [])))
+        rows = block.get("rows", [])
+        return (kind, len(block.get("header", [])), len(rows), *(len(r) for r in rows))
     if kind == "matrix":
         rows = block.get("rows", [])
         return (
