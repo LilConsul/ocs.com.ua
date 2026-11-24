@@ -1,4 +1,4 @@
-import { describe, expect, it } from "bun:test";
+import { describe, expect, it, spyOn } from "bun:test";
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import shapes from "@/data/icon-shapes.json";
@@ -19,6 +19,7 @@ const files = sourceFiles(SRC).map((path) => ({ path, text: readFileSync(path, "
 const fixedNames = files.flatMap((f) =>
 	[...f.text.matchAll(/<MaterialIcon\b[^>]*?\bname="([a-z0-9_]+)"/gs)].map((m) => m[1])
 );
+const REGENERATE = "run: uv run application/frontend/scripts/icon-shapes.py";
 const category = iconShape("category");
 
 describe("material symbols", () => {
@@ -26,19 +27,27 @@ describe("material symbols", () => {
 		const missing = icons
 			.map((i) => i.value)
 			.filter((name) => name !== "category" && iconShape(name).body === category.body);
-		expect(missing).toEqual([]);
+		expect(missing, `icons without a shape, ${REGENERATE}`).toEqual([]);
 	});
 
-	it("falls back to category for an unknown, empty or unsafe name", () => {
-		for (const name of [
-			"no_such_icon",
-			"",
-			"../category",
-			"category.svg",
-			"constructor",
-			"__proto__",
-		])
-			expect(iconShape(name)).toEqual(category);
+	it("falls back to category for an unknown, empty or unsafe name, warning once per name", () => {
+		const warn = spyOn(console, "warn").mockImplementation(() => undefined);
+		try {
+			const names = [
+				"no_such_icon_x",
+				"",
+				"../category",
+				"category.svg",
+				"constructor",
+				"__proto__",
+			];
+			for (const name of names) expect(iconShape(name)).toEqual(category);
+			expect(warn).toHaveBeenCalledTimes(names.length);
+			for (const name of names) expect(iconShape(name)).toEqual(category);
+			expect(warn).toHaveBeenCalledTimes(names.length);
+		} finally {
+			warn.mockRestore();
+		}
 	});
 
 	it("returns path markup only", () => {
@@ -48,18 +57,16 @@ describe("material symbols", () => {
 
 	it("has a shape for every fixed icon in the components", () => {
 		expect(fixedNames.length).toBeGreaterThanOrEqual(10);
-		expect(
-			fixedNames.filter((n) => n !== "category" && iconShape(n).body === category.body)
-		).toEqual([]);
+		const missing = fixedNames.filter(
+			(n) => n !== "category" && iconShape(n).body === category.body
+		);
+		expect(missing, `fixed icons without a shape, ${REGENERATE}`).toEqual([]);
 	});
 
 	it("icon-shapes.json holds exactly the names needed", () => {
 		const needed = [...new Set([...icons.map((i) => i.value), ...fixedNames, "category"])].sort();
 		const have = Object.keys(shapes.shapes);
-		expect(
-			have,
-			"src/data/icon-shapes.json is out of date, run: uv run application/frontend/scripts/icon-shapes.py"
-		).toEqual(needed);
+		expect(have, `src/data/icon-shapes.json is out of date, ${REGENERATE}`).toEqual(needed);
 	});
 
 	it("leaves no icon font behind", () => {
