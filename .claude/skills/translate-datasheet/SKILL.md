@@ -12,6 +12,14 @@ that folder. `<name>` is the file stem of the source PDF: `files/en/<name>.pdf` 
 The scripts extract, render and lint. You fix the extracted structure, translate and review the
 pages. A human reviews the output PDF and copies it to the website by hand.
 
+If the human named no datasheet, translate every PDF in `files/en/` that has no PDF of the same
+name in `files/ua/`. If there is none, say so and ask what to do.
+
+If `work/<name>/ua.yaml` already exists, the datasheet has been translated and may hold the human's
+corrections. Do not extract again and do not translate from scratch unless the human asks for it:
+go to step 4, edit the existing `ua.yaml` where the glossary or the request calls for it, and never
+undo wording the human decided (see `git log -p` of the file when unsure).
+
 ## 1. Prerequisites
 
 ```bash
@@ -75,8 +83,8 @@ wording is required, its `Avoid` fragments are errors. Names listed under `never
 
 ## 5. Write ua.yaml
 
-Copy `en.yaml` to `work/<name>/ua.yaml` and translate only the text fields. Do not change block
-order, block types, list lengths, `product.model`, `product.variant`, images, clips, drawing
+For a new datasheet, copy `en.yaml` to `work/<name>/ua.yaml` and translate only the text fields. Do
+not change block order, block types, list lengths, `product.model`, `product.variant`, images, clips, drawing
 `page`, `note` numbers or matrix `x`/`-` cells; lint reports each change as an error.
 
 - Set `lang: ua`.
@@ -97,7 +105,8 @@ Translation rules:
 - Numbers use a decimal point and no thousands separator (`4,000 g` becomes `4000 г`); units in
   Cyrillic with a space before them.
 - Do not add or drop content: every heading, row, item, footnote and number has exactly one
-  Ukrainian counterpart.
+  Ukrainian counterpart. The only exceptions are the style rules of `glossary.md` and explicit
+  decisions of the human.
 - Headings keep their `**bold**` markup on the word that is bold in the source.
 - Keep footnote marks (`400 мм 1)`) where the source has them: lint compares them separately
   from the other numbers, so a changed or dropped mark is an error. A digit that closes a
@@ -125,7 +134,20 @@ it no room, a last page with only a title (for example `Контакти`) and n
 text fit. Repeat this step until lint reports no errors and every
 page looks right.
 
-## 7. Hand over
+Lint sees only the exact English form of a glossary term (`folding carton` does not match `folded cartons`). So, once it is clean, compare the whole Ukrainian text with the English line by line and
+check every term against the glossary yourself.
+
+## 7. Apply the human's corrections
+
+- Edit `ua.yaml`, run step 6 again and look at the changed pages.
+- To remove an item or row the human does not want, remove it from both `en.yaml` and `ua.yaml`
+  (lint requires equal lists) and say so: extracting again with `--force` brings it back.
+- If a correction changes a fact of the source (a number, a limit such as `under 70dB(A)`, a
+  listed option), apply it and tell the human what the source says.
+- Propose a glossary row or style rule for every correction that other datasheets can repeat, and
+  add it only after the human agrees.
+
+## 8. Hand over
 
 Report to the human:
 
