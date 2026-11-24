@@ -39,6 +39,27 @@ test.describe("text fonts", () => {
 				expect(href).toContain(`-${subset}-`);
 				expect(fontRequests.filter((url) => url === href)).toHaveLength(1);
 			}
+			// Ranges are normalised by the browser. Each preloaded file must back a face the page really loaded (family and subset)
+			const loaded = await page.evaluate(() =>
+				[...document.fonts]
+					.filter((face) => face.status === "loaded")
+					.map((face) => ({ family: face.family.replace(/"/g, ""), range: face.unicodeRange }))
+			);
+			const marker = subset === "cyrillic" ? "U+400-45F" : "U+0-FF,";
+			for (const href of preloaded) {
+				const file = href.split("/").pop() ?? "";
+				const family = file.startsWith("ibm-plex-sans-")
+					? "IBM Plex Sans Variable"
+					: file.startsWith("inter-")
+						? "Inter Variable"
+						: file;
+				expect(
+					loaded.some((face) => face.family === family && face.range.includes(marker)),
+					`${href} backs a loaded ${family} face`
+				).toBe(true);
+			}
+			// Chrome warns about an unused preload about 3 s after load
+			await page.waitForTimeout(3500);
 			expect(warnings.filter((text) => text.includes("preloaded"))).toEqual([]);
 
 			const css = await page.evaluate(async () => {
