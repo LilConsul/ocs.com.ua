@@ -50,7 +50,10 @@ const phoneHref = `tel:${companyData.phone.replace(/[^\d+]/g, "")}`;
 				</address>
 			</div>
 
-			<nav class="flex flex-wrap items-center justify-center gap-x-8 gap-y-1 xl:justify-self-end">
+			<nav
+				aria-label={_("Footer navigation")}
+				class="flex flex-wrap items-center justify-center gap-x-8 gap-y-1 xl:justify-self-end"
+			>
 				<a
 					href={`/${lang}/privacy/`}
 					class="hover:text-foreground py-1.5 font-sans whitespace-nowrap transition-colors"

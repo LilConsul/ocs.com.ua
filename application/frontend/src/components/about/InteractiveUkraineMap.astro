@@ -178,7 +178,7 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 								data-hub={hub.id}
 								data-oblast-id={oblastId}
 								aria-pressed={i === 0 ? "true" : "false"}
-								aria-controls={`hub-panel-${hub.id}`}
+								aria-controls={`hub-panel-${cityHubs.indexOf(hub)}`}
 								aria-label={`${hub.name[lang]}: ${formatApprox(hub.stats.total)} ${_("Units")}`}
 								class="map-pin group focus-visible:outline-secondary absolute flex size-11 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 aria-pressed:z-10"
 								style={`left:${left.toFixed(2)}%;top:${top.toFixed(2)}%;--i:${i}`}
@@ -206,12 +206,7 @@ const maxSector = Math.max(1, ...sectors.map((s) => s.stats.total));
 						aria-live="polite"
 					>
 						{cityHubs.map((hub, i) => (
-							<div
-								id={`hub-panel-${hub.id}`}
-								data-hub-panel={hub.id}
-								class="hub-panel"
-								hidden={i !== 0}
-							>
+							<div id={`hub-panel-${i}`} data-hub-panel={hub.id} class="hub-panel" hidden={i !== 0}>
 								<div class="flex items-center justify-between gap-2 sm:gap-3">
 									<div class="flex min-w-0 items-center gap-2 sm:gap-2.5">
 										<div class={iconTileClass} aria-hidden="true">

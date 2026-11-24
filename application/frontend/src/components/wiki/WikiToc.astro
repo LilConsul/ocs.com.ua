@@ -43,7 +43,7 @@ const filteredHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
 			</ul>
 		</details>
 	) : (
-		<aside class="hidden xl:block">
+		<aside aria-label={_("On this page")} class="hidden xl:block">
 			<nav
 				aria-label={_("On this page")}
 				class="sticky top-[calc(6rem+var(--banner-h,0px))]"

@@ -67,7 +67,7 @@ const thumbBase =
 	"border-border-subtle/60 hover:border-secondary/40 focus-visible:outline-secondary flex aspect-4/3 shrink-0 cursor-pointer touch-manipulation items-center justify-center overflow-hidden rounded-lg border bg-white p-1.5 opacity-60 transition-[opacity,border-color,box-shadow] duration-(--dur-fast) hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2";
 ---
 
-<figure
+<div
 	class="product-gallery-container m-0 w-full select-none"
 	data-images={JSON.stringify(mainSources)}
 	data-lightbox-images={JSON.stringify(lightboxSources)}
@@ -307,9 +307,7 @@ const thumbBase =
 			</nav>
 		)}
 	</dialog>
-
-	<figcaption class="sr-only">{title}</figcaption>
-</figure>
+</div>
 
 <style>
 	.thumb-rail {

@@ -98,7 +98,10 @@ const isActive = (pattern: string) => {
 	)}
 
 	{/* Main Navigation Bar */}
-	<nav class="mx-auto flex h-20 max-w-7xl items-center justify-between px-8">
+	<nav
+		aria-label={_("Main navigation")}
+		class="mx-auto flex h-20 max-w-7xl items-center justify-between px-8"
+	>
 		{/* Logo */}
 		<a href={`/${lang}/`} class="shrink-0 transition-opacity hover:opacity-80">
 			<img

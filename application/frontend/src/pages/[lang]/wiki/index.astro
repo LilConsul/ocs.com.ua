@@ -120,6 +120,7 @@ const structuredData = createPageGraph({
 					entry={article}
 					lang={lang}
 					index={i}
+					headingLevel="h2"
 					readMinutes={calculateReadingMinutes(article.body ?? "")}
 					coverImage={getWikiCoverImage(article, allArticles)}
 				/>
