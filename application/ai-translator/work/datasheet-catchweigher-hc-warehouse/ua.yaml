@@ -1,0 +1,134 @@
+source: files/en/datasheet-catchweigher-hc-warehouse.pdf
+lang: ua
+product:
+  model: HC-Warehouse
+  variant: ''
+  category: Кетчвейєр
+  url: https://ocs.com.ua/ua/catalogue/equipment/catchweigher/hc-warehouse
+cover:
+  image: images/cover.svg
+  clip:
+  - 150.0
+  - 268.0
+  - 480.0
+  - 632.0
+  subtitle: Пошта та логістика | Технічні дані
+  label: ''
+pages:
+- title:
+  - Технічні
+  - дані
+  blocks:
+  - type: note
+    text: '**Застосування:** внутрішня логістика'
+  - type: table
+    title: '**Базові дані**'
+    rows:
+    - label: Тип обладнання
+      value: HC-Warehouse
+    - label: Матеріал виготовлення обладнання
+      value: Сталева рама з порошковим покриттям, виготовлена методом листового згинання (RAL 7035)
+    - label: Маса обладнання
+      value: Прибл. 120 кг
+    - label: Клас промислового захисту
+      value: IP54
+    - label: Діапазон робочих температур
+      value: від +5 °С до +40 °С
+    - label: Швидкість транспортування
+      value: 1.2 м/с
+    - label: Привід
+      value: 2 асинхронні двигуни
+    - label: Робоча висота
+      value: 500–620 / 600–720 / 700–1020 / 1000–1320 мм
+    - label: Рівень шуму
+      value: Макс. 69 дБ
+    - label: Номінальна напруга керування
+      value: L1/N/PE 115/230 В змінного струму
+    - label: Номінальна напруга приводу
+      value: L3/N/PE 230 В змінного струму
+    - label: Номінальна частота
+      value: 50/60 Гц
+    - label: Потужність підключення
+      value: Макс. 1 кВА
+    - label: Сертифікація ЄС
+      value: MID (опціонально)
+      note: 1
+  - type: table
+    title: '**Дані контролера**'
+    rows:
+    - label: Тип обладнання
+      value: HC-Warehouse
+    - label: Дисплей і керування
+      value: Кольоровий сенсорний TFT-дисплей 5.7” з роздільною здатністю VGA
+    - label: Доступні мови інтерфейсу
+      value: англійська, французька, німецька, нідерландська, італійська, данська, фінська, португальська,
+        хорватська, турецька, іспанська, російська, польська, угорська, шведська, чеська, словацька, українська
+      note: 1
+    - label: Інтерфейси
+      value: '4 послідовні, опціонально: RS232, RS422, RS485; 2 × Ethernet, 1 × промислова шина (ProfiNet або
+        EtherNet/IP)'
+    - label: Алібі-пам'ять
+      value: Опціонально
+    - label: Цифрові входи/виходи
+      value: 1 вхід (з розширенням до 2), 2 виходи (з розширенням до 3)
+  - type: footnotes
+    items:
+    - 1) Інші за запитом
+- title:
+  - Технічні
+  - дані
+  blocks:
+  - type: table
+    title: '**Параметри зважування**'
+    rows:
+    - label: Тип обладнання
+      value: HC-Warehouse
+    - label: GWR (діапазон зважування брутто)
+      value: 50000 г
+    - label: e (ціна повірочної поділки)
+      value: 'Тензометричний датчик ваги без електромагнітної компенсації сили: ≥ 20 г'
+    - label: d (дискретність)
+      value: ≥ 5 г
+    - label: n (кількість повірочних поділок)
+      value: '3000'
+  - type: table
+    title: '**Розміри конвеєра**'
+    rows:
+    - label: Тип обладнання
+      value: HC-Warehouse
+    - label: Ширина
+      value: 400 / 500 / 600 / 700 мм
+    - label: Діаметр ролика
+      value: 60 мм
+    - label: Довжина
+      value: 600 / 700 / 800 / 900 / 1000 мм
+- title:
+  - Технічне
+  - креслення
+  blocks:
+  - type: drawing
+    image: images/drawing-4.svg
+    clip:
+    - 58.0
+    - 205.0
+    - 466.0
+    - 633.0
+    page: 4
+    labels:
+    - text: напрямок руху продукції
+      x: 17.41
+      y: 76.9
+  - type: table
+    title: ''
+    rows:
+    - label: A
+      value: Робоча висота
+    - label: B
+      value: Ширина конвеєра
+    - label: C
+      value: Довжина конвеєра
+  - type: note
+    text: Усі розміри в мм | Креслення наведено як приклад конструкції
+notes:
+  title:
+  - Нотатки

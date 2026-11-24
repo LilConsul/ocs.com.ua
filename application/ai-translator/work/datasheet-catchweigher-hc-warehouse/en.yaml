@@ -1,0 +1,133 @@
+source: files/en/datasheet-catchweigher-hc-warehouse.pdf
+lang: en
+product:
+  model: HC-Warehouse
+  variant: ''
+  category: ''
+  url: ''
+cover:
+  image: images/cover.svg
+  clip:
+  - 150.0
+  - 268.0
+  - 480.0
+  - 632.0
+  subtitle: Mail & Logistic | Technical Data
+  label: ''
+pages:
+- title:
+  - Technical
+  - Data
+  blocks:
+  - type: note
+    text: '**Application:** Intralogistics'
+  - type: table
+    title: '**Basic Data**'
+    rows:
+    - label: Machine Type
+      value: HC-Warehouse
+    - label: Material of machine
+      value: powder-coated steel frame in bending construction (RAL 7035)
+    - label: Unit weight
+      value: ca. 120 kg
+    - label: Protection class
+      value: IP 54
+    - label: Temperature range
+      value: +5 °C to +40 °C
+    - label: Transport speed
+      value: 1.2 m/s
+    - label: Drive
+      value: 2 x asynchronous
+    - label: Working height
+      value: 500–620 / 600–720 / 700–1,020 / 1,000–1,320 mm
+    - label: Noise level
+      value: max. 69 dB
+    - label: Rated voltage control
+      value: L1/N/PE 115/230 VAC
+    - label: Rated voltage drive
+      value: L3/N/PE 230 VAC
+    - label: Rated frequency
+      value: 50/60 Hz
+    - label: Connect load
+      value: max. 1 kVA
+    - label: EC-certified
+      value: MID (optional)
+      note: 1
+  - type: table
+    title: '**Controller Data**'
+    rows:
+    - label: Machine Type
+      value: HC-Warehouse
+    - label: Display and operation
+      value: 5.7" colour-TFT display with touch screen VGA-resolution
+    - label: Available dialog languages
+      value: English, French, German, Dutch, Italian, Danish, Finnish, Bosnian, Portuguese, Croatian,
+        Turkish, Spanish, Russian, Polish, Hungarian, Swedish, Czech, Slovak
+      note: 1
+    - label: Interfaces
+      value: '4 serial, optional: RS232, RS422, RS485; 2 x Ethernet, 1 x Fieldbus (Profinet or Ethernet-IP)'
+    - label: Alibi storage
+      value: optional
+    - label: Digital I/O
+      value: 1 Input (upgradeable to 2), 2 Outputs (upgradeable to 3)
+  - type: footnotes
+    items:
+    - 1) Further on request
+- title:
+  - Technical
+  - Data
+  blocks:
+  - type: table
+    title: '**Weighing Details**'
+    rows:
+    - label: Machine Type
+      value: HC-Warehouse
+    - label: GWR (gross weight range)
+      value: 50,000 g
+    - label: e (min. calibration value)
+      value: straingauge without EMFR ≥ 20 g
+    - label: d (display value)
+      value: ≥ 5 g
+    - label: n (graduation steps)
+      value: 3,000
+  - type: table
+    title: '**Conveyor Dimension**'
+    rows:
+    - label: Machine Type
+      value: HC-Warehouse
+    - label: Width
+      value: 400 / 500 / 600 / 700 mm
+    - label: Roller diameter
+      value: 60 mm
+    - label: Length
+      value: 600 / 700 / 800 / 900 / 1,000 mm
+- title:
+  - Technical
+  - Drawing
+  blocks:
+  - type: drawing
+    image: images/drawing-4.svg
+    clip:
+    - 58.0
+    - 205.0
+    - 466.0
+    - 633.0
+    page: 4
+    labels:
+    - text: working direction
+      x: 17.41
+      y: 76.27
+  - type: table
+    title: ''
+    rows:
+    - label: A
+      value: Working height
+    - label: B
+      value: Conveyor width
+    - label: C
+      value: Conveyor length
+  - type: note
+    text: All measurments in mm | Drawing shows sample version
+notes:
+  title:
+  - Notes
