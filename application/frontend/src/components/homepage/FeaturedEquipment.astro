@@ -28,6 +28,17 @@ const groups = getFeaturedGroups(allEntries, lang, getCategoriesForLocale(lang))
 const image = (entry: EquipmentEntry) => getGallery(entry, allEntries)?.[0] ?? PLACEHOLDER_IMAGE;
 const photos = (entry: EquipmentEntry) =>
 	(getGallery(entry, allEntries) ?? [PLACEHOLDER_IMAGE]).slice(0, 3);
+/** Content box width of a stage picture of aspect `ratio` (object-contain, at most `height` px tall) */
+const fitWidth = (src: { width: number; height: number }, height: number) =>
+	Math.round(height * (src.width / src.height || 1));
+const spotlightSizes = (src: { width: number; height: number }) =>
+	[
+		`(min-width: 1024px) min(${fitWidth(src, 320)}px, 351px, calc(33.33vw - 4.7rem))`,
+		`(min-width: 640px) min(${fitWidth(src, 320)}px, calc(50vw - 4.75rem))`,
+		`min(${fitWidth(src, 207)}px, calc(100vw - 5.2rem))`,
+	].join(", ");
+const rowSizes = (src: { width: number; height: number }) =>
+	`(min-width: 640px) min(${fitWidth(src, 112)}px, 119px), min(${fitWidth(src, 112)}px, 87px)`;
 const href = (entry: EquipmentEntry) => productUrl(lang, getCategory(entry), getSlug(entry));
 const keySpecs = (entry: EquipmentEntry) =>
 	flattenSpecs(entry.data.specs)
@@ -113,8 +124,8 @@ const titleParts = (entry: EquipmentEntry) => {
 											<Image
 												src={src}
 												alt={i === 0 ? spotlight.data.title : `${spotlight.data.title} - ${i + 1}`}
-												widths={[400, 800]}
-												sizes="(min-width: 1024px) 400px, 80vw"
+												widths={[280, 440, 640, 800]}
+												sizes={spotlightSizes(src)}
 												format="webp"
 												class="relative h-full max-h-80 w-full object-contain mix-blend-multiply"
 												loading="lazy"
@@ -200,8 +211,8 @@ const titleParts = (entry: EquipmentEntry) => {
 												<Image
 													src={src}
 													alt={i === 0 ? entry.data.title : `${entry.data.title} - ${i + 1}`}
-													widths={[144, 288]}
-													sizes="144px"
+													widths={[112, 160, 224]}
+													sizes={rowSizes(src)}
 													format="webp"
 													class="h-full max-h-28 w-full object-contain mix-blend-multiply"
 													loading="lazy"

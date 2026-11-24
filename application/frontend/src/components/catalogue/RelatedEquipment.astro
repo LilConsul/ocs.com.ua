@@ -56,6 +56,14 @@ const categoryTitle = (slug: string) => categories.find((c) => c.slug === slug)?
 					const itemSlug = getSlug(item);
 					const itemUrl = productUrl(lang, itemCategory, itemSlug);
 					const itemImg = galleries[item.id]?.[0] || PLACEHOLDER_IMAGE;
+					// The box is 144 px tall (object-contain), so a picture is at most 144 px times its
+					// aspect wide, and never wider than the card (1, 2 or 3 columns)
+					const fit = Math.round(144 * (itemImg.width / itemImg.height || 1));
+					const itemSizes = [
+						`(min-width: 1024px) min(${fit}px, 27vw)`,
+						`(min-width: 640px) min(${fit}px, 40vw)`,
+						`min(${fit}px, calc(100vw - 4rem))`,
+					].join(", ");
 					const itemSpec = flattenSpecs(item.data.specs)[0];
 					const itemModel = itemSlug.toUpperCase();
 
@@ -69,8 +77,8 @@ const categoryTitle = (slug: string) => categories.find((c) => c.slug === slug)?
 								<Image
 									src={itemImg}
 									alt={item.data.title ?? ""}
-									widths={[400, 800]}
-									sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+									widths={[200, 320, 480, 640]}
+									sizes={itemSizes}
 									format="webp"
 									class="max-h-full max-w-full object-contain mix-blend-multiply dark:mix-blend-normal"
 									loading="lazy"
