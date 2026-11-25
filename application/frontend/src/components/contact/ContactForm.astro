@@ -1,5 +1,6 @@
 ---
 import { RECAPTCHA_SITE_KEY } from "astro:env/client";
+import MaterialIcon from "@/components/MaterialIcon.astro";
 import companyData from "@/data/company.json";
 import equipmentTypes from "@/data/equipment-types.json";
 import { getInlineTranslations, type Lang } from "@/i18n";
@@ -80,7 +81,7 @@ const messages = {
 			class="bg-surface-container text-secondary border-border-subtle/50 hidden shrink-0 rounded-lg border p-2.5 sm:block"
 			aria-hidden="true"
 		>
-			<span class="material-symbols-outlined block text-3xl">precision_manufacturing</span>
+			<MaterialIcon name="precision_manufacturing" class="mb-1.5 align-top" />
 		</span>
 	</header>
 
@@ -246,12 +247,10 @@ const messages = {
 		{/* Submit */}
 		<button type="submit" id="form-submit" class="btn-primary press group mt-2 w-full sm:w-auto">
 			{_("Submit Inquiry")}
-			<span
-				class="material-symbols-outlined transition-transform duration-(--dur-fast) group-hover:translate-x-1"
-				aria-hidden="true"
-			>
-				arrow_forward
-			</span>
+			<MaterialIcon
+				name="arrow_forward"
+				class="transition-transform duration-(--dur-fast) group-hover:translate-x-1"
+			/>
 		</button>
 	</form>
 </section>

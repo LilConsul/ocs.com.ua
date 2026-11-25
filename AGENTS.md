@@ -17,6 +17,7 @@ The repository root also holds `application/infra` (Python/uv deploy tooling), `
 - `docs/info/environment.md` - every environment variable and feature flag
 - `docs/info/deployment.md` - CI, dev deploy pipeline, server layout, GitHub secrets
 - `docs/info/llm-indexing.md` - `/llms.txt`, Markdown page copies, AI crawlers in `robots.txt`
+- `docs/info/pagespeed.md` - how PageSpeed 100 was reached, what each change gave, performance rules
 - `docs/info/production-launch.md` - checklist for switching ocs.com.ua to this site, old WordPress redirects
 
 **Key Requirements:**
@@ -37,7 +38,7 @@ bun run dev              # Dev server at localhost:4321
 bun run build            # Production build into ./dist/
 bun run preview          # Preview the production build
 bun test                 # Unit tests
-bun run build && bun run test:e2e   # Playwright motion checks (Chromium, Firefox, WebKit; needs a build)
+bun run build && bun run test:e2e   # Playwright: motion, axe and page weight (Chromium, Firefox, WebKit; needs a build)
 
 # Code quality (ALWAYS RUN BEFORE COMMITS)
 bun run check:fix        # Biome fix + Prettier on .astro/.tsx/.jsx
@@ -110,8 +111,9 @@ Language codes are `ua` and `en`; the HTML `lang` attribute and hreflang use ISO
 
 - **Astro components** (`.astro`) are the default for layouts, pages and sections.
 - Interactivity is a `<script>` tag inside the Astro component (see `Header.astro`, `CatalogueSidebar.astro`). Do not add UI frameworks, React islands or `client:*` directives. React is a dependency of Decap CMS only (`src/cms/`).
-- Motion: scroll reveals run through the `motion` package (`motion/mini`, vanilla, no React) in `src/lib/anims/`. Components only add classes: `reveal`, `reveal-slide`, `reveal-glow`, `reveal-bar`, `reveal-heading` (section `h2`), `eyebrow-rule`, with `style="--i:N"` for stagger. Call `observeReveals(root)` after inserting reveal markup with `innerHTML`. Page transitions are native CSS (`@view-transition`), with the header as its own layer. Hover, press (`press` class) and header state stay plain CSS. Content must stay visible without JavaScript and with reduced motion: elements are hidden only under `html.motion-on`, which `motion-on.js` sets in `<head>`.
-- Icons: `@lucide/astro` is the default (`import { ArrowRight } from "@lucide/astro"`, sized with `class`). Material Symbols is also used and self-hosted: the font is `public/assets/fonts/material-symbols-outlined.woff2`, declared in `src/styles/global.css` and preloaded in `Layout.astro`. Do not load it from a CDN.
+- Motion: scroll reveals run through the `motion` package (`motion/mini`, vanilla, no React) in `src/lib/anims/`. Components only add classes: `reveal`, `reveal-slide`, `reveal-glow`, `reveal-bar`, `reveal-heading` (section `h2`), `eyebrow-rule`, with `style="--i:N"` for stagger. Call `observeReveals(root)` after inserting reveal markup with `innerHTML`. Page transitions are native CSS (`@view-transition`), with the header as its own layer. Hover, press (`press` class) and header state stay plain CSS. Content must stay visible without JavaScript and with reduced motion: elements are hidden only under `html.motion-on`, which `motion-on.js` sets in `<head>`. Largest Contentful Paint rule: nothing in the first screen starts at opacity 0 (hero intros only move; the first row of product and wiki cards is `eager` and has no `reveal`, nor do legal sections), and the main picture, or the first card of a listing, is eager with `fetchpriority="high"`; the skeleton does not hide `loading="eager"` pictures.
+- Third parties load on demand: Plerdy (`src/lib/plerdy.js`, inlined in `<head>` like `motion-on.js`) loads on the first real input (wheel, pointer move, touch, key or click; scripted events and scroll events do not count), with no timer. The Google map iframe on the contact page carries `data-map-src` and `hidden` until the figure is within 200 px of the viewport; a `<noscript>` link covers no JavaScript. Do not add a third-party script that loads on page load.
+- Icons: `@lucide/astro` is the default (`import { ArrowRight } from "@lucide/astro"`, sized with `class`). Material Symbols is also used, as inline SVG: `<MaterialIcon name="close" />` (`src/components/MaterialIcon.astro`) draws a path from `src/data/icon-shapes.json`. There is no icon font; icons are always 24 px. After adding a name to `src/data/icons.json` or a new `<MaterialIcon name="...">`, run `uv run application/frontend/scripts/icon-shapes.py` (it extracts shapes from `scripts/icons/material-symbols-outlined.woff2`, a source file that is not served) and commit the JSON.
 - Components are grouped by area: `homepage/`, `about/`, `catalogue/`, `contact/`, `wiki/`, `errors/`.
 - `src/layouts/Layout.astro` wraps every page (SEO tags, hreflang, header, footer). The `<main>` has `pt-20` to clear the fixed header.
 
@@ -136,7 +138,7 @@ Language codes are `ua` and `en`; the HTML `lang` attribute and hreflang use ISO
 
 ### Design System
 
-- Fonts: headings `IBM Plex Sans Variable` (`--font-heading`), body `Inter Variable` (`--font-sans`), code and labels `JetBrains Mono`.
+- Fonts: headings `IBM Plex Sans Variable` (`--font-heading`), body `Inter Variable` (`--font-sans`), code and labels `JetBrains Mono`. Loaded from `src/styles/fonts.css` (Latin and Cyrillic only, weights 400 to 700, `font-display: swap`). Each file has two faces: "core" (`src/assets/fonts/*-core.woff2`, the characters the site uses, made by `uv run application/frontend/scripts/subset-fonts.py`) and "rest" (the whole `@fontsource` file, downloaded only by a page with another character); their ranges must split the original range. `Layout.astro` preloads the two core files (Inter and IBM Plex Sans) of the page's language. Do not import `@fontsource` CSS directly.
 - Colors are CSS custom properties in `src/styles/global.css` in `oklch()`, with light and dark (`.dark`) values. Primary and secondary are pink-magenta; check the file for the exact tokens instead of hardcoding hex values.
 - Tailwind 4 with `@theme inline` tokens.
 - Aesthetic: Corporate Modern, minimalist, white space first, glassmorphism accents. Match it in new components and verify layouts in both languages (Ukrainian text is longer).

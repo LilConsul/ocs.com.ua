@@ -58,7 +58,7 @@ const countBy = (category: PartnerItem["category"]) =>
 
 // Pressed state is styled purely through aria-pressed:, so the script only flips the attribute
 const tabClass =
-	"client-tab font-technical-data border-border-subtle/60 bg-background text-industrial-gray hover:text-foreground hover:border-secondary/40 focus-visible:outline-secondary aria-pressed:bg-foreground aria-pressed:text-background aria-pressed:border-foreground inline-flex max-w-full cursor-pointer items-center gap-2 rounded-full border px-3.5 py-2 text-xs shadow-xs transition-colors duration-(--dur-fast) focus-visible:outline-2 focus-visible:outline-offset-2 sm:px-4";
+	"group/tab client-tab font-technical-data border-border-subtle/60 bg-background text-industrial-gray hover:text-foreground hover:border-secondary/40 focus-visible:outline-secondary aria-pressed:bg-foreground aria-pressed:text-background aria-pressed:border-foreground inline-flex max-w-full cursor-pointer items-center gap-2 rounded-full border px-3.5 py-2 text-xs shadow-xs transition-colors duration-(--dur-fast) focus-visible:outline-2 focus-visible:outline-offset-2 sm:px-4";
 
 // 3 columns on desktop, so a page is three full rows
 const PAGE_SIZE = 9;
@@ -126,7 +126,7 @@ const orderedPartners = SHOW_CLIENT_EQUIPMENT
 						data-filter={tab.filter}
 					>
 						<span>{tab.label}</span>
-						<span class="bg-secondary/10 text-secondary rounded-full px-1.5 py-px text-[11px] font-bold tabular-nums">
+						<span class="bg-secondary/10 text-secondary group-aria-pressed/tab:bg-background/15 group-aria-pressed/tab:text-background rounded-full px-1.5 py-px text-[11px] font-bold tabular-nums">
 							{tab.count}
 						</span>
 					</button>
@@ -216,18 +216,23 @@ const orderedPartners = SHOW_CLIENT_EQUIPMENT
 										{metrics.map(({ key, Icon, label }) => {
 											const value = eq?.[key] ?? 0;
 											return (
-												<div
-													class:list={[
-														rowClass,
-														"group-hover/card:border-secondary/30",
-														value === 0 && "opacity-50",
-													]}
-												>
+												<div class:list={[rowClass, "group-hover/card:border-secondary/30"]}>
 													<dt class="font-body-md text-industrial-gray flex min-w-0 items-center gap-2 text-xs">
-														<Icon class="text-secondary h-4 w-4 shrink-0" aria-hidden="true" />
+														<Icon
+															class:list={[
+																"text-secondary h-4 w-4 shrink-0",
+																value === 0 && "opacity-50",
+															]}
+															aria-hidden="true"
+														/>
 														<span class="truncate">{label}</span>
 													</dt>
-													<dd class="font-technical-data text-foreground m-0 shrink-0 text-base leading-none font-bold tabular-nums sm:text-lg">
+													<dd
+														class:list={[
+															"font-technical-data m-0 shrink-0 text-base leading-none font-bold tabular-nums sm:text-lg",
+															value === 0 ? "text-industrial-gray" : "text-foreground",
+														]}
+													>
 														{formatApprox(value)}
 													</dd>
 												</div>
@@ -255,7 +260,7 @@ const orderedPartners = SHOW_CLIENT_EQUIPMENT
 									target="_blank"
 									rel="noopener noreferrer"
 									class="text-foreground hover:text-secondary focus-visible:outline-secondary inline-flex shrink-0 items-center gap-1 font-medium transition-colors hover:underline focus-visible:outline-2 focus-visible:outline-offset-2"
-									aria-label={`${clientName} Website`}
+									aria-label={`${_("Site")}: ${clientName}`}
 								>
 									<span>{_("Site")}</span>
 									<ExternalLink class="text-secondary h-3 w-3" aria-hidden="true" />

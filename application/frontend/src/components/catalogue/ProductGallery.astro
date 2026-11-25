@@ -3,6 +3,7 @@ import { getImage, Image } from "astro:assets";
 import { ChevronLeft, ChevronRight, Maximize2, X } from "@lucide/astro";
 import type { ImageMetadata } from "astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
+import { containScale } from "@/lib/contain-scale";
 import { PLACEHOLDER_IMAGE } from "@/lib/placeholder";
 
 interface Props {
@@ -19,34 +20,47 @@ const galleryImages: ImageMetadata[] = images && images.length > 0 ? images : [P
 const imageUrls = galleryImages.map((img) => img.src);
 const hasMultiple = galleryImages.length > 1;
 
-// The main and the lightbox picture: one set of props each, shared by the rendered first photo
-// and the per-photo sources the script swaps in, so photo 1 in the data equals the markup.
-const mainProps = {
-	widths: [640, 960, 1280],
-	sizes: "(min-width: 1024px) 640px, 100vw",
-	format: "webp",
-} as const;
-const lightboxProps = {
+// The main and the lightbox picture: one function each, shared by the rendered first photo and the
+// per-photo sources the script swaps in, so photo 1 in the data equals the markup.
+// The main picture is object-contain in a 4:3 card minus its padding, a box of 1.36:1 to 1.41:1, so
+// a square photo fills only 74% of the box width. sizes is the content box times that share, one
+// entry per layout: 7 of 12 columns beside the sidebar, one column with wide padding, one column.
+// It depends on the photo's aspect, so it is swapped together with the sources.
+const mainProps = (img: ImageMetadata) => {
+	const share = containScale(img, 1.36);
+	return {
+		widths: [380, 448, 640, 800, 960, 1280],
+		sizes: [
+			`(min-width: 1024px) calc(min(650px, 58.34vw - 284px) * ${share})`,
+			`(min-width: 768px) calc((max(92vw, 100vw - 64px) - 50px) * ${share})`,
+			`calc((92vw - 34px) * ${share})`,
+		].join(", "),
+		format: "webp" as const,
+	};
+};
+const lightboxProps = (_img: ImageMetadata) => ({
 	widths: [1200, 1600],
 	sizes: "100vw",
-	format: "webp",
-} as const;
+	format: "webp" as const,
+});
 
 interface PhotoSource {
 	src: string;
 	srcset?: string;
+	sizes?: string;
 }
 
 // A width-descriptor srcset makes the browser ignore `src`, so a photo swap has to replace both.
 // getImage with the same props as <Image> yields the same files (widths above the source are
 // dropped the same way).
-const toSources = (props: typeof mainProps | typeof lightboxProps) =>
+const toSources = (propsFor: typeof mainProps) =>
 	Promise.all(
 		galleryImages.map(async (img): Promise<PhotoSource> => {
 			if (img === PLACEHOLDER_IMAGE) return { src: img.src };
-			const processed = await getImage({ src: img, ...props, widths: [...props.widths] });
+			const props = propsFor(img);
+			const processed = await getImage({ src: img, ...props });
 			const srcset = processed.srcSet.attribute;
-			return srcset ? { src: processed.src, srcset } : { src: processed.src };
+			return srcset ? { src: processed.src, srcset, sizes: props.sizes } : { src: processed.src };
 		})
 	);
 const [mainSources, lightboxSources] = await Promise.all([
@@ -67,7 +81,7 @@ const thumbBase =
 	"border-border-subtle/60 hover:border-secondary/40 focus-visible:outline-secondary flex aspect-4/3 shrink-0 cursor-pointer touch-manipulation items-center justify-center overflow-hidden rounded-lg border bg-white p-1.5 opacity-60 transition-[opacity,border-color,box-shadow] duration-(--dur-fast) hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2";
 ---
 
-<figure
+<div
 	class="product-gallery-container m-0 w-full select-none"
 	data-images={JSON.stringify(mainSources)}
 	data-lightbox-images={JSON.stringify(lightboxSources)}
@@ -131,10 +145,10 @@ const thumbBase =
 				id="gallery-main-image"
 				src={galleryImages[0]}
 				alt={imageAlts[0]}
-				{...mainProps}
-				widths={[...mainProps.widths]}
+				{...mainProps(galleryImages[0])}
 				class="max-h-full max-w-full cursor-zoom-in object-contain transition-transform duration-(--dur-base) motion-safe:group-hover/card:scale-[1.02]"
 				loading="eager"
+				fetchpriority="high"
 				itemprop="image"
 			/>
 		</div>
@@ -251,8 +265,7 @@ const thumbBase =
 				id="lightbox-image"
 				src={galleryImages[0]}
 				alt={imageAlts[0]}
-				{...lightboxProps}
-				widths={[...lightboxProps.widths]}
+				{...lightboxProps(galleryImages[0])}
 				class="border-border-subtle/50 max-h-full max-w-full rounded-lg border bg-white object-contain shadow-lg select-none"
 				loading="lazy"
 				draggable="false"
@@ -307,9 +320,7 @@ const thumbBase =
 			</nav>
 		)}
 	</dialog>
-
-	<figcaption class="sr-only">{title}</figcaption>
-</figure>
+</div>
 
 <style>
 	.thumb-rail {
@@ -335,10 +346,11 @@ const thumbBase =
 	const MAX_SCALE = 5;
 	const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
 
-	/** One photo as built by the frontmatter: the processed fallback and its srcset */
+	/** One photo as built by the frontmatter: the processed fallback, its srcset and sizes */
 	interface PhotoSource {
 		src: string;
 		srcset?: string;
+		sizes?: string;
 	}
 
 	function setupGallery(container: HTMLElement) {
@@ -428,10 +440,12 @@ const thumbBase =
 		};
 
 		// ── Active image ──────────────────────────────────────────────────
-		// With a width-descriptor srcset the browser ignores `src`, so both are set. `sizes` stays.
+		// With a width-descriptor srcset the browser ignores `src`, so both are set. `sizes` goes
+		// first: it depends on the photo's aspect.
 		const showPhoto = (img: HTMLImageElement | null, photo: PhotoSource | undefined) => {
 			if (!img || !photo) return;
 			// Setting an attribute, even to the same value, restarts image selection: skip no-ops
+			if (photo.sizes && img.sizes !== photo.sizes) img.sizes = photo.sizes;
 			if (!photo.srcset) img.removeAttribute("srcset");
 			else if (img.getAttribute("srcset") !== photo.srcset) img.srcset = photo.srcset;
 			if (img.getAttribute("src") !== photo.src) img.src = photo.src;

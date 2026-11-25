@@ -4,6 +4,7 @@ import { ArrowRight } from "@lucide/astro";
 import type { ImageMetadata } from "astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { productUrl } from "@/lib/catalogue-urls";
+import { containScale } from "@/lib/contain-scale";
 import {
 	type EquipmentEntry,
 	flattenSpecs,
@@ -19,7 +20,8 @@ interface Props {
 	lang: Lang;
 	index?: number;
 	gallery?: ImageMetadata[];
-	/** First row of the grid: load right away, everything else lazily */
+	/** First row of the grid: load right away (the first card with high priority) and show from the
+	 * first frame (no scroll reveal), everything else lazily and revealed on scroll */
 	eager?: boolean;
 }
 
@@ -43,13 +45,26 @@ const specs = flattenSpecs(product.data.specs)
 const cells = specs.length > 0 ? specs : [{ label: _("Category"), value: categoryTitle }];
 // gallery comes from getGallery(), which already left out images missing from src/assets/
 const firstImage = gallery?.[0] || PLACEHOLDER_IMAGE;
+// The picture is object-contain in a box of about 1.37:1, so a square photo fills only 73% of the
+// box width. sizes is the content box (card width minus padding) times that share, one entry per
+// layout: 1 column, 2 columns, 2 columns beside the sidebar, 3 columns beside the sidebar
+const share = containScale(firstImage, 1.37);
+const sizes = [
+	`(min-width: 1280px) calc(min(355px, 33.33vw - 11.1rem) * ${share})`,
+	`(min-width: 1024px) calc((50vw - 14.9rem) * ${share})`,
+	`(min-width: 768px) calc((50vw - 4.75rem) * ${share})`,
+	`calc((100vw - 4rem) * ${share})`,
+].join(", ");
 const href = productUrl(lang, categorySlug, getSlug(product));
 ---
 
 {/* Five rows shared with the other cards of the grid row (subgrid), so links and specs line up */}
 <a
 	href={href}
-	class="card-hover product-card reveal group bg-background border-border-subtle/70 focus-visible:outline-secondary row-span-5 grid grid-rows-subgrid gap-y-0 overflow-hidden rounded-xl border shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2"
+	class:list={[
+		"card-hover product-card group bg-background border-border-subtle/70 focus-visible:outline-secondary row-span-5 grid grid-rows-subgrid gap-y-0 overflow-hidden rounded-xl border shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2",
+		!eager && "reveal",
+	]}
 	style={`--i:${index % 3}`}
 	data-product-item
 	data-product-text={`${title} ${description ?? ""}`.toLowerCase()}
@@ -58,11 +73,12 @@ const href = productUrl(lang, categorySlug, getSlug(product));
 		<Image
 			src={firstImage}
 			alt={title}
-			widths={[400, 800]}
-			sizes="(min-width: 1280px) 30vw, (min-width: 768px) 45vw, 100vw"
+			widths={[280, 440, 640, 800]}
+			sizes={sizes}
 			format="webp"
 			class="h-full w-full object-contain mix-blend-multiply dark:mix-blend-normal"
 			loading={eager ? "eager" : "lazy"}
+			fetchpriority={eager && index === 0 ? "high" : undefined}
 		/>
 		{product.data.manufacturer && (
 			<span class="bg-background text-secondary border-border-subtle/60 font-label-caps absolute top-4 left-4 rounded-full border px-3 py-1 text-[11px] font-semibold tracking-widest uppercase shadow-xs">

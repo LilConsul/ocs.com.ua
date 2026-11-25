@@ -1,0 +1,321 @@
+{
+	"lighthouse": "13.6.0",
+	"measured": "2026-11-25",
+	"steps": [
+		{
+			"no": 0,
+			"name": "Before",
+			"lcp": 4808,
+			"accessibility": 90,
+			"agentic": 67,
+			"weight": {
+				"Fonts": 481.9,
+				"Images": 110,
+				"HTML, CSS, JS": 67.5,
+				"Plerdy": 95.5
+			}
+		},
+		{
+			"no": 1,
+			"name": "Darker gray",
+			"lcp": 4824,
+			"accessibility": 94,
+			"agentic": 67,
+			"weight": {
+				"Fonts": 481.9,
+				"Images": 110,
+				"HTML, CSS, JS": 67.5,
+				"Plerdy": 95.5
+			}
+		},
+		{
+			"no": 2,
+			"name": "Valid markup",
+			"lcp": 4695,
+			"accessibility": 100,
+			"agentic": 100,
+			"weight": {
+				"Fonts": 482,
+				"Images": 110,
+				"HTML, CSS, JS": 67.7,
+				"Plerdy": 95.5
+			}
+		},
+		{
+			"no": 3,
+			"name": "Inline icons",
+			"lcp": 3152,
+			"accessibility": 100,
+			"agentic": 100,
+			"weight": {
+				"Fonts": 165.7,
+				"Images": 110,
+				"HTML, CSS, JS": 67.4,
+				"Plerdy": 95.5
+			}
+		},
+		{
+			"no": 4,
+			"name": "Two font subsets",
+			"lcp": 3161,
+			"accessibility": 100,
+			"agentic": 100,
+			"weight": {
+				"Fonts": 165.7,
+				"Images": 110,
+				"HTML, CSS, JS": 52.4,
+				"Plerdy": 95.5
+			}
+		},
+		{
+			"no": 5,
+			"name": "First screen visible",
+			"lcp": 3160,
+			"accessibility": 100,
+			"agentic": 100,
+			"weight": {
+				"Fonts": 165.7,
+				"Images": 110,
+				"HTML, CSS, JS": 52.4,
+				"Plerdy": 94.9
+			}
+		},
+		{
+			"no": 6,
+			"name": "Picture sizes",
+			"lcp": 3008,
+			"accessibility": 100,
+			"agentic": 100,
+			"weight": {
+				"Fonts": 165.8,
+				"Images": 71.7,
+				"HTML, CSS, JS": 52.9,
+				"Plerdy": 95.5
+			}
+		},
+		{
+			"no": 7,
+			"name": "Plerdy, map on demand",
+			"lcp": 2113,
+			"accessibility": 100,
+			"agentic": 100,
+			"weight": {
+				"Fonts": 165.7,
+				"Images": 71.7,
+				"HTML, CSS, JS": 53.2,
+				"Plerdy": 0
+			}
+		},
+		{
+			"no": 8,
+			"name": "Canvas, logo",
+			"lcp": 2119,
+			"accessibility": 100,
+			"agentic": 100,
+			"weight": {
+				"Fonts": 165.8,
+				"Images": 71.1,
+				"HTML, CSS, JS": 54.3,
+				"Plerdy": 0
+			}
+		},
+		{
+			"no": 9,
+			"name": "Smaller fonts",
+			"lcp": 1807,
+			"accessibility": 100,
+			"agentic": 100,
+			"weight": {
+				"Fonts": 89.7,
+				"Images": 71.1,
+				"HTML, CSS, JS": 54.7,
+				"Plerdy": 0
+			}
+		},
+		{
+			"no": 10,
+			"name": "Review fixes",
+			"lcp": 1804,
+			"accessibility": 100,
+			"agentic": 100,
+			"weight": {
+				"Fonts": 89.6,
+				"Images": 71.1,
+				"HTML, CSS, JS": 54.6,
+				"Plerdy": 0
+			}
+		}
+	],
+	"pages": [
+		{
+			"name": "Home",
+			"before": {
+				"lcp": 4808,
+				"a11y": 90,
+				"agentic": 67,
+				"bp": 100,
+				"seo": 100
+			},
+			"after": {
+				"lcp": 1804,
+				"a11y": 100,
+				"agentic": 100,
+				"bp": 100,
+				"seo": 100
+			}
+		},
+		{
+			"name": "Home (en)",
+			"before": {
+				"lcp": 4653,
+				"a11y": 90,
+				"agentic": 67,
+				"bp": 100,
+				"seo": 100
+			},
+			"after": {
+				"lcp": 1672,
+				"a11y": 100,
+				"agentic": 100,
+				"bp": 100,
+				"seo": 100
+			}
+		},
+		{
+			"name": "Contact",
+			"before": {
+				"lcp": 8041,
+				"a11y": 91,
+				"agentic": 67,
+				"bp": 100,
+				"seo": 100
+			},
+			"after": {
+				"lcp": 925,
+				"a11y": 100,
+				"agentic": 100,
+				"bp": 100,
+				"seo": 100
+			}
+		},
+		{
+			"name": "About",
+			"before": {
+				"lcp": 4998,
+				"a11y": 84,
+				"agentic": 67,
+				"bp": 100,
+				"seo": 100
+			},
+			"after": {
+				"lcp": 1203,
+				"a11y": 100,
+				"agentic": 100,
+				"bp": 100,
+				"seo": 100
+			}
+		},
+		{
+			"name": "Category",
+			"before": {
+				"lcp": 5895,
+				"a11y": 96,
+				"agentic": 100,
+				"bp": 100,
+				"seo": 100
+			},
+			"after": {
+				"lcp": 1055,
+				"a11y": 100,
+				"agentic": 100,
+				"bp": 100,
+				"seo": 100
+			}
+		},
+		{
+			"name": "Product",
+			"before": {
+				"lcp": 6640,
+				"a11y": 97,
+				"agentic": 67,
+				"bp": 100,
+				"seo": 100
+			},
+			"after": {
+				"lcp": 1655,
+				"a11y": 100,
+				"agentic": 100,
+				"bp": 100,
+				"seo": 100
+			}
+		},
+		{
+			"name": "Industry",
+			"before": {
+				"lcp": 6192,
+				"a11y": 96,
+				"agentic": 100,
+				"bp": 100,
+				"seo": 100
+			},
+			"after": {
+				"lcp": 1805,
+				"a11y": 100,
+				"agentic": 100,
+				"bp": 100,
+				"seo": 100
+			}
+		},
+		{
+			"name": "Wiki index",
+			"before": {
+				"lcp": 5701,
+				"a11y": 94,
+				"agentic": 100,
+				"bp": 100,
+				"seo": 100
+			},
+			"after": {
+				"lcp": 1503,
+				"a11y": 100,
+				"agentic": 100,
+				"bp": 100,
+				"seo": 100
+			}
+		},
+		{
+			"name": "Wiki article",
+			"before": {
+				"lcp": 4615,
+				"a11y": 96,
+				"agentic": 100,
+				"bp": 100,
+				"seo": 100
+			},
+			"after": {
+				"lcp": 925,
+				"a11y": 100,
+				"agentic": 100,
+				"bp": 100,
+				"seo": 100
+			}
+		},
+		{
+			"name": "Privacy",
+			"before": {
+				"lcp": 5151,
+				"a11y": 96,
+				"agentic": 100,
+				"bp": 100,
+				"seo": 100
+			},
+			"after": {
+				"lcp": 951,
+				"a11y": 100,
+				"agentic": 100,
+				"bp": 100,
+				"seo": 100
+			}
+		}
+	]
+}

@@ -1,5 +1,6 @@
 ---
 import type { ImageMetadata } from "astro";
+import MaterialIcon from "@/components/MaterialIcon.astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { categoryUrl, industryUrl } from "@/lib/catalogue-urls";
 import type { EquipmentEntry, EquipmentType, Industry } from "@/lib/content-utils";
@@ -55,7 +56,7 @@ const sections = [
 	class="bg-background border-border-subtle text-foreground hover:border-secondary/40 focus-visible:outline-secondary fixed right-6 bottom-6 z-40 flex items-center gap-2 rounded-full border px-6 py-3 shadow-lg transition-[box-shadow,border-color] hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-2 lg:hidden"
 	aria-label={_("Open filters")}
 >
-	<span class="material-symbols-outlined text-[20px]">filter_list</span>
+	<MaterialIcon name="filter_list" />
 	<span class="text-sm font-medium">{_("Filters")}</span>
 </button>
 
@@ -78,7 +79,7 @@ const sections = [
 			class="text-muted-foreground hover:text-foreground absolute top-4 right-4 transition-colors lg:hidden"
 			aria-label={_("Close filters")}
 		>
-			<span class="material-symbols-outlined text-[24px]">close</span>
+			<MaterialIcon name="close" />
 		</button>
 		{/* Header with generous spacing */}
 		<div class="mb-6 px-2">
@@ -93,15 +94,13 @@ const sections = [
 		{/* Product search */}
 		<div class="mb-5 px-1">
 			<div class="relative">
-				<span
-					class="material-symbols-outlined text-industrial-gray pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-[18px]"
-					aria-hidden="true"
-				>
-					search
-				</span>
+				<MaterialIcon
+					name="search"
+					class="text-industrial-gray pointer-events-none absolute top-1/2 left-3 -translate-y-1/2"
+				/>
 				<input
 					type="search"
-					class="font-body-md text-foreground placeholder:text-industrial-gray/70 border-border-subtle bg-surface-container focus-visible:outline-secondary h-10 w-full rounded-lg border pr-3 pl-9 text-sm shadow-xs transition-shadow focus-visible:outline-2 focus-visible:outline-offset-2"
+					class="font-body-md text-foreground placeholder:text-industrial-gray border-border-subtle bg-surface-container focus-visible:outline-secondary h-10 w-full rounded-lg border pr-3 pl-9 text-sm shadow-xs transition-shadow focus-visible:outline-2 focus-visible:outline-offset-2"
 					placeholder={_("Search products…")}
 					aria-label={_("Search products…")}
 					data-product-search-input
@@ -174,9 +173,7 @@ const sections = [
 														: "text-industrial-gray hover:bg-surface-container hover:border-border-subtle/60 border-transparent hover:translate-x-1"
 												}`}
 											>
-												<span class="material-symbols-outlined text-[20px]">
-													{item.icon || "category"}
-												</span>
+												<MaterialIcon name={item.icon || "category"} />
 												<span class="font-technical-data text-xs tracking-wider uppercase">
 													{item.title}
 												</span>

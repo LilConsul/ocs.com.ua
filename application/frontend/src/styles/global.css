@@ -1,35 +1,5 @@
 @import "tailwindcss";
-@import "@fontsource-variable/inter";
-@import "@fontsource-variable/ibm-plex-sans";
-@import "@fontsource/jetbrains-mono/400.css";
-@import "@fontsource/jetbrains-mono/500.css";
-
-/* Material Symbols icon font, self-hosted (public/assets/fonts) instead of render-blocking
-   fonts.googleapis.com. `block` hides icon names until the glyphs load. */
-@font-face {
-	font-family: "Material Symbols Outlined";
-	font-style: normal;
-	font-weight: 400;
-	font-display: block;
-	src: url("/assets/fonts/material-symbols-outlined.woff2") format("woff2");
-}
-
-.material-symbols-outlined {
-	font-family: "Material Symbols Outlined", sans-serif;
-	font-weight: normal;
-	font-style: normal;
-	font-size: 24px;
-	line-height: 1;
-	letter-spacing: normal;
-	text-transform: none;
-	display: inline-block;
-	white-space: nowrap;
-	word-wrap: normal;
-	direction: ltr;
-	-webkit-font-feature-settings: "liga";
-	font-feature-settings: "liga";
-	-webkit-font-smoothing: antialiased;
-}
+@import "./fonts.css";
 
 @plugin "@tailwindcss/typography";
 
@@ -69,7 +39,7 @@
 	--sidebar-border: oklch(0.922 0 0);
 	--sidebar-ring: oklch(0.708 0 0);
 	--surface-lowest: oklch(1 0 0);
-	--industrial-gray: oklch(0.55 0.015 254); /* #64748B */
+	--industrial-gray: oklch(0.5 0.015 254); /* #5B6877, 4.5:1 on white and surface tints */
 	--surface-muted: oklch(0.982 0 0); /* #F8FAFC */
 	--border-subtle: oklch(0.922 0.005 254); /* #E2E8F0 */
 	--surface-container: oklch(0.96 0 0);
@@ -246,14 +216,14 @@
 }
 
 /* Shared entrance animations.
- * Hero intros are time-based CSS keyframes that run on load.
+ * Hero intros are time-based CSS keyframes that run on load. They move (transform) but never
+ * fade: nothing in the first screen starts transparent, so the largest element counts at once.
  * Scroll reveals are played once by src/lib/anims/reveal.ts (the `motion` package). Elements are
  * hidden only while `html.motion-on` is set, which motion-on.js adds in <head> when reduced
  * motion is off and IntersectionObserver exists, and removes after 3 seconds if the runtime
  * never loads. Without JavaScript, with reduced motion, or after reveal, nothing is hidden. */
 @keyframes rise {
 	from {
-		opacity: 0;
 		transform: translateY(18px);
 	}
 }
@@ -277,11 +247,9 @@
 
 @keyframes hero-media-in {
 	from {
-		opacity: 0.75;
 		transform: scale(1.035);
 	}
 	to {
-		opacity: 1;
 		transform: scale(1);
 	}
 }
@@ -505,7 +473,9 @@ html.motion-on .eyebrow-rule:not([data-revealed]) {
 }
 
 /* Picture loading skeletons (shadcn style). Put `skeleton` on the box that holds a picture:
- * while the picture loads the box is a gray block and the picture is transparent;
+ * while the picture loads the box is a gray block and the picture is transparent (except an
+ * eager picture, `loading="eager"`: it can be the largest element of the first screen, and
+ * Lighthouse ignores an element until it is visible, so it paints as it arrives);
  * src/lib/image-skeleton.ts sets [data-loaded] on load (or error), the box gets its own
  * background back and the picture shows. This applies only under `html.skeleton-on`, which
  * skeleton-on.js sets in <head> whenever JavaScript runs, so without JavaScript pictures simply
@@ -522,8 +492,8 @@ html.skeleton-on .skeleton:not([data-loaded]) {
 	background-color: var(--color-skeleton);
 }
 
-html.skeleton-on .skeleton:not([data-loaded]) > img,
-html.skeleton-on .skeleton:not([data-loaded]) > picture > img {
+html.skeleton-on .skeleton:not([data-loaded]) > img:not([loading="eager"]),
+html.skeleton-on .skeleton:not([data-loaded]) > picture > img:not([loading="eager"]) {
 	opacity: 0;
 }
 

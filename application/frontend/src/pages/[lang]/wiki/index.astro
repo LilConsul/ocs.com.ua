@@ -102,7 +102,7 @@ const structuredData = createPageGraph({
 					/>
 					<input
 						type="search"
-						class="font-body-md text-foreground placeholder:text-industrial-gray/70 border-border-subtle bg-surface-lowest focus-visible:outline-secondary h-12 w-full rounded-lg border pr-4 pl-10 text-sm shadow-xs transition-shadow focus-visible:outline-2 focus-visible:outline-offset-2"
+						class="font-body-md text-foreground placeholder:text-industrial-gray border-border-subtle bg-surface-lowest focus-visible:outline-secondary h-12 w-full rounded-lg border pr-4 pl-10 text-sm shadow-xs transition-shadow focus-visible:outline-2 focus-visible:outline-offset-2"
 						placeholder={_("Search the wiki…")}
 						aria-label={_("Search the wiki…")}
 						data-wiki-index-filter
@@ -120,6 +120,8 @@ const structuredData = createPageGraph({
 					entry={article}
 					lang={lang}
 					index={i}
+					headingLevel="h2"
+					eager={i < 3}
 					readMinutes={calculateReadingMinutes(article.body ?? "")}
 					coverImage={getWikiCoverImage(article, allArticles)}
 				/>

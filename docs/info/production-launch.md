@@ -11,7 +11,7 @@ Still open (see the lists below):
 - Submit the sitemap in Google Search Console and Bing Webmaster Tools.
 - Review the `review` entries of the old-address map.
 - Fill or hide the categories without products.
-- Legal check of the Plerdy text in the privacy policy, and the cookie consent decision.
+- Legal check of the Plerdy text in the privacy policy, and the cookie consent decision. Its sentence that the contact map "loads automatically with the page" is out of date and needs the owner's wording (see [Third parties](#third-parties)).
 - Email delivery: DKIM, a stricter SPF (`~all`) and DMARC.
 - Archive WordPress once the new site has run for a while.
 
@@ -20,6 +20,10 @@ Still open (see the lists below):
 `main` deploys to production. Until launch day each deploy is **staged**: the new release is uploaded, its Node server runs on port 4322 and is checked on the server, while ocs.com.ua keeps serving WordPress. On launch day [`launch-prod.sh`](../../application/infra/server/launch-prod.sh) points ocs.com.ua at the staged site. It checks the result through Apache and puts WordPress back by itself if anything fails.
 
 After launch, a deploy that fails its health check goes back to the previous release of the new site on its own, and **Rollback** in the Actions tab does the same by hand. WordPress stays on the server in `/home/ocs/public_html.wordpress`; [`restore-wordpress.sh`](../../application/infra/server/restore-wordpress.sh) serves it again if the launch has to be undone.
+
+### Third parties
+
+Plerdy loads on the first real input (wheel, pointer move, touch, key or click), not on page load. The Google map on the contact page loads when it nears the viewport.
 
 ## Before launch
 

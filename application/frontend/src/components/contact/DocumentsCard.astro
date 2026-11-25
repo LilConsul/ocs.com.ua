@@ -1,4 +1,5 @@
 ---
+import MaterialIcon from "@/components/MaterialIcon.astro";
 import documentsData from "@/data/documents.json";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { existingFile } from "@/lib/public-assets";
@@ -41,12 +42,9 @@ const documents = [
 					target={doc.href !== "#" ? "_blank" : undefined}
 					rel={doc.href !== "#" ? "noopener noreferrer" : undefined}
 					class="group bg-surface-container border-border-subtle/50 hover:border-secondary/40 hover:bg-background focus-visible:outline-secondary flex items-center justify-between gap-3 rounded-lg border p-3.5 transition-[border-color,background-color,box-shadow] hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2"
-					aria-label={doc.title}
 				>
 					<span class="flex min-w-0 items-center gap-3">
-						<span class="material-symbols-outlined text-secondary shrink-0" aria-hidden="true">
-							{doc.icon}
-						</span>
+						<MaterialIcon name={doc.icon} class="text-secondary shrink-0" />
 						<span class="min-w-0">
 							<span class="font-technical-data text-technical-data text-foreground group-hover:text-secondary block font-semibold wrap-break-word transition-colors">
 								{doc.title}
@@ -56,12 +54,10 @@ const documents = [
 							</span>
 						</span>
 					</span>
-					<span
-						class="material-symbols-outlined text-industrial-gray group-hover:text-foreground shrink-0 transition-colors"
-						aria-hidden="true"
-					>
-						download
-					</span>
+					<MaterialIcon
+						name="download"
+						class="text-industrial-gray group-hover:text-foreground shrink-0 transition-colors"
+					/>
 				</a>
 			</li>
 		))}

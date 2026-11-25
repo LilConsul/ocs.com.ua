@@ -1,0 +1,183 @@
+/* The text fonts, Latin and Cyrillic only: the site has no other scripts.
+
+   Each font file comes as two faces. The "core" face is a small file made by
+   scripts/subset-fonts.py (src/assets/fonts) with the characters the site's own pages use. The
+   "rest" face is the whole @fontsource file for every other character of that script, so it
+   downloads only on a page that has one. Both declare the same weights: faces with different
+   weight ranges would not be combined, and the core files hold 400 to 700.
+
+   Regenerate with the script, which also prints the ranges; do not edit a core range alone. */
+
+/* inter cyrillic, rest */
+@font-face {
+	font-family: "Inter Variable";
+	font-style: normal;
+	font-display: swap;
+	font-weight: 400 700;
+	src: url("@fontsource-variable/inter/files/inter-cyrillic-wght-normal.woff2")
+		format("woff2-variations");
+	unicode-range: U+0400-0403, U+0405, U+0408-040F, U+0450-0453, U+0455, U+0458-045F, U+04B0-04B1;
+}
+
+/* inter cyrillic, core */
+@font-face {
+	font-family: "Inter Variable";
+	font-style: normal;
+	font-display: swap;
+	font-weight: 400 700;
+	src: url("../assets/fonts/inter-cyrillic-core.woff2?no-inline") format("woff2-variations");
+	unicode-range: U+0301, U+0404, U+0406-0407, U+0410-044F, U+0454, U+0456-0457, U+0490-0491, U+2116;
+}
+
+/* inter latin, rest */
+@font-face {
+	font-family: "Inter Variable";
+	font-style: normal;
+	font-display: swap;
+	font-weight: 400 700;
+	src: url("@fontsource-variable/inter/files/inter-latin-wght-normal.woff2")
+		format("woff2-variations");
+	unicode-range:
+		U+0000-0008, U+000B-000C, U+000E-001F, U+007F-009F, U+00A1-00A8, U+00AA, U+00AC, U+00AF, U+00B4-00B6, U+00B8-00BA, U+00BC-00C3, U+00C5-00D5, U+00D8-00DB, U+00DD-00DE, U+00E0-00E3, U+00E5-00F5, U+00F7-00FB, U+00FD-00FF, U+0131, U+0152-0153, U+02BB, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-2008, U+200A-200F, U+2015-2017, U+201B, U+201F-2021, U+2023-2025, U+2027-202E, U+2030-206F, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* inter latin, core */
+@font-face {
+	font-family: "Inter Variable";
+	font-style: normal;
+	font-display: swap;
+	font-weight: 400 700;
+	src: url("../assets/fonts/inter-latin-core.woff2?no-inline") format("woff2-variations");
+	unicode-range:
+		U+0009-000A, U+000D, U+0020-007E, U+00A0, U+00A9, U+00AB, U+00AD-00AE, U+00B0-00B3, U+00B7, U+00BB, U+00C4, U+00D6-00D7, U+00DC, U+00DF, U+00E4, U+00F6, U+00FC, U+02BC, U+2009, U+2010-2014, U+2018-201A, U+201C-201E, U+2022, U+2026, U+202F, U+20AC, U+2122;
+}
+
+/* ibm-plex-sans cyrillic, rest */
+@font-face {
+	font-family: "IBM Plex Sans Variable";
+	font-style: normal;
+	font-display: swap;
+	font-weight: 400 700;
+	src: url("@fontsource-variable/ibm-plex-sans/files/ibm-plex-sans-cyrillic-wght-normal.woff2")
+		format("woff2-variations");
+	unicode-range: U+0400-0403, U+0405, U+0408-040F, U+0450-0453, U+0455, U+0458-045F, U+04B0-04B1;
+}
+
+/* ibm-plex-sans cyrillic, core */
+@font-face {
+	font-family: "IBM Plex Sans Variable";
+	font-style: normal;
+	font-display: swap;
+	font-weight: 400 700;
+	src: url("../assets/fonts/ibm-plex-sans-cyrillic-core.woff2?no-inline") format("woff2-variations");
+	unicode-range: U+0301, U+0404, U+0406-0407, U+0410-044F, U+0454, U+0456-0457, U+0490-0491, U+2116;
+}
+
+/* ibm-plex-sans latin, rest */
+@font-face {
+	font-family: "IBM Plex Sans Variable";
+	font-style: normal;
+	font-display: swap;
+	font-weight: 400 700;
+	src: url("@fontsource-variable/ibm-plex-sans/files/ibm-plex-sans-latin-wght-normal.woff2")
+		format("woff2-variations");
+	unicode-range:
+		U+0000-0008, U+000B-000C, U+000E-001F, U+007F-009F, U+00A1-00A8, U+00AA, U+00AC, U+00AF, U+00B4-00B6, U+00B8-00BA, U+00BC-00C3, U+00C5-00D5, U+00D8-00DB, U+00DD-00DE, U+00E0-00E3, U+00E5-00F5, U+00F7-00FB, U+00FD-00FF, U+0131, U+0152-0153, U+02BB, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-2008, U+200A-200F, U+2015-2017, U+201B, U+201F-2021, U+2023-2025, U+2027-202E, U+2030-206F, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ibm-plex-sans latin, core */
+@font-face {
+	font-family: "IBM Plex Sans Variable";
+	font-style: normal;
+	font-display: swap;
+	font-weight: 400 700;
+	src: url("../assets/fonts/ibm-plex-sans-latin-core.woff2?no-inline") format("woff2-variations");
+	unicode-range:
+		U+0009-000A, U+000D, U+0020-007E, U+00A0, U+00A9, U+00AB, U+00AD-00AE, U+00B0-00B3, U+00B7, U+00BB, U+00C4, U+00D6-00D7, U+00DC, U+00DF, U+00E4, U+00F6, U+00FC, U+02BC, U+2009, U+2010-2014, U+2018-201A, U+201C-201E, U+2022, U+2026, U+202F, U+20AC, U+2122;
+}
+
+/* jetbrains-mono-400 cyrillic, rest */
+@font-face {
+	font-family: "JetBrains Mono";
+	font-style: normal;
+	font-display: swap;
+	font-weight: 400;
+	src: url("@fontsource/jetbrains-mono/files/jetbrains-mono-cyrillic-400-normal.woff2")
+		format("woff2");
+	unicode-range: U+0400-0403, U+0405, U+0408-040F, U+0450-0453, U+0455, U+0458-045F, U+04B0-04B1;
+}
+
+/* jetbrains-mono-400 cyrillic, core */
+@font-face {
+	font-family: "JetBrains Mono";
+	font-style: normal;
+	font-display: swap;
+	font-weight: 400;
+	src: url("../assets/fonts/jetbrains-mono-400-cyrillic-core.woff2?no-inline") format("woff2");
+	unicode-range: U+0301, U+0404, U+0406-0407, U+0410-044F, U+0454, U+0456-0457, U+0490-0491, U+2116;
+}
+
+/* jetbrains-mono-400 latin, rest */
+@font-face {
+	font-family: "JetBrains Mono";
+	font-style: normal;
+	font-display: swap;
+	font-weight: 400;
+	src: url("@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff2") format("woff2");
+	unicode-range:
+		U+0000-0008, U+000B-000C, U+000E-001F, U+007F-009F, U+00A1-00A8, U+00AA, U+00AC, U+00AF, U+00B4-00B6, U+00B8-00BA, U+00BC-00C3, U+00C5-00D5, U+00D8-00DB, U+00DD-00DE, U+00E0-00E3, U+00E5-00F5, U+00F7-00FB, U+00FD-00FF, U+0131, U+0152-0153, U+02BB, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-2008, U+200A-200F, U+2015-2017, U+201B, U+201F-2021, U+2023-2025, U+2027-202E, U+2030-206F, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* jetbrains-mono-400 latin, core */
+@font-face {
+	font-family: "JetBrains Mono";
+	font-style: normal;
+	font-display: swap;
+	font-weight: 400;
+	src: url("../assets/fonts/jetbrains-mono-400-latin-core.woff2?no-inline") format("woff2");
+	unicode-range:
+		U+0009-000A, U+000D, U+0020-007E, U+00A0, U+00A9, U+00AB, U+00AD-00AE, U+00B0-00B3, U+00B7, U+00BB, U+00C4, U+00D6-00D7, U+00DC, U+00DF, U+00E4, U+00F6, U+00FC, U+02BC, U+2009, U+2010-2014, U+2018-201A, U+201C-201E, U+2022, U+2026, U+202F, U+20AC, U+2122;
+}
+
+/* jetbrains-mono-500 cyrillic, rest */
+@font-face {
+	font-family: "JetBrains Mono";
+	font-style: normal;
+	font-display: swap;
+	font-weight: 500;
+	src: url("@fontsource/jetbrains-mono/files/jetbrains-mono-cyrillic-500-normal.woff2")
+		format("woff2");
+	unicode-range: U+0400-0403, U+0405, U+0408-040F, U+0450-0453, U+0455, U+0458-045F, U+04B0-04B1;
+}
+
+/* jetbrains-mono-500 cyrillic, core */
+@font-face {
+	font-family: "JetBrains Mono";
+	font-style: normal;
+	font-display: swap;
+	font-weight: 500;
+	src: url("../assets/fonts/jetbrains-mono-500-cyrillic-core.woff2?no-inline") format("woff2");
+	unicode-range: U+0301, U+0404, U+0406-0407, U+0410-044F, U+0454, U+0456-0457, U+0490-0491, U+2116;
+}
+
+/* jetbrains-mono-500 latin, rest */
+@font-face {
+	font-family: "JetBrains Mono";
+	font-style: normal;
+	font-display: swap;
+	font-weight: 500;
+	src: url("@fontsource/jetbrains-mono/files/jetbrains-mono-latin-500-normal.woff2") format("woff2");
+	unicode-range:
+		U+0000-0008, U+000B-000C, U+000E-001F, U+007F-009F, U+00A1-00A8, U+00AA, U+00AC, U+00AF, U+00B4-00B6, U+00B8-00BA, U+00BC-00C3, U+00C5-00D5, U+00D8-00DB, U+00DD-00DE, U+00E0-00E3, U+00E5-00F5, U+00F7-00FB, U+00FD-00FF, U+0131, U+0152-0153, U+02BB, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-2008, U+200A-200F, U+2015-2017, U+201B, U+201F-2021, U+2023-2025, U+2027-202E, U+2030-206F, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* jetbrains-mono-500 latin, core */
+@font-face {
+	font-family: "JetBrains Mono";
+	font-style: normal;
+	font-display: swap;
+	font-weight: 500;
+	src: url("../assets/fonts/jetbrains-mono-500-latin-core.woff2?no-inline") format("woff2");
+	unicode-range:
+		U+0009-000A, U+000D, U+0020-007E, U+00A0, U+00A9, U+00AB, U+00AD-00AE, U+00B0-00B3, U+00B7, U+00BB, U+00C4, U+00D6-00D7, U+00DC, U+00DF, U+00E4, U+00F6, U+00FC, U+02BC, U+2009, U+2010-2014, U+2018-201A, U+201C-201E, U+2022, U+2026, U+202F, U+20AC, U+2122;
+}

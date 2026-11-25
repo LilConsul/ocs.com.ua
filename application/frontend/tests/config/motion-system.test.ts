@@ -63,16 +63,6 @@ describe("one motion system", () => {
 			.map((f) => rel(f.path));
 		expect(offenders).toEqual([]);
 	});
-
-	it("lets elements override the reveal speed only with a shared speed", () => {
-		const shared = new Set(["0.15", "0.3", "0.7"]);
-		const bad = files.flatMap((f) =>
-			[...f.text.matchAll(/--reveal-duration:\s*([\d.]+)/g)]
-				.filter((m) => !shared.has(m[1]))
-				.map((m) => `${rel(f.path)}: ${m[1]}`)
-		);
-		expect(bad).toEqual([]);
-	});
 });
 
 describe("card hover", () => {
@@ -85,5 +75,13 @@ describe("card hover", () => {
 			)
 			.map((f) => rel(f.path));
 		expect(offenders).toEqual([]);
+	});
+});
+
+describe("canvas field", () => {
+	it("takes its size from the ResizeObserver entry, not a layout read", () => {
+		const text = files.find((f) => rel(f.path) === "components/TechnicalField.astro")?.text ?? "";
+		expect(text).not.toContain("getBoundingClientRect");
+		expect(text).toContain("contentRect");
 	});
 });

@@ -14,9 +14,22 @@ interface Props {
 	coverImage?: ImageMetadata;
 	/** Position in the grid, used to stagger the scroll reveal. */
 	index?: number;
+	/** Heading level of the title: h2 when the cards directly follow the page h1, else h3. */
+	headingLevel?: "h2" | "h3";
+	/** First row of the index: the cover loads right away and the card shows from the first frame
+	 * (no scroll reveal) */
+	eager?: boolean;
 }
 
-const { entry, lang, readMinutes, coverImage, index = 0 } = Astro.props;
+const {
+	entry,
+	lang,
+	readMinutes,
+	coverImage,
+	index = 0,
+	headingLevel: Heading = "h3",
+	eager = false,
+} = Astro.props;
 const _ = getInlineTranslations(lang);
 const slug = getWikiSlug(entry);
 const title = entry.data.title;
@@ -40,7 +53,10 @@ const updatedText = updated
 {/* Four rows shared with the other cards of the grid row (subgrid), so the links line up */}
 <a
 	href={`/${lang}/wiki/${slug}/`}
-	class="card-hover catalogue-trace reveal group bg-background border-border-subtle/70 focus-visible:outline-secondary relative row-span-4 grid grid-rows-subgrid gap-y-0 overflow-hidden rounded-xl border shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2"
+	class:list={[
+		"card-hover catalogue-trace group bg-background border-border-subtle/70 focus-visible:outline-secondary relative row-span-4 grid grid-rows-subgrid gap-y-0 overflow-hidden rounded-xl border shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2",
+		!eager && "reveal",
+	]}
 	style={`--i:${index % 3}`}
 	data-wiki-item
 	data-wiki-text={`${title} ${stripInlineCode(description)}`.toLowerCase()}
@@ -52,10 +68,11 @@ const updatedText = updated
 				alt=""
 				width={coverImage.width}
 				height={coverImage.height}
-				widths={[480, 960]}
-				sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+				widths={[480, 768, 960]}
+				sizes="(min-width: 1280px) 387px, (min-width: 1024px) calc(33.33vw - 2.45rem), (min-width: 768px) calc(50vw - 2.8rem), 91.5vw"
 				decoding="async"
-				loading="lazy"
+				loading={eager ? "eager" : "lazy"}
+				fetchpriority={eager && index === 0 ? "high" : undefined}
 				class="size-full object-cover"
 			/>
 		</div>
@@ -81,9 +98,9 @@ const updatedText = updated
 				</>
 			)}
 		</p>
-		<h3 class="font-headline-lg text-foreground m-0 mt-2 text-lg leading-snug font-semibold tracking-tight text-pretty">
+		<Heading class="font-headline-lg text-foreground m-0 mt-2 text-lg leading-snug font-semibold tracking-tight text-pretty">
 			{title}
-		</h3>
+		</Heading>
 	</div>
 
 	<p class="font-body-md text-industrial-gray m-0 px-5 pt-2.5 text-sm leading-relaxed text-pretty sm:px-6">

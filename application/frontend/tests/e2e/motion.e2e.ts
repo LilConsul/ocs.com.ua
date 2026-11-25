@@ -1,4 +1,4 @@
-import { expect, type Page, test } from "@playwright/test";
+import { expect, type Locator, type Page, test } from "@playwright/test";
 
 // The page loads Plerdy analytics from a third-party host. It is irrelevant to motion, needs the
 // network and adds main-thread work that can push the runtime past the 3 s failsafe, so the tests
@@ -267,5 +267,117 @@ test.describe("header scroll state", () => {
 		await page.evaluate(() => window.scrollTo(0, 0));
 		await expect(header).toHaveAttribute("data-scrolled", "false");
 		await expect.poll(shadowAlpha).toBe(0);
+	});
+});
+
+test.describe("first screen from the first frame", () => {
+	// Lighthouse ignores an element until it is visible, so nothing that can be the largest
+	// element of the first screen may start transparent. The scripts are blocked and the page is
+	// sampled as soon as the page is parsed and the stylesheet is in. The failsafe is held, so a slow
+	// runner cannot show everything (and drop `motion-on`) before the sample: the hidden state is
+	// still in force.
+	const firstCards = (page: Page) =>
+		page.locator("[data-product-grid]").first().locator("[data-product-item]:nth-of-type(-n+3)");
+	const wikiCards = (page: Page) => page.locator("[data-wiki-item]:nth-of-type(-n+3)");
+	const firstSection = (page: Page) => page.locator("main ol > li:has(> section)").first();
+
+	// `block` is the content that follows the hero, `count` how many elements it must match at least
+	const PAGES: { path: string; block?: (page: Page) => Locator; count?: number }[] = [
+		{ path: "/ua/" },
+		{ path: "/ua/contact/" },
+		{ path: "/ua/about/" },
+		{ path: CATEGORY, block: firstCards, count: 3 },
+		{ path: "/ua/catalogue/industry/food-beverage/", block: firstCards, count: 1 },
+		{ path: "/ua/catalogue/equipment/checkweigher/hc-a/" },
+		{ path: "/ua/wiki/", block: wikiCards, count: 3 },
+		{ path: "/ua/wiki/load-cell/" },
+		{ path: "/ua/privacy/", block: firstSection, count: 1 },
+		{ path: "/ua/terms/", block: firstSection, count: 1 },
+	];
+
+	/** Each element's opacity with that of all its ancestors, the way it is painted */
+	const paintedOpacity = (target: Locator) =>
+		target.evaluateAll((els) =>
+			els.map((el) => {
+				let opacity = 1;
+				for (let node: Element | null = el; node; node = node.parentElement) {
+					opacity *= Number(getComputedStyle(node).opacity);
+				}
+				return { name: `${el.tagName.toLowerCase()}.${el.className}`.slice(0, 80), opacity };
+			})
+		);
+
+	for (const { path, block, count = 0 } of PAGES) {
+		test(`${path}: the hero, eager pictures and what follows are opaque`, async ({ page }) => {
+			await holdFailsafe(page);
+			await page.route("**/_astro/**/*.js", (route) => route.abort());
+			await page.goto(path, { waitUntil: "domcontentloaded" });
+			await page.waitForFunction(() =>
+				[...document.querySelectorAll<HTMLLinkElement>('link[rel="stylesheet"]')].every(
+					(link) => link.sheet !== null
+				)
+			);
+			await expect(page.locator("html")).toHaveClass(/motion-on/);
+
+			const hero = await paintedOpacity(
+				page.locator('.hero-rise, .hero-media, img[loading="eager"]')
+			);
+			const following = block ? await paintedOpacity(block(page)) : [];
+			// Still in hidden-state mode, so this is not a pass by the failsafe
+			await expect(page.locator("html")).toHaveClass(/motion-on/);
+			// Neither part may pass vacuously
+			expect(hero.length).toBeGreaterThan(0);
+			expect(following.length).toBeGreaterThanOrEqual(count);
+			expect([...hero, ...following].filter((item) => item.opacity !== 1)).toEqual([]);
+		});
+	}
+
+	test("the first card of a listing loads its picture first", async ({ page }) => {
+		for (const path of [CATEGORY, "/ua/catalogue/industry/food-beverage/", "/ua/wiki/"]) {
+			await page.goto(path, { waitUntil: "domcontentloaded" });
+			const pictures = page.locator("[data-product-item] img, [data-wiki-item] img");
+			await expect(pictures.first()).toHaveAttribute("fetchpriority", "high");
+			await expect(pictures.first()).toHaveAttribute("loading", "eager");
+			await expect(
+				page.locator(':is([data-product-item], [data-wiki-item]) img[fetchpriority="high"]')
+			).toHaveCount(1);
+		}
+	});
+});
+
+test.describe("technical field canvas", () => {
+	/**
+	 * True once the bitmap matches the box's current size (so the observer has run for this
+	 * viewport) and the middle of it, away from the corner a stale default-size draw would
+	 * touch, holds ink.
+	 */
+	const drawnAtCurrentSize = (page: Page) =>
+		page
+			.locator("canvas[data-technical-field]")
+			.first()
+			.evaluate((el) => {
+				const canvas = el as HTMLCanvasElement;
+				const dpr = Math.min(window.devicePixelRatio || 1, 2);
+				// Within a pixel, and from the box itself: its width can be a fraction of a pixel
+				const box = canvas.getBoundingClientRect();
+				const near = (bitmap: number, side: number) => Math.abs(bitmap - side * dpr) <= 1;
+				const sized =
+					box.width > 0 && near(canvas.width, box.width) && near(canvas.height, box.height);
+				if (!sized) return false;
+				const [x, y] = [Math.floor(canvas.width / 4), Math.floor(canvas.height / 4)];
+				const [w, h] = [Math.floor(canvas.width / 2), Math.floor(canvas.height / 2)];
+				const data = canvas.getContext("2d")?.getImageData(x, y, w, h).data;
+				if (!data) return false;
+				for (let i = 3; i < data.length; i += 4) if (data[i] > 0) return true;
+				return false;
+			});
+
+	test("reduced motion: the static frame survives a resize", async ({ page }) => {
+		await page.emulateMedia({ reducedMotion: "reduce" });
+		await page.setViewportSize({ width: 1280, height: 800 });
+		await page.goto(HOME);
+		await expect.poll(() => drawnAtCurrentSize(page), { timeout: 15_000 }).toBe(true);
+		await page.setViewportSize({ width: 900, height: 700 });
+		await expect.poll(() => drawnAtCurrentSize(page), { timeout: 15_000 }).toBe(true);
 	});
 });

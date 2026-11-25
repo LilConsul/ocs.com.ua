@@ -73,9 +73,10 @@ const tocHeadings = doc.sections.map((section) => ({
 			</div>
 
 			<div class="max-w-4xl min-w-0 xl:col-start-2 xl:row-start-1">
+				{/* No scroll reveal: the first section can be the largest element of the first screen */}
 				<ol class="m-0 flex list-none flex-col gap-5 p-0">
 					{doc.sections.map((section) => (
-						<li class="reveal" style="--i:0;--reveal-duration:0.3">
+						<li>
 							<LegalSectionCard section={section} />
 						</li>
 					))}

@@ -133,14 +133,18 @@ const { class: className = "", opacity = 0.7, variant = "default" } = Astro.prop
 		let dpr = 1;
 		let start = performance.now();
 
-		const resize = () => {
-			const rect = canvas.getBoundingClientRect();
-			width = rect.width;
-			height = rect.height;
+		// The size comes from the ResizeObserver entry, so nothing here reads layout and forces a
+		// reflow. The observer reports once when it starts observing, which is the first size.
+		const resize = (nextWidth: number, nextHeight: number) => {
+			width = nextWidth;
+			height = nextHeight;
 			dpr = Math.min(window.devicePixelRatio || 1, 2);
 			canvas.width = Math.round(width * dpr);
 			canvas.height = Math.round(height * dpr);
 			context.setTransform(dpr, 0, 0, dpr, 0, 0);
+			// Setting canvas.width clears it. Animated fields repaint on the next frame; the
+			// reduced-motion field draws once, so it must repaint here.
+			if (reduceMotion.matches) draw(performance.now());
 		};
 
 		const draw = (now: number) => {
@@ -218,9 +222,11 @@ const { class: className = "", opacity = 0.7, variant = "default" } = Astro.prop
 			draw(start);
 		};
 
-		resize();
 		startDrawing();
-		new ResizeObserver(resize).observe(canvas);
+		new ResizeObserver((entries) => {
+			const entry = entries[entries.length - 1];
+			if (entry) resize(entry.contentRect.width, entry.contentRect.height);
+		}).observe(canvas);
 		reduceMotion.addEventListener("change", startDrawing);
 	}
 </script>

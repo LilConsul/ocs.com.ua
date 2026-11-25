@@ -8,6 +8,13 @@ test.beforeEach(async ({ page }) => {
 const CATEGORY = "/ua/catalogue/equipment/checkweigher/";
 /** Image wrapper of the first product card on a category page */
 const firstCardWrapper = (page: Page) => page.locator("[data-product-item] .skeleton").first();
+/**
+ * Image wrapper of the first product card with a lazy picture. The first row of cards is eager
+ * (it can be the largest element of the first screen) and never shows the skeleton hiding, so
+ * the skeleton states are checked on a card further down.
+ */
+const lazyCardWrapper = (page: Page) =>
+	page.locator('[data-product-item] .skeleton:has(> img[loading="lazy"])').first();
 
 /**
  * Holds back the requests that match `pattern` (and `only` accepts, or all of them) until the
@@ -57,7 +64,7 @@ const skeletonImageOpacities = (page: Page) =>
 		.evaluateAll((els) => els.map((el) => Number(getComputedStyle(el).opacity)));
 
 /**
- * The URLs of the first card's picture (its src and every srcset file), read in a separate context
+ * The URLs of the first lazy card's picture (its src and every srcset file), read in a separate context
  * with scripts off, so nothing is cached for the page under test. Holding back only these keeps
  * the page's other pictures loading normally: delaying every image can tie up the browser's
  * connections (seen in Firefox).
@@ -67,7 +74,7 @@ async function firstCardImageUrls(browser: Browser): Promise<string[]> {
 	const probePage = await probe.newPage();
 	await probePage.route("**/*.webp", (route) => route.abort());
 	await probePage.goto(CATEGORY, { waitUntil: "domcontentloaded" });
-	const urls = await firstCardWrapper(probePage)
+	const urls = await lazyCardWrapper(probePage)
 		.locator("img")
 		.evaluate((img) => {
 			const image = img as HTMLImageElement;
@@ -86,7 +93,8 @@ test.describe("image skeletons", () => {
 		await page.goto(CATEGORY, { waitUntil: "domcontentloaded" });
 		await expect(page.locator("html")).toHaveClass(/skeleton-on/);
 
-		const wrapper = firstCardWrapper(page);
+		const wrapper = lazyCardWrapper(page);
+		await wrapper.scrollIntoViewIfNeeded();
 		const img = wrapper.locator("img");
 		await expect(wrapper).toHaveClass(/\bskeleton\b/);
 		await expect(wrapper).not.toHaveAttribute("data-loaded", /.*/);
@@ -124,7 +132,8 @@ test.describe("image skeletons", () => {
 		// Deferred scripts hold up domcontentloaded, so only wait for the page to start
 		await page.goto(CATEGORY, { waitUntil: "commit" });
 
-		const wrapper = firstCardWrapper(page);
+		const wrapper = lazyCardWrapper(page);
+		await wrapper.scrollIntoViewIfNeeded();
 		const img = wrapper.locator("img");
 		await expect(page.locator("html")).toHaveClass(/skeleton-on/);
 		await expect(wrapper).not.toHaveAttribute("data-loaded", /.*/);
@@ -153,7 +162,8 @@ test.describe("image skeletons", () => {
 		const releaseImages = holdImages(page, (url) => urls.includes(new URL(url).pathname));
 		await page.goto(CATEGORY, { waitUntil: "domcontentloaded" });
 
-		const wrapper = firstCardWrapper(page);
+		const wrapper = lazyCardWrapper(page);
+		await wrapper.scrollIntoViewIfNeeded();
 		const img = wrapper.locator("img");
 		// The placeholder shows while loading, without the pulse
 		await expect(page.locator("html")).toHaveClass(/skeleton-on/);

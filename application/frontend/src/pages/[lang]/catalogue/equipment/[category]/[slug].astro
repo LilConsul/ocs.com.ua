@@ -5,6 +5,7 @@ import DatasheetModal from "@/components/catalogue/DatasheetModal.astro";
 import ProductGallery from "@/components/catalogue/ProductGallery.astro";
 import ProductSpecsTable from "@/components/catalogue/ProductSpecsTable.astro";
 import RelatedEquipment from "@/components/catalogue/RelatedEquipment.astro";
+import MaterialIcon from "@/components/MaterialIcon.astro";
 import companyData from "@/data/company.json";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import Layout from "@/layouts/Layout.astro";
@@ -182,16 +183,14 @@ const shareImage = shareImages[0];
 					class="gap-gutter grid grid-cols-1 items-start lg:grid-cols-12"
 					aria-label={_("Product Overview")}
 				>
-					<div class="reveal lg:col-span-7" style="--i:0">
+					{/* The photo is the largest element of the first screen: no scroll reveal, it shows at once */}
+					<div class="lg:col-span-7">
 						<ProductGallery images={gallery} title={title} lang={lang as Lang} />
 					</div>
 
 					<div class="gap-gutter flex flex-col lg:col-span-5">
 						{description && (
-							<p
-								class="reveal font-body-md text-industrial-gray text-sm leading-relaxed md:text-base"
-								style="--i:1"
-							>
+							<p class="font-body-md text-industrial-gray text-sm leading-relaxed md:text-base">
 								{description}
 							</p>
 						)}
@@ -221,12 +220,7 @@ const shareImage = shareImages[0];
 									<p class="text-foreground text-sm font-medium">{contactPerson.name}</p>
 								)}
 								<div class="flex items-center gap-2">
-									<span
-										class="material-symbols-outlined text-secondary text-[18px]"
-										aria-hidden="true"
-									>
-										call
-									</span>
+									<MaterialIcon name="call" class="text-secondary" />
 									<a
 										href={`tel:${companyData.phone.replace(/[^\d+]/g, "")}`}
 										class="font-technical-data text-foreground hover:text-secondary text-sm font-semibold transition-colors"
@@ -236,12 +230,7 @@ const shareImage = shareImages[0];
 								</div>
 								{companyData.email && (
 									<div class="flex items-center gap-2">
-										<span
-											class="material-symbols-outlined text-secondary text-[18px]"
-											aria-hidden="true"
-										>
-											mail
-										</span>
+										<MaterialIcon name="mail" class="text-secondary" />
 										<a
 											href={`mailto:${companyData.email}`}
 											class="font-technical-data text-industrial-gray hover:text-secondary text-xs font-medium transition-colors"
@@ -257,20 +246,16 @@ const shareImage = shareImages[0];
 							<div class="flex flex-col gap-2.5 pt-1">
 								<a href={`/${lang}/contact/`} class="btn-primary press group w-full">
 									{_("Request Consultation")}
-									<span
-										class="material-symbols-outlined text-[18px] transition-transform duration-(--dur-fast) group-hover:translate-x-1"
-										aria-hidden="true"
-									>
-										arrow_forward
-									</span>
+									<MaterialIcon
+										name="arrow_forward"
+										class="transition-transform duration-(--dur-fast) group-hover:translate-x-1"
+									/>
 								</a>
 
 								{datasheetAvailable && (
 									<>
 										<button id="datasheet-open" type="button" class="btn-secondary press w-full">
-											<span class="material-symbols-outlined text-[18px]" aria-hidden="true">
-												download
-											</span>
+											<MaterialIcon name="download" />
 											{_("Technical Datasheet")}
 										</button>
 										<noscript>

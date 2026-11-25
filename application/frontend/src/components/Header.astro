@@ -1,6 +1,9 @@
 ---
 import { SITE_DEV_NOTICE } from "astro:env/server";
 import { ArrowRight, Menu, X } from "@lucide/astro";
+import logoEn from "@/assets/icons/logo-en.svg?url";
+import logoUa from "@/assets/icons/logo-ua.svg?url";
+import MaterialIcon from "@/components/MaterialIcon.astro";
 import companyData from "@/data/company.json";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { categoryUrl, industryUrl } from "@/lib/catalogue-urls";
@@ -66,7 +69,7 @@ const isActive = (pattern: string) => {
 >
 	{/* High-Contrast Top Development Notice Bar (feature flag: SITE_DEV_NOTICE) */}
 	{SITE_DEV_NOTICE && (
-		<aside
+		<div
 			id="dev-notice-banner"
 			class="relative z-50 flex items-center justify-between border-b border-amber-500/40 bg-amber-400 px-4 py-2 text-xs font-semibold text-neutral-950 shadow-xs dark:bg-amber-500 dark:text-neutral-950"
 			role="status"
@@ -91,18 +94,21 @@ const isActive = (pattern: string) => {
 					aria-label={_("Close notification")}
 					title={_("Close notification")}
 				>
-					<span class="material-symbols-outlined block text-[18px]">close</span>
+					<MaterialIcon name="close" />
 				</button>
 			</div>
-		</aside>
+		</div>
 	)}
 
 	{/* Main Navigation Bar */}
-	<nav class="mx-auto flex h-20 max-w-7xl items-center justify-between px-8">
+	<nav
+		aria-label={_("Main navigation")}
+		class="mx-auto flex h-20 max-w-7xl items-center justify-between px-8"
+	>
 		{/* Logo */}
 		<a href={`/${lang}/`} class="shrink-0 transition-opacity hover:opacity-80">
 			<img
-				src={`/assets/icons/logo-${lang}.svg`}
+				src={lang === "ua" ? logoUa : logoEn}
 				alt={companyData.name[currentLang as "en" | "ua"] ?? companyData.name.en}
 				width="220"
 				height="40"

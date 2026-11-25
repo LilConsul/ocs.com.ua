@@ -4,6 +4,7 @@ import type { ImageMetadata } from "astro";
 import CatalogueBand from "@/components/catalogue/CatalogueBand.astro";
 import CategoryHeader from "@/components/catalogue/CategoryHeader.astro";
 import ProductCard from "@/components/catalogue/ProductCard.astro";
+import MaterialIcon from "@/components/MaterialIcon.astro";
 import companyData from "@/data/company.json";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import Layout from "@/layouts/Layout.astro";
@@ -146,9 +147,7 @@ const structuredData = createPageGraph({
 						id={`industry-group-${category.slug}`}
 						class="font-headline-lg text-foreground mb-6 flex items-center gap-3 text-xl font-semibold tracking-tight"
 					>
-						<span class="material-symbols-outlined text-secondary text-[22px]" aria-hidden="true">
-							{category.icon || "category"}
-						</span>
+						<MaterialIcon name={category.icon || "category"} class="text-secondary" />
 						{category.title}
 					</h2>
 					<div data-product-grid class="gap-gutter grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">

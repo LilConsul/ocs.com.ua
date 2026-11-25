@@ -76,7 +76,7 @@ grep -o "\.md)" dist/client/llms.txt | wc -l            # copies linked from /ll
 
 - **`<lastmod>` in the sitemap:** the date of the last commit touching each page's content or data files (`scripts/seo-build.mjs`). Builds from a shallow clone leave it out instead of dating every page the same.
 
-- **Caching:** hashed `/_astro/` files are cached for a year (`public/.htaccess`). Page speed counts toward search ranking.
+- **Caching:** hashed `/_astro/` files are cached for a year (`public/.htaccess`). Page speed counts toward search ranking. The header logos live in `src/assets/icons/` and go through the build too (small SVGs are inlined into the page, so they need no request).
 
 - **IndexNow:** with `INDEXNOW_KEY` set, the build writes `/<key>.txt`. After a production deploy, run:
 

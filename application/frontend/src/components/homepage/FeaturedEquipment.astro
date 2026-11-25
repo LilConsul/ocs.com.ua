@@ -4,6 +4,7 @@ import { getCollection } from "astro:content";
 import { ArrowRight } from "@lucide/astro";
 import { getInlineTranslations, type Lang } from "@/i18n";
 import { categoryUrl, productUrl } from "@/lib/catalogue-urls";
+import { containedWidth } from "@/lib/contain-scale";
 import {
 	type EquipmentEntry,
 	flattenSpecs,
@@ -28,6 +29,27 @@ const groups = getFeaturedGroups(allEntries, lang, getCategoriesForLocale(lang))
 const image = (entry: EquipmentEntry) => getGallery(entry, allEntries)?.[0] ?? PLACEHOLDER_IMAGE;
 const photos = (entry: EquipmentEntry) =>
 	(getGallery(entry, allEntries) ?? [PLACEHOLDER_IMAGE]).slice(0, 3);
+type Photo = { width: number; height: number };
+/** Sizes of an object-contain picture limited by its aspect (height times aspect, dropped for an
+ * unknown size) and by the width of its slot */
+const limitedBy = (src: Photo, height: number, ...slot: string[]) =>
+	`min(${[containedWidth(src, height), ...slot]
+		.filter((part) => part !== null)
+		.map((part) => (typeof part === "number" ? `${part}px` : part))
+		.join(", ")})`;
+// Measured boxes (412 to 1440 px wide, see tests/e2e/weight.e2e.ts): the spotlight stage is 207 px
+// tall on phones (h-64 minus padding) and capped at 320 px from 640 px (max-h-80); its width is
+// the card (100vw minus page margins and padding), half the card from 640 px, a third from 1024
+// px (351 px at most). A row picture is 112 px tall (max-h-28) in a slot 87 px wide on phones
+// (w-28 minus padding) and 119 px from 640 px (w-36 minus padding and border)
+const spotlightSizes = (src: Photo) =>
+	[
+		`(min-width: 1024px) ${limitedBy(src, 320, "351px", "calc(33.33vw - 4.7rem)")}`,
+		`(min-width: 640px) ${limitedBy(src, 320, "calc(50vw - 4.75rem)")}`,
+		limitedBy(src, 207, "calc(100vw - 5.2rem)"),
+	].join(", ");
+const rowSizes = (src: Photo) =>
+	`(min-width: 640px) ${limitedBy(src, 112, "119px")}, ${limitedBy(src, 112, "87px")}`;
 const href = (entry: EquipmentEntry) => productUrl(lang, getCategory(entry), getSlug(entry));
 const keySpecs = (entry: EquipmentEntry) =>
 	flattenSpecs(entry.data.specs)
@@ -113,8 +135,8 @@ const titleParts = (entry: EquipmentEntry) => {
 											<Image
 												src={src}
 												alt={i === 0 ? spotlight.data.title : `${spotlight.data.title} - ${i + 1}`}
-												widths={[400, 800]}
-												sizes="(min-width: 1024px) 400px, 80vw"
+												widths={[280, 440, 640, 800]}
+												sizes={spotlightSizes(src)}
 												format="webp"
 												class="relative h-full max-h-80 w-full object-contain mix-blend-multiply"
 												loading="lazy"
@@ -200,8 +222,8 @@ const titleParts = (entry: EquipmentEntry) => {
 												<Image
 													src={src}
 													alt={i === 0 ? entry.data.title : `${entry.data.title} - ${i + 1}`}
-													widths={[144, 288]}
-													sizes="144px"
+													widths={[112, 160, 224]}
+													sizes={rowSizes(src)}
 													format="webp"
 													class="h-full max-h-28 w-full object-contain mix-blend-multiply"
 													loading="lazy"
