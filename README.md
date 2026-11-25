@@ -95,6 +95,7 @@ ______________________________________________________________________
 | [Environment](docs/info/environment.md)             | Every environment variable, feature flags, indexing, GitHub OAuth app, `make env`        |
 | [Deployment](docs/info/deployment.md)               | CI, the prod and dev pipelines, releases and rollback, server layout, GitHub secrets     |
 | [LLM indexing](docs/info/llm-indexing.md)           | `/llms.txt`, Markdown page copies, crawler rules, page coverage, old WordPress redirects |
+| [PageSpeed](docs/info/pagespeed.md)                 | How the scores were reached, what each change gave, rules that keep the site fast        |
 | [Production launch](docs/info/production-launch.md) | How ocs.com.ua was switched from WordPress, and what to watch in the first weeks         |
 
 Contributor notes for AI assistants live in [`AGENTS.md`](AGENTS.md).
