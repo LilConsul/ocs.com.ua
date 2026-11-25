@@ -1,6 +1,6 @@
 # PageSpeed 100 design
 
-Date: 2026-11-24. Status: draft for approval.
+Date: 2026-11-24. Status: done. Mobile 98 to 100 on dev; the owner kept approach A and declined B.
 
 ## Intent
 
