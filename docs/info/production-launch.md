@@ -23,7 +23,7 @@ After launch, a deploy that fails its health check goes back to the previous rel
 
 ### Third parties
 
-Plerdy loads on the first interaction (scroll, pointer, touch, key or click), not on page load. The Google map on the contact page loads when it nears the viewport.
+Plerdy loads on the first real input (wheel, pointer move, touch, key or click), not on page load. The Google map on the contact page loads when it nears the viewport.
 
 ## Before launch
 

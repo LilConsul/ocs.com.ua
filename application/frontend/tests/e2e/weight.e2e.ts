@@ -186,10 +186,58 @@ async function countRequests(page: Page, pattern: RegExp): Promise<() => number>
 }
 
 test.describe("on demand", () => {
-	test("Plerdy waits for an interaction and loads once", async ({ page }) => {
+	// Records what reaches window, so a failure names the event that started Plerdy
+	const recordEvents = () => {
+		const seen: string[] = [];
+		(window as unknown as { __seen: string[] }).__seen = seen;
+		for (const type of [
+			"scroll",
+			"wheel",
+			"pointermove",
+			"pointerdown",
+			"touchstart",
+			"keydown",
+			"click",
+		])
+			window.addEventListener(
+				type,
+				(event) => {
+					const e = event as PointerEvent;
+					const target = event.target as Element | Document | null;
+					const name = target && "tagName" in target ? target.tagName : "document";
+					seen.push(
+						`${type} trusted=${event.isTrusted} target=${name} move=${e.movementX},${e.movementY} t=${Math.round(performance.now())}`
+					);
+				},
+				{ capture: true, passive: true }
+			);
+	};
+	const seenEvents = (page: Page) =>
+		page.evaluate(() => (window as unknown as { __seen?: string[] }).__seen ?? []);
+
+	test("Plerdy waits for a real interaction and loads once", async ({ page }) => {
 		const loads = await countRequests(page, PLERDY);
+		await page.addInitScript(recordEvents);
 		await page.goto("/ua/", { waitUntil: "networkidle" });
-		expect(loads()).toBe(0);
+		const events = JSON.stringify(await seenEvents(page));
+		expect(loads(), `before any input, events seen: ${events}`).toBe(0);
+
+		// Programmatic scrolling and made-up events are not a visitor
+		await page.evaluate(() => {
+			window.scrollTo(0, 400);
+			for (const selector of ["[data-marquee-viewport]", ".featured-tablist"]) {
+				const el = document.querySelector(selector);
+				if (el) el.scrollLeft = 40;
+			}
+			for (const type of ["wheel", "pointermove", "pointerdown", "touchstart", "keydown", "click"])
+				window.dispatchEvent(new Event(type));
+			document.body.click();
+		});
+		await page.waitForTimeout(500);
+		expect(
+			loads(),
+			`after scripted input, events seen: ${JSON.stringify(await seenEvents(page))}`
+		).toBe(0);
 
 		await page.mouse.move(100, 100);
 		await page.mouse.wheel(0, 300);
@@ -216,8 +264,12 @@ test.describe("on demand", () => {
 			await page.waitForTimeout(500);
 			expect(loads()).toBe(before);
 		} else {
-			// Restoring the scroll position counts as an interaction, so it may load already
-			expect(loads()).toBeLessThanOrEqual(before + 1);
+			// Restoring the scroll position is not a visitor's input
+			await page.waitForTimeout(500);
+			expect(
+				loads(),
+				`after going back, events seen: ${JSON.stringify(await seenEvents(page))}`
+			).toBe(before);
 			await page.mouse.wheel(0, 300);
 			await expect.poll(loads, SLOW).toBe(before + 1);
 			await page.waitForTimeout(500);
@@ -225,13 +277,39 @@ test.describe("on demand", () => {
 		}
 	});
 
-	test("several interactions in one frame load Plerdy once", async ({ page }) => {
+	test("a mouse move, a key press and a tap each start Plerdy", async ({ browser, page }) => {
+		const inputs: [string, (p: Page) => Promise<void>][] = [
+			["mouse move", (p) => p.mouse.move(120, 140, { steps: 3 })],
+			["key press", (p) => p.keyboard.press("Tab")],
+		];
+		for (const [name, act] of inputs) {
+			const fresh = await page.context().newPage();
+			const loads = await countRequests(fresh, PLERDY);
+			await fresh.goto("/ua/", { waitUntil: "networkidle" });
+			expect(loads(), name).toBe(0);
+			await act(fresh);
+			await expect.poll(loads, SLOW).toBe(1);
+			await fresh.close();
+		}
+		const context = await browser.newContext({ hasTouch: true, viewport: VIEWPORTS.mobile });
+		const touch = await context.newPage();
+		const loads = await countRequests(touch, PLERDY);
+		await touch.goto("/ua/", { waitUntil: "networkidle" });
+		expect(loads()).toBe(0);
+		await touch.touchscreen.tap(20, 300);
+		await expect.poll(loads, SLOW).toBe(1);
+		await context.close();
+	});
+
+	test("several real inputs in one go load Plerdy once", async ({ page }) => {
 		const loads = await countRequests(page, PLERDY);
 		await page.goto("/en/", { waitUntil: "networkidle" });
-		await page.evaluate(() => {
-			for (const type of ["scroll", "pointermove", "pointerdown", "touchstart", "keydown", "click"])
-				window.dispatchEvent(new Event(type));
-		});
+		await Promise.all([
+			page.mouse.move(200, 200),
+			page.mouse.down().then(() => page.mouse.up()),
+			page.keyboard.press("Tab"),
+			page.mouse.wheel(0, 200),
+		]);
 		await expect.poll(loads, SLOW).toBe(1);
 		await page.waitForTimeout(500);
 		expect(loads()).toBe(1);

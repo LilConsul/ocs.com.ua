@@ -31,8 +31,14 @@ describe("plerdy on demand", () => {
 	});
 
 	it("listens to the six events on window, capture and passive", () => {
-		for (const type of ["scroll", "pointermove", "pointerdown", "touchstart", "keydown", "click"])
+		for (const type of ["wheel", "pointermove", "pointerdown", "touchstart", "keydown", "click"])
 			expect(script).toContain(`"${type}"`);
 		expect(script).toContain("capture: true, passive: true");
+	});
+
+	it("does not use scroll and ignores scripted events and motionless pointermoves", () => {
+		expect(script).not.toContain('"scroll"');
+		expect(script).toContain("!event.isTrusted");
+		expect(script).toMatch(/movementX === 0 && event\.movementY === 0/);
 	});
 });

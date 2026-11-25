@@ -127,7 +127,7 @@ Rule: nothing that can be the largest element of the first screen starts invisib
 
 ### Plerdy
 
-Load it on the first scroll, pointer move, touch, click or key press instead of at page load. Same
+Load it on the first real input (wheel, pointer move, touch, click or key press; scripted and scroll events do not count) instead of at page load. Same
 snippet and site code, once per page. Visitors who never interact are not recorded; that is
 accepted. There is no timer fallback, because a timer can land inside a Lighthouse run.
 
