@@ -1,4 +1,4 @@
-import { expect, type Page, test } from "@playwright/test";
+import { expect, type Locator, type Page, test } from "@playwright/test";
 
 // The page loads Plerdy analytics from a third-party host. It is irrelevant to motion, needs the
 // network and adds main-thread work that can push the runtime past the 3 s failsafe, so the tests
@@ -273,22 +273,45 @@ test.describe("header scroll state", () => {
 test.describe("first screen from the first frame", () => {
 	// Lighthouse ignores an element until it is visible, so nothing that can be the largest
 	// element of the first screen may start transparent. The scripts are blocked and the page is
-	// sampled as soon as the stylesheet is in. The failsafe is held, so a slow runner cannot show
-	// everything (and drop `motion-on`) before the sample: the hidden state is still in force.
-	const PAGES = [
-		"/ua/",
-		"/ua/contact/",
-		"/ua/about/",
-		CATEGORY,
-		"/ua/catalogue/equipment/checkweigher/hc-a/",
-		"/ua/wiki/load-cell/",
+	// sampled as soon as the page is parsed and the stylesheet is in. The failsafe is held, so a slow
+	// runner cannot show everything (and drop `motion-on`) before the sample: the hidden state is
+	// still in force.
+	const firstCards = (page: Page) =>
+		page.locator("[data-product-grid]").first().locator("[data-product-item]:nth-of-type(-n+3)");
+	const wikiCards = (page: Page) => page.locator("[data-wiki-item]:nth-of-type(-n+3)");
+	const firstSection = (page: Page) => page.locator("main ol > li:has(> section)").first();
+
+	// `block` is the content that follows the hero, `count` how many elements it must match at least
+	const PAGES: { path: string; block?: (page: Page) => Locator; count?: number }[] = [
+		{ path: "/ua/" },
+		{ path: "/ua/contact/" },
+		{ path: "/ua/about/" },
+		{ path: CATEGORY, block: firstCards, count: 3 },
+		{ path: "/ua/catalogue/industry/food-beverage/", block: firstCards, count: 1 },
+		{ path: "/ua/catalogue/equipment/checkweigher/hc-a/" },
+		{ path: "/ua/wiki/", block: wikiCards, count: 3 },
+		{ path: "/ua/wiki/load-cell/" },
+		{ path: "/ua/privacy/", block: firstSection, count: 1 },
+		{ path: "/ua/terms/", block: firstSection, count: 1 },
 	];
 
-	for (const path of PAGES) {
-		test(`${path}: hero, eager pictures and the first cards are opaque`, async ({ page }) => {
+	/** Each element's opacity with that of all its ancestors, the way it is painted */
+	const paintedOpacity = (target: Locator) =>
+		target.evaluateAll((els) =>
+			els.map((el) => {
+				let opacity = 1;
+				for (let node: Element | null = el; node; node = node.parentElement) {
+					opacity *= Number(getComputedStyle(node).opacity);
+				}
+				return { name: `${el.tagName.toLowerCase()}.${el.className}`.slice(0, 80), opacity };
+			})
+		);
+
+	for (const { path, block, count = 0 } of PAGES) {
+		test(`${path}: the hero, eager pictures and what follows are opaque`, async ({ page }) => {
 			await holdFailsafe(page);
 			await page.route("**/_astro/**/*.js", (route) => route.abort());
-			await page.goto(path, { waitUntil: "commit" });
+			await page.goto(path, { waitUntil: "domcontentloaded" });
 			await page.waitForFunction(() =>
 				[...document.querySelectorAll<HTMLLinkElement>('link[rel="stylesheet"]')].every(
 					(link) => link.sheet !== null
@@ -296,33 +319,30 @@ test.describe("first screen from the first frame", () => {
 			);
 			await expect(page.locator("html")).toHaveClass(/motion-on/);
 
-			const effective = await page
-				.locator(
-					'.hero-rise, .hero-media, img[loading="eager"], [data-product-item]:nth-of-type(-n+3)'
-				)
-				.evaluateAll((els) =>
-					els.map((el) => {
-						let opacity = 1;
-						for (let node: Element | null = el; node; node = node.parentElement) {
-							opacity *= Number(getComputedStyle(node).opacity);
-						}
-						const own = el as HTMLElement;
-						return {
-							name: `${el.tagName.toLowerCase()}.${own.className}`.slice(0, 80),
-							opacity,
-						};
-					})
-				);
+			const hero = await paintedOpacity(
+				page.locator('.hero-rise, .hero-media, img[loading="eager"]')
+			);
+			const following = block ? await paintedOpacity(block(page)) : [];
 			// Still in hidden-state mode, so this is not a pass by the failsafe
 			await expect(page.locator("html")).toHaveClass(/motion-on/);
-			expect(effective.length).toBeGreaterThan(0);
-			if (path === CATEGORY) {
-				// The card part must not pass vacuously: the first three cards were really matched
-				expect(await page.locator("[data-product-item]:nth-of-type(-n+3)").count()).toBe(3);
-			}
-			expect(effective.filter((item) => item.opacity !== 1)).toEqual([]);
+			// Neither part may pass vacuously
+			expect(hero.length).toBeGreaterThan(0);
+			expect(following.length).toBeGreaterThanOrEqual(count);
+			expect([...hero, ...following].filter((item) => item.opacity !== 1)).toEqual([]);
 		});
 	}
+
+	test("the first card of a listing loads its picture first", async ({ page }) => {
+		for (const path of [CATEGORY, "/ua/catalogue/industry/food-beverage/", "/ua/wiki/"]) {
+			await page.goto(path, { waitUntil: "domcontentloaded" });
+			const pictures = page.locator("[data-product-item] img, [data-wiki-item] img");
+			await expect(pictures.first()).toHaveAttribute("fetchpriority", "high");
+			await expect(pictures.first()).toHaveAttribute("loading", "eager");
+			await expect(
+				page.locator(':is([data-product-item], [data-wiki-item]) img[fetchpriority="high"]')
+			).toHaveCount(1);
+		}
+	});
 });
 
 test.describe("technical field canvas", () => {
@@ -338,10 +358,11 @@ test.describe("technical field canvas", () => {
 			.evaluate((el) => {
 				const canvas = el as HTMLCanvasElement;
 				const dpr = Math.min(window.devicePixelRatio || 1, 2);
+				// Within a pixel, and from the box itself: its width can be a fraction of a pixel
+				const box = canvas.getBoundingClientRect();
+				const near = (bitmap: number, side: number) => Math.abs(bitmap - side * dpr) <= 1;
 				const sized =
-					canvas.clientWidth > 0 &&
-					canvas.width === Math.round(canvas.clientWidth * dpr) &&
-					canvas.height === Math.round(canvas.clientHeight * dpr);
+					box.width > 0 && near(canvas.width, box.width) && near(canvas.height, box.height);
 				if (!sized) return false;
 				const [x, y] = [Math.floor(canvas.width / 4), Math.floor(canvas.height / 4)];
 				const [w, h] = [Math.floor(canvas.width / 2), Math.floor(canvas.height / 2)];
