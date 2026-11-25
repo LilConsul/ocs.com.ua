@@ -107,8 +107,9 @@ test.describe("picture sizes", () => {
 				await page.evaluate((top) => window.scrollTo(0, top), y);
 				await page.waitForTimeout(60);
 			}
-			// The product gallery keeps its own widths; partner logos are a separate, fixed-size strip
-			const selector = ".skeleton:not(.product-gallery-container *, #partners *) img[srcset]";
+			// The gallery's 80 px thumbnails and lightbox, and the partner logos, keep fixed widths
+			const selector =
+				".skeleton:not(.gallery-thumb, #gallery-lightbox *, #partners *) img[srcset]";
 			const onScreen = (img: HTMLImageElement) => {
 				const r = img.getBoundingClientRect();
 				return r.width > 0 && r.right > 0 && r.left < innerWidth;

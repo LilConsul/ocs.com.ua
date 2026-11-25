@@ -48,6 +48,14 @@ test.describe("product gallery", () => {
 		await expect(main).toHaveJSProperty("complete", true);
 		expect(await main.evaluate((el) => Number(getComputedStyle(el).opacity))).toBe(1);
 
+		// The sizes follow the photo, whose aspect decides how wide it is painted
+		const sources: { srcset: string; sizes: string }[] = await page
+			.locator(".product-gallery-container")
+			.evaluate((el) => JSON.parse((el as HTMLElement).dataset.images ?? "[]"));
+		expect(sources[1].sizes).toBeTruthy();
+		await expect(main).toHaveAttribute("sizes", sources[1].sizes);
+		await expect(main).toHaveAttribute("srcset", sources[1].srcset);
+
 		// The arrows show on hover
 		await page.locator("[data-main-card]").hover();
 		await page.locator("#gallery-card-prev").click();
