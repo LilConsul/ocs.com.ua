@@ -273,7 +273,8 @@ test.describe("header scroll state", () => {
 test.describe("first screen from the first frame", () => {
 	// Lighthouse ignores an element until it is visible, so nothing that can be the largest
 	// element of the first screen may start transparent. The scripts are blocked and the page is
-	// sampled as soon as the stylesheet is in, well before the 3 s failsafe could show anything.
+	// sampled as soon as the stylesheet is in. The failsafe is held, so a slow runner cannot show
+	// everything (and drop `motion-on`) before the sample: the hidden state is still in force.
 	const PAGES = [
 		"/ua/",
 		"/ua/contact/",
@@ -285,6 +286,7 @@ test.describe("first screen from the first frame", () => {
 
 	for (const path of PAGES) {
 		test(`${path}: hero, eager pictures and the first cards are opaque`, async ({ page }) => {
+			await holdFailsafe(page);
 			await page.route("**/_astro/**/*.js", (route) => route.abort());
 			await page.goto(path, { waitUntil: "commit" });
 			await page.waitForFunction(() =>
@@ -311,9 +313,13 @@ test.describe("first screen from the first frame", () => {
 						};
 					})
 				);
-			// Still hidden-state mode: the failsafe has not shown everything yet, so this is not a pass by timeout
+			// Still in hidden-state mode, so this is not a pass by the failsafe
 			await expect(page.locator("html")).toHaveClass(/motion-on/);
 			expect(effective.length).toBeGreaterThan(0);
+			if (path === CATEGORY) {
+				// The card part must not pass vacuously: the first three cards were really matched
+				expect(await page.locator("[data-product-item]:nth-of-type(-n+3)").count()).toBe(3);
+			}
 			expect(effective.filter((item) => item.opacity !== 1)).toEqual([]);
 		});
 	}
