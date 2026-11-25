@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, type Page, test } from "@playwright/test";
 import { blockPlerdy, PAGES, VIEWPORTS } from "./pages";
 
 test.skip(({ browserName }) => browserName !== "chromium", "weight is browser independent");
@@ -158,4 +158,110 @@ test.describe("picture sizes", () => {
 			await context.close();
 		});
 	}
+});
+
+const PLERDY = /\/\/a\.plerdy\.com\/public\/js\/click\/main\.js/;
+const MAPS = /google\.com\/maps|maps\.google\.com/;
+
+// Count the requests and abort them: the real script is not wanted, only the request
+async function countRequests(page: Page, pattern: RegExp): Promise<() => number> {
+	let count = 0;
+	await page.route(pattern, (route) => {
+		count += 1;
+		return route.abort();
+	});
+	return () => count;
+}
+
+test.describe("on demand", () => {
+	test("Plerdy waits for an interaction and loads once", async ({ page }) => {
+		const loads = await countRequests(page, PLERDY);
+		await page.goto("/ua/", { waitUntil: "networkidle" });
+		expect(loads()).toBe(0);
+
+		await page.mouse.move(100, 100);
+		await page.mouse.wheel(0, 300);
+		await expect.poll(loads).toBe(1);
+		await page.locator("body").click({ position: { x: 5, y: 5 } });
+		await page.keyboard.press("Tab");
+		await page.mouse.wheel(0, 300);
+		// Give a second request every chance to show up
+		await page.waitForTimeout(500);
+		expect(loads()).toBe(1);
+
+		await page.evaluate(() => {
+			(window as unknown as { __kept: boolean }).__kept = true;
+		});
+		await page.goto("/ua/contact/", { waitUntil: "networkidle" });
+		const before = loads();
+		await page.goBack({ waitUntil: "networkidle" });
+		const restored = await page.evaluate(
+			() => (window as unknown as { __kept?: boolean }).__kept === true
+		);
+		if (restored) {
+			// Back/forward cache: the page keeps its one load
+			await page.mouse.wheel(0, 300);
+			await page.waitForTimeout(500);
+			expect(loads()).toBe(before);
+		} else {
+			// Restoring the scroll position counts as an interaction, so it may load already
+			expect(loads()).toBeLessThanOrEqual(before + 1);
+			await page.mouse.wheel(0, 300);
+			await expect.poll(loads).toBe(before + 1);
+			await page.waitForTimeout(500);
+			expect(loads()).toBe(before + 1);
+		}
+	});
+
+	test("several interactions in one frame load Plerdy once", async ({ page }) => {
+		const loads = await countRequests(page, PLERDY);
+		await page.goto("/en/", { waitUntil: "networkidle" });
+		await page.evaluate(() => {
+			for (const type of ["scroll", "pointermove", "pointerdown", "touchstart", "keydown", "click"])
+				window.dispatchEvent(new Event(type));
+		});
+		await expect.poll(loads).toBe(1);
+		await page.waitForTimeout(500);
+		expect(loads()).toBe(1);
+	});
+
+	test("the map waits until it is near", async ({ browser }) => {
+		const context = await browser.newContext({ viewport: VIEWPORTS.mobile });
+		const page = await context.newPage();
+		await blockPlerdy(page);
+		const requests = await countRequests(page, MAPS);
+		await page.addInitScript(() => {
+			(window as unknown as { __cls: number }).__cls = 0;
+			new PerformanceObserver((list) => {
+				for (const entry of list.getEntries() as unknown as {
+					value: number;
+					hadRecentInput: boolean;
+				}[])
+					if (!entry.hadRecentInput) (window as unknown as { __cls: number }).__cls += entry.value;
+			}).observe({ type: "layout-shift", buffered: true });
+		});
+		await page.goto("/ua/contact/", { waitUntil: "networkidle" });
+		expect(requests()).toBe(0);
+		const figure = page.locator("figure:has(iframe)");
+		await expect(figure.locator("iframe")).toBeHidden();
+		const before = await figure.boundingBox();
+		await figure.scrollIntoViewIfNeeded();
+		await expect.poll(requests).toBeGreaterThanOrEqual(1);
+		await expect(figure.locator("iframe")).toHaveAttribute("src", /maps\.google\.com/);
+		const after = await figure.boundingBox();
+		expect(Math.abs((after?.height ?? 0) - (before?.height ?? 0))).toBeLessThan(1);
+		const shift = await page.evaluate(() => (window as unknown as { __cls: number }).__cls);
+		expect(shift).toBe(0);
+		await context.close();
+	});
+
+	test("without JavaScript the map is a link", async ({ browser }) => {
+		const context = await browser.newContext({ javaScriptEnabled: false });
+		const page = await context.newPage();
+		await page.goto("/ua/contact/");
+		const link = page.locator('figure a[href^="https://www.google.com/maps/search/"]');
+		await expect(link).toBeVisible();
+		await expect(page.locator("figure iframe")).toBeHidden();
+		await context.close();
+	});
 });

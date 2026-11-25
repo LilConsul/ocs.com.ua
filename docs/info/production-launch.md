@@ -12,6 +12,7 @@ Still open (see the lists below):
 - Review the `review` entries of the old-address map.
 - Fill or hide the categories without products.
 - Legal check of the Plerdy text in the privacy policy, and the cookie consent decision.
+- Plerdy loads on the first interaction (scroll, pointer, touch, key or click), not on page load; the contact map loads when it nears the viewport.
 - Email delivery: DKIM, a stricter SPF (`~all`) and DMARC.
 - Archive WordPress once the new site has run for a while.
 

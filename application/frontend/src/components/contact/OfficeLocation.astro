@@ -15,6 +15,7 @@ const workingHours = companyData.workingHours[lang as "en" | "ua"] ?? companyDat
 const { street, city, country, postalCode } = companyData.address.en;
 const mapsQuery = encodeURIComponent(`${street}, ${city}, ${country} ${postalCode}`);
 const routeUrl = `https://www.google.com/maps/dir/?api=1&destination=${mapsQuery}`;
+const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
 // Keyless embed — works without a Maps API key
 const embedUrl = `https://maps.google.com/maps?q=${mapsQuery}&output=embed`;
 ---
@@ -87,16 +88,50 @@ const embedUrl = `https://maps.google.com/maps?q=${mapsQuery}&output=embed`;
 		{/* Map */}
 		<figure class="border-border-subtle/60 relative m-0 min-h-80 border-t lg:col-span-7 lg:min-h-105 lg:border-t-0 lg:border-l">
 			<iframe
-				src={embedUrl}
+				data-map-src={embedUrl}
+				hidden
 				title={_("Map showing OS-Technology Ukraine office location")}
 				width="100%"
 				height="100%"
 				class="absolute inset-0 h-full w-full"
 				style="border:0;"
-				loading="lazy"
 				referrerpolicy="no-referrer-when-downgrade"
 				allow="storage-access"
 			></iframe>
+			<noscript>
+				<div class="absolute inset-0 flex items-center justify-center p-5">
+					<a href={mapsUrl} target="_blank" rel="noopener noreferrer" class="btn-secondary press">
+						<MaterialIcon name="location_on" />
+						{_("Open in Google Maps")}
+					</a>
+				</div>
+			</noscript>
 		</figure>
 	</div>
 </section>
+
+<script>
+	// The map is heavy: it gets its address only when the figure is about to be seen
+	const figure = document.querySelector<HTMLElement>("figure:has(iframe[data-map-src])");
+	const frame = figure?.querySelector<HTMLIFrameElement>("iframe[data-map-src]");
+	if (figure && frame) {
+		const show = () => {
+			frame.src = frame.dataset.mapSrc ?? "";
+			frame.removeAttribute("data-map-src");
+			frame.hidden = false;
+		};
+		if ("IntersectionObserver" in window) {
+			const observer = new IntersectionObserver(
+				(entries) => {
+					if (!entries.some((entry) => entry.isIntersecting)) return;
+					observer.disconnect();
+					show();
+				},
+				{ rootMargin: "200px" }
+			);
+			observer.observe(figure);
+		} else {
+			show();
+		}
+	}
+</script>
