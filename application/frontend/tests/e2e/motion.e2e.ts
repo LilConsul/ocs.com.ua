@@ -326,14 +326,26 @@ test.describe("first screen from the first frame", () => {
 });
 
 test.describe("technical field canvas", () => {
-	const hasInk = (page: Page) =>
+	/**
+	 * True once the bitmap matches the box's current size (so the observer has run for this
+	 * viewport) and the middle of it, away from the corner a stale default-size draw would
+	 * touch, holds ink.
+	 */
+	const drawnAtCurrentSize = (page: Page) =>
 		page
 			.locator("canvas[data-technical-field]")
 			.first()
 			.evaluate((el) => {
 				const canvas = el as HTMLCanvasElement;
-				if (!(canvas.width && canvas.height)) return false;
-				const data = canvas.getContext("2d")?.getImageData(0, 0, canvas.width, canvas.height).data;
+				const dpr = Math.min(window.devicePixelRatio || 1, 2);
+				const sized =
+					canvas.clientWidth > 0 &&
+					canvas.width === Math.round(canvas.clientWidth * dpr) &&
+					canvas.height === Math.round(canvas.clientHeight * dpr);
+				if (!sized) return false;
+				const [x, y] = [Math.floor(canvas.width / 4), Math.floor(canvas.height / 4)];
+				const [w, h] = [Math.floor(canvas.width / 2), Math.floor(canvas.height / 2)];
+				const data = canvas.getContext("2d")?.getImageData(x, y, w, h).data;
 				if (!data) return false;
 				for (let i = 3; i < data.length; i += 4) if (data[i] > 0) return true;
 				return false;
@@ -343,8 +355,8 @@ test.describe("technical field canvas", () => {
 		await page.emulateMedia({ reducedMotion: "reduce" });
 		await page.setViewportSize({ width: 1280, height: 800 });
 		await page.goto(HOME);
-		await expect.poll(() => hasInk(page), { timeout: 15_000 }).toBe(true);
+		await expect.poll(() => drawnAtCurrentSize(page), { timeout: 15_000 }).toBe(true);
 		await page.setViewportSize({ width: 900, height: 700 });
-		await expect.poll(() => hasInk(page), { timeout: 15_000 }).toBe(true);
+		await expect.poll(() => drawnAtCurrentSize(page), { timeout: 15_000 }).toBe(true);
 	});
 });
