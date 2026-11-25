@@ -1,19 +1,27 @@
 # PageSpeed
 
-How the site was brought from 77 to the edge of 100 in PageSpeed Insights, what each change gave, and the rules that keep it there. Design and plan: [spec](../superpowers/specs/2026-11-24-pagespeed-100-design.md), [plan](../superpowers/plans/2026-11-24-pagespeed-100.md).
+How the site was brought from 68 to 81 up to 98 to 100 in PageSpeed Insights on mobile, what each change gave, and the rules that keep it there. Design and plan: [spec](../superpowers/specs/2026-11-24-pagespeed-100-design.md), [plan](../superpowers/plans/2026-11-24-pagespeed-100.md).
 
 ## Result
 
-| Category               | Before                                  | After                                                |
-| ---------------------- | --------------------------------------- | ---------------------------------------------------- |
-| Performance, mobile    | 68 to 81 (PageSpeed Insights)           | 98 to 100 in quiet lab runs, PageSpeed not rerun yet |
-| Performance, desktop   | 98 (home, PageSpeed Insights)           | 100 for home and product in the lab, contact 94      |
-| Accessibility          | 84 to 97                                | 100 on every measured page type                      |
-| Best Practices         | 100                                     | 100                                                  |
-| SEO                    | 100                                     | 100                                                  |
-| Agentic Browsing (LLM) | 2 of 3 on home, contact, about, product | 3 of 3 on every measured page type                   |
+PageSpeed Insights, before (production, 2026-11-24) and after (dev.ocs.com.ua, 2026-11-25). Several numbers are repeated runs.
 
-"Lab" is Lighthouse 13.6 on a developer machine, see [How it was measured](#how-it-was-measured). The PageSpeed Insights numbers after the work belong in this table once the release is deployed.
+| Page         | Performance, mobile | Performance, desktop | Accessibility | Agentic Browsing |
+| ------------ | ------------------- | -------------------- | ------------- | ---------------- |
+| Home         | 77 to 98, 99, 99    | 98 to 100            | 90 to 100     | 2/3 to 3/3       |
+| Home (en)    | 100                 | 100                  | 100           | 3/3              |
+| Contact      | 68 to 100           | 100                  | 91 to 100     | 2/3 to 3/3       |
+| About        | 76 to 100           | 100                  | 84 to 100     | 2/3 to 3/3       |
+| Category     | 77 to 98, 98, 98    | 100                  | 96 to 100     | 3/3              |
+| Product      | 79 to 100           | 100                  | 97 to 100     | 2/3 to 3/3       |
+| Industry     | 81 to 98, 99        | 100                  | 96 to 100     | 3/3              |
+| Wiki index   | 79 to 98, 100       | 100                  | 94 to 100     | 3/3              |
+| Wiki article | 98, 98              | 100                  | 100           | 3/3              |
+| Privacy      | 100                 | 100                  | 100           | 3/3              |
+
+A cell with one value was not measured before the work (desktop was measured before on the home page only). Best Practices is 100 before and after. SEO was 100 on production before; it reads 69 on dev because dev is noindex on purpose, so check it on production after the release.
+
+The missing one or two points on mobile are Speed Index: on Google's machines, far from the server, the first paint waits for the stylesheet. Inlining the CSS (approach B in the spec) would remove that request. The owner decided on 2026-11-25 that 98 to 100 is enough and kept the CSS in a cached file, which makes moving between pages lighter.
 
 ## What each change gave
 
@@ -61,7 +69,7 @@ flowchart LR
 
 ## What did not help
 
-- **Inlining the CSS** (approach B in the spec): no measurable change in the lab, so it was not done. PageSpeed on the deployed site decides whether it is revisited.
+- **Inlining the CSS** (approach B in the spec): no measurable change in the lab, where the server is close. Not applied, see [Result](#result).
 - **Removing the font preloads** or **a tiny hero photo**: LCP stayed at 2.0 to 2.1 s. Leaving the text fonts out brought it to 1.4 s, which is how they were found to be the bottleneck.
 - **The `@material-symbols/svg-400` package**: its strokes are thinner than the site's icons, and five icons the CMS offers are missing. The shapes come from the previous font instead.
 
@@ -78,7 +86,7 @@ flowchart LR
 
 ## How it was measured
 
-- **PageSpeed Insights, before:** 2026-11-24, seven page types on mobile, home on desktop.
+- **PageSpeed Insights:** before, 2026-11-24, seven page types on mobile and home on desktop. After, 2026-11-25, ten pages on dev, one to three runs each.
 - **Lab:** Lighthouse 13.6 in headless Chrome against the production build of each step, served over HTTP/2 with gzip, as in production. Steps: home, median of three runs. Pages: one to three runs. Values are in [data.json](pagespeed/data.json); `node docs/info/pagespeed/charts.mjs` redraws the charts.
 - **Limits:** Lighthouse simulates a slow phone, so these are not real visitors' times. LCP and page weight repeat closely. Total Blocking Time does not: the same build gave 70 ms and 2 s on this machine, because headless Chrome paints the background canvas in software. That is why there is no Performance chart. PageSpeed Insights reported 0 to 30 ms before the work.
 
