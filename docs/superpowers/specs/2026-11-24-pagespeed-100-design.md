@@ -96,6 +96,12 @@ page shows none of its icons.
   where it is used.
 - Preload the body and heading subset of the page's language: Cyrillic on `/ua`, Latin on `/en`.
   Nothing else is preloaded. Keep `font-display: swap`.
+- Amended 2026-11-25: fonts were still what decided LCP (165 KB on the Ukrainian home). Each file is
+  cut down by `scripts/subset-fonts.py` to a "core": English, German and Ukrainian letters, the
+  punctuation in use, weights 400 to 700, the layout features the site uses. The original files stay
+  as "rest" faces for every other character, so nothing loses the brand font and the look is the
+  same; the pages of the site download none of them. The two preloaded files are core files. Budget,
+  checked by a test: 105 KB of fonts on `/ua/`, 85 KB on `/en/`.
 
 ### Elements that decide LCP
 

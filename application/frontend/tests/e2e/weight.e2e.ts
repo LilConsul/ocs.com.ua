@@ -21,8 +21,13 @@ test.describe("text fonts", () => {
 		test(`preloads two fonts and uses both: ${lang}`, async ({ page }) => {
 			const fontRequests: string[] = [];
 			const warnings: string[] = [];
+			const fontBytes: Promise<number>[] = [];
 			page.on("request", (request) => {
 				if (request.resourceType() === "font") fontRequests.push(request.url());
+			});
+			page.on("response", (response) => {
+				if (response.url().endsWith(".woff2"))
+					fontBytes.push(response.body().then((body) => body.length));
 			});
 			page.on("console", (message) => warnings.push(message.text()));
 			await blockPlerdy(page);
@@ -36,7 +41,7 @@ test.describe("text fonts", () => {
 			expect(preloaded).toHaveLength(2);
 			const subset = lang === "ua" ? "cyrillic" : "latin";
 			for (const href of preloaded) {
-				expect(href).toContain(`-${subset}-`);
+				expect(href).toContain(`-${subset}-core.`);
 				expect(fontRequests.filter((url) => url === href)).toHaveLength(1);
 			}
 			// Ranges are normalised by the browser. Each preloaded file must back a face the page really loaded (family and subset)
@@ -45,7 +50,7 @@ test.describe("text fonts", () => {
 					.filter((face) => face.status === "loaded")
 					.map((face) => ({ family: face.family.replace(/"/g, ""), range: face.unicodeRange }))
 			);
-			const marker = subset === "cyrillic" ? "U+400-45F" : "U+0-FF,";
+			const marker = subset === "cyrillic" ? "U+410-44F" : "U+20-7E";
 			for (const href of preloaded) {
 				const file = href.split("/").pop() ?? "";
 				const family = file.startsWith("ibm-plex-sans-")
@@ -61,6 +66,10 @@ test.describe("text fonts", () => {
 			// Chrome warns about an unused preload about 3 s after load
 			await page.waitForTimeout(3500);
 			expect(warnings.filter((text) => text.includes("preloaded"))).toEqual([]);
+
+			const bytes = (await Promise.all(fontBytes)).reduce((sum, size) => sum + size, 0);
+			expect(bytes).toBeGreaterThan(0);
+			expect(bytes).toBeLessThan(lang === "ua" ? 105_000 : 85_000);
 
 			const css = await page.evaluate(async () => {
 				const inline = [...document.querySelectorAll("style")].map((el) => el.textContent ?? "");
