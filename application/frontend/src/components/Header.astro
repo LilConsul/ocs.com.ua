@@ -69,7 +69,7 @@ const isActive = (pattern: string) => {
 >
 	{/* High-Contrast Top Development Notice Bar (feature flag: SITE_DEV_NOTICE) */}
 	{SITE_DEV_NOTICE && (
-		<aside
+		<div
 			id="dev-notice-banner"
 			class="relative z-50 flex items-center justify-between border-b border-amber-500/40 bg-amber-400 px-4 py-2 text-xs font-semibold text-neutral-950 shadow-xs dark:bg-amber-500 dark:text-neutral-950"
 			role="status"
@@ -97,7 +97,7 @@ const isActive = (pattern: string) => {
 					<MaterialIcon name="close" />
 				</button>
 			</div>
-		</aside>
+		</div>
 	)}
 
 	{/* Main Navigation Bar */}
