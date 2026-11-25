@@ -61,7 +61,7 @@ The deploy job runs in the GitHub environment `prod` or `dev` (the same names as
   - indexing matches the build: dev closed (`Disallow: /`, `noindex`, `X-Robots-Tag`), prod open (sitemap in `robots.txt`, `index, follow`, no `X-Robots-Tag`);
   - dev has no CMS (`/admin/` points to ocs.com.ua, `/api/auth` answers 404).
 
-  Run it by hand the same way: `uv run application/infra/scripts/verify-site.py https://ocs.com.ua --environment prod --indexing true`. Then the job runs the Playwright e2e suite (chromium) against the live site, by setting `E2E_BASE_URL`. The header checks need Apache's `mod_headers`.
+  Run it by hand the same way: `uv run application/infra/scripts/verify-site.py https://ocs.com.ua --environment prod --indexing true`. Then the job runs the Playwright e2e suite (chromium) against the live site, by setting `E2E_BASE_URL`. The suite includes the accessibility (axe) and page weight checks, which also see what editors published: a failure there skips IndexNow, while the release stays live. The header checks need Apache's `mod_headers`.
 
 Checks and summaries live in Python scripts under `application/infra/scripts/` with tests in `application/infra/tests/`; the workflow keeps only the short commands that run on the server (switch the release, restart, clean up).
 

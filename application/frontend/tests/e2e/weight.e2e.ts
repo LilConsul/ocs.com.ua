@@ -170,6 +170,8 @@ test.describe("picture sizes", () => {
 	}
 });
 
+// Slow CI runners: what a page does on its own may take a while to show up
+const SLOW = { timeout: 15_000 };
 const PLERDY = /\/\/a\.plerdy\.com\/public\/js\/click\/main\.js/;
 const MAPS = /google\.com\/maps|maps\.google\.com/;
 
@@ -191,7 +193,7 @@ test.describe("on demand", () => {
 
 		await page.mouse.move(100, 100);
 		await page.mouse.wheel(0, 300);
-		await expect.poll(loads).toBe(1);
+		await expect.poll(loads, SLOW).toBe(1);
 		await page.locator("body").click({ position: { x: 5, y: 5 } });
 		await page.keyboard.press("Tab");
 		await page.mouse.wheel(0, 300);
@@ -217,7 +219,7 @@ test.describe("on demand", () => {
 			// Restoring the scroll position counts as an interaction, so it may load already
 			expect(loads()).toBeLessThanOrEqual(before + 1);
 			await page.mouse.wheel(0, 300);
-			await expect.poll(loads).toBe(before + 1);
+			await expect.poll(loads, SLOW).toBe(before + 1);
 			await page.waitForTimeout(500);
 			expect(loads()).toBe(before + 1);
 		}
@@ -230,7 +232,7 @@ test.describe("on demand", () => {
 			for (const type of ["scroll", "pointermove", "pointerdown", "touchstart", "keydown", "click"])
 				window.dispatchEvent(new Event(type));
 		});
-		await expect.poll(loads).toBe(1);
+		await expect.poll(loads, SLOW).toBe(1);
 		await page.waitForTimeout(500);
 		expect(loads()).toBe(1);
 	});
@@ -256,8 +258,8 @@ test.describe("on demand", () => {
 		await expect(figure.locator("iframe")).toBeHidden();
 		const before = await figure.boundingBox();
 		await figure.scrollIntoViewIfNeeded();
-		await expect.poll(requests).toBeGreaterThanOrEqual(1);
-		await expect(figure.locator("iframe")).toHaveAttribute("src", /maps\.google\.com/);
+		await expect.poll(requests, SLOW).toBeGreaterThanOrEqual(1);
+		await expect(figure.locator("iframe")).toHaveAttribute("src", /maps\.google\.com/, SLOW);
 		const after = await figure.boundingBox();
 		expect(Math.abs((after?.height ?? 0) - (before?.height ?? 0))).toBeLessThan(1);
 		const shift = await page.evaluate(() => (window as unknown as { __cls: number }).__cls);

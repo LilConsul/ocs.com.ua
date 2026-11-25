@@ -28,6 +28,7 @@ Run from `application/frontend`.
 | `bun run build`        | Production build into `dist/`                                         |
 | `bun run preview`      | Preview the production build                                          |
 | `bun test`             | Unit tests                                                            |
+| `bun run test:e2e`     | Playwright: motion, axe and page weight (run `bun run build` first)   |
 | `bun run check`        | Lint with Biome                                                       |
 | `bun run check:fix`    | Biome lint + fix, then Prettier on `.astro`/`.tsx`/`.jsx`             |
 | `bun run ci`           | Biome in CI mode (no fixes)                                           |
