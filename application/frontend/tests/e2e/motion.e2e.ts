@@ -324,3 +324,27 @@ test.describe("first screen from the first frame", () => {
 		});
 	}
 });
+
+test.describe("technical field canvas", () => {
+	const hasInk = (page: Page) =>
+		page
+			.locator("canvas[data-technical-field]")
+			.first()
+			.evaluate((el) => {
+				const canvas = el as HTMLCanvasElement;
+				if (!(canvas.width && canvas.height)) return false;
+				const data = canvas.getContext("2d")?.getImageData(0, 0, canvas.width, canvas.height).data;
+				if (!data) return false;
+				for (let i = 3; i < data.length; i += 4) if (data[i] > 0) return true;
+				return false;
+			});
+
+	test("reduced motion: the static frame survives a resize", async ({ page }) => {
+		await page.emulateMedia({ reducedMotion: "reduce" });
+		await page.setViewportSize({ width: 1280, height: 800 });
+		await page.goto(HOME);
+		await expect.poll(() => hasInk(page), { timeout: 15_000 }).toBe(true);
+		await page.setViewportSize({ width: 900, height: 700 });
+		await expect.poll(() => hasInk(page), { timeout: 15_000 }).toBe(true);
+	});
+});

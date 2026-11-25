@@ -87,3 +87,11 @@ describe("card hover", () => {
 		expect(offenders).toEqual([]);
 	});
 });
+
+describe("canvas field", () => {
+	it("takes its size from the ResizeObserver entry, not a layout read", () => {
+		const text = files.find((f) => rel(f.path) === "components/TechnicalField.astro")?.text ?? "";
+		expect(text).not.toContain("getBoundingClientRect");
+		expect(text).toContain("contentRect");
+	});
+});

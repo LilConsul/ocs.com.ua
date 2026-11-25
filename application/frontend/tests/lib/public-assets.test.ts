@@ -1,8 +1,8 @@
 import { describe, expect, it, spyOn } from "bun:test";
 import { existingFile, existingFiles } from "@/lib/public-assets";
 
-// /placeholder.svg and /assets/icons/logo-en.svg are committed in public/
-const REAL = "/assets/icons/logo-en.svg";
+// /placeholder.svg and /assets/icons/favicon.svg are committed in public/
+const REAL = "/assets/icons/favicon.svg";
 const MISSING = "/assets/definitely-not-uploaded.webp";
 
 describe("existingFile", () => {
