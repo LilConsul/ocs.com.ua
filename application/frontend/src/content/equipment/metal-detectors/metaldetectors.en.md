@@ -2,5 +2,6 @@
 file_name: metaldetectors
 order: 1
 manufacturer: Mesutronic
-title: Metaldetectors
+datasheet: null
+title: Metaldetectors Metron 07CI
 ---
