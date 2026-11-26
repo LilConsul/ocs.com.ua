@@ -8,7 +8,7 @@ gallery:
   - /assets/equipment/transtron-s-h-0-1030x580.webp
 industries:
   - food-beverage
-title: Металодетектори Metron 07CI
+title: Металодетектор Metron 07CI
 description: Металодетектор конвеєрного типу з інтегрованною електронікою,
   призначений для встановлення на конвеєрних стрічках.
 specs:
