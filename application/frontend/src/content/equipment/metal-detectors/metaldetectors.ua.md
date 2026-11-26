@@ -4,7 +4,7 @@ order: 1
 manufacturer: Mesutronic
 gallery:
   - /assets/equipment/metron-07-ci-h-0-1030x580.webp
-  - /assets/equipment/metron-07-ci-h-0-1030x580.webp
+  - /assets/equipment/metron-07-ci-h-3-1030x580.webp
   - /assets/equipment/transtron-s-h-0-1030x580.webp
 industries:
   - food-beverage
@@ -17,7 +17,7 @@ specs:
       - label: Клас промислового захисту
         value: IP66, IP69k
       - label: Діагональ сенсорного дисплея
-        value: 5,7"
+        value: 5.7"
       - label: Ширина апертури
         value: 100 - 2000 мм
       - label: Висота апертури
