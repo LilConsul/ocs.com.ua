@@ -4,7 +4,7 @@ order: 1
 manufacturer: Mesutronic
 gallery:
   - /assets/equipment/metron-07-ci-h-0-1030x580.webp
-  - /assets/equipment/metron-07-ci-h-0-1030x580.webp
+  - /assets/equipment/metron-07-ci-h-3-1030x580.webp
   - /assets/equipment/transtron-s-h-0-1030x580.webp
 industries:
   - food-beverage
