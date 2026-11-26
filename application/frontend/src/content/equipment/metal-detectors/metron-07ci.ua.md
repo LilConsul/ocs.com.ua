@@ -1,5 +1,5 @@
 ---
-file_name: metaldetectors
+file_name: metron-07ci
 order: 1
 manufacturer: Mesutronic
 gallery:
