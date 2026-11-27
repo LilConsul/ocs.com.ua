@@ -4,6 +4,7 @@ order: 2
 manufacturer: Mesutronic
 gallery:
   - /assets/equipment/quicktron-07-rh-0-1030x580.webp
+  - /assets/equipment/quicktron-07-rh-2-1030x580.webp
   - /assets/equipment/quicktron-07-rh-1-1030x580.webp
 industries:
   - food-beverage
